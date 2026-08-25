@@ -1,14 +1,14 @@
-Week,Date,Away Team,Home Team,Model Line (Home),Model Total,Home Win Prob
-1,2026-08-29,San José State,USC,-34.6,58.3,0.973
-1,2026-08-29,Jacksonville State,North Dakota State,-25.8,53.2,0.924
-1,2026-08-29,Hawai'i,Stanford,1.1,55.5,0.477
-1,2026-08-30,Memphis,UNLV,-13.6,62.9,0.774
-1,2026-09-04,San José State,Eastern Michigan,-12.0,55.2,0.747
-1,2026-09-05,UTEP,Oklahoma,-40.3,58.2,0.987
-1,2026-09-05,Duquesne,Air Force,-21.4,56.3,0.882
-1,2026-09-05,Fordham,North Dakota State,-47.7,60.8,0.996
-1,2026-09-05,Northern Illinois,Iowa,-37.2,46.8,0.981
-1,2026-09-05,Wyoming,Colorado State,-7.7,51.2,0.665
-1,2026-09-06,UNLV,Hawai'i,5.0,59.2,0.391
-1,2026-09-06,Central Michigan,New Mexico,-19.6,55.1,0.862
-1,2026-09-06,Western Kentucky,Nevada,5.3,55.1,0.385
+Game ID,Week,Date,Away Team,Home Team,Model Line (Home),Model Total,Home Win Prob
+401864494,1,2026-08-29,San José State,USC,-34.6,58.3,0.973
+401864577,1,2026-08-29,Jacksonville State,North Dakota State,-25.8,53.2,0.924
+401858201,1,2026-08-29,Hawai'i,Stanford,1.1,55.5,0.477
+401862693,1,2026-08-30,Memphis,UNLV,-13.6,62.9,0.774
+401864495,1,2026-09-04,San José State,Eastern Michigan,-12.0,55.2,0.747
+401856664,1,2026-09-05,UTEP,Oklahoma,-40.3,58.2,0.987
+401864496,1,2026-09-05,Duquesne,Air Force,-21.4,56.3,0.882
+401864499,1,2026-09-05,Fordham,North Dakota State,-47.7,60.8,0.996
+401858426,1,2026-09-05,Northern Illinois,Iowa,-37.2,46.8,0.981
+401860878,1,2026-09-05,Wyoming,Colorado State,-7.7,51.2,0.665
+401864497,1,2026-09-06,UNLV,Hawai'i,5.0,59.2,0.391
+401864498,1,2026-09-06,Central Michigan,New Mexico,-19.6,55.1,0.862
+401864432,1,2026-09-06,Western Kentucky,Nevada,5.3,55.1,0.385

@@ -54,13 +54,26 @@ def latest_predictions_file():
     return candidates[-1][1]
 
 
-def update_weekly_slate(ws, predictions_path: Path):
+def update_weekly_slate(ws, predictions_path: Path, con):
     import csv
     with open(predictions_path, newline="", encoding="utf-8") as fh:
         rows = list(csv.DictReader(fh))
     if not rows:
         print("Weekly Slate: predictions file is empty -- nothing to write.")
         return
+
+    # CFBD's own betting lines (the same data the website's Matchups page
+    # reads) -- auto-fill Market Line/Total when a book has actually posted
+    # one for that game yet. A missing game_id here just means no line is in
+    # the DB yet (common for games further out); leave that cell for you to
+    # fill by hand rather than blanking out anything you already typed in.
+    market = {
+        game_id: (spread, total)
+        for game_id, spread, total in con.execute("""
+            SELECT game_id, AVG(spread), AVG(over_under) FROM lines GROUP BY game_id
+        """).fetchall()
+    }
+    filled_market = 0
 
     # Clear any row for a matchup that ISN'T in this run's predictions --
     # otherwise a game that drops off the list (last week's games once a new
@@ -112,7 +125,24 @@ def update_weekly_slate(ws, predictions_path: Path):
         ws[f"I{r}"] = float(pred["Model Total"])
         written += 1
 
+        # .get() -- older predictions CSVs (from before Game ID was added)
+        # simply won't have this column, and that's fine: skip the auto-fill
+        # for those rather than erroring.
+        game_id = pred.get("Game ID")
+        if game_id is not None:
+            try:
+                spread, total = market.get(int(game_id), (None, None))
+            except ValueError:
+                spread, total = None, None
+            if spread is not None:
+                ws[f"F{r}"] = round(spread, 1)
+                filled_market += 1
+            if total is not None:
+                ws[f"J{r}"] = round(total, 1)
+
     print(f"Weekly Slate: wrote/updated {written} matchup(s)")
+    if filled_market:
+        print(f"  -> auto-filled Market Line/Total for {filled_market} game(s) with a CFBD line already posted")
 
 
 def update_team_profiles(ws, con):
@@ -164,9 +194,9 @@ def main():
     print(f"Using predictions from {pred_file.name}")
 
     wb = openpyxl.load_workbook(TRACKER_PATH)  # formulas preserved as formulas, not evaluated
-    update_weekly_slate(wb["Weekly Slate"], pred_file)
 
     con = duckdb.connect(str(DB_PATH))
+    update_weekly_slate(wb["Weekly Slate"], pred_file, con)
     update_team_profiles(wb["Team Profiles"], con)
     con.close()
 

@@ -103,6 +103,7 @@ def main():
     ]
 
     out = pd.DataFrame({
+        "Game ID": upcoming["game_id"].values,
         "Week": upcoming["week"].values,
         "Date": pd.to_datetime(upcoming["start_date"]).dt.strftime("%Y-%m-%d"),
         "Away Team": upcoming["away_team"].values,
