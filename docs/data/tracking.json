@@ -1,6 +1,6 @@
 {
   "meta": {
-    "generated_at": "2026-08-25T22:41:16Z",
+    "generated_at": "2026-08-25T22:59:07Z",
     "current_week": {
       "season": 2026,
       "week": 1
@@ -42,11 +42,20 @@
       "n_bets": 0,
       "pending": [
         {
-          "date": "2026-09-05",
+          "date": "2026-08-29",
           "week": 1,
           "matchup": "Jacksonvillie State @ North Dakota State",
           "bet_type": "Spread",
           "side": "North Dakota State -7",
+          "odds": -110.0,
+          "stake": 1.0
+        },
+        {
+          "date": "2026-08-29",
+          "week": 1,
+          "matchup": "Jacksonvillie State @ North Dakota State",
+          "bet_type": "Total",
+          "side": "Over 46.5",
           "odds": -110.0,
           "stake": 1.0
         }
