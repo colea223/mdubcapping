@@ -1,14 +1,22 @@
 {
   "meta": {
-    "generated_at": "2026-08-25T20:29:32Z",
+    "generated_at": "2026-08-25T20:59:37Z",
     "current_week": {
-      "season": 2024,
-      "week": 5
+      "season": 2026,
+      "week": 1
     }
   },
   "tracking": {
+    "season": 2026,
     "n_games": 0,
     "n_bets": 0,
-    "note": "Not enough graded history yet."
+    "wins": 0,
+    "losses": 0,
+    "pushes": 0,
+    "ats_win_rate": null,
+    "units": 0,
+    "upset_calls": 0,
+    "upset_wins": 0,
+    "note": "Hypothetical flat 1-unit-per-bet tracking of the model's own picks -- not your personal bet log."
   }
 }

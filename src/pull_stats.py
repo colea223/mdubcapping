@@ -28,32 +28,37 @@ def main():
     recruiting = recruiting_api(client)
     stamp = _stamp()
 
+    # NOTE: .dict(by_alias=False), NOT .to_dict() -- see the comment in
+    # pull_games.py. The generated .to_dict() serializes with camelCase keys
+    # (successRate, specialTeams, ...) while build_db.py expects snake_case
+    # (success_rate, special_teams, ...); using .to_dict() silently drops
+    # those fields to null on the way in.
     for year in range(START_YEAR, END_YEAR + 1):
         print(f"Pulling {year} advanced season stats (PPA)...")
         adv = stats.get_advanced_season_stats(year=year)
         (RAW_DIR / f"advanced_stats_{year}_{stamp}.json").write_text(
-            json.dumps([a.to_dict() for a in adv], indent=2, default=str)
+            json.dumps([a.dict(by_alias=False) for a in adv], indent=2, default=str)
         )
         print(f"  -> {len(adv)} teams")
 
         print(f"Pulling {year} SP+ ratings...")
         sp = ratings.get_sp(year=year)
         (RAW_DIR / f"sp_ratings_{year}_{stamp}.json").write_text(
-            json.dumps([s.to_dict() for s in sp], indent=2, default=str)
+            json.dumps([s.dict(by_alias=False) for s in sp], indent=2, default=str)
         )
         print(f"  -> {len(sp)} teams")
 
         print(f"Pulling {year} Elo ratings...")
         elo = ratings.get_elo(year=year)
         (RAW_DIR / f"elo_ratings_{year}_{stamp}.json").write_text(
-            json.dumps([e.to_dict() for e in elo], indent=2, default=str)
+            json.dumps([e.dict(by_alias=False) for e in elo], indent=2, default=str)
         )
         print(f"  -> {len(elo)} teams")
 
         print(f"Pulling {year} recruiting composite...")
         rec = recruiting.get_team_recruiting_rankings(year=year)
         (RAW_DIR / f"recruiting_{year}_{stamp}.json").write_text(
-            json.dumps([r.to_dict() for r in rec], indent=2, default=str)
+            json.dumps([r.dict(by_alias=False) for r in rec], indent=2, default=str)
         )
         print(f"  -> {len(rec)} teams")
 

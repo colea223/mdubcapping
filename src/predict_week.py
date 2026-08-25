@@ -14,23 +14,30 @@ Usage:
     python src/predict_week.py --season 2026 --week 3
 """
 import argparse
+from datetime import date
 
 import duckdb
 import pandas as pd
 
 from config import DB_PATH, CLEAN_DIR
 import model
+from teams import is_2026_mw_team
 
 
 def auto_detect_week(con):
+    # Only consider incomplete games on or after today -- without this floor,
+    # a single stale/bad row (a postponed or data-glitched game sitting in the
+    # DB with completed=FALSE from a past season) sorts first by start_date
+    # and gets wrongly picked as "next upcoming," even years after it happened.
+    today = date.today().isoformat()
     row = con.execute("""
         SELECT season, week, MIN(start_date) AS week_start
         FROM games
-        WHERE completed = FALSE
+        WHERE completed = FALSE AND start_date >= ?
         GROUP BY season, week
         ORDER BY week_start
         LIMIT 1
-    """).fetchone()
+    """, [today]).fetchone()
     return row  # (season, week, week_start) or None
 
 
@@ -67,6 +74,21 @@ def main():
     upcoming = model.load_upcoming_frame(con, season, week)
     if upcoming.empty:
         print(f"No games found for season {season}, week {week}.")
+        con.close()
+        return
+
+    # This project is specifically about Mountain West handicapping -- the
+    # model trains on every FBS game for data quality, but the weekly output
+    # only needs MW-involved matchups. Narrowing here (rather than in Excel)
+    # is what keeps the Weekly Slate tab (41 rows) from silently dropping real
+    # MW games behind a flood of national FBS matchups on a busy week.
+    total_fbs_games = len(upcoming)
+    upcoming = upcoming[
+        upcoming["home_team"].apply(is_2026_mw_team) | upcoming["away_team"].apply(is_2026_mw_team)
+    ].reset_index(drop=True)
+    print(f"{total_fbs_games} FBS games this week nationally -- {len(upcoming)} involve a 2026 Mountain West team.")
+    if upcoming.empty:
+        print(f"No Mountain West games found for season {season}, week {week}.")
         con.close()
         return
 

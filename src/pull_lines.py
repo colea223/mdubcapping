@@ -35,7 +35,11 @@ def main():
         print(f"Pulling {year} betting lines...")
         lines = api.get_lines(year=year)
         out_path = RAW_DIR / f"lines_{year}_{stamp}.json"
-        out_path.write_text(json.dumps([l.to_dict() for l in lines], indent=2, default=str))
+        # .dict(by_alias=False), not .to_dict() -- see pull_games.py's comment.
+        # This model's home_team/away_team/spread_open/over_under/moneyline
+        # fields all alias to camelCase, which build_db.py's snake_case
+        # .get() lookups would otherwise silently miss.
+        out_path.write_text(json.dumps([l.dict(by_alias=False) for l in lines], indent=2, default=str))
         print(f"  -> {len(lines)} games with line data -> {out_path.name}")
 
     print("\nDone. Raw snapshots written to data/raw/.")

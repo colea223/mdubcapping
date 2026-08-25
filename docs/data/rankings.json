@@ -1,90 +1,90 @@
 {
   "meta": {
-    "generated_at": "2026-08-25T20:29:32Z",
+    "generated_at": "2026-08-25T20:59:37Z",
     "current_week": {
-      "season": 2024,
-      "week": 5
+      "season": 2026,
+      "week": 1
     }
   },
   "rankings": [
     {
-      "team": "Air Force",
-      "rating": null,
+      "team": "North Dakota State",
+      "rating": 1790.9,
       "wins": 0,
       "losses": 0,
-      "trend": 0.0,
+      "trend": -10.7,
       "rank": 1
     },
     {
-      "team": "Hawai'i",
-      "rating": null,
+      "team": "UNLV",
+      "rating": 1645.3,
       "wins": 0,
       "losses": 0,
-      "trend": 0.0,
+      "trend": -21.5,
       "rank": 2
     },
     {
-      "team": "Nevada",
-      "rating": null,
+      "team": "New Mexico",
+      "rating": 1566.5,
       "wins": 0,
       "losses": 0,
-      "trend": 0.0,
+      "trend": -12.5,
       "rank": 3
     },
     {
-      "team": "New Mexico",
-      "rating": null,
+      "team": "Hawai'i",
+      "rating": 1561.1,
       "wins": 0,
       "losses": 0,
-      "trend": 0.0,
+      "trend": 10.9,
       "rank": 4
     },
     {
-      "team": "North Dakota State",
-      "rating": null,
+      "team": "Air Force",
+      "rating": 1473.0,
       "wins": 0,
       "losses": 0,
-      "trend": 0.0,
+      "trend": 31.8,
       "rank": 5
     },
     {
-      "team": "Northern Illinois",
-      "rating": null,
+      "team": "Wyoming",
+      "rating": 1399.9,
       "wins": 0,
       "losses": 0,
-      "trend": 0.0,
+      "trend": -14.3,
       "rank": 6
     },
     {
-      "team": "San Jos\u00e9 State",
-      "rating": null,
+      "team": "Northern Illinois",
+      "rating": 1394.5,
       "wins": 0,
       "losses": 0,
-      "trend": 0.0,
+      "trend": -21.8,
       "rank": 7
     },
     {
-      "team": "UNLV",
-      "rating": null,
+      "team": "San Jos\u00e9 State",
+      "rating": 1388.2,
       "wins": 0,
       "losses": 0,
-      "trend": 0.0,
+      "trend": -26.3,
       "rank": 8
     },
     {
-      "team": "UTEP",
-      "rating": null,
+      "team": "Nevada",
+      "rating": 1361.9,
       "wins": 0,
       "losses": 0,
-      "trend": 0.0,
+      "trend": -11.6,
       "rank": 9
     },
     {
-      "team": "Wyoming",
-      "rating": null,
+      "team": "UTEP",
+      "rating": 1302.8,
       "wins": 0,
       "losses": 0,
-      "trend": 0.0,
+      "trend": -16.0,
       "rank": 10
     }
   ]

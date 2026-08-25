@@ -29,7 +29,11 @@ def main():
     print("Pulling venue metadata...")
     venues = api.get_venues()
     out_path = RAW_DIR / f"venues_static_{stamp}.json"
-    out_path.write_text(json.dumps([v.to_dict() for v in venues], indent=2, default=str))
+    # .dict(by_alias=False), not .to_dict() -- consistent with the other pull
+    # scripts (see pull_games.py's comment). Venue field names happen to
+    # mostly avoid the camelCase-alias mismatch already, but keeping every
+    # raw snapshot on the same snake_case convention avoids surprises later.
+    out_path.write_text(json.dumps([v.dict(by_alias=False) for v in venues], indent=2, default=str))
     print(f"  -> {len(venues)} venues -> {out_path.name}")
     print("\nDone. Re-run this occasionally (a few times a season is plenty) -- new venues are rare.")
 

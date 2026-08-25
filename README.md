@@ -132,7 +132,7 @@ after that, GitHub's own free servers pull fresh data and refresh the site for y
    git add .
    git commit -m "Initial commit"
    git branch -M main
-   git remote add origin https://github.com/<your-username>/<repo-name>.git
+   git remote add origin https://github.com/colea223/mdubcapping.git
    git push -u origin main
    ```
    If `git` prompts you to log in, follow its instructions (it may open a browser window,

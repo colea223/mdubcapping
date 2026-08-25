@@ -1,10 +1,154 @@
 {
   "meta": {
-    "generated_at": "2026-08-25T20:29:32Z",
+    "generated_at": "2026-08-25T20:59:37Z",
     "current_week": {
-      "season": 2024,
-      "week": 5
+      "season": 2026,
+      "week": 1
     }
   },
-  "predictions": []
+  "predictions": [
+    {
+      "game_id": 401864494,
+      "week": 1,
+      "away_team": "San Jos\u00e9 State",
+      "home_team": "USC",
+      "model_spread_home": -34.6,
+      "model_total": 58.3,
+      "home_win_prob": 0.973,
+      "edge": -3.6,
+      "notes": ""
+    },
+    {
+      "game_id": 401864577,
+      "week": 1,
+      "away_team": "Jacksonville State",
+      "home_team": "North Dakota State",
+      "model_spread_home": -25.8,
+      "model_total": 53.2,
+      "home_win_prob": 0.924,
+      "edge": 18.8,
+      "notes": ""
+    },
+    {
+      "game_id": 401858201,
+      "week": 1,
+      "away_team": "Hawai'i",
+      "home_team": "Stanford",
+      "model_spread_home": 1.1,
+      "model_total": 55.5,
+      "home_win_prob": 0.477,
+      "edge": -5.1,
+      "notes": ""
+    },
+    {
+      "game_id": 401862693,
+      "week": 1,
+      "away_team": "Memphis",
+      "home_team": "UNLV",
+      "model_spread_home": -13.6,
+      "model_total": 62.9,
+      "home_win_prob": 0.774,
+      "edge": 9.1,
+      "notes": ""
+    },
+    {
+      "game_id": 401864495,
+      "week": 1,
+      "away_team": "San Jos\u00e9 State",
+      "home_team": "Eastern Michigan",
+      "model_spread_home": -12.0,
+      "model_total": 55.2,
+      "home_win_prob": 0.747,
+      "edge": 7.0,
+      "notes": ""
+    },
+    {
+      "game_id": 401856664,
+      "week": 1,
+      "away_team": "UTEP",
+      "home_team": "Oklahoma",
+      "model_spread_home": -40.3,
+      "model_total": 58.2,
+      "home_win_prob": 0.987,
+      "edge": -0.7,
+      "notes": ""
+    },
+    {
+      "game_id": 401864496,
+      "week": 1,
+      "away_team": "Duquesne",
+      "home_team": "Air Force",
+      "model_spread_home": -21.4,
+      "model_total": 56.3,
+      "home_win_prob": 0.882,
+      "edge": -9.1,
+      "notes": ""
+    },
+    {
+      "game_id": 401864499,
+      "week": 1,
+      "away_team": "Fordham",
+      "home_team": "North Dakota State",
+      "model_spread_home": -47.7,
+      "model_total": 60.8,
+      "home_win_prob": 0.996,
+      "edge": 8.2,
+      "notes": ""
+    },
+    {
+      "game_id": 401858426,
+      "week": 1,
+      "away_team": "Northern Illinois",
+      "home_team": "Iowa",
+      "model_spread_home": -37.2,
+      "model_total": 46.8,
+      "home_win_prob": 0.981,
+      "edge": 5.4,
+      "notes": ""
+    },
+    {
+      "game_id": 401860878,
+      "week": 1,
+      "away_team": "Wyoming",
+      "home_team": "Colorado State",
+      "model_spread_home": -7.7,
+      "model_total": 51.2,
+      "home_win_prob": 0.665,
+      "edge": 4.2,
+      "notes": ""
+    },
+    {
+      "game_id": 401864497,
+      "week": 1,
+      "away_team": "UNLV",
+      "home_team": "Hawai'i",
+      "model_spread_home": 5.0,
+      "model_total": 59.2,
+      "home_win_prob": 0.391,
+      "edge": -2.2,
+      "notes": ""
+    },
+    {
+      "game_id": 401864498,
+      "week": 1,
+      "away_team": "Central Michigan",
+      "home_team": "New Mexico",
+      "model_spread_home": -19.6,
+      "model_total": 55.1,
+      "home_win_prob": 0.862,
+      "edge": 8.1,
+      "notes": ""
+    },
+    {
+      "game_id": 401864432,
+      "week": 1,
+      "away_team": "Western Kentucky",
+      "home_team": "Nevada",
+      "model_spread_home": 5.3,
+      "model_total": 55.1,
+      "home_win_prob": 0.385,
+      "edge": -2.8,
+      "notes": ""
+    }
+  ]
 }

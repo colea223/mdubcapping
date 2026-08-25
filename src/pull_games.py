@@ -26,14 +26,19 @@ def _stamp():
 
 def pull_fbs_games(year: int, api):
     games = api.get_games(year=year, classification="fbs")
-    return [g.to_dict() for g in games]
+    # NOTE: use .dict(by_alias=False), NOT the generated .to_dict() -- the
+    # cfbd client's .to_dict() serializes with camelCase keys (homeTeam,
+    # startDate, homePoints, ...) while build_db.py expects the snake_case
+    # names (home_team, start_date, home_points, ...). Using .to_dict() here
+    # silently null-fills almost every important field on the way in.
+    return [g.dict(by_alias=False) for g in games]
 
 
 def pull_ndsu_games(year: int, api):
     # North Dakota State was FCS every year until 2026 -- pull by team name
     # directly rather than by division, so its pre-2026 schedule comes along.
     games = api.get_games(year=year, team="North Dakota State")
-    return [g.to_dict() for g in games]
+    return [g.dict(by_alias=False) for g in games]
 
 
 def main():

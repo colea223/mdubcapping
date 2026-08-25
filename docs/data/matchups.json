@@ -1,10 +1,154 @@
 {
   "meta": {
-    "generated_at": "2026-08-25T20:29:32Z",
+    "generated_at": "2026-08-25T20:59:37Z",
     "current_week": {
-      "season": 2024,
-      "week": 5
+      "season": 2026,
+      "week": 1
     }
   },
-  "matchups": []
+  "matchups": [
+    {
+      "game_id": 401864494,
+      "week": 1,
+      "date": "2026-08-29",
+      "away_team": "San Jos\u00e9 State",
+      "home_team": "USC",
+      "market_spread_home": -38.2,
+      "market_total": 60.5,
+      "home_moneyline": -100000,
+      "away_moneyline": 4250
+    },
+    {
+      "game_id": 401864577,
+      "week": 1,
+      "date": "2026-08-29",
+      "away_team": "Jacksonville State",
+      "home_team": "North Dakota State",
+      "market_spread_home": -7.0,
+      "market_total": 46.2,
+      "home_moneyline": -298,
+      "away_moneyline": 240
+    },
+    {
+      "game_id": 401858201,
+      "week": 1,
+      "date": "2026-08-29",
+      "away_team": "Hawai'i",
+      "home_team": "Stanford",
+      "market_spread_home": -4.0,
+      "market_total": 48.8,
+      "home_moneyline": -178,
+      "away_moneyline": 150
+    },
+    {
+      "game_id": 401862693,
+      "week": 1,
+      "date": "2026-08-30",
+      "away_team": "Memphis",
+      "home_team": "UNLV",
+      "market_spread_home": -4.5,
+      "market_total": 56.5,
+      "home_moneyline": -184,
+      "away_moneyline": 154
+    },
+    {
+      "game_id": 401864495,
+      "week": 1,
+      "date": "2026-09-04",
+      "away_team": "San Jos\u00e9 State",
+      "home_team": "Eastern Michigan",
+      "market_spread_home": -5.0,
+      "market_total": 53.5,
+      "home_moneyline": -189,
+      "away_moneyline": 158
+    },
+    {
+      "game_id": 401856664,
+      "week": 1,
+      "date": "2026-09-05",
+      "away_team": "UTEP",
+      "home_team": "Oklahoma",
+      "market_spread_home": -41.0,
+      "market_total": 50.5,
+      "home_moneyline": null,
+      "away_moneyline": null
+    },
+    {
+      "game_id": 401864496,
+      "week": 1,
+      "date": "2026-09-05",
+      "away_team": "Duquesne",
+      "home_team": "Air Force",
+      "market_spread_home": -30.5,
+      "market_total": 58.5,
+      "home_moneyline": -10000,
+      "away_moneyline": 3000
+    },
+    {
+      "game_id": 401864499,
+      "week": 1,
+      "date": "2026-09-05",
+      "away_team": "Fordham",
+      "home_team": "North Dakota State",
+      "market_spread_home": -39.5,
+      "market_total": 57.5,
+      "home_moneyline": null,
+      "away_moneyline": null
+    },
+    {
+      "game_id": 401858426,
+      "week": 1,
+      "date": "2026-09-05",
+      "away_team": "Northern Illinois",
+      "home_team": "Iowa",
+      "market_spread_home": -31.8,
+      "market_total": 45.5,
+      "home_moneyline": -100000,
+      "away_moneyline": 3750
+    },
+    {
+      "game_id": 401860878,
+      "week": 1,
+      "date": "2026-09-05",
+      "away_team": "Wyoming",
+      "home_team": "Colorado State",
+      "market_spread_home": -3.5,
+      "market_total": 47.8,
+      "home_moneyline": -180,
+      "away_moneyline": 152
+    },
+    {
+      "game_id": 401864497,
+      "week": 1,
+      "date": "2026-09-06",
+      "away_team": "UNLV",
+      "home_team": "Hawai'i",
+      "market_spread_home": 2.8,
+      "market_total": 58.5,
+      "home_moneyline": 114,
+      "away_moneyline": -136
+    },
+    {
+      "game_id": 401864498,
+      "week": 1,
+      "date": "2026-09-06",
+      "away_team": "Central Michigan",
+      "home_team": "New Mexico",
+      "market_spread_home": -11.5,
+      "market_total": 47.5,
+      "home_moneyline": -522,
+      "away_moneyline": 380
+    },
+    {
+      "game_id": 401864432,
+      "week": 1,
+      "date": "2026-09-06",
+      "away_team": "Western Kentucky",
+      "home_team": "Nevada",
+      "market_spread_home": 2.5,
+      "market_total": 53.2,
+      "home_moneyline": 115,
+      "away_moneyline": -135
+    }
+  ]
 }
