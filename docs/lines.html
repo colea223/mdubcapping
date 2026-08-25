@@ -11,12 +11,30 @@
 <div class="page-wrap">
   <div class="page-header">
     <h1 id="page-title">Live Line Tracker</h1>
-    <p>Opening number vs. every real sportsbook's current price, per Mountain West game -- gold/purple tags show how far a book has moved off its own open.</p>
+    <p>Opening number vs. every real sportsbook's current price, per Mountain West game -- gold/purple tags show how far a book has moved off its own open. Click "View Line History" on any game for the full chart.</p>
   </div>
 
   <div id="lines-container"></div>
 
   <div class="footer-note" id="updated"></div>
+</div>
+
+<div class="modal-overlay hidden" id="history-modal">
+  <div class="modal-card">
+    <button class="modal-close" id="history-close" aria-label="Close">&times;</button>
+    <div class="modal-title" id="history-title">Line History</div>
+    <div class="modal-controls">
+      <select id="history-market">
+        <option value="spread">Spread</option>
+        <option value="total">Total</option>
+        <option value="moneyline">Moneyline</option>
+      </select>
+      <select id="history-book"></select>
+    </div>
+    <div class="open-box" id="history-open"></div>
+    <div class="chart-wrap" id="history-chart"></div>
+    <div class="best-tiles" id="history-best"></div>
+  </div>
 </div>
 
 <script src="assets/site.js"></script>
@@ -35,9 +53,170 @@ function fmtMl(away, home) {
   const f = (v) => v === null || v === undefined ? "--" : (v > 0 ? `+${v}` : `${v}`);
   return `${f(away)} / ${f(home)}`;
 }
+function fmtSigned(v) {
+  return v === null || v === undefined ? "--" : (v > 0 ? `+${v}` : `${v}`);
+}
+
+let GAMES_BY_ID = {};
+let HISTORY = {};
+let currentGameId = null;
+
+// ---------------------------------------------------------------- chart
+// A small hand-drawn SVG line chart -- no external library, one series at a
+// time (book+market the dropdowns pick), thin 2px line, rounded caps,
+// markers at each real snapshot, values labeled only at the first/last
+// point (never every point) per the site's chart conventions.
+function renderChart(points, openValue, valueFmt) {
+  const container = document.getElementById("history-chart");
+  const valid = points.filter(p => p.v !== null && p.v !== undefined);
+  if (!valid.length) {
+    container.innerHTML = '<div class="chart-empty">No history recorded for this book/market yet -- it will start filling in as the pipeline pulls lines more often leading up to kickoff.</div>';
+    return;
+  }
+
+  const W = 560, H = 220, PAD_L = 58, PAD_R = 16, PAD_T = 16, PAD_B = 28;
+  const allVals = valid.map(p => p.v).concat(openValue !== null && openValue !== undefined ? [openValue] : []);
+  let lo = Math.min(...allVals), hi = Math.max(...allVals);
+  if (lo === hi) { lo -= 1; hi += 1; }
+  const pad = (hi - lo) * 0.15;
+  lo -= pad; hi += pad;
+
+  const n = valid.length;
+  const x = (i) => n === 1 ? (PAD_L + W - PAD_L - PAD_R) / 2 : PAD_L + (i / (n - 1)) * (W - PAD_L - PAD_R);
+  const y = (v) => PAD_T + (1 - (v - lo) / (hi - lo)) * (H - PAD_T - PAD_B);
+
+  const pathD = valid.map((p, i) => `${i === 0 ? "M" : "L"}${x(i).toFixed(1)},${y(p.v).toFixed(1)}`).join(" ");
+
+  const gridLines = [0, 0.5, 1].map(f => {
+    const val = Math.round((lo + f * (hi - lo)) * 10) / 10;
+    const yy = y(val);
+    return `<line x1="${PAD_L}" y1="${yy}" x2="${W - PAD_R}" y2="${yy}" stroke="var(--border)" stroke-width="1" />
+      <text x="${PAD_L - 10}" y="${yy + 4}" text-anchor="end" font-size="11" fill="var(--text-muted)">${valueFmt(val)}</text>`;
+  }).join("");
+
+  const openLine = (openValue !== null && openValue !== undefined)
+    ? `<line x1="${PAD_L}" y1="${y(openValue)}" x2="${W - PAD_R}" y2="${y(openValue)}" stroke="var(--brand-gold)" stroke-width="1" stroke-dasharray="4 3" opacity="0.6" />`
+    : "";
+
+  const markers = valid.map((p, i) => `<circle cx="${x(i).toFixed(1)}" cy="${y(p.v).toFixed(1)}" r="4.5" fill="var(--brand-purple-light)" />`).join("");
+
+  const dateTicks = [0, n - 1].filter((v, idx, arr) => arr.indexOf(v) === idx).map(i => {
+    const d = new Date(valid[i].t);
+    const label = d.toLocaleDateString(undefined, { month: "short", day: "numeric" });
+    return `<text x="${x(i).toFixed(1)}" y="${H - 6}" text-anchor="${i === 0 ? "start" : "end"}" font-size="11" fill="var(--text-muted)">${label}</text>`;
+  }).join("");
+
+  const first = valid[0], last = valid[n - 1];
+  const labels = `
+    <text x="${x(0).toFixed(1)}" y="${(y(first.v) - 10).toFixed(1)}" text-anchor="start" font-size="12" font-weight="700" fill="var(--text-primary)">${valueFmt(first.v)}</text>
+    ${n > 1 ? `<text x="${x(n - 1).toFixed(1)}" y="${(y(last.v) - 10).toFixed(1)}" text-anchor="end" font-size="12" font-weight="700" fill="var(--text-primary)">${valueFmt(last.v)}</text>` : ""}`;
+
+  container.innerHTML = `
+    <svg viewBox="0 0 ${W} ${H}" xmlns="http://www.w3.org/2000/svg">
+      ${gridLines}
+      ${openLine}
+      <path d="${pathD}" fill="none" stroke="var(--brand-purple-light)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+      ${markers}
+      ${labels}
+      ${dateTicks}
+    </svg>`;
+}
+
+function updateModal() {
+  const market = document.getElementById("history-market").value;
+  const book = document.getElementById("history-book").value;
+  const g = GAMES_BY_ID[currentGameId];
+  const gameHistory = HISTORY[currentGameId] || {};
+  const bookHistory = gameHistory[book];
+
+  const valueFmt = market === "spread" ? fmtSpread : market === "total" ? (v) => v.toFixed(1) : fmtSigned;
+  const points = (bookHistory ? bookHistory.points : []).map(p => ({
+    t: p.t,
+    v: market === "spread" ? p.spread : market === "total" ? p.total : p.away_ml,
+  }));
+  const openValue = market === "spread" ? (bookHistory && bookHistory.open_spread)
+    : market === "total" ? (bookHistory && bookHistory.open_total) : null;
+
+  renderChart(points, openValue, valueFmt);
+
+  // Open reference box (spread/total only -- no historical opening moneyline).
+  const openBox = document.getElementById("history-open");
+  if (market === "moneyline" || openValue === null || openValue === undefined) {
+    openBox.innerHTML = `<div class="open-label">Open</div><div class="open-row"><span>Not tracked for moneyline</span></div>`;
+  } else {
+    const homeOpenDisplay = market === "spread" ? fmtSpread(openValue) : `O/U ${openValue}`;
+    const awayOpenDisplay = market === "spread" ? fmtSpread(-openValue) : `O/U ${openValue}`;
+    openBox.innerHTML = `
+      <div class="open-label">Open</div>
+      <div class="open-row"><span class="name">${g.away_team}</span><span>${awayOpenDisplay}</span></div>
+      <div class="open-row"><span class="name">${g.home_team}</span><span>${homeOpenDisplay}</span></div>`;
+  }
+
+  // Best-number tiles across every book+snapshot for this game, this market.
+  const bestBox = document.getElementById("history-best");
+  const allPoints = Object.values(gameHistory).flatMap(bh => bh.points || []);
+  if (!allPoints.length) { bestBox.innerHTML = ""; return; }
+
+  if (market === "spread") {
+    const spreads = allPoints.map(p => p.spread).filter(v => v !== null && v !== undefined);
+    if (!spreads.length) { bestBox.innerHTML = ""; return; }
+    const bestHome = Math.max(...spreads), bestAway = -Math.min(...spreads);
+    bestBox.innerHTML = `
+      <div class="stat-tile"><div class="label">Best ${g.away_team} Spread</div><div class="value">${fmtSpread(bestAway)}</div></div>
+      <div class="stat-tile"><div class="label">Best ${g.home_team} Spread</div><div class="value">${fmtSpread(bestHome)}</div></div>`;
+  } else if (market === "total") {
+    const totals = allPoints.map(p => p.total).filter(v => v !== null && v !== undefined);
+    if (!totals.length) { bestBox.innerHTML = ""; return; }
+    bestBox.innerHTML = `
+      <div class="stat-tile"><div class="label">Best Over</div><div class="value">O ${Math.min(...totals)}</div></div>
+      <div class="stat-tile"><div class="label">Best Under</div><div class="value">U ${Math.max(...totals)}</div></div>`;
+  } else {
+    const awayMl = allPoints.map(p => p.away_ml).filter(v => v !== null && v !== undefined);
+    const homeMl = allPoints.map(p => p.home_ml).filter(v => v !== null && v !== undefined);
+    if (!awayMl.length && !homeMl.length) { bestBox.innerHTML = ""; return; }
+    bestBox.innerHTML = `
+      <div class="stat-tile"><div class="label">Best ${g.away_team} ML</div><div class="value">${awayMl.length ? fmtSigned(Math.max(...awayMl)) : "--"}</div></div>
+      <div class="stat-tile"><div class="label">Best ${g.home_team} ML</div><div class="value">${homeMl.length ? fmtSigned(Math.max(...homeMl)) : "--"}</div></div>`;
+  }
+}
+
+function openHistoryModal(gameId) {
+  currentGameId = gameId;
+  const g = GAMES_BY_ID[gameId];
+  const gameHistory = HISTORY[gameId] || {};
+  document.getElementById("history-title").textContent = `${g.away_team} @ ${g.home_team}`;
+
+  document.getElementById("history-market").value = "spread";
+  const bookSelect = document.getElementById("history-book");
+  const bookNames = Object.keys(gameHistory);
+  if (!bookNames.length) {
+    bookSelect.innerHTML = `<option value="">No books yet</option>`;
+    document.getElementById("history-chart").innerHTML = '<div class="chart-empty">No line history recorded for this game yet -- check back after the next pipeline run.</div>';
+    document.getElementById("history-open").innerHTML = "";
+    document.getElementById("history-best").innerHTML = "";
+  } else {
+    bookSelect.innerHTML = bookNames.map(b => `<option value="${b}">${b}</option>`).join("");
+    updateModal();
+  }
+
+  document.getElementById("history-modal").classList.remove("hidden");
+}
+
+document.getElementById("history-close").addEventListener("click", () => {
+  document.getElementById("history-modal").classList.add("hidden");
+});
+document.getElementById("history-modal").addEventListener("click", (e) => {
+  if (e.target.id === "history-modal") document.getElementById("history-modal").classList.add("hidden");
+});
+document.getElementById("history-market").addEventListener("change", updateModal);
+document.getElementById("history-book").addEventListener("change", updateModal);
 
 (async function () {
-  const data = await fetchJSON("data/lines.json");
+  const [data, historyData] = await Promise.all([
+    fetchJSON("data/lines.json"),
+    fetchJSON("data/line_history.json"),
+  ]);
+  HISTORY = (historyData && historyData.history) || {};
   const container = document.getElementById("lines-container");
 
   if (!data || !data.games || !data.games.length) {
@@ -48,6 +227,8 @@ function fmtMl(away, home) {
   if (data.meta && data.meta.current_week) {
     document.getElementById("page-title").textContent = `Week ${data.meta.current_week.week} Live Lines`;
   }
+
+  data.games.forEach(g => { GAMES_BY_ID[g.game_id] = g; });
 
   // Union of every book that appears on ANY game this week, Consensus first.
   const bookSet = new Set();
@@ -104,10 +285,15 @@ function fmtMl(away, home) {
             <tbody>${bodyRows}</tbody>
           </table>
         </div>
+        <button class="history-btn" data-game-id="${g.game_id}">View Line History</button>
       </div>`;
   }).join("");
 
   container.innerHTML = `<div class="matchup-grid">${cards}</div>`;
+  container.querySelectorAll(".history-btn").forEach(btn => {
+    btn.addEventListener("click", () => openHistoryModal(Number(btn.dataset.gameId)));
+  });
+
   document.getElementById("updated").textContent = lastUpdatedLabel(data.meta && data.meta.generated_at);
 })();
 </script>

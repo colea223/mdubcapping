@@ -88,6 +88,25 @@ CREATE TABLE IF NOT EXISTS lines (
     PRIMARY KEY (game_id, provider)
 );
 
+-- Every historical pull of pull_lines.py, kept forever (never overwritten),
+-- one row per (game, provider, pulled_at) -- this is what powers the Line
+-- History chart on the Live Lines page. `lines` above only ever holds the
+-- latest open/current snapshot; this table is the append-only trail behind
+-- it. Populated by build_db.py scanning every data/raw/lines_*.json file
+-- ever pulled (not just the newest one, unlike every other table here) --
+-- so the more often pull_lines.py runs, the richer this history gets. A
+-- game pulled for the first time only has one point until the next pull.
+CREATE TABLE IF NOT EXISTS line_snapshots (
+    game_id         BIGINT,
+    provider        VARCHAR,
+    pulled_at       TIMESTAMP,
+    spread          DOUBLE,
+    over_under      DOUBLE,
+    home_moneyline  DOUBLE,
+    away_moneyline  DOUBLE,
+    PRIMARY KEY (game_id, provider, pulled_at)
+);
+
 -- Static venue metadata (lat/long/elevation) -- see src/pull_venues.py.
 CREATE TABLE IF NOT EXISTS venues (
     venue_id        BIGINT PRIMARY KEY,

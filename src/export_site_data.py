@@ -38,6 +38,7 @@ from predict_week import auto_detect_week
 ROOT = Path(__file__).resolve().parent.parent
 DOCS_DATA = ROOT / "docs" / "data"
 NOTES_PATH = ROOT / "site_notes.json"
+MANUAL_LINES_PATH = ROOT / "manual_lines.json"
 TRACKER_PATH = ROOT / "excel" / "MW_Handicapping_Tracker.xlsx"
 BET_LOG_ROWS = range(2, 43)   # matches excel/build_tracker.py's layout
 CURRENT_SEASON = 2026
@@ -50,6 +51,23 @@ def _now_iso():
 def load_notes():
     if NOTES_PATH.exists():
         return json.loads(NOTES_PATH.read_text())
+    return {}
+
+
+def load_manual_lines():
+    """
+    Hand-typed fallback lines for when the pipeline can't reach CFBD (API
+    limit hit, an outage, whatever) and a game would otherwise show up on
+    the site with no market number at all. Edit manual_lines.json directly
+    -- same "Away Team @ Home Team" key as site_notes.json -- with any
+    subset of: spread_home (negative = home favored), total, home_ml,
+    away_ml. This is DISPLAY ONLY: it's never written into the lines table
+    itself, never touches the model or backtest, and it only ever fills in
+    a number that would otherwise be blank -- it can't override a real
+    pulled line. Leave the file out or empty and nothing changes.
+    """
+    if MANUAL_LINES_PATH.exists():
+        return json.loads(MANUAL_LINES_PATH.read_text())
     return {}
 
 
@@ -111,13 +129,18 @@ def mw_game(row_home, row_away):
 NOT_REAL_BOOKS = {"teamrankings", "numberfire"}
 
 
-def build_live_lines(con):
+def build_live_lines(con, manual_lines=None):
     """
     A per-book live line table for the current MW slate -- open line plus
     every real sportsbook's current spread/total/moneyline, so you can see
     both the current number and how far it's moved from open, book by book.
     Mirrors the covers.com-style line tracker: Time / Game / Open / [books].
+
+    manual_lines (see load_manual_lines()) adds one extra "Manual" column
+    for any matchup listed there -- purely a display fallback for when the
+    pipeline couldn't pull real lines, never a replacement for real ones.
     """
+    manual_lines = manual_lines or {}
     detected = auto_detect_week(con)
     if detected is None:
         return [], None
@@ -161,8 +184,20 @@ def build_live_lines(con):
                 "home_ml": int(r.home_moneyline) if pd.notna(r.home_moneyline) else None,
                 "away_ml": int(r.away_moneyline) if pd.notna(r.away_moneyline) else None,
             }
-        # Stable order: Consensus first (if present), then real books alphabetically.
-        book_order = sorted(books.keys(), key=lambda p: (p != "consensus", p.lower()))
+        manual = manual_lines.get(f"{g.away_team} @ {g.home_team}")
+        if manual:
+            books["Manual"] = {
+                "spread": manual.get("spread_home"), "spread_open": None,
+                "total": manual.get("total"), "total_open": None,
+                "home_ml": manual.get("home_ml"), "away_ml": manual.get("away_ml"),
+            }
+
+        # Stable order: Consensus first (if present), real books alphabetically,
+        # Manual last so it never gets mistaken for an actual sportsbook price.
+        book_order = sorted(
+            books.keys(),
+            key=lambda p: (p != "consensus", p == "Manual", p.lower()),
+        )
 
         rows.append({
             "game_id": int(g.game_id),
@@ -178,7 +213,55 @@ def build_live_lines(con):
     return rows, {"season": season, "week": week}
 
 
-def build_matchups_and_predictions(con, notes: dict):
+def build_line_history(con, game_ids):
+    """
+    Every historical snapshot (line_snapshots -- see build_db.py) for the
+    given games, shaped for a per-game/per-book/per-market chart: a time
+    series the Live Lines page can plot, plus the true open value as a fixed
+    reference point. Early on (or for a game just added) this may be as few
+    as one point -- it only gets richer as pull_lines.py runs more often
+    over the season, since nothing here is retroactive.
+    """
+    if not game_ids:
+        return {}
+    placeholders = ",".join("?" * len(game_ids))
+    snaps = con.execute(f"""
+        SELECT game_id, provider, pulled_at, spread, over_under, home_moneyline, away_moneyline
+        FROM line_snapshots
+        WHERE game_id IN ({placeholders})
+        ORDER BY pulled_at
+    """, game_ids).fetchdf()
+    opens = con.execute(f"""
+        SELECT game_id, provider, spread_open, over_under_open
+        FROM lines
+        WHERE game_id IN ({placeholders})
+    """, game_ids).fetchdf().set_index(["game_id", "provider"])
+
+    history = {}
+    for gid, g in snaps.groupby("game_id"):
+        by_provider = {}
+        for provider, p in g.groupby("provider"):
+            open_row = opens.loc[(gid, provider)] if (gid, provider) in opens.index else None
+            by_provider[provider] = {
+                "open_spread": round(float(open_row["spread_open"]), 1) if open_row is not None and pd.notna(open_row["spread_open"]) else None,
+                "open_total": round(float(open_row["over_under_open"]), 1) if open_row is not None and pd.notna(open_row["over_under_open"]) else None,
+                "points": [
+                    {
+                        "t": row.pulled_at.strftime("%Y-%m-%dT%H:%M:%SZ"),
+                        "spread": round(row.spread, 1) if pd.notna(row.spread) else None,
+                        "total": round(row.over_under, 1) if pd.notna(row.over_under) else None,
+                        "home_ml": int(row.home_moneyline) if pd.notna(row.home_moneyline) else None,
+                        "away_ml": int(row.away_moneyline) if pd.notna(row.away_moneyline) else None,
+                    }
+                    for row in p.itertuples()
+                ],
+            }
+        history[str(int(gid))] = by_provider
+    return history
+
+
+def build_matchups_and_predictions(con, notes: dict, manual_lines=None):
+    manual_lines = manual_lines or {}
     detected = auto_detect_week(con)
     if detected is None:
         return [], [], None
@@ -200,14 +283,25 @@ def build_matchups_and_predictions(con, notes: dict):
     matchups = []
     for g in games.itertuples():
         line = lines.loc[g.game_id] if g.game_id in lines.index else None
+        manual = manual_lines.get(f"{g.away_team} @ {g.home_team}") or {}
+
+        def pick(real_val, manual_key, round_to=None):
+            # Real pulled data always wins; manual_lines.json only fills a
+            # gap left by a failed/missing pull -- see load_manual_lines().
+            if real_val is not None and pd.notna(real_val):
+                return round(real_val, round_to) if round_to is not None else round(real_val)
+            mv = manual.get(manual_key)
+            return round(mv, round_to) if (mv is not None and round_to is not None) else mv
+
         matchups.append({
             "game_id": int(g.game_id), "week": int(g.week),
             "date": pd.to_datetime(g.start_date).strftime("%Y-%m-%d"),
             "away_team": g.away_team, "home_team": g.home_team,
-            "market_spread_home": round(line["spread"], 1) if line is not None and pd.notna(line["spread"]) else None,
-            "market_total": round(line["total"], 1) if line is not None and pd.notna(line["total"]) else None,
-            "home_moneyline": round(line["home_ml"]) if line is not None and pd.notna(line["home_ml"]) else None,
-            "away_moneyline": round(line["away_ml"]) if line is not None and pd.notna(line["away_ml"]) else None,
+            "market_spread_home": pick(line["spread"] if line is not None else None, "spread_home", 1),
+            "market_total": pick(line["total"] if line is not None else None, "total", 1),
+            "home_moneyline": pick(line["home_ml"] if line is not None else None, "home_ml"),
+            "away_moneyline": pick(line["away_ml"] if line is not None else None, "away_ml"),
+            "manual_line_used": bool(manual and (line is None or bool(line.isna().all()))),
         })
 
     predictions = []
@@ -390,10 +484,12 @@ def main():
     DOCS_DATA.mkdir(parents=True, exist_ok=True)
     con = duckdb.connect(str(DB_PATH))
     notes = load_notes()
+    manual_lines = load_manual_lines()
 
     rankings = build_rankings(con)
-    matchups, predictions, week_info = build_matchups_and_predictions(con, notes)
-    live_lines, lines_week_info = build_live_lines(con)
+    matchups, predictions, week_info = build_matchups_and_predictions(con, notes, manual_lines)
+    live_lines, lines_week_info = build_live_lines(con, manual_lines)
+    line_history = build_line_history(con, [g["game_id"] for g in live_lines])
     tracking = {"model": build_model_tracking(con), "yours": read_bet_log()}
     con.close()
 
@@ -405,6 +501,7 @@ def main():
     (DOCS_DATA / "predictions.json").write_text(json.dumps({"meta": meta, "predictions": predictions}, indent=2))
     (DOCS_DATA / "tracking.json").write_text(json.dumps({"meta": meta, "tracking": tracking}, indent=2))
     (DOCS_DATA / "lines.json").write_text(json.dumps({"meta": lines_meta, "games": live_lines}, indent=2))
+    (DOCS_DATA / "line_history.json").write_text(json.dumps({"meta": lines_meta, "history": line_history}, indent=2))
 
     print(f"Wrote rankings ({len(rankings)}), matchups ({len(matchups)}), "
           f"predictions ({len(predictions)}), live lines ({len(live_lines)}), tracking summary to {DOCS_DATA}")

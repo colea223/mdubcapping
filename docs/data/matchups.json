@@ -1,6 +1,6 @@
 {
   "meta": {
-    "generated_at": "2026-08-25T22:59:07Z",
+    "generated_at": "2026-08-25T23:55:08Z",
     "current_week": {
       "season": 2026,
       "week": 1
@@ -16,7 +16,8 @@
       "market_spread_home": -38.2,
       "market_total": 60.5,
       "home_moneyline": -100000,
-      "away_moneyline": 4250
+      "away_moneyline": 4250,
+      "manual_line_used": false
     },
     {
       "game_id": 401864577,
@@ -27,7 +28,8 @@
       "market_spread_home": -7.0,
       "market_total": 46.2,
       "home_moneyline": -298,
-      "away_moneyline": 240
+      "away_moneyline": 240,
+      "manual_line_used": false
     },
     {
       "game_id": 401858201,
@@ -38,7 +40,8 @@
       "market_spread_home": -4.0,
       "market_total": 48.8,
       "home_moneyline": -178,
-      "away_moneyline": 150
+      "away_moneyline": 150,
+      "manual_line_used": false
     },
     {
       "game_id": 401862693,
@@ -49,7 +52,8 @@
       "market_spread_home": -4.5,
       "market_total": 56.5,
       "home_moneyline": -184,
-      "away_moneyline": 154
+      "away_moneyline": 154,
+      "manual_line_used": false
     },
     {
       "game_id": 401864495,
@@ -60,7 +64,8 @@
       "market_spread_home": -5.0,
       "market_total": 53.5,
       "home_moneyline": -189,
-      "away_moneyline": 158
+      "away_moneyline": 158,
+      "manual_line_used": false
     },
     {
       "game_id": 401856664,
@@ -71,7 +76,8 @@
       "market_spread_home": -41.0,
       "market_total": 50.5,
       "home_moneyline": null,
-      "away_moneyline": null
+      "away_moneyline": null,
+      "manual_line_used": false
     },
     {
       "game_id": 401864496,
@@ -82,7 +88,8 @@
       "market_spread_home": -30.5,
       "market_total": 58.5,
       "home_moneyline": -10000,
-      "away_moneyline": 3000
+      "away_moneyline": 3000,
+      "manual_line_used": false
     },
     {
       "game_id": 401864499,
@@ -93,7 +100,8 @@
       "market_spread_home": -39.5,
       "market_total": 57.5,
       "home_moneyline": null,
-      "away_moneyline": null
+      "away_moneyline": null,
+      "manual_line_used": false
     },
     {
       "game_id": 401858426,
@@ -104,7 +112,8 @@
       "market_spread_home": -31.8,
       "market_total": 45.5,
       "home_moneyline": -100000,
-      "away_moneyline": 3750
+      "away_moneyline": 3750,
+      "manual_line_used": false
     },
     {
       "game_id": 401860878,
@@ -115,18 +124,8 @@
       "market_spread_home": -3.5,
       "market_total": 47.8,
       "home_moneyline": -180,
-      "away_moneyline": 152
-    },
-    {
-      "game_id": 401864497,
-      "week": 1,
-      "date": "2026-09-06",
-      "away_team": "UNLV",
-      "home_team": "Hawai'i",
-      "market_spread_home": 2.8,
-      "market_total": 58.5,
-      "home_moneyline": 114,
-      "away_moneyline": -136
+      "away_moneyline": 152,
+      "manual_line_used": false
     },
     {
       "game_id": 401864498,
@@ -137,7 +136,20 @@
       "market_spread_home": -11.5,
       "market_total": 47.5,
       "home_moneyline": -522,
-      "away_moneyline": 380
+      "away_moneyline": 380,
+      "manual_line_used": false
+    },
+    {
+      "game_id": 401864497,
+      "week": 1,
+      "date": "2026-09-06",
+      "away_team": "UNLV",
+      "home_team": "Hawai'i",
+      "market_spread_home": 2.8,
+      "market_total": 58.5,
+      "home_moneyline": 114,
+      "away_moneyline": -136,
+      "manual_line_used": false
     },
     {
       "game_id": 401864432,
@@ -148,7 +160,8 @@
       "market_spread_home": 2.5,
       "market_total": 53.2,
       "home_moneyline": 115,
-      "away_moneyline": -135
+      "away_moneyline": -135,
+      "manual_line_used": false
     }
   ]
 }

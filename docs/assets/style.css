@@ -287,6 +287,86 @@ table.lines-table td.no-data { color: var(--text-muted); }
 .move-tag.move-up { color: var(--brand-gold); }
 .move-tag.move-down { color: var(--brand-purple-light); }
 
+.history-btn {
+  display: block;
+  width: 100%;
+  padding: 10px 16px;
+  background: none;
+  border: none;
+  border-top: 1px solid var(--border);
+  color: var(--brand-purple-light);
+  font-size: 13px;
+  font-weight: 700;
+  font-family: var(--font);
+  cursor: pointer;
+  text-align: center;
+}
+.history-btn:hover { background: var(--bg-card-alt); }
+
+/* ---------------------------------------------------------------- line history modal */
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.6);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  z-index: 100;
+}
+.modal-overlay.hidden { display: none; }
+.modal-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  width: 100%;
+  max-width: 640px;
+  max-height: 90vh;
+  overflow-y: auto;
+  padding: 24px;
+  position: relative;
+}
+.modal-close {
+  position: absolute;
+  top: 18px; right: 18px;
+  background: none; border: none;
+  color: var(--text-muted);
+  font-size: 22px;
+  cursor: pointer;
+  line-height: 1;
+}
+.modal-close:hover { color: var(--text-primary); }
+.modal-title { font-size: 20px; font-weight: 800; margin: 0 0 18px; }
+.modal-controls { display: flex; gap: 10px; margin-bottom: 16px; flex-wrap: wrap; }
+.modal-controls select {
+  flex: 1;
+  min-width: 140px;
+  background: var(--bg-card-alt);
+  border: 1px solid var(--border);
+  color: var(--text-primary);
+  font-family: var(--font);
+  font-size: 14px;
+  font-weight: 600;
+  padding: 10px 12px;
+  border-radius: 8px;
+}
+.open-box {
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 12px 14px;
+  margin-bottom: 18px;
+}
+.open-box .open-label { font-size: 11px; text-transform: uppercase; letter-spacing: 0.05em; color: var(--text-muted); font-weight: 700; margin-bottom: 8px; }
+.open-box .open-row { display: flex; justify-content: space-between; font-size: 14px; padding: 3px 0; }
+.open-box .open-row .name { font-weight: 700; }
+.chart-wrap { margin-bottom: 18px; }
+.chart-wrap svg { width: 100%; height: auto; display: block; }
+.chart-empty { padding: 30px 10px; text-align: center; color: var(--text-muted); font-size: 13px; }
+.best-tiles { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+.best-tiles .stat-tile { padding: 12px 14px; }
+.best-tiles .label { font-size: 11px; }
+.best-tiles .value { font-size: 20px; }
+
 .empty-state {
   padding: 40px 20px;
   text-align: center;

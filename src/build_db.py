@@ -15,11 +15,19 @@ Usage:
 import json
 import re
 from collections import defaultdict
+from datetime import datetime
 from pathlib import Path
 
 import duckdb
 
-from config import RAW_DIR, DB_PATH
+from config import RAW_DIR, DB_PATH, END_YEAR
+
+# Line movement is only ever interesting for the season currently being
+# played -- a past season's games are over and their lines will never move
+# again, so there's no reason to keep backfilling snapshot history for
+# them. END_YEAR (config.py) is "the current season" throughout this
+# project; only its raw lines_<END_YEAR>_*.json snapshots get scanned here.
+LINE_HISTORY_SEASON = END_YEAR
 from teams import MW_TEAMS_2026, normalize_team_name
 
 SCHEMA_PATH = Path(__file__).resolve().parent.parent / "db" / "schema.sql"
@@ -43,6 +51,23 @@ def latest_snapshots():
 
 def load_json(path: Path):
     return json.loads(path.read_text())
+
+
+def all_lines_snapshots():
+    """
+    Unlike latest_snapshots(), this returns EVERY lines_<year>_<stamp>.json
+    ever pulled, not just the newest one -- that full history is exactly what
+    the Line History chart needs. Returns a list of (year, stamp, path),
+    oldest first.
+    """
+    out = []
+    for f in RAW_DIR.glob("lines_*.json"):
+        m = SNAPSHOT_RE.match(f.name)
+        if not m or m.group("prefix") != "lines":
+            continue
+        out.append((int(m.group("year")), m.group("stamp"), f))
+    out.sort(key=lambda t: t[1])
+    return out
 
 
 def build_teams_table(con):
@@ -212,6 +237,37 @@ def build_lines_table(con, snapshots):
     print(f"lines: {len(rows)} rows")
 
 
+def build_line_snapshots_table(con):
+    """
+    Append-only: every lines_<LINE_HISTORY_SEASON>_*.json ever pulled, not
+    just the latest, one row per (game, provider, pulled_at). Deliberately
+    scoped to just the current season -- see LINE_HISTORY_SEASON above --
+    since a past season's lines are frozen forever and backfilling their
+    snapshot history is pure wasted work and disk space, not a real feature.
+    Never DELETEs -- INSERT OR IGNORE means re-running build_db.py against
+    files already loaded is a safe no-op, and a brand new pull just adds
+    whatever's genuinely new.
+    """
+    rows = []
+    for year, stamp, path in all_lines_snapshots():
+        if year != LINE_HISTORY_SEASON:
+            continue
+        pulled_at = datetime.strptime(stamp, "%Y%m%dT%H%M%SZ")
+        for g in load_json(path):
+            for line in g.get("lines") or []:
+                rows.append((
+                    g["id"], line.get("provider"), pulled_at,
+                    line.get("spread"), line.get("over_under"),
+                    line.get("home_moneyline"), line.get("away_moneyline"),
+                ))
+    if not rows:
+        print("line_snapshots: no raw snapshots found yet (run src/pull_lines.py first)")
+        return
+    con.executemany("INSERT OR IGNORE INTO line_snapshots VALUES (?,?,?,?,?,?,?)", rows)
+    total = con.execute("SELECT COUNT(*) FROM line_snapshots").fetchone()[0]
+    print(f"line_snapshots: {len(rows)} rows scanned, {total} total in history")
+
+
 def main():
     con = duckdb.connect(str(DB_PATH))
     con.execute(SCHEMA_PATH.read_text())
@@ -231,6 +287,7 @@ def main():
     build_elo_ratings_table(con, snapshots)
     build_recruiting_table(con, snapshots)
     build_lines_table(con, snapshots)
+    build_line_snapshots_table(con)
     build_venues_table(con)
 
     con.close()
