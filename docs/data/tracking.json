@@ -1,22 +1,46 @@
 {
   "meta": {
-    "generated_at": "2026-08-25T21:10:58Z",
+    "generated_at": "2026-08-25T22:09:16Z",
     "current_week": {
       "season": 2026,
       "week": 1
     }
   },
   "tracking": {
-    "season": 2026,
-    "n_games": 0,
-    "n_bets": 0,
-    "wins": 0,
-    "losses": 0,
-    "pushes": 0,
-    "ats_win_rate": null,
-    "units": 0,
-    "upset_calls": 0,
-    "upset_wins": 0,
-    "note": "Hypothetical flat 1-unit-per-bet tracking of the model's own picks -- not your personal bet log."
+    "model": {
+      "season": 2026,
+      "n_games": 0,
+      "spread": {
+        "n_bets": 0,
+        "wins": 0,
+        "losses": 0,
+        "pushes": 0,
+        "win_rate": null,
+        "units": 0
+      },
+      "total": {
+        "n_bets": 0,
+        "wins": 0,
+        "losses": 0,
+        "pushes": 0,
+        "win_rate": null,
+        "units": 0
+      },
+      "moneyline": {
+        "n_bets": 0,
+        "wins": 0,
+        "losses": 0,
+        "pushes": 0,
+        "win_rate": null,
+        "units": 0
+      },
+      "upset_calls": 0,
+      "upset_wins": 0,
+      "note": "Hypothetical flat 1-unit-per-bet tracking of the model's own picks (spread/total at -110, moneyline at the real posted odds) -- not your personal bets."
+    },
+    "yours": {
+      "n_bets": 0,
+      "note": "No graded bets in the Bet Log yet -- add a Result (W/L/P) to see your record here."
+    }
   }
 }
