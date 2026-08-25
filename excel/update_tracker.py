@@ -58,6 +58,28 @@ def update_weekly_slate(ws, predictions_path: Path):
     import csv
     with open(predictions_path, newline="", encoding="utf-8") as fh:
         rows = list(csv.DictReader(fh))
+    if not rows:
+        print("Weekly Slate: predictions file is empty -- nothing to write.")
+        return
+
+    # Clear any row for a matchup that ISN'T in this run's predictions --
+    # otherwise a game that drops off the list (last week's games once a new
+    # week is predicted, or -- what actually happened here -- games that
+    # never should've been on this MW-focused sheet in the first place) just
+    # sits there forever, since the loop below only ever adds/updates rows,
+    # never removes them. A row for a matchup that IS still in the current
+    # predictions is left alone here (and updated in place below), so manual
+    # Market Line/Total/Notes/Final Dec entries survive a same-week rerun.
+    current_keys = {(pred["Home Team"], pred["Away Team"]) for pred in rows}
+    cleared = 0
+    for r in WEEKLY_SLATE_ROWS:
+        home, away = ws[f"D{r}"].value, ws[f"C{r}"].value
+        if home and away and (home, away) not in current_keys:
+            for col in ("A", "B", "C", "D", "E", "F", "I", "J", "O", "P"):
+                ws[f"{col}{r}"] = None
+            cleared += 1
+    if cleared:
+        print(f"Weekly Slate: cleared {cleared} row(s) no longer in this week's predictions")
 
     # index existing rows by (home, away) so a re-run updates in place
     existing = {}
