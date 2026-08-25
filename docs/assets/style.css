@@ -249,6 +249,10 @@ table.rankings td.num, table.rankings th.num { text-align: right; font-variant-n
 }
 .stat-tile .value.good { color: var(--good); }
 .stat-tile .value.critical { color: var(--critical); }
+/* General-purpose utility versions of the same two rules, for any other
+   good/bad value (e.g. units in a table cell) that isn't inside a stat-tile. */
+.good { color: var(--good); font-weight: 700; }
+.critical { color: var(--critical); font-weight: 700; }
 .stat-tile .sub { font-size: 12px; color: var(--text-muted); margin-top: 4px; }
 
 .empty-state {

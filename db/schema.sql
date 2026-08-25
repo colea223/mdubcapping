@@ -116,7 +116,15 @@ CREATE TABLE IF NOT EXISTS ratings_baseline (
 );
 
 -- Phase 2: one row per game of leakage-safe pre-game features. See src/features.py.
-CREATE TABLE IF NOT EXISTS game_features (
+-- sp_diff/ppa_diff/talent_diff added Phase 3.5 (backtest revealed the model
+-- was ignoring SP+/PPA/recruiting data that pull_stats.py already collects).
+--
+-- CREATE OR REPLACE (not IF NOT EXISTS) is deliberate here: this table is
+-- always fully rebuilt from scratch by features.py's DELETE+INSERT every run
+-- anyway, so nothing is lost by dropping it -- and it means a future column
+-- change here (like this one) doesn't require deleting the whole .duckdb
+-- file, just rerunning the pipeline.
+CREATE OR REPLACE TABLE game_features (
     game_id                 BIGINT PRIMARY KEY,
     season                  INTEGER,
     week                     INTEGER,
@@ -131,5 +139,8 @@ CREATE TABLE IF NOT EXISTS game_features (
     elevation_delta_away_ft DOUBLE,
     home_rating_before      DOUBLE,
     away_rating_before      DOUBLE,
-    rating_diff             DOUBLE
+    rating_diff             DOUBLE,
+    sp_diff                 DOUBLE,  -- prior-season SP+ rating, home minus away (preseason prior -- see note below)
+    ppa_diff                DOUBLE,  -- prior-season net PPA (off_ppa - def_ppa), home minus away
+    talent_diff             DOUBLE   -- THIS season's recruiting composite, home minus away
 );

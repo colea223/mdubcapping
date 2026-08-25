@@ -1,21 +1,30 @@
 """
-Phase 3, Section 6 of the attack plan: a walk-forward backtest of the margin
-model against the market spread.
+Phase 3, Section 6 of the attack plan: a walk-forward backtest of the model
+against the market -- spread, total (over/under), AND moneyline, each graded
+with real units at real odds (moneyline uses the actual home/away American
+odds from that game, not an assumed price; spread and total use -110, the
+standard price absent a book-specific number in CFBD's lines data).
 
 The one non-negotiable rule from the plan: never fit or tune using data from
 after the game being predicted. This script enforces that literally -- for
-every test week, the model is retrained from scratch using only games whose
-start_date is strictly before that week's earliest kickoff, and it forgets
-that fit before moving to the next week. This is expanding-window walk-
-forward, so early seasons are pure training data and the harness only starts
-grading once there's a reasonable amount of history behind it.
+every test week, the model (and the totals baseline) is rebuilt from scratch
+using only games whose start_date is strictly before that week's earliest
+kickoff, and it forgets that fit before moving to the next week. This is
+expanding-window walk-forward, so early seasons are pure training data and
+the harness only starts grading once there's a reasonable amount of history
+behind it.
 
-Metrics computed, per the plan:
-  - ATS win rate (need ~52.4% at -110 to break even)
-  - CLV (closing line value) -- did the number you'd have bet move in your
-    favor by closing? Positive = yes, computed per the side actually bet.
+Metrics computed, per the plan, for EACH of spread/total/moneyline:
+  - Win rate (spread/total need ~52.4% at -110 to break even; moneyline's
+    break-even rate depends on the odds actually taken, so ROI is the number
+    that actually matters there)
+  - CLV (closing line value) for spread/total -- did the number move in your
+    favor by closing? Positive = yes. Skipped for moneyline: CFBD's lines
+    table only stores one moneyline snapshot per game, not an opening price,
+    so there's nothing to compare against.
   - Calibration (Brier score) -- do stated win probabilities match reality?
-  - ROI at flat 1-unit stake, -110 odds
+    (shared across bet types since it's about the model's win-prob estimate)
+  - ROI at flat 1-unit stake -- -110 for spread/total, real odds for moneyline
   - All of the above sliced overall AND filtered to games involving a 2026
     Mountain West team, since the whole point is MW-specific edges.
 
@@ -29,9 +38,11 @@ import pandas as pd
 
 from config import DB_PATH, CLEAN_DIR
 import model
+from odds import no_vig_prob, payout_profit
 from teams import MW_TEAMS_2026
 
-EDGE_THRESHOLD = 2.0     # points -- matches the Excel tracker's Settings default
+EDGE_THRESHOLD = 2.0        # points -- matches the Excel tracker's Settings default (spread AND total)
+ML_EDGE_THRESHOLD = 0.05    # model win prob vs. no-vig market prob, in probability points
 MIN_TRAIN_GAMES = 100    # roughly two synthetic/actual seasons before grading starts
 
 
@@ -45,7 +56,8 @@ def _test_weeks(con):
     """).fetchdf()
 
 
-def run_backtest(con, edge_threshold=EDGE_THRESHOLD, min_train_games=MIN_TRAIN_GAMES) -> pd.DataFrame:
+def run_backtest(con, edge_threshold=EDGE_THRESHOLD, ml_edge_threshold=ML_EDGE_THRESHOLD,
+                  min_train_games=MIN_TRAIN_GAMES) -> pd.DataFrame:
     weeks = _test_weeks(con)
     full_pool = model.load_training_frame(con)  # every completed game w/ a market line, for slicing test rows out of
     full_pool = full_pool.set_index("game_id")
@@ -67,7 +79,16 @@ def run_backtest(con, edge_threshold=EDGE_THRESHOLD, min_train_games=MIN_TRAIN_G
         model_spread_home = -pred_margin
         home_win_prob = model.margin_to_home_win_prob(pred_margin, residual_std)
 
+        # Same walk-forward discipline for the totals baseline -- rebuilt
+        # per test week from only games strictly before it.
+        team_latest, league_avg = model.totals_baseline(con, before_date=wk.week_start)
+        model_total = [
+            model.predict_total_for_matchup(team_latest, league_avg, row.home_team, row.away_team)
+            for row in test_df.itertuples()
+        ]
+
         for i, (game_id, row) in enumerate(test_df.iterrows()):
+            # ---------------------------------------------------- spread
             market_close = row["market_spread_home"]
             market_open = row["market_spread_home_open"]
             edge = market_close - model_spread_home[i]
@@ -98,6 +119,43 @@ def run_backtest(con, edge_threshold=EDGE_THRESHOLD, min_train_games=MIN_TRAIN_G
 
             actual_home_win = 1.0 if actual_margin > 0 else (0.0 if actual_margin < 0 else 0.5)
 
+            # ---------------------------------------------------- total (over/under)
+            market_total_close = row["market_total"]
+            market_total_open = row["market_total_open"]
+            actual_total = row["home_points"] + row["away_points"]
+            total_edge, total_lean, is_total_bet, total_bet_result, total_clv = (None,) * 5
+            if pd.notna(market_total_close):
+                total_edge = model_total[i] - market_total_close
+                total_lean = "Over" if total_edge > 0 else ("Under" if total_edge < 0 else "Pick'em")
+                is_total_bet = abs(total_edge) >= edge_threshold and total_lean != "Pick'em"
+                if is_total_bet:
+                    if actual_total == market_total_close:
+                        total_bet_result = "Push"
+                    elif (total_lean == "Over") == (actual_total > market_total_close):
+                        total_bet_result = "Win"
+                    else:
+                        total_bet_result = "Loss"
+                    if pd.notna(market_total_open):
+                        # Over wants the total to have been LOW when bet and to
+                        # rise by closing (market agreeing more games go over);
+                        # mirror image for Under.
+                        total_clv = ((market_total_close - market_total_open) if total_lean == "Over"
+                                     else (market_total_open - market_total_close))
+
+            # ---------------------------------------------------- moneyline
+            home_ml, away_ml = row["market_home_ml"], row["market_away_ml"]
+            ml_lean, is_ml_bet, ml_bet_result, ml_profit, ml_edge = (None,) * 5
+            if pd.notna(home_ml) and pd.notna(away_ml):
+                market_home_prob = no_vig_prob(home_ml, away_ml)
+                ml_edge = home_win_prob[i] - market_home_prob
+                ml_lean = "Home" if ml_edge > 0 else "Away"
+                is_ml_bet = abs(ml_edge) >= ml_edge_threshold
+                if is_ml_bet:
+                    home_won = actual_margin > 0  # CFB has no ties -- no push case here
+                    won = home_won if ml_lean == "Home" else (not home_won)
+                    ml_bet_result = "Win" if won else "Loss"
+                    ml_profit = payout_profit(1.0, home_ml if ml_lean == "Home" else away_ml, won)
+
             results.append({
                 "game_id": game_id, "season": row["season"], "week": row["week"],
                 "home_team": row["home_team"], "away_team": row["away_team"],
@@ -106,12 +164,19 @@ def run_backtest(con, edge_threshold=EDGE_THRESHOLD, min_train_games=MIN_TRAIN_G
                 "edge": edge, "lean": lean, "is_bet": is_bet, "bet_result": bet_result, "clv": clv,
                 "home_win_prob": home_win_prob[i], "actual_home_win": actual_home_win,
                 "actual_margin": actual_margin,
+                "model_total": model_total[i], "market_total": market_total_close,
+                "total_edge": total_edge, "total_lean": total_lean, "is_total_bet": is_total_bet,
+                "total_bet_result": total_bet_result, "total_clv": total_clv, "actual_total": actual_total,
+                "market_home_ml": home_ml, "market_away_ml": away_ml,
+                "ml_edge": ml_edge, "ml_lean": ml_lean, "is_ml_bet": is_ml_bet,
+                "ml_bet_result": ml_bet_result, "ml_profit": ml_profit,
             })
 
     return pd.DataFrame(results)
 
 
 def summarize(df: pd.DataFrame, label: str) -> dict:
+    """Spread (ATS) summary -- flat -110 odds, the standard spread price."""
     if df.empty:
         return {"slice": label, "n_games": 0}
     bets = df[df["is_bet"] & df["bet_result"].isin(["Win", "Loss"])]
@@ -134,6 +199,53 @@ def summarize(df: pd.DataFrame, label: str) -> dict:
     }
 
 
+def summarize_totals(df: pd.DataFrame, label: str) -> dict:
+    """Over/under summary -- flat -110 odds, same as spread."""
+    if df.empty:
+        return {"slice": label, "n_games": 0}
+    graded = df.dropna(subset=["model_total", "actual_total"])
+    bets = df[(df["is_total_bet"] == True) & (df["total_bet_result"].isin(["Win", "Loss"]))]
+    wins = (bets["total_bet_result"] == "Win").sum()
+    losses = (bets["total_bet_result"] == "Loss").sum()
+    pushes = ((df["is_total_bet"] == True) & (df["total_bet_result"] == "Push")).sum()
+    n_bets = wins + losses
+    win_rate = wins / n_bets if n_bets else float("nan")
+    profit = wins * (100 / 110) - losses * 1.0
+    roi = profit / n_bets if n_bets else float("nan")
+    mae = float(np.mean(np.abs(graded["model_total"] - graded["actual_total"]))) if not graded.empty else None
+    mean_clv = bets["total_clv"].mean() if n_bets else float("nan")
+    return {
+        "slice": label, "n_games": len(df), "n_bets": int(n_bets),
+        "wins": int(wins), "losses": int(losses), "pushes": int(pushes),
+        "win_rate": round(win_rate, 4) if n_bets else None,
+        "roi_flat_stake": round(roi, 4) if n_bets else None,
+        "mean_abs_error_pts": round(mae, 2) if mae is not None else None,
+        "mean_clv_pts": round(mean_clv, 3) if n_bets and pd.notna(mean_clv) else None,
+    }
+
+
+def summarize_moneyline(df: pd.DataFrame, label: str) -> dict:
+    """Moneyline summary -- REAL odds per bet, not a flat assumed price."""
+    if df.empty:
+        return {"slice": label, "n_games": 0}
+    bets = df[(df["is_ml_bet"] == True) & (df["ml_bet_result"].isin(["Win", "Loss"]))]
+    wins = (bets["ml_bet_result"] == "Win").sum()
+    losses = (bets["ml_bet_result"] == "Loss").sum()
+    n_bets = wins + losses
+    win_rate = wins / n_bets if n_bets else float("nan")
+    profit = bets["ml_profit"].sum() if n_bets else 0.0
+    roi = profit / n_bets if n_bets else float("nan")
+    brier = float(np.mean((df["home_win_prob"] - df["actual_home_win"]) ** 2))
+    return {
+        "slice": label, "n_games": len(df), "n_bets": int(n_bets),
+        "wins": int(wins), "losses": int(losses),
+        "win_rate": round(win_rate, 4) if n_bets else None,
+        "units_won": round(float(profit), 2) if n_bets else None,
+        "roi_flat_stake": round(roi, 4) if n_bets else None,
+        "brier_score": round(brier, 4),
+    }
+
+
 def main():
     con = duckdb.connect(str(DB_PATH))
     df = run_backtest(con)
@@ -152,14 +264,16 @@ def main():
     df.to_csv(out_path, index=False)
     print(f"Per-game results written to {out_path} ({len(df)} rows)\n")
 
-    overall = summarize(df, "Overall (all FBS)")
-    mw = summarize(df[df["is_mw_game"]], "Mountain West-involved")
-    for s in (overall, mw):
-        print(f"--- {s['slice']} ---")
-        for k, v in s.items():
-            if k != "slice":
-                print(f"  {k}: {v}")
-        print()
+    slices = [("Overall (all FBS)", df), ("Mountain West-involved", df[df["is_mw_game"]])]
+    for bet_type, fn in [("SPREAD", summarize), ("TOTAL", summarize_totals), ("MONEYLINE", summarize_moneyline)]:
+        print(f"=== {bet_type} ===")
+        for label, sl in slices:
+            s = fn(sl, label)
+            print(f"--- {s['slice']} ---")
+            for k, v in s.items():
+                if k != "slice":
+                    print(f"  {k}: {v}")
+            print()
 
 
 if __name__ == "__main__":

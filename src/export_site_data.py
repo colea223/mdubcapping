@@ -8,10 +8,12 @@ publish one), so that piece is manually maintained: edit site_notes.json in
 the project root -- {"Away Team @ Home Team": "note text"} -- and this script
 merges it in by matchup. Leave it out or empty and notes just render blank.
 
-Tracking numbers reflect the MODEL's own hypothetical flat-1-unit-stake
-performance (same walk-forward grading as backtest.py, filtered to the current
-season), not necessarily your actual personal bets/stakes -- those live in
-your private Excel Bet Log, which this script doesn't read.
+The Tracking page shows TWO separate things side by side: the model's own
+hypothetical flat-1-unit-stake performance (same walk-forward grading as
+backtest.py, filtered to the current season -- spread, total, AND moneyline),
+and YOUR actual bets, read directly from the Bet Log tab of
+excel/MW_Handicapping_Tracker.xlsx. The two are never blended into one number
+-- the model's picks are a what-if; your Bet Log is what you actually staked.
 
 Usage:
     source .venv/bin/activate
@@ -22,11 +24,13 @@ from datetime import datetime, timezone
 from pathlib import Path
 
 import duckdb
+import openpyxl
 import pandas as pd
 
 from config import DB_PATH
 import model
 import backtest
+from odds import payout_profit
 from power_rating import current_ratings
 from teams import MW_TEAMS_2026
 from predict_week import auto_detect_week
@@ -34,6 +38,8 @@ from predict_week import auto_detect_week
 ROOT = Path(__file__).resolve().parent.parent
 DOCS_DATA = ROOT / "docs" / "data"
 NOTES_PATH = ROOT / "site_notes.json"
+TRACKER_PATH = ROOT / "excel" / "MW_Handicapping_Tracker.xlsx"
+BET_LOG_ROWS = range(2, 43)   # matches excel/build_tracker.py's layout
 CURRENT_SEASON = 2026
 
 
@@ -160,14 +166,29 @@ def build_matchups_and_predictions(con, notes: dict):
     return matchups, predictions, {"season": season, "week": week}
 
 
-def build_tracking(con):
+def _bet_type_block(summary: dict, win_rate_key: str) -> dict:
+    n_bets = summary.get("n_bets", 0) or 0
+    return {
+        "n_bets": n_bets,
+        "wins": summary.get("wins", 0),
+        "losses": summary.get("losses", 0),
+        "pushes": summary.get("pushes", 0),
+        "win_rate": summary.get(win_rate_key),
+        "units": summary.get("units_won") if "units_won" in summary else round((summary.get("roi_flat_stake") or 0) * n_bets, 2),
+    }
+
+
+def build_model_tracking(con):
     df = backtest.run_backtest(con)
     if df.empty:
-        return {"n_games": 0, "n_bets": 0, "note": "Not enough graded history yet."}
+        return {"n_games": 0, "note": "Not enough graded history yet."}
 
     season_df = df[df["season"] == CURRENT_SEASON]
     mw_df = season_df[season_df["is_mw_game"]]
-    summary = backtest.summarize(mw_df, "season_mw")
+
+    spread = backtest.summarize(mw_df, "spread")
+    total = backtest.summarize_totals(mw_df, "total")
+    moneyline = backtest.summarize_moneyline(mw_df, "moneyline")
 
     bets = mw_df[mw_df["is_bet"] & mw_df["bet_result"].isin(["Win", "Loss"])]
     upsets = bets[bets.apply(
@@ -179,16 +200,80 @@ def build_tracking(con):
 
     return {
         "season": CURRENT_SEASON,
-        "n_games": summary.get("n_games", 0),
-        "n_bets": summary.get("n_bets", 0),
-        "wins": summary.get("wins", 0),
-        "losses": summary.get("losses", 0),
-        "pushes": summary.get("pushes", 0),
-        "ats_win_rate": summary.get("ats_win_rate"),
-        "units": round((summary.get("roi_flat_stake") or 0) * (summary.get("n_bets") or 0), 2),
+        "n_games": spread.get("n_games", 0),
+        "spread": _bet_type_block(spread, "ats_win_rate"),
+        "total": _bet_type_block(total, "win_rate"),
+        "moneyline": _bet_type_block(moneyline, "win_rate"),
         "upset_calls": upset_total,
         "upset_wins": upset_wins,
-        "note": "Hypothetical flat 1-unit-per-bet tracking of the model's own picks -- not your personal bet log.",
+        "note": "Hypothetical flat 1-unit-per-bet tracking of the model's own picks (spread/total at -110, "
+                "moneyline at the real posted odds) -- not your personal bets.",
+    }
+
+
+def read_bet_log(tracker_path: Path = TRACKER_PATH):
+    """
+    Your actual placed bets, straight from the Bet Log tab -- read fresh from
+    the raw input cells (Odds, Stake, Result) and re-computed with the same
+    odds math as the model's own grading, rather than trusting the sheet's
+    cached formula values (openpyxl never recalculates formulas itself, so a
+    cached value is only as fresh as the last time the file was opened in
+    real Excel).
+    """
+    if not tracker_path.exists():
+        return {"n_bets": 0, "note": "Tracker workbook not found -- run excel/build_tracker.py first."}
+
+    wb = openpyxl.load_workbook(tracker_path, data_only=False)
+    if "Bet Log" not in wb.sheetnames:
+        return {"n_bets": 0, "note": "No Bet Log tab found in the tracker workbook."}
+    ws = wb["Bet Log"]
+
+    by_type = {}   # bet type -> {wins, losses, pushes, units}
+    for r in BET_LOG_ROWS:
+        bet_type = ws[f"D{r}"].value
+        odds = ws[f"G{r}"].value
+        stake = ws[f"H{r}"].value
+        result = ws[f"K{r}"].value
+        if not bet_type or odds is None or stake is None or not result:
+            continue
+        result = str(result).strip().upper()
+        if result not in ("W", "L", "P"):
+            continue
+
+        bucket = by_type.setdefault(str(bet_type).strip(), {"wins": 0, "losses": 0, "pushes": 0, "units": 0.0})
+        if result == "P":
+            bucket["pushes"] += 1
+        else:
+            won = result == "W"
+            bucket["wins" if won else "losses"] += 1
+            bucket["units"] += payout_profit(float(stake), float(odds), won)
+
+    if not by_type:
+        return {"n_bets": 0, "note": "No graded bets in the Bet Log yet -- add a Result (W/L/P) to see your record here."}
+
+    by_type_out = {}
+    total_wins = total_losses = total_pushes = 0
+    total_units = 0.0
+    for bet_type, b in by_type.items():
+        n_bets = b["wins"] + b["losses"]
+        by_type_out[bet_type] = {
+            "wins": b["wins"], "losses": b["losses"], "pushes": b["pushes"],
+            "win_rate": round(b["wins"] / n_bets, 4) if n_bets else None,
+            "units": round(b["units"], 2),
+        }
+        total_wins += b["wins"]
+        total_losses += b["losses"]
+        total_pushes += b["pushes"]
+        total_units += b["units"]
+
+    total_n_bets = total_wins + total_losses
+    return {
+        "n_bets": total_n_bets,
+        "wins": total_wins, "losses": total_losses, "pushes": total_pushes,
+        "win_rate": round(total_wins / total_n_bets, 4) if total_n_bets else None,
+        "units": round(total_units, 2),
+        "by_type": by_type_out,
+        "note": "Your actual bets from the Bet Log tab, graded at the real odds you entered.",
     }
 
 
@@ -199,7 +284,7 @@ def main():
 
     rankings = build_rankings(con)
     matchups, predictions, week_info = build_matchups_and_predictions(con, notes)
-    tracking = build_tracking(con)
+    tracking = {"model": build_model_tracking(con), "yours": read_bet_log()}
     con.close()
 
     meta = {"generated_at": _now_iso(), "current_week": week_info}

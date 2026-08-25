@@ -1,0 +1,74 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Tracking - Mountain Dub Handicapping</title>
+<link rel="stylesheet" href="assets/style.css">
+</head>
+<body>
+<div id="nav"></div>
+<div class="page-wrap">
+  <div class="page-header">
+    <h1>Season Tracking</h1>
+    <p>How the model's own picks have graded out this season, Mountain West games only.</p>
+  </div>
+
+  <div id="tracking-container"></div>
+
+  <div class="footer-note" id="updated"></div>
+</div>
+
+<script src="assets/site.js"></script>
+<script>
+document.getElementById("nav").innerHTML = renderNav("tracking.html");
+
+(async function () {
+  const data = await fetchJSON("data/tracking.json");
+  const container = document.getElementById("tracking-container");
+
+  if (!data || !data.tracking || !data.tracking.n_bets) {
+    const msg = (data && data.tracking && data.tracking.note)
+      ? data.tracking.note
+      : "Not enough graded history yet -- check back once more games are played and graded.";
+    container.innerHTML = emptyState(msg);
+    document.getElementById("updated").textContent = lastUpdatedLabel(data && data.meta && data.meta.generated_at);
+    return;
+  }
+
+  const t = data.tracking;
+  const atsPct = t.ats_win_rate !== null && t.ats_win_rate !== undefined ? (t.ats_win_rate * 100).toFixed(1) + "%" : "&ndash;";
+  const unitsClass = t.units > 0 ? "good" : (t.units < 0 ? "critical" : "");
+  const unitsLabel = t.units > 0 ? `+${t.units.toFixed(2)}u` : `${t.units.toFixed(2)}u`;
+  const upsetPct = t.upset_calls ? Math.round((t.upset_wins / t.upset_calls) * 100) : null;
+
+  container.innerHTML = `
+    <div class="stat-grid">
+      <div class="stat-tile">
+        <div class="label">Against the Spread</div>
+        <div class="value">${t.wins}-${t.losses}${t.pushes ? `-${t.pushes}` : ""}</div>
+        <div class="sub">${atsPct} win rate on ${t.n_bets} graded bets</div>
+      </div>
+      <div class="stat-tile">
+        <div class="label">Upset Calls</div>
+        <div class="value">${t.upset_wins}-${t.upset_calls - t.upset_wins}</div>
+        <div class="sub">${upsetPct !== null ? upsetPct + "% hit rate" : "No upset leans yet"} on ${t.upset_calls} calls</div>
+      </div>
+      <div class="stat-tile">
+        <div class="label">Units (flat 1u/bet)</div>
+        <div class="value ${unitsClass}">${unitsLabel}</div>
+        <div class="sub">Model's own hypothetical tracking</div>
+      </div>
+      <div class="stat-tile">
+        <div class="label">Games Graded</div>
+        <div class="value">${t.n_games}</div>
+        <div class="sub">Mountain West games, ${t.season} season</div>
+      </div>
+    </div>
+    <div class="notes-box">${t.note}</div>`;
+
+  document.getElementById("updated").textContent = lastUpdatedLabel(data.meta && data.meta.generated_at);
+})();
+</script>
+</body>
+</html>

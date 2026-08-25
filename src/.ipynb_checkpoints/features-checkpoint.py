@@ -15,14 +15,6 @@ Every feature here is computable from information available BEFORE kickoff:
         rating as of today (power_rating.current_ratings()) -- there's no
         rating_before yet because the Elo engine only updates on completed
         games, so "as of now" is the correct stand-in for a future matchup
-  - sp_diff / ppa_diff: SP+ and PPA are SEASON-END aggregates in CFBD (one
-    number computed from that whole season's games) -- using a team's OWN
-    season's SP+/PPA as a feature for a game IN that season would leak the
-    rest of the season into the prediction. These two instead use the PRIOR
-    season's final SP+/net-PPA as a preseason-style prior, which is fully
-    known before a single game of the current season is played.
-  - talent_diff: recruiting classes are set (signing day) before the season
-    starts, so THIS season's recruiting composite is safe to use as-is.
 
 Usage:
     source .venv/bin/activate
@@ -88,18 +80,6 @@ def build_features(con) -> pd.DataFrame:
     ratings_hist_map = {(r.game_id, r.team): r.rating_before for r in ratings_hist.itertuples()}
     ratings_now = current_ratings(con)
 
-    # Prior-season SP+ and net PPA (off_ppa - def_ppa), keyed by (season, team)
-    # so a game in `season` looks up `season - 1`'s value -- see the leakage
-    # note above. Recruiting talent uses the SAME season (safe -- set before
-    # the season starts), keyed the same way for a consistent lookup pattern.
-    sp_map = {(r.season, r.team): r.rating for r in con.execute("SELECT season, team, rating FROM sp_ratings").fetchdf().itertuples()}
-    ppa_map = {
-        (r.season, r.team): r.off_ppa - r.def_ppa
-        for r in con.execute("SELECT season, team, off_ppa, def_ppa FROM advanced_stats").fetchdf().itertuples()
-        if pd.notna(r.off_ppa) and pd.notna(r.def_ppa)
-    }
-    talent_map = {(r.season, r.team): r.points for r in con.execute("SELECT season, team, points FROM recruiting").fetchdf().itertuples()}
-
     home_venue = team_home_venues(games)
     rest = compute_rest_days(games)
     rest_map = {(r.game_id, r.team): r.rest_days for r in rest.itertuples()}
@@ -128,16 +108,6 @@ def build_features(con) -> pd.DataFrame:
         away_before = rating_for(g.game_id, g.away_team)
         rating_diff = (home_before - away_before) if (home_before is not None and away_before is not None) else None
 
-        prior_season = g.season - 1
-        home_sp, away_sp = sp_map.get((prior_season, g.home_team)), sp_map.get((prior_season, g.away_team))
-        sp_diff = (home_sp - away_sp) if (home_sp is not None and away_sp is not None) else None
-
-        home_ppa, away_ppa = ppa_map.get((prior_season, g.home_team)), ppa_map.get((prior_season, g.away_team))
-        ppa_diff = (home_ppa - away_ppa) if (home_ppa is not None and away_ppa is not None) else None
-
-        home_talent, away_talent = talent_map.get((g.season, g.home_team)), talent_map.get((g.season, g.away_team))
-        talent_diff = (home_talent - away_talent) if (home_talent is not None and away_talent is not None) else None
-
         rows.append((
             g.game_id, g.season, g.week, g.home_team, g.away_team,
             g.neutral_site, g.conference_game,
@@ -145,7 +115,6 @@ def build_features(con) -> pd.DataFrame:
             rest_map.get((g.game_id, g.away_team)),
             travel_km_away, elev, elevation_delta_away,
             home_before, away_before, rating_diff,
-            sp_diff, ppa_diff, talent_diff,
         ))
 
     return pd.DataFrame(rows, columns=[
@@ -154,7 +123,6 @@ def build_features(con) -> pd.DataFrame:
         "home_rest_days", "away_rest_days",
         "travel_km_away", "venue_elevation_ft", "elevation_delta_away_ft",
         "home_rating_before", "away_rating_before", "rating_diff",
-        "sp_diff", "ppa_diff", "talent_diff",
     ])
 
 

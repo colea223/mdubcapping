@@ -11,10 +11,18 @@
 <div class="page-wrap">
   <div class="page-header">
     <h1>Season Tracking</h1>
-    <p>How the model's own picks have graded out this season, Mountain West games only.</p>
+    <p>Two separate records, never blended: what you've actually bet, and how the model's own picks have graded out.</p>
   </div>
 
-  <div id="tracking-container"></div>
+  <div class="card" style="margin-bottom:20px;">
+    <div class="section-title">Your Bets</div>
+    <div id="yours-container"></div>
+  </div>
+
+  <div class="card">
+    <div class="section-title">Model's Picks (Hypothetical)</div>
+    <div id="model-container"></div>
+  </div>
 
   <div class="footer-note" id="updated"></div>
 </div>
@@ -23,50 +31,120 @@
 <script>
 document.getElementById("nav").innerHTML = renderNav("tracking.html");
 
-(async function () {
-  const data = await fetchJSON("data/tracking.json");
-  const container = document.getElementById("tracking-container");
+function unitsLabel(units) {
+  if (units === null || units === undefined) return "&ndash;";
+  return units > 0 ? `+${units.toFixed(2)}u` : `${units.toFixed(2)}u`;
+}
+function unitsClass(units) {
+  if (units === null || units === undefined) return "";
+  return units > 0 ? "good" : (units < 0 ? "critical" : "");
+}
+function pct(rate) {
+  return (rate === null || rate === undefined) ? "&ndash;" : (rate * 100).toFixed(1) + "%";
+}
+function record(b) {
+  return `${b.wins}-${b.losses}${b.pushes ? `-${b.pushes}` : ""}`;
+}
 
-  if (!data || !data.tracking || !data.tracking.n_bets) {
-    const msg = (data && data.tracking && data.tracking.note)
-      ? data.tracking.note
-      : "Not enough graded history yet -- check back once more games are played and graded.";
-    container.innerHTML = emptyState(msg);
-    document.getElementById("updated").textContent = lastUpdatedLabel(data && data.meta && data.meta.generated_at);
+function renderYours(yours) {
+  const container = document.getElementById("yours-container");
+  if (!yours || !yours.n_bets) {
+    container.innerHTML = emptyState(
+      (yours && yours.note) || "No graded bets in your Bet Log yet -- add a Result (W/L/P) to a row and rerun the pipeline."
+    );
     return;
   }
 
-  const t = data.tracking;
-  const atsPct = t.ats_win_rate !== null && t.ats_win_rate !== undefined ? (t.ats_win_rate * 100).toFixed(1) + "%" : "&ndash;";
-  const unitsClass = t.units > 0 ? "good" : (t.units < 0 ? "critical" : "");
-  const unitsLabel = t.units > 0 ? `+${t.units.toFixed(2)}u` : `${t.units.toFixed(2)}u`;
-  const upsetPct = t.upset_calls ? Math.round((t.upset_wins / t.upset_calls) * 100) : null;
+  let byTypeRows = "";
+  if (yours.by_type) {
+    const rows = Object.entries(yours.by_type).map(([type, b]) => `
+      <tr>
+        <td class="team-name">${type}</td>
+        <td class="num">${record(b)}</td>
+        <td class="num">${pct(b.win_rate)}</td>
+        <td class="num ${unitsClass(b.units)}">${unitsLabel(b.units)}</td>
+      </tr>`).join("");
+    byTypeRows = `
+      <table class="rankings" style="margin-top:16px;">
+        <thead><tr><th>Bet Type</th><th class="num">Record</th><th class="num">Win Rate</th><th class="num">Units</th></tr></thead>
+        <tbody>${rows}</tbody>
+      </table>`;
+  }
 
   container.innerHTML = `
     <div class="stat-grid">
       <div class="stat-tile">
-        <div class="label">Against the Spread</div>
-        <div class="value">${t.wins}-${t.losses}${t.pushes ? `-${t.pushes}` : ""}</div>
-        <div class="sub">${atsPct} win rate on ${t.n_bets} graded bets</div>
+        <div class="label">Overall Record</div>
+        <div class="value">${record(yours)}</div>
+        <div class="sub">${yours.n_bets} graded bets</div>
       </div>
       <div class="stat-tile">
-        <div class="label">Upset Calls</div>
-        <div class="value">${t.upset_wins}-${t.upset_calls - t.upset_wins}</div>
-        <div class="sub">${upsetPct !== null ? upsetPct + "% hit rate" : "No upset leans yet"} on ${t.upset_calls} calls</div>
+        <div class="label">Win Rate</div>
+        <div class="value">${pct(yours.win_rate)}</div>
       </div>
       <div class="stat-tile">
-        <div class="label">Units (flat 1u/bet)</div>
-        <div class="value ${unitsClass}">${unitsLabel}</div>
-        <div class="sub">Model's own hypothetical tracking</div>
+        <div class="label">Units</div>
+        <div class="value ${unitsClass(yours.units)}">${unitsLabel(yours.units)}</div>
+        <div class="sub">at the real odds you entered</div>
+      </div>
+    </div>
+    ${byTypeRows}`;
+}
+
+function renderModel(model) {
+  const container = document.getElementById("model-container");
+  if (!model || !model.n_games || (!model.spread && !model.total && !model.moneyline)) {
+    container.innerHTML = emptyState(
+      (model && model.note) || "Not enough graded history yet -- check back once more games are played and graded."
+    );
+    return;
+  }
+
+  const types = [
+    ["Spread", model.spread],
+    ["Total", model.total],
+    ["Moneyline", model.moneyline],
+  ].filter(([, b]) => b && b.n_bets !== undefined);
+
+  const rows = types.map(([label, b]) => `
+    <tr>
+      <td class="team-name">${label}</td>
+      <td class="num">${record(b)}</td>
+      <td class="num">${pct(b.win_rate)}</td>
+      <td class="num ${unitsClass(b.units)}">${unitsLabel(b.units)}</td>
+    </tr>`).join("");
+
+  const upsetPct = model.upset_calls ? Math.round((model.upset_wins / model.upset_calls) * 100) : null;
+
+  container.innerHTML = `
+    <table class="rankings">
+      <thead><tr><th>Bet Type</th><th class="num">Record</th><th class="num">Win Rate</th><th class="num">Units (flat 1u)</th></tr></thead>
+      <tbody>${rows}</tbody>
+    </table>
+    <div class="stat-grid" style="margin-top:16px;">
+      <div class="stat-tile">
+        <div class="label">Upset Calls (Spread)</div>
+        <div class="value">${model.upset_wins}-${model.upset_calls - model.upset_wins}</div>
+        <div class="sub">${upsetPct !== null ? upsetPct + "% hit rate" : "No upset leans yet"} on ${model.upset_calls} calls</div>
       </div>
       <div class="stat-tile">
         <div class="label">Games Graded</div>
-        <div class="value">${t.n_games}</div>
-        <div class="sub">Mountain West games, ${t.season} season</div>
+        <div class="value">${model.n_games}</div>
+        <div class="sub">Mountain West games, ${model.season} season</div>
       </div>
     </div>
-    <div class="notes-box">${t.note}</div>`;
+    <div class="notes-box">${model.note}</div>`;
+}
 
+(async function () {
+  const data = await fetchJSON("data/tracking.json");
+  if (!data || !data.tracking) {
+    document.getElementById("yours-container").innerHTML = emptyState("No tracking data yet -- run the pipeline to generate this.");
+    document.getElementById("model-container").innerHTML = "";
+    return;
+  }
+  renderYours(data.tracking.yours);
+  renderModel(data.tracking.model);
   document.getElementById("updated").textContent = lastUpdatedLabel(data.meta && data.meta.generated_at);
 })();
 </script>

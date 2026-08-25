@@ -25,7 +25,6 @@ from sklearn.preprocessing import StandardScaler
 FEATURE_COLS = [
     "rating_diff", "rest_diff", "travel_km_away",
     "elevation_delta_away_ft", "neutral_site_flag", "conference_game_flag",
-    "sp_diff", "ppa_diff", "talent_diff",
 ]
 ALPHAS = np.logspace(-2, 3, 25)
 
@@ -47,19 +46,13 @@ def load_training_frame(con, before_date=None) -> pd.DataFrame:
     """
     query = """
         SELECT f.*, g.start_date, g.home_points, g.away_points,
-               m.market_spread_home, m.market_spread_home_open,
-               m.market_total, m.market_total_open,
-               m.market_home_ml, m.market_away_ml
+               m.market_spread_home, m.market_spread_home_open
         FROM game_features f
         JOIN games g ON g.game_id = f.game_id
         LEFT JOIN (
             SELECT game_id,
                    AVG(spread) AS market_spread_home,
-                   AVG(spread_open) AS market_spread_home_open,
-                   AVG(over_under) AS market_total,
-                   AVG(over_under_open) AS market_total_open,
-                   AVG(home_moneyline) AS market_home_ml,
-                   AVG(away_moneyline) AS market_away_ml
+                   AVG(spread_open) AS market_spread_home_open
             FROM lines
             GROUP BY game_id
         ) m ON m.game_id = f.game_id
