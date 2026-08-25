@@ -1,0 +1,115 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Live Lines - Mountain Dub Handicapping</title>
+<link rel="stylesheet" href="assets/style.css">
+</head>
+<body>
+<div id="nav"></div>
+<div class="page-wrap">
+  <div class="page-header">
+    <h1 id="page-title">Live Line Tracker</h1>
+    <p>Opening number vs. every real sportsbook's current price, per Mountain West game -- gold/purple tags show how far a book has moved off its own open.</p>
+  </div>
+
+  <div id="lines-container"></div>
+
+  <div class="footer-note" id="updated"></div>
+</div>
+
+<script src="assets/site.js"></script>
+<script>
+document.getElementById("nav").innerHTML = renderNav("lines.html");
+
+function fmtSpread(v) {
+  if (v === null || v === undefined) return null;
+  return v > 0 ? `+${v}` : `${v}`;
+}
+function fmtTotal(v) {
+  return (v === null || v === undefined) ? null : `O/U ${v}`;
+}
+function fmtMl(away, home) {
+  if (away === null && home === null) return null;
+  const f = (v) => v === null || v === undefined ? "--" : (v > 0 ? `+${v}` : `${v}`);
+  return `${f(away)} / ${f(home)}`;
+}
+
+(async function () {
+  const data = await fetchJSON("data/lines.json");
+  const container = document.getElementById("lines-container");
+
+  if (!data || !data.games || !data.games.length) {
+    container.innerHTML = emptyState("No live line data yet -- check back once this week's lines are pulled from at least one real sportsbook.");
+    return;
+  }
+
+  if (data.meta && data.meta.current_week) {
+    document.getElementById("page-title").textContent = `Week ${data.meta.current_week.week} Live Lines`;
+  }
+
+  // Union of every book that appears on ANY game this week, Consensus first.
+  const bookSet = new Set();
+  data.games.forEach(g => g.book_order.forEach(b => bookSet.add(b)));
+  const books = Array.from(bookSet).sort((a, b) => (a === "Consensus" ? -1 : b === "Consensus" ? 1 : a.localeCompare(b)));
+  const bookHeaders = books.map(b => `<th>${b}</th>`).join("");
+
+  const cards = data.games.map(g => {
+    const rows = [
+      {
+        label: "Total", open: fmtTotal(g.open_total),
+        cell: (b) => {
+          const book = g.books[b];
+          if (!book || book.total === null || book.total === undefined) return null;
+          return fmtTotal(book.total) + movementTag(book.total, book.total_open);
+        },
+      },
+      {
+        label: "Spread", open: fmtSpread(g.open_spread_home),
+        cell: (b) => {
+          const book = g.books[b];
+          if (!book || book.spread === null || book.spread === undefined) return null;
+          return fmtSpread(book.spread) + movementTag(book.spread, book.spread_open);
+        },
+      },
+      {
+        label: "Moneyline (away/home)", open: null,
+        cell: (b) => {
+          const book = g.books[b];
+          if (!book) return null;
+          return fmtMl(book.away_ml, book.home_ml);
+        },
+      },
+    ];
+
+    const bodyRows = rows.map(r => {
+      const bookCells = books.map(b => {
+        const val = r.cell(b);
+        return val ? `<td>${val}</td>` : `<td class="no-data">--</td>`;
+      }).join("");
+      return `<tr><td class="market-label">${r.label}</td><td class="open-col">${r.open ?? "--"}</td>${bookCells}</tr>`;
+    }).join("");
+
+    return `
+      <div class="matchup-card lines-card">
+        <div class="matchup-date">${formatTimeET(g.date)}</div>
+        <div class="matchup-teams">
+          <div class="team-row"><span class="name"><span class="at">@</span>${g.away_team}</span></div>
+          <div class="team-row"><span class="name">${g.home_team}</span></div>
+        </div>
+        <div class="lines-table-wrap">
+          <table class="lines-table">
+            <thead><tr><th>Market</th><th>Open</th>${bookHeaders}</tr></thead>
+            <tbody>${bodyRows}</tbody>
+          </table>
+        </div>
+      </div>`;
+  }).join("");
+
+  container.innerHTML = `<div class="matchup-grid">${cards}</div>`;
+  document.getElementById("updated").textContent = lastUpdatedLabel(data.meta && data.meta.generated_at);
+})();
+</script>
+</body>
+</html>

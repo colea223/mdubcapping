@@ -104,6 +104,80 @@ def mw_game(row_home, row_away):
     return row_home in MW_TEAMS_2026 or row_away in MW_TEAMS_2026
 
 
+# Providers in CFBD's lines table that are NOT real sportsbooks -- analytics
+# sites whose "lines" are power-rating projections, not bettable market
+# prices. Excluded everywhere on the live-lines page so nothing there looks
+# like a book you could actually place a wager with.
+NOT_REAL_BOOKS = {"teamrankings", "numberfire"}
+
+
+def build_live_lines(con):
+    """
+    A per-book live line table for the current MW slate -- open line plus
+    every real sportsbook's current spread/total/moneyline, so you can see
+    both the current number and how far it's moved from open, book by book.
+    Mirrors the covers.com-style line tracker: Time / Game / Open / [books].
+    """
+    detected = auto_detect_week(con)
+    if detected is None:
+        return [], None
+    season, week = detected[0], detected[1]
+
+    games = con.execute("""
+        SELECT game_id, season, week, start_date, home_team, away_team
+        FROM games WHERE season = ? AND week = ?
+        ORDER BY start_date
+    """, [season, week]).fetchdf()
+    games = games[games.apply(lambda r: mw_game(r["home_team"], r["away_team"]), axis=1)]
+    if games.empty:
+        return [], {"season": season, "week": week}
+
+    game_ids = games["game_id"].tolist()
+    placeholders = ",".join("?" * len(game_ids))
+    lines = con.execute(f"""
+        SELECT game_id, provider, spread, spread_open, over_under, over_under_open,
+               home_moneyline, away_moneyline
+        FROM lines
+        WHERE game_id IN ({placeholders}) AND provider NOT IN ({",".join("?" * len(NOT_REAL_BOOKS))})
+    """, game_ids + list(NOT_REAL_BOOKS)).fetchdf()
+
+    rows = []
+    for g in games.itertuples():
+        g_lines = lines[lines["game_id"] == g.game_id]
+        real_books = g_lines[g_lines["provider"] != "consensus"]
+        open_source = real_books if not real_books.empty else g_lines
+
+        def _avg(col):
+            vals = open_source[col].dropna()
+            return round(float(vals.mean()), 1) if not vals.empty else None
+
+        books = {}
+        for r in g_lines.itertuples():
+            books[r.provider] = {
+                "spread": round(r.spread, 1) if pd.notna(r.spread) else None,
+                "spread_open": round(r.spread_open, 1) if pd.notna(r.spread_open) else None,
+                "total": round(r.over_under, 1) if pd.notna(r.over_under) else None,
+                "total_open": round(r.over_under_open, 1) if pd.notna(r.over_under_open) else None,
+                "home_ml": int(r.home_moneyline) if pd.notna(r.home_moneyline) else None,
+                "away_ml": int(r.away_moneyline) if pd.notna(r.away_moneyline) else None,
+            }
+        # Stable order: Consensus first (if present), then real books alphabetically.
+        book_order = sorted(books.keys(), key=lambda p: (p != "consensus", p.lower()))
+
+        rows.append({
+            "game_id": int(g.game_id),
+            "date": pd.to_datetime(g.start_date).strftime("%Y-%m-%dT%H:%M:%SZ"),
+            "away_team": g.away_team,
+            "home_team": g.home_team,
+            "open_spread_home": _avg("spread_open"),
+            "open_total": _avg("over_under_open"),
+            "books": books,
+            "book_order": book_order,
+        })
+
+    return rows, {"season": season, "week": week}
+
+
 def build_matchups_and_predictions(con, notes: dict):
     detected = auto_detect_week(con)
     if detected is None:
@@ -211,6 +285,17 @@ def build_model_tracking(con):
     }
 
 
+def _cell_date_str(value):
+    """Bet Log's Date column may hold a real date/datetime (typed into Excel
+    as a date) or plain text (e.g. "2026-08-29") -- normalize either to a
+    plain ISO-ish string for display, without needing pandas involved."""
+    if value is None:
+        return ""
+    if hasattr(value, "strftime"):
+        return value.strftime("%Y-%m-%d")
+    return str(value).strip()
+
+
 def read_bet_log(tracker_path: Path = TRACKER_PATH):
     """
     Your actual placed bets, straight from the Bet Log tab -- read fresh from
@@ -219,23 +304,43 @@ def read_bet_log(tracker_path: Path = TRACKER_PATH):
     cached formula values (openpyxl never recalculates formulas itself, so a
     cached value is only as fresh as the last time the file was opened in
     real Excel).
+
+    Also surfaces PENDING bets -- rows where you've filled in the bet itself
+    (Matchup/Bet Type/Side/Odds/Stake) but haven't typed a Result yet, i.e.
+    action you've already placed that just hasn't been graded. Those are
+    listed separately and never counted in the win/loss record below.
     """
+    empty = {"n_bets": 0, "pending": []}
     if not tracker_path.exists():
-        return {"n_bets": 0, "note": "Tracker workbook not found -- run excel/build_tracker.py first."}
+        return {**empty, "note": "Tracker workbook not found -- run excel/build_tracker.py first."}
 
     wb = openpyxl.load_workbook(tracker_path, data_only=False)
     if "Bet Log" not in wb.sheetnames:
-        return {"n_bets": 0, "note": "No Bet Log tab found in the tracker workbook."}
+        return {**empty, "note": "No Bet Log tab found in the tracker workbook."}
     ws = wb["Bet Log"]
 
     by_type = {}   # bet type -> {wins, losses, pushes, units}
+    pending = []   # bets placed but not yet graded (no Result typed in)
     for r in BET_LOG_ROWS:
         bet_type = ws[f"D{r}"].value
         odds = ws[f"G{r}"].value
         stake = ws[f"H{r}"].value
         result = ws[f"K{r}"].value
-        if not bet_type or odds is None or stake is None or not result:
+        if not bet_type or odds is None or stake is None:
             continue
+
+        if not result:
+            pending.append({
+                "date": _cell_date_str(ws[f"A{r}"].value),
+                "week": ws[f"B{r}"].value,
+                "matchup": ws[f"C{r}"].value,
+                "bet_type": str(bet_type).strip(),
+                "side": ws[f"E{r}"].value,
+                "odds": float(odds),
+                "stake": float(stake),
+            })
+            continue
+
         result = str(result).strip().upper()
         if result not in ("W", "L", "P"):
             continue
@@ -248,8 +353,11 @@ def read_bet_log(tracker_path: Path = TRACKER_PATH):
             bucket["wins" if won else "losses"] += 1
             bucket["units"] += payout_profit(float(stake), float(odds), won)
 
+    pending.sort(key=lambda b: b["date"] or "")
+
     if not by_type:
-        return {"n_bets": 0, "note": "No graded bets in the Bet Log yet -- add a Result (W/L/P) to see your record here."}
+        return {**empty, "pending": pending,
+                "note": "No graded bets in the Bet Log yet -- add a Result (W/L/P) to see your record here."}
 
     by_type_out = {}
     total_wins = total_losses = total_pushes = 0
@@ -273,6 +381,7 @@ def read_bet_log(tracker_path: Path = TRACKER_PATH):
         "win_rate": round(total_wins / total_n_bets, 4) if total_n_bets else None,
         "units": round(total_units, 2),
         "by_type": by_type_out,
+        "pending": pending,
         "note": "Your actual bets from the Bet Log tab, graded at the real odds you entered.",
     }
 
@@ -284,18 +393,21 @@ def main():
 
     rankings = build_rankings(con)
     matchups, predictions, week_info = build_matchups_and_predictions(con, notes)
+    live_lines, lines_week_info = build_live_lines(con)
     tracking = {"model": build_model_tracking(con), "yours": read_bet_log()}
     con.close()
 
     meta = {"generated_at": _now_iso(), "current_week": week_info}
+    lines_meta = {"generated_at": _now_iso(), "current_week": lines_week_info}
 
     (DOCS_DATA / "rankings.json").write_text(json.dumps({"meta": meta, "rankings": rankings}, indent=2))
     (DOCS_DATA / "matchups.json").write_text(json.dumps({"meta": meta, "matchups": matchups}, indent=2))
     (DOCS_DATA / "predictions.json").write_text(json.dumps({"meta": meta, "predictions": predictions}, indent=2))
     (DOCS_DATA / "tracking.json").write_text(json.dumps({"meta": meta, "tracking": tracking}, indent=2))
+    (DOCS_DATA / "lines.json").write_text(json.dumps({"meta": lines_meta, "games": live_lines}, indent=2))
 
     print(f"Wrote rankings ({len(rankings)}), matchups ({len(matchups)}), "
-          f"predictions ({len(predictions)}), tracking summary to {DOCS_DATA}")
+          f"predictions ({len(predictions)}), live lines ({len(live_lines)}), tracking summary to {DOCS_DATA}")
 
 
 if __name__ == "__main__":

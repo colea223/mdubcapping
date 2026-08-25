@@ -255,6 +255,38 @@ table.rankings td.num, table.rankings th.num { text-align: right; font-variant-n
 .critical { color: var(--critical); font-weight: 700; }
 .stat-tile .sub { font-size: 12px; color: var(--text-muted); margin-top: 4px; }
 
+/* ---------------------------------------------------------------- live lines table */
+.lines-card { padding: 0; overflow: hidden; }
+.lines-card .matchup-date,
+.lines-card .matchup-teams { padding: 16px 20px 0; }
+.lines-card .matchup-teams { margin-bottom: 4px; }
+.lines-table-wrap { overflow-x: auto; border-top: 1px solid var(--border); margin-top: 14px; }
+table.lines-table { width: 100%; border-collapse: collapse; white-space: nowrap; }
+table.lines-table th {
+  text-align: left;
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--text-muted);
+  font-weight: 700;
+  padding: 10px 16px;
+  background: var(--bg-card-alt);
+  position: sticky;
+  top: 0;
+}
+table.lines-table td {
+  padding: 10px 16px;
+  font-size: 14px;
+  font-variant-numeric: tabular-nums;
+  border-top: 1px solid var(--border);
+}
+table.lines-table td.market-label { color: var(--text-muted); font-weight: 700; font-size: 12px; text-transform: uppercase; letter-spacing: 0.04em; }
+table.lines-table td.open-col { color: var(--text-secondary); }
+table.lines-table td.no-data { color: var(--text-muted); }
+.move-tag { font-size: 12px; font-weight: 700; white-space: nowrap; }
+.move-tag.move-up { color: var(--brand-gold); }
+.move-tag.move-down { color: var(--brand-purple-light); }
+
 .empty-state {
   padding: 40px 20px;
   text-align: center;

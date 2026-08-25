@@ -3,6 +3,7 @@
 const NAV_LINKS = [
   { href: "index.html", label: "Home" },
   { href: "matchups.html", label: "Matchups" },
+  { href: "lines.html", label: "Live Lines" },
   { href: "predictions.html", label: "Predictions" },
   { href: "tracking.html", label: "Tracking" },
 ];
@@ -49,6 +50,29 @@ function formatDate(iso) {
   if (!iso) return "";
   const d = new Date(iso + "T12:00:00Z");
   return d.toLocaleDateString(undefined, { weekday: "short", month: "short", day: "numeric" });
+}
+
+// Full timestamp (date pulled straight from CFBD, already UTC) rendered in
+// Eastern time -- matches how odds sites label kickoff times.
+function formatTimeET(iso) {
+  if (!iso) return "TBD";
+  const d = new Date(iso);
+  const parts = d.toLocaleString("en-US", {
+    timeZone: "America/New_York", weekday: "short", month: "short", day: "numeric",
+    hour: "numeric", minute: "2-digit",
+  });
+  return `${parts} ET`;
+}
+
+// Movement arrow + colored delta for a line that has moved from its open.
+// Icon + color together (never color alone) per the site's accessibility rule.
+function movementTag(current, open) {
+  if (current === null || current === undefined) return "";
+  if (open === null || open === undefined || open === current) return "";
+  const delta = current - open;
+  const arrow = delta > 0 ? "&#9650;" : "&#9660;";
+  const cls = delta > 0 ? "move-up" : "move-down";
+  return ` <span class="move-tag ${cls}">${arrow} ${Math.abs(delta).toFixed(1)}</span>`;
 }
 
 function lastUpdatedLabel(generatedAt) {

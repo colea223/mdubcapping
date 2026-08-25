@@ -14,6 +14,11 @@
     <p>Two separate records, never blended: what you've actually bet, and how the model's own picks have graded out.</p>
   </div>
 
+  <div class="card" style="margin-bottom:20px;" id="pending-card">
+    <div class="section-title">Pending Bets</div>
+    <div id="pending-container"></div>
+  </div>
+
   <div class="card" style="margin-bottom:20px;">
     <div class="section-title">Your Bets</div>
     <div id="yours-container"></div>
@@ -136,13 +141,42 @@ function renderModel(model) {
     <div class="notes-box">${model.note}</div>`;
 }
 
+function renderPending(pending) {
+  const container = document.getElementById("pending-container");
+  if (!pending || !pending.length) {
+    container.innerHTML = emptyState("Nothing pending -- every bet in your Bet Log has a Result, or you haven't logged one yet.");
+    return;
+  }
+
+  const rows = pending.map(b => {
+    const oddsLabel = b.odds > 0 ? `+${b.odds}` : `${b.odds}`;
+    return `
+      <tr>
+        <td>${formatDate(b.date) || b.date || ""}</td>
+        <td class="team-name">${b.matchup || ""}</td>
+        <td>${b.bet_type}</td>
+        <td>${b.side || ""}</td>
+        <td class="num">${oddsLabel}</td>
+        <td class="num">${b.stake}u</td>
+      </tr>`;
+  }).join("");
+
+  container.innerHTML = `
+    <table class="rankings">
+      <thead><tr><th>Date</th><th>Matchup</th><th>Type</th><th>Side</th><th class="num">Odds</th><th class="num">Stake</th></tr></thead>
+      <tbody>${rows}</tbody>
+    </table>`;
+}
+
 (async function () {
   const data = await fetchJSON("data/tracking.json");
   if (!data || !data.tracking) {
+    document.getElementById("pending-container").innerHTML = emptyState("No tracking data yet -- run the pipeline to generate this.");
     document.getElementById("yours-container").innerHTML = emptyState("No tracking data yet -- run the pipeline to generate this.");
     document.getElementById("model-container").innerHTML = "";
     return;
   }
+  renderPending(data.tracking.yours && data.tracking.yours.pending);
   renderYours(data.tracking.yours);
   renderModel(data.tracking.model);
   document.getElementById("updated").textContent = lastUpdatedLabel(data.meta && data.meta.generated_at);
