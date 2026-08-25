@@ -1,0 +1,65 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Mountain Dub Handicapping</title>
+<link rel="stylesheet" href="assets/style.css">
+</head>
+<body>
+<div id="nav"></div>
+<div class="page-wrap">
+  <div class="hero">
+    <h1>Mountain Dub Handicapping</h1>
+    <p>This website is dedicated to following The Mountain West Football Conference for the 2026&ndash;27 season.</p>
+  </div>
+
+  <div class="card">
+    <div class="section-title">Current Power Rankings</div>
+    <div id="rankings-table"></div>
+  </div>
+
+  <div class="footer-note" id="updated"></div>
+</div>
+
+<script src="assets/site.js"></script>
+<script>
+document.getElementById("nav").innerHTML = renderNav("index.html");
+
+(async function () {
+  const data = await fetchJSON("data/rankings.json");
+  const container = document.getElementById("rankings-table");
+  if (!data || !data.rankings || !data.rankings.length) {
+    container.innerHTML = emptyState("No rankings yet -- run the pipeline to generate this week's data.");
+    return;
+  }
+
+  const rows = data.rankings.map(r => {
+    const trendClass = r.trend > 0.5 ? "trend-up" : (r.trend < -0.5 ? "trend-down" : "trend-flat");
+    const trendSymbol = r.trend > 0.5 ? "&#9650;" : (r.trend < -0.5 ? "&#9660;" : "&#9679;");
+    const badgeClass = r.rank <= 3 ? "rank-badge top" : "rank-badge";
+    return `
+      <tr>
+        <td><span class="${badgeClass}">${r.rank}</span></td>
+        <td class="team-name">${r.team}</td>
+        <td class="num">${r.rating !== null ? r.rating.toFixed(1) : "&ndash;"}</td>
+        <td class="num">${r.wins}-${r.losses}</td>
+        <td class="num ${trendClass}">${trendSymbol} ${Math.abs(r.trend).toFixed(1)}</td>
+      </tr>`;
+  }).join("");
+
+  container.innerHTML = `
+    <table class="rankings">
+      <thead>
+        <tr>
+          <th>Rank</th><th>Team</th><th class="num">Rating</th><th class="num">Record</th><th class="num">Trend</th>
+        </tr>
+      </thead>
+      <tbody>${rows}</tbody>
+    </table>`;
+
+  document.getElementById("updated").textContent = lastUpdatedLabel(data.meta && data.meta.generated_at);
+})();
+</script>
+</body>
+</html>

@@ -1,0 +1,1394 @@
+[
+  {
+    "year": 2025,
+    "rank": 1,
+    "team": "Texas",
+    "points": 312.27
+  },
+  {
+    "year": 2025,
+    "rank": 2,
+    "team": "Georgia",
+    "points": 304.64
+  },
+  {
+    "year": 2025,
+    "rank": 3,
+    "team": "Alabama",
+    "points": 298.4
+  },
+  {
+    "year": 2025,
+    "rank": 4,
+    "team": "Ohio State",
+    "points": 297.72
+  },
+  {
+    "year": 2025,
+    "rank": 5,
+    "team": "Oregon",
+    "points": 296.1
+  },
+  {
+    "year": 2025,
+    "rank": 6,
+    "team": "Michigan",
+    "points": 290.87
+  },
+  {
+    "year": 2025,
+    "rank": 7,
+    "team": "Florida",
+    "points": 287.77
+  },
+  {
+    "year": 2025,
+    "rank": 8,
+    "team": "Auburn",
+    "points": 286.89
+  },
+  {
+    "year": 2025,
+    "rank": 9,
+    "team": "Texas A&M",
+    "points": 282.42
+  },
+  {
+    "year": 2025,
+    "rank": 10,
+    "team": "LSU",
+    "points": 281.53
+  },
+  {
+    "year": 2025,
+    "rank": 11,
+    "team": "Tennessee",
+    "points": 277.93
+  },
+  {
+    "year": 2025,
+    "rank": 12,
+    "team": "Notre Dame",
+    "points": 270.22
+  },
+  {
+    "year": 2025,
+    "rank": 13,
+    "team": "Miami",
+    "points": 257.66
+  },
+  {
+    "year": 2025,
+    "rank": 14,
+    "team": "USC",
+    "points": 257.02
+  },
+  {
+    "year": 2025,
+    "rank": 15,
+    "team": "Penn State",
+    "points": 255.36
+  },
+  {
+    "year": 2025,
+    "rank": 16,
+    "team": "Ole Miss",
+    "points": 251.63
+  },
+  {
+    "year": 2025,
+    "rank": 17,
+    "team": "Oklahoma",
+    "points": 248.6
+  },
+  {
+    "year": 2025,
+    "rank": 18,
+    "team": "South Carolina",
+    "points": 244.27
+  },
+  {
+    "year": 2025,
+    "rank": 19,
+    "team": "Florida State",
+    "points": 244.11
+  },
+  {
+    "year": 2025,
+    "rank": 20,
+    "team": "Missouri",
+    "points": 243.48
+  },
+  {
+    "year": 2025,
+    "rank": 21,
+    "team": "Georgia Tech",
+    "points": 240.77
+  },
+  {
+    "year": 2025,
+    "rank": 22,
+    "team": "Nebraska",
+    "points": 237.53
+  },
+  {
+    "year": 2025,
+    "rank": 23,
+    "team": "Washington",
+    "points": 235.26
+  },
+  {
+    "year": 2025,
+    "rank": 24,
+    "team": "TCU",
+    "points": 229.8
+  },
+  {
+    "year": 2025,
+    "rank": 25,
+    "team": "Maryland",
+    "points": 228.43
+  },
+  {
+    "year": 2025,
+    "rank": 26,
+    "team": "Clemson",
+    "points": 227.23
+  },
+  {
+    "year": 2025,
+    "rank": 27,
+    "team": "Wisconsin",
+    "points": 227.22
+  },
+  {
+    "year": 2025,
+    "rank": 28,
+    "team": "Mississippi State",
+    "points": 224.62
+  },
+  {
+    "year": 2025,
+    "rank": 29,
+    "team": "Kentucky",
+    "points": 224.01
+  },
+  {
+    "year": 2025,
+    "rank": 30,
+    "team": "Duke",
+    "points": 220.94
+  },
+  {
+    "year": 2025,
+    "rank": 31,
+    "team": "SMU",
+    "points": 220.85
+  },
+  {
+    "year": 2025,
+    "rank": 32,
+    "team": "Arkansas",
+    "points": 219.73
+  },
+  {
+    "year": 2025,
+    "rank": 33,
+    "team": "Rutgers",
+    "points": 218.6
+  },
+  {
+    "year": 2025,
+    "rank": 34,
+    "team": "NC State",
+    "points": 214.25
+  },
+  {
+    "year": 2025,
+    "rank": 35,
+    "team": "Kansas State",
+    "points": 213.85
+  },
+  {
+    "year": 2025,
+    "rank": 36,
+    "team": "Baylor",
+    "points": 210.4
+  },
+  {
+    "year": 2025,
+    "rank": 37,
+    "team": "Colorado",
+    "points": 209.08
+  },
+  {
+    "year": 2025,
+    "rank": 38,
+    "team": "Iowa",
+    "points": 208.27
+  },
+  {
+    "year": 2025,
+    "rank": 39,
+    "team": "Virginia Tech",
+    "points": 208.19
+  },
+  {
+    "year": 2025,
+    "rank": 40,
+    "team": "Utah",
+    "points": 207.85
+  },
+  {
+    "year": 2025,
+    "rank": 41,
+    "team": "North Carolina",
+    "points": 207.81
+  },
+  {
+    "year": 2025,
+    "rank": 42,
+    "team": "Syracuse",
+    "points": 206.41
+  },
+  {
+    "year": 2025,
+    "rank": 43,
+    "team": "West Virginia",
+    "points": 205.16
+  },
+  {
+    "year": 2025,
+    "rank": 44,
+    "team": "Arizona State",
+    "points": 203.39
+  },
+  {
+    "year": 2025,
+    "rank": 45,
+    "team": "Illinois",
+    "points": 202.76
+  },
+  {
+    "year": 2025,
+    "rank": 46,
+    "team": "UCLA",
+    "points": 202.28
+  },
+  {
+    "year": 2025,
+    "rank": 47,
+    "team": "Indiana",
+    "points": 201.75
+  },
+  {
+    "year": 2025,
+    "rank": 48,
+    "team": "Texas Tech",
+    "points": 201.51
+  },
+  {
+    "year": 2025,
+    "rank": 49,
+    "team": "Minnesota",
+    "points": 200.95
+  },
+  {
+    "year": 2025,
+    "rank": 50,
+    "team": "Arizona",
+    "points": 200.65
+  },
+  {
+    "year": 2025,
+    "rank": 51,
+    "team": "Pittsburgh",
+    "points": 199.28
+  },
+  {
+    "year": 2025,
+    "rank": 52,
+    "team": "Houston",
+    "points": 198.73
+  },
+  {
+    "year": 2025,
+    "rank": 53,
+    "team": "Oklahoma State",
+    "points": 198.62
+  },
+  {
+    "year": 2025,
+    "rank": 54,
+    "team": "Iowa State",
+    "points": 197.45
+  },
+  {
+    "year": 2025,
+    "rank": 55,
+    "team": "BYU",
+    "points": 197.17
+  },
+  {
+    "year": 2025,
+    "rank": 56,
+    "team": "Stanford",
+    "points": 196.58
+  },
+  {
+    "year": 2025,
+    "rank": 57,
+    "team": "Michigan State",
+    "points": 196.1
+  },
+  {
+    "year": 2025,
+    "rank": 58,
+    "team": "Virginia",
+    "points": 195.76
+  },
+  {
+    "year": 2025,
+    "rank": 59,
+    "team": "Boston College",
+    "points": 195.09
+  },
+  {
+    "year": 2025,
+    "rank": 60,
+    "team": "Memphis",
+    "points": 194.42
+  },
+  {
+    "year": 2025,
+    "rank": 61,
+    "team": "Cincinnati",
+    "points": 189.52
+  },
+  {
+    "year": 2025,
+    "rank": 62,
+    "team": "Boise State",
+    "points": 189.06
+  },
+  {
+    "year": 2025,
+    "rank": 63,
+    "team": "Wake Forest",
+    "points": 189.05
+  },
+  {
+    "year": 2025,
+    "rank": 64,
+    "team": "Oregon State",
+    "points": 188.93
+  },
+  {
+    "year": 2025,
+    "rank": 65,
+    "team": "South Florida",
+    "points": 188.76
+  },
+  {
+    "year": 2025,
+    "rank": 66,
+    "team": "Northwestern",
+    "points": 187.75
+  },
+  {
+    "year": 2025,
+    "rank": 67,
+    "team": "Georgia State",
+    "points": 184.18
+  },
+  {
+    "year": 2025,
+    "rank": 68,
+    "team": "Louisville",
+    "points": 183.1
+  },
+  {
+    "year": 2025,
+    "rank": 69,
+    "team": "California",
+    "points": 180.41
+  },
+  {
+    "year": 2025,
+    "rank": 70,
+    "team": "UTEP",
+    "points": 179.54
+  },
+  {
+    "year": 2025,
+    "rank": 71,
+    "team": "Washington State",
+    "points": 178.96
+  },
+  {
+    "year": 2025,
+    "rank": 72,
+    "team": "Kansas",
+    "points": 178.35
+  },
+  {
+    "year": 2025,
+    "rank": 73,
+    "team": "Toledo",
+    "points": 175.56
+  },
+  {
+    "year": 2025,
+    "rank": 74,
+    "team": "Tulane",
+    "points": 175.32
+  },
+  {
+    "year": 2025,
+    "rank": 75,
+    "team": "Arkansas State",
+    "points": 173.32
+  },
+  {
+    "year": 2025,
+    "rank": 76,
+    "team": "Vanderbilt",
+    "points": 173.04
+  },
+  {
+    "year": 2025,
+    "rank": 77,
+    "team": "East Carolina",
+    "points": 172.8
+  },
+  {
+    "year": 2025,
+    "rank": 78,
+    "team": "San Diego State",
+    "points": 171.52
+  },
+  {
+    "year": 2025,
+    "rank": 79,
+    "team": "UCF",
+    "points": 171.17
+  },
+  {
+    "year": 2025,
+    "rank": 80,
+    "team": "Georgia Southern",
+    "points": 165.34
+  },
+  {
+    "year": 2025,
+    "rank": 81,
+    "team": "Louisiana",
+    "points": 165.34
+  },
+  {
+    "year": 2025,
+    "rank": 82,
+    "team": "Troy",
+    "points": 164.69
+  },
+  {
+    "year": 2025,
+    "rank": 83,
+    "team": "Miami (OH)",
+    "points": 164.23
+  },
+  {
+    "year": 2025,
+    "rank": 84,
+    "team": "Northern Illinois",
+    "points": 164.05
+  },
+  {
+    "year": 2025,
+    "rank": 85,
+    "team": "Florida Atlantic",
+    "points": 163.23
+  },
+  {
+    "year": 2025,
+    "rank": 86,
+    "team": "Liberty",
+    "points": 160.79
+  },
+  {
+    "year": 2025,
+    "rank": 87,
+    "team": "Utah State",
+    "points": 159.33
+  },
+  {
+    "year": 2025,
+    "rank": 88,
+    "team": "Nevada",
+    "points": 159.31
+  },
+  {
+    "year": 2025,
+    "rank": 89,
+    "team": "Wyoming",
+    "points": 159.12
+  },
+  {
+    "year": 2025,
+    "rank": 90,
+    "team": "Florida International",
+    "points": 157.7
+  },
+  {
+    "year": 2025,
+    "rank": 91,
+    "team": "Coastal Carolina",
+    "points": 156.66
+  },
+  {
+    "year": 2025,
+    "rank": 92,
+    "team": "Buffalo",
+    "points": 155.63
+  },
+  {
+    "year": 2025,
+    "rank": 93,
+    "team": "Kent State",
+    "points": 155.36
+  },
+  {
+    "year": 2025,
+    "rank": 94,
+    "team": "Bowling Green",
+    "points": 154.51
+  },
+  {
+    "year": 2025,
+    "rank": 95,
+    "team": "UNLV",
+    "points": 154.36
+  },
+  {
+    "year": 2025,
+    "rank": 96,
+    "team": "Western Kentucky",
+    "points": 152.76
+  },
+  {
+    "year": 2025,
+    "rank": 97,
+    "team": "Eastern Michigan",
+    "points": 151.82
+  },
+  {
+    "year": 2025,
+    "rank": 98,
+    "team": "Middle Tennessee",
+    "points": 151.49
+  },
+  {
+    "year": 2025,
+    "rank": 99,
+    "team": "Purdue",
+    "points": 147.08
+  },
+  {
+    "year": 2025,
+    "rank": 100,
+    "team": "Rice",
+    "points": 146.64
+  },
+  {
+    "year": 2025,
+    "rank": 101,
+    "team": "Texas State",
+    "points": 144.43
+  },
+  {
+    "year": 2025,
+    "rank": 102,
+    "team": "Old Dominion",
+    "points": 144.31
+  },
+  {
+    "year": 2025,
+    "rank": 103,
+    "team": "Fresno State",
+    "points": 142.63
+  },
+  {
+    "year": 2025,
+    "rank": 104,
+    "team": "Western Michigan",
+    "points": 141.86
+  },
+  {
+    "year": 2025,
+    "rank": 105,
+    "team": "Southern Miss",
+    "points": 140.71
+  },
+  {
+    "year": 2025,
+    "rank": 106,
+    "team": "Colorado State",
+    "points": 140.19
+  },
+  {
+    "year": 2025,
+    "rank": 107,
+    "team": "UTSA",
+    "points": 138.78
+  },
+  {
+    "year": 2025,
+    "rank": 108,
+    "team": "James Madison",
+    "points": 138.48
+  },
+  {
+    "year": 2025,
+    "rank": 109,
+    "team": "Tulsa",
+    "points": 137.85
+  },
+  {
+    "year": 2025,
+    "rank": 110,
+    "team": "Jacksonville State",
+    "points": 134.66
+  },
+  {
+    "year": 2025,
+    "rank": 111,
+    "team": "Louisiana Tech",
+    "points": 131.97
+  },
+  {
+    "year": 2025,
+    "rank": 112,
+    "team": "North Texas",
+    "points": 130.14
+  },
+  {
+    "year": 2025,
+    "rank": 113,
+    "team": "Central Michigan",
+    "points": 128.41
+  },
+  {
+    "year": 2025,
+    "rank": 114,
+    "team": "UConn",
+    "points": 127.8
+  },
+  {
+    "year": 2025,
+    "rank": 115,
+    "team": "UL Monroe",
+    "points": 127.14
+  },
+  {
+    "year": 2025,
+    "rank": 116,
+    "team": "App State",
+    "points": 125.92
+  },
+  {
+    "year": 2025,
+    "rank": 117,
+    "team": "San Jos\u00e9 State",
+    "points": 123.98
+  },
+  {
+    "year": 2025,
+    "rank": 118,
+    "team": "South Alabama",
+    "points": 120.71
+  },
+  {
+    "year": 2025,
+    "rank": 119,
+    "team": "Ball State",
+    "points": 118.63
+  },
+  {
+    "year": 2025,
+    "rank": 120,
+    "team": "Marshall",
+    "points": 118.44
+  },
+  {
+    "year": 2025,
+    "rank": 121,
+    "team": "Ohio",
+    "points": 115.37
+  },
+  {
+    "year": 2025,
+    "rank": 122,
+    "team": "Sam Houston",
+    "points": 108.47
+  },
+  {
+    "year": 2025,
+    "rank": 123,
+    "team": "Temple",
+    "points": 101.99
+  },
+  {
+    "year": 2025,
+    "rank": 124,
+    "team": "Hawai'i",
+    "points": 101.95
+  },
+  {
+    "year": 2025,
+    "rank": 125,
+    "team": "UAB",
+    "points": 98.28
+  },
+  {
+    "year": 2025,
+    "rank": 126,
+    "team": "New Mexico State",
+    "points": 97.17
+  },
+  {
+    "year": 2025,
+    "rank": 127,
+    "team": "Sacramento State",
+    "points": 89.3
+  },
+  {
+    "year": 2025,
+    "rank": 128,
+    "team": "Akron",
+    "points": 87.44
+  },
+  {
+    "year": 2025,
+    "rank": 129,
+    "team": "Air Force",
+    "points": 80.06
+  },
+  {
+    "year": 2025,
+    "rank": 130,
+    "team": "Army",
+    "points": 77.24
+  },
+  {
+    "year": 2025,
+    "rank": 131,
+    "team": "Youngstown State",
+    "points": 67.28
+  },
+  {
+    "year": 2025,
+    "rank": 132,
+    "team": "Navy",
+    "points": 64.76
+  },
+  {
+    "year": 2025,
+    "rank": 133,
+    "team": "North Dakota State",
+    "points": 64.74
+  },
+  {
+    "year": 2025,
+    "rank": 134,
+    "team": "Central Arkansas",
+    "points": 60.84
+  },
+  {
+    "year": 2025,
+    "rank": 135,
+    "team": "Northern Arizona",
+    "points": 56.75
+  },
+  {
+    "year": 2025,
+    "rank": 136,
+    "team": "Missouri State",
+    "points": 52.92
+  },
+  {
+    "year": 2025,
+    "rank": 137,
+    "team": "Delaware",
+    "points": 51.97
+  },
+  {
+    "year": 2025,
+    "rank": 139,
+    "team": "Eastern Kentucky",
+    "points": 45.26
+  },
+  {
+    "year": 2025,
+    "rank": 140,
+    "team": "Howard",
+    "points": 44.54
+  },
+  {
+    "year": 2025,
+    "rank": 141,
+    "team": "Towson",
+    "points": 43.65
+  },
+  {
+    "year": 2025,
+    "rank": 142,
+    "team": "Western Carolina",
+    "points": 39.03
+  },
+  {
+    "year": 2025,
+    "rank": 143,
+    "team": "UC Davis",
+    "points": 38.84
+  },
+  {
+    "year": 2025,
+    "rank": 144,
+    "team": "Charlotte",
+    "points": 38.64
+  },
+  {
+    "year": 2025,
+    "rank": 145,
+    "team": "Massachusetts",
+    "points": 36.99
+  },
+  {
+    "year": 2025,
+    "rank": 146,
+    "team": "Texas Southern",
+    "points": 34.26
+  },
+  {
+    "year": 2025,
+    "rank": 147,
+    "team": "South Dakota State",
+    "points": 32.14
+  },
+  {
+    "year": 2025,
+    "rank": 148,
+    "team": "Delaware State",
+    "points": 31.07
+  },
+  {
+    "year": 2025,
+    "rank": 149,
+    "team": "Stephen F. Austin",
+    "points": 29.9
+  },
+  {
+    "year": 2025,
+    "rank": 150,
+    "team": "Saint Francis (PA)",
+    "points": 29.64
+  },
+  {
+    "year": 2025,
+    "rank": 151,
+    "team": "Eastern Washington",
+    "points": 29.08
+  },
+  {
+    "year": 2025,
+    "rank": 152,
+    "team": "Cal Poly",
+    "points": 28.69
+  },
+  {
+    "year": 2025,
+    "rank": 154,
+    "team": "Kennesaw State",
+    "points": 28.05
+  },
+  {
+    "year": 2025,
+    "rank": 155,
+    "team": "Samford",
+    "points": 27.91
+  },
+  {
+    "year": 2025,
+    "rank": 156,
+    "team": "Wofford",
+    "points": 27.89
+  },
+  {
+    "year": 2025,
+    "rank": 157,
+    "team": "Chattanooga",
+    "points": 25.66
+  },
+  {
+    "year": 2025,
+    "rank": 158,
+    "team": "Austin Peay",
+    "points": 17.69
+  },
+  {
+    "year": 2025,
+    "rank": 159,
+    "team": "Western Illinois",
+    "points": 17.67
+  },
+  {
+    "year": 2025,
+    "rank": 160,
+    "team": "Yale",
+    "points": 17.14
+  },
+  {
+    "year": 2025,
+    "rank": 161,
+    "team": "East Tennessee State",
+    "points": 16.67
+  },
+  {
+    "year": 2025,
+    "rank": 162,
+    "team": "Rhode Island",
+    "points": 16.39
+  },
+  {
+    "year": 2025,
+    "rank": 163,
+    "team": "Duquesne",
+    "points": 16.25
+  },
+  {
+    "year": 2025,
+    "rank": 164,
+    "team": "Cornell",
+    "points": 15.89
+  },
+  {
+    "year": 2025,
+    "rank": 166,
+    "team": "Southern Utah",
+    "points": 15.83
+  },
+  {
+    "year": 2025,
+    "rank": 167,
+    "team": "Mercer",
+    "points": 15.63
+  },
+  {
+    "year": 2025,
+    "rank": 168,
+    "team": "Columbia",
+    "points": 15.33
+  },
+  {
+    "year": 2025,
+    "rank": 169,
+    "team": "Southern Illinois",
+    "points": 15.17
+  },
+  {
+    "year": 2025,
+    "rank": 170,
+    "team": "Grand Valley State",
+    "points": 14.85
+  },
+  {
+    "year": 2025,
+    "rank": 171,
+    "team": "Prairie View A&M",
+    "points": 14.78
+  },
+  {
+    "year": 2025,
+    "rank": 171,
+    "team": "Portland State",
+    "points": 14.78
+  },
+  {
+    "year": 2025,
+    "rank": 173,
+    "team": "Bryant",
+    "points": 14.58
+  },
+  {
+    "year": 2025,
+    "rank": 174,
+    "team": "Campbell",
+    "points": 14.52
+  },
+  {
+    "year": 2025,
+    "rank": 175,
+    "team": "Idaho State",
+    "points": 14.17
+  },
+  {
+    "year": 2025,
+    "rank": 176,
+    "team": "Idaho",
+    "points": 14.06
+  },
+  {
+    "year": 2025,
+    "rank": 177,
+    "team": "Incarnate Word",
+    "points": 14
+  },
+  {
+    "year": 2025,
+    "rank": 178,
+    "team": "Colgate",
+    "points": 13.67
+  },
+  {
+    "year": 2025,
+    "rank": 178,
+    "team": "Furman",
+    "points": 13.67
+  },
+  {
+    "year": 2025,
+    "rank": 181,
+    "team": "Lamar",
+    "points": 13.31
+  },
+  {
+    "year": 2025,
+    "rank": 182,
+    "team": "South Dakota",
+    "points": 13.11
+  },
+  {
+    "year": 2025,
+    "rank": 183,
+    "team": "Hampton",
+    "points": 13
+  },
+  {
+    "year": 2025,
+    "rank": 183,
+    "team": "Gardner-Webb",
+    "points": 13
+  },
+  {
+    "year": 2025,
+    "rank": 185,
+    "team": "Robert Morris",
+    "points": 12.78
+  },
+  {
+    "year": 2025,
+    "rank": 186,
+    "team": "Presbyterian",
+    "points": 12.52
+  },
+  {
+    "year": 2025,
+    "rank": 187,
+    "team": "Murray State",
+    "points": 12.5
+  },
+  {
+    "year": 2025,
+    "rank": 188,
+    "team": "Tennessee State",
+    "points": 12.44
+  },
+  {
+    "year": 2025,
+    "rank": 188,
+    "team": "North Carolina Central",
+    "points": 12.44
+  },
+  {
+    "year": 2025,
+    "rank": 190,
+    "team": "William & Mary",
+    "points": 12.28
+  },
+  {
+    "year": 2025,
+    "rank": 191,
+    "team": "Harvard",
+    "points": 12.17
+  },
+  {
+    "year": 2025,
+    "rank": 192,
+    "team": "Houston Christian",
+    "points": 12.04
+  },
+  {
+    "year": 2025,
+    "rank": 193,
+    "team": "San Diego",
+    "points": 11.17
+  },
+  {
+    "year": 2025,
+    "rank": 194,
+    "team": "New Mexico",
+    "points": 10.33
+  },
+  {
+    "year": 2025,
+    "rank": 195,
+    "team": "Eastern Illinois",
+    "points": 10.17
+  },
+  {
+    "year": 2025,
+    "rank": 196,
+    "team": "Fordham",
+    "points": 9.33
+  },
+  {
+    "year": 2025,
+    "rank": 197,
+    "team": "North Dakota",
+    "points": 0
+  },
+  {
+    "year": 2025,
+    "rank": 197,
+    "team": "Alabama A&M",
+    "points": 0
+  },
+  {
+    "year": 2025,
+    "rank": 197,
+    "team": "Georgetown",
+    "points": 0
+  },
+  {
+    "year": 2025,
+    "rank": 197,
+    "team": "Alcorn State",
+    "points": 0
+  },
+  {
+    "year": 2025,
+    "rank": 197,
+    "team": "UT Martin",
+    "points": 0
+  },
+  {
+    "year": 2025,
+    "rank": 197,
+    "team": "Montana State",
+    "points": 0
+  },
+  {
+    "year": 2025,
+    "rank": 197,
+    "team": "Maine",
+    "points": 0
+  },
+  {
+    "year": 2025,
+    "rank": 197,
+    "team": "Northern Colorado",
+    "points": 0
+  },
+  {
+    "year": 2025,
+    "rank": 197,
+    "team": "Northwestern State",
+    "points": 0
+  },
+  {
+    "year": 2025,
+    "rank": 197,
+    "team": "Dartmouth",
+    "points": 0
+  },
+  {
+    "year": 2025,
+    "rank": 197,
+    "team": "Indiana State",
+    "points": 0
+  },
+  {
+    "year": 2025,
+    "rank": 197,
+    "team": "Richmond",
+    "points": 0
+  },
+  {
+    "year": 2025,
+    "rank": 197,
+    "team": "Dayton",
+    "points": 0
+  },
+  {
+    "year": 2025,
+    "rank": 197,
+    "team": "Alabama State",
+    "points": 0
+  },
+  {
+    "year": 2025,
+    "rank": 197,
+    "team": "Brown",
+    "points": 0
+  },
+  {
+    "year": 2025,
+    "rank": 197,
+    "team": "Butler",
+    "points": 0
+  },
+  {
+    "year": 2025,
+    "rank": 197,
+    "team": "Davidson",
+    "points": 0
+  },
+  {
+    "year": 2025,
+    "rank": 197,
+    "team": "Illinois State",
+    "points": 0
+  },
+  {
+    "year": 2025,
+    "rank": 197,
+    "team": "Stetson",
+    "points": 0
+  },
+  {
+    "year": 2025,
+    "rank": 197,
+    "team": "Southeastern Louisiana",
+    "points": 0
+  },
+  {
+    "year": 2025,
+    "rank": 197,
+    "team": "Utah Tech",
+    "points": 0
+  },
+  {
+    "year": 2025,
+    "rank": 197,
+    "team": "Pennsylvania",
+    "points": 0
+  },
+  {
+    "year": 2025,
+    "rank": 197,
+    "team": "Charleston Southern",
+    "points": 0
+  },
+  {
+    "year": 2025,
+    "rank": 197,
+    "team": "Jackson State",
+    "points": 0
+  },
+  {
+    "year": 2025,
+    "rank": 197,
+    "team": "Princeton",
+    "points": 0
+  },
+  {
+    "year": 2025,
+    "rank": 197,
+    "team": "Lehigh",
+    "points": 0
+  },
+  {
+    "year": 2025,
+    "rank": 197,
+    "team": "McNeese",
+    "points": 0
+  },
+  {
+    "year": 2025,
+    "rank": 197,
+    "team": "New Hampshire",
+    "points": 0
+  },
+  {
+    "year": 2025,
+    "rank": 197,
+    "team": "Morehead State",
+    "points": 0
+  },
+  {
+    "year": 2025,
+    "rank": 197,
+    "team": "Morgan State",
+    "points": 0
+  },
+  {
+    "year": 2025,
+    "rank": 197,
+    "team": "Montana",
+    "points": 0
+  },
+  {
+    "year": 2025,
+    "rank": 197,
+    "team": "Northern Iowa",
+    "points": 0
+  },
+  {
+    "year": 2025,
+    "rank": 197,
+    "team": "Lafayette",
+    "points": 0
+  },
+  {
+    "year": 2025,
+    "rank": 197,
+    "team": "Southeast Missouri State",
+    "points": 0
+  },
+  {
+    "year": 2025,
+    "rank": 197,
+    "team": "Drake",
+    "points": 0
+  },
+  {
+    "year": 2025,
+    "rank": 197,
+    "team": "Holy Cross",
+    "points": 0
+  },
+  {
+    "year": 2025,
+    "rank": 197,
+    "team": "Valparaiso",
+    "points": 0
+  },
+  {
+    "year": 2025,
+    "rank": 197,
+    "team": "Wagner",
+    "points": 0
+  },
+  {
+    "year": 2025,
+    "rank": 197,
+    "team": "Weber State",
+    "points": 0
+  },
+  {
+    "year": 2025,
+    "rank": 197,
+    "team": "Bucknell",
+    "points": 0
+  }
+]

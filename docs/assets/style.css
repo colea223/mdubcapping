@@ -1,0 +1,266 @@
+/* Mountain Dub Handicapping -- shared site theme.
+   Deliberately dark-only (matches the sportsbook/odds-site aesthetic this
+   site is modeled on), built off the Mountain West Conference's official
+   brand colors (purple #4F2D7F, grey #AFAFAF), with a warm gold accent for
+   emphasis and the standard validated status colors for win/loss/push states
+   (see the dataviz skill's palette -- these are fixed, never re-themed). */
+
+:root {
+  color-scheme: dark;
+
+  --bg-page:      #0c0b10;
+  --bg-card:      #17141d;
+  --bg-card-alt:  #1e1a26;
+  --border:       rgba(255,255,255,0.09);
+
+  --text-primary:   #ffffff;
+  --text-secondary: #c9c6d1;
+  --text-muted:     #8b879a;
+
+  --brand-purple:       #4F2D7F;
+  --brand-purple-light: #9d7bd8;
+  --brand-grey:         #afafaf;
+  --brand-gold:         #f0b429;
+
+  --good:     #0ca30c;
+  --critical: #d03b3b;
+  --warning:  #fab219;
+
+  --radius: 10px;
+  --font: system-ui, -apple-system, "Segoe UI", sans-serif;
+}
+
+* { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  background: var(--bg-page);
+  color: var(--text-primary);
+  font-family: var(--font);
+  line-height: 1.5;
+}
+
+a { color: var(--brand-purple-light); text-decoration: none; }
+a:hover { text-decoration: underline; }
+
+.page-wrap {
+  max-width: 1080px;
+  margin: 0 auto;
+  padding: 0 20px 64px;
+}
+
+/* ---------------------------------------------------------------- nav */
+.site-nav {
+  background: linear-gradient(180deg, #241a38 0%, #180f26 100%);
+  border-bottom: 1px solid var(--border);
+  position: sticky;
+  top: 0;
+  z-index: 10;
+}
+.site-nav-inner {
+  max-width: 1080px;
+  margin: 0 auto;
+  padding: 14px 20px;
+  display: flex;
+  align-items: center;
+  gap: 28px;
+  flex-wrap: wrap;
+}
+.site-brand {
+  font-weight: 800;
+  font-size: 17px;
+  letter-spacing: 0.2px;
+  color: var(--text-primary);
+  white-space: nowrap;
+}
+.site-brand span { color: var(--brand-gold); }
+.site-nav-links { display: flex; gap: 4px; flex-wrap: wrap; }
+.site-nav-links a {
+  color: var(--text-secondary);
+  font-size: 14px;
+  font-weight: 600;
+  padding: 8px 14px;
+  border-radius: 999px;
+  transition: background 0.15s, color 0.15s;
+}
+.site-nav-links a:hover { background: rgba(255,255,255,0.06); text-decoration: none; color: var(--text-primary); }
+.site-nav-links a.active { background: var(--brand-purple); color: #fff; }
+
+/* ---------------------------------------------------------------- hero */
+.hero {
+  padding: 48px 0 28px;
+}
+.hero h1 {
+  font-size: 34px;
+  margin: 0 0 10px;
+  font-weight: 800;
+}
+.hero p {
+  color: var(--text-secondary);
+  font-size: 16px;
+  max-width: 640px;
+  margin: 0;
+}
+
+.page-header {
+  padding: 40px 0 20px;
+}
+.page-header h1 { font-size: 26px; margin: 0 0 6px; font-weight: 800; }
+.page-header p { color: var(--text-muted); margin: 0; font-size: 14px; }
+
+/* ---------------------------------------------------------------- cards */
+.card {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 18px 20px;
+}
+.section-title {
+  font-size: 13px;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--text-muted);
+  font-weight: 700;
+  margin: 0 0 14px;
+}
+
+/* ---------------------------------------------------------------- rankings table */
+table.rankings { width: 100%; border-collapse: collapse; }
+table.rankings th {
+  text-align: left;
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--text-muted);
+  font-weight: 700;
+  padding: 0 10px 10px;
+  border-bottom: 1px solid var(--border);
+}
+table.rankings td {
+  padding: 12px 10px;
+  border-bottom: 1px solid var(--border);
+  font-size: 15px;
+}
+table.rankings tr:last-child td { border-bottom: none; }
+table.rankings td.num, table.rankings th.num { text-align: right; font-variant-numeric: tabular-nums; }
+.rank-badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 26px; height: 26px;
+  border-radius: 50%;
+  background: var(--bg-card-alt);
+  color: var(--text-secondary);
+  font-weight: 700;
+  font-size: 13px;
+}
+.rank-badge.top { background: var(--brand-gold); color: #241a00; }
+.team-name { font-weight: 700; }
+.trend-up { color: var(--good); font-weight: 600; }
+.trend-down { color: var(--critical); font-weight: 600; }
+.trend-flat { color: var(--text-muted); }
+
+/* ---------------------------------------------------------------- matchup / prediction cards */
+.matchup-grid { display: grid; gap: 14px; }
+.matchup-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 16px 20px;
+}
+.matchup-date {
+  font-size: 12px;
+  color: var(--text-muted);
+  margin-bottom: 10px;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+.matchup-teams { display: flex; flex-direction: column; gap: 8px; margin-bottom: 12px; }
+.team-row { display: flex; justify-content: space-between; align-items: baseline; }
+.team-row .name { font-size: 17px; font-weight: 700; }
+.team-row .at { color: var(--text-muted); font-weight: 400; font-size: 13px; margin-right: 6px; }
+.odds-row {
+  display: flex;
+  gap: 24px;
+  padding-top: 10px;
+  border-top: 1px solid var(--border);
+  flex-wrap: wrap;
+}
+.odds-item { display: flex; flex-direction: column; gap: 2px; }
+.odds-label { font-size: 11px; text-transform: uppercase; letter-spacing: 0.05em; color: var(--text-muted); }
+.odds-value { font-size: 15px; font-weight: 700; font-variant-numeric: tabular-nums; }
+
+.edge-tag {
+  display: inline-block;
+  padding: 3px 10px;
+  border-radius: 999px;
+  font-size: 12px;
+  font-weight: 700;
+}
+.edge-tag.lean-home { background: rgba(12,163,12,0.16); color: #4ee14e; }
+.edge-tag.lean-away { background: rgba(157,123,216,0.18); color: var(--brand-purple-light); }
+.edge-tag.none { background: rgba(255,255,255,0.06); color: var(--text-muted); }
+
+.win-prob-bar {
+  width: 100%;
+  height: 6px;
+  border-radius: 999px;
+  background: var(--bg-card-alt);
+  overflow: hidden;
+  margin-top: 6px;
+}
+.win-prob-fill { height: 100%; background: var(--brand-purple-light); }
+
+.notes-box {
+  margin-top: 12px;
+  padding: 10px 12px;
+  background: var(--bg-card-alt);
+  border-radius: 8px;
+  font-size: 13px;
+  color: var(--text-secondary);
+  border-left: 3px solid var(--brand-gold);
+}
+
+/* ---------------------------------------------------------------- stat tiles */
+.stat-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+  gap: 14px;
+  margin-bottom: 24px;
+}
+.stat-tile {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 18px 18px;
+}
+.stat-tile .label {
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--text-muted);
+  font-weight: 700;
+  margin-bottom: 6px;
+}
+.stat-tile .value {
+  font-size: 28px;
+  font-weight: 800;
+  font-variant-numeric: tabular-nums;
+}
+.stat-tile .value.good { color: var(--good); }
+.stat-tile .value.critical { color: var(--critical); }
+.stat-tile .sub { font-size: 12px; color: var(--text-muted); margin-top: 4px; }
+
+.empty-state {
+  padding: 40px 20px;
+  text-align: center;
+  color: var(--text-muted);
+  font-size: 14px;
+}
+
+.footer-note {
+  margin-top: 28px;
+  font-size: 12px;
+  color: var(--text-muted);
+  text-align: center;
+}

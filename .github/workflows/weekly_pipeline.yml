@@ -1,0 +1,57 @@
+name: Update Mountain Dub Handicapping data
+
+# Runs the full pipeline (pull data -> build ratings/features -> model
+# predictions -> Excel tracker -> website JSON) on GitHub's free cloud
+# runners, then commits whatever changed back into the repo. Since docs/
+# is published via GitHub Pages, that commit is what makes the website
+# "live update" week to week with no local environment involved.
+#
+# Schedule below runs twice a week (Sunday and Wednesday mornings UTC) to
+# pick up weekend and midweek Mountain West games. You can always trigger
+# an extra run by hand from the Actions tab (the workflow_dispatch trigger
+# below adds a "Run workflow" button) -- e.g. right after a game you care
+# about finishes. Cron times are UTC; adjust if you want a different local
+# time. If you ever hit CFBD's monthly call limit, reduce the frequency
+# here rather than removing the schedule entirely.
+
+on:
+  schedule:
+    - cron: "0 14 * * 0"  # Sunday, 14:00 UTC (~7am Pacific / 10am Eastern)
+    - cron: "0 14 * * 3"  # Wednesday, 14:00 UTC
+  workflow_dispatch: {}
+
+permissions:
+  contents: write
+
+jobs:
+  run-pipeline:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - name: Check out repo
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Install dependencies
+        run: pip install -r requirements.txt
+
+      - name: Run full pipeline
+        env:
+          CFBD_API_KEY: ${{ secrets.CFBD_API_KEY }}
+        run: python src/run_pipeline.py
+
+      - name: Commit updated data back to the repo
+        run: |
+          git config user.name "mw-handicapping-bot"
+          git config user.email "actions@users.noreply.github.com"
+          git add db/ data/raw/ data/clean/ docs/data/ excel/MW_Handicapping_Tracker.xlsx
+          if git diff --cached --quiet; then
+            echo "Nothing changed -- skipping commit."
+          else
+            git commit -m "Automated data refresh $(date -u +'%Y-%m-%d %H:%M UTC')"
+            git push
+          fi

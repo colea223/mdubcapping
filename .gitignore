@@ -1,0 +1,22 @@
+# Secrets -- never commit your real key. CFBD_API_KEY is stored as a
+# GitHub Actions secret instead (see README for setup steps).
+.env
+
+# Local virtual environment
+.venv/
+venv/
+
+# Python cache
+__pycache__/
+*.pyc
+
+# OS/editor cruft
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+
+# NOTE: db/, data/raw/, data/clean/, docs/data/, and the Excel tracker are
+# intentionally NOT ignored -- the GitHub Actions workflow commits them
+# back to the repo on every run so the site and database stay live/current
+# without needing a local machine running anything.

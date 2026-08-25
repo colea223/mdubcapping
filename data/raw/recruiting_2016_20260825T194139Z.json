@@ -1,0 +1,1430 @@
+[
+  {
+    "year": 2016,
+    "rank": 1,
+    "team": "Alabama",
+    "points": 302.04
+  },
+  {
+    "year": 2016,
+    "rank": 2,
+    "team": "LSU",
+    "points": 295.03
+  },
+  {
+    "year": 2016,
+    "rank": 3,
+    "team": "Florida State",
+    "points": 294.83
+  },
+  {
+    "year": 2016,
+    "rank": 4,
+    "team": "Ohio State",
+    "points": 289.12
+  },
+  {
+    "year": 2016,
+    "rank": 5,
+    "team": "Ole Miss",
+    "points": 281.69
+  },
+  {
+    "year": 2016,
+    "rank": 6,
+    "team": "Georgia",
+    "points": 281.31
+  },
+  {
+    "year": 2016,
+    "rank": 7,
+    "team": "Texas",
+    "points": 280.66
+  },
+  {
+    "year": 2016,
+    "rank": 8,
+    "team": "Michigan",
+    "points": 280.38
+  },
+  {
+    "year": 2016,
+    "rank": 9,
+    "team": "Auburn",
+    "points": 275.14
+  },
+  {
+    "year": 2016,
+    "rank": 10,
+    "team": "USC",
+    "points": 273.71
+  },
+  {
+    "year": 2016,
+    "rank": 11,
+    "team": "Clemson",
+    "points": 271.16
+  },
+  {
+    "year": 2016,
+    "rank": 12,
+    "team": "Florida",
+    "points": 260.96
+  },
+  {
+    "year": 2016,
+    "rank": 13,
+    "team": "UCLA",
+    "points": 259.06
+  },
+  {
+    "year": 2016,
+    "rank": 14,
+    "team": "Tennessee",
+    "points": 253.94
+  },
+  {
+    "year": 2016,
+    "rank": 15,
+    "team": "Notre Dame",
+    "points": 249.43
+  },
+  {
+    "year": 2016,
+    "rank": 16,
+    "team": "Stanford",
+    "points": 245.82
+  },
+  {
+    "year": 2016,
+    "rank": 17,
+    "team": "Michigan State",
+    "points": 239.13
+  },
+  {
+    "year": 2016,
+    "rank": 18,
+    "team": "Texas A&M",
+    "points": 238.94
+  },
+  {
+    "year": 2016,
+    "rank": 19,
+    "team": "Oklahoma",
+    "points": 238.73
+  },
+  {
+    "year": 2016,
+    "rank": 20,
+    "team": "Penn State",
+    "points": 237.79
+  },
+  {
+    "year": 2016,
+    "rank": 21,
+    "team": "TCU",
+    "points": 235.79
+  },
+  {
+    "year": 2016,
+    "rank": 22,
+    "team": "Miami",
+    "points": 231.78
+  },
+  {
+    "year": 2016,
+    "rank": 23,
+    "team": "Arkansas",
+    "points": 219.34
+  },
+  {
+    "year": 2016,
+    "rank": 24,
+    "team": "Arizona State",
+    "points": 217.62
+  },
+  {
+    "year": 2016,
+    "rank": 25,
+    "team": "South Carolina",
+    "points": 216.77
+  },
+  {
+    "year": 2016,
+    "rank": 26,
+    "team": "Nebraska",
+    "points": 216.76
+  },
+  {
+    "year": 2016,
+    "rank": 27,
+    "team": "Oregon",
+    "points": 216.42
+  },
+  {
+    "year": 2016,
+    "rank": 28,
+    "team": "Mississippi State",
+    "points": 211.11
+  },
+  {
+    "year": 2016,
+    "rank": 29,
+    "team": "Washington",
+    "points": 209.87
+  },
+  {
+    "year": 2016,
+    "rank": 30,
+    "team": "Pittsburgh",
+    "points": 209.23
+  },
+  {
+    "year": 2016,
+    "rank": 31,
+    "team": "California",
+    "points": 207.8
+  },
+  {
+    "year": 2016,
+    "rank": 32,
+    "team": "North Carolina",
+    "points": 204.83
+  },
+  {
+    "year": 2016,
+    "rank": 33,
+    "team": "Duke",
+    "points": 204.67
+  },
+  {
+    "year": 2016,
+    "rank": 34,
+    "team": "Kentucky",
+    "points": 204.07
+  },
+  {
+    "year": 2016,
+    "rank": 35,
+    "team": "Wisconsin",
+    "points": 202.85
+  },
+  {
+    "year": 2016,
+    "rank": 36,
+    "team": "Houston",
+    "points": 201.5
+  },
+  {
+    "year": 2016,
+    "rank": 37,
+    "team": "Utah",
+    "points": 200.66
+  },
+  {
+    "year": 2016,
+    "rank": 38,
+    "team": "Louisville",
+    "points": 196.02
+  },
+  {
+    "year": 2016,
+    "rank": 39,
+    "team": "West Virginia",
+    "points": 194.45
+  },
+  {
+    "year": 2016,
+    "rank": 40,
+    "team": "Baylor",
+    "points": 191.99
+  },
+  {
+    "year": 2016,
+    "rank": 41,
+    "team": "Maryland",
+    "points": 190.15
+  },
+  {
+    "year": 2016,
+    "rank": 42,
+    "team": "Virginia Tech",
+    "points": 190.06
+  },
+  {
+    "year": 2016,
+    "rank": 43,
+    "team": "Missouri",
+    "points": 188.37
+  },
+  {
+    "year": 2016,
+    "rank": 44,
+    "team": "Texas Tech",
+    "points": 184.64
+  },
+  {
+    "year": 2016,
+    "rank": 45,
+    "team": "Oklahoma State",
+    "points": 184.33
+  },
+  {
+    "year": 2016,
+    "rank": 46,
+    "team": "Minnesota",
+    "points": 182.22
+  },
+  {
+    "year": 2016,
+    "rank": 47,
+    "team": "Iowa",
+    "points": 181.39
+  },
+  {
+    "year": 2016,
+    "rank": 48,
+    "team": "Arizona",
+    "points": 180.42
+  },
+  {
+    "year": 2016,
+    "rank": 49,
+    "team": "BYU",
+    "points": 177.85
+  },
+  {
+    "year": 2016,
+    "rank": 50,
+    "team": "NC State",
+    "points": 177.67
+  },
+  {
+    "year": 2016,
+    "rank": 51,
+    "team": "Marshall",
+    "points": 176.55
+  },
+  {
+    "year": 2016,
+    "rank": 52,
+    "team": "Northwestern",
+    "points": 174.91
+  },
+  {
+    "year": 2016,
+    "rank": 53,
+    "team": "Indiana",
+    "points": 172.23
+  },
+  {
+    "year": 2016,
+    "rank": 54,
+    "team": "Vanderbilt",
+    "points": 171.54
+  },
+  {
+    "year": 2016,
+    "rank": 55,
+    "team": "Iowa State",
+    "points": 170.58
+  },
+  {
+    "year": 2016,
+    "rank": 56,
+    "team": "Washington State",
+    "points": 169.74
+  },
+  {
+    "year": 2016,
+    "rank": 57,
+    "team": "Wake Forest",
+    "points": 169.4
+  },
+  {
+    "year": 2016,
+    "rank": 58,
+    "team": "Oregon State",
+    "points": 169.17
+  },
+  {
+    "year": 2016,
+    "rank": 59,
+    "team": "Temple",
+    "points": 167.55
+  },
+  {
+    "year": 2016,
+    "rank": 60,
+    "team": "Georgia Tech",
+    "points": 167.13
+  },
+  {
+    "year": 2016,
+    "rank": 61,
+    "team": "Memphis",
+    "points": 165.98
+  },
+  {
+    "year": 2016,
+    "rank": 62,
+    "team": "Syracuse",
+    "points": 165.15
+  },
+  {
+    "year": 2016,
+    "rank": 63,
+    "team": "Virginia",
+    "points": 164.95
+  },
+  {
+    "year": 2016,
+    "rank": 64,
+    "team": "Rutgers",
+    "points": 163.8
+  },
+  {
+    "year": 2016,
+    "rank": 65,
+    "team": "UCF",
+    "points": 162.22
+  },
+  {
+    "year": 2016,
+    "rank": 66,
+    "team": "South Florida",
+    "points": 161.21
+  },
+  {
+    "year": 2016,
+    "rank": 67,
+    "team": "Western Michigan",
+    "points": 160.72
+  },
+  {
+    "year": 2016,
+    "rank": 68,
+    "team": "Boise State",
+    "points": 160.66
+  },
+  {
+    "year": 2016,
+    "rank": 69,
+    "team": "Colorado",
+    "points": 160.42
+  },
+  {
+    "year": 2016,
+    "rank": 70,
+    "team": "Kansas",
+    "points": 159.19
+  },
+  {
+    "year": 2016,
+    "rank": 71,
+    "team": "UAB",
+    "points": 158.61
+  },
+  {
+    "year": 2016,
+    "rank": 72,
+    "team": "Kansas State",
+    "points": 155.49
+  },
+  {
+    "year": 2016,
+    "rank": 73,
+    "team": "Illinois",
+    "points": 153.64
+  },
+  {
+    "year": 2016,
+    "rank": 74,
+    "team": "Cincinnati",
+    "points": 152.74
+  },
+  {
+    "year": 2016,
+    "rank": 75,
+    "team": "SMU",
+    "points": 152.27
+  },
+  {
+    "year": 2016,
+    "rank": 76,
+    "team": "Colorado State",
+    "points": 150.5
+  },
+  {
+    "year": 2016,
+    "rank": 77,
+    "team": "Georgia Southern",
+    "points": 149.4
+  },
+  {
+    "year": 2016,
+    "rank": 78,
+    "team": "Boston College",
+    "points": 146.69
+  },
+  {
+    "year": 2016,
+    "rank": 79,
+    "team": "East Carolina",
+    "points": 146.62
+  },
+  {
+    "year": 2016,
+    "rank": 80,
+    "team": "Purdue",
+    "points": 145.09
+  },
+  {
+    "year": 2016,
+    "rank": 81,
+    "team": "UNLV",
+    "points": 142.78
+  },
+  {
+    "year": 2016,
+    "rank": 82,
+    "team": "San Diego State",
+    "points": 141.93
+  },
+  {
+    "year": 2016,
+    "rank": 83,
+    "team": "New Mexico",
+    "points": 141.76
+  },
+  {
+    "year": 2016,
+    "rank": 84,
+    "team": "San Jos\u00e9 State",
+    "points": 137.84
+  },
+  {
+    "year": 2016,
+    "rank": 85,
+    "team": "Fresno State",
+    "points": 137.22
+  },
+  {
+    "year": 2016,
+    "rank": 86,
+    "team": "Massachusetts",
+    "points": 136.04
+  },
+  {
+    "year": 2016,
+    "rank": 87,
+    "team": "South Alabama",
+    "points": 134.08
+  },
+  {
+    "year": 2016,
+    "rank": 88,
+    "team": "Toledo",
+    "points": 132.92
+  },
+  {
+    "year": 2016,
+    "rank": 89,
+    "team": "Florida Atlantic",
+    "points": 132.74
+  },
+  {
+    "year": 2016,
+    "rank": 90,
+    "team": "Arkansas State",
+    "points": 132.18
+  },
+  {
+    "year": 2016,
+    "rank": 91,
+    "team": "Navy",
+    "points": 132.07
+  },
+  {
+    "year": 2016,
+    "rank": 92,
+    "team": "Utah State",
+    "points": 130.65
+  },
+  {
+    "year": 2016,
+    "rank": 93,
+    "team": "Miami (OH)",
+    "points": 129.79
+  },
+  {
+    "year": 2016,
+    "rank": 94,
+    "team": "Louisiana Tech",
+    "points": 128.91
+  },
+  {
+    "year": 2016,
+    "rank": 95,
+    "team": "Tulsa",
+    "points": 128.52
+  },
+  {
+    "year": 2016,
+    "rank": 96,
+    "team": "Middle Tennessee",
+    "points": 128.26
+  },
+  {
+    "year": 2016,
+    "rank": 97,
+    "team": "Tulane",
+    "points": 127.78
+  },
+  {
+    "year": 2016,
+    "rank": 98,
+    "team": "Troy",
+    "points": 127.73
+  },
+  {
+    "year": 2016,
+    "rank": 99,
+    "team": "UConn",
+    "points": 126.83
+  },
+  {
+    "year": 2016,
+    "rank": 100,
+    "team": "Southern Miss",
+    "points": 126.05
+  },
+  {
+    "year": 2016,
+    "rank": 101,
+    "team": "Western Kentucky",
+    "points": 124.1
+  },
+  {
+    "year": 2016,
+    "rank": 102,
+    "team": "North Texas",
+    "points": 122.36
+  },
+  {
+    "year": 2016,
+    "rank": 103,
+    "team": "UTSA",
+    "points": 120.32
+  },
+  {
+    "year": 2016,
+    "rank": 104,
+    "team": "Florida International",
+    "points": 119.8
+  },
+  {
+    "year": 2016,
+    "rank": 105,
+    "team": "Nevada",
+    "points": 118.76
+  },
+  {
+    "year": 2016,
+    "rank": 106,
+    "team": "Louisiana",
+    "points": 115.83
+  },
+  {
+    "year": 2016,
+    "rank": 107,
+    "team": "Central Michigan",
+    "points": 112.52
+  },
+  {
+    "year": 2016,
+    "rank": 108,
+    "team": "Hawai'i",
+    "points": 111.87
+  },
+  {
+    "year": 2016,
+    "rank": 109,
+    "team": "App State",
+    "points": 111.72
+  },
+  {
+    "year": 2016,
+    "rank": 110,
+    "team": "Texas State",
+    "points": 111.71
+  },
+  {
+    "year": 2016,
+    "rank": 111,
+    "team": "Bowling Green",
+    "points": 111.58
+  },
+  {
+    "year": 2016,
+    "rank": 112,
+    "team": "Northern Illinois",
+    "points": 111.4
+  },
+  {
+    "year": 2016,
+    "rank": 113,
+    "team": "Ball State",
+    "points": 110.91
+  },
+  {
+    "year": 2016,
+    "rank": 114,
+    "team": "Air Force",
+    "points": 110.9
+  },
+  {
+    "year": 2016,
+    "rank": 115,
+    "team": "Ohio",
+    "points": 109.82
+  },
+  {
+    "year": 2016,
+    "rank": 116,
+    "team": "Wyoming",
+    "points": 109.65
+  },
+  {
+    "year": 2016,
+    "rank": 117,
+    "team": "Army",
+    "points": 108.9
+  },
+  {
+    "year": 2016,
+    "rank": 118,
+    "team": "Buffalo",
+    "points": 107.51
+  },
+  {
+    "year": 2016,
+    "rank": 119,
+    "team": "Charlotte",
+    "points": 106.83
+  },
+  {
+    "year": 2016,
+    "rank": 120,
+    "team": "Old Dominion",
+    "points": 106.63
+  },
+  {
+    "year": 2016,
+    "rank": 121,
+    "team": "Eastern Michigan",
+    "points": 102.89
+  },
+  {
+    "year": 2016,
+    "rank": 122,
+    "team": "Yale",
+    "points": 102.29
+  },
+  {
+    "year": 2016,
+    "rank": 123,
+    "team": "Idaho",
+    "points": 101.42
+  },
+  {
+    "year": 2016,
+    "rank": 124,
+    "team": "UL Monroe",
+    "points": 99.51
+  },
+  {
+    "year": 2016,
+    "rank": 125,
+    "team": "UTEP",
+    "points": 99.39
+  },
+  {
+    "year": 2016,
+    "rank": 126,
+    "team": "Coastal Carolina",
+    "points": 97.11
+  },
+  {
+    "year": 2016,
+    "rank": 127,
+    "team": "Georgia State",
+    "points": 96.32
+  },
+  {
+    "year": 2016,
+    "rank": 128,
+    "team": "New Mexico State",
+    "points": 94.49
+  },
+  {
+    "year": 2016,
+    "rank": 129,
+    "team": "Rice",
+    "points": 93.86
+  },
+  {
+    "year": 2016,
+    "rank": 130,
+    "team": "Columbia",
+    "points": 90.67
+  },
+  {
+    "year": 2016,
+    "rank": 131,
+    "team": "Kent State",
+    "points": 82.77
+  },
+  {
+    "year": 2016,
+    "rank": 132,
+    "team": "Akron",
+    "points": 82.29
+  },
+  {
+    "year": 2016,
+    "rank": 133,
+    "team": "Tennessee State",
+    "points": 81.09
+  },
+  {
+    "year": 2016,
+    "rank": 134,
+    "team": "Stephen F. Austin",
+    "points": 79.35
+  },
+  {
+    "year": 2016,
+    "rank": 135,
+    "team": "Lamar",
+    "points": 79.32
+  },
+  {
+    "year": 2016,
+    "rank": 136,
+    "team": "North Dakota State",
+    "points": 77.25
+  },
+  {
+    "year": 2016,
+    "rank": 137,
+    "team": "Montana",
+    "points": 75.88
+  },
+  {
+    "year": 2016,
+    "rank": 138,
+    "team": "Northern Arizona",
+    "points": 75.01
+  },
+  {
+    "year": 2016,
+    "rank": 139,
+    "team": "Harvard",
+    "points": 74.84
+  },
+  {
+    "year": 2016,
+    "rank": 140,
+    "team": "Sam Houston",
+    "points": 69.3
+  },
+  {
+    "year": 2016,
+    "rank": 141,
+    "team": "UC Davis",
+    "points": 69.2
+  },
+  {
+    "year": 2016,
+    "rank": 142,
+    "team": "Northern Iowa",
+    "points": 68.3
+  },
+  {
+    "year": 2016,
+    "rank": 144,
+    "team": "Austin Peay",
+    "points": 67.88
+  },
+  {
+    "year": 2016,
+    "rank": 145,
+    "team": "Eastern Washington",
+    "points": 64.63
+  },
+  {
+    "year": 2016,
+    "rank": 146,
+    "team": "Samford",
+    "points": 64.62
+  },
+  {
+    "year": 2016,
+    "rank": 147,
+    "team": "Florida A&M",
+    "points": 63.31
+  },
+  {
+    "year": 2016,
+    "rank": 148,
+    "team": "Central Arkansas",
+    "points": 62.3
+  },
+  {
+    "year": 2016,
+    "rank": 149,
+    "team": "South Dakota State",
+    "points": 61.31
+  },
+  {
+    "year": 2016,
+    "rank": 150,
+    "team": "Grand Valley State",
+    "points": 60.25
+  },
+  {
+    "year": 2016,
+    "rank": 151,
+    "team": "Jacksonville State",
+    "points": 58.06
+  },
+  {
+    "year": 2016,
+    "rank": 152,
+    "team": "Richmond",
+    "points": 57.89
+  },
+  {
+    "year": 2016,
+    "rank": 153,
+    "team": "Northern Colorado",
+    "points": 56.31
+  },
+  {
+    "year": 2016,
+    "rank": 154,
+    "team": "Eastern Kentucky",
+    "points": 56.1
+  },
+  {
+    "year": 2016,
+    "rank": 155,
+    "team": "Bethune-Cookman",
+    "points": 56.07
+  },
+  {
+    "year": 2016,
+    "rank": 156,
+    "team": "James Madison",
+    "points": 55.72
+  },
+  {
+    "year": 2016,
+    "rank": 157,
+    "team": "Southeast Missouri State",
+    "points": 55.17
+  },
+  {
+    "year": 2016,
+    "rank": 158,
+    "team": "Pennsylvania",
+    "points": 53.42
+  },
+  {
+    "year": 2016,
+    "rank": 159,
+    "team": "South Dakota",
+    "points": 49.75
+  },
+  {
+    "year": 2016,
+    "rank": 160,
+    "team": "Tennessee Tech",
+    "points": 49.02
+  },
+  {
+    "year": 2016,
+    "rank": 161,
+    "team": "Weber State",
+    "points": 48.18
+  },
+  {
+    "year": 2016,
+    "rank": 162,
+    "team": "Western Carolina",
+    "points": 47.73
+  },
+  {
+    "year": 2016,
+    "rank": 163,
+    "team": "McNeese",
+    "points": 46.78
+  },
+  {
+    "year": 2016,
+    "rank": 164,
+    "team": "Wofford",
+    "points": 46.72
+  },
+  {
+    "year": 2016,
+    "rank": 165,
+    "team": "Montana State",
+    "points": 46.61
+  },
+  {
+    "year": 2016,
+    "rank": 166,
+    "team": "Youngstown State",
+    "points": 46.34
+  },
+  {
+    "year": 2016,
+    "rank": 167,
+    "team": "Portland State",
+    "points": 46.18
+  },
+  {
+    "year": 2016,
+    "rank": 168,
+    "team": "Rhode Island",
+    "points": 46.14
+  },
+  {
+    "year": 2016,
+    "rank": 169,
+    "team": "Idaho State",
+    "points": 45.42
+  },
+  {
+    "year": 2016,
+    "rank": 170,
+    "team": "Furman",
+    "points": 45.22
+  },
+  {
+    "year": 2016,
+    "rank": 171,
+    "team": "Murray State",
+    "points": 42.71
+  },
+  {
+    "year": 2016,
+    "rank": 172,
+    "team": "Dartmouth",
+    "points": 42.51
+  },
+  {
+    "year": 2016,
+    "rank": 173,
+    "team": "Princeton",
+    "points": 42.21
+  },
+  {
+    "year": 2016,
+    "rank": 174,
+    "team": "Nicholls",
+    "points": 41.98
+  },
+  {
+    "year": 2016,
+    "rank": 175,
+    "team": "SE Louisiana",
+    "points": 40.99
+  },
+  {
+    "year": 2016,
+    "rank": 176,
+    "team": "Indiana State",
+    "points": 39.37
+  },
+  {
+    "year": 2016,
+    "rank": 177,
+    "team": "Southern Utah",
+    "points": 38.01
+  },
+  {
+    "year": 2016,
+    "rank": 178,
+    "team": "Lehigh",
+    "points": 37.73
+  },
+  {
+    "year": 2016,
+    "rank": 179,
+    "team": "Towson",
+    "points": 37.47
+  },
+  {
+    "year": 2016,
+    "rank": 180,
+    "team": "Liberty",
+    "points": 35.65
+  },
+  {
+    "year": 2016,
+    "rank": 181,
+    "team": "Northwestern State",
+    "points": 35.3
+  },
+  {
+    "year": 2016,
+    "rank": 182,
+    "team": "Illinois State",
+    "points": 34.92
+  },
+  {
+    "year": 2016,
+    "rank": 183,
+    "team": "Chattanooga",
+    "points": 34.03
+  },
+  {
+    "year": 2016,
+    "rank": 184,
+    "team": "Delaware",
+    "points": 32.74
+  },
+  {
+    "year": 2016,
+    "rank": 185,
+    "team": "Jackson State",
+    "points": 31.8
+  },
+  {
+    "year": 2016,
+    "rank": 186,
+    "team": "Villanova",
+    "points": 30.97
+  },
+  {
+    "year": 2016,
+    "rank": 187,
+    "team": "Mercer",
+    "points": 29.96
+  },
+  {
+    "year": 2016,
+    "rank": 188,
+    "team": "Prairie View A&M",
+    "points": 29.53
+  },
+  {
+    "year": 2016,
+    "rank": 189,
+    "team": "Cal Poly",
+    "points": 29.43
+  },
+  {
+    "year": 2016,
+    "rank": 190,
+    "team": "Gardner-Webb",
+    "points": 29.25
+  },
+  {
+    "year": 2016,
+    "rank": 191,
+    "team": "William & Mary",
+    "points": 27.71
+  },
+  {
+    "year": 2016,
+    "rank": 192,
+    "team": "South Carolina State",
+    "points": 27.65
+  },
+  {
+    "year": 2016,
+    "rank": 193,
+    "team": "Missouri State",
+    "points": 27.34
+  },
+  {
+    "year": 2016,
+    "rank": 194,
+    "team": "Southern",
+    "points": 26.44
+  },
+  {
+    "year": 2016,
+    "rank": 195,
+    "team": "Alabama State",
+    "points": 26.02
+  },
+  {
+    "year": 2016,
+    "rank": 196,
+    "team": "Alcorn State",
+    "points": 25.55
+  },
+  {
+    "year": 2016,
+    "rank": 197,
+    "team": "Stony Brook",
+    "points": 25.36
+  },
+  {
+    "year": 2016,
+    "rank": 198,
+    "team": "UAlbany",
+    "points": 25.3
+  },
+  {
+    "year": 2016,
+    "rank": 199,
+    "team": "Eastern Illinois",
+    "points": 25.15
+  },
+  {
+    "year": 2016,
+    "rank": 200,
+    "team": "North Carolina Central",
+    "points": 24.82
+  },
+  {
+    "year": 2016,
+    "rank": 201,
+    "team": "Charleston Southern",
+    "points": 24.29
+  },
+  {
+    "year": 2016,
+    "rank": 202,
+    "team": "Savannah State",
+    "points": 24.24
+  },
+  {
+    "year": 2016,
+    "rank": 203,
+    "team": "North Dakota",
+    "points": 21.96
+  },
+  {
+    "year": 2016,
+    "rank": 204,
+    "team": "Robert Morris",
+    "points": 21.06
+  },
+  {
+    "year": 2016,
+    "rank": 205,
+    "team": "San Diego",
+    "points": 20.91
+  },
+  {
+    "year": 2016,
+    "rank": 206,
+    "team": "VMI",
+    "points": 20.11
+  },
+  {
+    "year": 2016,
+    "rank": 207,
+    "team": "Kennesaw State",
+    "points": 20
+  },
+  {
+    "year": 2016,
+    "rank": 208,
+    "team": "Georgetown",
+    "points": 19.96
+  },
+  {
+    "year": 2016,
+    "rank": 209,
+    "team": "Delaware State",
+    "points": 19.92
+  },
+  {
+    "year": 2016,
+    "rank": 210,
+    "team": "Bucknell",
+    "points": 19.13
+  },
+  {
+    "year": 2016,
+    "rank": 211,
+    "team": "Fordham",
+    "points": 19.12
+  },
+  {
+    "year": 2016,
+    "rank": 213,
+    "team": "Holy Cross",
+    "points": 18.82
+  },
+  {
+    "year": 2016,
+    "rank": 215,
+    "team": "Presbyterian",
+    "points": 17.72
+  },
+  {
+    "year": 2016,
+    "rank": 216,
+    "team": "Norfolk State",
+    "points": 16.68
+  },
+  {
+    "year": 2016,
+    "rank": 217,
+    "team": "Southern Illinois",
+    "points": 16.63
+  },
+  {
+    "year": 2016,
+    "rank": 218,
+    "team": "Hampton",
+    "points": 15.61
+  },
+  {
+    "year": 2016,
+    "rank": 219,
+    "team": "Elon",
+    "points": 15.61
+  },
+  {
+    "year": 2016,
+    "rank": 220,
+    "team": "Morehead State",
+    "points": 15.51
+  },
+  {
+    "year": 2016,
+    "rank": 221,
+    "team": "Colgate",
+    "points": 15.51
+  },
+  {
+    "year": 2016,
+    "rank": 222,
+    "team": "New Hampshire",
+    "points": 14.63
+  },
+  {
+    "year": 2016,
+    "rank": 223,
+    "team": "North Carolina A&T",
+    "points": 14.61
+  },
+  {
+    "year": 2016,
+    "rank": 224,
+    "team": "Lafayette",
+    "points": 14.44
+  },
+  {
+    "year": 2016,
+    "rank": 231,
+    "team": "Sacred Heart",
+    "points": 12.5
+  },
+  {
+    "year": 2016,
+    "rank": 232,
+    "team": "Cornell",
+    "points": 12.21
+  },
+  {
+    "year": 2016,
+    "rank": 233,
+    "team": "UT Martin",
+    "points": 11.94
+  },
+  {
+    "year": 2016,
+    "rank": 234,
+    "team": "Western Illinois",
+    "points": 11.29
+  },
+  {
+    "year": 2016,
+    "rank": 236,
+    "team": "Brown",
+    "points": 10.69
+  },
+  {
+    "year": 2016,
+    "rank": 239,
+    "team": "Houston Christian",
+    "points": 9.95
+  },
+  {
+    "year": 2016,
+    "rank": 241,
+    "team": "Monmouth",
+    "points": 8.82
+  },
+  {
+    "year": 2016,
+    "rank": 242,
+    "team": "Alabama A&M",
+    "points": 8.42
+  },
+  {
+    "year": 2016,
+    "rank": 243,
+    "team": "The Citadel",
+    "points": 7.67
+  },
+  {
+    "year": 2016,
+    "rank": 244,
+    "team": "Campbell",
+    "points": 6.67
+  },
+  {
+    "year": 2016,
+    "rank": 246,
+    "team": "Morgan State",
+    "points": 6.67
+  },
+  {
+    "year": 2016,
+    "rank": 248,
+    "team": "Texas Southern",
+    "points": 6.67
+  },
+  {
+    "year": 2016,
+    "rank": 256,
+    "team": "Central Connecticut",
+    "points": 6.67
+  },
+  {
+    "year": 2016,
+    "rank": 259,
+    "team": "Drake",
+    "points": 5.31
+  },
+  {
+    "year": 2016,
+    "rank": 261,
+    "team": "Wagner",
+    "points": 0
+  },
+  {
+    "year": 2016,
+    "rank": 285,
+    "team": "Howard",
+    "points": -0.03
+  },
+  {
+    "year": 2016,
+    "rank": 286,
+    "team": "Maine",
+    "points": -0.11
+  }
+]

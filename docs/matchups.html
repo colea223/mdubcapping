@@ -1,0 +1,80 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Matchups - Mountain Dub Handicapping</title>
+<link rel="stylesheet" href="assets/style.css">
+</head>
+<body>
+<div id="nav"></div>
+<div class="page-wrap">
+  <div class="page-header">
+    <h1 id="page-title">This Week's Matchups</h1>
+    <p>Market lines for every Mountain West game on the slate.</p>
+  </div>
+
+  <div id="matchups-container"></div>
+
+  <div class="footer-note" id="updated"></div>
+</div>
+
+<script src="assets/site.js"></script>
+<script>
+document.getElementById("nav").innerHTML = renderNav("matchups.html");
+
+(async function () {
+  const data = await fetchJSON("data/matchups.json");
+  const container = document.getElementById("matchups-container");
+
+  if (!data || !data.matchups || !data.matchups.length) {
+    container.innerHTML = emptyState("No matchups posted yet -- check back once this week's slate and lines are pulled.");
+    return;
+  }
+
+  if (data.meta && data.meta.current_week) {
+    document.getElementById("page-title").textContent =
+      `Week ${data.meta.current_week.week} Matchups`;
+  }
+
+  const cards = data.matchups.map(m => {
+    const spreads = formatSpreadPair(m.market_spread_home);
+    const total = (m.market_total !== null && m.market_total !== undefined) ? m.market_total : "TBD";
+    const homeMl = formatMoneyline(m.home_moneyline);
+    const awayMl = formatMoneyline(m.away_moneyline);
+    return `
+      <div class="matchup-card">
+        <div class="matchup-date">${formatDate(m.date)}</div>
+        <div class="matchup-teams">
+          <div class="team-row">
+            <span class="name"><span class="at">@</span>${m.away_team}</span>
+            <span class="odds-value">${spreads.away}</span>
+          </div>
+          <div class="team-row">
+            <span class="name">${m.home_team}</span>
+            <span class="odds-value">${spreads.home}</span>
+          </div>
+        </div>
+        <div class="odds-row">
+          <div class="odds-item">
+            <span class="odds-label">Spread</span>
+            <span class="odds-value">${spreads.home} / ${spreads.away}</span>
+          </div>
+          <div class="odds-item">
+            <span class="odds-label">Total</span>
+            <span class="odds-value">${total}</span>
+          </div>
+          <div class="odds-item">
+            <span class="odds-label">Moneyline (away/home)</span>
+            <span class="odds-value">${awayMl} / ${homeMl}</span>
+          </div>
+        </div>
+      </div>`;
+  }).join("");
+
+  container.innerHTML = `<div class="matchup-grid">${cards}</div>`;
+  document.getElementById("updated").textContent = lastUpdatedLabel(data.meta && data.meta.generated_at);
+})();
+</script>
+</body>
+</html>

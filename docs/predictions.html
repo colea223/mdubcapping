@@ -1,0 +1,101 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Predictions - Mountain Dub Handicapping</title>
+<link rel="stylesheet" href="assets/style.css">
+</head>
+<body>
+<div id="nav"></div>
+<div class="page-wrap">
+  <div class="page-header">
+    <h1 id="page-title">Model Predictions</h1>
+    <p>This week's model spread, total, and win probability for every Mountain West game, with notes.</p>
+  </div>
+
+  <div id="predictions-container"></div>
+
+  <div class="footer-note" id="updated"></div>
+</div>
+
+<script src="assets/site.js"></script>
+<script>
+document.getElementById("nav").innerHTML = renderNav("predictions.html");
+
+(async function () {
+  const data = await fetchJSON("data/predictions.json");
+  const container = document.getElementById("predictions-container");
+
+  if (!data || !data.predictions || !data.predictions.length) {
+    container.innerHTML = emptyState("No predictions yet -- the model needs a full pipeline run (and enough graded history) before it can post picks.");
+    return;
+  }
+
+  if (data.meta && data.meta.current_week) {
+    document.getElementById("page-title").textContent =
+      `Week ${data.meta.current_week.week} Predictions`;
+  }
+
+  const cards = data.predictions.map(p => {
+    const spreads = formatSpreadPair(p.model_spread_home);
+    const homeProb = p.home_win_prob !== null && p.home_win_prob !== undefined ? p.home_win_prob : 0.5;
+    const homePct = Math.round(homeProb * 100);
+    const awayPct = 100 - homePct;
+    const favTeam = p.model_spread_home !== null && p.model_spread_home < 0 ? p.home_team : p.away_team;
+
+    let edgeClass = "none", edgeLabel = "No edge";
+    if (p.edge !== null && p.edge !== undefined) {
+      if (Math.abs(p.edge) >= 2.0) {
+        edgeClass = p.edge > 0 ? "lean-home" : "lean-away";
+        edgeLabel = `Lean ${p.edge > 0 ? p.home_team : p.away_team} (${Math.abs(p.edge).toFixed(1)} pt edge)`;
+      } else {
+        edgeLabel = "No significant edge";
+      }
+    }
+
+    const notesHtml = p.notes
+      ? `<div class="notes-box">${p.notes}</div>`
+      : "";
+
+    return `
+      <div class="matchup-card">
+        <div class="matchup-teams">
+          <div class="team-row">
+            <span class="name"><span class="at">@</span>${p.away_team}</span>
+          </div>
+          <div class="team-row">
+            <span class="name">${p.home_team}</span>
+          </div>
+        </div>
+        <div class="odds-row">
+          <div class="odds-item">
+            <span class="odds-label">Model Spread</span>
+            <span class="odds-value">${spreads.home} / ${spreads.away}</span>
+          </div>
+          <div class="odds-item">
+            <span class="odds-label">Model Total</span>
+            <span class="odds-value">${p.model_total !== null && p.model_total !== undefined ? p.model_total : "TBD"}</span>
+          </div>
+          <div class="odds-item">
+            <span class="odds-label">Favorite</span>
+            <span class="odds-value">${favTeam}</span>
+          </div>
+        </div>
+        <div style="margin-top:12px;">
+          <span class="edge-tag ${edgeClass}">${edgeLabel}</span>
+          <div class="win-prob-bar"><div class="win-prob-fill" style="width:${homePct}%"></div></div>
+          <div class="odds-label" style="margin-top:4px;">
+            ${p.home_team} ${homePct}% &ndash; ${p.away_team} ${awayPct}%
+          </div>
+        </div>
+        ${notesHtml}
+      </div>`;
+  }).join("");
+
+  container.innerHTML = `<div class="matchup-grid">${cards}</div>`;
+  document.getElementById("updated").textContent = lastUpdatedLabel(data.meta && data.meta.generated_at);
+})();
+</script>
+</body>
+</html>
