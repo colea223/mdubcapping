@@ -1,0 +1,4706 @@
+[
+  {
+    "season": 2020,
+    "team": "App State",
+    "conference": "Sun Belt",
+    "offense": {
+      "passing_plays": {
+        "explosiveness": 1.6967081895961733,
+        "success_rate": 0.5238095238095238,
+        "total_ppa": 10.13305062726657,
+        "ppa": 0.48252622034602716,
+        "rate": 0.29577464788732394
+      },
+      "rushing_plays": {
+        "explosiveness": 0.7912078918064657,
+        "success_rate": 0.58,
+        "total_ppa": 13.4388367965536,
+        "ppa": 0.268776735931072,
+        "rate": 0.704225352112676
+      },
+      "passing_downs": {
+        "explosiveness": 2.051983354799502,
+        "success_rate": 0.47619047619047616,
+        "ppa": 0.8219539778438476,
+        "rate": 0.29577464788732394
+      },
+      "standard_downs": {
+        "explosiveness": 0.7029661799983462,
+        "success_rate": 0.6,
+        "ppa": 0.1262170777819874,
+        "rate": 0.704225352112676
+      },
+      "havoc": {
+        "db": 0.014,
+        "front_seven": 0.113,
+        "total": 0.127
+      },
+      "field_position": {
+        "average_predicted_points": 1.277,
+        "average_start": 71.4
+      },
+      "points_per_opportunity": 4,
+      "total_opportunies": 7,
+      "open_field_yards_total": 70,
+      "open_field_yards": 1.4,
+      "second_level_yards_total": 81,
+      "second_level_yards": 1.62,
+      "line_yards_total": 185,
+      "line_yards": 3.704,
+      "stuff_rate": 0.16,
+      "power_success": 0.875,
+      "explosiveness": 1.0402204736986354,
+      "success_rate": 0.5633802816901409,
+      "total_ppa": 23.571887423820172,
+      "ppa": 0.3319984144200024,
+      "drives": 12,
+      "plays": 71
+    },
+    "defense": {
+      "passing_plays": {
+        "explosiveness": 1.857862926670864,
+        "success_rate": 0.25806451612903225,
+        "total_ppa": -8.952192997450803,
+        "ppa": -0.28878041927260656,
+        "rate": 0.5166666666666667
+      },
+      "rushing_plays": {
+        "explosiveness": 1.2169276020147768,
+        "success_rate": 0.3103448275862069,
+        "total_ppa": 0.5123672514399072,
+        "ppa": 0.017667836256548525,
+        "rate": 0.48333333333333334
+      },
+      "passing_downs": {
+        "explosiveness": 2.073168202650201,
+        "success_rate": 0.2,
+        "total_ppa": -8.952192997450803,
+        "ppa": -0.12184502483988421,
+        "rate": 0.4166666666666667
+      },
+      "standard_downs": {
+        "explosiveness": 1.2874509015207416,
+        "success_rate": 0.34285714285714286,
+        "ppa": -0.15410571785753688,
+        "rate": 0.5833333333333334
+      },
+      "havoc": {
+        "db": 0.15,
+        "front_seven": 0.133,
+        "total": 0.283
+      },
+      "field_position": {
+        "average_predicted_points": -1.269,
+        "average_start": 71.2
+      },
+      "points_per_opportunity": 2.6,
+      "total_opportunies": 5,
+      "open_field_yards_total": 0,
+      "open_field_yards": 1.5517241379310345,
+      "second_level_yards_total": 34,
+      "second_level_yards": 1.1724137931034484,
+      "line_yards_total": 80,
+      "line_yards": 2.7724137931034485,
+      "stuff_rate": 0.20689655172413793,
+      "power_success": 0,
+      "explosiveness": 1.5185442253823473,
+      "success_rate": 0.2833333333333333,
+      "total_ppa": -8.439825746010897,
+      "ppa": -0.14066376243351494,
+      "drives": 10,
+      "plays": 60
+    }
+  },
+  {
+    "season": 2020,
+    "team": "Arkansas State",
+    "conference": "Sun Belt",
+    "offense": {
+      "passing_plays": {
+        "explosiveness": 1.4230508052778827,
+        "success_rate": 0.5116279069767442,
+        "total_ppa": 26.773885753738863,
+        "ppa": 0.3113242529504519,
+        "rate": 0.5771812080536913
+      },
+      "rushing_plays": {
+        "explosiveness": 0.9996464443965778,
+        "success_rate": 0.4444444444444444,
+        "total_ppa": 5.447987086913269,
+        "ppa": 0.08647598550655983,
+        "rate": 0.4228187919463087
+      },
+      "passing_downs": {
+        "explosiveness": 1.7101212842747862,
+        "success_rate": 0.43243243243243246,
+        "ppa": 0.4470783080107015,
+        "rate": 0.2483221476510067
+      },
+      "standard_downs": {
+        "explosiveness": 1.1293284879809722,
+        "success_rate": 0.5,
+        "ppa": 0.13999978075228728,
+        "rate": 0.7516778523489933
+      },
+      "havoc": {
+        "db": 0.087,
+        "front_seven": 0.087,
+        "total": 0.174
+      },
+      "field_position": {
+        "average_predicted_points": 1.092,
+        "average_start": 73.8
+      },
+      "points_per_opportunity": 4,
+      "total_opportunies": 13,
+      "open_field_yards_total": 93,
+      "open_field_yards": 1.4761904761904763,
+      "second_level_yards_total": 78,
+      "second_level_yards": 1.2380952380952381,
+      "line_yards_total": 186,
+      "line_yards": 2.9555555555555557,
+      "stuff_rate": 0.1746031746031746,
+      "power_success": 0.7777777777777778,
+      "explosiveness": 1.2583935538240418,
+      "success_rate": 0.48322147651006714,
+      "total_ppa": 32.22187284065213,
+      "ppa": 0.2162541801386049,
+      "drives": 24,
+      "plays": 149
+    },
+    "defense": {
+      "passing_plays": {
+        "explosiveness": 1.7400288858515478,
+        "success_rate": 0.5,
+        "total_ppa": 39.003653837232875,
+        "ppa": 0.5735831446651893,
+        "rate": 0.4444444444444444
+      },
+      "rushing_plays": {
+        "explosiveness": 1.1196279135873575,
+        "success_rate": 0.32941176470588235,
+        "total_ppa": -3.037359570734983,
+        "ppa": -0.03573364200864686,
+        "rate": 0.5555555555555556
+      },
+      "passing_downs": {
+        "explosiveness": 2.3326584926916154,
+        "success_rate": 0.34,
+        "total_ppa": 39.003653837232875,
+        "ppa": 0.5251589827669136,
+        "rate": 0.32679738562091504
+      },
+      "standard_downs": {
+        "explosiveness": 1.130119318303137,
+        "success_rate": 0.4368932038834951,
+        "ppa": 0.09425577794322536,
+        "rate": 0.673202614379085
+      },
+      "havoc": {
+        "db": 0.033,
+        "front_seven": 0.098,
+        "total": 0.131
+      },
+      "field_position": {
+        "average_predicted_points": -1.734,
+        "average_start": 66.9
+      },
+      "points_per_opportunity": 4.0588235294117645,
+      "total_opportunies": 17,
+      "open_field_yards_total": 0,
+      "open_field_yards": 0.9176470588235294,
+      "second_level_yards_total": 94,
+      "second_level_yards": 1.1058823529411765,
+      "line_yards_total": 164,
+      "line_yards": 1.9294117647058824,
+      "stuff_rate": 0.29411764705882354,
+      "power_success": 0.5,
+      "explosiveness": 1.4598478016032037,
+      "success_rate": 0.40522875816993464,
+      "total_ppa": 35.96629426649789,
+      "ppa": 0.23507381873528035,
+      "drives": 25,
+      "plays": 153
+    }
+  },
+  {
+    "season": 2020,
+    "team": "Army",
+    "conference": "FBS Independents",
+    "offense": {
+      "passing_plays": {
+        "explosiveness": 1.7968934305310744,
+        "success_rate": 0.3333333333333333,
+        "total_ppa": 1.8585614713067042,
+        "ppa": 0.20650683014518936,
+        "rate": 0.0661764705882353
+      },
+      "rushing_plays": {
+        "explosiveness": 1.1245708567039872,
+        "success_rate": 0.5433070866141733,
+        "total_ppa": 49.56313842299206,
+        "ppa": 0.39026093246450444,
+        "rate": 0.9338235294117647
+      },
+      "passing_downs": {
+        "explosiveness": 1.9575705204946225,
+        "success_rate": 0.5416666666666666,
+        "ppa": 0.8902815256223785,
+        "rate": 0.17647058823529413
+      },
+      "standard_downs": {
+        "explosiveness": 0.9752144514870887,
+        "success_rate": 0.5267857142857143,
+        "ppa": 0.26834770785144363,
+        "rate": 0.8235294117647058
+      },
+      "havoc": {
+        "db": 0.007,
+        "front_seven": 0.051,
+        "total": 0.059
+      },
+      "field_position": {
+        "average_predicted_points": 1.692,
+        "average_start": 67.2
+      },
+      "points_per_opportunity": 5.214285714285714,
+      "total_opportunies": 14,
+      "open_field_yards_total": 227,
+      "open_field_yards": 1.7874015748031495,
+      "second_level_yards_total": 130,
+      "second_level_yards": 1.0236220472440944,
+      "line_yards_total": 465,
+      "line_yards": 3.662204724409449,
+      "stuff_rate": 0.07874015748031496,
+      "power_success": 0.8823529411764706,
+      "explosiveness": 1.1525842972801157,
+      "success_rate": 0.5294117647058824,
+      "total_ppa": 51.42169989429877,
+      "ppa": 0.37810073451690274,
+      "drives": 17,
+      "plays": 136
+    },
+    "defense": {
+      "passing_plays": {
+        "explosiveness": 1.1722253452076583,
+        "success_rate": 0.42,
+        "total_ppa": 0.8631115188656295,
+        "ppa": 0.01726223037731259,
+        "rate": 0.5434782608695652
+      },
+      "rushing_plays": {
+        "explosiveness": 0.8379987680420995,
+        "success_rate": 0.2857142857142857,
+        "total_ppa": -12.544100030183815,
+        "ppa": -0.2986690483377099,
+        "rate": 0.45652173913043476
+      },
+      "passing_downs": {
+        "explosiveness": 2.224055759579401,
+        "success_rate": 0.16666666666666666,
+        "total_ppa": 0.8631115188656295,
+        "ppa": -0.21091588610417844,
+        "rate": 0.32608695652173914
+      },
+      "standard_downs": {
+        "explosiveness": 0.8411585238560362,
+        "success_rate": 0.45161290322580644,
+        "ppa": -0.08634696658375536,
+        "rate": 0.6739130434782609
+      },
+      "havoc": {
+        "db": 0.098,
+        "front_seven": 0.174,
+        "total": 0.272
+      },
+      "field_position": {
+        "average_predicted_points": -1.002,
+        "average_start": 74.5
+      },
+      "points_per_opportunity": 1,
+      "total_opportunies": 7,
+      "open_field_yards_total": 0,
+      "open_field_yards": 0.9047619047619048,
+      "second_level_yards_total": 38,
+      "second_level_yards": 0.9047619047619048,
+      "line_yards_total": 83,
+      "line_yards": 1.9785714285714286,
+      "stuff_rate": 0.2619047619047619,
+      "power_success": 0.5,
+      "explosiveness": 1.050688408056546,
+      "success_rate": 0.358695652173913,
+      "total_ppa": -11.680988511318185,
+      "ppa": -0.12696726642737158,
+      "drives": 18,
+      "plays": 92
+    }
+  },
+  {
+    "season": 2020,
+    "team": "BYU",
+    "conference": "FBS Independents",
+    "offense": {
+      "passing_plays": {
+        "explosiveness": 1.5437512418490882,
+        "success_rate": 0.6818181818181818,
+        "total_ppa": 18.39297993785264,
+        "ppa": 0.8360445426296655,
+        "rate": 0.30985915492957744
+      },
+      "rushing_plays": {
+        "explosiveness": 1.017262658832452,
+        "success_rate": 0.5714285714285714,
+        "total_ppa": 14.390964691160615,
+        "ppa": 0.29369315696246157,
+        "rate": 0.6901408450704225
+      },
+      "passing_downs": {
+        "explosiveness": 2.0748422405270444,
+        "success_rate": 0.5833333333333334,
+        "ppa": 0.8471393143678384,
+        "rate": 0.16901408450704225
+      },
+      "standard_downs": {
+        "explosiveness": 1.0309924275376574,
+        "success_rate": 0.6101694915254238,
+        "ppa": 0.38336055689151183,
+        "rate": 0.8309859154929577
+      },
+      "havoc": {
+        "db": 0.028,
+        "front_seven": 0.056,
+        "total": 0.085
+      },
+      "field_position": {
+        "average_predicted_points": 1.985,
+        "average_start": 63.6
+      },
+      "points_per_opportunity": 4.8,
+      "total_opportunies": 10,
+      "open_field_yards_total": 103,
+      "open_field_yards": 2.1020408163265305,
+      "second_level_yards_total": 67,
+      "second_level_yards": 1.3673469387755102,
+      "line_yards_total": 163,
+      "line_yards": 3.326530612244898,
+      "stuff_rate": 0.1836734693877551,
+      "power_success": 0.75,
+      "explosiveness": 1.2009214668615111,
+      "success_rate": 0.6056338028169014,
+      "total_ppa": 32.783944629013256,
+      "ppa": 0.46174569900018675,
+      "drives": 12,
+      "plays": 71
+    },
+    "defense": {
+      "passing_plays": {
+        "explosiveness": 0.8350381090299867,
+        "success_rate": 0.08333333333333333,
+        "total_ppa": -3.3017088935428296,
+        "ppa": -0.2751424077952358,
+        "rate": 0.2553191489361702
+      },
+      "rushing_plays": {
+        "explosiveness": 0.9249190435729204,
+        "success_rate": 0.2857142857142857,
+        "total_ppa": -8.458218813313405,
+        "ppa": -0.24166339466609726,
+        "rate": 0.7446808510638298
+      },
+      "passing_downs": {
+        "explosiveness": 0,
+        "success_rate": 0,
+        "total_ppa": -3.3017088935428296,
+        "ppa": -0.25303522044271587,
+        "rate": 0.425531914893617
+      },
+      "standard_downs": {
+        "explosiveness": 0.9167480495235628,
+        "success_rate": 0.4074074074074074,
+        "ppa": -0.24811938140747838,
+        "rate": 0.574468085106383
+      },
+      "havoc": {
+        "db": 0.043,
+        "front_seven": 0.213,
+        "total": 0.255
+      },
+      "field_position": {
+        "average_predicted_points": -1.118,
+        "average_start": 72.8
+      },
+      "points_per_opportunity": 1,
+      "total_opportunies": 3,
+      "open_field_yards_total": 0,
+      "open_field_yards": 1.3714285714285714,
+      "second_level_yards_total": 22,
+      "second_level_yards": 0.6285714285714286,
+      "line_yards_total": 72,
+      "line_yards": 2.06,
+      "stuff_rate": 0.2,
+      "power_success": 0.6666666666666666,
+      "explosiveness": 0.9167480495235628,
+      "success_rate": 0.23404255319148937,
+      "total_ppa": -11.759927706856233,
+      "ppa": -0.2502112278054518,
+      "drives": 13,
+      "plays": 47
+    }
+  },
+  {
+    "season": 2020,
+    "team": "Charlotte",
+    "conference": "Conference USA",
+    "offense": {
+      "passing_plays": {
+        "explosiveness": 1.857862926670864,
+        "success_rate": 0.25806451612903225,
+        "total_ppa": -8.952192997450803,
+        "ppa": -0.28878041927260656,
+        "rate": 0.5166666666666667
+      },
+      "rushing_plays": {
+        "explosiveness": 1.2169276020147768,
+        "success_rate": 0.3103448275862069,
+        "total_ppa": 0.5123672514399072,
+        "ppa": 0.017667836256548525,
+        "rate": 0.48333333333333334
+      },
+      "passing_downs": {
+        "explosiveness": 2.073168202650201,
+        "success_rate": 0.2,
+        "ppa": -0.12184502483988421,
+        "rate": 0.4166666666666667
+      },
+      "standard_downs": {
+        "explosiveness": 1.2874509015207416,
+        "success_rate": 0.34285714285714286,
+        "ppa": -0.15410571785753688,
+        "rate": 0.5833333333333334
+      },
+      "havoc": {
+        "db": 0.15,
+        "front_seven": 0.133,
+        "total": 0.283
+      },
+      "field_position": {
+        "average_predicted_points": 1.269,
+        "average_start": 71.2
+      },
+      "points_per_opportunity": 2.6,
+      "total_opportunies": 5,
+      "open_field_yards_total": 45,
+      "open_field_yards": 1.5517241379310345,
+      "second_level_yards_total": 34,
+      "second_level_yards": 1.1724137931034484,
+      "line_yards_total": 80,
+      "line_yards": 2.7724137931034485,
+      "stuff_rate": 0.20689655172413793,
+      "power_success": 0,
+      "explosiveness": 1.5185442253823473,
+      "success_rate": 0.2833333333333333,
+      "total_ppa": -8.439825746010897,
+      "ppa": -0.14066376243351494,
+      "drives": 10,
+      "plays": 60
+    },
+    "defense": {
+      "passing_plays": {
+        "explosiveness": 1.6967081895961733,
+        "success_rate": 0.5238095238095238,
+        "total_ppa": 10.13305062726657,
+        "ppa": 0.48252622034602716,
+        "rate": 0.29577464788732394
+      },
+      "rushing_plays": {
+        "explosiveness": 0.7912078918064657,
+        "success_rate": 0.58,
+        "total_ppa": 13.4388367965536,
+        "ppa": 0.268776735931072,
+        "rate": 0.704225352112676
+      },
+      "passing_downs": {
+        "explosiveness": 2.051983354799502,
+        "success_rate": 0.47619047619047616,
+        "total_ppa": 10.13305062726657,
+        "ppa": 0.8219539778438476,
+        "rate": 0.29577464788732394
+      },
+      "standard_downs": {
+        "explosiveness": 0.7029661799983462,
+        "success_rate": 0.6,
+        "ppa": 0.1262170777819874,
+        "rate": 0.704225352112676
+      },
+      "havoc": {
+        "db": 0.014,
+        "front_seven": 0.113,
+        "total": 0.127
+      },
+      "field_position": {
+        "average_predicted_points": -1.277,
+        "average_start": 71.4
+      },
+      "points_per_opportunity": 4,
+      "total_opportunies": 7,
+      "open_field_yards_total": 0,
+      "open_field_yards": 1.4,
+      "second_level_yards_total": 81,
+      "second_level_yards": 1.62,
+      "line_yards_total": 185,
+      "line_yards": 3.704,
+      "stuff_rate": 0.16,
+      "power_success": 0.875,
+      "explosiveness": 1.0402204736986354,
+      "success_rate": 0.5633802816901409,
+      "total_ppa": 23.571887423820172,
+      "ppa": 0.3319984144200024,
+      "drives": 12,
+      "plays": 71
+    }
+  },
+  {
+    "season": 2020,
+    "team": "Clemson",
+    "conference": "ACC",
+    "offense": {
+      "passing_plays": {
+        "explosiveness": 1.5068206716547237,
+        "success_rate": 0.5526315789473685,
+        "total_ppa": 22.10136382279101,
+        "ppa": 0.5816148374418687,
+        "rate": 0.4634146341463415
+      },
+      "rushing_plays": {
+        "explosiveness": 0.8727412277594541,
+        "success_rate": 0.4772727272727273,
+        "total_ppa": 6.272131488112197,
+        "ppa": 0.14254844291164084,
+        "rate": 0.5365853658536586
+      },
+      "passing_downs": {
+        "explosiveness": 2.179624593218529,
+        "success_rate": 0.38095238095238093,
+        "ppa": 0.6326494560223987,
+        "rate": 0.25609756097560976
+      },
+      "standard_downs": {
+        "explosiveness": 0.9568765629985146,
+        "success_rate": 0.5573770491803278,
+        "ppa": 0.2473419136792268,
+        "rate": 0.7439024390243902
+      },
+      "havoc": {
+        "db": 0.049,
+        "front_seven": 0.061,
+        "total": 0.11
+      },
+      "field_position": {
+        "average_predicted_points": 0.889,
+        "average_start": 77.1
+      },
+      "points_per_opportunity": 3.7777777777777777,
+      "total_opportunies": 9,
+      "open_field_yards_total": 43,
+      "open_field_yards": 0.9772727272727273,
+      "second_level_yards_total": 46,
+      "second_level_yards": 1.0454545454545454,
+      "line_yards_total": 119,
+      "line_yards": 2.6931818181818183,
+      "stuff_rate": 0.1590909090909091,
+      "power_success": 0.8181818181818182,
+      "explosiveness": 1.1897809497070888,
+      "success_rate": 0.5121951219512195,
+      "total_ppa": 28.37349531090321,
+      "ppa": 0.3460182354988196,
+      "drives": 13,
+      "plays": 82
+    },
+    "defense": {
+      "passing_plays": {
+        "explosiveness": 1.8550986845616773,
+        "success_rate": 0.3181818181818182,
+        "total_ppa": 3.4352728177630425,
+        "ppa": 0.07807438222188733,
+        "rate": 0.6197183098591549
+      },
+      "rushing_plays": {
+        "explosiveness": 0.7545492027117938,
+        "success_rate": 0.25925925925925924,
+        "total_ppa": -6.270432482449497,
+        "ppa": -0.2322382400907221,
+        "rate": 0.38028169014084506
+      },
+      "passing_downs": {
+        "explosiveness": 2.806605077785512,
+        "success_rate": 0.23333333333333334,
+        "total_ppa": 3.4352728177630425,
+        "ppa": 0.22717153521575742,
+        "rate": 0.4225352112676056
+      },
+      "standard_downs": {
+        "explosiveness": 0.8290707470248182,
+        "success_rate": 0.34146341463414637,
+        "ppa": -0.23537331027217506,
+        "rate": 0.5774647887323944
+      },
+      "havoc": {
+        "db": 0.07,
+        "front_seven": 0.155,
+        "total": 0.225
+      },
+      "field_position": {
+        "average_predicted_points": -1.453,
+        "average_start": 68.6
+      },
+      "points_per_opportunity": 1.8571428571428572,
+      "total_opportunies": 7,
+      "open_field_yards_total": 0,
+      "open_field_yards": 0.4074074074074074,
+      "second_level_yards_total": 16,
+      "second_level_yards": 0.5925925925925926,
+      "line_yards_total": 56,
+      "line_yards": 2.085185185185185,
+      "stuff_rate": 0.25925925925925924,
+      "power_success": 0.75,
+      "explosiveness": 1.4882488572783827,
+      "success_rate": 0.29577464788732394,
+      "total_ppa": -2.8351596646864543,
+      "ppa": -0.039931826263189495,
+      "drives": 13,
+      "plays": 71
+    }
+  },
+  {
+    "season": 2020,
+    "team": "Coastal Carolina",
+    "conference": "Sun Belt",
+    "offense": {
+      "passing_plays": {
+        "explosiveness": 1.3892227526862522,
+        "success_rate": 0.5555555555555556,
+        "total_ppa": 6.9355228395962785,
+        "ppa": 0.38530682442201547,
+        "rate": 0.3
+      },
+      "rushing_plays": {
+        "explosiveness": 0.8082039756831689,
+        "success_rate": 0.5,
+        "total_ppa": 8.708147748214582,
+        "ppa": 0.20733685114796624,
+        "rate": 0.7
+      },
+      "passing_downs": {
+        "explosiveness": 0.7153026127423197,
+        "success_rate": 0.2727272727272727,
+        "ppa": -0.1261421818013976,
+        "rate": 0.18333333333333332
+      },
+      "standard_downs": {
+        "explosiveness": 1.0256643992136467,
+        "success_rate": 0.5714285714285714,
+        "ppa": 0.3475762160740048,
+        "rate": 0.8166666666666667
+      },
+      "havoc": {
+        "db": 0.05,
+        "front_seven": 0.05,
+        "total": 0.1
+      },
+      "field_position": {
+        "average_predicted_points": 2.282,
+        "average_start": 56.6
+      },
+      "points_per_opportunity": 5.428571428571429,
+      "total_opportunies": 7,
+      "open_field_yards_total": 15,
+      "open_field_yards": 0.35714285714285715,
+      "second_level_yards_total": 42,
+      "second_level_yards": 1,
+      "line_yards_total": 140,
+      "line_yards": 3.3285714285714287,
+      "stuff_rate": 0.07142857142857142,
+      "power_success": 0.6923076923076923,
+      "explosiveness": 0.9956293876196474,
+      "success_rate": 0.5166666666666667,
+      "total_ppa": 15.643670587810862,
+      "ppa": 0.260727843130181,
+      "drives": 10,
+      "plays": 60
+    },
+    "defense": {
+      "passing_plays": {
+        "explosiveness": 1.4460698796300469,
+        "success_rate": 0.3783783783783784,
+        "total_ppa": 5.772389566666972,
+        "ppa": 0.1560105288288371,
+        "rate": 0.5068493150684932
+      },
+      "rushing_plays": {
+        "explosiveness": 1.313638308166928,
+        "success_rate": 0.4722222222222222,
+        "total_ppa": 4.449749011269506,
+        "ppa": 0.12360413920193072,
+        "rate": 0.4931506849315068
+      },
+      "passing_downs": {
+        "explosiveness": 2.172752375746371,
+        "success_rate": 0.34782608695652173,
+        "total_ppa": 5.772389566666972,
+        "ppa": 0.43418442221683723,
+        "rate": 0.3150684931506849
+      },
+      "standard_downs": {
+        "explosiveness": 1.0954265455516288,
+        "success_rate": 0.46,
+        "ppa": 0.004717937338984442,
+        "rate": 0.684931506849315
+      },
+      "havoc": {
+        "db": 0.068,
+        "front_seven": 0.192,
+        "total": 0.26
+      },
+      "field_position": {
+        "average_predicted_points": -0.969,
+        "average_start": 75.7
+      },
+      "points_per_opportunity": 2.8333333333333335,
+      "total_opportunies": 6,
+      "open_field_yards_total": 0,
+      "open_field_yards": 1.972222222222222,
+      "second_level_yards_total": 55,
+      "second_level_yards": 1.527777777777778,
+      "line_yards_total": 85,
+      "line_yards": 2.3555555555555556,
+      "stuff_rate": 0.3333333333333333,
+      "power_success": 0.5714285714285714,
+      "explosiveness": 1.3734461146341428,
+      "success_rate": 0.4246575342465753,
+      "total_ppa": 10.222138577936478,
+      "ppa": 0.14002929558817093,
+      "drives": 11,
+      "plays": 73
+    }
+  },
+  {
+    "season": 2020,
+    "team": "Duke",
+    "conference": "ACC",
+    "offense": {
+      "passing_plays": {
+        "explosiveness": 1.2759891078870365,
+        "success_rate": 0.375,
+        "total_ppa": -0.34446177722886717,
+        "ppa": -0.00861154443072168,
+        "rate": 0.6060606060606061
+      },
+      "rushing_plays": {
+        "explosiveness": 1.564231506703166,
+        "success_rate": 0.23076923076923078,
+        "total_ppa": 1.5385978712328523,
+        "ppa": 0.05917684120126355,
+        "rate": 0.3939393939393939
+      },
+      "passing_downs": {
+        "explosiveness": 1.996943350156609,
+        "success_rate": 0.2692307692307692,
+        "ppa": 0.22699059023774945,
+        "rate": 0.3939393939393939
+      },
+      "standard_downs": {
+        "explosiveness": 1.0390444433877342,
+        "success_rate": 0.35,
+        "ppa": -0.11769048130443752,
+        "rate": 0.6060606060606061
+      },
+      "havoc": {
+        "db": 0.091,
+        "front_seven": 0.136,
+        "total": 0.227
+      },
+      "field_position": {
+        "average_predicted_points": 1.156,
+        "average_start": 74
+      },
+      "points_per_opportunity": 2.6,
+      "total_opportunies": 5,
+      "open_field_yards_total": 17,
+      "open_field_yards": 0.6538461538461539,
+      "second_level_yards_total": 21,
+      "second_level_yards": 0.8076923076923077,
+      "line_yards_total": 56,
+      "line_yards": 2.169230769230769,
+      "stuff_rate": 0.2692307692307692,
+      "power_success": 0.5,
+      "explosiveness": 1.358344078977359,
+      "success_rate": 0.3181818181818182,
+      "total_ppa": 1.1941360940039851,
+      "ppa": 0.018092971121272502,
+      "drives": 12,
+      "plays": 66
+    },
+    "defense": {
+      "passing_plays": {
+        "explosiveness": 1.4554572516988973,
+        "success_rate": 0.42424242424242425,
+        "total_ppa": 6.447373276180181,
+        "ppa": 0.19537494776303577,
+        "rate": 0.4583333333333333
+      },
+      "rushing_plays": {
+        "explosiveness": 1.173522377221757,
+        "success_rate": 0.358974358974359,
+        "total_ppa": 6.3695049832955455,
+        "ppa": 0.16332064059732168,
+        "rate": 0.5416666666666666
+      },
+      "passing_downs": {
+        "explosiveness": 1.6661898511796265,
+        "success_rate": 0.34615384615384615,
+        "total_ppa": 6.447373276180181,
+        "ppa": 0.4123978662002134,
+        "rate": 0.3611111111111111
+      },
+      "standard_downs": {
+        "explosiveness": 1.1478950602248694,
+        "success_rate": 0.41304347826086957,
+        "ppa": 0.045533342136308205,
+        "rate": 0.6388888888888888
+      },
+      "havoc": {
+        "db": 0.014,
+        "front_seven": 0.069,
+        "total": 0.083
+      },
+      "field_position": {
+        "average_predicted_points": -1.19,
+        "average_start": 74.8
+      },
+      "points_per_opportunity": 4,
+      "total_opportunies": 6,
+      "open_field_yards_total": 0,
+      "open_field_yards": 1.4615384615384615,
+      "second_level_yards_total": 44,
+      "second_level_yards": 1.1282051282051282,
+      "line_yards_total": 120,
+      "line_yards": 3.0846153846153848,
+      "stuff_rate": 0.1282051282051282,
+      "power_success": 0.8333333333333334,
+      "explosiveness": 1.3144898144603272,
+      "success_rate": 0.3888888888888889,
+      "total_ppa": 12.816878259475725,
+      "ppa": 0.17801219804827398,
+      "drives": 13,
+      "plays": 72
+    }
+  },
+  {
+    "season": 2020,
+    "team": "Florida State",
+    "conference": "ACC",
+    "offense": {
+      "passing_plays": {
+        "explosiveness": 1.4241354047312353,
+        "success_rate": 0.3191489361702128,
+        "total_ppa": -0.002780821446733596,
+        "ppa": -5.916641376028928e-05,
+        "rate": 0.5875
+      },
+      "rushing_plays": {
+        "explosiveness": 0.7912469331287498,
+        "success_rate": 0.5454545454545454,
+        "total_ppa": 6.170274001750938,
+        "ppa": 0.18697800005305873,
+        "rate": 0.4125
+      },
+      "passing_downs": {
+        "explosiveness": 1.7596376076898956,
+        "success_rate": 0.27586206896551724,
+        "ppa": 0.15683326812804807,
+        "rate": 0.3625
+      },
+      "standard_downs": {
+        "explosiveness": 0.8610950002306744,
+        "success_rate": 0.49019607843137253,
+        "ppa": 0.031751537344917855,
+        "rate": 0.6375
+      },
+      "havoc": {
+        "db": 0.1,
+        "front_seven": 0.113,
+        "total": 0.213
+      },
+      "field_position": {
+        "average_predicted_points": 1.287,
+        "average_start": 71.5
+      },
+      "points_per_opportunity": 2.1666666666666665,
+      "total_opportunies": 6,
+      "open_field_yards_total": 6,
+      "open_field_yards": 0.18181818181818182,
+      "second_level_yards_total": 40,
+      "second_level_yards": 1.2121212121212122,
+      "line_yards_total": 112,
+      "line_yards": 3.3878787878787877,
+      "stuff_rate": 0.15151515151515152,
+      "power_success": 1,
+      "explosiveness": 1.0789235111298796,
+      "success_rate": 0.4125,
+      "total_ppa": 6.167493180304205,
+      "ppa": 0.07709366475380255,
+      "drives": 11,
+      "plays": 80
+    },
+    "defense": {
+      "passing_plays": {
+        "explosiveness": 1.25634899844742,
+        "success_rate": 0.5714285714285714,
+        "total_ppa": 8.761864427164621,
+        "ppa": 0.2503389836332749,
+        "rate": 0.47297297297297297
+      },
+      "rushing_plays": {
+        "explosiveness": 1.0164855099034218,
+        "success_rate": 0.41025641025641024,
+        "total_ppa": 2.0313470838759473,
+        "ppa": 0.052085822663485826,
+        "rate": 0.527027027027027
+      },
+      "passing_downs": {
+        "explosiveness": 1.8460808385655405,
+        "success_rate": 0.28,
+        "total_ppa": 8.761864427164621,
+        "ppa": 0.30511977915683947,
+        "rate": 0.33783783783783783
+      },
+      "standard_downs": {
+        "explosiveness": 0.9816614571532541,
+        "success_rate": 0.5918367346938775,
+        "ppa": 0.06459626596162414,
+        "rate": 0.6621621621621622
+      },
+      "havoc": {
+        "db": 0.095,
+        "front_seven": 0.081,
+        "total": 0.176
+      },
+      "field_position": {
+        "average_predicted_points": -1.961,
+        "average_start": 59.7
+      },
+      "points_per_opportunity": 2.125,
+      "total_opportunies": 8,
+      "open_field_yards_total": 0,
+      "open_field_yards": 0.5384615384615384,
+      "second_level_yards_total": 45,
+      "second_level_yards": 1.1538461538461537,
+      "line_yards_total": 94,
+      "line_yards": 2.417948717948718,
+      "stuff_rate": 0.2564102564102564,
+      "power_success": 1,
+      "explosiveness": 1.1497430035389764,
+      "success_rate": 0.4864864864864865,
+      "total_ppa": 10.79321151104057,
+      "ppa": 0.14585420960865633,
+      "drives": 11,
+      "plays": 74
+    }
+  },
+  {
+    "season": 2020,
+    "team": "Georgia Southern",
+    "conference": "Sun Belt",
+    "offense": {
+      "passing_plays": {
+        "explosiveness": 1.1511448399598438,
+        "success_rate": 0.4,
+        "total_ppa": 1.674246732055851,
+        "ppa": 0.1116164488037234,
+        "rate": 0.234375
+      },
+      "rushing_plays": {
+        "explosiveness": 0.9197841677129077,
+        "success_rate": 0.4897959183673469,
+        "total_ppa": 12.483158356238574,
+        "ppa": 0.2547583338007872,
+        "rate": 0.765625
+      },
+      "passing_downs": {
+        "explosiveness": 1.821465525370124,
+        "success_rate": 0.13333333333333333,
+        "ppa": -0.11768067579263163,
+        "rate": 0.234375
+      },
+      "standard_downs": {
+        "explosiveness": 0.9049556433617357,
+        "success_rate": 0.5714285714285714,
+        "ppa": 0.32495133112620206,
+        "rate": 0.765625
+      },
+      "havoc": {
+        "db": 0.063,
+        "front_seven": 0.109,
+        "total": 0.172
+      },
+      "field_position": {
+        "average_predicted_points": 1.067,
+        "average_start": 76.3
+      },
+      "points_per_opportunity": 4,
+      "total_opportunies": 5,
+      "open_field_yards_total": 91,
+      "open_field_yards": 1.8571428571428572,
+      "second_level_yards_total": 58,
+      "second_level_yards": 1.183673469387755,
+      "line_yards_total": 171,
+      "line_yards": 3.4938775510204083,
+      "stuff_rate": 0.14285714285714285,
+      "power_success": 0.6666666666666666,
+      "explosiveness": 0.9660563021622949,
+      "success_rate": 0.46875,
+      "total_ppa": 14.157405088294425,
+      "ppa": 0.2212094545046004,
+      "drives": 10,
+      "plays": 64
+    },
+    "defense": {
+      "passing_plays": {
+        "explosiveness": 1.41535166659133,
+        "success_rate": 0.4827586206896552,
+        "total_ppa": 8.97959134060274,
+        "ppa": 0.3096410807104393,
+        "rate": 0.5
+      },
+      "rushing_plays": {
+        "explosiveness": 1.0731884695635883,
+        "success_rate": 0.5172413793103449,
+        "total_ppa": 11.326503196408247,
+        "ppa": 0.39056907573821537,
+        "rate": 0.5
+      },
+      "passing_downs": {
+        "explosiveness": 1.3786979620436999,
+        "success_rate": 0.2631578947368421,
+        "total_ppa": 8.97959134060274,
+        "ppa": 0.1755824253458292,
+        "rate": 0.3275862068965517
+      },
+      "standard_downs": {
+        "explosiveness": 1.2091358568964143,
+        "success_rate": 0.6153846153846154,
+        "ppa": 0.4351289347548777,
+        "rate": 0.6724137931034483
+      },
+      "havoc": {
+        "db": 0.017,
+        "front_seven": 0.121,
+        "total": 0.138
+      },
+      "field_position": {
+        "average_predicted_points": -1.356,
+        "average_start": 70
+      },
+      "points_per_opportunity": 3.5,
+      "total_opportunies": 8,
+      "open_field_yards_total": 0,
+      "open_field_yards": 0.4482758620689655,
+      "second_level_yards_total": 53,
+      "second_level_yards": 1.8275862068965516,
+      "line_yards_total": 101,
+      "line_yards": 3.496551724137931,
+      "stuff_rate": 0.13793103448275862,
+      "power_success": 0.5,
+      "explosiveness": 1.2383707026114636,
+      "success_rate": 0.5,
+      "total_ppa": 20.306094537010985,
+      "ppa": 0.35010507822432735,
+      "drives": 11,
+      "plays": 58
+    }
+  },
+  {
+    "season": 2020,
+    "team": "Georgia Tech",
+    "conference": "ACC",
+    "offense": {
+      "passing_plays": {
+        "explosiveness": 1.25634899844742,
+        "success_rate": 0.5714285714285714,
+        "total_ppa": 8.761864427164621,
+        "ppa": 0.2503389836332749,
+        "rate": 0.47297297297297297
+      },
+      "rushing_plays": {
+        "explosiveness": 1.0164855099034218,
+        "success_rate": 0.41025641025641024,
+        "total_ppa": 2.0313470838759473,
+        "ppa": 0.052085822663485826,
+        "rate": 0.527027027027027
+      },
+      "passing_downs": {
+        "explosiveness": 1.8460808385655405,
+        "success_rate": 0.28,
+        "ppa": 0.30511977915683947,
+        "rate": 0.33783783783783783
+      },
+      "standard_downs": {
+        "explosiveness": 0.9816614571532541,
+        "success_rate": 0.5918367346938775,
+        "ppa": 0.06459626596162414,
+        "rate": 0.6621621621621622
+      },
+      "havoc": {
+        "db": 0.095,
+        "front_seven": 0.081,
+        "total": 0.176
+      },
+      "field_position": {
+        "average_predicted_points": 1.961,
+        "average_start": 59.7
+      },
+      "points_per_opportunity": 2.125,
+      "total_opportunies": 8,
+      "open_field_yards_total": 21,
+      "open_field_yards": 0.5384615384615384,
+      "second_level_yards_total": 45,
+      "second_level_yards": 1.1538461538461537,
+      "line_yards_total": 94,
+      "line_yards": 2.417948717948718,
+      "stuff_rate": 0.2564102564102564,
+      "power_success": 1,
+      "explosiveness": 1.1497430035389764,
+      "success_rate": 0.4864864864864865,
+      "total_ppa": 10.79321151104057,
+      "ppa": 0.14585420960865633,
+      "drives": 11,
+      "plays": 74
+    },
+    "defense": {
+      "passing_plays": {
+        "explosiveness": 1.4241354047312353,
+        "success_rate": 0.3191489361702128,
+        "total_ppa": -0.002780821446733596,
+        "ppa": -5.916641376028928e-05,
+        "rate": 0.5875
+      },
+      "rushing_plays": {
+        "explosiveness": 0.7912469331287498,
+        "success_rate": 0.5454545454545454,
+        "total_ppa": 6.170274001750938,
+        "ppa": 0.18697800005305873,
+        "rate": 0.4125
+      },
+      "passing_downs": {
+        "explosiveness": 1.7596376076898956,
+        "success_rate": 0.27586206896551724,
+        "total_ppa": -0.002780821446733596,
+        "ppa": 0.15683326812804807,
+        "rate": 0.3625
+      },
+      "standard_downs": {
+        "explosiveness": 0.8610950002306744,
+        "success_rate": 0.49019607843137253,
+        "ppa": 0.031751537344917855,
+        "rate": 0.6375
+      },
+      "havoc": {
+        "db": 0.1,
+        "front_seven": 0.113,
+        "total": 0.213
+      },
+      "field_position": {
+        "average_predicted_points": -1.287,
+        "average_start": 71.5
+      },
+      "points_per_opportunity": 2.1666666666666665,
+      "total_opportunies": 6,
+      "open_field_yards_total": 0,
+      "open_field_yards": 0.18181818181818182,
+      "second_level_yards_total": 40,
+      "second_level_yards": 1.2121212121212122,
+      "line_yards_total": 112,
+      "line_yards": 3.3878787878787877,
+      "stuff_rate": 0.15151515151515152,
+      "power_success": 1,
+      "explosiveness": 1.0789235111298796,
+      "success_rate": 0.4125,
+      "total_ppa": 6.167493180304205,
+      "ppa": 0.07709366475380255,
+      "drives": 11,
+      "plays": 80
+    }
+  },
+  {
+    "season": 2020,
+    "team": "Iowa State",
+    "conference": "Big 12",
+    "offense": {
+      "passing_plays": {
+        "explosiveness": 1.2453946602746735,
+        "success_rate": 0.3055555555555556,
+        "total_ppa": -4.948051358862573,
+        "ppa": -0.13744587107951592,
+        "rate": 0.5070422535211268
+      },
+      "rushing_plays": {
+        "explosiveness": 1.025039848788474,
+        "success_rate": 0.6,
+        "total_ppa": 12.876520251501166,
+        "ppa": 0.367900578614319,
+        "rate": 0.49295774647887325
+      },
+      "passing_downs": {
+        "explosiveness": 2.024051642411852,
+        "success_rate": 0.2727272727272727,
+        "ppa": 0.14924842636940272,
+        "rate": 0.30985915492957744
+      },
+      "standard_downs": {
+        "explosiveness": 0.8877257012733941,
+        "success_rate": 0.5306122448979592,
+        "ppa": 0.09479599005125984,
+        "rate": 0.6901408450704225
+      },
+      "havoc": {
+        "db": 0.085,
+        "front_seven": 0.085,
+        "total": 0.169
+      },
+      "field_position": {
+        "average_predicted_points": 1.366,
+        "average_start": 71.4
+      },
+      "points_per_opportunity": 4.666666666666667,
+      "total_opportunies": 3,
+      "open_field_yards_total": 20,
+      "open_field_yards": 0.5714285714285714,
+      "second_level_yards_total": 41,
+      "second_level_yards": 1.1714285714285715,
+      "line_yards_total": 115,
+      "line_yards": 3.28,
+      "stuff_rate": 0.14285714285714285,
+      "power_success": 0.625,
+      "explosiveness": 1.100786815236855,
+      "success_rate": 0.4507042253521127,
+      "total_ppa": 7.928468892638592,
+      "ppa": 0.11166857595265622,
+      "drives": 12,
+      "plays": 71
+    },
+    "defense": {
+      "passing_plays": {
+        "explosiveness": 2.1025857804850094,
+        "success_rate": 0.3333333333333333,
+        "total_ppa": 6.969971951219624,
+        "ppa": 0.29041549796748434,
+        "rate": 0.42857142857142855
+      },
+      "rushing_plays": {
+        "explosiveness": 0.7690046134990921,
+        "success_rate": 0.4375,
+        "total_ppa": 2.728853545667551,
+        "ppa": 0.08527667330211097,
+        "rate": 0.5714285714285714
+      },
+      "passing_downs": {
+        "explosiveness": 1.9088730185588836,
+        "success_rate": 0.34782608695652173,
+        "total_ppa": 6.969971951219624,
+        "ppa": 0.39841046238428296,
+        "rate": 0.4107142857142857
+      },
+      "standard_downs": {
+        "explosiveness": 0.879697620314021,
+        "success_rate": 0.42424242424242425,
+        "ppa": 0.016223783698444474,
+        "rate": 0.5892857142857143
+      },
+      "havoc": {
+        "db": 0.036,
+        "front_seven": 0.125,
+        "total": 0.161
+      },
+      "field_position": {
+        "average_predicted_points": -1.484,
+        "average_start": 68.2
+      },
+      "points_per_opportunity": 1.75,
+      "total_opportunies": 4,
+      "open_field_yards_total": 0,
+      "open_field_yards": 0.5,
+      "second_level_yards_total": 30,
+      "second_level_yards": 0.9375,
+      "line_yards_total": 95,
+      "line_yards": 2.9625,
+      "stuff_rate": 0.15625,
+      "power_success": 0.75,
+      "explosiveness": 1.2539432196757891,
+      "success_rate": 0.39285714285714285,
+      "total_ppa": 9.698825496887176,
+      "ppa": 0.17319331244441385,
+      "drives": 10,
+      "plays": 56
+    }
+  },
+  {
+    "season": 2020,
+    "team": "Kansas",
+    "conference": "Big 12",
+    "offense": {
+      "passing_plays": {
+        "explosiveness": 1.4460698796300469,
+        "success_rate": 0.3783783783783784,
+        "total_ppa": 5.772389566666972,
+        "ppa": 0.1560105288288371,
+        "rate": 0.5068493150684932
+      },
+      "rushing_plays": {
+        "explosiveness": 1.313638308166928,
+        "success_rate": 0.4722222222222222,
+        "total_ppa": 4.449749011269506,
+        "ppa": 0.12360413920193072,
+        "rate": 0.4931506849315068
+      },
+      "passing_downs": {
+        "explosiveness": 2.172752375746371,
+        "success_rate": 0.34782608695652173,
+        "ppa": 0.43418442221683723,
+        "rate": 0.3150684931506849
+      },
+      "standard_downs": {
+        "explosiveness": 1.0954265455516288,
+        "success_rate": 0.46,
+        "ppa": 0.004717937338984442,
+        "rate": 0.684931506849315
+      },
+      "havoc": {
+        "db": 0.068,
+        "front_seven": 0.192,
+        "total": 0.26
+      },
+      "field_position": {
+        "average_predicted_points": 0.969,
+        "average_start": 75.7
+      },
+      "points_per_opportunity": 2.8333333333333335,
+      "total_opportunies": 6,
+      "open_field_yards_total": 71,
+      "open_field_yards": 1.972222222222222,
+      "second_level_yards_total": 55,
+      "second_level_yards": 1.527777777777778,
+      "line_yards_total": 85,
+      "line_yards": 2.3555555555555556,
+      "stuff_rate": 0.3333333333333333,
+      "power_success": 0.5714285714285714,
+      "explosiveness": 1.3734461146341428,
+      "success_rate": 0.4246575342465753,
+      "total_ppa": 10.222138577936478,
+      "ppa": 0.14002929558817093,
+      "drives": 11,
+      "plays": 73
+    },
+    "defense": {
+      "passing_plays": {
+        "explosiveness": 1.3892227526862522,
+        "success_rate": 0.5555555555555556,
+        "total_ppa": 6.9355228395962785,
+        "ppa": 0.38530682442201547,
+        "rate": 0.3
+      },
+      "rushing_plays": {
+        "explosiveness": 0.8082039756831689,
+        "success_rate": 0.5,
+        "total_ppa": 8.708147748214582,
+        "ppa": 0.20733685114796624,
+        "rate": 0.7
+      },
+      "passing_downs": {
+        "explosiveness": 0.7153026127423197,
+        "success_rate": 0.2727272727272727,
+        "total_ppa": 6.9355228395962785,
+        "ppa": -0.1261421818013976,
+        "rate": 0.18333333333333332
+      },
+      "standard_downs": {
+        "explosiveness": 1.0256643992136467,
+        "success_rate": 0.5714285714285714,
+        "ppa": 0.3475762160740048,
+        "rate": 0.8166666666666667
+      },
+      "havoc": {
+        "db": 0.05,
+        "front_seven": 0.05,
+        "total": 0.1
+      },
+      "field_position": {
+        "average_predicted_points": -2.282,
+        "average_start": 56.6
+      },
+      "points_per_opportunity": 5.428571428571429,
+      "total_opportunies": 7,
+      "open_field_yards_total": 0,
+      "open_field_yards": 0.35714285714285715,
+      "second_level_yards_total": 42,
+      "second_level_yards": 1,
+      "line_yards_total": 140,
+      "line_yards": 3.3285714285714287,
+      "stuff_rate": 0.07142857142857142,
+      "power_success": 0.6923076923076923,
+      "explosiveness": 0.9956293876196474,
+      "success_rate": 0.5166666666666667,
+      "total_ppa": 15.643670587810862,
+      "ppa": 0.260727843130181,
+      "drives": 10,
+      "plays": 60
+    }
+  },
+  {
+    "season": 2020,
+    "team": "Kansas State",
+    "conference": "Big 12",
+    "offense": {
+      "passing_plays": {
+        "explosiveness": 1.8550659163308982,
+        "success_rate": 0.4375,
+        "total_ppa": 13.60321186406073,
+        "ppa": 0.4251003707518978,
+        "rate": 0.463768115942029
+      },
+      "rushing_plays": {
+        "explosiveness": 1.528942313717001,
+        "success_rate": 0.21621621621621623,
+        "total_ppa": -4.955418050259704,
+        "ppa": -0.1339302175745866,
+        "rate": 0.5362318840579711
+      },
+      "passing_downs": {
+        "explosiveness": 2.518833883276272,
+        "success_rate": 0.2692307692307692,
+        "ppa": 0.3294157987786692,
+        "rate": 0.37681159420289856
+      },
+      "standard_downs": {
+        "explosiveness": 1.3713749436956455,
+        "success_rate": 0.3488372093023256,
+        "ppa": 0.001929838268735493,
+        "rate": 0.6231884057971014
+      },
+      "havoc": {
+        "db": 0.043,
+        "front_seven": 0.116,
+        "total": 0.159
+      },
+      "field_position": {
+        "average_predicted_points": 2.022,
+        "average_start": 62.9
+      },
+      "points_per_opportunity": 3.444444444444444,
+      "total_opportunies": 9,
+      "open_field_yards_total": 35,
+      "open_field_yards": 0.9459459459459459,
+      "second_level_yards_total": 26,
+      "second_level_yards": 0.7027027027027027,
+      "line_yards_total": 46,
+      "line_yards": 1.2405405405405405,
+      "stuff_rate": 0.32432432432432434,
+      "power_success": 0.3333333333333333,
+      "explosiveness": 1.7364755153803901,
+      "success_rate": 0.3188405797101449,
+      "total_ppa": 8.647793813801027,
+      "ppa": 0.12533034512755112,
+      "drives": 13,
+      "plays": 69
+    },
+    "defense": {
+      "passing_plays": {
+        "explosiveness": 1.3893101207162262,
+        "success_rate": 0.5365853658536586,
+        "total_ppa": 15.630744596475523,
+        "ppa": 0.38123767308476886,
+        "rate": 0.5774647887323944
+      },
+      "rushing_plays": {
+        "explosiveness": 1.2524610260038118,
+        "success_rate": 0.36666666666666664,
+        "total_ppa": 0.7646179689253036,
+        "ppa": 0.025487265630843456,
+        "rate": 0.4225352112676056
+      },
+      "passing_downs": {
+        "explosiveness": 2.254166598209385,
+        "success_rate": 0.35294117647058826,
+        "total_ppa": 15.630744596475523,
+        "ppa": 0.4157848967923667,
+        "rate": 0.23943661971830985
+      },
+      "standard_downs": {
+        "explosiveness": 1.1413664575015776,
+        "success_rate": 0.5,
+        "ppa": 0.1727225799987147,
+        "rate": 0.7605633802816901
+      },
+      "havoc": {
+        "db": 0.085,
+        "front_seven": 0.085,
+        "total": 0.169
+      },
+      "field_position": {
+        "average_predicted_points": -1.062,
+        "average_start": 74.5
+      },
+      "points_per_opportunity": 4.666666666666667,
+      "total_opportunies": 6,
+      "open_field_yards_total": 0,
+      "open_field_yards": 2.3666666666666667,
+      "second_level_yards_total": 34,
+      "second_level_yards": 1.1333333333333333,
+      "line_yards_total": 79,
+      "line_yards": 2.643333333333333,
+      "stuff_rate": 0.2,
+      "power_success": 0.6666666666666666,
+      "explosiveness": 1.343693755812088,
+      "success_rate": 0.4647887323943662,
+      "total_ppa": 16.395362565400827,
+      "ppa": 0.2309205995126877,
+      "drives": 12,
+      "plays": 71
+    }
+  },
+  {
+    "season": 2020,
+    "team": "Louisiana",
+    "conference": "Sun Belt",
+    "offense": {
+      "passing_plays": {
+        "explosiveness": 2.1025857804850094,
+        "success_rate": 0.3333333333333333,
+        "total_ppa": 6.969971951219624,
+        "ppa": 0.29041549796748434,
+        "rate": 0.42857142857142855
+      },
+      "rushing_plays": {
+        "explosiveness": 0.7690046134990921,
+        "success_rate": 0.4375,
+        "total_ppa": 2.728853545667551,
+        "ppa": 0.08527667330211097,
+        "rate": 0.5714285714285714
+      },
+      "passing_downs": {
+        "explosiveness": 1.9088730185588836,
+        "success_rate": 0.34782608695652173,
+        "ppa": 0.39841046238428296,
+        "rate": 0.4107142857142857
+      },
+      "standard_downs": {
+        "explosiveness": 0.879697620314021,
+        "success_rate": 0.42424242424242425,
+        "ppa": 0.016223783698444474,
+        "rate": 0.5892857142857143
+      },
+      "havoc": {
+        "db": 0.036,
+        "front_seven": 0.125,
+        "total": 0.161
+      },
+      "field_position": {
+        "average_predicted_points": 1.484,
+        "average_start": 68.2
+      },
+      "points_per_opportunity": 1.75,
+      "total_opportunies": 4,
+      "open_field_yards_total": 16,
+      "open_field_yards": 0.5,
+      "second_level_yards_total": 30,
+      "second_level_yards": 0.9375,
+      "line_yards_total": 95,
+      "line_yards": 2.9625,
+      "stuff_rate": 0.15625,
+      "power_success": 0.75,
+      "explosiveness": 1.2539432196757891,
+      "success_rate": 0.39285714285714285,
+      "total_ppa": 9.698825496887176,
+      "ppa": 0.17319331244441385,
+      "drives": 10,
+      "plays": 56
+    },
+    "defense": {
+      "passing_plays": {
+        "explosiveness": 1.2453946602746735,
+        "success_rate": 0.3055555555555556,
+        "total_ppa": -4.948051358862573,
+        "ppa": -0.13744587107951592,
+        "rate": 0.5070422535211268
+      },
+      "rushing_plays": {
+        "explosiveness": 1.025039848788474,
+        "success_rate": 0.6,
+        "total_ppa": 12.876520251501166,
+        "ppa": 0.367900578614319,
+        "rate": 0.49295774647887325
+      },
+      "passing_downs": {
+        "explosiveness": 2.024051642411852,
+        "success_rate": 0.2727272727272727,
+        "total_ppa": -4.948051358862573,
+        "ppa": 0.14924842636940272,
+        "rate": 0.30985915492957744
+      },
+      "standard_downs": {
+        "explosiveness": 0.8877257012733941,
+        "success_rate": 0.5306122448979592,
+        "ppa": 0.09479599005125984,
+        "rate": 0.6901408450704225
+      },
+      "havoc": {
+        "db": 0.085,
+        "front_seven": 0.085,
+        "total": 0.169
+      },
+      "field_position": {
+        "average_predicted_points": -1.366,
+        "average_start": 71.4
+      },
+      "points_per_opportunity": 4.666666666666667,
+      "total_opportunies": 3,
+      "open_field_yards_total": 0,
+      "open_field_yards": 0.5714285714285714,
+      "second_level_yards_total": 41,
+      "second_level_yards": 1.1714285714285715,
+      "line_yards_total": 115,
+      "line_yards": 3.28,
+      "stuff_rate": 0.14285714285714285,
+      "power_success": 0.625,
+      "explosiveness": 1.100786815236855,
+      "success_rate": 0.4507042253521127,
+      "total_ppa": 7.928468892638592,
+      "ppa": 0.11166857595265622,
+      "drives": 12,
+      "plays": 71
+    }
+  },
+  {
+    "season": 2020,
+    "team": "Louisville",
+    "conference": "ACC",
+    "offense": {
+      "passing_plays": {
+        "explosiveness": 2.034709013698979,
+        "success_rate": 0.4411764705882353,
+        "total_ppa": 21.21754094222645,
+        "ppa": 0.6240453218301897,
+        "rate": 0.4722222222222222
+      },
+      "rushing_plays": {
+        "explosiveness": 0.9723764280241198,
+        "success_rate": 0.3684210526315789,
+        "total_ppa": 4.310310322695931,
+        "ppa": 0.11342921901831396,
+        "rate": 0.5277777777777778
+      },
+      "passing_downs": {
+        "explosiveness": 2.034764338874923,
+        "success_rate": 0.3333333333333333,
+        "ppa": 0.38700721045311004,
+        "rate": 0.375
+      },
+      "standard_downs": {
+        "explosiveness": 1.291051307397403,
+        "success_rate": 0.4444444444444444,
+        "ppa": 0.3350812573930757,
+        "rate": 0.625
+      },
+      "havoc": {
+        "db": 0.042,
+        "front_seven": 0.167,
+        "total": 0.208
+      },
+      "field_position": {
+        "average_predicted_points": 0.995,
+        "average_start": 78.3
+      },
+      "points_per_opportunity": 4.666666666666667,
+      "total_opportunies": 6,
+      "open_field_yards_total": 48,
+      "open_field_yards": 1.263157894736842,
+      "second_level_yards_total": 39,
+      "second_level_yards": 1.0263157894736843,
+      "line_yards_total": 68,
+      "line_yards": 1.7763157894736843,
+      "stuff_rate": 0.2894736842105263,
+      "power_success": 1,
+      "explosiveness": 1.5218587999249091,
+      "success_rate": 0.4027777777777778,
+      "total_ppa": 25.52785126492238,
+      "ppa": 0.3545534897905886,
+      "drives": 12,
+      "plays": 72
+    },
+    "defense": {
+      "passing_plays": {
+        "explosiveness": 1.8210806375262087,
+        "success_rate": 0.2,
+        "total_ppa": -6.928101810919538,
+        "ppa": -0.2771240724367815,
+        "rate": 0.43103448275862066
+      },
+      "rushing_plays": {
+        "explosiveness": 0.8047824513451137,
+        "success_rate": 0.45454545454545453,
+        "total_ppa": 3.4238730961648893,
+        "ppa": 0.10375373018681483,
+        "rate": 0.5689655172413793
+      },
+      "passing_downs": {
+        "explosiveness": 1.8361557332425718,
+        "success_rate": 0.3333333333333333,
+        "total_ppa": -6.928101810919538,
+        "ppa": 0.36464967872687726,
+        "rate": 0.41379310344827586
+      },
+      "standard_downs": {
+        "explosiveness": 0.5406578409889313,
+        "success_rate": 0.35294117647058826,
+        "ppa": -0.36046532365293243,
+        "rate": 0.5862068965517241
+      },
+      "havoc": {
+        "db": 0.034,
+        "front_seven": 0.19,
+        "total": 0.224
+      },
+      "field_position": {
+        "average_predicted_points": -1.324,
+        "average_start": 70.8
+      },
+      "points_per_opportunity": 3.5,
+      "total_opportunies": 6,
+      "open_field_yards_total": 0,
+      "open_field_yards": 2,
+      "second_level_yards_total": 49,
+      "second_level_yards": 1.4848484848484849,
+      "line_yards_total": 90,
+      "line_yards": 2.721212121212121,
+      "stuff_rate": 0.21212121212121213,
+      "power_success": 1,
+      "explosiveness": 1.0588569978903875,
+      "success_rate": 0.3448275862068966,
+      "total_ppa": -3.5042287147546483,
+      "ppa": -0.060417736461287036,
+      "drives": 12,
+      "plays": 58
+    }
+  },
+  {
+    "season": 2020,
+    "team": "Marshall",
+    "conference": "Conference USA",
+    "offense": {
+      "passing_plays": {
+        "explosiveness": 1.7092568310143101,
+        "success_rate": 0.6451612903225806,
+        "total_ppa": 24.328270924327395,
+        "ppa": 0.7847829330428192,
+        "rate": 0.37349397590361444
+      },
+      "rushing_plays": {
+        "explosiveness": 0.844492174190724,
+        "success_rate": 0.6346153846153846,
+        "total_ppa": 19.934998179883625,
+        "ppa": 0.38336534961314667,
+        "rate": 0.6265060240963856
+      },
+      "passing_downs": {
+        "explosiveness": 2.437512580186169,
+        "success_rate": 0.5714285714285714,
+        "ppa": 1.263529050357458,
+        "rate": 0.1686746987951807
+      },
+      "standard_downs": {
+        "explosiveness": 0.9456283939353499,
+        "success_rate": 0.6521739130434783,
+        "ppa": 0.3851284405682117,
+        "rate": 0.8313253012048193
+      },
+      "havoc": {
+        "db": 0.024,
+        "front_seven": 0.036,
+        "total": 0.06
+      },
+      "field_position": {
+        "average_predicted_points": 1.519,
+        "average_start": 68.5
+      },
+      "points_per_opportunity": 6.5,
+      "total_opportunies": 8,
+      "open_field_yards_total": 44,
+      "open_field_yards": 0.8461538461538461,
+      "second_level_yards_total": 78,
+      "second_level_yards": 1.5,
+      "line_yards_total": 213,
+      "line_yards": 4.092307692307692,
+      "stuff_rate": 0.057692307692307696,
+      "power_success": 0.9230769230769231,
+      "explosiveness": 1.1708184597845301,
+      "success_rate": 0.6385542168674698,
+      "total_ppa": 44.26326910421102,
+      "ppa": 0.533292398845916,
+      "drives": 11,
+      "plays": 83
+    },
+    "defense": {
+      "passing_plays": {
+        "explosiveness": 1.9648477386321752,
+        "success_rate": 0.2222222222222222,
+        "total_ppa": -1.533352572310572,
+        "ppa": -0.085186254017254,
+        "rate": 0.3829787234042553
+      },
+      "rushing_plays": {
+        "explosiveness": 0.6226839266836816,
+        "success_rate": 0.3103448275862069,
+        "total_ppa": -2.9859677527392763,
+        "ppa": -0.10296440526687159,
+        "rate": 0.6170212765957447
+      },
+      "passing_downs": {
+        "explosiveness": 2.053195203145846,
+        "success_rate": 0.2,
+        "total_ppa": -1.533352572310572,
+        "ppa": 0.09035802001745043,
+        "rate": 0.425531914893617
+      },
+      "standard_downs": {
+        "explosiveness": 0.583418386899828,
+        "success_rate": 0.3333333333333333,
+        "ppa": -0.2343141009406984,
+        "rate": 0.574468085106383
+      },
+      "havoc": {
+        "db": 0.021,
+        "front_seven": 0.085,
+        "total": 0.106
+      },
+      "field_position": {
+        "average_predicted_points": -0.822,
+        "average_start": 76.6
+      },
+      "points_per_opportunity": 0,
+      "total_opportunies": 3,
+      "open_field_yards_total": 0,
+      "open_field_yards": 0.4482758620689655,
+      "second_level_yards_total": 13,
+      "second_level_yards": 0.4482758620689655,
+      "line_yards_total": 72,
+      "line_yards": 2.475862068965517,
+      "stuff_rate": 0.13793103448275862,
+      "power_success": 0.3333333333333333,
+      "explosiveness": 1.035657407283218,
+      "success_rate": 0.2765957446808511,
+      "total_ppa": -4.519320325049848,
+      "ppa": -0.09615575159680528,
+      "drives": 10,
+      "plays": 47
+    }
+  },
+  {
+    "season": 2020,
+    "team": "Memphis",
+    "conference": "American Athletic",
+    "offense": {
+      "passing_plays": {
+        "explosiveness": 1.6595029645160024,
+        "success_rate": 0.5555555555555556,
+        "total_ppa": 25.400441973172146,
+        "ppa": 0.7055678325881152,
+        "rate": 0.42857142857142855
+      },
+      "rushing_plays": {
+        "explosiveness": 0.9559021535354999,
+        "success_rate": 0.4166666666666667,
+        "total_ppa": 1.9180584795247209,
+        "ppa": 0.03995955165676502,
+        "rate": 0.5714285714285714
+      },
+      "passing_downs": {
+        "explosiveness": 2.202335719282356,
+        "success_rate": 0.4166666666666667,
+        "ppa": 0.7372140987541783,
+        "rate": 0.2857142857142857
+      },
+      "standard_downs": {
+        "explosiveness": 1.009491505606883,
+        "success_rate": 0.5,
+        "ppa": 0.16042270137660977,
+        "rate": 0.7142857142857143
+      },
+      "havoc": {
+        "db": 0.024,
+        "front_seven": 0.083,
+        "total": 0.107
+      },
+      "field_position": {
+        "average_predicted_points": 1.422,
+        "average_start": 71.3
+      },
+      "points_per_opportunity": 4.75,
+      "total_opportunies": 8,
+      "open_field_yards_total": 43,
+      "open_field_yards": 0.8958333333333334,
+      "second_level_yards_total": 68,
+      "second_level_yards": 1.4166666666666667,
+      "line_yards_total": 118,
+      "line_yards": 2.4604166666666667,
+      "stuff_rate": 0.2708333333333333,
+      "power_success": 0.6666666666666666,
+      "explosiveness": 1.3077025590257512,
+      "success_rate": 0.47619047619047616,
+      "total_ppa": 27.318500452696867,
+      "ppa": 0.3252202434844865,
+      "drives": 12,
+      "plays": 84
+    },
+    "defense": {
+      "passing_plays": {
+        "explosiveness": 1.4567914898395393,
+        "success_rate": 0.4888888888888889,
+        "total_ppa": 11.143141157263338,
+        "ppa": 0.24762535905029642,
+        "rate": 0.5769230769230769
+      },
+      "rushing_plays": {
+        "explosiveness": 0.8360605386507205,
+        "success_rate": 0.5151515151515151,
+        "total_ppa": 4.683369117987965,
+        "ppa": 0.1419202763026656,
+        "rate": 0.4230769230769231
+      },
+      "passing_downs": {
+        "explosiveness": 1.3836940959140267,
+        "success_rate": 0.5,
+        "total_ppa": 11.143141157263338,
+        "ppa": 0.4736777075462861,
+        "rate": 0.2564102564102564
+      },
+      "standard_downs": {
+        "explosiveness": 1.1181207232548913,
+        "success_rate": 0.5,
+        "ppa": 0.10953372628147555,
+        "rate": 0.7435897435897436
+      },
+      "havoc": {
+        "db": 0.09,
+        "front_seven": 0.09,
+        "total": 0.179
+      },
+      "field_position": {
+        "average_predicted_points": -1.121,
+        "average_start": 73.1
+      },
+      "points_per_opportunity": 3.4285714285714284,
+      "total_opportunies": 7,
+      "open_field_yards_total": 0,
+      "open_field_yards": 0.6666666666666666,
+      "second_level_yards_total": 44,
+      "second_level_yards": 1.3333333333333333,
+      "line_yards_total": 107,
+      "line_yards": 3.2393939393939393,
+      "stuff_rate": 0.15151515151515152,
+      "power_success": 0.8333333333333334,
+      "explosiveness": 1.1862164598341567,
+      "success_rate": 0.5,
+      "total_ppa": 15.826510275251303,
+      "ppa": 0.20290397788783723,
+      "drives": 12,
+      "plays": 78
+    }
+  },
+  {
+    "season": 2020,
+    "team": "Miami",
+    "conference": "ACC",
+    "offense": {
+      "passing_plays": {
+        "explosiveness": 1.1734367731186652,
+        "success_rate": 0.4827586206896552,
+        "total_ppa": 6.154552053472415,
+        "ppa": 0.21222593287835914,
+        "rate": 0.3717948717948718
+      },
+      "rushing_plays": {
+        "explosiveness": 1.8750689172715496,
+        "success_rate": 0.3469387755102041,
+        "total_ppa": 20.02769931434496,
+        "ppa": 0.40872855743561143,
+        "rate": 0.6282051282051282
+      },
+      "passing_downs": {
+        "explosiveness": 1.8643154848995311,
+        "success_rate": 0.2857142857142857,
+        "ppa": 0.2251434851345781,
+        "rate": 0.358974358974359
+      },
+      "standard_downs": {
+        "explosiveness": 1.4517288060035394,
+        "success_rate": 0.46,
+        "ppa": 0.3975646756809838,
+        "rate": 0.6410256410256411
+      },
+      "havoc": {
+        "db": 0.013,
+        "front_seven": 0.115,
+        "total": 0.128
+      },
+      "field_position": {
+        "average_predicted_points": 0.92,
+        "average_start": 77
+      },
+      "points_per_opportunity": 4.8,
+      "total_opportunies": 5,
+      "open_field_yards_total": 158,
+      "open_field_yards": 3.2244897959183674,
+      "second_level_yards_total": 62,
+      "second_level_yards": 1.2653061224489797,
+      "line_yards_total": 160,
+      "line_yards": 3.26734693877551,
+      "stuff_rate": 0.16326530612244897,
+      "power_success": 1,
+      "explosiveness": 1.558202787654118,
+      "success_rate": 0.3974358974358974,
+      "total_ppa": 26.182251367817376,
+      "ppa": 0.335669889330992,
+      "drives": 13,
+      "plays": 78
+    },
+    "defense": {
+      "passing_plays": {
+        "explosiveness": 2.0122383548266254,
+        "success_rate": 0.2777777777777778,
+        "total_ppa": 8.249058706248732,
+        "ppa": 0.22914051961802032,
+        "rate": 0.5901639344262295
+      },
+      "rushing_plays": {
+        "explosiveness": 0.8461828291961274,
+        "success_rate": 0.28,
+        "total_ppa": -4.79823351680988,
+        "ppa": -0.1919293406723952,
+        "rate": 0.4098360655737705
+      },
+      "passing_downs": {
+        "explosiveness": 2.707513040599163,
+        "success_rate": 0.18518518518518517,
+        "total_ppa": 8.249058706248732,
+        "ppa": 0.209911564758361,
+        "rate": 0.4426229508196721
+      },
+      "standard_downs": {
+        "explosiveness": 1.0423415124702775,
+        "success_rate": 0.35294117647058826,
+        "ppa": -0.0651996193834381,
+        "rate": 0.5573770491803278
+      },
+      "havoc": {
+        "db": 0.115,
+        "front_seven": 0.131,
+        "total": 0.246
+      },
+      "field_position": {
+        "average_predicted_points": -1.131,
+        "average_start": 72.2
+      },
+      "points_per_opportunity": 3.5,
+      "total_opportunies": 4,
+      "open_field_yards_total": 0,
+      "open_field_yards": 0.8,
+      "second_level_yards_total": 23,
+      "second_level_yards": 0.92,
+      "line_yards_total": 46,
+      "line_yards": 1.84,
+      "stuff_rate": 0.4,
+      "power_success": null,
+      "explosiveness": 1.532097844272891,
+      "success_rate": 0.2786885245901639,
+      "total_ppa": 3.4508251894388517,
+      "ppa": 0.05657090474489921,
+      "drives": 13,
+      "plays": 61
+    }
+  },
+  {
+    "season": 2020,
+    "team": "Middle Tennessee",
+    "conference": "Conference USA",
+    "offense": {
+      "passing_plays": {
+        "explosiveness": 0.7741600739031523,
+        "success_rate": 0.4166666666666667,
+        "total_ppa": -5.9363367170503185,
+        "ppa": -0.24734736321042994,
+        "rate": 0.5
+      },
+      "rushing_plays": {
+        "explosiveness": 0.893880018801272,
+        "success_rate": 0.375,
+        "total_ppa": -3.07797643469888,
+        "ppa": -0.12824901811245332,
+        "rate": 0.5
+      },
+      "passing_downs": {
+        "explosiveness": 2.325983452590054,
+        "success_rate": 0.13333333333333333,
+        "ppa": -0.5028923896105019,
+        "rate": 0.3125
+      },
+      "standard_downs": {
+        "explosiveness": 0.6549737648860507,
+        "success_rate": 0.5151515151515151,
+        "ppa": -0.044573554775505175,
+        "rate": 0.6875
+      },
+      "havoc": {
+        "db": 0.083,
+        "front_seven": 0.167,
+        "total": 0.25
+      },
+      "field_position": {
+        "average_predicted_points": 0.891,
+        "average_start": 75.7
+      },
+      "points_per_opportunity": 0,
+      "total_opportunies": 2,
+      "open_field_yards_total": 23,
+      "open_field_yards": 0.9583333333333334,
+      "second_level_yards_total": 31,
+      "second_level_yards": 1.2916666666666667,
+      "line_yards_total": 53,
+      "line_yards": 2.1875,
+      "stuff_rate": 0.25,
+      "power_success": 0.5,
+      "explosiveness": 0.8308695214864722,
+      "success_rate": 0.3958333333333333,
+      "total_ppa": -9.014313151749198,
+      "ppa": -0.18779819066144163,
+      "drives": 7,
+      "plays": 48
+    },
+    "defense": {
+      "passing_plays": {
+        "explosiveness": 1.661137421203151,
+        "success_rate": 0.5,
+        "total_ppa": 2.1035900890824304,
+        "ppa": 0.5258975222706076,
+        "rate": 0.06060606060606061
+      },
+      "rushing_plays": {
+        "explosiveness": 1.0412928619865547,
+        "success_rate": 0.5,
+        "total_ppa": 22.86277810614472,
+        "ppa": 0.36875448558297935,
+        "rate": 0.9393939393939394
+      },
+      "passing_downs": {
+        "explosiveness": 1.575950753332304,
+        "success_rate": 0.6363636363636364,
+        "total_ppa": 2.1035900890824304,
+        "ppa": 0.867230711470099,
+        "rate": 0.16666666666666666
+      },
+      "standard_downs": {
+        "explosiveness": 0.9450268573332065,
+        "success_rate": 0.4727272727272727,
+        "ppa": 0.28048782489192836,
+        "rate": 0.8333333333333334
+      },
+      "havoc": {
+        "db": 0.015,
+        "front_seven": 0.03,
+        "total": 0.045
+      },
+      "field_position": {
+        "average_predicted_points": -1.765,
+        "average_start": 67.7
+      },
+      "points_per_opportunity": 7,
+      "total_opportunies": 5,
+      "open_field_yards_total": 0,
+      "open_field_yards": 1.0161290322580645,
+      "second_level_yards_total": 52,
+      "second_level_yards": 0.8387096774193549,
+      "line_yards_total": 229,
+      "line_yards": 3.695161290322581,
+      "stuff_rate": 0.04838709677419355,
+      "power_success": 1,
+      "explosiveness": 1.0788591989087726,
+      "success_rate": 0.5,
+      "total_ppa": 24.96636819522715,
+      "ppa": 0.37827830598829015,
+      "drives": 6,
+      "plays": 66
+    }
+  },
+  {
+    "season": 2020,
+    "team": "Navy",
+    "conference": "American Athletic",
+    "offense": {
+      "passing_plays": {
+        "explosiveness": 0.8350381090299867,
+        "success_rate": 0.08333333333333333,
+        "total_ppa": -3.3017088935428296,
+        "ppa": -0.2751424077952358,
+        "rate": 0.2553191489361702
+      },
+      "rushing_plays": {
+        "explosiveness": 0.9249190435729204,
+        "success_rate": 0.2857142857142857,
+        "total_ppa": -8.458218813313405,
+        "ppa": -0.24166339466609726,
+        "rate": 0.7446808510638298
+      },
+      "passing_downs": {
+        "explosiveness": 0,
+        "success_rate": 0,
+        "ppa": -0.25303522044271587,
+        "rate": 0.425531914893617
+      },
+      "standard_downs": {
+        "explosiveness": 0.9167480495235628,
+        "success_rate": 0.4074074074074074,
+        "ppa": -0.24811938140747838,
+        "rate": 0.574468085106383
+      },
+      "havoc": {
+        "db": 0.043,
+        "front_seven": 0.213,
+        "total": 0.255
+      },
+      "field_position": {
+        "average_predicted_points": 1.118,
+        "average_start": 72.8
+      },
+      "points_per_opportunity": 1,
+      "total_opportunies": 3,
+      "open_field_yards_total": 48,
+      "open_field_yards": 1.3714285714285714,
+      "second_level_yards_total": 22,
+      "second_level_yards": 0.6285714285714286,
+      "line_yards_total": 72,
+      "line_yards": 2.06,
+      "stuff_rate": 0.2,
+      "power_success": 0.6666666666666666,
+      "explosiveness": 0.9167480495235628,
+      "success_rate": 0.23404255319148937,
+      "total_ppa": -11.759927706856233,
+      "ppa": -0.2502112278054518,
+      "drives": 13,
+      "plays": 47
+    },
+    "defense": {
+      "passing_plays": {
+        "explosiveness": 1.5437512418490882,
+        "success_rate": 0.6818181818181818,
+        "total_ppa": 18.39297993785264,
+        "ppa": 0.8360445426296655,
+        "rate": 0.30985915492957744
+      },
+      "rushing_plays": {
+        "explosiveness": 1.017262658832452,
+        "success_rate": 0.5714285714285714,
+        "total_ppa": 14.390964691160615,
+        "ppa": 0.29369315696246157,
+        "rate": 0.6901408450704225
+      },
+      "passing_downs": {
+        "explosiveness": 2.0748422405270444,
+        "success_rate": 0.5833333333333334,
+        "total_ppa": 18.39297993785264,
+        "ppa": 0.8471393143678384,
+        "rate": 0.16901408450704225
+      },
+      "standard_downs": {
+        "explosiveness": 1.0309924275376574,
+        "success_rate": 0.6101694915254238,
+        "ppa": 0.38336055689151183,
+        "rate": 0.8309859154929577
+      },
+      "havoc": {
+        "db": 0.028,
+        "front_seven": 0.056,
+        "total": 0.085
+      },
+      "field_position": {
+        "average_predicted_points": -1.985,
+        "average_start": 63.6
+      },
+      "points_per_opportunity": 4.8,
+      "total_opportunies": 10,
+      "open_field_yards_total": 0,
+      "open_field_yards": 2.1020408163265305,
+      "second_level_yards_total": 67,
+      "second_level_yards": 1.3673469387755102,
+      "line_yards_total": 163,
+      "line_yards": 3.326530612244898,
+      "stuff_rate": 0.1836734693877551,
+      "power_success": 0.75,
+      "explosiveness": 1.2009214668615111,
+      "success_rate": 0.6056338028169014,
+      "total_ppa": 32.783944629013256,
+      "ppa": 0.46174569900018675,
+      "drives": 12,
+      "plays": 71
+    }
+  },
+  {
+    "season": 2020,
+    "team": "North Carolina",
+    "conference": "ACC",
+    "offense": {
+      "passing_plays": {
+        "explosiveness": 1.4559085677242756,
+        "success_rate": 0.4864864864864865,
+        "total_ppa": 17.366348261567392,
+        "ppa": 0.4693607638261457,
+        "rate": 0.5285714285714286
+      },
+      "rushing_plays": {
+        "explosiveness": 1.2121231993957327,
+        "success_rate": 0.3939393939393939,
+        "total_ppa": 5.617477814802524,
+        "ppa": 0.17022660044856133,
+        "rate": 0.4714285714285714
+      },
+      "passing_downs": {
+        "explosiveness": 2.706804570110459,
+        "success_rate": 0.3157894736842105,
+        "ppa": 0.8635637084666009,
+        "rate": 0.2714285714285714
+      },
+      "standard_downs": {
+        "explosiveness": 1.0289251356207494,
+        "success_rate": 0.49019607843137253,
+        "ppa": 0.12894344344126465,
+        "rate": 0.7285714285714285
+      },
+      "havoc": {
+        "db": 0.086,
+        "front_seven": 0.129,
+        "total": 0.214
+      },
+      "field_position": {
+        "average_predicted_points": 1.33,
+        "average_start": 71.2
+      },
+      "points_per_opportunity": 4.428571428571429,
+      "total_opportunies": 7,
+      "open_field_yards_total": 70,
+      "open_field_yards": 2.121212121212121,
+      "second_level_yards_total": 39,
+      "second_level_yards": 1.1818181818181819,
+      "line_yards_total": 89,
+      "line_yards": 2.703030303030303,
+      "stuff_rate": 0.24242424242424243,
+      "power_success": 0.5,
+      "explosiveness": 1.35367599390908,
+      "success_rate": 0.44285714285714284,
+      "total_ppa": 22.983826076369915,
+      "ppa": 0.3283403725195702,
+      "drives": 14,
+      "plays": 70
+    },
+    "defense": {
+      "passing_plays": {
+        "explosiveness": 1.0654819524259649,
+        "success_rate": 0.26666666666666666,
+        "total_ppa": -11.05616382939608,
+        "ppa": -0.2456925295421351,
+        "rate": 0.6164383561643836
+      },
+      "rushing_plays": {
+        "explosiveness": 0.9693682636336427,
+        "success_rate": 0.21428571428571427,
+        "total_ppa": -5.693956719290202,
+        "ppa": -0.2033555971175072,
+        "rate": 0.3835616438356164
+      },
+      "passing_downs": {
+        "explosiveness": 1.674539309554163,
+        "success_rate": 0.1724137931034483,
+        "total_ppa": -11.05616382939608,
+        "ppa": -0.15911883562477916,
+        "rate": 0.3972602739726027
+      },
+      "standard_downs": {
+        "explosiveness": 0.7868689587032783,
+        "success_rate": 0.29545454545454547,
+        "ppa": -0.2758107798992656,
+        "rate": 0.6027397260273972
+      },
+      "havoc": {
+        "db": 0.082,
+        "front_seven": 0.151,
+        "total": 0.233
+      },
+      "field_position": {
+        "average_predicted_points": -1.541,
+        "average_start": 67
+      },
+      "points_per_opportunity": 1.2,
+      "total_opportunies": 5,
+      "open_field_yards_total": 0,
+      "open_field_yards": 0.32142857142857145,
+      "second_level_yards_total": 26,
+      "second_level_yards": 0.9285714285714286,
+      "line_yards_total": 78,
+      "line_yards": 2.782142857142857,
+      "stuff_rate": 0.25,
+      "power_success": 0,
+      "explosiveness": 1.0334440561618574,
+      "success_rate": 0.2465753424657534,
+      "total_ppa": -16.750120548686283,
+      "ppa": -0.2294537061463874,
+      "drives": 14,
+      "plays": 73
+    }
+  },
+  {
+    "season": 2020,
+    "team": "North Texas",
+    "conference": "Conference USA",
+    "offense": {
+      "passing_plays": {
+        "explosiveness": 2.1783462089082977,
+        "success_rate": 0.5588235294117647,
+        "total_ppa": 33.35601511079516,
+        "ppa": 0.9810592679645636,
+        "rate": 0.3953488372093023
+      },
+      "rushing_plays": {
+        "explosiveness": 1.1979239926972725,
+        "success_rate": 0.4807692307692308,
+        "total_ppa": 16.738326125181395,
+        "ppa": 0.3218908870227191,
+        "rate": 0.6046511627906976
+      },
+      "passing_downs": {
+        "explosiveness": 2.090576204778342,
+        "success_rate": 0.5,
+        "ppa": 0.9137466270351245,
+        "rate": 0.3023255813953488
+      },
+      "standard_downs": {
+        "explosiveness": 1.4244899072442265,
+        "success_rate": 0.5166666666666667,
+        "ppa": 0.4389488155510553,
+        "rate": 0.6976744186046512
+      },
+      "havoc": {
+        "db": 0.058,
+        "front_seven": 0.023,
+        "total": 0.081
+      },
+      "field_position": {
+        "average_predicted_points": 1.028,
+        "average_start": 74.8
+      },
+      "points_per_opportunity": 5.777777777777778,
+      "total_opportunies": 9,
+      "open_field_yards_total": 138,
+      "open_field_yards": 2.6538461538461537,
+      "second_level_yards_total": 62,
+      "second_level_yards": 1.1923076923076923,
+      "line_yards_total": 178,
+      "line_yards": 3.425,
+      "stuff_rate": 0.07692307692307693,
+      "power_success": 0.8571428571428571,
+      "explosiveness": 1.6212881315156695,
+      "success_rate": 0.5116279069767442,
+      "total_ppa": 50.09434123597656,
+      "ppa": 0.5824923399532158,
+      "drives": 13,
+      "plays": 86
+    },
+    "defense": {
+      "passing_plays": {
+        "explosiveness": 1.4577943298838076,
+        "success_rate": 0.4426229508196721,
+        "total_ppa": 23.315547250185727,
+        "ppa": 0.38222208606861846,
+        "rate": 0.7093023255813954
+      },
+      "rushing_plays": {
+        "explosiveness": 0.745835313411973,
+        "success_rate": 0.56,
+        "total_ppa": 2.069891379097715,
+        "ppa": 0.0827956551639086,
+        "rate": 0.29069767441860467
+      },
+      "passing_downs": {
+        "explosiveness": 2.2601000134945064,
+        "success_rate": 0.3333333333333333,
+        "total_ppa": 23.315547250185727,
+        "ppa": 0.5151747941439269,
+        "rate": 0.313953488372093
+      },
+      "standard_downs": {
+        "explosiveness": 0.920663786661871,
+        "success_rate": 0.5423728813559322,
+        "ppa": 0.19450371504063413,
+        "rate": 0.686046511627907
+      },
+      "havoc": {
+        "db": 0.023,
+        "front_seven": 0.081,
+        "total": 0.105
+      },
+      "field_position": {
+        "average_predicted_points": -0.932,
+        "average_start": 76.3
+      },
+      "points_per_opportunity": 3,
+      "total_opportunies": 8,
+      "open_field_yards_total": 0,
+      "open_field_yards": 1.68,
+      "second_level_yards_total": 24,
+      "second_level_yards": 0.96,
+      "line_yards_total": 81,
+      "line_yards": 3.24,
+      "stuff_rate": 0.2,
+      "power_success": 0.8333333333333334,
+      "explosiveness": 1.2146863730397666,
+      "success_rate": 0.47674418604651164,
+      "total_ppa": 25.38543862928344,
+      "ppa": 0.29517951894515626,
+      "drives": 13,
+      "plays": 86
+    }
+  },
+  {
+    "season": 2020,
+    "team": "Notre Dame",
+    "conference": "ACC",
+    "offense": {
+      "passing_plays": {
+        "explosiveness": 1.4554572516988973,
+        "success_rate": 0.42424242424242425,
+        "total_ppa": 6.447373276180181,
+        "ppa": 0.19537494776303577,
+        "rate": 0.4583333333333333
+      },
+      "rushing_plays": {
+        "explosiveness": 1.173522377221757,
+        "success_rate": 0.358974358974359,
+        "total_ppa": 6.3695049832955455,
+        "ppa": 0.16332064059732168,
+        "rate": 0.5416666666666666
+      },
+      "passing_downs": {
+        "explosiveness": 1.6661898511796265,
+        "success_rate": 0.34615384615384615,
+        "ppa": 0.4123978662002134,
+        "rate": 0.3611111111111111
+      },
+      "standard_downs": {
+        "explosiveness": 1.1478950602248694,
+        "success_rate": 0.41304347826086957,
+        "ppa": 0.045533342136308205,
+        "rate": 0.6388888888888888
+      },
+      "havoc": {
+        "db": 0.014,
+        "front_seven": 0.069,
+        "total": 0.083
+      },
+      "field_position": {
+        "average_predicted_points": 1.19,
+        "average_start": 74.8
+      },
+      "points_per_opportunity": 4,
+      "total_opportunies": 6,
+      "open_field_yards_total": 57,
+      "open_field_yards": 1.4615384615384615,
+      "second_level_yards_total": 44,
+      "second_level_yards": 1.1282051282051282,
+      "line_yards_total": 120,
+      "line_yards": 3.0846153846153848,
+      "stuff_rate": 0.1282051282051282,
+      "power_success": 0.8333333333333334,
+      "explosiveness": 1.3144898144603272,
+      "success_rate": 0.3888888888888889,
+      "total_ppa": 12.816878259475725,
+      "ppa": 0.17801219804827398,
+      "drives": 13,
+      "plays": 72
+    },
+    "defense": {
+      "passing_plays": {
+        "explosiveness": 1.2759891078870365,
+        "success_rate": 0.375,
+        "total_ppa": -0.34446177722886717,
+        "ppa": -0.00861154443072168,
+        "rate": 0.6060606060606061
+      },
+      "rushing_plays": {
+        "explosiveness": 1.564231506703166,
+        "success_rate": 0.23076923076923078,
+        "total_ppa": 1.5385978712328523,
+        "ppa": 0.05917684120126355,
+        "rate": 0.3939393939393939
+      },
+      "passing_downs": {
+        "explosiveness": 1.996943350156609,
+        "success_rate": 0.2692307692307692,
+        "total_ppa": -0.34446177722886717,
+        "ppa": 0.22699059023774945,
+        "rate": 0.3939393939393939
+      },
+      "standard_downs": {
+        "explosiveness": 1.0390444433877342,
+        "success_rate": 0.35,
+        "ppa": -0.11769048130443752,
+        "rate": 0.6060606060606061
+      },
+      "havoc": {
+        "db": 0.091,
+        "front_seven": 0.136,
+        "total": 0.227
+      },
+      "field_position": {
+        "average_predicted_points": -1.156,
+        "average_start": 74
+      },
+      "points_per_opportunity": 2.6,
+      "total_opportunies": 5,
+      "open_field_yards_total": 0,
+      "open_field_yards": 0.6538461538461539,
+      "second_level_yards_total": 21,
+      "second_level_yards": 0.8076923076923077,
+      "line_yards_total": 56,
+      "line_yards": 2.169230769230769,
+      "stuff_rate": 0.2692307692307692,
+      "power_success": 0.5,
+      "explosiveness": 1.358344078977359,
+      "success_rate": 0.3181818181818182,
+      "total_ppa": 1.1941360940039851,
+      "ppa": 0.018092971121272502,
+      "drives": 12,
+      "plays": 66
+    }
+  },
+  {
+    "season": 2020,
+    "team": "Oklahoma",
+    "conference": "Big 12",
+    "offense": {
+      "passing_plays": {
+        "explosiveness": 1.8480313321886053,
+        "success_rate": 0.65,
+        "total_ppa": 33.18045442659203,
+        "ppa": 0.8295113606648008,
+        "rate": 0.5633802816901409
+      },
+      "rushing_plays": {
+        "explosiveness": 0.43968908391455697,
+        "success_rate": 0.5483870967741935,
+        "total_ppa": -2.651047400698748,
+        "ppa": -0.0855176580870564,
+        "rate": 0.43661971830985913
+      },
+      "passing_downs": {
+        "explosiveness": 2.9033463227588796,
+        "success_rate": 0.47368421052631576,
+        "ppa": 1.050795779781579,
+        "rate": 0.2676056338028169
+      },
+      "standard_downs": {
+        "explosiveness": 0.8645121223123908,
+        "success_rate": 0.6538461538461539,
+        "ppa": 0.20315936942390922,
+        "rate": 0.7323943661971831
+      },
+      "havoc": {
+        "db": 0.028,
+        "front_seven": 0.155,
+        "total": 0.183
+      },
+      "field_position": {
+        "average_predicted_points": 2.367,
+        "average_start": 56.8
+      },
+      "points_per_opportunity": 3.4,
+      "total_opportunies": 10,
+      "open_field_yards_total": 21,
+      "open_field_yards": 0.6774193548387096,
+      "second_level_yards_total": 34,
+      "second_level_yards": 1.096774193548387,
+      "line_yards_total": 79,
+      "line_yards": 2.532258064516129,
+      "stuff_rate": 0.25806451612903225,
+      "power_success": 1,
+      "explosiveness": 1.2912448619407257,
+      "success_rate": 0.6056338028169014,
+      "total_ppa": 30.52940702589328,
+      "ppa": 0.4299916482520181,
+      "drives": 13,
+      "plays": 71
+    },
+    "defense": {
+      "passing_plays": {
+        "explosiveness": 0.6389574457104876,
+        "success_rate": 0.2692307692307692,
+        "total_ppa": -4.621716858495577,
+        "ppa": -0.17775834071136834,
+        "rate": 0.5652173913043478
+      },
+      "rushing_plays": {
+        "explosiveness": 0.5704971845791211,
+        "success_rate": 0.2,
+        "total_ppa": -3.526678960651807,
+        "ppa": -0.17633394803259034,
+        "rate": 0.43478260869565216
+      },
+      "passing_downs": {
+        "explosiveness": 0,
+        "success_rate": 0,
+        "total_ppa": -4.621716858495577,
+        "ppa": -0.2626557787864736,
+        "rate": 0.41304347826086957
+      },
+      "standard_downs": {
+        "explosiveness": 0.6140628052990816,
+        "success_rate": 0.4074074074074074,
+        "ppa": -0.11696059341497722,
+        "rate": 0.5869565217391305
+      },
+      "havoc": {
+        "db": 0.087,
+        "front_seven": 0.217,
+        "total": 0.304
+      },
+      "field_position": {
+        "average_predicted_points": -0.854,
+        "average_start": 77.3
+      },
+      "points_per_opportunity": 0,
+      "total_opportunies": 2,
+      "open_field_yards_total": 0,
+      "open_field_yards": 0.9,
+      "second_level_yards_total": 13,
+      "second_level_yards": 0.65,
+      "line_yards_total": 41,
+      "line_yards": 2.045,
+      "stuff_rate": 0.3,
+      "power_success": 1,
+      "explosiveness": 0.6140628052990816,
+      "success_rate": 0.2391304347826087,
+      "total_ppa": -8.148395819147384,
+      "ppa": -0.17713903954668225,
+      "drives": 12,
+      "plays": 46
+    }
+  },
+  {
+    "season": 2020,
+    "team": "Pittsburgh",
+    "conference": "ACC",
+    "offense": {
+      "passing_plays": {
+        "explosiveness": 1.6344143106237823,
+        "success_rate": 0.5357142857142857,
+        "total_ppa": 16.501919329677538,
+        "ppa": 0.5893542617741978,
+        "rate": 0.4444444444444444
+      },
+      "rushing_plays": {
+        "explosiveness": 0.9747210061175191,
+        "success_rate": 0.6285714285714286,
+        "total_ppa": 12.522906863187659,
+        "ppa": 0.3577973389482188,
+        "rate": 0.5555555555555556
+      },
+      "passing_downs": {
+        "explosiveness": 1.9600060983579946,
+        "success_rate": 0.4117647058823529,
+        "ppa": 0.5416555358429499,
+        "rate": 0.2698412698412698
+      },
+      "standard_downs": {
+        "explosiveness": 1.0746678035145398,
+        "success_rate": 0.6521739130434783,
+        "ppa": 0.43079743659858805,
+        "rate": 0.7301587301587301
+      },
+      "havoc": {
+        "db": 0.032,
+        "front_seven": 0.143,
+        "total": 0.175
+      },
+      "field_position": {
+        "average_predicted_points": 1.83,
+        "average_start": 64.1
+      },
+      "points_per_opportunity": 6,
+      "total_opportunies": 7,
+      "open_field_yards_total": 13,
+      "open_field_yards": 0.37142857142857144,
+      "second_level_yards_total": 42,
+      "second_level_yards": 1.2,
+      "line_yards_total": 102,
+      "line_yards": 2.908571428571429,
+      "stuff_rate": 0.2,
+      "power_success": 0.7777777777777778,
+      "explosiveness": 1.2421642376741122,
+      "success_rate": 0.5873015873015873,
+      "total_ppa": 29.0248261928652,
+      "ppa": 0.46071152687087613,
+      "drives": 12,
+      "plays": 63
+    },
+    "defense": {
+      "passing_plays": {
+        "explosiveness": 1.5812068640139045,
+        "success_rate": 0.2,
+        "total_ppa": -3.9262242179584064,
+        "ppa": -0.11217783479881162,
+        "rate": 0.6481481481481481
+      },
+      "rushing_plays": {
+        "explosiveness": 0.8279720553021266,
+        "success_rate": 0.2631578947368421,
+        "total_ppa": -1.990829384863939,
+        "ppa": -0.1047804939402073,
+        "rate": 0.35185185185185186
+      },
+      "passing_downs": {
+        "explosiveness": 1.5194657073921845,
+        "success_rate": 0.13043478260869565,
+        "total_ppa": -3.9262242179584064,
+        "ppa": -0.0564096943125368,
+        "rate": 0.42592592592592593
+      },
+      "standard_downs": {
+        "explosiveness": 1.1833234669368236,
+        "success_rate": 0.2903225806451613,
+        "ppa": -0.14902034302045158,
+        "rate": 0.5740740740740741
+      },
+      "havoc": {
+        "db": 0.13,
+        "front_seven": 0.167,
+        "total": 0.296
+      },
+      "field_position": {
+        "average_predicted_points": -0.934,
+        "average_start": 75.7
+      },
+      "points_per_opportunity": 0,
+      "total_opportunies": 2,
+      "open_field_yards_total": 0,
+      "open_field_yards": 0,
+      "second_level_yards_total": 1,
+      "second_level_yards": 0.05263157894736842,
+      "line_yards_total": 19,
+      "line_yards": 1.0157894736842106,
+      "stuff_rate": 0.3684210526315789,
+      "power_success": 1,
+      "explosiveness": 1.2673590270506638,
+      "success_rate": 0.2222222222222222,
+      "total_ppa": -5.917053602822345,
+      "ppa": -0.10957506671893232,
+      "drives": 13,
+      "plays": 54
+    }
+  },
+  {
+    "season": 2020,
+    "team": "SMU",
+    "conference": "American Athletic",
+    "offense": {
+      "passing_plays": {
+        "explosiveness": 1.6986666202414995,
+        "success_rate": 0.4864864864864865,
+        "total_ppa": 12.346294320390063,
+        "ppa": 0.33368363028081255,
+        "rate": 0.46835443037974683
+      },
+      "rushing_plays": {
+        "explosiveness": 1.0417452563079979,
+        "success_rate": 0.4523809523809524,
+        "total_ppa": 3.718458870006719,
+        "ppa": 0.08853473500015997,
+        "rate": 0.5316455696202531
+      },
+      "passing_downs": {
+        "explosiveness": 1.9249730329135621,
+        "success_rate": 0.52,
+        "ppa": 0.5839423792920241,
+        "rate": 0.31645569620253167
+      },
+      "standard_downs": {
+        "explosiveness": 1.056021233596777,
+        "success_rate": 0.4444444444444444,
+        "ppa": 0.027151735335114478,
+        "rate": 0.6835443037974683
+      },
+      "havoc": {
+        "db": 0.051,
+        "front_seven": 0.076,
+        "total": 0.127
+      },
+      "field_position": {
+        "average_predicted_points": 1.706,
+        "average_start": 67.1
+      },
+      "points_per_opportunity": 2.4,
+      "total_opportunies": 10,
+      "open_field_yards_total": 25,
+      "open_field_yards": 0.5952380952380952,
+      "second_level_yards_total": 44,
+      "second_level_yards": 1.0476190476190477,
+      "line_yards_total": 129,
+      "line_yards": 3.0642857142857145,
+      "stuff_rate": 0.21428571428571427,
+      "power_success": 0.7142857142857143,
+      "explosiveness": 1.3613286225459176,
+      "success_rate": 0.46835443037974683,
+      "total_ppa": 16.064753190396782,
+      "ppa": 0.2033513062075542,
+      "drives": 14,
+      "plays": 79
+    },
+    "defense": {
+      "passing_plays": {
+        "explosiveness": 1.5730015202003262,
+        "success_rate": 0.34146341463414637,
+        "total_ppa": -2.1662219712995943,
+        "ppa": -0.05283468222681937,
+        "rate": 0.5324675324675324
+      },
+      "rushing_plays": {
+        "explosiveness": 1.1564412226396856,
+        "success_rate": 0.4444444444444444,
+        "total_ppa": 12.819543000628753,
+        "ppa": 0.35609841668413206,
+        "rate": 0.4675324675324675
+      },
+      "passing_downs": {
+        "explosiveness": 2.081198866107075,
+        "success_rate": 0.32,
+        "total_ppa": -2.1662219712995943,
+        "ppa": 0.24523478871394297,
+        "rate": 0.3246753246753247
+      },
+      "standard_downs": {
+        "explosiveness": 1.085249541644679,
+        "success_rate": 0.4230769230769231,
+        "ppa": 0.0869702175284728,
+        "rate": 0.6753246753246753
+      },
+      "havoc": {
+        "db": 0.091,
+        "front_seven": 0.13,
+        "total": 0.221
+      },
+      "field_position": {
+        "average_predicted_points": -1.227,
+        "average_start": 72.5
+      },
+      "points_per_opportunity": 4.8,
+      "total_opportunies": 5,
+      "open_field_yards_total": 0,
+      "open_field_yards": 1.5833333333333333,
+      "second_level_yards_total": 44,
+      "second_level_yards": 1.222222222222222,
+      "line_yards_total": 124,
+      "line_yards": 3.433333333333333,
+      "stuff_rate": 0.1388888888888889,
+      "power_success": 1,
+      "explosiveness": 1.3508360281679848,
+      "success_rate": 0.38961038961038963,
+      "total_ppa": 10.65332102932916,
+      "ppa": 0.13835481856271636,
+      "drives": 13,
+      "plays": 77
+    }
+  },
+  {
+    "season": 2020,
+    "team": "South Alabama",
+    "conference": "Sun Belt",
+    "offense": {
+      "passing_plays": {
+        "explosiveness": 2.001764460374893,
+        "success_rate": 0.4444444444444444,
+        "total_ppa": 30.024770136611533,
+        "ppa": 0.41701069634182686,
+        "rate": 0.5142857142857142
+      },
+      "rushing_plays": {
+        "explosiveness": 0.8649945478530525,
+        "success_rate": 0.4264705882352941,
+        "total_ppa": -0.4392007091285963,
+        "ppa": -0.006458833957773476,
+        "rate": 0.4857142857142857
+      },
+      "passing_downs": {
+        "explosiveness": 2.3976861783328656,
+        "success_rate": 0.41304347826086957,
+        "ppa": 0.588730875564598,
+        "rate": 0.32857142857142857
+      },
+      "standard_downs": {
+        "explosiveness": 1.0377444578907298,
+        "success_rate": 0.44680851063829785,
+        "ppa": 0.026637756930972634,
+        "rate": 0.6714285714285714
+      },
+      "havoc": {
+        "db": 0.043,
+        "front_seven": 0.107,
+        "total": 0.15
+      },
+      "field_position": {
+        "average_predicted_points": 1.182,
+        "average_start": 74.1
+      },
+      "points_per_opportunity": 3.142857142857143,
+      "total_opportunies": 14,
+      "open_field_yards_total": 78,
+      "open_field_yards": 1.147058823529412,
+      "second_level_yards_total": 60,
+      "second_level_yards": 0.8823529411764706,
+      "line_yards_total": 160,
+      "line_yards": 2.3573529411764707,
+      "stuff_rate": 0.2647058823529412,
+      "power_success": 0.7777777777777778,
+      "explosiveness": 1.4613328626186082,
+      "success_rate": 0.4357142857142857,
+      "total_ppa": 29.585569427482937,
+      "ppa": 0.2113254959105924,
+      "drives": 24,
+      "plays": 140
+    },
+    "defense": {
+      "passing_plays": {
+        "explosiveness": 1.6310865525364322,
+        "success_rate": 0.4153846153846154,
+        "total_ppa": 16.570925984291463,
+        "ppa": 0.2549373228352533,
+        "rate": 0.47101449275362317
+      },
+      "rushing_plays": {
+        "explosiveness": 1.1892018311444033,
+        "success_rate": 0.3835616438356164,
+        "total_ppa": 4.5664844448186335,
+        "ppa": 0.06255458143587168,
+        "rate": 0.5289855072463768
+      },
+      "passing_downs": {
+        "explosiveness": 2.2068317671827598,
+        "success_rate": 0.32608695652173914,
+        "total_ppa": 16.570925984291463,
+        "ppa": 0.29460013914923666,
+        "rate": 0.3333333333333333
+      },
+      "standard_downs": {
+        "explosiveness": 1.1058627920696391,
+        "success_rate": 0.43478260869565216,
+        "ppa": 0.08245439161136098,
+        "rate": 0.6666666666666666
+      },
+      "havoc": {
+        "db": 0.051,
+        "front_seven": 0.094,
+        "total": 0.145
+      },
+      "field_position": {
+        "average_predicted_points": -1.43,
+        "average_start": 70.1
+      },
+      "points_per_opportunity": 3.6923076923076925,
+      "total_opportunies": 13,
+      "open_field_yards_total": 0,
+      "open_field_yards": 1.3972602739726028,
+      "second_level_yards_total": 65,
+      "second_level_yards": 0.8904109589041096,
+      "line_yards_total": 169,
+      "line_yards": 2.319178082191781,
+      "stuff_rate": 0.2602739726027397,
+      "power_success": 0.6363636363636364,
+      "explosiveness": 1.406127058009581,
+      "success_rate": 0.39855072463768115,
+      "total_ppa": 21.137410429110098,
+      "ppa": 0.15316964079065287,
+      "drives": 23,
+      "plays": 138
+    }
+  },
+  {
+    "season": 2020,
+    "team": "Southern Miss",
+    "conference": "Conference USA",
+    "offense": {
+      "passing_plays": {
+        "explosiveness": 1.8022425254392334,
+        "success_rate": 0.47058823529411764,
+        "total_ppa": 18.69892339306092,
+        "ppa": 0.549968335090027,
+        "rate": 0.4927536231884058
+      },
+      "rushing_plays": {
+        "explosiveness": 0.9532425026518304,
+        "success_rate": 0.34285714285714286,
+        "total_ppa": -3.005826271070445,
+        "ppa": -0.08588075060201272,
+        "rate": 0.5072463768115942
+      },
+      "passing_downs": {
+        "explosiveness": 2.5686131965133425,
+        "success_rate": 0.34782608695652173,
+        "ppa": 0.4916296531733005,
+        "rate": 0.3333333333333333
+      },
+      "standard_downs": {
+        "explosiveness": 0.986294243337148,
+        "success_rate": 0.43478260869565216,
+        "ppa": 0.09533945867401222,
+        "rate": 0.6666666666666666
+      },
+      "havoc": {
+        "db": 0.029,
+        "front_seven": 0.087,
+        "total": 0.116
+      },
+      "field_position": {
+        "average_predicted_points": 1.219,
+        "average_start": 71.6
+      },
+      "points_per_opportunity": 2.857142857142857,
+      "total_opportunies": 7,
+      "open_field_yards_total": 31,
+      "open_field_yards": 0.8857142857142857,
+      "second_level_yards_total": 21,
+      "second_level_yards": 0.6,
+      "line_yards_total": 60,
+      "line_yards": 1.72,
+      "stuff_rate": 0.2857142857142857,
+      "power_success": 0.625,
+      "explosiveness": 1.4383853728160607,
+      "success_rate": 0.4057971014492754,
+      "total_ppa": 15.693097121990473,
+      "ppa": 0.22743619017377498,
+      "drives": 10,
+      "plays": 69
+    },
+    "defense": {
+      "passing_plays": {
+        "explosiveness": 2.093537555483917,
+        "success_rate": 0.5333333333333333,
+        "total_ppa": 15.525624760598262,
+        "ppa": 0.5175208253532754,
+        "rate": 0.4411764705882353
+      },
+      "rushing_plays": {
+        "explosiveness": 0.7850569499839241,
+        "success_rate": 0.47368421052631576,
+        "total_ppa": 4.53444929250384,
+        "ppa": 0.11932761296062738,
+        "rate": 0.5588235294117647
+      },
+      "passing_downs": {
+        "explosiveness": 2.376425394520152,
+        "success_rate": 0.6111111111111112,
+        "total_ppa": 15.525624760598262,
+        "ppa": 1.0481692714100044,
+        "rate": 0.2647058823529412
+      },
+      "standard_downs": {
+        "explosiveness": 0.9342150716405059,
+        "success_rate": 0.46,
+        "ppa": 0.023860543354440454,
+        "rate": 0.7352941176470589
+      },
+      "havoc": {
+        "db": 0.044,
+        "front_seven": 0.029,
+        "total": 0.074
+      },
+      "field_position": {
+        "average_predicted_points": -1.134,
+        "average_start": 75.3
+      },
+      "points_per_opportunity": 2.5,
+      "total_opportunies": 8,
+      "open_field_yards_total": 0,
+      "open_field_yards": 0.868421052631579,
+      "second_level_yards_total": 30,
+      "second_level_yards": 0.7894736842105263,
+      "line_yards_total": 106,
+      "line_yards": 2.8,
+      "stuff_rate": 0.18421052631578946,
+      "power_success": 1,
+      "explosiveness": 1.4008125290427442,
+      "success_rate": 0.5,
+      "total_ppa": 20.060074053102102,
+      "ppa": 0.29500108901620736,
+      "drives": 11,
+      "plays": 68
+    }
+  },
+  {
+    "season": 2020,
+    "team": "South Florida",
+    "conference": "American Athletic",
+    "offense": {
+      "passing_plays": {
+        "explosiveness": 1.443301658487845,
+        "success_rate": 0.32142857142857145,
+        "total_ppa": -9.020501493513379,
+        "ppa": -0.32216076762547785,
+        "rate": 0.4375
+      },
+      "rushing_plays": {
+        "explosiveness": 1.3535265072343285,
+        "success_rate": 0.5,
+        "total_ppa": 18.74522970206921,
+        "ppa": 0.5207008250574781,
+        "rate": 0.5625
+      },
+      "passing_downs": {
+        "explosiveness": 2.0321461442746522,
+        "success_rate": 0.375,
+        "ppa": 0.581598710385673,
+        "rate": 0.25
+      },
+      "standard_downs": {
+        "explosiveness": 1.1981102471886003,
+        "success_rate": 0.4375,
+        "ppa": 0.00873226754968882,
+        "rate": 0.75
+      },
+      "havoc": {
+        "db": 0.016,
+        "front_seven": 0.172,
+        "total": 0.188
+      },
+      "field_position": {
+        "average_predicted_points": 1.91,
+        "average_start": 63.5
+      },
+      "points_per_opportunity": 1.75,
+      "total_opportunies": 8,
+      "open_field_yards_total": 131,
+      "open_field_yards": 3.638888888888889,
+      "second_level_yards_total": 67,
+      "second_level_yards": 1.8611111111111112,
+      "line_yards_total": 142,
+      "line_yards": 3.95,
+      "stuff_rate": 0.1388888888888889,
+      "power_success": 1,
+      "explosiveness": 1.3834515576521675,
+      "success_rate": 0.421875,
+      "total_ppa": 9.724728208555831,
+      "ppa": 0.15194887825868486,
+      "drives": 11,
+      "plays": 64
+    },
+    "defense": {
+      "passing_plays": {
+        "explosiveness": 2.1761260692868105,
+        "success_rate": 0.2222222222222222,
+        "total_ppa": -0.01952280372900796,
+        "ppa": -0.0010846002071671088,
+        "rate": 0.25
+      },
+      "rushing_plays": {
+        "explosiveness": 1.081476757974618,
+        "success_rate": 0.37037037037037035,
+        "total_ppa": 1.5794070421505992,
+        "ppa": 0.02924827855834443,
+        "rate": 0.75
+      },
+      "passing_downs": {
+        "explosiveness": 2.350633610037934,
+        "success_rate": 0.26666666666666666,
+        "total_ppa": -0.01952280372900796,
+        "ppa": 0.3292495261576732,
+        "rate": 0.4166666666666667
+      },
+      "standard_downs": {
+        "explosiveness": 0.7205606597710082,
+        "success_rate": 0.38095238095238093,
+        "ppa": -0.1980381320549668,
+        "rate": 0.5833333333333334
+      },
+      "havoc": {
+        "db": 0.028,
+        "front_seven": 0.153,
+        "total": 0.181
+      },
+      "field_position": {
+        "average_predicted_points": -0.88,
+        "average_start": 76.9
+      },
+      "points_per_opportunity": 2,
+      "total_opportunies": 3,
+      "open_field_yards_total": 0,
+      "open_field_yards": 0.9814814814814815,
+      "second_level_yards_total": 41,
+      "second_level_yards": 0.7592592592592593,
+      "line_yards_total": 121,
+      "line_yards": 2.2314814814814814,
+      "stuff_rate": 0.25925925925925924,
+      "power_success": 0.8333333333333334,
+      "explosiveness": 1.2639183098599835,
+      "success_rate": 0.3333333333333333,
+      "total_ppa": 1.5598842384215912,
+      "ppa": 0.021665058866966545,
+      "drives": 11,
+      "plays": 72
+    }
+  },
+  {
+    "season": 2020,
+    "team": "Syracuse",
+    "conference": "ACC",
+    "offense": {
+      "passing_plays": {
+        "explosiveness": 1.0654819524259649,
+        "success_rate": 0.26666666666666666,
+        "total_ppa": -11.05616382939608,
+        "ppa": -0.2456925295421351,
+        "rate": 0.6164383561643836
+      },
+      "rushing_plays": {
+        "explosiveness": 0.9693682636336427,
+        "success_rate": 0.21428571428571427,
+        "total_ppa": -5.693956719290202,
+        "ppa": -0.2033555971175072,
+        "rate": 0.3835616438356164
+      },
+      "passing_downs": {
+        "explosiveness": 1.674539309554163,
+        "success_rate": 0.1724137931034483,
+        "ppa": -0.15911883562477916,
+        "rate": 0.3972602739726027
+      },
+      "standard_downs": {
+        "explosiveness": 0.7868689587032783,
+        "success_rate": 0.29545454545454547,
+        "ppa": -0.2758107798992656,
+        "rate": 0.6027397260273972
+      },
+      "havoc": {
+        "db": 0.082,
+        "front_seven": 0.151,
+        "total": 0.233
+      },
+      "field_position": {
+        "average_predicted_points": 1.541,
+        "average_start": 67
+      },
+      "points_per_opportunity": 1.2,
+      "total_opportunies": 5,
+      "open_field_yards_total": 9,
+      "open_field_yards": 0.32142857142857145,
+      "second_level_yards_total": 26,
+      "second_level_yards": 0.9285714285714286,
+      "line_yards_total": 78,
+      "line_yards": 2.782142857142857,
+      "stuff_rate": 0.25,
+      "power_success": 0,
+      "explosiveness": 1.0334440561618574,
+      "success_rate": 0.2465753424657534,
+      "total_ppa": -16.750120548686283,
+      "ppa": -0.2294537061463874,
+      "drives": 14,
+      "plays": 73
+    },
+    "defense": {
+      "passing_plays": {
+        "explosiveness": 1.4559085677242756,
+        "success_rate": 0.4864864864864865,
+        "total_ppa": 17.366348261567392,
+        "ppa": 0.4693607638261457,
+        "rate": 0.5285714285714286
+      },
+      "rushing_plays": {
+        "explosiveness": 1.2121231993957327,
+        "success_rate": 0.3939393939393939,
+        "total_ppa": 5.617477814802524,
+        "ppa": 0.17022660044856133,
+        "rate": 0.4714285714285714
+      },
+      "passing_downs": {
+        "explosiveness": 2.706804570110459,
+        "success_rate": 0.3157894736842105,
+        "total_ppa": 17.366348261567392,
+        "ppa": 0.8635637084666009,
+        "rate": 0.2714285714285714
+      },
+      "standard_downs": {
+        "explosiveness": 1.0289251356207494,
+        "success_rate": 0.49019607843137253,
+        "ppa": 0.12894344344126465,
+        "rate": 0.7285714285714285
+      },
+      "havoc": {
+        "db": 0.086,
+        "front_seven": 0.129,
+        "total": 0.214
+      },
+      "field_position": {
+        "average_predicted_points": -1.33,
+        "average_start": 71.2
+      },
+      "points_per_opportunity": 4.428571428571429,
+      "total_opportunies": 7,
+      "open_field_yards_total": 0,
+      "open_field_yards": 2.121212121212121,
+      "second_level_yards_total": 39,
+      "second_level_yards": 1.1818181818181819,
+      "line_yards_total": 89,
+      "line_yards": 2.703030303030303,
+      "stuff_rate": 0.24242424242424243,
+      "power_success": 0.5,
+      "explosiveness": 1.35367599390908,
+      "success_rate": 0.44285714285714284,
+      "total_ppa": 22.983826076369915,
+      "ppa": 0.3283403725195702,
+      "drives": 14,
+      "plays": 70
+    }
+  },
+  {
+    "season": 2020,
+    "team": "Texas",
+    "conference": "Big 12",
+    "offense": {
+      "passing_plays": {
+        "explosiveness": 1.7600709904010265,
+        "success_rate": 0.5526315789473685,
+        "total_ppa": 22.766751831793275,
+        "ppa": 0.5991250482050862,
+        "rate": 0.5428571428571428
+      },
+      "rushing_plays": {
+        "explosiveness": 0.8522612589085677,
+        "success_rate": 0.53125,
+        "total_ppa": 10.597341419931562,
+        "ppa": 0.3311669193728613,
+        "rate": 0.45714285714285713
+      },
+      "passing_downs": {
+        "explosiveness": 1.7598141444318693,
+        "success_rate": 0.5714285714285714,
+        "ppa": 0.8095705562467196,
+        "rate": 0.2
+      },
+      "standard_downs": {
+        "explosiveness": 1.2457139681470752,
+        "success_rate": 0.5357142857142857,
+        "ppa": 0.3933947404334065,
+        "rate": 0.8
+      },
+      "havoc": {
+        "db": 0.029,
+        "front_seven": 0.043,
+        "total": 0.071
+      },
+      "field_position": {
+        "average_predicted_points": 1.547,
+        "average_start": 68.2
+      },
+      "points_per_opportunity": 3.8,
+      "total_opportunies": 10,
+      "open_field_yards_total": 79,
+      "open_field_yards": 2.46875,
+      "second_level_yards_total": 40,
+      "second_level_yards": 1.25,
+      "line_yards_total": 135,
+      "line_yards": 4.21875,
+      "stuff_rate": 0.03125,
+      "power_success": 1,
+      "explosiveness": 1.3539455842070318,
+      "success_rate": 0.5428571428571428,
+      "total_ppa": 33.36409325172484,
+      "ppa": 0.4766299035960691,
+      "drives": 13,
+      "plays": 70
+    },
+    "defense": {
+      "passing_plays": {
+        "explosiveness": 1.5370292174592903,
+        "success_rate": 0.3,
+        "total_ppa": -0.20254378666550282,
+        "ppa": -0.005063594666637571,
+        "rate": 0.5633802816901409
+      },
+      "rushing_plays": {
+        "explosiveness": 0.6908896776140455,
+        "success_rate": 0.22580645161290322,
+        "total_ppa": -10.443387284192244,
+        "ppa": -0.336883460780395,
+        "rate": 0.43661971830985913
+      },
+      "passing_downs": {
+        "explosiveness": 1.7271927649771235,
+        "success_rate": 0.27586206896551724,
+        "total_ppa": -0.20254378666550282,
+        "ppa": 0.1874099312440322,
+        "rate": 0.4084507042253521
+      },
+      "standard_downs": {
+        "explosiveness": 0.860276021181165,
+        "success_rate": 0.2619047619047619,
+        "ppa": -0.382876644688921,
+        "rate": 0.5915492957746479
+      },
+      "havoc": {
+        "db": 0.085,
+        "front_seven": 0.113,
+        "total": 0.197
+      },
+      "field_position": {
+        "average_predicted_points": -0.966,
+        "average_start": 75.2
+      },
+      "points_per_opportunity": 0,
+      "total_opportunies": 5,
+      "open_field_yards_total": 0,
+      "open_field_yards": 0.25806451612903225,
+      "second_level_yards_total": 8,
+      "second_level_yards": 0.25806451612903225,
+      "line_yards_total": 41,
+      "line_yards": 1.3064516129032258,
+      "stuff_rate": 0.45161290322580644,
+      "power_success": 0.2,
+      "explosiveness": 1.2252935975163053,
+      "success_rate": 0.2676056338028169,
+      "total_ppa": -10.645931070857747,
+      "ppa": -0.1499426911388415,
+      "drives": 14,
+      "plays": 71
+    }
+  },
+  {
+    "season": 2020,
+    "team": "Texas State",
+    "conference": "Sun Belt",
+    "offense": {
+      "passing_plays": {
+        "explosiveness": 1.6069292167017974,
+        "success_rate": 0.36470588235294116,
+        "total_ppa": -0.1974799817232242,
+        "ppa": -0.002323293902626167,
+        "rate": 0.5555555555555556
+      },
+      "rushing_plays": {
+        "explosiveness": 1.0531003271939592,
+        "success_rate": 0.45588235294117646,
+        "total_ppa": 19.762845221267952,
+        "ppa": 0.29063007678335223,
+        "rate": 0.4444444444444444
+      },
+      "passing_downs": {
+        "explosiveness": 1.8994335356228904,
+        "success_rate": 0.34615384615384615,
+        "ppa": 0.22925752352704776,
+        "rate": 0.33986928104575165
+      },
+      "standard_downs": {
+        "explosiveness": 1.097070732262646,
+        "success_rate": 0.43564356435643564,
+        "ppa": 0.0756829110508737,
+        "rate": 0.6601307189542484
+      },
+      "havoc": {
+        "db": 0.065,
+        "front_seven": 0.157,
+        "total": 0.222
+      },
+      "field_position": {
+        "average_predicted_points": 1.099,
+        "average_start": 74.6
+      },
+      "points_per_opportunity": 4.090909090909091,
+      "total_opportunies": 11,
+      "open_field_yards_total": 86,
+      "open_field_yards": 1.2647058823529411,
+      "second_level_yards_total": 93,
+      "second_level_yards": 1.3676470588235294,
+      "line_yards_total": 222,
+      "line_yards": 3.263235294117647,
+      "stuff_rate": 0.17647058823529413,
+      "power_success": 0.8888888888888888,
+      "explosiveness": 1.3300147719478783,
+      "success_rate": 0.40522875816993464,
+      "total_ppa": 19.565365239544725,
+      "ppa": 0.1278782041800309,
+      "drives": 30,
+      "plays": 153
+    },
+    "defense": {
+      "passing_plays": {
+        "explosiveness": 1.588123601947867,
+        "success_rate": 0.42028985507246375,
+        "total_ppa": 18.59044858788043,
+        "ppa": 0.2694267911287019,
+        "rate": 0.42857142857142855
+      },
+      "rushing_plays": {
+        "explosiveness": 1.1549957362503138,
+        "success_rate": 0.43478260869565216,
+        "total_ppa": 14.910260668123184,
+        "ppa": 0.1620680507404694,
+        "rate": 0.5714285714285714
+      },
+      "passing_downs": {
+        "explosiveness": 2.067309225234661,
+        "success_rate": 0.3829787234042553,
+        "total_ppa": 18.59044858788043,
+        "ppa": 0.45622835947999285,
+        "rate": 0.2919254658385093
+      },
+      "standard_downs": {
+        "explosiveness": 1.0792911343583687,
+        "success_rate": 0.4473684210526316,
+        "ppa": 0.10577172246003466,
+        "rate": 0.7080745341614907
+      },
+      "havoc": {
+        "db": 0.037,
+        "front_seven": 0.087,
+        "total": 0.124
+      },
+      "field_position": {
+        "average_predicted_points": -1.41,
+        "average_start": 70.3
+      },
+      "points_per_opportunity": 3.411764705882353,
+      "total_opportunies": 17,
+      "open_field_yards_total": 0,
+      "open_field_yards": 1.9021739130434783,
+      "second_level_yards_total": 101,
+      "second_level_yards": 1.0978260869565217,
+      "line_yards_total": 272,
+      "line_yards": 2.9532608695652174,
+      "stuff_rate": 0.1956521739130435,
+      "power_success": 0.7272727272727273,
+      "explosiveness": 1.337034984152184,
+      "success_rate": 0.42857142857142855,
+      "total_ppa": 33.50070925600362,
+      "ppa": 0.20807893947828332,
+      "drives": 31,
+      "plays": 161
+    }
+  },
+  {
+    "season": 2020,
+    "team": "Texas Tech",
+    "conference": "Big 12",
+    "offense": {
+      "passing_plays": {
+        "explosiveness": 1.315642330610835,
+        "success_rate": 0.5686274509803921,
+        "total_ppa": 27.642725200997276,
+        "ppa": 0.5420142196273976,
+        "rate": 0.5368421052631579
+      },
+      "rushing_plays": {
+        "explosiveness": 0.9216653494453295,
+        "success_rate": 0.5454545454545454,
+        "total_ppa": 7.062065330013917,
+        "ppa": 0.16050148477304357,
+        "rate": 0.4631578947368421
+      },
+      "passing_downs": {
+        "explosiveness": 1.5694577326005192,
+        "success_rate": 0.5714285714285714,
+        "ppa": 0.772899218838064,
+        "rate": 0.29473684210526313
+      },
+      "standard_downs": {
+        "explosiveness": 0.9503316825079409,
+        "success_rate": 0.5522388059701493,
+        "ppa": 0.19497928960515526,
+        "rate": 0.7052631578947368
+      },
+      "havoc": {
+        "db": 0.053,
+        "front_seven": 0.042,
+        "total": 0.095
+      },
+      "field_position": {
+        "average_predicted_points": 0.826,
+        "average_start": 80
+      },
+      "points_per_opportunity": 4.375,
+      "total_opportunies": 8,
+      "open_field_yards_total": 14,
+      "open_field_yards": 0.3181818181818182,
+      "second_level_yards_total": 55,
+      "second_level_yards": 1.25,
+      "line_yards_total": 146,
+      "line_yards": 3.3227272727272728,
+      "stuff_rate": 0.1590909090909091,
+      "power_success": 0.8333333333333334,
+      "explosiveness": 1.1372376598943796,
+      "success_rate": 0.5578947368421052,
+      "total_ppa": 34.70479053101119,
+      "ppa": 0.36531358453695995,
+      "drives": 13,
+      "plays": 95
+    },
+    "defense": {
+      "passing_plays": {
+        "explosiveness": 1.9096941144055721,
+        "success_rate": 0.509090909090909,
+        "total_ppa": 31.179508000536718,
+        "ppa": 0.566900145464304,
+        "rate": 0.7236842105263158
+      },
+      "rushing_plays": {
+        "explosiveness": 0.6278141283838564,
+        "success_rate": 0.38095238095238093,
+        "total_ppa": -7.196493051896426,
+        "ppa": -0.34269014532840125,
+        "rate": 0.27631578947368424
+      },
+      "passing_downs": {
+        "explosiveness": 2.008790815714873,
+        "success_rate": 0.5294117647058824,
+        "total_ppa": 31.179508000536718,
+        "ppa": 0.8231020051631053,
+        "rate": 0.2236842105263158
+      },
+      "standard_downs": {
+        "explosiveness": 1.4968455884812226,
+        "success_rate": 0.4576271186440678,
+        "ppa": 0.16932679425199157,
+        "rate": 0.7763157894736842
+      },
+      "havoc": {
+        "db": 0.105,
+        "front_seven": 0.079,
+        "total": 0.184
+      },
+      "field_position": {
+        "average_predicted_points": -1.194,
+        "average_start": 73.5
+      },
+      "points_per_opportunity": 1.625,
+      "total_opportunies": 8,
+      "open_field_yards_total": 0,
+      "open_field_yards": 0.3333333333333333,
+      "second_level_yards_total": 11,
+      "second_level_yards": 0.5238095238095238,
+      "line_yards_total": 40,
+      "line_yards": 1.9047619047619049,
+      "stuff_rate": 0.3333333333333333,
+      "power_success": 0.5,
+      "explosiveness": 1.6248318952896352,
+      "success_rate": 0.47368421052631576,
+      "total_ppa": 23.983014948640292,
+      "ppa": 0.31556598616631965,
+      "drives": 12,
+      "plays": 76
+    }
+  },
+  {
+    "season": 2020,
+    "team": "Tulane",
+    "conference": "American Athletic",
+    "offense": {
+      "passing_plays": {
+        "explosiveness": 1.3821324101323578,
+        "success_rate": 0.3548387096774194,
+        "total_ppa": -2.127997408769454,
+        "ppa": -0.06864507770224046,
+        "rate": 0.4492753623188406
+      },
+      "rushing_plays": {
+        "explosiveness": 1.366171327513833,
+        "success_rate": 0.42105263157894735,
+        "total_ppa": 7.572310715889079,
+        "ppa": 0.19927133462865995,
+        "rate": 0.5507246376811594
+      },
+      "passing_downs": {
+        "explosiveness": 1.793367276519236,
+        "success_rate": 0.30434782608695654,
+        "ppa": 0.09757062512517291,
+        "rate": 0.3333333333333333
+      },
+      "standard_downs": {
+        "explosiveness": 1.2254313408021305,
+        "success_rate": 0.43478260869565216,
+        "ppa": 0.06956932454870973,
+        "rate": 0.6666666666666666
+      },
+      "havoc": {
+        "db": 0.072,
+        "front_seven": 0.101,
+        "total": 0.174
+      },
+      "field_position": {
+        "average_predicted_points": 1.593,
+        "average_start": 68.9
+      },
+      "points_per_opportunity": 4.666666666666667,
+      "total_opportunies": 6,
+      "open_field_yards_total": 71,
+      "open_field_yards": 1.868421052631579,
+      "second_level_yards_total": 44,
+      "second_level_yards": 1.1578947368421053,
+      "line_yards_total": 109,
+      "line_yards": 2.8710526315789475,
+      "stuff_rate": 0.23684210526315788,
+      "power_success": 0.6666666666666666,
+      "explosiveness": 1.3726739908028616,
+      "success_rate": 0.391304347826087,
+      "total_ppa": 5.444313307119624,
+      "ppa": 0.07890309140753078,
+      "drives": 13,
+      "plays": 69
+    },
+    "defense": {
+      "passing_plays": {
+        "explosiveness": 1.9099913652658693,
+        "success_rate": 0.38095238095238093,
+        "total_ppa": 14.499145376013272,
+        "ppa": 0.34521774704793506,
+        "rate": 0.5833333333333334
+      },
+      "rushing_plays": {
+        "explosiveness": 0.9958015261843535,
+        "success_rate": 0.36666666666666664,
+        "total_ppa": -4.9736500016324365,
+        "ppa": -0.1657883333877479,
+        "rate": 0.4166666666666667
+      },
+      "passing_downs": {
+        "explosiveness": 2.426919756075347,
+        "success_rate": 0.2857142857142857,
+        "total_ppa": 14.499145376013272,
+        "ppa": 0.2933776210925511,
+        "rate": 0.3888888888888889
+      },
+      "standard_downs": {
+        "explosiveness": 1.163069504404159,
+        "success_rate": 0.4318181818181818,
+        "ppa": 0.0297936814497592,
+        "rate": 0.6111111111111112
+      },
+      "havoc": {
+        "db": 0.042,
+        "front_seven": 0.181,
+        "total": 0.222
+      },
+      "field_position": {
+        "average_predicted_points": -1.222,
+        "average_start": 73.1
+      },
+      "points_per_opportunity": 4,
+      "total_opportunies": 6,
+      "open_field_yards_total": 0,
+      "open_field_yards": 1.5,
+      "second_level_yards_total": 30,
+      "second_level_yards": 1,
+      "line_yards_total": 54,
+      "line_yards": 1.7966666666666666,
+      "stuff_rate": 0.36666666666666664,
+      "power_success": 0.6,
+      "explosiveness": 1.537543653047474,
+      "success_rate": 0.375,
+      "total_ppa": 9.525495374380835,
+      "ppa": 0.1322985468664005,
+      "drives": 13,
+      "plays": 72
+    }
+  },
+  {
+    "season": 2020,
+    "team": "UAB",
+    "conference": "Conference USA",
+    "offense": {
+      "passing_plays": {
+        "explosiveness": 1.553144047012512,
+        "success_rate": 0.42028985507246375,
+        "total_ppa": 25.56283625968049,
+        "ppa": 0.3704758878214564,
+        "rate": 0.4791666666666667
+      },
+      "rushing_plays": {
+        "explosiveness": 0.7648163633329801,
+        "success_rate": 0.41333333333333333,
+        "total_ppa": 0.5489460051247034,
+        "ppa": 0.007319280068329378,
+        "rate": 0.5208333333333334
+      },
+      "passing_downs": {
+        "explosiveness": 2.0115050282240294,
+        "success_rate": 0.2916666666666667,
+        "ppa": 0.3898116386988523,
+        "rate": 0.3333333333333333
+      },
+      "standard_downs": {
+        "explosiveness": 0.8823785702510613,
+        "success_rate": 0.4791666666666667,
+        "ppa": 0.07709191257562796,
+        "rate": 0.6666666666666666
+      },
+      "havoc": {
+        "db": 0.056,
+        "front_seven": 0.125,
+        "total": 0.181
+      },
+      "field_position": {
+        "average_predicted_points": 1.547,
+        "average_start": 67.5
+      },
+      "points_per_opportunity": 4.538461538461538,
+      "total_opportunies": 13,
+      "open_field_yards_total": 99,
+      "open_field_yards": 1.32,
+      "second_level_yards_total": 81,
+      "second_level_yards": 1.08,
+      "line_yards_total": 196,
+      "line_yards": 2.610666666666667,
+      "stuff_rate": 0.29333333333333333,
+      "power_success": 0.6,
+      "explosiveness": 1.1458414104447538,
+      "success_rate": 0.4166666666666667,
+      "total_ppa": 26.111782264805196,
+      "ppa": 0.18133182128336942,
+      "drives": 28,
+      "plays": 144
+    },
+    "defense": {
+      "passing_plays": {
+        "explosiveness": 1.262111123146893,
+        "success_rate": 0.4025974025974026,
+        "total_ppa": 6.093228627715929,
+        "ppa": 0.0791328393209861,
+        "rate": 0.5347222222222222
+      },
+      "rushing_plays": {
+        "explosiveness": 1.6647986881736374,
+        "success_rate": 0.3880597014925373,
+        "total_ppa": 27.168303307755234,
+        "ppa": 0.40549706429485427,
+        "rate": 0.4652777777777778
+      },
+      "passing_downs": {
+        "explosiveness": 1.8516152011711806,
+        "success_rate": 0.29411764705882354,
+        "total_ppa": 6.093228627715929,
+        "ppa": 0.2385885310853751,
+        "rate": 0.3541666666666667
+      },
+      "standard_downs": {
+        "explosiveness": 1.3008567307738226,
+        "success_rate": 0.45161290322580644,
+        "ppa": 0.22681200914104338,
+        "rate": 0.6458333333333334
+      },
+      "havoc": {
+        "db": 0.049,
+        "front_seven": 0.118,
+        "total": 0.167
+      },
+      "field_position": {
+        "average_predicted_points": -1.105,
+        "average_start": 73.7
+      },
+      "points_per_opportunity": 4.333333333333333,
+      "total_opportunies": 12,
+      "open_field_yards_total": 0,
+      "open_field_yards": 2.955223880597015,
+      "second_level_yards_total": 92,
+      "second_level_yards": 1.373134328358209,
+      "line_yards_total": 231,
+      "line_yards": 3.4477611940298507,
+      "stuff_rate": 0.14925373134328357,
+      "power_success": 1,
+      "explosiveness": 1.4457931703520748,
+      "success_rate": 0.3958333333333333,
+      "total_ppa": 33.26153193547116,
+      "ppa": 0.2309828606629942,
+      "drives": 26,
+      "plays": 144
+    }
+  },
+  {
+    "season": 2020,
+    "team": "UL Monroe",
+    "conference": "Sun Belt",
+    "offense": {
+      "passing_plays": {
+        "explosiveness": 1.534102864575391,
+        "success_rate": 0.4230769230769231,
+        "total_ppa": 6.799448235915948,
+        "ppa": 0.2615172398429211,
+        "rate": 0.5909090909090909
+      },
+      "rushing_plays": {
+        "explosiveness": 0.670355015764582,
+        "success_rate": 0.16666666666666666,
+        "total_ppa": -9.466123595484936,
+        "ppa": -0.5258957553047187,
+        "rate": 0.4090909090909091
+      },
+      "passing_downs": {
+        "explosiveness": 2.1561039642389654,
+        "success_rate": 0.2,
+        "ppa": 0.08106061740214492,
+        "rate": 0.3409090909090909
+      },
+      "standard_downs": {
+        "explosiveness": 1.128898605900559,
+        "success_rate": 0.3793103448275862,
+        "ppa": -0.13388222829659177,
+        "rate": 0.6590909090909091
+      },
+      "havoc": {
+        "db": 0.114,
+        "front_seven": 0.182,
+        "total": 0.295
+      },
+      "field_position": {
+        "average_predicted_points": 1.073,
+        "average_start": 73.7
+      },
+      "points_per_opportunity": 1.4,
+      "total_opportunies": 5,
+      "open_field_yards_total": 15,
+      "open_field_yards": 0.8333333333333334,
+      "second_level_yards_total": 7,
+      "second_level_yards": 0.3888888888888889,
+      "line_yards_total": 31,
+      "line_yards": 1.7,
+      "stuff_rate": 0.2777777777777778,
+      "power_success": 0.5,
+      "explosiveness": 1.3490140398302175,
+      "success_rate": 0.3181818181818182,
+      "total_ppa": -2.6666753595689876,
+      "ppa": -0.06060625817202245,
+      "drives": 11,
+      "plays": 44
+    },
+    "defense": {
+      "passing_plays": {
+        "explosiveness": 2.068405449186921,
+        "success_rate": 0.2,
+        "total_ppa": -0.24502861777572602,
+        "ppa": -0.0490057235551452,
+        "rate": 0.07142857142857142
+      },
+      "rushing_plays": {
+        "explosiveness": 1.1925081681839977,
+        "success_rate": 0.5846153846153846,
+        "total_ppa": 26.700360316847345,
+        "ppa": 0.41077477410534374,
+        "rate": 0.9285714285714286
+      },
+      "passing_downs": {
+        "explosiveness": 2.4027935821839943,
+        "success_rate": 0.46153846153846156,
+        "total_ppa": -0.24502861777572602,
+        "ppa": 0.9097860606743072,
+        "rate": 0.18571428571428572
+      },
+      "standard_downs": {
+        "explosiveness": 0.9989986165780262,
+        "success_rate": 0.5789473684210527,
+        "ppa": 0.25663355982992325,
+        "rate": 0.8142857142857143
+      },
+      "havoc": {
+        "db": 0,
+        "front_seven": 0.071,
+        "total": 0.071
+      },
+      "field_position": {
+        "average_predicted_points": -1.653,
+        "average_start": 66.9
+      },
+      "points_per_opportunity": 4.222222222222222,
+      "total_opportunies": 9,
+      "open_field_yards_total": 0,
+      "open_field_yards": 2.523076923076923,
+      "second_level_yards_total": 78,
+      "second_level_yards": 1.2,
+      "line_yards_total": 236,
+      "line_yards": 3.6307692307692307,
+      "stuff_rate": 0.1076923076923077,
+      "power_success": 0.7777777777777778,
+      "explosiveness": 1.2149670728250983,
+      "success_rate": 0.5571428571428572,
+      "total_ppa": 26.455331699071618,
+      "ppa": 0.3779333099867374,
+      "drives": 11,
+      "plays": 70
+    }
+  },
+  {
+    "season": 2020,
+    "team": "UTEP",
+    "conference": "Conference USA",
+    "offense": {
+      "passing_plays": {
+        "explosiveness": 1.6620967398920075,
+        "success_rate": 0.37681159420289856,
+        "total_ppa": 13.35366020886019,
+        "ppa": 0.19353130737478536,
+        "rate": 0.5073529411764706
+      },
+      "rushing_plays": {
+        "explosiveness": 0.9905183657367516,
+        "success_rate": 0.26865671641791045,
+        "total_ppa": -11.668889403319211,
+        "ppa": -0.17416252840774943,
+        "rate": 0.49264705882352944
+      },
+      "passing_downs": {
+        "explosiveness": 2.219686237148579,
+        "success_rate": 0.3541666666666667,
+        "ppa": 0.47186935397634433,
+        "rate": 0.35294117647058826
+      },
+      "standard_downs": {
+        "explosiveness": 0.8633029551454768,
+        "success_rate": 0.3068181818181818,
+        "ppa": -0.2382381611968585,
+        "rate": 0.6470588235294118
+      },
+      "havoc": {
+        "db": 0.074,
+        "front_seven": 0.103,
+        "total": 0.176
+      },
+      "field_position": {
+        "average_predicted_points": 1.182,
+        "average_start": 72.6
+      },
+      "points_per_opportunity": 2,
+      "total_opportunies": 12,
+      "open_field_yards_total": 59,
+      "open_field_yards": 0.8805970149253731,
+      "second_level_yards_total": 37,
+      "second_level_yards": 0.5522388059701493,
+      "line_yards_total": 131,
+      "line_yards": 1.9522388059701492,
+      "stuff_rate": 0.34328358208955223,
+      "power_success": 0.4444444444444444,
+      "explosiveness": 1.3873601322830391,
+      "success_rate": 0.3235294117647059,
+      "total_ppa": 1.684770805540979,
+      "ppa": 0.012388020628977786,
+      "drives": 22,
+      "plays": 136
+    },
+    "defense": {
+      "passing_plays": {
+        "explosiveness": 1.831242222849746,
+        "success_rate": 0.4915254237288136,
+        "total_ppa": 28.877146370106363,
+        "ppa": 0.4894431588153621,
+        "rate": 0.5175438596491229
+      },
+      "rushing_plays": {
+        "explosiveness": 0.7802716455879332,
+        "success_rate": 0.509090909090909,
+        "total_ppa": 12.243229368942517,
+        "ppa": 0.22260417034440938,
+        "rate": 0.4824561403508772
+      },
+      "passing_downs": {
+        "explosiveness": 2.080780447465289,
+        "success_rate": 0.4666666666666667,
+        "total_ppa": 28.877146370106363,
+        "ppa": 0.7885215970392204,
+        "rate": 0.2631578947368421
+      },
+      "standard_downs": {
+        "explosiveness": 1.0656442854555979,
+        "success_rate": 0.5119047619047619,
+        "ppa": 0.2079134265222889,
+        "rate": 0.7368421052631579
+      },
+      "havoc": {
+        "db": 0.026,
+        "front_seven": 0.079,
+        "total": 0.105
+      },
+      "field_position": {
+        "average_predicted_points": -1.147,
+        "average_start": 74.1
+      },
+      "points_per_opportunity": 3.7142857142857144,
+      "total_opportunies": 14,
+      "open_field_yards_total": 0,
+      "open_field_yards": 1.9818181818181817,
+      "second_level_yards_total": 62,
+      "second_level_yards": 1.1272727272727272,
+      "line_yards_total": 208,
+      "line_yards": 3.7818181818181817,
+      "stuff_rate": 0.09090909090909091,
+      "power_success": 1,
+      "explosiveness": 1.314975974370259,
+      "success_rate": 0.5,
+      "total_ppa": 41.12037573904888,
+      "ppa": 0.36070505034253403,
+      "drives": 21,
+      "plays": 114
+    }
+  },
+  {
+    "season": 2020,
+    "team": "UTSA",
+    "conference": "Conference USA",
+    "offense": {
+      "passing_plays": {
+        "explosiveness": 1.4072350265582867,
+        "success_rate": 0.34375,
+        "total_ppa": 6.244154267490368,
+        "ppa": 0.195129820859074,
+        "rate": 0.3902439024390244
+      },
+      "rushing_plays": {
+        "explosiveness": 1.2574604561981235,
+        "success_rate": 0.42,
+        "total_ppa": 11.191801798116465,
+        "ppa": 0.2238360359623293,
+        "rate": 0.6097560975609756
+      },
+      "passing_downs": {
+        "explosiveness": 2.4373833252695185,
+        "success_rate": 0.22727272727272727,
+        "ppa": 0.3110987915117756,
+        "rate": 0.2682926829268293
+      },
+      "standard_downs": {
+        "explosiveness": 1.0999754905908947,
+        "success_rate": 0.45,
+        "ppa": 0.17652971087246283,
+        "rate": 0.7317073170731707
+      },
+      "havoc": {
+        "db": 0.024,
+        "front_seven": 0.098,
+        "total": 0.122
+      },
+      "field_position": {
+        "average_predicted_points": 1.134,
+        "average_start": 73.3
+      },
+      "points_per_opportunity": 4.857142857142857,
+      "total_opportunies": 7,
+      "open_field_yards_total": 150,
+      "open_field_yards": 3,
+      "second_level_yards_total": 57,
+      "second_level_yards": 1.14,
+      "line_yards_total": 143,
+      "line_yards": 2.86,
+      "stuff_rate": 0.18,
+      "power_success": 0.75,
+      "explosiveness": 1.3089454647594296,
+      "success_rate": 0.3902439024390244,
+      "total_ppa": 17.43595606560683,
+      "ppa": 0.21263361055618088,
+      "drives": 17,
+      "plays": 82
+    },
+    "defense": {
+      "passing_plays": {
+        "explosiveness": 1.6348696726441854,
+        "success_rate": 0.38636363636363635,
+        "total_ppa": 1.96874198957637,
+        "ppa": 0.04474413612673568,
+        "rate": 0.5789473684210527
+      },
+      "rushing_plays": {
+        "explosiveness": 0.9428700387185177,
+        "success_rate": 0.46875,
+        "total_ppa": 6.943302220639198,
+        "ppa": 0.21697819439497493,
+        "rate": 0.42105263157894735
+      },
+      "passing_downs": {
+        "explosiveness": 1.754021271235543,
+        "success_rate": 0.37037037037037035,
+        "total_ppa": 1.96874198957637,
+        "ppa": 0.21446375946510776,
+        "rate": 0.35526315789473684
+      },
+      "standard_downs": {
+        "explosiveness": 1.1088919228806131,
+        "success_rate": 0.4489795918367347,
+        "ppa": 0.06370454499301342,
+        "rate": 0.6447368421052632
+      },
+      "havoc": {
+        "db": 0.039,
+        "front_seven": 0.184,
+        "total": 0.224
+      },
+      "field_position": {
+        "average_predicted_points": -0.988,
+        "average_start": 76.5
+      },
+      "points_per_opportunity": 3.5,
+      "total_opportunies": 6,
+      "open_field_yards_total": 0,
+      "open_field_yards": 0.90625,
+      "second_level_yards_total": 49,
+      "second_level_yards": 1.53125,
+      "line_yards_total": 98,
+      "line_yards": 3.071875,
+      "stuff_rate": 0.21875,
+      "power_success": 0.8333333333333334,
+      "explosiveness": 1.3104948442415287,
+      "success_rate": 0.42105263157894735,
+      "total_ppa": 8.912044210215567,
+      "ppa": 0.11726373960809958,
+      "drives": 17,
+      "plays": 76
+    }
+  },
+  {
+    "season": 2020,
+    "team": "Wake Forest",
+    "conference": "ACC",
+    "offense": {
+      "passing_plays": {
+        "explosiveness": 1.8550986845616773,
+        "success_rate": 0.3181818181818182,
+        "total_ppa": 3.4352728177630425,
+        "ppa": 0.07807438222188733,
+        "rate": 0.6197183098591549
+      },
+      "rushing_plays": {
+        "explosiveness": 0.7545492027117938,
+        "success_rate": 0.25925925925925924,
+        "total_ppa": -6.270432482449497,
+        "ppa": -0.2322382400907221,
+        "rate": 0.38028169014084506
+      },
+      "passing_downs": {
+        "explosiveness": 2.806605077785512,
+        "success_rate": 0.23333333333333334,
+        "ppa": 0.22717153521575742,
+        "rate": 0.4225352112676056
+      },
+      "standard_downs": {
+        "explosiveness": 0.8290707470248182,
+        "success_rate": 0.34146341463414637,
+        "ppa": -0.23537331027217506,
+        "rate": 0.5774647887323944
+      },
+      "havoc": {
+        "db": 0.07,
+        "front_seven": 0.155,
+        "total": 0.225
+      },
+      "field_position": {
+        "average_predicted_points": 1.453,
+        "average_start": 68.6
+      },
+      "points_per_opportunity": 1.8571428571428572,
+      "total_opportunies": 7,
+      "open_field_yards_total": 11,
+      "open_field_yards": 0.4074074074074074,
+      "second_level_yards_total": 16,
+      "second_level_yards": 0.5925925925925926,
+      "line_yards_total": 56,
+      "line_yards": 2.085185185185185,
+      "stuff_rate": 0.25925925925925924,
+      "power_success": 0.75,
+      "explosiveness": 1.4882488572783827,
+      "success_rate": 0.29577464788732394,
+      "total_ppa": -2.8351596646864543,
+      "ppa": -0.039931826263189495,
+      "drives": 13,
+      "plays": 71
+    },
+    "defense": {
+      "passing_plays": {
+        "explosiveness": 1.5068206716547237,
+        "success_rate": 0.5526315789473685,
+        "total_ppa": 22.10136382279101,
+        "ppa": 0.5816148374418687,
+        "rate": 0.4634146341463415
+      },
+      "rushing_plays": {
+        "explosiveness": 0.8727412277594541,
+        "success_rate": 0.4772727272727273,
+        "total_ppa": 6.272131488112197,
+        "ppa": 0.14254844291164084,
+        "rate": 0.5365853658536586
+      },
+      "passing_downs": {
+        "explosiveness": 2.179624593218529,
+        "success_rate": 0.38095238095238093,
+        "total_ppa": 22.10136382279101,
+        "ppa": 0.6326494560223987,
+        "rate": 0.25609756097560976
+      },
+      "standard_downs": {
+        "explosiveness": 0.9568765629985146,
+        "success_rate": 0.5573770491803278,
+        "ppa": 0.2473419136792268,
+        "rate": 0.7439024390243902
+      },
+      "havoc": {
+        "db": 0.049,
+        "front_seven": 0.061,
+        "total": 0.11
+      },
+      "field_position": {
+        "average_predicted_points": -0.889,
+        "average_start": 77.1
+      },
+      "points_per_opportunity": 3.7777777777777777,
+      "total_opportunies": 9,
+      "open_field_yards_total": 0,
+      "open_field_yards": 0.9772727272727273,
+      "second_level_yards_total": 46,
+      "second_level_yards": 1.0454545454545454,
+      "line_yards_total": 119,
+      "line_yards": 2.6931818181818183,
+      "stuff_rate": 0.1590909090909091,
+      "power_success": 0.8181818181818182,
+      "explosiveness": 1.1897809497070888,
+      "success_rate": 0.5121951219512195,
+      "total_ppa": 28.37349531090321,
+      "ppa": 0.3460182354988196,
+      "drives": 13,
+      "plays": 82
+    }
+  },
+  {
+    "season": 2020,
+    "team": "Western Kentucky",
+    "conference": "Conference USA",
+    "offense": {
+      "passing_plays": {
+        "explosiveness": 1.8210806375262087,
+        "success_rate": 0.2,
+        "total_ppa": -6.928101810919538,
+        "ppa": -0.2771240724367815,
+        "rate": 0.43103448275862066
+      },
+      "rushing_plays": {
+        "explosiveness": 0.8047824513451137,
+        "success_rate": 0.45454545454545453,
+        "total_ppa": 3.4238730961648893,
+        "ppa": 0.10375373018681483,
+        "rate": 0.5689655172413793
+      },
+      "passing_downs": {
+        "explosiveness": 1.8361557332425718,
+        "success_rate": 0.3333333333333333,
+        "ppa": 0.36464967872687726,
+        "rate": 0.41379310344827586
+      },
+      "standard_downs": {
+        "explosiveness": 0.5406578409889313,
+        "success_rate": 0.35294117647058826,
+        "ppa": -0.36046532365293243,
+        "rate": 0.5862068965517241
+      },
+      "havoc": {
+        "db": 0.034,
+        "front_seven": 0.19,
+        "total": 0.224
+      },
+      "field_position": {
+        "average_predicted_points": 1.324,
+        "average_start": 70.8
+      },
+      "points_per_opportunity": 3.5,
+      "total_opportunies": 6,
+      "open_field_yards_total": 66,
+      "open_field_yards": 2,
+      "second_level_yards_total": 49,
+      "second_level_yards": 1.4848484848484849,
+      "line_yards_total": 90,
+      "line_yards": 2.721212121212121,
+      "stuff_rate": 0.21212121212121213,
+      "power_success": 1,
+      "explosiveness": 1.0588569978903875,
+      "success_rate": 0.3448275862068966,
+      "total_ppa": -3.5042287147546483,
+      "ppa": -0.060417736461287036,
+      "drives": 12,
+      "plays": 58
+    },
+    "defense": {
+      "passing_plays": {
+        "explosiveness": 2.034709013698979,
+        "success_rate": 0.4411764705882353,
+        "total_ppa": 21.21754094222645,
+        "ppa": 0.6240453218301897,
+        "rate": 0.4722222222222222
+      },
+      "rushing_plays": {
+        "explosiveness": 0.9723764280241198,
+        "success_rate": 0.3684210526315789,
+        "total_ppa": 4.310310322695931,
+        "ppa": 0.11342921901831396,
+        "rate": 0.5277777777777778
+      },
+      "passing_downs": {
+        "explosiveness": 2.034764338874923,
+        "success_rate": 0.3333333333333333,
+        "total_ppa": 21.21754094222645,
+        "ppa": 0.38700721045311004,
+        "rate": 0.375
+      },
+      "standard_downs": {
+        "explosiveness": 1.291051307397403,
+        "success_rate": 0.4444444444444444,
+        "ppa": 0.3350812573930757,
+        "rate": 0.625
+      },
+      "havoc": {
+        "db": 0.042,
+        "front_seven": 0.167,
+        "total": 0.208
+      },
+      "field_position": {
+        "average_predicted_points": -0.995,
+        "average_start": 78.3
+      },
+      "points_per_opportunity": 4.666666666666667,
+      "total_opportunies": 6,
+      "open_field_yards_total": 0,
+      "open_field_yards": 1.263157894736842,
+      "second_level_yards_total": 39,
+      "second_level_yards": 1.0263157894736843,
+      "line_yards_total": 68,
+      "line_yards": 1.7763157894736843,
+      "stuff_rate": 0.2894736842105263,
+      "power_success": 1,
+      "explosiveness": 1.5218587999249091,
+      "success_rate": 0.4027777777777778,
+      "total_ppa": 25.52785126492238,
+      "ppa": 0.3545534897905886,
+      "drives": 12,
+      "plays": 72
+    }
+  },
+  {
+    "season": 2020,
+    "team": "West Virginia",
+    "conference": "Big 12",
+    "offense": {
+      "passing_plays": {
+        "explosiveness": 1.238533022025602,
+        "success_rate": 0.5714285714285714,
+        "total_ppa": 15.21914825976706,
+        "ppa": 0.434832807421916,
+        "rate": 0.4069767441860465
+      },
+      "rushing_plays": {
+        "explosiveness": 1.1514717214754202,
+        "success_rate": 0.5882352941176471,
+        "total_ppa": 23.544195334402392,
+        "ppa": 0.46165088890985084,
+        "rate": 0.5930232558139535
+      },
+      "passing_downs": {
+        "explosiveness": 1.8765370343706471,
+        "success_rate": 0.5652173913043478,
+        "ppa": 0.9401834828628288,
+        "rate": 0.26744186046511625
+      },
+      "standard_downs": {
+        "explosiveness": 0.9437792064312496,
+        "success_rate": 0.5873015873015873,
+        "ppa": 0.27204957917975225,
+        "rate": 0.7325581395348837
+      },
+      "havoc": {
+        "db": 0.023,
+        "front_seven": 0.07,
+        "total": 0.093
+      },
+      "field_position": {
+        "average_predicted_points": 1.772,
+        "average_start": 66.5
+      },
+      "points_per_opportunity": 6.222222222222222,
+      "total_opportunies": 9,
+      "open_field_yards_total": 102,
+      "open_field_yards": 2,
+      "second_level_yards_total": 76,
+      "second_level_yards": 1.4901960784313726,
+      "line_yards_total": 185,
+      "line_yards": 3.627450980392157,
+      "stuff_rate": 0.11764705882352941,
+      "power_success": 0.7272727272727273,
+      "explosiveness": 1.186296241695493,
+      "success_rate": 0.5813953488372093,
+      "total_ppa": 38.763343594169456,
+      "ppa": 0.45073655342057506,
+      "drives": 12,
+      "plays": 86
+    },
+    "defense": {
+      "passing_plays": {
+        "explosiveness": 1.4030263424723084,
+        "success_rate": 0.2857142857142857,
+        "total_ppa": 2.6221539874193653,
+        "ppa": 0.12486447559139835,
+        "rate": 0.42857142857142855
+      },
+      "rushing_plays": {
+        "explosiveness": 0.7799741313665951,
+        "success_rate": 0.25,
+        "total_ppa": -4.130876687174566,
+        "ppa": -0.14753131025623448,
+        "rate": 0.5714285714285714
+      },
+      "passing_downs": {
+        "explosiveness": 2.6212194641381705,
+        "success_rate": 0.1,
+        "total_ppa": 2.6221539874193653,
+        "ppa": 0.000867650987130098,
+        "rate": 0.40816326530612246
+      },
+      "standard_downs": {
+        "explosiveness": 0.7850489132839704,
+        "success_rate": 0.3793103448275862,
+        "ppa": -0.052623300672338,
+        "rate": 0.5918367346938775
+      },
+      "havoc": {
+        "db": 0.041,
+        "front_seven": 0.204,
+        "total": 0.245
+      },
+      "field_position": {
+        "average_predicted_points": -0.825,
+        "average_start": 78.7
+      },
+      "points_per_opportunity": 1.4285714285714286,
+      "total_opportunies": 7,
+      "open_field_yards_total": 0,
+      "open_field_yards": 0.7857142857142857,
+      "second_level_yards_total": 19,
+      "second_level_yards": 0.6785714285714286,
+      "line_yards_total": 53,
+      "line_yards": 1.9,
+      "stuff_rate": 0.35714285714285715,
+      "power_success": 0.5,
+      "explosiveness": 1.0675366903384627,
+      "success_rate": 0.2653061224489796,
+      "total_ppa": -1.5087226997552001,
+      "ppa": -0.030790259178677552,
+      "drives": 13,
+      "plays": 49
+    }
+  }
+]

@@ -21,6 +21,7 @@ import pandas as pd
 
 from config import DB_PATH, CLEAN_DIR
 import model
+import totals_model
 from teams import is_2026_mw_team
 
 
@@ -96,11 +97,17 @@ def main():
     model_spread_home = -pred_margin
     home_win_prob = model.margin_to_home_win_prob(pred_margin, residual_std)
 
-    team_latest, league_avg = model.totals_baseline(con)
-    model_total = [
-        model.predict_total_for_matchup(team_latest, league_avg, row.home_team, row.away_team)
-        for row in upcoming.itertuples()
-    ]
+    # See src/totals_model.py -- SP+/PPA-based regression, same upgrade the
+    # spread model got from the SP+/PPA/talent work, replacing the old
+    # raw-scoring-average baseline (model.totals_baseline()).
+    totals_train = totals_model.load_totals_training_frame(con)
+    total_pipe, _ = totals_model.fit_total_model(totals_train)
+    wk_totals_features = totals_model.load_upcoming_totals_frame(con, season, week)
+    total_map = {}
+    if not wk_totals_features.empty:
+        total_preds = totals_model.predict_total(total_pipe, wk_totals_features)
+        total_map = dict(zip(wk_totals_features["game_id"].astype(int), total_preds))
+    model_total = [total_map.get(int(row.game_id)) for row in upcoming.itertuples()]
 
     out = pd.DataFrame({
         "Game ID": upcoming["game_id"].values,
@@ -109,7 +116,7 @@ def main():
         "Away Team": upcoming["away_team"].values,
         "Home Team": upcoming["home_team"].values,
         "Model Line (Home)": [round(x, 1) for x in model_spread_home],
-        "Model Total": [round(x, 1) for x in model_total],
+        "Model Total": [round(x, 1) if x is not None else None for x in model_total],
         "Home Win Prob": [round(x, 3) for x in home_win_prob],
     })
 

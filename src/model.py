@@ -10,6 +10,39 @@ FEATURE_COLS mirrors game_features (src/features.py): rating_diff carries most
 of the signal (it's the Elo/Massey baseline from Phase 2); rest/travel/
 elevation/neutral/conference are the situational adjustments layered on top.
 
+mw_involved_flag was added after a real backtest showed the model has a
+Mountain West-specific home-field bias -- see diagnose_spread_bias.py,
+diagnose_spread_home_bias.py, and diagnose_spread_mw_perspective.py for the
+full investigation. Short version: there's no explicit home-field-advantage
+feature anywhere in this file -- home-field credit is entirely implicit in
+the Ridge intercept, which gets calibrated on the whole national, P4-heavy
+training set. A real walk-forward backtest showed the model over-predicts
+the HOME team's margin specifically whenever a Mountain West team is on the
+field, whether MW is hosting (mean residual +1.156 pts) or visiting (the
+home/opponent side was over-predicted by a mirror-image +1.128 pts) -- two
+almost exactly equal and opposite effects that canceled to +0.037 pts when
+MW's own performance was evaluated regardless of home/away role. That
+combined number near zero was the key finding: MW teams' overall quality
+assessment (via rating_diff/sp_diff/ppa_diff/talent_diff) isn't off, so this
+isn't a "the model underrates MW teams" problem -- it's specifically that
+whichever side is playing host to (or hosting) a Mountain West opponent gets
+too much home-field credit. mw_involved_flag is 1 whenever EITHER team is a
+current (2026) Mountain West team, else 0 -- deliberately a single shared
+flag rather than separate home/away versions, since the two effects were
+almost mirror-image in size and MW-involved games are a small enough slice
+(956 of 8433) that a second degree of freedom there is more overfitting risk
+than the evidence currently justifies. A negative learned coefficient on
+this flag shrinks predicted home-team margin whenever MW is involved, which
+is the right correction in BOTH directions: it reduces the over-credited
+home margin when MW hosts, and it reduces the over-credited HOST's margin
+when MW visits (equivalently: it credits the visiting MW team with the
+better-than-expected road performance the backtest actually showed). Uses
+team-name membership (MW_TEAMS_2026), not the raw home_conference/
+away_conference columns -- those reflect whatever conference a team was
+actually in for each historical game (UTEP shows Conference USA pre-2026,
+for instance), whereas this needs "is this program a 2026 MW team," the same
+convention backtest.py's is_mw_game already uses.
+
 A simple pace-based totals baseline is included too (each team's own scoring
 average blended with what their opponents have allowed), separate from the
 margin model since totals and spreads are different prediction problems.
@@ -22,10 +55,13 @@ from sklearn.model_selection import cross_val_predict
 from sklearn.pipeline import Pipeline
 from sklearn.preprocessing import StandardScaler
 
+from teams import MW_TEAMS_2026
+
 FEATURE_COLS = [
     "rating_diff", "rest_diff", "travel_km_away",
     "elevation_delta_away_ft", "neutral_site_flag", "conference_game_flag",
     "sp_diff", "ppa_diff", "talent_diff",
+    "mw_involved_flag",
 ]
 ALPHAS = np.logspace(-2, 3, 25)
 
@@ -35,6 +71,9 @@ def _prep(df: pd.DataFrame) -> pd.DataFrame:
     df["rest_diff"] = df["home_rest_days"] - df["away_rest_days"]
     df["neutral_site_flag"] = df["neutral_site"].astype(float)
     df["conference_game_flag"] = df["conference_game"].astype(float)
+    df["mw_involved_flag"] = (
+        df["home_team"].isin(MW_TEAMS_2026) | df["away_team"].isin(MW_TEAMS_2026)
+    ).astype(float)
     return df
 
 
@@ -132,6 +171,16 @@ def margin_to_model_spread_home(pred_margin: np.ndarray) -> np.ndarray:
 
 
 # ---------------------------------------------------------------- totals baseline
+# SUPERSEDED as of the SP+/PPA totals-model upgrade -- backtest.py and
+# predict_week.py both now use src/totals_model.py instead (a regression on
+# prior-season SP+/PPA, elevation, and rest, rather than a raw in-season
+# scoring average). Left here for reference/comparison; nothing in this
+# project calls these two functions anymore. See totals_model.py's docstring
+# for why the swap happened -- short version: this baseline had no
+# strength-of-schedule adjustment and fell back to a flat league average for
+# any team without much in-season history, which a total_edge_threshold
+# sensitivity sweep showed was a real (not just noisy) blind spot for MW
+# totals specifically.
 def totals_baseline(con, before_date=None) -> pd.DataFrame:
     """
     Simple pace baseline: each team's expanding average points scored and

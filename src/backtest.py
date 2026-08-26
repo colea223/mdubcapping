@@ -38,6 +38,7 @@ import pandas as pd
 
 from config import DB_PATH, CLEAN_DIR
 import model
+import totals_model
 from odds import no_vig_prob, payout_profit
 from teams import MW_TEAMS_2026
 
@@ -79,13 +80,18 @@ def run_backtest(con, edge_threshold=EDGE_THRESHOLD, ml_edge_threshold=ML_EDGE_T
         model_spread_home = -pred_margin
         home_win_prob = model.margin_to_home_win_prob(pred_margin, residual_std)
 
-        # Same walk-forward discipline for the totals baseline -- rebuilt
-        # per test week from only games strictly before it.
-        team_latest, league_avg = model.totals_baseline(con, before_date=wk.week_start)
-        model_total = [
-            model.predict_total_for_matchup(team_latest, league_avg, row.home_team, row.away_team)
-            for row in test_df.itertuples()
-        ]
+        # Same walk-forward discipline for the totals model -- rebuilt per
+        # test week from only games strictly before it. See
+        # src/totals_model.py for why this SP+/PPA-based regression replaced
+        # the old raw-scoring-average baseline (model.totals_baseline()).
+        totals_train = totals_model.load_totals_training_frame(con, before_date=wk.week_start)
+        total_pipe, _ = totals_model.fit_total_model(totals_train)
+        wk_totals_features = totals_model.load_upcoming_totals_frame(con, wk.season, wk.week)
+        model_total_map = {}
+        if not wk_totals_features.empty:
+            total_preds = totals_model.predict_total(total_pipe, wk_totals_features)
+            model_total_map = dict(zip(wk_totals_features["game_id"].astype(int), total_preds))
+        model_total = [model_total_map.get(int(game_id)) for game_id in test_df.index]
 
         for i, (game_id, row) in enumerate(test_df.iterrows()):
             # ---------------------------------------------------- spread
@@ -124,7 +130,7 @@ def run_backtest(con, edge_threshold=EDGE_THRESHOLD, ml_edge_threshold=ML_EDGE_T
             market_total_open = row["market_total_open"]
             actual_total = row["home_points"] + row["away_points"]
             total_edge, total_lean, is_total_bet, total_bet_result, total_clv = (None,) * 5
-            if pd.notna(market_total_close):
+            if pd.notna(market_total_close) and model_total[i] is not None:
                 total_edge = model_total[i] - market_total_close
                 total_lean = "Over" if total_edge > 0 else ("Under" if total_edge < 0 else "Pick'em")
                 is_total_bet = abs(total_edge) >= edge_threshold and total_lean != "Pick'em"

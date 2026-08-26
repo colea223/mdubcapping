@@ -29,6 +29,7 @@ import pandas as pd
 
 from config import DB_PATH
 import model
+import totals_model
 import backtest
 from odds import payout_profit
 from power_rating import current_ratings
@@ -315,18 +316,29 @@ def build_matchups_and_predictions(con, notes: dict, manual_lines=None):
             pred_margin = model.predict_margin(pipe, upcoming)
             model_spread_home = -pred_margin
             home_win_prob = model.margin_to_home_win_prob(pred_margin, residual_std)
-            team_latest, league_avg = model.totals_baseline(con)
+
+            # See src/totals_model.py -- SP+/PPA-based regression, same swap
+            # made in backtest.py/predict_week.py, replacing the old
+            # raw-scoring-average baseline (model.totals_baseline()).
+            totals_train = totals_model.load_totals_training_frame(con)
+            total_pipe, _ = totals_model.fit_total_model(totals_train)
+            wk_totals_features = totals_model.load_upcoming_totals_frame(con, season, week)
+            total_map = {}
+            if not wk_totals_features.empty:
+                total_preds = totals_model.predict_total(total_pipe, wk_totals_features)
+                total_map = dict(zip(wk_totals_features["game_id"].astype(int), total_preds))
 
             m_by_id = {m["game_id"]: m for m in matchups}
             for i, row in enumerate(upcoming.itertuples()):
                 mkt = m_by_id.get(row.game_id, {})
                 edge = (mkt.get("market_spread_home") - model_spread_home[i]) if mkt.get("market_spread_home") is not None else None
                 note_key = f"{row.away_team} @ {row.home_team}"
+                model_total = total_map.get(int(row.game_id))
                 predictions.append({
                     "game_id": int(row.game_id), "week": int(row.week),
                     "away_team": row.away_team, "home_team": row.home_team,
                     "model_spread_home": round(model_spread_home[i], 1),
-                    "model_total": round(model.predict_total_for_matchup(team_latest, league_avg, row.home_team, row.away_team), 1),
+                    "model_total": round(model_total, 1) if model_total is not None else None,
                     "home_win_prob": round(float(home_win_prob[i]), 3),
                     "edge": round(edge, 1) if edge is not None else None,
                     "notes": notes.get(note_key, ""),
