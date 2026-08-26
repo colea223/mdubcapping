@@ -1,6 +1,6 @@
 {
   "meta": {
-    "generated_at": "2026-08-26T05:21:19Z",
+    "generated_at": "2026-08-26T18:00:27Z",
     "current_week": {
       "season": 2026,
       "week": 1
@@ -14,6 +14,9 @@
       "home_team": "USC",
       "open_spread_home": -35.5,
       "open_total": 57.5,
+      "kicked_off": false,
+      "close_spread_home": null,
+      "close_total": null,
       "books": {
         "Bovada": {
           "spread": -38.0,
@@ -44,6 +47,9 @@
       "home_team": "North Dakota State",
       "open_spread_home": -10.0,
       "open_total": 48.5,
+      "kicked_off": false,
+      "close_spread_home": null,
+      "close_total": null,
       "books": {
         "Bovada": {
           "spread": -7.0,
@@ -74,6 +80,9 @@
       "home_team": "Stanford",
       "open_spread_home": -3.0,
       "open_total": 50.5,
+      "kicked_off": false,
+      "close_spread_home": null,
+      "close_total": null,
       "books": {
         "DraftKings": {
           "spread": -4.0,
@@ -104,6 +113,9 @@
       "home_team": "UNLV",
       "open_spread_home": -3.0,
       "open_total": 60.5,
+      "kicked_off": false,
+      "close_spread_home": null,
+      "close_total": null,
       "books": {
         "DraftKings": {
           "spread": -4.5,
@@ -134,6 +146,9 @@
       "home_team": "Eastern Michigan",
       "open_spread_home": -3.5,
       "open_total": 53.5,
+      "kicked_off": false,
+      "close_spread_home": null,
+      "close_total": null,
       "books": {
         "DraftKings": {
           "spread": -4.5,
@@ -164,6 +179,9 @@
       "home_team": "Oklahoma",
       "open_spread_home": -40.5,
       "open_total": 50.5,
+      "kicked_off": false,
+      "close_spread_home": null,
+      "close_total": null,
       "books": {
         "Bovada": {
           "spread": -40.5,
@@ -194,6 +212,9 @@
       "home_team": "Air Force",
       "open_spread_home": -30.5,
       "open_total": 58.5,
+      "kicked_off": false,
+      "close_spread_home": null,
+      "close_total": null,
       "books": {
         "DraftKings": {
           "spread": -30.5,
@@ -215,6 +236,9 @@
       "home_team": "North Dakota State",
       "open_spread_home": -39.5,
       "open_total": 57.5,
+      "kicked_off": false,
+      "close_spread_home": null,
+      "close_total": null,
       "books": {
         "DraftKings": {
           "spread": -39.5,
@@ -236,6 +260,9 @@
       "home_team": "Iowa",
       "open_spread_home": -29.5,
       "open_total": 43.5,
+      "kicked_off": false,
+      "close_spread_home": null,
+      "close_total": null,
       "books": {
         "Bovada": {
           "spread": -32.0,
@@ -266,6 +293,9 @@
       "home_team": "Colorado State",
       "open_spread_home": -4.0,
       "open_total": 47.5,
+      "kicked_off": false,
+      "close_spread_home": null,
+      "close_total": null,
       "books": {
         "DraftKings": {
           "spread": -3.5,
@@ -296,6 +326,9 @@
       "home_team": "New Mexico",
       "open_spread_home": -12.5,
       "open_total": 49.0,
+      "kicked_off": false,
+      "close_spread_home": null,
+      "close_total": null,
       "books": {
         "Bovada": {
           "spread": -11.5,
@@ -326,6 +359,9 @@
       "home_team": "Hawai'i",
       "open_spread_home": 1.5,
       "open_total": 58.5,
+      "kicked_off": false,
+      "close_spread_home": null,
+      "close_total": null,
       "books": {
         "Bovada": {
           "spread": 2.5,
@@ -356,6 +392,9 @@
       "home_team": "Nevada",
       "open_spread_home": 4.2,
       "open_total": 53.5,
+      "kicked_off": false,
+      "close_spread_home": null,
+      "close_total": null,
       "books": {
         "Bovada": {
           "spread": 2.5,

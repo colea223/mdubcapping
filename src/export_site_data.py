@@ -86,6 +86,31 @@ def team_record(con, team, season):
     return wins, losses
 
 
+def team_conference_record(con, team, season):
+    """
+    Same shape as team_record(), restricted to CFBD's own conference_game
+    flag -- games where both teams belonged to the same conference that
+    season, per CFBD's own classification (not this project's MW_TEAMS_2026
+    team-name membership). For 2026 that correctly counts only true
+    Mountain West-vs-Mountain West games for every current member, including
+    UTEP and Northern Illinois now that they've actually joined -- no
+    separate newcomer-handling needed here since conference_game already
+    reflects each season's real alignment.
+    """
+    row = con.execute("""
+        SELECT
+            SUM(CASE WHEN home_team = ? AND home_points > away_points THEN 1
+                     WHEN away_team = ? AND away_points > home_points THEN 1 ELSE 0 END) AS wins,
+            SUM(CASE WHEN (home_team = ? AND home_points < away_points)
+                       OR (away_team = ? AND away_points < home_points) THEN 1 ELSE 0 END) AS losses
+        FROM games
+        WHERE completed = TRUE AND conference_game = TRUE
+          AND (home_team = ? OR away_team = ?) AND season = ?
+    """, [team, team, team, team, team, team, season]).fetchone()
+    wins, losses = row[0] or 0, row[1] or 0
+    return wins, losses
+
+
 def team_rating_trend(con, team):
     rows = con.execute("""
         SELECT r.rating_after, g.start_date
@@ -106,11 +131,13 @@ def build_rankings(con):
     for team in MW_TEAMS_2026:
         rating = ratings.get(team)
         wins, losses = team_record(con, team, CURRENT_SEASON)
+        conf_wins, conf_losses = team_conference_record(con, team, CURRENT_SEASON)
         trend = team_rating_trend(con, team)
         rows.append({
             "team": team,
             "rating": round(rating, 1) if rating is not None else None,
             "wins": wins, "losses": losses,
+            "conf_wins": conf_wins, "conf_losses": conf_losses,
             "trend": trend,
         })
     rows.sort(key=lambda r: (r["rating"] is None, -(r["rating"] or 0)))
@@ -137,11 +164,25 @@ def build_live_lines(con, manual_lines=None):
     both the current number and how far it's moved from open, book by book.
     Mirrors the covers.com-style line tracker: Time / Game / Open / [books].
 
+    Also computes a CLOSING line once a game's own kickoff has passed --
+    auto_detect_week() keeps returning the same season/week as long as ANY
+    game that week is still incomplete, so an early-week game (a Thursday
+    MW game, say) sits on the same page as the rest of that week's still-
+    upcoming games. Until kickoff, "close_*" is left null (there's no closing
+    number yet -- the book columns are still live); once kickoff passes, it's
+    the same real-books consensus average the "current" book columns already
+    show, just labeled and frozen as the closing reference point rather than
+    something that reads as still-moving. This mirrors exactly what
+    backtest.py treats as market_close for a graded game -- the same lines
+    table columns, just surfaced here for the live-lines page too, per-game,
+    the moment kickoff passes rather than only after backtest.py runs.
+
     manual_lines (see load_manual_lines()) adds one extra "Manual" column
     for any matchup listed there -- purely a display fallback for when the
     pipeline couldn't pull real lines, never a replacement for real ones.
     """
     manual_lines = manual_lines or {}
+    now = datetime.now(timezone.utc)
     detected = auto_detect_week(con)
     if detected is None:
         return [], None
@@ -171,9 +212,18 @@ def build_live_lines(con, manual_lines=None):
         real_books = g_lines[g_lines["provider"] != "consensus"]
         open_source = real_books if not real_books.empty else g_lines
 
-        def _avg(col):
-            vals = open_source[col].dropna()
+        def _avg(col, source=open_source):
+            vals = source[col].dropna()
             return round(float(vals.mean()), 1) if not vals.empty else None
+
+        kicked_off = bool(pd.to_datetime(g.start_date, utc=True) <= now)
+        # "current" spread/over_under from real books -- once kickoff has
+        # passed these stop moving (nothing new gets pulled for a game
+        # that's already underway/final), so the same consensus average is
+        # both "the latest number" and "the closing number" at that point.
+        close_source = real_books if not real_books.empty else g_lines
+        close_spread_home = _avg("spread", close_source) if kicked_off else None
+        close_total = _avg("over_under", close_source) if kicked_off else None
 
         books = {}
         for r in g_lines.itertuples():
@@ -207,6 +257,9 @@ def build_live_lines(con, manual_lines=None):
             "home_team": g.home_team,
             "open_spread_home": _avg("spread_open"),
             "open_total": _avg("over_under_open"),
+            "kicked_off": kicked_off,
+            "close_spread_home": close_spread_home,
+            "close_total": close_total,
             "books": books,
             "book_order": book_order,
         })

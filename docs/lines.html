@@ -11,7 +11,7 @@
 <div class="page-wrap">
   <div class="page-header">
     <h1 id="page-title">Live Line Tracker</h1>
-    <p>Opening number vs. every real sportsbook's current price, per Mountain West game -- gold/purple tags show how far a book has moved off its own open. Click "View Line History" on any game for the full chart.</p>
+    <p>Opening number vs. every real sportsbook's current price, per Mountain West game -- gold/purple tags show how far a book has moved off its own open. Once a game's own kickoff passes, its "Close" column locks in and a "Closed" tag appears next to the date, even while the rest of that week's games are still live. Click "View Line History" on any game for the full chart.</p>
   </div>
 
   <div id="lines-container"></div>
@@ -257,7 +257,7 @@ document.getElementById("history-book").addEventListener("change", updateModal);
   const cards = data.games.map(g => {
     const rows = [
       {
-        label: "Total", open: fmtTotal(g.open_total),
+        label: "Total", open: fmtTotal(g.open_total), close: fmtTotal(g.close_total),
         cell: (b) => {
           const book = g.books[b];
           if (!book || book.total === null || book.total === undefined) return null;
@@ -265,7 +265,7 @@ document.getElementById("history-book").addEventListener("change", updateModal);
         },
       },
       {
-        label: "Spread", open: fmtSpread(g.open_spread_home),
+        label: "Spread", open: fmtSpread(g.open_spread_home), close: fmtSpread(g.close_spread_home),
         cell: (b) => {
           const book = g.books[b];
           if (!book || book.spread === null || book.spread === undefined) return null;
@@ -273,7 +273,7 @@ document.getElementById("history-book").addEventListener("change", updateModal);
         },
       },
       {
-        label: "Moneyline (away/home)", open: null,
+        label: "Moneyline (away/home)", open: null, close: null,
         cell: (b) => {
           const book = g.books[b];
           if (!book) return null;
@@ -287,19 +287,21 @@ document.getElementById("history-book").addEventListener("change", updateModal);
         const val = r.cell(b);
         return val ? `<td>${val}</td>` : `<td class="no-data">--</td>`;
       }).join("");
-      return `<tr><td class="market-label">${r.label}</td><td class="open-col">${r.open ?? "--"}</td>${bookCells}</tr>`;
+      return `<tr><td class="market-label">${r.label}</td><td class="open-col">${r.open ?? "--"}</td><td class="close-col">${r.close ?? "--"}</td>${bookCells}</tr>`;
     }).join("");
+
+    const closedBadge = g.kicked_off ? '<span class="closed-badge">Closed</span>' : "";
 
     return `
       <div class="matchup-card lines-card">
-        <div class="matchup-date">${formatTimeET(g.date)}</div>
+        <div class="matchup-date">${formatTimeET(g.date)} ${closedBadge}</div>
         <div class="matchup-teams">
           <div class="team-row"><span class="name"><span class="at">@</span>${g.away_team}</span></div>
           <div class="team-row"><span class="name">${g.home_team}</span></div>
         </div>
         <div class="lines-table-wrap">
           <table class="lines-table">
-            <thead><tr><th>Market</th><th>Open</th>${bookHeaders}</tr></thead>
+            <thead><tr><th>Market</th><th>Open</th><th>Close</th>${bookHeaders}</tr></thead>
             <tbody>${bodyRows}</tbody>
           </table>
         </div>

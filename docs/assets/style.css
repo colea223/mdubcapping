@@ -282,7 +282,20 @@ table.lines-table td {
 }
 table.lines-table td.market-label { color: var(--text-muted); font-weight: 700; font-size: 12px; text-transform: uppercase; letter-spacing: 0.04em; }
 table.lines-table td.open-col { color: var(--text-secondary); }
+table.lines-table td.close-col { color: var(--text-primary); font-weight: 700; }
 table.lines-table td.no-data { color: var(--text-muted); }
+.closed-badge {
+  display: inline-block;
+  padding: 2px 8px;
+  border-radius: 999px;
+  font-size: 10px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  background: rgba(255,255,255,0.08);
+  color: var(--text-secondary);
+  vertical-align: middle;
+}
 .move-tag { font-size: 12px; font-weight: 700; white-space: nowrap; }
 .move-tag.move-up { color: var(--brand-gold); }
 .move-tag.move-down { color: var(--brand-purple-light); }

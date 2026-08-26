@@ -11,7 +11,7 @@
 <div class="page-wrap">
   <div class="hero">
     <h1>Mountain Dub Handicapping</h1>
-    <p>This website is dedicated to following The Mountain West Football Conference for the 2026&ndash;27 season. Using Advanced Stats and Statistical Analysis.</p>
+    <p>This website is dedicated to following The Mountain West Football Conference for the 2026&ndash;27 season.</p>
   </div>
 
   <div class="card">
@@ -38,12 +38,15 @@ document.getElementById("nav").innerHTML = renderNav("index.html");
     const trendClass = r.trend > 0.5 ? "trend-up" : (r.trend < -0.5 ? "trend-down" : "trend-flat");
     const trendSymbol = r.trend > 0.5 ? "&#9650;" : (r.trend < -0.5 ? "&#9660;" : "&#9679;");
     const badgeClass = r.rank <= 3 ? "rank-badge top" : "rank-badge";
+    const confRecord = (r.conf_wins !== undefined && r.conf_losses !== undefined)
+      ? `${r.conf_wins}-${r.conf_losses}` : "&ndash;";
     return `
       <tr>
         <td><span class="${badgeClass}">${r.rank}</span></td>
         <td class="team-name">${r.team}</td>
         <td class="num">${r.rating !== null ? r.rating.toFixed(1) : "&ndash;"}</td>
         <td class="num">${r.wins}-${r.losses}</td>
+        <td class="num">${confRecord}</td>
         <td class="num ${trendClass}">${trendSymbol} ${Math.abs(r.trend).toFixed(1)}</td>
       </tr>`;
   }).join("");
@@ -52,7 +55,7 @@ document.getElementById("nav").innerHTML = renderNav("index.html");
     <table class="rankings">
       <thead>
         <tr>
-          <th>Rank</th><th>Team</th><th class="num">Rating</th><th class="num">Record</th><th class="num">Trend</th>
+          <th>Rank</th><th>Team</th><th class="num">Rating</th><th class="num">Record</th><th class="num">MW Record</th><th class="num">Trend</th>
         </tr>
       </thead>
       <tbody>${rows}</tbody>

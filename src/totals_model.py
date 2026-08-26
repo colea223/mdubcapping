@@ -84,6 +84,41 @@ Same walk-forward discipline as everywhere else in this project: fit only on
 games strictly before the one being predicted, forgotten and refit for the
 next test week (backtest.py) or trained on everything available for a live
 prediction (predict_week.py, same convention model.py itself uses there).
+
+mw_involved_flag was added after a real backtest showed this model has a
+Mountain West-specific scoring bias -- see diagnose_totals_bias.py for the
+full investigation (built as the totals equivalent of the spread model's
+diagnose_spread_bias.py/diagnose_spread_home_bias.py, once the spread fix's
+success made "check totals for the same shape of problem" worth doing).
+Short version: the raw residual (model_total - actual_total, independent of
+the market) was +0.144 pts overall -- statistically indistinguishable from
+zero given the scale of scoring variance here -- but +1.552 pts for
+Mountain West games specifically, a real, non-noise signal. That showed up
+directly in the betting numbers: the model leans Over 61.3% of all games but
+67.0% of MW games (50% would mean no skew), and Over bets underperform Under
+bets in both slices (worst for MW, where Under leans were the only
+profitable slice found: +1.69% ROI vs Over's -3.80%). Altitude was checked
+directly the same way the spread investigation did and again didn't hold up
+-- elevation/residual correlation was ~0 in both slices, no clean trend
+across elevation buckets, and New Mexico (one of the three altitude-hosting
+teams) actually showed a NEGATIVE residual. The per-team breakdown showed
+the bias broadly shared (8 of 10 MW teams positive) rather than one team's
+data problem, but Wyoming (+6.05 pts) and Air Force (+4.41 pts) stood out
+well above the rest -- both clock-control, low-possession offensive styles
+(Wyoming's ground game, Air Force's triple option) that suppress total
+plays run in a game for BOTH teams, a different mechanism than the generic
+plays-per-game pace feature already tried and reverted (that one measured
+pace uniformly across every team; this is about a stylistic subset the
+model has no explicit way to represent). mw_involved_flag is 1 whenever
+EITHER team is a current (2026) Mountain West team, else 0 -- the same
+single-shared-flag choice model.py made for the spread fix, for the same
+reason: MW-involved games are a small enough slice (956 of 8433) that a
+team-by-team correction is more overfitting risk than the evidence
+currently supports, and a uniform flag at least captures the broadly-shared
+direction (8 of 10 teams positive) even though it won't fully correct
+Wyoming/Air Force's larger individual effect. A negative learned
+coefficient on this flag shrinks predicted total whenever MW is involved,
+which is the right direction given the model over-predicts MW scoring.
 """
 import numpy as np
 import pandas as pd
@@ -93,11 +128,14 @@ from sklearn.model_selection import cross_val_predict
 from sklearn.pipeline import Pipeline
 from sklearn.preprocessing import StandardScaler
 
+from teams import MW_TEAMS_2026
+
 FEATURE_COLS = [
     "sp_off_sum", "sp_def_sum", "ppa_off_sum", "ppa_def_sum",
     "in_ppa_off_sum", "in_ppa_def_sum",
     "home_rest_days", "away_rest_days", "travel_km_away",
     "elevation_delta_away_ft", "neutral_site_flag", "conference_game_flag",
+    "mw_involved_flag",
 ]
 ALPHAS = np.logspace(-2, 3, 25)
 
@@ -151,6 +189,9 @@ def _prep(df: pd.DataFrame) -> pd.DataFrame:
     # in-season data accumulates, rather than that handoff being hand-coded.
     df["in_ppa_off_sum"] = df["home_in_ppa_off"] + df["away_in_ppa_off"]
     df["in_ppa_def_sum"] = df["home_in_ppa_def"] + df["away_in_ppa_def"]
+    df["mw_involved_flag"] = (
+        df["home_team"].isin(MW_TEAMS_2026) | df["away_team"].isin(MW_TEAMS_2026)
+    ).astype(float)
     return df
 
 
