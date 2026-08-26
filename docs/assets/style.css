@@ -362,6 +362,11 @@ table.lines-table td.no-data { color: var(--text-muted); }
 .chart-wrap { margin-bottom: 18px; }
 .chart-wrap svg { width: 100%; height: auto; display: block; }
 .chart-empty { padding: 30px 10px; text-align: center; color: var(--text-muted); font-size: 13px; }
+.chart-legend { display: flex; gap: 16px; justify-content: center; margin-top: 6px; }
+.chart-legend .legend-item { display: flex; align-items: center; gap: 6px; font-size: 11px; color: var(--text-muted); }
+.chart-legend .dot { width: 9px; height: 9px; border-radius: 50%; display: inline-block; }
+.chart-legend .dot-filled { background: var(--brand-purple-light); }
+.chart-legend .dot-hollow { background: var(--bg-card); border: 2px solid var(--brand-purple-light); }
 .best-tiles { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
 .best-tiles .stat-tile { padding: 12px 14px; }
 .best-tiles .label { font-size: 11px; }

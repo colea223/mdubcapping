@@ -96,6 +96,16 @@ CREATE TABLE IF NOT EXISTS lines (
 -- ever pulled (not just the newest one, unlike every other table here) --
 -- so the more often pull_lines.py runs, the richer this history gets. A
 -- game pulled for the first time only has one point until the next pull.
+-- source distinguishes which pull produced a row: 'cfbd' (src/pull_lines.py,
+-- via the full pipeline) or 'odds_api' (src/pull_odds_api.py, an independent
+-- feed on its own schedule -- see .github/workflows/odds_pull.yml). Kept as a
+-- plain column rather than folded into the PRIMARY KEY: two sources landing
+-- the exact same (game_id, provider, pulled_at) to the second would require
+-- them to run in the very same second, which never happens in practice, and
+-- adding it to the key would force a destructive rebuild of this table on
+-- every already-populated database. Existing rows (all pre-dating this
+-- column) default to 'cfbd' -- see the ALTER TABLE migration in build_db.py
+-- for databases created before this column existed.
 CREATE TABLE IF NOT EXISTS line_snapshots (
     game_id         BIGINT,
     provider        VARCHAR,
@@ -104,6 +114,7 @@ CREATE TABLE IF NOT EXISTS line_snapshots (
     over_under      DOUBLE,
     home_moneyline  DOUBLE,
     away_moneyline  DOUBLE,
+    source          VARCHAR DEFAULT 'cfbd',
     PRIMARY KEY (game_id, provider, pulled_at)
 );
 

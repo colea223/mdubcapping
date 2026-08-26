@@ -98,7 +98,15 @@ function renderChart(points, openValue, valueFmt) {
     ? `<line x1="${PAD_L}" y1="${y(openValue)}" x2="${W - PAD_R}" y2="${y(openValue)}" stroke="var(--brand-gold)" stroke-width="1" stroke-dasharray="4 3" opacity="0.6" />`
     : "";
 
-  const markers = valid.map((p, i) => `<circle cx="${x(i).toFixed(1)}" cy="${y(p.v).toFixed(1)}" r="4.5" fill="var(--brand-purple-light)" />`).join("");
+  // Filled dot = a CFBD pipeline pull; hollow ring = a live odds-API pull
+  // (src/pull_odds_api.py) -- shape carries the distinction, not color
+  // alone, since both feed the same series once matched to the same book.
+  const markers = valid.map((p, i) => {
+    const cx = x(i).toFixed(1), cy = y(p.v).toFixed(1);
+    return p.source === "odds_api"
+      ? `<circle cx="${cx}" cy="${cy}" r="4.5" fill="var(--bg-card)" stroke="var(--brand-purple-light)" stroke-width="2" />`
+      : `<circle cx="${cx}" cy="${cy}" r="4.5" fill="var(--brand-purple-light)" />`;
+  }).join("");
 
   const dateTicks = [0, n - 1].filter((v, idx, arr) => arr.indexOf(v) === idx).map(i => {
     const d = new Date(valid[i].t);
@@ -111,6 +119,14 @@ function renderChart(points, openValue, valueFmt) {
     <text x="${x(0).toFixed(1)}" y="${(y(first.v) - 10).toFixed(1)}" text-anchor="start" font-size="12" font-weight="700" fill="var(--text-primary)">${valueFmt(first.v)}</text>
     ${n > 1 ? `<text x="${x(n - 1).toFixed(1)}" y="${(y(last.v) - 10).toFixed(1)}" text-anchor="end" font-size="12" font-weight="700" fill="var(--text-primary)">${valueFmt(last.v)}</text>` : ""}`;
 
+  const sources = new Set(valid.map(p => p.source || "cfbd"));
+  const legend = sources.size > 1
+    ? `<div class="chart-legend">
+         <span class="legend-item"><span class="dot dot-filled"></span>Pipeline pull</span>
+         <span class="legend-item"><span class="dot dot-hollow"></span>Live odds pull</span>
+       </div>`
+    : "";
+
   container.innerHTML = `
     <svg viewBox="0 0 ${W} ${H}" xmlns="http://www.w3.org/2000/svg">
       ${gridLines}
@@ -119,7 +135,8 @@ function renderChart(points, openValue, valueFmt) {
       ${markers}
       ${labels}
       ${dateTicks}
-    </svg>`;
+    </svg>
+    ${legend}`;
 }
 
 function updateModal() {
@@ -133,6 +150,7 @@ function updateModal() {
   const points = (bookHistory ? bookHistory.points : []).map(p => ({
     t: p.t,
     v: market === "spread" ? p.spread : market === "total" ? p.total : p.away_ml,
+    source: p.source,
   }));
   const openValue = market === "spread" ? (bookHistory && bookHistory.open_spread)
     : market === "total" ? (bookHistory && bookHistory.open_total) : null;

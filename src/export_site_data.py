@@ -226,7 +226,7 @@ def build_line_history(con, game_ids):
         return {}
     placeholders = ",".join("?" * len(game_ids))
     snaps = con.execute(f"""
-        SELECT game_id, provider, pulled_at, spread, over_under, home_moneyline, away_moneyline
+        SELECT game_id, provider, pulled_at, spread, over_under, home_moneyline, away_moneyline, source
         FROM line_snapshots
         WHERE game_id IN ({placeholders})
         ORDER BY pulled_at
@@ -252,6 +252,7 @@ def build_line_history(con, game_ids):
                         "total": round(row.over_under, 1) if pd.notna(row.over_under) else None,
                         "home_ml": int(row.home_moneyline) if pd.notna(row.home_moneyline) else None,
                         "away_ml": int(row.away_moneyline) if pd.notna(row.away_moneyline) else None,
+                        "source": row.source if pd.notna(row.source) else "cfbd",
                     }
                     for row in p.itertuples()
                 ],

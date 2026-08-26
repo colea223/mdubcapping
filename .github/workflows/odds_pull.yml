@@ -1,0 +1,55 @@
+name: Update live odds (The Odds API)
+
+# Refreshes the Line History chart's data 3x/week from The Odds API -- a
+# feed completely separate from the CFBD-based weekly_pipeline.yml, on its
+# own quota, so it doesn't compete with your CFBD monthly call limit. Costs
+# ~3 credits per run (see src/pull_odds_api.py) -- 3x/week is ~39
+# credits/month against the free tier's 500.
+#
+# Schedule below runs Sunday, Wednesday, and Friday mornings UTC. You can
+# always trigger an extra run by hand from the Actions tab (the
+# workflow_dispatch trigger adds a "Run workflow" button). Cron times are
+# UTC; adjust if you want a different local time.
+
+on:
+  schedule:
+    - cron: "0 14 * * 0"  # Sunday, 14:00 UTC
+    - cron: "0 14 * * 3"  # Wednesday, 14:00 UTC
+    - cron: "0 14 * * 5"  # Friday, 14:00 UTC
+  workflow_dispatch: {}
+
+permissions:
+  contents: write
+
+jobs:
+  run-odds-update:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - name: Check out repo
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Install dependencies
+        run: pip install -r requirements.txt
+
+      - name: Run odds update
+        env:
+          ODDS_API_KEY: ${{ secrets.ODDS_API_KEY }}
+        run: python src/run_odds_update.py
+
+      - name: Commit updated data back to the repo
+        run: |
+          git config user.name "mw-handicapping-bot"
+          git config user.email "actions@users.noreply.github.com"
+          git add db/ data/raw/odds_api_*.json docs/data/lines.json docs/data/line_history.json
+          if git diff --cached --quiet; then
+            echo "Nothing changed -- skipping commit."
+          else
+            git commit -m "Live odds refresh $(date -u +'%Y-%m-%d %H:%M UTC')"
+            git push
+          fi

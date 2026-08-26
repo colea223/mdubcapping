@@ -14,6 +14,7 @@ Usage:
 """
 import json
 import re
+import unicodedata
 from collections import defaultdict
 from datetime import datetime
 from pathlib import Path
@@ -246,7 +247,9 @@ def build_line_snapshots_table(con):
     snapshot history is pure wasted work and disk space, not a real feature.
     Never DELETEs -- INSERT OR IGNORE means re-running build_db.py against
     files already loaded is a safe no-op, and a brand new pull just adds
-    whatever's genuinely new.
+    whatever's genuinely new. Tagged source='cfbd' -- see
+    build_odds_api_snapshots_table() below for the other feed into this
+    same table.
     """
     rows = []
     for year, stamp, path in all_lines_snapshots():
@@ -259,18 +262,154 @@ def build_line_snapshots_table(con):
                     g["id"], line.get("provider"), pulled_at,
                     line.get("spread"), line.get("over_under"),
                     line.get("home_moneyline"), line.get("away_moneyline"),
+                    "cfbd",
                 ))
     if not rows:
         print("line_snapshots: no raw snapshots found yet (run src/pull_lines.py first)")
         return
-    con.executemany("INSERT OR IGNORE INTO line_snapshots VALUES (?,?,?,?,?,?,?)", rows)
-    total = con.execute("SELECT COUNT(*) FROM line_snapshots").fetchone()[0]
-    print(f"line_snapshots: {len(rows)} rows scanned, {total} total in history")
+    con.executemany("INSERT OR IGNORE INTO line_snapshots VALUES (?,?,?,?,?,?,?,?)", rows)
+    total = con.execute("SELECT COUNT(*) FROM line_snapshots WHERE source = 'cfbd'").fetchone()[0]
+    print(f"line_snapshots (cfbd): {len(rows)} rows scanned, {total} total in history")
+
+
+def _ascii(s):
+    """Strip diacritics for a plain-ASCII, lowercase comparison -- The Odds
+    API tends to spell 'San Jose State' without the accent CFBD uses."""
+    return unicodedata.normalize("NFKD", s or "").encode("ascii", "ignore").decode().lower()
+
+
+def _team_name_matches(raw_name, canonical_name):
+    """
+    True if an Odds-API-style 'School Mascot' name (e.g. 'Boise State
+    Broncos') plausibly refers to our canonical CFBD-style school name (e.g.
+    'Boise State'). The Odds API has no shared game_id with CFBD, so events
+    have to be matched by name -- this is deliberately loose (startswith/
+    contains, not exact-equal) since the mascot suffix and accent handling
+    would otherwise cause silent misses.
+    """
+    if not raw_name or not canonical_name:
+        return False
+    raw_a, canon_a = _ascii(raw_name), _ascii(canonical_name)
+    return raw_a.startswith(canon_a) or canon_a in raw_a
+
+
+def _mw_game_candidates(con):
+    """
+    (game_id, home_team, away_team, start_date) for every current-season MW
+    matchup -- the match target for Odds API events (see
+    match_odds_event_to_game below). Scoped to MW games only, same rule as
+    everywhere else in this project (mw_game(), MW_TEAMS_2026) -- it's all
+    this site tracks, and keeping the candidate list small is what makes
+    date + name matching unambiguous instead of a fuzzy mess across 130+ FBS
+    teams.
+    """
+    from teams import MW_TEAMS_2026
+    rows = con.execute("""
+        SELECT game_id, home_team, away_team, start_date
+        FROM games WHERE season = ?
+    """, [LINE_HISTORY_SEASON]).fetchall()
+    return [
+        (gid, home, away, start)
+        for gid, home, away, start in rows
+        if home in MW_TEAMS_2026 or away in MW_TEAMS_2026
+    ]
+
+
+def match_odds_event_to_game(candidates, home_raw, away_raw, commence_time):
+    """
+    Find which CFBD game_id an Odds API event refers to. Matches on
+    same-day-ish kickoff (+/- 1 day, to absorb UTC-boundary edge cases --
+    this only feeds display history, not the model, so loose tolerance here
+    is fine) plus both team names resolving via _team_name_matches().
+    Returns (game_id, swapped) where swapped=True means the Odds API listed
+    home/away opposite of our games table -- the caller flips the spread
+    sign and swaps the moneyline pair accordingly. Returns (None, False) if
+    nothing lines up (game not in our table yet, or an unrecognized name).
+    """
+    for gid, home, away, start in candidates:
+        if abs((commence_time.date() - start.date()).days) > 1:
+            continue
+        if _team_name_matches(home_raw, home) and _team_name_matches(away_raw, away):
+            return gid, False
+        if _team_name_matches(home_raw, away) and _team_name_matches(away_raw, home):
+            return gid, True
+    return None, False
+
+
+def build_odds_api_snapshots_table(con):
+    """
+    Same idea as build_line_snapshots_table, but sourced from The Odds API
+    (see src/pull_odds_api.py) instead of CFBD -- a second, independent line
+    feed on its own schedule/quota (default Sun/Wed/Fri -- see
+    .github/workflows/odds_pull.yml), tagged source='odds_api' so it's never
+    confused with CFBD's own rows in this same table. Display only, same as
+    every other line_snapshots row -- model.py/backtest.py never read this
+    table at all, only the `lines` table's CFBD data.
+    """
+    files = sorted(RAW_DIR.glob(f"odds_api_{LINE_HISTORY_SEASON}_*.json"))
+    if not files:
+        print("line_snapshots (odds_api): no raw snapshots found yet (run src/pull_odds_api.py first)")
+        return
+    candidates = _mw_game_candidates(con)
+    rows, unmatched = [], 0
+    for path in files:
+        m = SNAPSHOT_RE.match(path.name)
+        pulled_at = datetime.strptime(m.group("stamp"), "%Y%m%dT%H%M%SZ")
+        for event in load_json(path):
+            try:
+                commence = datetime.fromisoformat(event["commence_time"].replace("Z", "+00:00")).replace(tzinfo=None)
+            except (KeyError, ValueError):
+                continue
+            gid, swapped = match_odds_event_to_game(
+                candidates, event.get("home_team"), event.get("away_team"), commence
+            )
+            if gid is None:
+                unmatched += 1
+                continue
+            home_name = event["home_team"]
+            for book in event.get("bookmakers") or []:
+                provider = book.get("title") or book.get("key")
+                spread = total = home_ml = away_ml = None
+                for market in book.get("markets") or []:
+                    key = market.get("key")
+                    outcomes = market.get("outcomes") or []
+                    if key == "spreads":
+                        for o in outcomes:
+                            if _team_name_matches(o.get("name"), home_name):
+                                spread = o.get("point")
+                    elif key == "totals":
+                        for o in outcomes:
+                            if o.get("name") == "Over":
+                                total = o.get("point")
+                    elif key == "h2h":
+                        for o in outcomes:
+                            if _team_name_matches(o.get("name"), home_name):
+                                home_ml = o.get("price")
+                            else:
+                                away_ml = o.get("price")
+                if swapped:
+                    spread = -spread if spread is not None else None
+                    home_ml, away_ml = away_ml, home_ml
+                rows.append((gid, provider, pulled_at, spread, total, home_ml, away_ml, "odds_api"))
+    if unmatched:
+        print(f"line_snapshots (odds_api): {unmatched} event(s) could not be matched to a tracked MW game (skipped)")
+    if not rows:
+        print("line_snapshots (odds_api): no matching MW games found in pulled data")
+        return
+    con.executemany("INSERT OR IGNORE INTO line_snapshots VALUES (?,?,?,?,?,?,?,?)", rows)
+    total = con.execute("SELECT COUNT(*) FROM line_snapshots WHERE source = 'odds_api'").fetchone()[0]
+    print(f"line_snapshots (odds_api): {len(rows)} rows scanned, {total} total in history")
 
 
 def main():
     con = duckdb.connect(str(DB_PATH))
     con.execute(SCHEMA_PATH.read_text())
+    # Migration for databases created before the Odds API integration existed
+    # -- schema.sql's CREATE TABLE IF NOT EXISTS above is a no-op on a table
+    # that already exists, so a pre-existing line_snapshots table needs this
+    # column added explicitly. No-op (and safe to run every time) once it's
+    # already there.
+    con.execute("ALTER TABLE line_snapshots ADD COLUMN IF NOT EXISTS source VARCHAR DEFAULT 'cfbd'")
 
     build_teams_table(con)
 
@@ -288,6 +427,7 @@ def main():
     build_recruiting_table(con, snapshots)
     build_lines_table(con, snapshots)
     build_line_snapshots_table(con)
+    build_odds_api_snapshots_table(con)
     build_venues_table(con)
 
     con.close()
