@@ -1,6 +1,6 @@
 {
   "meta": {
-    "generated_at": "2026-08-26T05:21:19Z",
+    "generated_at": "2026-08-26T14:51:56Z",
     "current_week": {
       "season": 2026,
       "week": 1
@@ -15,7 +15,7 @@
       "model_spread_home": -37.0,
       "model_total": 55.1,
       "home_win_prob": 0.982,
-      "edge": -1.2,
+      "edge": -1.5,
       "notes": ""
     },
     {
@@ -25,7 +25,7 @@
       "home_team": "North Dakota State",
       "model_spread_home": -19.9,
       "model_total": 54.9,
-      "home_win_prob": 0.871,
+      "home_win_prob": 0.872,
       "edge": 12.9,
       "notes": ""
     },
@@ -36,7 +36,7 @@
       "home_team": "Stanford",
       "model_spread_home": -2.6,
       "model_total": 53.3,
-      "home_win_prob": 0.558,
+      "home_win_prob": 0.559,
       "edge": -1.4,
       "notes": ""
     },
@@ -47,8 +47,8 @@
       "home_team": "UNLV",
       "model_spread_home": -11.2,
       "model_total": 57.7,
-      "home_win_prob": 0.737,
-      "edge": 6.7,
+      "home_win_prob": 0.738,
+      "edge": 7.0,
       "notes": ""
     },
     {
@@ -58,8 +58,8 @@
       "home_team": "Eastern Michigan",
       "model_spread_home": -10.2,
       "model_total": 56.0,
-      "home_win_prob": 0.719,
-      "edge": 5.2,
+      "home_win_prob": 0.72,
+      "edge": 5.7,
       "notes": ""
     },
     {
@@ -80,7 +80,7 @@
       "home_team": "Air Force",
       "model_spread_home": -16.8,
       "model_total": 55.2,
-      "home_win_prob": 0.83,
+      "home_win_prob": 0.831,
       "edge": -13.7,
       "notes": ""
     },
@@ -118,17 +118,6 @@
       "notes": ""
     },
     {
-      "game_id": 401864498,
-      "week": 1,
-      "away_team": "Central Michigan",
-      "home_team": "New Mexico",
-      "model_spread_home": -15.9,
-      "model_total": 51.6,
-      "home_win_prob": 0.817,
-      "edge": 4.4,
-      "notes": ""
-    },
-    {
       "game_id": 401864497,
       "week": 1,
       "away_team": "UNLV",
@@ -140,13 +129,24 @@
       "notes": ""
     },
     {
+      "game_id": 401864498,
+      "week": 1,
+      "away_team": "Central Michigan",
+      "home_team": "New Mexico",
+      "model_spread_home": -15.9,
+      "model_total": 51.6,
+      "home_win_prob": 0.818,
+      "edge": 4.4,
+      "notes": ""
+    },
+    {
       "game_id": 401864432,
       "week": 1,
       "away_team": "Western Kentucky",
       "home_team": "Nevada",
       "model_spread_home": 5.3,
       "model_total": 53.0,
-      "home_win_prob": 0.383,
+      "home_win_prob": 0.382,
       "edge": -2.8,
       "notes": ""
     }
