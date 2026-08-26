@@ -1,6 +1,6 @@
 {
   "meta": {
-    "generated_at": "2026-08-25T23:55:08Z",
+    "generated_at": "2026-08-26T01:31:09Z",
     "current_week": {
       "season": 2026,
       "week": 1
@@ -54,10 +54,19 @@
           "date": "2026-08-29",
           "week": 1,
           "matchup": "Jacksonvillie State @ North Dakota State",
-          "bet_type": "Total",
-          "side": "Over 46.5",
-          "odds": -110.0,
-          "stake": 1.0
+          "bet_type": "Moneyline",
+          "side": "North Dakota State -265",
+          "odds": -265.0,
+          "stake": 5.0
+        },
+        {
+          "date": "2026-08-29",
+          "week": 1,
+          "matchup": "Memphis @ UNLV",
+          "bet_type": "Moneyline",
+          "side": "UNLV -184",
+          "odds": -184.0,
+          "stake": 5.0
         }
       ],
       "note": "No graded bets in the Bet Log yet -- add a Result (W/L/P) to see your record here."
