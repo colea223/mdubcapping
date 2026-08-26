@@ -11,10 +11,21 @@ closing lines (older seasons), supplement with a manually downloaded archive
 (e.g. Sports Book Review Online season files) dropped into data/raw/ as
 lines_external_<year>.csv; pull_lines.py only handles the CFBD side.
 
+INCREMENTAL BY DEFAULT: CFBD's free tier is a hard 1,000-calls/month quota
+(confirmed at https://collegefootballdata.com/api-tiers). Past seasons' lines
+are final and don't change, so re-pulling all of [START_YEAR, END_YEAR] twice
+a week (via weekly_pipeline.yml) was 11 calls per run for data that never
+moves. main() now defaults to pulling ONLY END_YEAR (the current season) --
+exactly the season whose lines are actually opening/closing right now. Pass
+--full-history for the rare case you genuinely need the whole window again
+(e.g. a fresh clone, or CFBD backfills older seasons).
+
 Usage:
     source .venv/bin/activate
-    python src/pull_lines.py
+    python src/pull_lines.py                # current season only (default)
+    python src/pull_lines.py --full-history  # full START_YEAR..END_YEAR re-pull
 """
+import argparse
 import json
 from datetime import datetime, timezone
 
@@ -26,12 +37,16 @@ def _stamp():
     return datetime.now(timezone.utc).strftime("%Y%m%dT%H%M%SZ")
 
 
-def main():
+def main(full_history: bool = False):
     client = get_api_client()
     api = betting_api(client)
     stamp = _stamp()
 
-    for year in range(START_YEAR, END_YEAR + 1):
+    years = range(START_YEAR, END_YEAR + 1) if full_history else [END_YEAR]
+    print(f"Pulling lines for: {list(years)} "
+          f"({'full history' if full_history else 'current season only -- pass --full-history for the rest'})")
+
+    for year in years:
         print(f"Pulling {year} betting lines...")
         lines = api.get_lines(year=year)
         out_path = RAW_DIR / f"lines_{year}_{stamp}.json"
@@ -47,4 +62,8 @@ def main():
 
 
 if __name__ == "__main__":
-    main()
+    parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument("--full-history", action="store_true",
+                         help=f"Re-pull every season {START_YEAR}-{END_YEAR} instead of just {END_YEAR}.")
+    args = parser.parse_args()
+    main(full_history=args.full_history)

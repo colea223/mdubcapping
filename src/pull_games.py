@@ -1,15 +1,27 @@
 """
-Pull raw game results for every FBS season in [START_YEAR, END_YEAR], plus a
-separate FCS-era pull for North Dakota State (it won't show up in an FBS query
-before 2026, since it just moved up). Writes one immutable raw JSON snapshot
-per year to data/raw/ -- re-running never overwrites a prior day's pull with a
-different filename, so opening/closing lines pulled at different times don't
-clobber each other (see pull_lines.py).
+Pull raw game results, plus a separate FCS-era pull for North Dakota State (it
+won't show up in an FBS query before 2026, since it just moved up). Writes one
+immutable raw JSON snapshot per year to data/raw/ -- re-running never
+overwrites a prior day's pull with a different filename, so opening/closing
+lines pulled at different times don't clobber each other (see pull_lines.py).
+
+INCREMENTAL BY DEFAULT: CFBD's free tier is a hard 1,000-calls/month quota
+(confirmed at https://collegefootballdata.com/api-tiers), not just a rate
+limit. Seasons before END_YEAR are final and essentially never change, so
+re-pulling all of [START_YEAR, END_YEAR] on every scheduled run (this script
+runs via weekly_pipeline.yml, twice a week) was burning 2 calls x 11 seasons
+= 22 calls per run for data that mostly hasn't moved. main() now defaults to
+pulling ONLY END_YEAR (the current season) -- the only season that actually
+changes week to week. Pass --full-history for the rare occasion you genuinely
+need to re-pull the whole historical window (e.g. CFBD backfills/corrects an
+old season, or this is a fresh clone with an empty data/raw/).
 
 Usage:
     source .venv/bin/activate
-    python src/pull_games.py
+    python src/pull_games.py                # current season only (default)
+    python src/pull_games.py --full-history  # full START_YEAR..END_YEAR re-pull
 """
+import argparse
 import json
 from datetime import datetime, timezone
 
@@ -41,12 +53,16 @@ def pull_ndsu_games(year: int, api):
     return [g.dict(by_alias=False) for g in games]
 
 
-def main():
+def main(full_history: bool = False):
     client = get_api_client()
     api = games_api(client)
     stamp = _stamp()
 
-    for year in range(START_YEAR, END_YEAR + 1):
+    years = range(START_YEAR, END_YEAR + 1) if full_history else [END_YEAR]
+    print(f"Pulling games for: {list(years)} "
+          f"({'full history' if full_history else 'current season only -- pass --full-history for the rest'})")
+
+    for year in years:
         print(f"Pulling {year} FBS games...")
         fbs_games = pull_fbs_games(year, api)
         out_path = RAW_DIR / f"games_fbs_{year}_{stamp}.json"
@@ -64,4 +80,8 @@ def main():
 
 
 if __name__ == "__main__":
-    main()
+    parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument("--full-history", action="store_true",
+                         help=f"Re-pull every season {START_YEAR}-{END_YEAR} instead of just {END_YEAR}.")
+    args = parser.parse_args()
+    main(full_history=args.full_history)

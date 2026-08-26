@@ -2,6 +2,17 @@
 Runs the full pipeline in order: pull_games -> pull_stats -> pull_lines -> build_db.
 Cross-platform (Windows/Mac/Linux) since it's plain Python, not a shell script.
 
+NOTE on CFBD call volume: pull_games/pull_stats/pull_lines now default to
+pulling ONLY the current season (see each script's own docstring) rather than
+re-pulling the full 2016+ history every run -- CFBD's free tier is a hard
+1,000-calls/month quota, and re-pulling 11 unchanging historical seasons twice
+a week was eating most of it. This script always calls each module's main()
+with no arguments, so it always gets that incremental (current-season-only)
+behavior. If you ever genuinely need a full historical re-pull (fresh clone,
+CFBD revises an old season), run the three pull_*.py scripts directly with
+--full-history instead of through this script, then run this script normally
+afterward.
+
 Usage:
     (activate your venv first, then)
     python src/run_pipeline.py

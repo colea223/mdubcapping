@@ -1,10 +1,9 @@
 """
 Pull advanced (PPA/EPA) season stats, SP+ ratings, Elo, and recruiting talent
-composites for every season in [START_YEAR, END_YEAR]. These are the "best
-measure" inputs discussed in the attack plan -- efficiency margin as the
-primary signal, SP+/Elo as an external blend/sanity-check, recruiting as the
-prior for thin-sample teams (this year: UTEP, Northern Illinois, North Dakota
-State).
+composites. These are the "best measure" inputs discussed in the attack plan
+-- efficiency margin as the primary signal, SP+/Elo as an external
+blend/sanity-check, recruiting as the prior for thin-sample teams (this year:
+UTEP, Northern Illinois, North Dakota State).
 
 Also keeps ppa_snapshots (db/schema.sql) current for the LIVE season only --
 see the pull_current_week_ppa_snapshot() docstring below and
@@ -13,10 +12,23 @@ multi-season historical backfill behind that same table is a separate,
 one-time script (src/backfill_ppa_snapshots.py) -- it would be wasteful to
 redo 100+ calls of unchanging past-season history on every scheduled run.
 
+INCREMENTAL BY DEFAULT: CFBD's free tier is a hard 1,000-calls/month quota
+(confirmed at https://collegefootballdata.com/api-tiers). Past seasons'
+advanced stats/SP+/Elo/recruiting are final and don't change, so re-pulling
+all of [START_YEAR, END_YEAR] twice a week (via weekly_pipeline.yml) was 4
+calls x 11 seasons = 44 calls per run (plus 1 more for the current-week PPA
+snapshot) for data that mostly hasn't moved -- the single biggest chunk of
+this project's CFBD usage. main() now defaults to pulling ONLY END_YEAR (the
+current season) -- the only season whose numbers actually change week to
+week. Pass --full-history for the rare case you genuinely need the whole
+window again (e.g. a fresh clone, or CFBD revises an older season).
+
 Usage:
     source .venv/bin/activate
-    python src/pull_stats.py
+    python src/pull_stats.py                # current season only (default)
+    python src/pull_stats.py --full-history  # full START_YEAR..END_YEAR re-pull
 """
+import argparse
 import json
 from datetime import datetime, timezone, date
 
@@ -60,19 +72,23 @@ def pull_current_week_ppa_snapshot(client, stamp):
     print(f"In-season PPA snapshot through week {week}: {len(adv)} teams -> {path.name}")
 
 
-def main():
+def main(full_history: bool = False):
     client = get_api_client()
     stats = stats_api(client)
     ratings = ratings_api(client)
     recruiting = recruiting_api(client)
     stamp = _stamp()
 
+    years = range(START_YEAR, END_YEAR + 1) if full_history else [END_YEAR]
+    print(f"Pulling stats for: {list(years)} "
+          f"({'full history' if full_history else 'current season only -- pass --full-history for the rest'})")
+
     # NOTE: .dict(by_alias=False), NOT .to_dict() -- see the comment in
     # pull_games.py. The generated .to_dict() serializes with camelCase keys
     # (successRate, specialTeams, ...) while build_db.py expects snake_case
     # (success_rate, special_teams, ...); using .to_dict() silently drops
     # those fields to null on the way in.
-    for year in range(START_YEAR, END_YEAR + 1):
+    for year in years:
         print(f"Pulling {year} advanced season stats (PPA)...")
         adv = stats.get_advanced_season_stats(year=year)
         (RAW_DIR / f"advanced_stats_{year}_{stamp}.json").write_text(
@@ -107,4 +123,8 @@ def main():
 
 
 if __name__ == "__main__":
-    main()
+    parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument("--full-history", action="store_true",
+                         help=f"Re-pull every season {START_YEAR}-{END_YEAR} instead of just {END_YEAR}.")
+    args = parser.parse_args()
+    main(full_history=args.full_history)
