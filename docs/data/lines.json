@@ -1,6 +1,6 @@
 {
   "meta": {
-    "generated_at": "2026-08-26T18:00:27Z",
+    "generated_at": "2026-08-26T18:05:06Z",
     "current_week": {
       "season": 2026,
       "week": 1
@@ -18,14 +18,6 @@
       "close_spread_home": null,
       "close_total": null,
       "books": {
-        "Bovada": {
-          "spread": -38.0,
-          "spread_open": -35.5,
-          "total": 60.5,
-          "total_open": 57.5,
-          "home_ml": -100000,
-          "away_ml": 3500
-        },
         "DraftKings": {
           "spread": -38.5,
           "spread_open": -35.5,
@@ -33,6 +25,14 @@
           "total_open": null,
           "home_ml": -100000,
           "away_ml": 5000
+        },
+        "Bovada": {
+          "spread": -38.5,
+          "spread_open": -35.5,
+          "total": 60.5,
+          "total_open": 57.5,
+          "home_ml": -100000,
+          "away_ml": 3500
         }
       },
       "book_order": [
@@ -54,7 +54,7 @@
         "Bovada": {
           "spread": -7.0,
           "spread_open": -10.0,
-          "total": 46.0,
+          "total": 46.5,
           "total_open": 48.5,
           "home_ml": -330,
           "away_ml": 265
@@ -126,7 +126,7 @@
           "away_ml": 164
         },
         "Bovada": {
-          "spread": -4.5,
+          "spread": -4.0,
           "spread_open": -3.0,
           "total": 56.5,
           "total_open": 60.5,
@@ -159,7 +159,7 @@
           "away_ml": 180
         },
         "Bovada": {
-          "spread": -5.5,
+          "spread": -4.5,
           "spread_open": -3.5,
           "total": 53.5,
           "total_open": 53.5,
@@ -320,39 +320,6 @@
       ]
     },
     {
-      "game_id": 401864498,
-      "date": "2026-09-06T02:00:00Z",
-      "away_team": "Central Michigan",
-      "home_team": "New Mexico",
-      "open_spread_home": -12.5,
-      "open_total": 49.0,
-      "kicked_off": false,
-      "close_spread_home": null,
-      "close_total": null,
-      "books": {
-        "Bovada": {
-          "spread": -11.5,
-          "spread_open": -12.5,
-          "total": 47.5,
-          "total_open": 49.0,
-          "home_ml": -575,
-          "away_ml": 400
-        },
-        "DraftKings": {
-          "spread": -11.5,
-          "spread_open": -12.5,
-          "total": 47.5,
-          "total_open": null,
-          "home_ml": -470,
-          "away_ml": 360
-        }
-      },
-      "book_order": [
-        "Bovada",
-        "DraftKings"
-      ]
-    },
-    {
       "game_id": 401864497,
       "date": "2026-09-06T02:00:00Z",
       "away_team": "UNLV",
@@ -378,6 +345,39 @@
           "total_open": null,
           "home_ml": 124,
           "away_ml": -148
+        }
+      },
+      "book_order": [
+        "Bovada",
+        "DraftKings"
+      ]
+    },
+    {
+      "game_id": 401864498,
+      "date": "2026-09-06T02:00:00Z",
+      "away_team": "Central Michigan",
+      "home_team": "New Mexico",
+      "open_spread_home": -12.5,
+      "open_total": 49.0,
+      "kicked_off": false,
+      "close_spread_home": null,
+      "close_total": null,
+      "books": {
+        "Bovada": {
+          "spread": -11.5,
+          "spread_open": -12.5,
+          "total": 47.5,
+          "total_open": 49.0,
+          "home_ml": -575,
+          "away_ml": 400
+        },
+        "DraftKings": {
+          "spread": -11.5,
+          "spread_open": -12.5,
+          "total": 47.5,
+          "total_open": null,
+          "home_ml": -470,
+          "away_ml": 360
         }
       },
       "book_order": [
