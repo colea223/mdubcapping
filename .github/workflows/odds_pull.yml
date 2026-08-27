@@ -1,29 +1,29 @@
 name: Update live odds (The Odds API)
 
-# Refreshes the Line History chart's data 3x/week from The Odds API -- a
-# feed completely separate from the CFBD-based weekly_pipeline.yml, on its
+# Refreshes the Line History chart's data Monday-Friday from The Odds API --
+# a feed completely separate from the CFBD-based weekly_pipeline.yml, on its
 # own quota, so it doesn't compete with your CFBD monthly call limit. Costs
-# ~3 credits per run (see src/pull_odds_api.py) -- 3x/week is ~39
-# credits/month against the free tier's 500.
+# ~3 credits per run (see src/pull_odds_api.py) -- 5x/week is ~65
+# credits/month against the free tier's 500, comfortable headroom.
 #
-# Schedule below runs Sunday, Wednesday, and Friday mornings UTC, deliberately
-# set an hour AFTER weekly_pipeline.yml's 14:00 UTC Sun/Wed run (not 14:00
-# itself) -- both workflows touch overlapping files (db/, docs/data/lines.json,
-# docs/data/line_history.json), so firing at the exact same time means
-# whichever finishes first wins the git push and the other's push gets
-# rejected (a clean failure, nothing corrupts, but a wasted run every time).
-# weekly_pipeline.yml times out at 30 minutes, so the 1-hour gap here is a
-# comfortable buffer even on a slow run. You can always trigger an extra run
-# by hand from the Actions tab (the workflow_dispatch trigger adds a "Run
+# Schedule below runs Mon-Fri mornings UTC, deliberately set an hour AFTER
+# weekly_pipeline.yml's 14:00 UTC Sun/Wed run (not 14:00 itself) on the one
+# day they overlap (Wednesday) -- both workflows touch overlapping files
+# (db/, docs/data/lines.json, docs/data/line_history.json), so firing at the
+# exact same time means whichever finishes first wins the git push and the
+# other's push gets rejected (a clean failure, nothing corrupts, but a wasted
+# run every time). weekly_pipeline.yml times out at 30 minutes, so the 1-hour
+# gap here is a comfortable buffer even on a slow run. Sunday is no longer in
+# this schedule at all, so there's nothing to stagger against
+# weekly_pipeline.yml's Sunday run either. You can always trigger an extra
+# run by hand from the Actions tab (the workflow_dispatch trigger adds a "Run
 # workflow" button). Cron times are UTC; adjust if you want a different local
-# time -- just keep this at least ~30-60 min clear of weekly_pipeline.yml's
-# Sun/Wed 14:00 UTC slot.
+# time -- just keep Wednesday at least ~30-60 min clear of
+# weekly_pipeline.yml's 14:00 UTC slot.
 
 on:
   schedule:
-    - cron: "0 15 * * 0"  # Sunday, 15:00 UTC (1hr after weekly_pipeline.yml)
-    - cron: "0 15 * * 3"  # Wednesday, 15:00 UTC (1hr after weekly_pipeline.yml)
-    - cron: "0 15 * * 5"  # Friday, 15:00 UTC (no weekly_pipeline.yml collision, kept same time for consistency)
+    - cron: "0 15 * * 1-5"  # Monday-Friday, 15:00 UTC (1hr clear of weekly_pipeline.yml's Wed 14:00 UTC run)
   workflow_dispatch: {}
 
 permissions:
