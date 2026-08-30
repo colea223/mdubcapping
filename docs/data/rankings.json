@@ -1,6 +1,6 @@
 {
   "meta": {
-    "generated_at": "2026-08-26T18:44:05Z",
+    "generated_at": "2026-08-30T18:04:54Z",
     "current_week": {
       "season": 2026,
       "week": 1
@@ -9,22 +9,22 @@
   "rankings": [
     {
       "team": "North Dakota State",
-      "rating": 1790.9,
-      "wins": 0,
+      "rating": 1731.3,
+      "wins": 1,
       "losses": 0,
       "conf_wins": 0,
       "conf_losses": 0,
-      "trend": -10.7,
+      "trend": -59.6,
       "rank": 1
     },
     {
       "team": "UNLV",
-      "rating": 1645.3,
+      "rating": 1585.5,
       "wins": 0,
-      "losses": 0,
+      "losses": 1,
       "conf_wins": 0,
       "conf_losses": 0,
-      "trend": -21.5,
+      "trend": -59.8,
       "rank": 2
     },
     {
@@ -39,12 +39,12 @@
     },
     {
       "team": "Hawai'i",
-      "rating": 1561.1,
+      "rating": 1519.4,
       "wins": 0,
-      "losses": 0,
+      "losses": 1,
       "conf_wins": 0,
       "conf_losses": 0,
-      "trend": 10.9,
+      "trend": -41.7,
       "rank": 4
     },
     {
@@ -58,6 +58,16 @@
       "rank": 5
     },
     {
+      "team": "San Jos\u00e9 State",
+      "rating": 1408.4,
+      "wins": 0,
+      "losses": 1,
+      "conf_wins": 0,
+      "conf_losses": 0,
+      "trend": 20.3,
+      "rank": 6
+    },
+    {
       "team": "Wyoming",
       "rating": 1399.9,
       "wins": 0,
@@ -65,7 +75,7 @@
       "conf_wins": 0,
       "conf_losses": 0,
       "trend": -14.3,
-      "rank": 6
+      "rank": 7
     },
     {
       "team": "Northern Illinois",
@@ -75,16 +85,6 @@
       "conf_wins": 0,
       "conf_losses": 0,
       "trend": -21.8,
-      "rank": 7
-    },
-    {
-      "team": "San Jos\u00e9 State",
-      "rating": 1388.2,
-      "wins": 0,
-      "losses": 0,
-      "conf_wins": 0,
-      "conf_losses": 0,
-      "trend": -26.3,
       "rank": 8
     },
     {

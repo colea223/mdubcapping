@@ -1,6 +1,6 @@
 {
   "meta": {
-    "generated_at": "2026-08-26T18:44:05Z",
+    "generated_at": "2026-08-30T18:04:54Z",
     "current_week": {
       "season": 2026,
       "week": 1
@@ -12,10 +12,10 @@
       "week": 1,
       "away_team": "San Jos\u00e9 State",
       "home_team": "USC",
-      "model_spread_home": -37.0,
+      "model_spread_home": -31.7,
       "model_total": 53.3,
-      "home_win_prob": 0.982,
-      "edge": -1.5,
+      "home_win_prob": 0.964,
+      "edge": -5.6,
       "notes": ""
     },
     {
@@ -23,10 +23,10 @@
       "week": 1,
       "away_team": "Jacksonville State",
       "home_team": "North Dakota State",
-      "model_spread_home": -19.9,
+      "model_spread_home": -16.3,
       "model_total": 53.2,
-      "home_win_prob": 0.872,
-      "edge": 12.9,
+      "home_win_prob": 0.824,
+      "edge": 9.6,
       "notes": ""
     },
     {
@@ -34,10 +34,10 @@
       "week": 1,
       "away_team": "Hawai'i",
       "home_team": "Stanford",
-      "model_spread_home": -2.6,
-      "model_total": 52.1,
-      "home_win_prob": 0.559,
-      "edge": -1.4,
+      "model_spread_home": -5.0,
+      "model_total": 52.0,
+      "home_win_prob": 0.613,
+      "edge": 0.3,
       "notes": ""
     },
     {
@@ -45,10 +45,10 @@
       "week": 1,
       "away_team": "Memphis",
       "home_team": "UNLV",
-      "model_spread_home": -11.2,
+      "model_spread_home": -10.6,
       "model_total": 56.1,
-      "home_win_prob": 0.738,
-      "edge": 7.0,
+      "home_win_prob": 0.726,
+      "edge": 6.1,
       "notes": ""
     },
     {
@@ -56,10 +56,10 @@
       "week": 1,
       "away_team": "San Jos\u00e9 State",
       "home_team": "Eastern Michigan",
-      "model_spread_home": -10.2,
+      "model_spread_home": -11.9,
       "model_total": 54.9,
-      "home_win_prob": 0.72,
-      "edge": 5.7,
+      "home_win_prob": 0.752,
+      "edge": 8.4,
       "notes": ""
     },
     {
@@ -70,7 +70,7 @@
       "model_spread_home": -35.5,
       "model_total": 51.3,
       "home_win_prob": 0.978,
-      "edge": -5.5,
+      "edge": -6.0,
       "notes": ""
     },
     {
@@ -89,10 +89,10 @@
       "week": 1,
       "away_team": "Fordham",
       "home_team": "North Dakota State",
-      "model_spread_home": -50.5,
+      "model_spread_home": -46.4,
       "model_total": 55.7,
-      "home_win_prob": 0.998,
-      "edge": 11.0,
+      "home_win_prob": 0.996,
+      "edge": 6.9,
       "notes": ""
     },
     {
@@ -114,18 +114,7 @@
       "model_spread_home": -5.0,
       "model_total": 49.5,
       "home_win_prob": 0.611,
-      "edge": 1.5,
-      "notes": ""
-    },
-    {
-      "game_id": 401864497,
-      "week": 1,
-      "away_team": "UNLV",
-      "home_team": "Hawai'i",
-      "model_spread_home": 7.3,
-      "model_total": 55.5,
-      "home_win_prob": 0.339,
-      "edge": -4.5,
+      "edge": 2.0,
       "notes": ""
     },
     {
@@ -134,9 +123,20 @@
       "away_team": "Central Michigan",
       "home_team": "New Mexico",
       "model_spread_home": -15.9,
-      "model_total": 50.2,
-      "home_win_prob": 0.818,
-      "edge": 4.4,
+      "model_total": 50.1,
+      "home_win_prob": 0.817,
+      "edge": 5.7,
+      "notes": ""
+    },
+    {
+      "game_id": 401864497,
+      "week": 1,
+      "away_team": "UNLV",
+      "home_team": "Hawai'i",
+      "model_spread_home": 6.1,
+      "model_total": 55.4,
+      "home_win_prob": 0.364,
+      "edge": -3.1,
       "notes": ""
     },
     {

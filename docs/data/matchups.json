@@ -1,6 +1,6 @@
 {
   "meta": {
-    "generated_at": "2026-08-26T18:44:05Z",
+    "generated_at": "2026-08-30T18:04:54Z",
     "current_week": {
       "season": 2026,
       "week": 1
@@ -13,8 +13,8 @@
       "date": "2026-08-29",
       "away_team": "San Jos\u00e9 State",
       "home_team": "USC",
-      "market_spread_home": -38.5,
-      "market_total": 60.5,
+      "market_spread_home": -37.3,
+      "market_total": 61.2,
       "home_moneyline": -100000,
       "away_moneyline": 4250,
       "manual_line_used": false
@@ -25,7 +25,7 @@
       "date": "2026-08-29",
       "away_team": "Jacksonville State",
       "home_team": "North Dakota State",
-      "market_spread_home": -7.0,
+      "market_spread_home": -6.7,
       "market_total": 46.5,
       "home_moneyline": -298,
       "away_moneyline": 240,
@@ -37,10 +37,10 @@
       "date": "2026-08-29",
       "away_team": "Hawai'i",
       "home_team": "Stanford",
-      "market_spread_home": -4.0,
-      "market_total": 48.8,
-      "home_moneyline": -178,
-      "away_moneyline": 150,
+      "market_spread_home": -4.7,
+      "market_total": 48.5,
+      "home_moneyline": -188,
+      "away_moneyline": 158,
       "manual_line_used": false
     },
     {
@@ -49,8 +49,8 @@
       "date": "2026-08-30",
       "away_team": "Memphis",
       "home_team": "UNLV",
-      "market_spread_home": -4.2,
-      "market_total": 56.5,
+      "market_spread_home": -4.5,
+      "market_total": 55.5,
       "home_moneyline": -184,
       "away_moneyline": 154,
       "manual_line_used": false
@@ -61,10 +61,10 @@
       "date": "2026-09-04",
       "away_team": "San Jos\u00e9 State",
       "home_team": "Eastern Michigan",
-      "market_spread_home": -4.5,
-      "market_total": 53.5,
-      "home_moneyline": -189,
-      "away_moneyline": 158,
+      "market_spread_home": -3.5,
+      "market_total": 54.0,
+      "home_moneyline": -172,
+      "away_moneyline": 144,
       "manual_line_used": false
     },
     {
@@ -73,7 +73,7 @@
       "date": "2026-09-05",
       "away_team": "UTEP",
       "home_team": "Oklahoma",
-      "market_spread_home": -41.0,
+      "market_spread_home": -41.5,
       "market_total": 50.5,
       "home_moneyline": null,
       "away_moneyline": null,
@@ -87,8 +87,8 @@
       "home_team": "Air Force",
       "market_spread_home": -30.5,
       "market_total": 58.5,
-      "home_moneyline": -10000,
-      "away_moneyline": 3000,
+      "home_moneyline": -100000,
+      "away_moneyline": 5000,
       "manual_line_used": false
     },
     {
@@ -121,22 +121,10 @@
       "date": "2026-09-05",
       "away_team": "Wyoming",
       "home_team": "Colorado State",
-      "market_spread_home": -3.5,
-      "market_total": 47.8,
-      "home_moneyline": -180,
-      "away_moneyline": 152,
-      "manual_line_used": false
-    },
-    {
-      "game_id": 401864497,
-      "week": 1,
-      "date": "2026-09-06",
-      "away_team": "UNLV",
-      "home_team": "Hawai'i",
-      "market_spread_home": 2.8,
-      "market_total": 58.5,
-      "home_moneyline": 114,
-      "away_moneyline": -136,
+      "market_spread_home": -3.0,
+      "market_total": 47.5,
+      "home_moneyline": -175,
+      "away_moneyline": 148,
       "manual_line_used": false
     },
     {
@@ -145,10 +133,22 @@
       "date": "2026-09-06",
       "away_team": "Central Michigan",
       "home_team": "New Mexico",
-      "market_spread_home": -11.5,
-      "market_total": 47.5,
-      "home_moneyline": -522,
-      "away_moneyline": 380,
+      "market_spread_home": -10.2,
+      "market_total": 46.8,
+      "home_moneyline": -492,
+      "away_moneyline": 360,
+      "manual_line_used": false
+    },
+    {
+      "game_id": 401864497,
+      "week": 1,
+      "date": "2026-09-06",
+      "away_team": "UNLV",
+      "home_team": "Hawai'i",
+      "market_spread_home": 3.0,
+      "market_total": 58.5,
+      "home_moneyline": 118,
+      "away_moneyline": -140,
       "manual_line_used": false
     },
     {
@@ -158,7 +158,7 @@
       "away_team": "Western Kentucky",
       "home_team": "Nevada",
       "market_spread_home": 2.5,
-      "market_total": 53.2,
+      "market_total": 52.8,
       "home_moneyline": 115,
       "away_moneyline": -135,
       "manual_line_used": false
