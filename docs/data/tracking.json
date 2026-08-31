@@ -1,6 +1,6 @@
 {
   "meta": {
-    "generated_at": "2026-08-31T13:24:35Z",
+    "generated_at": "2026-08-31T18:53:21Z",
     "current_week": {
       "season": 2026,
       "week": 1
@@ -68,7 +68,26 @@
           "units": -3.0
         }
       },
-      "pending": [],
+      "pending": [
+        {
+          "date": "2026-09-04",
+          "week": 1,
+          "matchup": "San Jos\u00e9 State @ Eastern Michigan",
+          "bet_type": "Spread",
+          "side": "Eastern Michigan -3.5",
+          "odds": -110.0,
+          "stake": 2.0
+        },
+        {
+          "date": "2026-09-05",
+          "week": 1,
+          "matchup": "San Jos\u00e9 State @ Eastern Michigan, Wyoming at Colorado State",
+          "bet_type": "ML Parlay",
+          "side": "Eastern Michigan, Colorado State",
+          "odds": 149.0,
+          "stake": 2.0
+        }
+      ],
       "note": "Your actual bets from the Bet Log tab, graded at the real odds you entered."
     }
   }
