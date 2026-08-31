@@ -361,10 +361,15 @@ def build_matchups_and_predictions(con, notes: dict, manual_lines=None):
 
     predictions = []
     train_df = model.load_training_frame(con)
+    print(f"  [predictions diag] train_df: {len(train_df)} completed games w/ a market line "
+          f"(need >= 10) -- games this week (MW-involved): {len(games)}")
     if len(train_df) >= 10 and not games.empty:
         pipe, residual_std = model.fit_margin_model(train_df)
         upcoming = model.load_upcoming_frame(con, season, week)
+        upcoming_before = len(upcoming)
         upcoming = upcoming[upcoming["game_id"].isin(games["game_id"])]
+        print(f"  [predictions diag] game_features rows for week {week}: {upcoming_before} "
+              f"-- matching this week's MW games: {len(upcoming)}")
         if not upcoming.empty:
             pred_margin = model.predict_margin(pipe, upcoming)
             model_spread_home = -pred_margin

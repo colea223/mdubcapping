@@ -1,6 +1,6 @@
 {
   "meta": {
-    "generated_at": "2026-08-26T18:44:05Z",
+    "generated_at": "2026-08-31T13:12:23Z",
     "current_week": {
       "season": 2026,
       "week": 1
@@ -8,77 +8,41 @@
   },
   "tracking": {
     "model": {
-      "season": 2026,
       "n_games": 0,
-      "spread": {
-        "n_bets": 0,
-        "wins": 0,
-        "losses": 0,
-        "pushes": 0,
-        "win_rate": null,
-        "units": 0
-      },
-      "total": {
-        "n_bets": 0,
-        "wins": 0,
-        "losses": 0,
-        "pushes": 0,
-        "win_rate": null,
-        "units": 0
-      },
-      "moneyline": {
-        "n_bets": 0,
-        "wins": 0,
-        "losses": 0,
-        "pushes": 0,
-        "win_rate": null,
-        "units": 0
-      },
-      "upset_calls": 0,
-      "upset_wins": 0,
-      "note": "Hypothetical flat 1-unit-per-bet tracking of the model's own picks (spread/total at -110, moneyline at the real posted odds) -- not your personal bets."
+      "note": "Not enough graded history yet."
     },
     "yours": {
-      "n_bets": 0,
-      "pending": [
-        {
-          "date": "2026-08-29",
-          "week": 1,
-          "matchup": "Jacksonvillie State @ North Dakota State",
-          "bet_type": "Spread",
-          "side": "North Dakota State -7.5",
-          "odds": 100.0,
-          "stake": 1.0
+      "n_bets": 4,
+      "wins": 2,
+      "losses": 2,
+      "pushes": 0,
+      "win_rate": 0.5,
+      "units": -5.25,
+      "by_type": {
+        "Spread": {
+          "wins": 1,
+          "losses": 0,
+          "pushes": 0,
+          "win_rate": 1.0,
+          "units": 1.0
         },
-        {
-          "date": "2026-08-29",
-          "week": 1,
-          "matchup": "Jacksonvillie State @ North Dakota State",
-          "bet_type": "Moneyline",
-          "side": "North Dakota State -285",
-          "odds": -285.0,
-          "stake": 5.0
+        "Moneyline": {
+          "wins": 1,
+          "losses": 1,
+          "pushes": 0,
+          "win_rate": 0.5,
+          "units": -3.25
         },
-        {
-          "date": "2026-08-29",
-          "week": 1,
-          "matchup": "Memphis @ UNLV",
-          "bet_type": "Moneyline",
-          "side": "UNLV -178",
-          "odds": -178.0,
-          "stake": 5.0
-        },
-        {
-          "date": "2026-08-29",
-          "week": 1,
-          "matchup": "Jacksonvillie State @ North Dakota State,Memphis @ UNLV",
-          "bet_type": "ML Parlay",
-          "side": "North Dakota State / UNLV",
-          "odds": 110.0,
-          "stake": 3.0
+        "ML Parlay": {
+          "wins": 0,
+          "losses": 1,
+          "pushes": 0,
+          "win_rate": 0.0,
+          "units": -3.0
         }
-      ],
-      "note": "No graded bets in the Bet Log yet -- add a Result (W/L/P) to see your record here."
+      },
+      "pending": [],
+      "note": "Your actual bets from the Bet Log tab, graded at the real odds you entered."
     }
   }
 }

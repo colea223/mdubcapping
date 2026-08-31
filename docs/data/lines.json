@@ -1,6 +1,6 @@
 {
   "meta": {
-    "generated_at": "2026-08-27T21:50:04Z",
+    "generated_at": "2026-08-31T13:12:23Z",
     "current_week": {
       "season": 2026,
       "week": 1
@@ -14,9 +14,9 @@
       "home_team": "USC",
       "open_spread_home": -35.5,
       "open_total": 57.5,
-      "kicked_off": false,
-      "close_spread_home": null,
-      "close_total": null,
+      "kicked_off": true,
+      "close_spread_home": -38.5,
+      "close_total": 60.5,
       "books": {
         "DraftKings": {
           "spread": -38.5,
@@ -47,9 +47,9 @@
       "home_team": "North Dakota State",
       "open_spread_home": -10.0,
       "open_total": 48.5,
-      "kicked_off": false,
-      "close_spread_home": null,
-      "close_total": null,
+      "kicked_off": true,
+      "close_spread_home": -7.0,
+      "close_total": 46.5,
       "books": {
         "Bovada": {
           "spread": -7.0,
@@ -80,9 +80,9 @@
       "home_team": "Stanford",
       "open_spread_home": -3.0,
       "open_total": 50.5,
-      "kicked_off": false,
-      "close_spread_home": null,
-      "close_total": null,
+      "kicked_off": true,
+      "close_spread_home": -4.0,
+      "close_total": 48.8,
       "books": {
         "DraftKings": {
           "spread": -4.0,
@@ -113,9 +113,9 @@
       "home_team": "UNLV",
       "open_spread_home": -3.0,
       "open_total": 60.5,
-      "kicked_off": false,
-      "close_spread_home": null,
-      "close_total": null,
+      "kicked_off": true,
+      "close_spread_home": -4.2,
+      "close_total": 56.5,
       "books": {
         "DraftKings": {
           "spread": -4.5,
