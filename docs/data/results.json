@@ -1,0 +1,127 @@
+{
+  "meta": {
+    "generated_at": "2026-09-01T20:25:37Z",
+    "current_week": {
+      "season": 2026,
+      "week": 1
+    }
+  },
+  "results": [
+    {
+      "game_id": 401862693,
+      "season": 2026,
+      "week": 1,
+      "date": "2026-08-30",
+      "away_team": "Memphis",
+      "home_team": "UNLV",
+      "home_points": 21,
+      "away_points": 27,
+      "model": {
+        "spread_pick": -10.5,
+        "market_spread_close": -4.8,
+        "spread_lean": "Home",
+        "spread_was_bet": true,
+        "spread_result": "Loss",
+        "total_pick": 56.1,
+        "market_total_close": 55.5,
+        "total_lean": "Over",
+        "total_was_bet": false,
+        "total_result": NaN,
+        "ml_lean": "Home",
+        "ml_was_bet": true,
+        "ml_result": "Loss"
+      },
+      "your_bets": [
+        {
+          "date": "2026-08-29",
+          "week": 1,
+          "matchup": "Memphis @ UNLV",
+          "bet_type": "Moneyline",
+          "side": "UNLV -178",
+          "odds": -178.0,
+          "stake": 5.0,
+          "result": "L",
+          "units": -5.0
+        }
+      ]
+    },
+    {
+      "game_id": 401864494,
+      "season": 2026,
+      "week": 1,
+      "date": "2026-08-29",
+      "away_team": "San Jos\u00e9 State",
+      "home_team": "USC",
+      "home_points": 42,
+      "away_points": 26,
+      "model": {
+        "spread_pick": -31.6,
+        "market_spread_close": -37.2,
+        "spread_lean": "Away",
+        "spread_was_bet": true,
+        "spread_result": "Win",
+        "total_pick": 53.3,
+        "market_total_close": 61.0,
+        "total_lean": "Under",
+        "total_was_bet": true,
+        "total_result": "Loss",
+        "ml_lean": "Away",
+        "ml_was_bet": false,
+        "ml_result": NaN
+      },
+      "your_bets": []
+    },
+    {
+      "game_id": 401864577,
+      "season": 2026,
+      "week": 1,
+      "date": "2026-08-29",
+      "away_team": "Jacksonville State",
+      "home_team": "North Dakota State",
+      "home_points": 33,
+      "away_points": 7,
+      "model": {
+        "spread_pick": -16.4,
+        "market_spread_close": -6.8,
+        "spread_lean": "Home",
+        "spread_was_bet": true,
+        "spread_result": "Win",
+        "total_pick": 53.2,
+        "market_total_close": 46.5,
+        "total_lean": "Over",
+        "total_was_bet": true,
+        "total_result": "Loss",
+        "ml_lean": "Home",
+        "ml_was_bet": true,
+        "ml_result": "Win"
+      },
+      "your_bets": []
+    },
+    {
+      "game_id": 401858201,
+      "season": 2026,
+      "week": 1,
+      "date": "2026-08-29",
+      "away_team": "Hawai'i",
+      "home_team": "Stanford",
+      "home_points": 37,
+      "away_points": 27,
+      "model": {
+        "spread_pick": -4.9,
+        "market_spread_close": -4.8,
+        "spread_lean": "Home",
+        "spread_was_bet": false,
+        "spread_result": NaN,
+        "total_pick": 52.1,
+        "market_total_close": 48.5,
+        "total_lean": "Over",
+        "total_was_bet": true,
+        "total_result": "Win",
+        "ml_lean": "Home",
+        "ml_was_bet": false,
+        "ml_result": NaN
+      },
+      "your_bets": []
+    }
+  ]
+}

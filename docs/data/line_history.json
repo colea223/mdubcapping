@@ -1,6 +1,6 @@
 {
   "meta": {
-    "generated_at": "2026-08-31T18:53:21Z",
+    "generated_at": "2026-09-01T20:25:37Z",
     "current_week": {
       "season": 2026,
       "week": 1
@@ -291,6 +291,22 @@
             "home_ml": null,
             "away_ml": null,
             "source": "cfbd"
+          },
+          {
+            "t": "2026-09-01T19:59:01Z",
+            "spread": -41.5,
+            "total": 51.5,
+            "home_ml": null,
+            "away_ml": null,
+            "source": "cfbd"
+          },
+          {
+            "t": "2026-09-01T20:13:28Z",
+            "spread": -41.5,
+            "total": 51.5,
+            "home_ml": null,
+            "away_ml": null,
+            "source": "cfbd"
           }
         ]
       },
@@ -422,6 +438,22 @@
             "t": "2026-08-30T17:59:38Z",
             "spread": -41.5,
             "total": 50.5,
+            "home_ml": null,
+            "away_ml": null,
+            "source": "cfbd"
+          },
+          {
+            "t": "2026-09-01T19:59:01Z",
+            "spread": -41.5,
+            "total": 51.5,
+            "home_ml": null,
+            "away_ml": null,
+            "source": "cfbd"
+          },
+          {
+            "t": "2026-09-01T20:13:28Z",
+            "spread": -41.5,
+            "total": 51.5,
             "home_ml": null,
             "away_ml": null,
             "source": "cfbd"
@@ -643,25 +675,27 @@
             "home_ml": -170,
             "away_ml": 145,
             "source": "cfbd"
-          }
-        ]
-      },
-      "Draft Kings": {
-        "open_spread": null,
-        "open_total": null,
-        "points": [
+          },
           {
-            "t": "2026-08-30T17:59:38Z",
-            "spread": -4.5,
+            "t": "2026-09-01T19:59:01Z",
+            "spread": -5.0,
             "total": 48.5,
-            "home_ml": null,
-            "away_ml": null,
+            "home_ml": -170,
+            "away_ml": 145,
+            "source": "cfbd"
+          },
+          {
+            "t": "2026-09-01T20:13:28Z",
+            "spread": -5.0,
+            "total": 48.5,
+            "home_ml": -170,
+            "away_ml": 145,
             "source": "cfbd"
           }
         ]
       },
       "DraftKings": {
-        "open_spread": -3.0,
+        "open_spread": null,
         "open_total": null,
         "points": [
           {
@@ -754,6 +788,22 @@
           },
           {
             "t": "2026-08-30T17:59:38Z",
+            "spread": -4.5,
+            "total": 48.5,
+            "home_ml": -205,
+            "away_ml": 170,
+            "source": "cfbd"
+          },
+          {
+            "t": "2026-09-01T19:59:01Z",
+            "spread": -4.5,
+            "total": 48.5,
+            "home_ml": -205,
+            "away_ml": 170,
+            "source": "cfbd"
+          },
+          {
+            "t": "2026-09-01T20:13:28Z",
             "spread": -4.5,
             "total": 48.5,
             "home_ml": -205,
@@ -1039,6 +1089,22 @@
             "home_ml": -100000,
             "away_ml": 2500,
             "source": "cfbd"
+          },
+          {
+            "t": "2026-09-01T19:59:01Z",
+            "spread": -31.0,
+            "total": 44.5,
+            "home_ml": -100000,
+            "away_ml": 2500,
+            "source": "cfbd"
+          },
+          {
+            "t": "2026-09-01T20:13:28Z",
+            "spread": -31.0,
+            "total": 44.5,
+            "home_ml": -100000,
+            "away_ml": 2500,
+            "source": "cfbd"
           }
         ]
       },
@@ -1170,6 +1236,22 @@
             "t": "2026-08-30T17:59:38Z",
             "spread": -31.5,
             "total": 45.5,
+            "home_ml": -100000,
+            "away_ml": 5000,
+            "source": "cfbd"
+          },
+          {
+            "t": "2026-09-01T19:59:01Z",
+            "spread": -31.5,
+            "total": 44.5,
+            "home_ml": -100000,
+            "away_ml": 5000,
+            "source": "cfbd"
+          },
+          {
+            "t": "2026-09-01T20:13:28Z",
+            "spread": -31.5,
+            "total": 44.5,
             "home_ml": -100000,
             "away_ml": 5000,
             "source": "cfbd"
@@ -1567,6 +1649,22 @@
             "home_ml": -180,
             "away_ml": 155,
             "source": "cfbd"
+          },
+          {
+            "t": "2026-09-01T19:59:01Z",
+            "spread": -3.0,
+            "total": 46.5,
+            "home_ml": -180,
+            "away_ml": 155,
+            "source": "cfbd"
+          },
+          {
+            "t": "2026-09-01T20:13:28Z",
+            "spread": -3.0,
+            "total": 46.5,
+            "home_ml": -180,
+            "away_ml": 155,
+            "source": "cfbd"
           }
         ]
       },
@@ -1700,6 +1798,22 @@
             "total": 47.5,
             "home_ml": -170,
             "away_ml": 142,
+            "source": "cfbd"
+          },
+          {
+            "t": "2026-09-01T19:59:01Z",
+            "spread": -3.0,
+            "total": 46.5,
+            "home_ml": -162,
+            "away_ml": 136,
+            "source": "cfbd"
+          },
+          {
+            "t": "2026-09-01T20:13:28Z",
+            "spread": -3.0,
+            "total": 46.5,
+            "home_ml": -162,
+            "away_ml": 136,
             "source": "cfbd"
           }
         ]
@@ -2103,25 +2217,27 @@
             "home_ml": -170,
             "away_ml": 145,
             "source": "cfbd"
-          }
-        ]
-      },
-      "Draft Kings": {
-        "open_spread": null,
-        "open_total": null,
-        "points": [
+          },
           {
-            "t": "2026-08-30T17:59:38Z",
-            "spread": -4.5,
+            "t": "2026-09-01T19:59:01Z",
+            "spread": -5.0,
             "total": 55.5,
-            "home_ml": null,
-            "away_ml": null,
+            "home_ml": -170,
+            "away_ml": 145,
+            "source": "cfbd"
+          },
+          {
+            "t": "2026-09-01T20:13:28Z",
+            "spread": -5.0,
+            "total": 55.5,
+            "home_ml": -170,
+            "away_ml": 145,
             "source": "cfbd"
           }
         ]
       },
       "DraftKings": {
-        "open_spread": -3.0,
+        "open_spread": null,
         "open_total": null,
         "points": [
           {
@@ -2246,6 +2362,22 @@
           },
           {
             "t": "2026-08-30T17:59:38Z",
+            "spread": -4.0,
+            "total": 55.5,
+            "home_ml": -198,
+            "away_ml": 164,
+            "source": "cfbd"
+          },
+          {
+            "t": "2026-09-01T19:59:01Z",
+            "spread": -4.0,
+            "total": 55.5,
+            "home_ml": -198,
+            "away_ml": 164,
+            "source": "cfbd"
+          },
+          {
+            "t": "2026-09-01T20:13:28Z",
             "spread": -4.0,
             "total": 55.5,
             "home_ml": -198,
@@ -2645,6 +2777,22 @@
             "home_ml": 120,
             "away_ml": -140,
             "source": "cfbd"
+          },
+          {
+            "t": "2026-09-01T19:59:01Z",
+            "spread": 2.5,
+            "total": 52.5,
+            "home_ml": 120,
+            "away_ml": -140,
+            "source": "cfbd"
+          },
+          {
+            "t": "2026-09-01T20:13:28Z",
+            "spread": 2.5,
+            "total": 52.5,
+            "home_ml": 120,
+            "away_ml": -140,
+            "source": "cfbd"
           }
         ]
       },
@@ -2742,6 +2890,22 @@
           },
           {
             "t": "2026-08-30T17:59:38Z",
+            "spread": 2.5,
+            "total": 52.5,
+            "home_ml": 110,
+            "away_ml": -130,
+            "source": "cfbd"
+          },
+          {
+            "t": "2026-09-01T19:59:01Z",
+            "spread": 2.5,
+            "total": 52.5,
+            "home_ml": 110,
+            "away_ml": -130,
+            "source": "cfbd"
+          },
+          {
+            "t": "2026-09-01T20:13:28Z",
             "spread": 2.5,
             "total": 52.5,
             "home_ml": 110,
@@ -3149,19 +3313,21 @@
             "home_ml": -100000,
             "away_ml": 3500,
             "source": "cfbd"
-          }
-        ]
-      },
-      "Draft Kings": {
-        "open_spread": null,
-        "open_total": null,
-        "points": [
+          },
           {
-            "t": "2026-08-30T17:59:38Z",
-            "spread": -37.5,
-            "total": 61.5,
-            "home_ml": null,
-            "away_ml": null,
+            "t": "2026-09-01T19:59:01Z",
+            "spread": -37.0,
+            "total": 60.5,
+            "home_ml": -100000,
+            "away_ml": 3500,
+            "source": "cfbd"
+          },
+          {
+            "t": "2026-09-01T20:13:28Z",
+            "spread": -37.0,
+            "total": 60.5,
+            "home_ml": -100000,
+            "away_ml": 3500,
             "source": "cfbd"
           }
         ]
@@ -3296,6 +3462,22 @@
             "total": 61.5,
             "home_ml": -100000,
             "away_ml": 5000,
+            "source": "cfbd"
+          },
+          {
+            "t": "2026-09-01T19:59:01Z",
+            "spread": -37.5,
+            "total": 61.5,
+            "home_ml": null,
+            "away_ml": null,
+            "source": "cfbd"
+          },
+          {
+            "t": "2026-09-01T20:13:28Z",
+            "spread": -37.5,
+            "total": 61.5,
+            "home_ml": null,
+            "away_ml": null,
             "source": "cfbd"
           }
         ]
@@ -3699,6 +3881,22 @@
             "home_ml": -160,
             "away_ml": 135,
             "source": "cfbd"
+          },
+          {
+            "t": "2026-09-01T19:59:01Z",
+            "spread": -3.0,
+            "total": 56.0,
+            "home_ml": -170,
+            "away_ml": 145,
+            "source": "cfbd"
+          },
+          {
+            "t": "2026-09-01T20:13:28Z",
+            "spread": -3.0,
+            "total": 56.0,
+            "home_ml": -170,
+            "away_ml": 145,
+            "source": "cfbd"
           }
         ]
       },
@@ -3832,6 +4030,22 @@
             "total": 54.5,
             "home_ml": -185,
             "away_ml": 154,
+            "source": "cfbd"
+          },
+          {
+            "t": "2026-09-01T19:59:01Z",
+            "spread": -3.0,
+            "total": 56.5,
+            "home_ml": -155,
+            "away_ml": 130,
+            "source": "cfbd"
+          },
+          {
+            "t": "2026-09-01T20:13:28Z",
+            "spread": -3.0,
+            "total": 56.5,
+            "home_ml": -155,
+            "away_ml": 130,
             "source": "cfbd"
           }
         ]
@@ -4121,6 +4335,22 @@
             "home_ml": -100000,
             "away_ml": 5000,
             "source": "cfbd"
+          },
+          {
+            "t": "2026-09-01T19:59:01Z",
+            "spread": -28.5,
+            "total": 58.5,
+            "home_ml": -50000,
+            "away_ml": 4000,
+            "source": "cfbd"
+          },
+          {
+            "t": "2026-09-01T20:13:28Z",
+            "spread": -28.5,
+            "total": 58.5,
+            "home_ml": -50000,
+            "away_ml": 4000,
+            "source": "cfbd"
           }
         ]
       },
@@ -4263,6 +4493,22 @@
             "home_ml": 105,
             "away_ml": -125,
             "source": "cfbd"
+          },
+          {
+            "t": "2026-09-01T19:59:01Z",
+            "spread": 3.0,
+            "total": 56.0,
+            "home_ml": 130,
+            "away_ml": -150,
+            "source": "cfbd"
+          },
+          {
+            "t": "2026-09-01T20:13:28Z",
+            "spread": 3.0,
+            "total": 56.0,
+            "home_ml": 130,
+            "away_ml": -150,
+            "source": "cfbd"
           }
         ]
       },
@@ -4364,6 +4610,22 @@
             "total": 58.5,
             "home_ml": 130,
             "away_ml": -155,
+            "source": "cfbd"
+          },
+          {
+            "t": "2026-09-01T19:59:01Z",
+            "spread": 3.0,
+            "total": 56.5,
+            "home_ml": 124,
+            "away_ml": -148,
+            "source": "cfbd"
+          },
+          {
+            "t": "2026-09-01T20:13:28Z",
+            "spread": 3.0,
+            "total": 56.5,
+            "home_ml": 124,
+            "away_ml": -148,
             "source": "cfbd"
           }
         ]
@@ -4645,6 +4907,22 @@
             "home_ml": -575,
             "away_ml": 400,
             "source": "cfbd"
+          },
+          {
+            "t": "2026-09-01T19:59:01Z",
+            "spread": -10.0,
+            "total": 46.5,
+            "home_ml": -575,
+            "away_ml": 400,
+            "source": "cfbd"
+          },
+          {
+            "t": "2026-09-01T20:13:28Z",
+            "spread": -10.0,
+            "total": 46.5,
+            "home_ml": -575,
+            "away_ml": 400,
+            "source": "cfbd"
           }
         ]
       },
@@ -4746,6 +5024,22 @@
             "total": 46.5,
             "home_ml": -410,
             "away_ml": 320,
+            "source": "cfbd"
+          },
+          {
+            "t": "2026-09-01T19:59:01Z",
+            "spread": -10.0,
+            "total": 46.5,
+            "home_ml": -395,
+            "away_ml": 310,
+            "source": "cfbd"
+          },
+          {
+            "t": "2026-09-01T20:13:28Z",
+            "spread": -10.0,
+            "total": 46.5,
+            "home_ml": -395,
+            "away_ml": 310,
             "source": "cfbd"
           }
         ]
@@ -5030,6 +5324,22 @@
           },
           {
             "t": "2026-08-30T17:59:38Z",
+            "spread": -39.5,
+            "total": 57.5,
+            "home_ml": null,
+            "away_ml": null,
+            "source": "cfbd"
+          },
+          {
+            "t": "2026-09-01T19:59:01Z",
+            "spread": -39.5,
+            "total": 57.5,
+            "home_ml": null,
+            "away_ml": null,
+            "source": "cfbd"
+          },
+          {
+            "t": "2026-09-01T20:13:28Z",
             "spread": -39.5,
             "total": 57.5,
             "home_ml": null,
@@ -5353,19 +5663,21 @@
             "home_ml": -330,
             "away_ml": 265,
             "source": "cfbd"
-          }
-        ]
-      },
-      "Draft Kings": {
-        "open_spread": null,
-        "open_total": null,
-        "points": [
+          },
           {
-            "t": "2026-08-30T17:59:38Z",
-            "spread": -6.5,
+            "t": "2026-09-01T19:59:01Z",
+            "spread": -7.0,
             "total": 46.5,
-            "home_ml": null,
-            "away_ml": null,
+            "home_ml": -330,
+            "away_ml": 265,
+            "source": "cfbd"
+          },
+          {
+            "t": "2026-09-01T20:13:28Z",
+            "spread": -7.0,
+            "total": 46.5,
+            "home_ml": -330,
+            "away_ml": 265,
             "source": "cfbd"
           }
         ]
@@ -5500,6 +5812,22 @@
             "total": 46.5,
             "home_ml": -265,
             "away_ml": 215,
+            "source": "cfbd"
+          },
+          {
+            "t": "2026-09-01T19:59:01Z",
+            "spread": -6.5,
+            "total": 46.5,
+            "home_ml": null,
+            "away_ml": null,
+            "source": "cfbd"
+          },
+          {
+            "t": "2026-09-01T20:13:28Z",
+            "spread": -6.5,
+            "total": 46.5,
+            "home_ml": null,
+            "away_ml": null,
             "source": "cfbd"
           }
         ]

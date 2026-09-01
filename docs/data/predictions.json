@@ -1,6 +1,6 @@
 {
   "meta": {
-    "generated_at": "2026-08-31T18:53:21Z",
+    "generated_at": "2026-09-01T20:25:37Z",
     "current_week": {
       "season": 2026,
       "week": 1
@@ -15,8 +15,13 @@
       "model_spread_home": -31.7,
       "model_total": 53.3,
       "home_win_prob": 0.964,
-      "edge": -5.6,
-      "notes": ""
+      "edge": -5.5,
+      "notes": "",
+      "completed": true,
+      "home_points": 42,
+      "away_points": 26,
+      "straight_up_correct": true,
+      "covered_model_line": false
     },
     {
       "game_id": 401864577,
@@ -25,9 +30,14 @@
       "home_team": "North Dakota State",
       "model_spread_home": -16.3,
       "model_total": 53.2,
-      "home_win_prob": 0.824,
-      "edge": 9.6,
-      "notes": ""
+      "home_win_prob": 0.823,
+      "edge": 9.5,
+      "notes": "",
+      "completed": true,
+      "home_points": 33,
+      "away_points": 7,
+      "straight_up_correct": true,
+      "covered_model_line": true
     },
     {
       "game_id": 401858201,
@@ -36,9 +46,14 @@
       "home_team": "Stanford",
       "model_spread_home": -5.0,
       "model_total": 52.0,
-      "home_win_prob": 0.613,
-      "edge": 0.3,
-      "notes": ""
+      "home_win_prob": 0.612,
+      "edge": 0.2,
+      "notes": "",
+      "completed": true,
+      "home_points": 37,
+      "away_points": 27,
+      "straight_up_correct": true,
+      "covered_model_line": true
     },
     {
       "game_id": 401862693,
@@ -48,8 +63,13 @@
       "model_spread_home": -10.6,
       "model_total": 56.1,
       "home_win_prob": 0.726,
-      "edge": 6.1,
-      "notes": ""
+      "edge": 5.8,
+      "notes": "",
+      "completed": true,
+      "home_points": 21,
+      "away_points": 27,
+      "straight_up_correct": false,
+      "covered_model_line": false
     },
     {
       "game_id": 401864495,
@@ -58,9 +78,14 @@
       "home_team": "Eastern Michigan",
       "model_spread_home": -11.9,
       "model_total": 54.9,
-      "home_win_prob": 0.752,
-      "edge": 8.4,
-      "notes": ""
+      "home_win_prob": 0.751,
+      "edge": 8.9,
+      "notes": "",
+      "completed": false,
+      "home_points": null,
+      "away_points": null,
+      "straight_up_correct": null,
+      "covered_model_line": null
     },
     {
       "game_id": 401856664,
@@ -71,7 +96,12 @@
       "model_total": 51.3,
       "home_win_prob": 0.978,
       "edge": -6.0,
-      "notes": ""
+      "notes": "",
+      "completed": false,
+      "home_points": null,
+      "away_points": null,
+      "straight_up_correct": null,
+      "covered_model_line": null
     },
     {
       "game_id": 401864496,
@@ -80,9 +110,14 @@
       "home_team": "Air Force",
       "model_spread_home": -16.8,
       "model_total": 53.3,
-      "home_win_prob": 0.831,
-      "edge": -13.7,
-      "notes": ""
+      "home_win_prob": 0.83,
+      "edge": -11.7,
+      "notes": "",
+      "completed": false,
+      "home_points": null,
+      "away_points": null,
+      "straight_up_correct": null,
+      "covered_model_line": null
     },
     {
       "game_id": 401864499,
@@ -93,7 +128,12 @@
       "model_total": 55.7,
       "home_win_prob": 0.996,
       "edge": 6.9,
-      "notes": ""
+      "notes": "",
+      "completed": false,
+      "home_points": null,
+      "away_points": null,
+      "straight_up_correct": null,
+      "covered_model_line": null
     },
     {
       "game_id": 401858426,
@@ -103,8 +143,13 @@
       "model_spread_home": -30.8,
       "model_total": 47.7,
       "home_win_prob": 0.96,
-      "edge": -1.0,
-      "notes": ""
+      "edge": -0.4,
+      "notes": "",
+      "completed": false,
+      "home_points": null,
+      "away_points": null,
+      "straight_up_correct": null,
+      "covered_model_line": null
     },
     {
       "game_id": 401860878,
@@ -115,18 +160,12 @@
       "model_total": 49.5,
       "home_win_prob": 0.611,
       "edge": 2.0,
-      "notes": ""
-    },
-    {
-      "game_id": 401864498,
-      "week": 1,
-      "away_team": "Central Michigan",
-      "home_team": "New Mexico",
-      "model_spread_home": -15.9,
-      "model_total": 50.1,
-      "home_win_prob": 0.817,
-      "edge": 5.7,
-      "notes": ""
+      "notes": "",
+      "completed": false,
+      "home_points": null,
+      "away_points": null,
+      "straight_up_correct": null,
+      "covered_model_line": null
     },
     {
       "game_id": 401864497,
@@ -137,7 +176,28 @@
       "model_total": 55.4,
       "home_win_prob": 0.364,
       "edge": -3.1,
-      "notes": ""
+      "notes": "",
+      "completed": false,
+      "home_points": null,
+      "away_points": null,
+      "straight_up_correct": null,
+      "covered_model_line": null
+    },
+    {
+      "game_id": 401864498,
+      "week": 1,
+      "away_team": "Central Michigan",
+      "home_team": "New Mexico",
+      "model_spread_home": -15.9,
+      "model_total": 50.1,
+      "home_win_prob": 0.817,
+      "edge": 5.9,
+      "notes": "",
+      "completed": false,
+      "home_points": null,
+      "away_points": null,
+      "straight_up_correct": null,
+      "covered_model_line": null
     },
     {
       "game_id": 401864432,
@@ -148,7 +208,12 @@
       "model_total": 51.6,
       "home_win_prob": 0.382,
       "edge": -2.8,
-      "notes": ""
+      "notes": "",
+      "completed": false,
+      "home_points": null,
+      "away_points": null,
+      "straight_up_correct": null,
+      "covered_model_line": null
     }
   ]
 }

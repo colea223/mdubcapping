@@ -206,5 +206,105 @@ CREATE OR REPLACE TABLE game_features (
     rating_diff             DOUBLE,
     sp_diff                 DOUBLE,  -- prior-season SP+ rating, home minus away (preseason prior -- see note below)
     ppa_diff                DOUBLE,  -- prior-season net PPA (off_ppa - def_ppa), home minus away
-    talent_diff             DOUBLE   -- THIS season's recruiting composite, home minus away
+    talent_diff             DOUBLE,  -- THIS season's recruiting composite, home minus away
+    drive_yards_diff        DOUBLE,  -- prior-season yards/drive, home minus away (drive-based features -- see drive_stats_snapshots below)
+    drive_points_diff       DOUBLE,  -- prior-season points/drive, home minus away
+    drive_turnovers_diff    DOUBLE,  -- prior-season turnovers/drive, home minus away (lower is better -- diff is home's rate minus away's, so negative favors home)
+    pass_ypd_diff           DOUBLE,  -- prior-season passing yards/drive, home minus away
+    rush_ypd_diff           DOUBLE,  -- prior-season rushing yards/drive, home minus away
+    ypa_diff                DOUBLE,  -- prior-season yards/pass attempt, home minus away
+    ypc_diff                DOUBLE   -- prior-season yards/carry, home minus away
+);
+
+-- Raw drive-level data (one row per offensive possession) -- see
+-- src/pull_drives.py. id is CFBD's own drive id, taken as-is rather than a
+-- composite key -- CFBD guarantees it's unique.
+CREATE TABLE IF NOT EXISTS drives (
+    id                  BIGINT PRIMARY KEY,
+    game_id             BIGINT,
+    offense             VARCHAR,
+    offense_conference  VARCHAR,
+    defense             VARCHAR,
+    defense_conference  VARCHAR,
+    drive_number        INTEGER,
+    scoring             BOOLEAN,
+    start_period        INTEGER,
+    start_yardline      INTEGER,
+    start_yards_to_goal INTEGER,
+    end_period          INTEGER,
+    end_yardline        INTEGER,
+    end_yards_to_goal   INTEGER,
+    plays               INTEGER,
+    yards               INTEGER,
+    drive_result        VARCHAR,
+    is_home_offense     BOOLEAN,
+    start_offense_score INTEGER,
+    start_defense_score INTEGER,
+    end_offense_score   INTEGER,
+    end_defense_score   INTEGER
+);
+
+-- Raw play-by-play data -- see src/pull_plays.py. id is CFBD's own play id.
+-- drive_id joins back to drives.id (not a DB-enforced FK -- DuckDB doesn't
+-- need one for this project's read patterns, same as everywhere else here).
+-- play_type is the raw CFBD string (e.g. "Rush", "Pass Reception", "Sack") --
+-- src/build_db.py's classify_play() buckets it into rush/pass/other when
+-- computing drive_stats_snapshots below; kept here unclassified/raw so a
+-- future reclassification never requires re-pulling data, just rerunning
+-- build_db.py.
+CREATE TABLE IF NOT EXISTS plays (
+    id              BIGINT PRIMARY KEY,
+    drive_id        BIGINT,
+    game_id         BIGINT,
+    drive_number    INTEGER,
+    play_number     INTEGER,
+    offense         VARCHAR,
+    defense         VARCHAR,
+    period          INTEGER,
+    down            INTEGER,
+    distance        INTEGER,
+    yards_gained    INTEGER,
+    play_type       VARCHAR,
+    scoring         BOOLEAN
+);
+
+-- Drive-based rate stats, walk-forward-safe, EXACTLY the same (season, team,
+-- as_of_week) shape as ppa_snapshots above -- one row per team per
+-- week-cutoff, computed ENTIRELY LOCALLY by build_db.py from the drives/plays
+-- tables (no extra CFBD call needed, unlike ppa_snapshots' end_week
+-- parameter). Two different uses read this same table two different ways:
+--   - PRIOR-season feature (the safe default -- see src/features.py's
+--     drive_*_diff columns): look up the row with the LAST as_of_week of
+--     season - 1 for a team -- that's just that whole prior season's rate,
+--     no different in spirit from sp_diff/ppa_diff's prior-season lookup.
+--   - IN-season, walk-forward-safe feature (computed but NOT wired into
+--     model.FEATURE_COLS by default): as_of_week <= W - 1 within the SAME
+--     season being predicted, exactly ppa_snapshots' ASOF-join pattern.
+-- pass_yards_per_drive/rush_yards_per_drive/yards_per_attempt/yards_per_carry
+-- are NULL for any (season, team, as_of_week) computed before plays data for
+-- that season has been pulled (src/pull_plays.py) -- the drive-only stats
+-- (yards/points/turnovers per drive, drives/game) don't depend on plays at
+-- all and are always populated once drives data exists.
+--
+-- IMPORTANT CAUTION (see totals_model.py's docstring for the full story):
+-- a prior attempt at using raw THIS-season scoring form as a feature made
+-- ROI WORSE, because a fast-moving, publicly observable in-season stat is
+-- exactly the kind of signal a sportsbook's own line is already pricing in.
+-- Drive-based rate stats are just as public and fast-moving, so the
+-- in-season version of these features should NOT be trusted or wired into
+-- FEATURE_COLS without a real backtest confirming it actually helps first.
+CREATE TABLE IF NOT EXISTS drive_stats_snapshots (
+    season                  INTEGER,
+    team                    VARCHAR,
+    as_of_week              INTEGER,
+    drives                  INTEGER,
+    games                   INTEGER,
+    yards_per_drive         DOUBLE,
+    points_per_drive        DOUBLE,
+    turnovers_per_drive     DOUBLE,
+    pass_yards_per_drive    DOUBLE,
+    rush_yards_per_drive    DOUBLE,
+    yards_per_attempt       DOUBLE,
+    yards_per_carry         DOUBLE,
+    PRIMARY KEY (season, team, as_of_week)
 );
