@@ -323,7 +323,8 @@ def build_matchups_and_predictions(con, notes: dict, manual_lines=None):
     season, week = detected[0], detected[1]
 
     games = con.execute("""
-        SELECT game_id, season, week, start_date, home_team, away_team
+        SELECT game_id, season, week, start_date, home_team, away_team,
+               completed, home_points, away_points
         FROM games WHERE season = ? AND week = ?
         ORDER BY start_date
     """, [season, week]).fetchdf()
@@ -348,6 +349,16 @@ def build_matchups_and_predictions(con, notes: dict, manual_lines=None):
             mv = manual.get(manual_key)
             return round(mv, round_to) if (mv is not None and round_to is not None) else mv
 
+        # A week runs Thu-Sat/Sun, so auto_detect_week() keeps returning this
+        # same (season, week) as long as ANY game in it is still incomplete --
+        # meaning an earlier game in the same week can already be final while
+        # this page still treats the week as "current." completed/home_points/
+        # away_points let the front end show a Final score for those rather
+        # than leaving them looking perpetually upcoming.
+        completed = bool(g.completed)
+        home_pts = int(g.home_points) if completed and pd.notna(g.home_points) else None
+        away_pts = int(g.away_points) if completed and pd.notna(g.away_points) else None
+
         matchups.append({
             "game_id": int(g.game_id), "week": int(g.week),
             "date": pd.to_datetime(g.start_date).strftime("%Y-%m-%d"),
@@ -357,6 +368,9 @@ def build_matchups_and_predictions(con, notes: dict, manual_lines=None):
             "home_moneyline": pick(line["home_ml"] if line is not None else None, "home_ml"),
             "away_moneyline": pick(line["away_ml"] if line is not None else None, "away_ml"),
             "manual_line_used": bool(manual and (line is None or bool(line.isna().all()))),
+            "completed": completed,
+            "home_points": home_pts,
+            "away_points": away_pts,
         })
 
     predictions = []
@@ -392,6 +406,32 @@ def build_matchups_and_predictions(con, notes: dict, manual_lines=None):
                 edge = (mkt.get("market_spread_home") - model_spread_home[i]) if mkt.get("market_spread_home") is not None else None
                 note_key = f"{row.away_team} @ {row.home_team}"
                 model_total = total_map.get(int(row.game_id))
+
+                # Once the game's final -- grade the model's own pick two
+                # ways, same idea as backtest.py's bet grading but against
+                # the model's own predicted margin rather than the market
+                # line. straight_up: did the team the model favored just win
+                # the game outright. covered_model_line: did the actual
+                # margin fall on the model's side of its OWN predicted
+                # margin (a stricter bar -- the favorite can win outright and
+                # still "miss" its own number). Both are None until the game
+                # is final, and null a "pick'em" (model_spread_home==0) up on
+                # covered_model_line specifically since there's no favored
+                # side to grade against.
+                completed = bool(mkt.get("completed"))
+                home_pts, away_pts = mkt.get("home_points"), mkt.get("away_points")
+                straight_up_correct = covered_model_line = None
+                actual_margin = None
+                if completed and home_pts is not None and away_pts is not None:
+                    actual_margin = home_pts - away_pts
+                    pred_margin_i = float(pred_margin[i])
+                    if pred_margin_i != 0:
+                        straight_up_correct = (actual_margin > 0) == (pred_margin_i > 0)
+                        diff = actual_margin - pred_margin_i
+                        covered_model_line = (diff >= 0) if pred_margin_i > 0 else (diff <= 0)
+                    elif actual_margin != 0:
+                        straight_up_correct = None  # model called a dead-even pick'em; no favorite to grade
+
                 predictions.append({
                     "game_id": int(row.game_id), "week": int(row.week),
                     "away_team": row.away_team, "home_team": row.home_team,
@@ -400,6 +440,11 @@ def build_matchups_and_predictions(con, notes: dict, manual_lines=None):
                     "home_win_prob": round(float(home_win_prob[i]), 3),
                     "edge": round(edge, 1) if edge is not None else None,
                     "notes": notes.get(note_key, ""),
+                    "completed": completed,
+                    "home_points": home_pts,
+                    "away_points": away_pts,
+                    "straight_up_correct": straight_up_correct,
+                    "covered_model_line": covered_model_line,
                 })
 
     return matchups, predictions, {"season": season, "week": week}

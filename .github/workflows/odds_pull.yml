@@ -1,20 +1,29 @@
-name: Update live odds (The Odds API)
+name: Update live odds and game results
 
-# Refreshes the Line History chart's data Monday-Friday from The Odds API --
-# a feed completely separate from the CFBD-based weekly_pipeline.yml, on its
-# own quota, so it doesn't compete with your CFBD monthly call limit. Costs
-# ~3 credits per run (see src/pull_odds_api.py) -- 5x/week is ~65
-# credits/month against the free tier's 500, comfortable headroom.
+# Refreshes the Line History chart's data AND game results/scores Monday-
+# Friday. Two independent feeds: The Odds API (its own quota, ~3 credits/run,
+# 5x/week is ~65 credits/month against the free tier's 500) for live odds,
+# and a small CFBD pull_games.py call (2 calls -- FBS + NDSU -- current
+# season only) so a game's completed/home_points/away_points show up on the
+# site (Final score + prediction-correctness on Matchups/Predictions) within
+# a day of it finishing, instead of waiting for weekly_pipeline.yml's Sun/Wed
+# schedule. ~2 calls/weekday is ~40 CFBD calls/month on top of
+# weekly_pipeline.yml's own ~40-50/month -- still comfortable headroom under
+# the 1,000/month cap. See src/run_odds_update.py for the exact step list.
 #
 # Schedule below runs Mon-Fri mornings UTC, deliberately set an hour AFTER
 # weekly_pipeline.yml's 14:00 UTC Sun/Wed run (not 14:00 itself) on the one
-# day they overlap (Wednesday) -- both workflows touch overlapping files
-# (db/, docs/data/lines.json, docs/data/line_history.json), so firing at the
-# exact same time means whichever finishes first wins the git push and the
-# other's push gets rejected (a clean failure, nothing corrupts, but a wasted
-# run every time). weekly_pipeline.yml times out at 30 minutes, so the 1-hour
-# gap here is a comfortable buffer even on a slow run. Sunday is no longer in
-# this schedule at all, so there's nothing to stagger against
+# day they overlap (Wednesday) -- both workflows now touch the SAME files
+# (db/, data/raw/, docs/data/ -- matchups.json and predictions.json included,
+# now that this workflow also refreshes scores), so firing at the exact same
+# time means whichever finishes first wins the git push and the other's push
+# gets rejected (a clean failure, nothing corrupts, but a wasted run every
+# time -- and since both workflows can now touch the same JSON files, a real
+# merge conflict on the next `git pull` is more likely than before; that's
+# always safe to resolve by regenerating -- see the JSON files' own comments
+# in export_site_data.py). weekly_pipeline.yml times out at 30 minutes, so
+# the 1-hour gap here is a comfortable buffer even on a slow run. Sunday is
+# no longer in this schedule at all, so there's nothing to stagger against
 # weekly_pipeline.yml's Sunday run either. You can always trigger an extra
 # run by hand from the Actions tab (the workflow_dispatch trigger adds a "Run
 # workflow" button). Cron times are UTC; adjust if you want a different local
@@ -45,19 +54,20 @@ jobs:
       - name: Install dependencies
         run: pip install -r requirements.txt
 
-      - name: Run odds update
+      - name: Run odds + game results update
         env:
           ODDS_API_KEY: ${{ secrets.ODDS_API_KEY }}
+          CFBD_API_KEY: ${{ secrets.CFBD_API_KEY }}
         run: python src/run_odds_update.py
 
       - name: Commit updated data back to the repo
         run: |
           git config user.name "mw-handicapping-bot"
           git config user.email "actions@users.noreply.github.com"
-          git add db/ data/raw/odds_api_*.json docs/data/lines.json docs/data/line_history.json
+          git add db/ data/raw/ docs/data/
           if git diff --cached --quiet; then
             echo "Nothing changed -- skipping commit."
           else
-            git commit -m "Live odds refresh $(date -u +'%Y-%m-%d %H:%M UTC')"
+            git commit -m "Live odds + game results refresh $(date -u +'%Y-%m-%d %H:%M UTC')"
             git push
           fi

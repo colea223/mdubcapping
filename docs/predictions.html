@@ -58,6 +58,43 @@ document.getElementById("nav").innerHTML = renderNav("predictions.html");
       ? `<div class="notes-box">${p.notes}</div>`
       : "";
 
+    // Once the game's final, swap the still-live win-prob bar for the
+    // actual result plus how the model's own pick graded -- straight up
+    // (did the favored team just win) and against the model's own number
+    // (a stricter bar: the favorite can win outright and still miss the
+    // model's predicted margin). See export_site_data.py's
+    // build_matchups_and_predictions() for exactly how these are computed.
+    let resultHtml;
+    if (p.completed && p.home_points !== null && p.away_points !== null) {
+      const homeWon = p.home_points > p.away_points;
+      const awaySpan = homeWon ? `${p.away_team} ${p.away_points}` : `<span class="winner">${p.away_team} ${p.away_points}</span>`;
+      const homeSpan = homeWon ? `<span class="winner">${p.home_team} ${p.home_points}</span>` : `${p.home_team} ${p.home_points}`;
+
+      const gradeTag = (label, ok) => {
+        if (ok === null || ok === undefined) return `<span class="grade-tag push">${label}: n/a</span>`;
+        return `<span class="grade-tag ${ok ? "correct" : "incorrect"}">${label}: ${ok ? "Correct" : "Incorrect"}</span>`;
+      };
+
+      resultHtml = `
+        <div class="final-score">
+          <span class="at">@</span>${awaySpan} &ndash; ${homeSpan}
+          <span class="final-badge">Final</span>
+        </div>
+        <div style="margin-top:8px;">
+          ${gradeTag("Straight up", p.straight_up_correct)}
+          ${gradeTag("Vs. model line", p.covered_model_line)}
+        </div>`;
+    } else {
+      resultHtml = `
+        <div style="margin-top:12px;">
+          <span class="edge-tag ${edgeClass}">${edgeLabel}</span>
+          <div class="win-prob-bar"><div class="win-prob-fill" style="width:${homePct}%"></div></div>
+          <div class="odds-label" style="margin-top:4px;">
+            ${p.home_team} ${homePct}% &ndash; ${p.away_team} ${awayPct}%
+          </div>
+        </div>`;
+    }
+
     return `
       <div class="matchup-card">
         <div class="matchup-teams">
@@ -82,13 +119,7 @@ document.getElementById("nav").innerHTML = renderNav("predictions.html");
             <span class="odds-value">${favTeam}</span>
           </div>
         </div>
-        <div style="margin-top:12px;">
-          <span class="edge-tag ${edgeClass}">${edgeLabel}</span>
-          <div class="win-prob-bar"><div class="win-prob-fill" style="width:${homePct}%"></div></div>
-          <div class="odds-label" style="margin-top:4px;">
-            ${p.home_team} ${homePct}% &ndash; ${p.away_team} ${awayPct}%
-          </div>
-        </div>
+        ${resultHtml}
         ${notesHtml}
       </div>`;
   }).join("");

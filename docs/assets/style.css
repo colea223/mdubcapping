@@ -201,6 +201,47 @@ table.rankings td.num, table.rankings th.num { text-align: right; font-variant-n
 .edge-tag.lean-away { background: rgba(157,123,216,0.18); color: var(--brand-purple-light); }
 .edge-tag.none { background: rgba(255,255,255,0.06); color: var(--text-muted); }
 
+/* Final score + grading badges -- shown once a game is complete, on both
+   Matchups and Predictions. A game inside the "current" week that's already
+   finished (a Thursday MW game sitting alongside Saturday's still-upcoming
+   ones -- see export_site_data.py's auto_detect_week note) stays in place
+   rather than being pulled out into a separate section; this is what marks
+   it done instead of looking perpetually upcoming. */
+.final-score {
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--text-secondary);
+  padding-top: 10px;
+  margin-top: 10px;
+  border-top: 1px solid var(--border);
+}
+.final-score .winner { color: var(--text-primary); }
+.final-badge {
+  display: inline-block;
+  padding: 2px 8px;
+  border-radius: 999px;
+  font-size: 10px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  background: rgba(255,255,255,0.08);
+  color: var(--text-secondary);
+  margin-left: 8px;
+  vertical-align: middle;
+}
+.grade-tag {
+  display: inline-block;
+  padding: 3px 10px;
+  border-radius: 999px;
+  font-size: 12px;
+  font-weight: 700;
+  margin-top: 8px;
+  margin-right: 6px;
+}
+.grade-tag.correct   { background: rgba(12,163,12,0.16);  color: #4ee14e; }
+.grade-tag.incorrect { background: rgba(208,59,59,0.18);  color: #ff6b6b; }
+.grade-tag.push      { background: rgba(250,178,25,0.16); color: var(--warning); }
+
 .win-prob-bar {
   width: 100%;
   height: 6px;

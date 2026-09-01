@@ -42,6 +42,18 @@ document.getElementById("nav").innerHTML = renderNav("matchups.html");
     const total = (m.market_total !== null && m.market_total !== undefined) ? m.market_total : "TBD";
     const homeMl = formatMoneyline(m.home_moneyline);
     const awayMl = formatMoneyline(m.away_moneyline);
+
+    const finalHtml = (m.completed && m.home_points !== null && m.away_points !== null) ? (() => {
+      const homeWon = m.home_points > m.away_points;
+      const awaySpan = homeWon ? `${m.away_team} ${m.away_points}` : `<span class="winner">${m.away_team} ${m.away_points}</span>`;
+      const homeSpan = homeWon ? `<span class="winner">${m.home_team} ${m.home_points}</span>` : `${m.home_team} ${m.home_points}`;
+      return `
+        <div class="final-score">
+          <span class="at">@</span>${awaySpan} &ndash; ${homeSpan}
+          <span class="final-badge">Final</span>
+        </div>`;
+    })() : "";
+
     return `
       <div class="matchup-card">
         <div class="matchup-date">${formatDate(m.date)}</div>
@@ -69,6 +81,7 @@ document.getElementById("nav").innerHTML = renderNav("matchups.html");
             <span class="odds-value">${awayMl} / ${homeMl}</span>
           </div>
         </div>
+        ${finalHtml}
       </div>`;
   }).join("");
 

@@ -33,6 +33,81 @@ from teams import MW_TEAMS_2026, normalize_team_name
 
 SCHEMA_PATH = Path(__file__).resolve().parent.parent / "db" / "schema.sql"
 
+# CFBD's `lines` endpoint and The Odds API's `bookmakers[].title` are two
+# independent upstream sources for the same real-world sportsbooks, and
+# neither is internally consistent (nor consistent with the other) about
+# spacing/casing for a given book -- "DraftKings" vs "Draft Kings" showed up
+# on the live site as two separate book columns because build_lines_table()/
+# build_line_snapshots_table()/build_odds_api_snapshots_table() all stored
+# whatever raw string the API happened to hand back, with no canonicalization
+# at all. normalize_provider() collapses any spelling/casing/spacing variant
+# of a known book down to one canonical display name before it ever reaches
+# a table -- keyed by a normalized (lowercased, non-alphanumeric characters
+# stripped) form of the raw string, so "Draft Kings", "DraftKings", and
+# "draftkings" all hash to the same "draftkings" lookup key. An unrecognized
+# provider (a book not in this map yet) just passes through unchanged rather
+# than being dropped, so a brand new book showing up in the feed never
+# silently disappears -- it just won't get deduped against a variant spelling
+# until someone adds it here.
+PROVIDER_ALIASES = {
+    "draftkings": "DraftKings",
+    "fanduel": "FanDuel",
+    "betmgm": "BetMGM",
+    "caesars": "Caesars",
+    "caesarssportsbook": "Caesars",
+    "pointsbet": "PointsBet",
+    "pointsbetus": "PointsBet",
+    "espnbet": "ESPN Bet",
+    "bovada": "Bovada",
+    "betrivers": "BetRivers",
+    "williamhill": "William Hill",
+    "williamhillus": "William Hill",
+    "unibet": "Unibet",
+    "wynnbet": "WynnBET",
+    "betonlineag": "BetOnline.ag",
+    "mybookieag": "MyBookie.ag",
+    "superbook": "SuperBook",
+    "consensus": "consensus",
+    "teamrankings": "teamrankings",
+    "numberfire": "numberfire",
+}
+
+
+def normalize_provider(name):
+    if not name:
+        return name
+    key = re.sub(r"[^a-z0-9]", "", name.lower())
+    return PROVIDER_ALIASES.get(key, name.strip())
+
+
+def normalize_existing_provider_names(con):
+    """
+    One-time-per-variant (but always safe to re-run) cleanup for rows written
+    before normalize_provider() existed. `lines` never needs this -- it's
+    fully DELETE+re-INSERT'd every run by build_lines_table(), so the next
+    normal run already fixes it. `line_snapshots` is append-only (INSERT OR
+    IGNORE, see build_line_snapshots_table()'s docstring), so an old
+    differently-spelled row sits there forever unless renamed explicitly.
+    """
+    existing = con.execute("SELECT DISTINCT provider FROM line_snapshots").fetchall()
+    renames = [(raw, normalize_provider(raw)) for (raw,) in existing if raw and normalize_provider(raw) != raw]
+    for raw, canon in renames:
+        # A row that would collide with an existing canonical row at the same
+        # (game_id, pulled_at) -- the primary key -- is a genuine duplicate
+        # pull under two spellings; drop the differently-spelled one before
+        # renaming the rest so the UPDATE never trips the primary key.
+        con.execute("""
+            DELETE FROM line_snapshots
+            WHERE provider = ?
+              AND EXISTS (
+                  SELECT 1 FROM line_snapshots c
+                  WHERE c.provider = ? AND c.game_id = line_snapshots.game_id
+                    AND c.pulled_at = line_snapshots.pulled_at
+              )
+        """, [raw, canon])
+        con.execute("UPDATE line_snapshots SET provider = ? WHERE provider = ?", [canon, raw])
+        print(f"line_snapshots: normalized existing provider '{raw}' -> '{canon}'")
+
 SNAPSHOT_RE = re.compile(r"^(?P<prefix>.+)_(?P<year>\d{4})_(?P<stamp>\d{8}T\d{6}Z)\.json$")
 
 
@@ -261,7 +336,7 @@ def build_lines_table(con, snapshots):
                     g["id"], g["season"], g["week"],
                     normalize_team_name(g.get("home_team")),
                     normalize_team_name(g.get("away_team")),
-                    line.get("provider"), line.get("spread"), line.get("spread_open"),
+                    normalize_provider(line.get("provider")), line.get("spread"), line.get("spread_open"),
                     line.get("over_under"), line.get("over_under_open"),
                     line.get("home_moneyline"), line.get("away_moneyline"),
                 ))
@@ -294,7 +369,7 @@ def build_line_snapshots_table(con):
         for g in load_json(path):
             for line in g.get("lines") or []:
                 rows.append((
-                    g["id"], line.get("provider"), pulled_at,
+                    g["id"], normalize_provider(line.get("provider")), pulled_at,
                     line.get("spread"), line.get("over_under"),
                     line.get("home_moneyline"), line.get("away_moneyline"),
                     "cfbd",
@@ -403,7 +478,7 @@ def build_odds_api_snapshots_table(con):
                 continue
             home_name = event["home_team"]
             for book in event.get("bookmakers") or []:
-                provider = book.get("title") or book.get("key")
+                provider = normalize_provider(book.get("title") or book.get("key"))
                 spread = total = home_ml = away_ml = None
                 for market in book.get("markets") or []:
                     key = market.get("key")
@@ -469,6 +544,7 @@ def main():
     build_lines_table(con, snapshots)
     build_line_snapshots_table(con)
     build_odds_api_snapshots_table(con)
+    normalize_existing_provider_names(con)
     build_venues_table(con)
 
     con.close()
