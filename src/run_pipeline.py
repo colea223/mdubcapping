@@ -51,6 +51,14 @@ STEPS = [
 # every refresh:
 #   python src/backtest.py                    (an evaluation report, not a data step)
 #   python src/predict_week.py --season .. --week ..   (for a week other than the next upcoming one)
+#   python src/model_comparison.py             (Ridge vs. XGBoost evaluation -- slower than
+#                                                backtest.py alone since it refits an XGBoost
+#                                                hyperparameter search per test week; see its
+#                                                own docstring. Follow with
+#                                                excel/update_model_comparison_tab.py to push
+#                                                the result into the tracker's "Model
+#                                                Comparison" tab. Informational only -- Ridge
+#                                                stays the live model in every step above.)
 
 
 def main():

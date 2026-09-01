@@ -46,6 +46,13 @@ convention backtest.py's is_mw_game already uses.
 A simple pace-based totals baseline is included too (each team's own scoring
 average blended with what their opponents have allowed), separate from the
 margin model since totals and spreads are different prediction problems.
+
+drive_yards_diff / drive_points_diff / drive_turnovers_diff / pass_ypd_diff /
+rush_ypd_diff / ypa_diff / ypc_diff (added alongside the drive-based-stats +
+XGBoost work) are PRIOR-season drive-based rate stats -- see
+src/features.py's leakage note and db/schema.sql's drive_stats_snapshots
+comment. Same safe-by-construction treatment as sp_diff/ppa_diff/talent_diff:
+a whole prior season's aggregate, never this season's own in-progress numbers.
 """
 import numpy as np
 import pandas as pd
@@ -62,6 +69,8 @@ FEATURE_COLS = [
     "elevation_delta_away_ft", "neutral_site_flag", "conference_game_flag",
     "sp_diff", "ppa_diff", "talent_diff",
     "mw_involved_flag",
+    "drive_yards_diff", "drive_points_diff", "drive_turnovers_diff",
+    "pass_ypd_diff", "rush_ypd_diff", "ypa_diff", "ypc_diff",
 ]
 ALPHAS = np.logspace(-2, 3, 25)
 

@@ -35,3 +35,11 @@ def ratings_api(client):
 
 def teams_api(client):
     return cfbd.TeamsApi(client)
+
+
+def drives_api(client):
+    return cfbd.DrivesApi(client)
+
+
+def plays_api(client):
+    return cfbd.PlaysApi(client)

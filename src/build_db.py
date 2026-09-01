@@ -20,6 +20,7 @@ from datetime import datetime
 from pathlib import Path
 
 import duckdb
+import pandas as pd
 
 from config import RAW_DIR, DB_PATH, END_YEAR
 
@@ -107,6 +108,55 @@ def normalize_existing_provider_names(con):
         """, [raw, canon])
         con.execute("UPDATE line_snapshots SET provider = ? WHERE provider = ?", [canon, raw])
         print(f"line_snapshots: normalized existing provider '{raw}' -> '{canon}'")
+
+# Rush/pass classification for a raw play_type string -- CFBD's full
+# taxonomy has roughly 48 values, and no live API key was available in
+# development to call StatsApi.get_play_types() and confirm the exhaustive
+# list directly (a third-party reference, cfbfastR's cfbd_play_types table,
+# was used to sanity-check the values below, but isn't authoritative).
+# Rather than guess at the full list, this only claims the values reasonably
+# confirmed, and classify_play() logs (once per distinct value, not once per
+# play) anything it doesn't recognize -- so a real rush/pass type missing
+# from these sets is loud and discoverable in build_db.py's own output, not
+# silently mis-bucketed into "other" forever.
+RUSH_PLAY_TYPES = {"Rush", "Rushing Touchdown"}
+# Sack is deliberately included in PASS_PLAY_TYPES: a sack is a broken pass
+# play, and excluding it would silently drop real (negative) passing
+# yardage and understate how often a team's passing game got stopped. This
+# is a simplification versus an official box score (which tracks sacks
+# separately from completions/attempts) -- acceptable here because these are
+# team-level PER-DRIVE RATE features for the model, not a box-score replica.
+PASS_PLAY_TYPES = {
+    "Pass Reception", "Pass Incompletion", "Passing Touchdown", "Sack",
+    "Interception Return", "Interception Return Touchdown",
+}
+# Real plays that are neither a rush nor a pass for these rate stats'
+# purposes (special teams, administrative) -- listed here just so they
+# don't trip classify_play()'s "unrecognized" warning.
+OTHER_KNOWN_PLAY_TYPES = {
+    "Kickoff", "Kickoff Return (Offense)", "Kickoff Return Touchdown",
+    "Punt", "Punt Return", "Punt Return Touchdown", "Blocked Punt", "Blocked Punt Touchdown",
+    "Field Goal Good", "Field Goal Missed", "Blocked Field Goal", "Blocked Field Goal Touchdown",
+    "Penalty", "Timeout", "End Period", "End of Half", "End of Game", "Start of Period",
+    "Uncategorized", "placeholder", "Two Point Rush", "Two Point Pass", "Two Point Conversion",
+    "Fumble Recovery (Own)", "Fumble Recovery (Opponent)", "Safety", "Defensive 2pt Conversion",
+}
+_WARNED_PLAY_TYPES = set()
+
+
+def classify_play(play_type):
+    """Returns 'rush', 'pass', or 'other'."""
+    if play_type in RUSH_PLAY_TYPES:
+        return "rush"
+    if play_type in PASS_PLAY_TYPES:
+        return "pass"
+    if play_type not in OTHER_KNOWN_PLAY_TYPES and play_type not in _WARNED_PLAY_TYPES:
+        _WARNED_PLAY_TYPES.add(play_type)
+        print(f"  [drive_stats] unrecognized play_type '{play_type}' -- counted as 'other' "
+              f"(not rush or pass). Add it to RUSH_PLAY_TYPES/PASS_PLAY_TYPES in build_db.py "
+              f"if it should count as one.")
+    return "other"
+
 
 SNAPSHOT_RE = re.compile(r"^(?P<prefix>.+)_(?P<year>\d{4})_(?P<stamp>\d{8}T\d{6}Z)\.json$")
 
@@ -201,6 +251,190 @@ def build_advanced_stats_table(con, snapshots):
     con.execute("DELETE FROM advanced_stats")
     con.executemany("INSERT OR REPLACE INTO advanced_stats VALUES (?,?,?,?,?,?,?,?,?,?)", rows)
     print(f"advanced_stats: {len(rows)} rows")
+
+
+DRIVES_COLUMNS = [
+    "id", "game_id", "offense", "offense_conference", "defense", "defense_conference",
+    "drive_number", "scoring", "start_period", "start_yardline", "start_yards_to_goal",
+    "end_period", "end_yardline", "end_yards_to_goal", "plays", "yards", "drive_result",
+    "is_home_offense", "start_offense_score", "start_defense_score",
+    "end_offense_score", "end_defense_score",
+]
+PLAYS_COLUMNS = [
+    "id", "drive_id", "game_id", "drive_number", "play_number", "offense", "defense",
+    "period", "down", "distance", "yards_gained", "play_type", "scoring",
+]
+
+
+def build_drives_table(con, snapshots):
+    """
+    Bulk DataFrame insert (register + INSERT ... SELECT), NOT executemany --
+    a full-history drives backfill is on the order of 100,000+ rows (every
+    FBS offensive possession across 11 seasons), and executemany's per-row
+    round trip is slow enough at that scale to matter (games/advanced_stats/
+    etc. get away with executemany because they're 1-2 orders of magnitude
+    smaller). Same bulk-insert trick features.py's build_features() already
+    uses for game_features.
+    """
+    rows = []
+    for (prefix, year), path in snapshots.items():
+        if prefix != "drives":
+            continue
+        for d in load_json(path):
+            rows.append((
+                d["id"], d.get("game_id"),
+                normalize_team_name(d.get("offense")), d.get("offense_conference"),
+                normalize_team_name(d.get("defense")), d.get("defense_conference"),
+                d.get("drive_number"), d.get("scoring"),
+                d.get("start_period"), d.get("start_yardline"), d.get("start_yards_to_goal"),
+                d.get("end_period"), d.get("end_yardline"), d.get("end_yards_to_goal"),
+                d.get("plays"), d.get("yards"), d.get("drive_result"),
+                d.get("is_home_offense"),
+                d.get("start_offense_score"), d.get("start_defense_score"),
+                d.get("end_offense_score"), d.get("end_defense_score"),
+            ))
+    if not rows:
+        print("drives: no raw snapshots found yet (run src/pull_drives.py first)")
+        return
+    df = pd.DataFrame(rows, columns=DRIVES_COLUMNS)
+    con.execute("DELETE FROM drives")
+    con.register("df_drives_bulk", df)
+    con.execute("INSERT INTO drives SELECT * FROM df_drives_bulk")
+    con.unregister("df_drives_bulk")
+    print(f"drives: {len(df)} rows")
+
+
+PLAYS_PREFIX_RE = re.compile(r"^plays_w(?P<week>\d+)$")
+
+
+def build_plays_table(con, snapshots):
+    """
+    Unlike every other table here (one row per season), plays_*.json files
+    are keyed by (season, WEEK) -- see pull_plays.py's docstring for why
+    (CFBD's PlaysApi.get_plays requires a week, unlike get_drives). The week
+    number lives in the filename's prefix (plays_w<NN>_<season>_<stamp>.json),
+    the exact same trick build_ppa_snapshots_table() already uses for its own
+    per-week files, so latest_snapshots()'s normal (prefix, year) grouping
+    already does the right thing here with no extra code needed.
+    """
+    rows = []
+    for (prefix, year), path in snapshots.items():
+        if not PLAYS_PREFIX_RE.match(prefix):
+            continue
+        for p in load_json(path):
+            rows.append((
+                p["id"], p.get("drive_id"), p.get("game_id"),
+                p.get("drive_number"), p.get("play_number"),
+                normalize_team_name(p.get("offense")), normalize_team_name(p.get("defense")),
+                p.get("period"), p.get("down"), p.get("distance"),
+                p.get("yards_gained"), p.get("play_type"), p.get("scoring"),
+            ))
+    if not rows:
+        print("plays: no raw snapshots found yet (run src/pull_plays.py first)")
+        return
+    # Bulk DataFrame insert, not executemany -- a full-history backfill is
+    # 1M+ rows (every play of every FBS game across 11 seasons), where
+    # executemany's per-row overhead is genuinely slow. See build_drives_table's
+    # docstring for the same reasoning.
+    df = pd.DataFrame(rows, columns=PLAYS_COLUMNS)
+    con.execute("DELETE FROM plays")
+    con.register("df_plays_bulk", df)
+    con.execute("INSERT INTO plays SELECT * FROM df_plays_bulk")
+    con.unregister("df_plays_bulk")
+    print(f"plays: {len(df)} rows")
+
+
+def build_drive_stats_snapshots_table(con):
+    """
+    Computed entirely from the drives/plays tables already loaded by
+    build_drives_table()/build_plays_table() above -- no raw JSON scanned
+    directly here, unlike every other build_*_table(). One row per (season,
+    team, as_of_week): that offense's cumulative drive-based rate stats
+    across every one of its drives in `season` through week as_of_week
+    (inclusive) -- see the drive_stats_snapshots comment in schema.sql for
+    the two different ways this table gets read later (prior-season lookup
+    in features.py vs. an in-season ASOF join, mirroring ppa_snapshots).
+
+    Runs even if `plays` is empty (drives-only rate stats -- yards/points/
+    turnovers per drive, drives/game -- don't need play-by-play data at
+    all); pass_yards_per_drive/rush_yards_per_drive/yards_per_attempt/
+    yards_per_carry just stay NULL until src/pull_plays.py has been run.
+    """
+    drives = con.execute("""
+        SELECT d.id AS drive_id, d.game_id, d.offense, d.plays, d.yards, d.drive_result,
+               d.start_offense_score, d.end_offense_score,
+               g.season, g.week
+        FROM drives d
+        JOIN games g ON g.game_id = d.game_id
+        WHERE g.season IS NOT NULL AND g.week IS NOT NULL AND d.offense IS NOT NULL
+    """).fetchdf()
+    if drives.empty:
+        print("drive_stats_snapshots: no drives joined to a known game yet "
+              "(run src/pull_drives.py, then rerun build_db.py)")
+        return
+
+    plays = con.execute("SELECT drive_id, yards_gained, play_type FROM plays").fetchdf()
+    have_plays = not plays.empty
+    if have_plays:
+        plays = plays.copy()
+        plays["kind"] = plays["play_type"].map(classify_play)
+        plays["yards_gained"] = pd.to_numeric(plays["yards_gained"], errors="coerce").fillna(0)
+        for kind, yards_col, n_col in [("rush", "rush_yards", "rush_plays"), ("pass", "pass_yards", "pass_plays")]:
+            sub = plays[plays["kind"] == kind]
+            drives = drives.merge(sub.groupby("drive_id")["yards_gained"].sum().rename(yards_col),
+                                   left_on="drive_id", right_index=True, how="left")
+            drives = drives.merge(sub.groupby("drive_id").size().rename(n_col),
+                                   left_on="drive_id", right_index=True, how="left")
+    else:
+        drives["rush_yards"] = drives["rush_plays"] = drives["pass_yards"] = drives["pass_plays"] = None
+        print("drive_stats_snapshots: no plays loaded yet -- pass/rush split columns will be NULL "
+              "(run src/pull_plays.py to fill them in)")
+
+    # Turnover-ending drive detection: match CFBD's drive_result values
+    # (e.g. "FUMBLE", "FUMBLE TD", "INT", "INT TD") by substring rather than
+    # an exact enum list, same defensive approach as classify_play().
+    drives["is_turnover"] = drives["drive_result"].fillna("").str.upper().str.contains("FUMBLE|INT")
+    drives["yards"] = pd.to_numeric(drives["yards"], errors="coerce").fillna(0)
+    drives["drive_points"] = (
+        pd.to_numeric(drives["end_offense_score"], errors="coerce")
+        - pd.to_numeric(drives["start_offense_score"], errors="coerce")
+    ).fillna(0)
+
+    rows = []
+    n_team_seasons = 0
+    for (season, team), grp in drives.groupby(["season", "offense"]):
+        n_team_seasons += 1
+        grp = grp.sort_values("week")
+        for as_of_week in sorted(grp["week"].unique()):
+            window = grp[grp["week"] <= as_of_week]
+            n_drives = len(window)
+            if n_drives == 0:
+                continue
+            n_games = window["game_id"].nunique()
+            pass_yards_sum = window["pass_yards"].sum() if have_plays else None
+            pass_plays_sum = window["pass_plays"].sum() if have_plays else None
+            rush_yards_sum = window["rush_yards"].sum() if have_plays else None
+            rush_plays_sum = window["rush_plays"].sum() if have_plays else None
+            rows.append((
+                int(season), team, int(as_of_week),
+                int(n_drives), int(n_games),
+                float(window["yards"].sum() / n_drives),
+                float(window["drive_points"].sum() / n_drives),
+                float(window["is_turnover"].sum() / n_drives),
+                (float(pass_yards_sum / n_drives) if have_plays and pd.notna(pass_yards_sum) else None),
+                (float(rush_yards_sum / n_drives) if have_plays and pd.notna(rush_yards_sum) else None),
+                (float(pass_yards_sum / pass_plays_sum) if have_plays and pass_plays_sum else None),
+                (float(rush_yards_sum / rush_plays_sum) if have_plays and rush_plays_sum else None),
+            ))
+
+    if not rows:
+        print("drive_stats_snapshots: nothing computed")
+        return
+    con.execute("DELETE FROM drive_stats_snapshots")
+    con.executemany(
+        "INSERT OR REPLACE INTO drive_stats_snapshots VALUES (?,?,?,?,?,?,?,?,?,?,?,?)", rows
+    )
+    print(f"drive_stats_snapshots: {len(rows)} rows ({n_team_seasons} team-seasons)")
 
 
 PPA_SNAPSHOT_PREFIX_RE = re.compile(r"^ppa_snapshot_w(?P<week>\d+)$")
@@ -536,6 +770,9 @@ def main():
             "its schema and the 2026 team reference table, ready for data."
         )
     build_games_table(con, snapshots)
+    build_drives_table(con, snapshots)
+    build_plays_table(con, snapshots)
+    build_drive_stats_snapshots_table(con)  # needs games + drives + plays already loaded above
     build_advanced_stats_table(con, snapshots)
     build_ppa_snapshots_table(con, snapshots)
     build_sp_ratings_table(con, snapshots)

@@ -23,6 +23,22 @@ Every feature here is computable from information available BEFORE kickoff:
     known before a single game of the current season is played.
   - talent_diff: recruiting classes are set (signing day) before the season
     starts, so THIS season's recruiting composite is safe to use as-is.
+  - drive_yards_diff / drive_points_diff / drive_turnovers_diff /
+    pass_ypd_diff / rush_ypd_diff / ypa_diff / ypc_diff: drive-based rate
+    stats (see db/schema.sql's drive_stats_snapshots comment and
+    src/pull_drives.py / src/pull_plays.py). Same prior-season-only
+    treatment as sp_diff/ppa_diff, and for the same leakage reason -- these
+    numbers are a full SEASON's aggregate, so using a team's OWN current
+    season would leak the rest of that season into the prediction. Looked
+    up as the row with the LAST as_of_week of season - 1 for each team,
+    which is exactly that whole prior season's rate (drive_stats_snapshots
+    also supports an in-season, walk-forward-safe version via as_of_week <=
+    W - 1 within the CURRENT season, but that's deliberately NOT used here
+    -- see totals_model.py's docstring for why a raw in-season, publicly-
+    observable stat previously made this project's totals model WORSE, not
+    better, and drive rate stats are just as public/fast-moving. Wiring the
+    in-season version in would need its own backtest confirming it helps
+    first.)
 
 Usage:
     source .venv/bin/activate
@@ -100,6 +116,29 @@ def build_features(con) -> pd.DataFrame:
     }
     talent_map = {(r.season, r.team): r.points for r in con.execute("SELECT season, team, points FROM recruiting").fetchdf().itertuples()}
 
+    # Prior-season drive-based rate stats -- the LAST as_of_week row for
+    # each (season, team) in drive_stats_snapshots IS that whole season's
+    # final rate (see the leakage note above and schema.sql's comment).
+    # Wrapped defensively: an older database that hasn't had build_db.py
+    # rerun since this table was added would otherwise crash features.py
+    # outright rather than just running without these features.
+    try:
+        drive_stats_df = con.execute("""
+            SELECT ds.season, ds.team, ds.yards_per_drive, ds.points_per_drive,
+                   ds.turnovers_per_drive, ds.pass_yards_per_drive, ds.rush_yards_per_drive,
+                   ds.yards_per_attempt, ds.yards_per_carry
+            FROM drive_stats_snapshots ds
+            INNER JOIN (
+                SELECT season, team, MAX(as_of_week) AS max_week
+                FROM drive_stats_snapshots GROUP BY season, team
+            ) mx ON mx.season = ds.season AND mx.team = ds.team AND mx.max_week = ds.as_of_week
+        """).fetchdf()
+        drive_map = {(r.season, r.team): r for r in drive_stats_df.itertuples()}
+    except duckdb.Error:
+        print("features: drive_stats_snapshots table not found -- drive-based diff features will "
+              "be all-NULL. Rerun src/build_db.py (which creates it from schema.sql) to fix this.")
+        drive_map = {}
+
     home_venue = team_home_venues(games)
     rest = compute_rest_days(games)
     rest_map = {(r.game_id, r.team): r.rest_days for r in rest.itertuples()}
@@ -138,6 +177,24 @@ def build_features(con) -> pd.DataFrame:
         home_talent, away_talent = talent_map.get((g.season, g.home_team)), talent_map.get((g.season, g.away_team))
         talent_diff = (home_talent - away_talent) if (home_talent is not None and away_talent is not None) else None
 
+        home_drive, away_drive = drive_map.get((prior_season, g.home_team)), drive_map.get((prior_season, g.away_team))
+
+        def _drive_diff(field):
+            if home_drive is None or away_drive is None:
+                return None
+            h, a = getattr(home_drive, field), getattr(away_drive, field)
+            if h is None or a is None or pd.isna(h) or pd.isna(a):
+                return None
+            return h - a
+
+        drive_yards_diff = _drive_diff("yards_per_drive")
+        drive_points_diff = _drive_diff("points_per_drive")
+        drive_turnovers_diff = _drive_diff("turnovers_per_drive")
+        pass_ypd_diff = _drive_diff("pass_yards_per_drive")
+        rush_ypd_diff = _drive_diff("rush_yards_per_drive")
+        ypa_diff = _drive_diff("yards_per_attempt")
+        ypc_diff = _drive_diff("yards_per_carry")
+
         rows.append((
             g.game_id, g.season, g.week, g.home_team, g.away_team,
             g.neutral_site, g.conference_game,
@@ -146,6 +203,8 @@ def build_features(con) -> pd.DataFrame:
             travel_km_away, elev, elevation_delta_away,
             home_before, away_before, rating_diff,
             sp_diff, ppa_diff, talent_diff,
+            drive_yards_diff, drive_points_diff, drive_turnovers_diff,
+            pass_ypd_diff, rush_ypd_diff, ypa_diff, ypc_diff,
         ))
 
     return pd.DataFrame(rows, columns=[
@@ -155,6 +214,8 @@ def build_features(con) -> pd.DataFrame:
         "travel_km_away", "venue_elevation_ft", "elevation_delta_away_ft",
         "home_rating_before", "away_rating_before", "rating_diff",
         "sp_diff", "ppa_diff", "talent_diff",
+        "drive_yards_diff", "drive_points_diff", "drive_turnovers_diff",
+        "pass_ypd_diff", "rush_ypd_diff", "ypa_diff", "ypc_diff",
     ])
 
 
