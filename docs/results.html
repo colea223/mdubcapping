@@ -1,0 +1,115 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Results - Mountain Dub Handicapping</title>
+<link rel="stylesheet" href="assets/style.css">
+</head>
+<body>
+<div id="nav"></div>
+<div class="page-wrap">
+  <div class="page-header">
+    <h1 id="page-title">Past Results</h1>
+    <p>Every completed Mountain West game this season -- the model's own graded spread/total/moneyline pick, and your own placed bets on that same game, side by side.</p>
+  </div>
+
+  <div id="results-container"></div>
+
+  <div class="footer-note" id="updated"></div>
+</div>
+
+<script src="assets/site.js"></script>
+<script>
+document.getElementById("nav").innerHTML = renderNav("results.html");
+
+function fmtSpread(v) {
+  if (v === null || v === undefined) return "--";
+  return v > 0 ? `+${v}` : `${v}`;
+}
+function fmtTotal(v) {
+  return (v === null || v === undefined) ? "--" : `O/U ${v}`;
+}
+
+// A model market row (spread/total/moneyline): the pick/lean, plus a grade
+// tag once it's graded. was_bet === null means there wasn't even enough
+// market data to grade this market at all (never happens for spread, can
+// happen for total/moneyline if a book never posted that line); was_bet
+// === false means it WAS gradable but didn't clear the edge threshold, so
+// there's a lean but no official win/loss call.
+function modelRow(label, pickText, marketText, lean, wasBet, result) {
+  let tag;
+  if (wasBet === null) {
+    tag = `<span class="grade-tag push">No market data</span>`;
+  } else if (!wasBet) {
+    tag = `<span class="grade-tag push">${lean ? `Lean ${lean}` : "No edge"} (not a bet)</span>`;
+  } else if (result === "Push") {
+    tag = `<span class="grade-tag push">Push</span>`;
+  } else {
+    tag = `<span class="grade-tag ${result === "Win" ? "correct" : "incorrect"}">${lean}: ${result}</span>`;
+  }
+  return `
+    <div class="odds-item">
+      <span class="odds-label">${label}</span>
+      <span class="odds-value">${pickText} <span class="odds-label" style="text-transform:none;">(mkt ${marketText})</span></span>
+      <div style="margin-top:4px;">${tag}</div>
+    </div>`;
+}
+
+function betRow(b) {
+  const cls = b.result === "W" ? "correct" : b.result === "L" ? "incorrect" : "push";
+  const resultLabel = b.result === "W" ? "Win" : b.result === "L" ? "Loss" : "Push";
+  const sign = b.units > 0 ? "+" : "";
+  return `
+    <div class="your-bet-row">
+      <span>${b.bet_type}${b.side ? ` &ndash; ${b.side}` : ""} @ ${b.odds > 0 ? "+" + b.odds : b.odds} (${b.stake}u)</span>
+      <span class="grade-tag ${cls}">${resultLabel} (${sign}${b.units}u)</span>
+    </div>`;
+}
+
+(async function () {
+  const data = await fetchJSON("data/results.json");
+  const container = document.getElementById("results-container");
+
+  if (!data || !data.results || !data.results.length) {
+    container.innerHTML = emptyState("No completed games with a graded model pick yet this season -- check back once the first few weeks are in the books.");
+    return;
+  }
+
+  const cards = data.results.map(r => {
+    const homeWon = r.home_points !== null && r.away_points !== null && r.home_points > r.away_points;
+    const awaySpan = (r.home_points === null) ? r.away_team
+      : (homeWon ? `${r.away_team} ${r.away_points}` : `<span class="winner">${r.away_team} ${r.away_points}</span>`);
+    const homeSpan = (r.home_points === null) ? r.home_team
+      : (homeWon ? `<span class="winner">${r.home_team} ${r.home_points}</span>` : `${r.home_team} ${r.home_points}`);
+
+    const m = r.model;
+    const betsHtml = r.your_bets.length
+      ? r.your_bets.map(betRow).join("")
+      : `<div class="your-bet-row"><span class="odds-label">No bet placed on this game</span></div>`;
+
+    return `
+      <div class="matchup-card">
+        <div class="matchup-date">${formatDate(r.date)} &ndash; Week ${r.week} <span class="final-badge">Final</span></div>
+        <div class="matchup-teams">
+          <div class="team-row"><span class="name"><span class="at">@</span>${awaySpan}</span></div>
+          <div class="team-row"><span class="name">${homeSpan}</span></div>
+        </div>
+        <div class="odds-row">
+          ${modelRow("Spread", fmtSpread(m.spread_pick), fmtSpread(m.market_spread_close), m.spread_lean, m.spread_was_bet, m.spread_result)}
+          ${modelRow("Total", fmtTotal(m.total_pick), fmtTotal(m.market_total_close), m.total_lean, m.total_was_bet, m.total_result)}
+          ${modelRow("Moneyline", "&ndash;", "&ndash;", m.ml_lean, m.ml_was_bet, m.ml_result)}
+        </div>
+        <div class="final-score" style="border-top:1px solid var(--border);">
+          <div class="odds-label" style="margin-bottom:6px;">YOUR BETS</div>
+          ${betsHtml}
+        </div>
+      </div>`;
+  }).join("");
+
+  container.innerHTML = `<div class="matchup-grid">${cards}</div>`;
+  document.getElementById("updated").textContent = lastUpdatedLabel(data.meta && data.meta.generated_at);
+})();
+</script>
+</body>
+</html>

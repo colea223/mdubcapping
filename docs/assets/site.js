@@ -5,6 +5,7 @@ const NAV_LINKS = [
   { href: "matchups.html", label: "Matchups" },
   { href: "lines.html", label: "Live Lines" },
   { href: "predictions.html", label: "Predictions" },
+  { href: "results.html", label: "Results" },
   { href: "tracking.html", label: "Tracking" },
 ];
 
