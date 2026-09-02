@@ -1,6 +1,6 @@
 {
   "meta": {
-    "generated_at": "2026-09-01T20:25:37Z",
+    "generated_at": "2026-09-02T00:32:11Z",
     "current_week": {
       "season": 2026,
       "week": 1
@@ -165,8 +165,8 @@
       "home_team": "Hawai'i",
       "market_spread_home": 3.0,
       "market_total": 56.2,
-      "home_moneyline": 127,
-      "away_moneyline": -149,
+      "home_moneyline": 125,
+      "away_moneyline": -146,
       "manual_line_used": false,
       "completed": false,
       "home_points": null,

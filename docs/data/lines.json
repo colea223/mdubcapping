@@ -1,6 +1,6 @@
 {
   "meta": {
-    "generated_at": "2026-09-01T20:25:37Z",
+    "generated_at": "2026-09-02T00:32:11Z",
     "current_week": {
       "season": 2026,
       "week": 1
@@ -343,8 +343,8 @@
           "spread_open": 1.5,
           "total": 56.5,
           "total_open": null,
-          "home_ml": 124,
-          "away_ml": -148
+          "home_ml": 120,
+          "away_ml": -142
         }
       },
       "book_order": [

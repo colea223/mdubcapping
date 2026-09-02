@@ -24,6 +24,8 @@ Usage:
     python src/model_comparison.py
     python excel/update_model_comparison_tab.py   # writes the result into the tracker
 """
+import time
+
 import duckdb
 import numpy as np
 import pandas as pd
@@ -62,10 +64,15 @@ def _grade_side(model_spread_home, market_close, actual_margin, edge_threshold):
 
 def run_comparison(con, edge_threshold=EDGE_THRESHOLD, min_train_games=MIN_TRAIN_GAMES) -> pd.DataFrame:
     weeks = _test_weeks(con)
+    n_weeks = len(weeks)
     full_pool = model.load_training_frame(con).set_index("game_id")
 
+    print(f"Walk-forward comparison: {n_weeks} season/week candidate(s) found. Weeks with fewer "
+          f"than {min_train_games} training games so far are skipped (not enough history yet) -- "
+          f"grading starts once that's cleared, usually a few weeks into the earliest season.\n")
+
     results = []
-    for wk in weeks.itertuples():
+    for idx, wk in enumerate(weeks.itertuples(), start=1):
         train_df = model.load_training_frame(con, before_date=wk.week_start)
         train_df = train_df.dropna(subset=["market_spread_home"])
         if len(train_df) < min_train_games:
@@ -76,6 +83,17 @@ def run_comparison(con, edge_threshold=EDGE_THRESHOLD, min_train_games=MIN_TRAIN
         if test_df.empty:
             continue
 
+        # Progress output -- this is genuinely the slow part (a full Ridge
+        # fit AND an XGBoost hyperparameter search, once per test week), and
+        # with nothing printed here a multi-hour run looks indistinguishable
+        # from a frozen one. [idx/n_weeks] counts against ALL candidate
+        # weeks (including ones just skipped above), so the numbers won't
+        # advance one-for-one, but they do climb steadily and confirm real
+        # progress -- not just a saved sense of it.
+        t0 = time.time()
+        print(f"[{idx}/{n_weeks}] {wk.season} week {wk.week}: fitting Ridge + XGBoost on "
+              f"{len(train_df)} training games...", flush=True)
+
         ridge_pipe, ridge_resid = model.fit_margin_model(train_df)
         ridge_pred_margin = model.predict_margin(ridge_pipe, test_df)
         ridge_spread_home = -ridge_pred_margin
@@ -83,6 +101,8 @@ def run_comparison(con, edge_threshold=EDGE_THRESHOLD, min_train_games=MIN_TRAIN
         xgb_pipe, xgb_resid = xgboost_model.fit_xgboost_margin_model(train_df)
         xgb_pred_margin = model.predict_margin(xgb_pipe, test_df)
         xgb_spread_home = -xgb_pred_margin
+
+        print(f"    done in {time.time() - t0:.0f}s -- grading {len(test_df)} game(s)", flush=True)
 
         for i, (game_id, row) in enumerate(test_df.iterrows()):
             market_close = row["market_spread_home"]

@@ -53,10 +53,34 @@ XGBoost work) are PRIOR-season drive-based rate stats -- see
 src/features.py's leakage note and db/schema.sql's drive_stats_snapshots
 comment. Same safe-by-construction treatment as sp_diff/ppa_diff/talent_diff:
 a whole prior season's aggregate, never this season's own in-progress numbers.
+
+WARNING SUPPRESSION: the earliest walk-forward test weeks in backtest.py/
+model_comparison.py train on 2016-only games, and every prior-season feature
+(sp_diff, ppa_diff, and the 7 drive diffs above) is null for ALL of them --
+there's no 2015 data (CFBD pulls start at START_YEAR=2016), so there's
+nothing to look up. SimpleImputer(strategy="median") can't compute a median
+from zero observed values, so it substitutes 0 and prints a UserWarning
+every time -- and since cross-validation/hyperparameter search fits many
+separate models per test week (5 CV folds for Ridge, dozens of candidate x
+fold combinations for XGBoost's search), that identical, harmless warning
+can print hundreds of times over one backtest/comparison run. The filter
+below silences ONLY that exact message (matched by its literal prefix, not
+a blanket "ignore all UserWarnings") -- it's set at import time specifically
+so it also takes effect inside worker processes joblib spawns for
+RandomizedSearchCV's n_jobs=-1 search (each spawned worker re-imports this
+module fresh, which re-registers the filter there too).
 """
+import warnings
+
 import numpy as np
 import pandas as pd
 from sklearn.impute import SimpleImputer
+
+warnings.filterwarnings(
+    "ignore",
+    message="Skipping features without any observed values",
+    category=UserWarning,
+)
 from sklearn.linear_model import RidgeCV
 from sklearn.model_selection import cross_val_predict
 from sklearn.pipeline import Pipeline

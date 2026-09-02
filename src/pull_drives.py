@@ -19,11 +19,11 @@ Usage:
     python src/pull_drives.py --full-history  # full START_YEAR..END_YEAR re-pull
 """
 import argparse
-import json
 from datetime import datetime, timezone
 
 from config import START_YEAR, END_YEAR, RAW_DIR
 from cfbd_client import get_api_client, drives_api
+from raw_storage import write_json_gz, prune_superseded
 
 
 def _stamp():
@@ -50,9 +50,11 @@ def main(full_history: bool = False):
     for year in years:
         print(f"Pulling {year} drives...")
         drives = pull_drives(year, api)
-        out_path = RAW_DIR / f"drives_{year}_{stamp}.json"
-        out_path.write_text(json.dumps(drives, indent=2, default=str))
+        out_path = write_json_gz(RAW_DIR / f"drives_{year}_{stamp}.json", drives)
         print(f"  -> {len(drives)} drives -> {out_path.name}")
+        removed = prune_superseded(RAW_DIR, f"drives_{year}_*.json*", out_path)
+        if removed:
+            print(f"  pruned {len(removed)} superseded snapshot(s): {removed}")
 
     print("\nDone. Raw snapshots written to data/raw/.")
 

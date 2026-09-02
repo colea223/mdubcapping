@@ -26,11 +26,11 @@ Usage:
     python src/pull_lines.py --full-history  # full START_YEAR..END_YEAR re-pull
 """
 import argparse
-import json
 from datetime import datetime, timezone
 
 from config import START_YEAR, END_YEAR, RAW_DIR
 from cfbd_client import get_api_client, betting_api
+from raw_storage import write_json_gz
 
 
 def _stamp():
@@ -49,12 +49,15 @@ def main(full_history: bool = False):
     for year in years:
         print(f"Pulling {year} betting lines...")
         lines = api.get_lines(year=year)
-        out_path = RAW_DIR / f"lines_{year}_{stamp}.json"
         # .dict(by_alias=False), not .to_dict() -- see pull_games.py's comment.
         # This model's home_team/away_team/spread_open/over_under/moneyline
         # fields all alias to camelCase, which build_db.py's snake_case
         # .get() lookups would otherwise silently miss.
-        out_path.write_text(json.dumps([l.dict(by_alias=False) for l in lines], indent=2, default=str))
+        # Compression only -- NEVER pruned. build_db.py's all_lines_snapshots()
+        # deliberately scans EVERY historical snapshot for the current season
+        # to power the website's Line History chart, so every timestamped
+        # pull here has to survive; see the module docstring above.
+        out_path = write_json_gz(RAW_DIR / f"lines_{year}_{stamp}.json", [l.dict(by_alias=False) for l in lines])
         print(f"  -> {len(lines)} games with line data -> {out_path.name}")
 
     print("\nDone. Raw snapshots written to data/raw/.")

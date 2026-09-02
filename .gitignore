@@ -16,7 +16,23 @@ Thumbs.db
 .vscode/
 .idea/
 
-# NOTE: db/, data/raw/, data/clean/, docs/data/, and the Excel tracker are
-# intentionally NOT ignored -- the GitHub Actions workflow commits them
-# back to the repo on every run so the site and database stay live/current
-# without needing a local machine running anything.
+# NOTE: data/raw/, data/clean/, docs/data/, and the Excel tracker are
+# intentionally NOT ignored (db/schema.sql isn't either) -- the GitHub
+# Actions workflow commits them back to the repo on every run so the site
+# and database stay live/current without needing a local machine running
+# anything.
+
+# The COMPILED DuckDB file itself, however, IS ignored (added once the
+# drive/play full-history backfill pushed it past 175MB, over GitHub's
+# hard 100MB per-file limit for a normal push). It doesn't need to be
+# committed: every table in it is fully rebuilt from data/raw/ by
+# build_db.py/power_rating.py/features.py on every single pipeline run --
+# both here locally and in GitHub Actions, which always starts from a
+# fresh checkout and reruns the whole pipeline rather than resuming from a
+# persisted .duckdb file (build_db.py's own DELETE-then-INSERT pattern
+# means it was already a full rebuild from data/raw/ every time, even when
+# the compiled file used to be committed). If you need a local copy after
+# a fresh clone, just run python src/run_pipeline.py (or src/build_db.py
+# on its own, followed by src/power_rating.py + src/features.py).
+db/*.duckdb
+db/*.duckdb.wal

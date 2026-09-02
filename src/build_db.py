@@ -12,7 +12,6 @@ Usage:
     source .venv/bin/activate
     python src/build_db.py
 """
-import json
 import re
 import unicodedata
 from collections import defaultdict
@@ -23,6 +22,7 @@ import duckdb
 import pandas as pd
 
 from config import RAW_DIR, DB_PATH, END_YEAR
+from raw_storage import load_json_any
 
 # Line movement is only ever interesting for the season currently being
 # played -- a past season's games are over and their lines will never move
@@ -126,20 +126,35 @@ RUSH_PLAY_TYPES = {"Rush", "Rushing Touchdown"}
 # is a simplification versus an official box score (which tracks sacks
 # separately from completions/attempts) -- acceptable here because these are
 # team-level PER-DRIVE RATE features for the model, not a box-score replica.
+#
+# "Pass Completion"/"Pass" and "Interception"/"Pass Interception Return"
+# confirmed from a real ~2M-row plays pull (2016-2026) -- CFBD apparently
+# uses these instead of (or alongside, across different seasons) the
+# "Pass Reception"/"Interception Return" values originally guessed from a
+# third-party reference table. Both spellings are kept since which one
+# shows up seems to vary by season/data vintage.
 PASS_PLAY_TYPES = {
-    "Pass Reception", "Pass Incompletion", "Passing Touchdown", "Sack",
-    "Interception Return", "Interception Return Touchdown",
+    "Pass Reception", "Pass Completion", "Pass", "Pass Incompletion", "Passing Touchdown",
+    "Sack", "Interception Return", "Interception Return Touchdown",
+    "Interception", "Pass Interception Return",
 }
 # Real plays that are neither a rush nor a pass for these rate stats'
-# purposes (special teams, administrative) -- listed here just so they
-# don't trip classify_play()'s "unrecognized" warning.
+# purposes (special teams, administrative, or a turnover event whose
+# play_type doesn't indicate whether it came off a rush or a pass) --
+# listed here just so they don't trip classify_play()'s "unrecognized"
+# warning. "Fumble" specifically: CFBD's generic fumble play_type doesn't
+# say whether the fumble happened on a rush or pass snap, so there's no
+# reliable way to attribute it to either -- "other" is the honest answer,
+# not a guess.
 OTHER_KNOWN_PLAY_TYPES = {
     "Kickoff", "Kickoff Return (Offense)", "Kickoff Return Touchdown",
     "Punt", "Punt Return", "Punt Return Touchdown", "Blocked Punt", "Blocked Punt Touchdown",
     "Field Goal Good", "Field Goal Missed", "Blocked Field Goal", "Blocked Field Goal Touchdown",
-    "Penalty", "Timeout", "End Period", "End of Half", "End of Game", "Start of Period",
+    "Missed Field Goal Return", "Missed Field Goal Return Touchdown",
+    "Penalty", "Timeout", "End Period", "End of Half", "End of Game", "End of Regulation", "Start of Period",
     "Uncategorized", "placeholder", "Two Point Rush", "Two Point Pass", "Two Point Conversion",
-    "Fumble Recovery (Own)", "Fumble Recovery (Opponent)", "Safety", "Defensive 2pt Conversion",
+    "Fumble", "Fumble Recovery (Own)", "Fumble Recovery (Opponent)", "Fumble Return Touchdown",
+    "Safety", "Defensive 2pt Conversion",
 }
 _WARNED_PLAY_TYPES = set()
 
@@ -158,13 +173,28 @@ def classify_play(play_type):
     return "other"
 
 
-SNAPSHOT_RE = re.compile(r"^(?P<prefix>.+)_(?P<year>\d{4})_(?P<stamp>\d{8}T\d{6}Z)\.json$")
+# Matches both the plain .json files every pull script wrote before the
+# gzip-compression change, and the new .json.gz files -- see raw_storage.py's
+# module docstring. The (?:\.gz)? group is the entire backward-compat trick;
+# everything downstream keys off `prefix`/`year`/`stamp`, which don't care
+# which extension a given file happens to have.
+SNAPSHOT_RE = re.compile(r"^(?P<prefix>.+)_(?P<year>\d{4})_(?P<stamp>\d{8}T\d{6}Z)\.json(?:\.gz)?$")
+
+
+def _glob_json_any(pattern: str):
+    """
+    RAW_DIR.glob(), but matching both `<pattern>.json` and `<pattern>.json.gz`
+    in one call -- `pattern` should end in ".json" (as if compression didn't
+    exist); this expands it to also catch the compressed form.
+    """
+    assert pattern.endswith(".json")
+    return list(RAW_DIR.glob(pattern)) + list(RAW_DIR.glob(pattern + ".gz"))
 
 
 def latest_snapshots():
     """Group raw files by (prefix, year) and keep only the newest stamp for each."""
     best = {}
-    for f in RAW_DIR.glob("*.json"):
+    for f in _glob_json_any("*.json"):
         m = SNAPSHOT_RE.match(f.name)
         if not m:
             continue
@@ -176,18 +206,19 @@ def latest_snapshots():
 
 
 def load_json(path: Path):
-    return json.loads(path.read_text())
+    """Reads either a plain .json snapshot or a gzip-compressed .json.gz one -- see raw_storage.py."""
+    return load_json_any(path)
 
 
 def all_lines_snapshots():
     """
-    Unlike latest_snapshots(), this returns EVERY lines_<year>_<stamp>.json
+    Unlike latest_snapshots(), this returns EVERY lines_<year>_<stamp>.json(.gz)
     ever pulled, not just the newest one -- that full history is exactly what
     the Line History chart needs. Returns a list of (year, stamp, path),
     oldest first.
     """
     out = []
-    for f in RAW_DIR.glob("lines_*.json"):
+    for f in _glob_json_any("lines_*.json"):
         m = SNAPSHOT_RE.match(f.name)
         if not m or m.group("prefix") != "lines":
             continue
@@ -543,7 +574,7 @@ def _parse_elevation(raw):
 def build_venues_table(con):
     # Venues are static (not year-partitioned), so they're pulled and matched
     # separately from the per-year snapshot mechanism above.
-    files = sorted(RAW_DIR.glob("venues_static_*.json"))
+    files = sorted(_glob_json_any("venues_static_*.json"))
     if not files:
         print("venues: no raw snapshot found yet (run src/pull_venues.py first)")
         return
@@ -690,7 +721,7 @@ def build_odds_api_snapshots_table(con):
     every other line_snapshots row -- model.py/backtest.py never read this
     table at all, only the `lines` table's CFBD data.
     """
-    files = sorted(RAW_DIR.glob(f"odds_api_{LINE_HISTORY_SEASON}_*.json"))
+    files = sorted(_glob_json_any(f"odds_api_{LINE_HISTORY_SEASON}_*.json"))
     if not files:
         print("line_snapshots (odds_api): no raw snapshots found yet (run src/pull_odds_api.py first)")
         return

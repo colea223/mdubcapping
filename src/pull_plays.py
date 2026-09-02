@@ -35,6 +35,18 @@ START_YEAR..END_YEAR (only ever needed once, e.g. a fresh clone). Pass
 --season/--week together to force a specific single pull (e.g. re-pulling a
 week CFBD corrected after the fact) even if that week's file already exists.
 
+RESILIENCE: CFBD's own origin server occasionally throws a transient
+Cloudflare-branded 502/503/504 (overloaded, not a quota/rate-limit issue --
+those come back as 429/403 instead, with an explicit quota message). A
+single one usually clears within a minute, but during a longer full-history
+backfill making 150+ calls, hitting one eventually is basically guaranteed,
+and a real CFBD-side outage can last well past one retry. pull_week() below
+retries a failing week a few times with backoff before giving up on it, and
+main()'s loop SKIPS (rather than crashes on) a week that's still failing
+after that -- it keeps going and pulls everything else it can, then lists
+whatever's left at the end. Since already-pulled weeks are never re-pulled,
+simply rerunning the exact same command later picks up only what's missing.
+
 Usage:
     source .venv/bin/activate
     python src/pull_plays.py                          # current season, only new completed weeks (default)
@@ -42,16 +54,21 @@ Usage:
     python src/pull_plays.py --season 2026 --week 3    # force a specific week
 """
 import argparse
-import json
 import re
+import time
 from datetime import datetime, timezone, date
 
 import cfbd
+from cfbd.exceptions import ServiceException
 
 from config import START_YEAR, END_YEAR, RAW_DIR
 from cfbd_client import get_api_client, plays_api, games_api
+from raw_storage import write_json_gz, prune_superseded
 
-PLAYS_FILE_RE = re.compile(r"^plays_w(?P<week>\d+)_(?P<season>\d{4})_\d{8}T\d{6}Z\.json$")
+PLAYS_FILE_RE = re.compile(r"^plays_w(?P<week>\d+)_(?P<season>\d{4})_\d{8}T\d{6}Z\.json(?:\.gz)?$")
+RETRYABLE_STATUS_CODES = {502, 503, 504}
+MAX_RETRIES = 4                 # total attempts per week before giving up and skipping it
+RETRY_BACKOFF_SECONDS = 60      # 60s, 120s, 180s between attempts
 
 
 def _stamp():
@@ -61,7 +78,7 @@ def _stamp():
 def already_pulled_weeks(season: int) -> set:
     """Weeks of `season` that already have a raw plays file on disk."""
     weeks = set()
-    for f in RAW_DIR.glob(f"plays_w*_{season}_*.json"):
+    for f in list(RAW_DIR.glob(f"plays_w*_{season}_*.json")) + list(RAW_DIR.glob(f"plays_w*_{season}_*.json.gz")):
         m = PLAYS_FILE_RE.match(f.name)
         if m and int(m.group("season")) == season:
             weeks.add(int(m.group("week")))
@@ -86,12 +103,29 @@ def completed_weeks_for(client, season: int) -> list:
     )
 
 
-def pull_week(api, season: int, week: int):
-    plays = api.get_plays(year=season, week=week)
-    # .dict(by_alias=False) for snake_case keys -- same reasoning noted in
-    # every other pull_*.py script (the client's own .to_dict() gives
-    # camelCase, which build_db.py does not expect).
-    return [p.dict(by_alias=False) for p in plays]
+def pull_week(api, season: int, week: int, max_retries: int = MAX_RETRIES):
+    """
+    Retries on CFBD's own transient origin errors (502/503/504) with a
+    60s/120s/180s backoff before finally letting the error propagate --
+    see the module docstring's RESILIENCE note. Any other error (a real
+    quota rejection, a bad request, etc.) is NOT retried -- it surfaces
+    immediately, since retrying it would just waste time on something that
+    will never succeed.
+    """
+    for attempt in range(1, max_retries + 1):
+        try:
+            plays = api.get_plays(year=season, week=week)
+            # .dict(by_alias=False) for snake_case keys -- same reasoning
+            # noted in every other pull_*.py script (the client's own
+            # .to_dict() gives camelCase, which build_db.py does not expect).
+            return [p.dict(by_alias=False) for p in plays]
+        except ServiceException as e:
+            if e.status not in RETRYABLE_STATUS_CODES or attempt == max_retries:
+                raise
+            delay = RETRY_BACKOFF_SECONDS * attempt
+            print(f"    {season} week {week}: CFBD returned {e.status} "
+                  f"(attempt {attempt}/{max_retries}) -- waiting {delay}s and retrying...")
+            time.sleep(delay)
 
 
 def main(full_history: bool = False, season: int = None, week: int = None):
@@ -105,9 +139,14 @@ def main(full_history: bool = False, season: int = None, week: int = None):
         # override intent every other script's explicit flag carries.
         print(f"Pulling {season} week {week} plays (forced)...")
         plays = pull_week(api, season, week)
-        path = RAW_DIR / f"plays_w{week:02d}_{season}_{stamp}.json"
-        path.write_text(json.dumps(plays, indent=2, default=str))
+        path = write_json_gz(RAW_DIR / f"plays_w{week:02d}_{season}_{stamp}.json", plays)
         print(f"  -> {len(plays)} plays -> {path.name}")
+        # A forced re-pull is exactly the case where an older same-week file
+        # becomes superseded (e.g. CFBD corrected the week) -- safe to prune
+        # since build_db.py's latest_snapshots() only ever reads the newest.
+        removed = prune_superseded(RAW_DIR, f"plays_w{week:02d}_{season}_*.json*", path)
+        if removed:
+            print(f"  pruned {len(removed)} superseded snapshot(s): {removed}")
         print("\nDone.")
         return
 
@@ -116,6 +155,7 @@ def main(full_history: bool = False, season: int = None, week: int = None):
           f"({'full history backfill' if full_history else 'current season only -- pass --full-history for the rest'})")
 
     total_calls = 0
+    failed = []
     for yr in seasons:
         # Ask the calendar rather than hardcoding week ranges -- a past
         # season has every regular week completed by definition, but the
@@ -128,13 +168,29 @@ def main(full_history: bool = False, season: int = None, week: int = None):
             continue
         print(f"{yr}: pulling {len(to_pull)} new week(s) of {len(played_weeks)} played so far: {to_pull}")
         for wk in to_pull:
-            plays = pull_week(api, yr, wk)
-            path = RAW_DIR / f"plays_w{wk:02d}_{yr}_{stamp}.json"
-            path.write_text(json.dumps(plays, indent=2, default=str))
+            try:
+                plays = pull_week(api, yr, wk)
+            except ServiceException as e:
+                # Still failing after pull_week()'s own retries -- don't let
+                # one stubborn week kill the whole backfill. Skip it and
+                # keep going; it stays "not yet pulled" so a later rerun of
+                # this exact command picks it (and only it) back up.
+                print(f"  {yr} week {wk}: still failing after retries ({e.status}) -- skipping for now.")
+                failed.append((yr, wk))
+                continue
+            path = write_json_gz(RAW_DIR / f"plays_w{wk:02d}_{yr}_{stamp}.json", plays)
             print(f"  {yr} week {wk}: {len(plays)} plays -> {path.name}")
+            # No-op in the normal case (a played week is only ever pulled
+            # once), but harmless and keeps this consistent with the forced
+            # re-pull path above.
+            prune_superseded(RAW_DIR, f"plays_w{wk:02d}_{yr}_*.json*", path)
             total_calls += 1
 
     print(f"\nDone. {total_calls} CFBD call(s) made this run. Raw snapshots written to data/raw/.")
+    if failed:
+        print(f"\n{len(failed)} week(s) could not be pulled after retries (CFBD-side issue): {failed}")
+        print("Just rerun the exact same command later -- already-pulled weeks are always skipped, "
+              "so it'll only retry these.")
 
 
 if __name__ == "__main__":

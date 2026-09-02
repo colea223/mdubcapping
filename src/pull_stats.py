@@ -29,13 +29,13 @@ Usage:
     python src/pull_stats.py --full-history  # full START_YEAR..END_YEAR re-pull
 """
 import argparse
-import json
 from datetime import datetime, timezone, date
 
 import cfbd
 
 from config import START_YEAR, END_YEAR, RAW_DIR
 from cfbd_client import get_api_client, stats_api, ratings_api, recruiting_api, games_api
+from raw_storage import write_json_gz, prune_superseded
 
 
 def _stamp():
@@ -67,9 +67,12 @@ def pull_current_week_ppa_snapshot(client, stamp):
     week = completed_weeks[-1]
     stats = stats_api(client)
     adv = stats.get_advanced_season_stats(year=END_YEAR, end_week=week)
-    path = RAW_DIR / f"ppa_snapshot_w{week:02d}_{END_YEAR}_{stamp}.json"
-    path.write_text(json.dumps([a.dict(by_alias=False) for a in adv], indent=2, default=str))
+    prefix = f"ppa_snapshot_w{week:02d}"
+    path = write_json_gz(RAW_DIR / f"{prefix}_{END_YEAR}_{stamp}.json", [a.dict(by_alias=False) for a in adv])
     print(f"In-season PPA snapshot through week {week}: {len(adv)} teams -> {path.name}")
+    removed = prune_superseded(RAW_DIR, f"{prefix}_{END_YEAR}_*.json*", path)
+    if removed:
+        print(f"  pruned {len(removed)} superseded snapshot(s): {removed}")
 
 
 def main(full_history: bool = False):
@@ -91,31 +94,35 @@ def main(full_history: bool = False):
     for year in years:
         print(f"Pulling {year} advanced season stats (PPA)...")
         adv = stats.get_advanced_season_stats(year=year)
-        (RAW_DIR / f"advanced_stats_{year}_{stamp}.json").write_text(
-            json.dumps([a.dict(by_alias=False) for a in adv], indent=2, default=str)
-        )
+        out_path = write_json_gz(RAW_DIR / f"advanced_stats_{year}_{stamp}.json", [a.dict(by_alias=False) for a in adv])
         print(f"  -> {len(adv)} teams")
+        removed = prune_superseded(RAW_DIR, f"advanced_stats_{year}_*.json*", out_path)
+        if removed:
+            print(f"  pruned {len(removed)} superseded snapshot(s): {removed}")
 
         print(f"Pulling {year} SP+ ratings...")
         sp = ratings.get_sp(year=year)
-        (RAW_DIR / f"sp_ratings_{year}_{stamp}.json").write_text(
-            json.dumps([s.dict(by_alias=False) for s in sp], indent=2, default=str)
-        )
+        out_path = write_json_gz(RAW_DIR / f"sp_ratings_{year}_{stamp}.json", [s.dict(by_alias=False) for s in sp])
         print(f"  -> {len(sp)} teams")
+        removed = prune_superseded(RAW_DIR, f"sp_ratings_{year}_*.json*", out_path)
+        if removed:
+            print(f"  pruned {len(removed)} superseded snapshot(s): {removed}")
 
         print(f"Pulling {year} Elo ratings...")
         elo = ratings.get_elo(year=year)
-        (RAW_DIR / f"elo_ratings_{year}_{stamp}.json").write_text(
-            json.dumps([e.dict(by_alias=False) for e in elo], indent=2, default=str)
-        )
+        out_path = write_json_gz(RAW_DIR / f"elo_ratings_{year}_{stamp}.json", [e.dict(by_alias=False) for e in elo])
         print(f"  -> {len(elo)} teams")
+        removed = prune_superseded(RAW_DIR, f"elo_ratings_{year}_*.json*", out_path)
+        if removed:
+            print(f"  pruned {len(removed)} superseded snapshot(s): {removed}")
 
         print(f"Pulling {year} recruiting composite...")
         rec = recruiting.get_team_recruiting_rankings(year=year)
-        (RAW_DIR / f"recruiting_{year}_{stamp}.json").write_text(
-            json.dumps([r.dict(by_alias=False) for r in rec], indent=2, default=str)
-        )
+        out_path = write_json_gz(RAW_DIR / f"recruiting_{year}_{stamp}.json", [r.dict(by_alias=False) for r in rec])
         print(f"  -> {len(rec)} teams")
+        removed = prune_superseded(RAW_DIR, f"recruiting_{year}_*.json*", out_path)
+        if removed:
+            print(f"  pruned {len(removed)} superseded snapshot(s): {removed}")
 
     pull_current_week_ppa_snapshot(client, stamp)
 

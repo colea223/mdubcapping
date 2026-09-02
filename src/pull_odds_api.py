@@ -29,12 +29,12 @@ Usage:
     source .venv/bin/activate
     python src/pull_odds_api.py
 """
-import json
 from datetime import datetime, timezone
 
 import requests
 
 from config import RAW_DIR, END_YEAR, ODDS_API_KEY
+from raw_storage import write_json_gz
 
 API_URL = "https://api.the-odds-api.com/v4/sports/americanfootball_ncaaf/odds"
 REGIONS = "us"
@@ -72,8 +72,11 @@ def main():
     events = resp.json()
 
     stamp = _stamp()
-    out_path = RAW_DIR / f"odds_api_{END_YEAR}_{stamp}.json"
-    out_path.write_text(json.dumps(events, indent=2))
+    # Compression only -- NEVER pruned. build_db.py's build_odds_api_snapshots_table()
+    # deliberately scans EVERY historical snapshot for the current season to
+    # power the website's Line History chart, so every timestamped pull here
+    # has to survive; see raw_storage.py's module docstring.
+    out_path = write_json_gz(RAW_DIR / f"odds_api_{END_YEAR}_{stamp}.json", events)
     print(f"Pulled {len(events)} NCAAF games from The Odds API -> {out_path.name}")
 
     # The Odds API reports quota usage in response headers, not the body.

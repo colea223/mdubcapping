@@ -1,6 +1,6 @@
 {
   "meta": {
-    "generated_at": "2026-09-01T20:25:37Z",
+    "generated_at": "2026-09-02T00:32:11Z",
     "current_week": {
       "season": 2026,
       "week": 1
@@ -17,7 +17,7 @@
       "home_points": 21,
       "away_points": 27,
       "model": {
-        "spread_pick": -10.5,
+        "spread_pick": -9.8,
         "market_spread_close": -4.8,
         "spread_lean": "Home",
         "spread_was_bet": true,
@@ -55,7 +55,7 @@
       "home_points": 42,
       "away_points": 26,
       "model": {
-        "spread_pick": -31.6,
+        "spread_pick": -32.1,
         "market_spread_close": -37.2,
         "spread_lean": "Away",
         "spread_was_bet": true,
@@ -81,7 +81,7 @@
       "home_points": 33,
       "away_points": 7,
       "model": {
-        "spread_pick": -16.4,
+        "spread_pick": -16.3,
         "market_spread_close": -6.8,
         "spread_lean": "Home",
         "spread_was_bet": true,
@@ -107,9 +107,9 @@
       "home_points": 37,
       "away_points": 27,
       "model": {
-        "spread_pick": -4.9,
+        "spread_pick": -4.2,
         "market_spread_close": -4.8,
-        "spread_lean": "Home",
+        "spread_lean": "Away",
         "spread_was_bet": false,
         "spread_result": NaN,
         "total_pick": 52.1,
@@ -117,7 +117,7 @@
         "total_lean": "Over",
         "total_was_bet": true,
         "total_result": "Win",
-        "ml_lean": "Home",
+        "ml_lean": "Away",
         "ml_was_bet": false,
         "ml_result": NaN
       },

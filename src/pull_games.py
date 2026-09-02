@@ -22,11 +22,11 @@ Usage:
     python src/pull_games.py --full-history  # full START_YEAR..END_YEAR re-pull
 """
 import argparse
-import json
 from datetime import datetime, timezone
 
 from config import START_YEAR, END_YEAR, RAW_DIR
 from cfbd_client import get_api_client, games_api
+from raw_storage import write_json_gz, prune_superseded
 from teams import MW_TEAMS_2026
 
 
@@ -65,15 +65,19 @@ def main(full_history: bool = False):
     for year in years:
         print(f"Pulling {year} FBS games...")
         fbs_games = pull_fbs_games(year, api)
-        out_path = RAW_DIR / f"games_fbs_{year}_{stamp}.json"
-        out_path.write_text(json.dumps(fbs_games, indent=2, default=str))
+        out_path = write_json_gz(RAW_DIR / f"games_fbs_{year}_{stamp}.json", fbs_games)
         print(f"  -> {len(fbs_games)} games -> {out_path.name}")
+        removed = prune_superseded(RAW_DIR, f"games_fbs_{year}_*.json*", out_path)
+        if removed:
+            print(f"  pruned {len(removed)} superseded snapshot(s): {removed}")
 
         print(f"Pulling {year} North Dakota State games...")
         ndsu_games = pull_ndsu_games(year, api)
-        out_path = RAW_DIR / f"games_ndsu_{year}_{stamp}.json"
-        out_path.write_text(json.dumps(ndsu_games, indent=2, default=str))
+        out_path = write_json_gz(RAW_DIR / f"games_ndsu_{year}_{stamp}.json", ndsu_games)
         print(f"  -> {len(ndsu_games)} games -> {out_path.name}")
+        removed = prune_superseded(RAW_DIR, f"games_ndsu_{year}_*.json*", out_path)
+        if removed:
+            print(f"  pruned {len(removed)} superseded snapshot(s): {removed}")
 
     print("\nDone. Raw snapshots written to data/raw/.")
     print(f"2026 MW teams tracked: {list(MW_TEAMS_2026.keys())}")
