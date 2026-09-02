@@ -20,6 +20,7 @@ Usage:
     python src/export_site_data.py
 """
 import json
+import math
 from datetime import datetime, timezone
 from pathlib import Path
 
@@ -47,6 +48,36 @@ CURRENT_SEASON = 2026
 
 def _now_iso():
     return datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ")
+
+
+def _sanitize_nans(obj):
+    """
+    Recursively replaces float NaN with None (JSON null), everywhere in a
+    dict/list structure, right before it's written out.
+
+    Root cause: build_results() (and potentially other builders here) pulls
+    fields straight out of a pandas DataFrame built from a list of dicts
+    where a not-applicable value was Python None (e.g. backtest.py's
+    bet_result/total_bet_result/ml_bet_result default to None). When a
+    DataFrame column mixes strings and None, pandas silently upcasts those
+    Nones to float NaN -- so accessing the value back out via itertuples()
+    returns nan, not None. Python's json.dumps() then happily writes that as
+    a bare, UNQUOTED "NaN" token, which is not valid JSON (the spec has no
+    such literal) -- browsers' JSON.parse() throws a hard SyntaxError on it,
+    which silently breaks the whole file, not just that one field. This is
+    the same None-vs-NaN trap documented in excel/update_model_comparison_tab.py's
+    result_text() helper, just showing up here via a different code path.
+    Sanitizing the whole structure right before every json.dumps() call
+    below is more robust than chasing down each individual field that could
+    carry a None through a DataFrame.
+    """
+    if isinstance(obj, float) and math.isnan(obj):
+        return None
+    if isinstance(obj, dict):
+        return {k: _sanitize_nans(v) for k, v in obj.items()}
+    if isinstance(obj, list):
+        return [_sanitize_nans(v) for v in obj]
+    return obj
 
 
 def load_notes():
@@ -226,6 +257,29 @@ def build_live_lines(con, manual_lines=None):
           AND provider NOT IN ({",".join("?" * len(NOT_REAL_BOOKS))})
     """, game_ids + allowed_books + list(NOT_REAL_BOOKS)).fetchdf()
 
+    # CFBD's own `lines` endpoint (the query above) never returns FanDuel at
+    # all -- confirmed against this project's real pulls, it only ever hands
+    # back Bovada/DraftKings. FanDuel is one of MAIN_BOOKS anyway (Cole's
+    # pick), and it DOES show up through the second, independent feed --
+    # The Odds API (pull_odds_api.py) -- which lands in line_snapshots
+    # tagged source='odds_api'. That table is otherwise only used for the
+    # Line History chart; this pulls in just the latest odds_api reading per
+    # (game, provider) as a supplemental "current" column for whichever
+    # MAIN_BOOKS provider CFBD didn't cover for that game. It intentionally
+    # does NOT feed open_spread_home/open_total/close_spread_home/
+    # close_total above -- those stay CFBD-`lines`-only so they keep
+    # matching backtest.py's market_close exactly. And it never overrides a
+    # book CFBD DID return (Bovada/DraftKings keep their true CFBD
+    # spread_open/over_under_open); this only fills in a gap.
+    odds_api_books = con.execute(f"""
+        SELECT game_id, provider, spread, over_under, home_moneyline, away_moneyline
+        FROM line_snapshots
+        WHERE game_id IN ({placeholders})
+          AND source = 'odds_api'
+          AND provider IN ({",".join("?" * len(MAIN_BOOKS))})
+        QUALIFY ROW_NUMBER() OVER (PARTITION BY game_id, provider ORDER BY pulled_at DESC) = 1
+    """, game_ids + list(MAIN_BOOKS)).fetchdf()
+
     rows = []
     for g in games.itertuples():
         g_lines = lines[lines["game_id"] == g.game_id]
@@ -252,6 +306,25 @@ def build_live_lines(con, manual_lines=None):
                 "spread_open": round(r.spread_open, 1) if pd.notna(r.spread_open) else None,
                 "total": round(r.over_under, 1) if pd.notna(r.over_under) else None,
                 "total_open": round(r.over_under_open, 1) if pd.notna(r.over_under_open) else None,
+                "home_ml": int(r.home_moneyline) if pd.notna(r.home_moneyline) else None,
+                "away_ml": int(r.away_moneyline) if pd.notna(r.away_moneyline) else None,
+            }
+        # Fill in FanDuel (or any other MAIN_BOOKS provider CFBD didn't
+        # return for this game) from The Odds API's latest reading. No
+        # spread_open/total_open here -- The Odds API has no "open" concept
+        # of its own and CFBD never carried this provider to compare
+        # against, so leaving those null is the honest answer rather than
+        # faking a movement indicator, same treatment build_line_history()
+        # already gives a provider missing from the `lines` table.
+        g_odds_api = odds_api_books[odds_api_books["game_id"] == g.game_id]
+        for r in g_odds_api.itertuples():
+            if r.provider in books:
+                continue
+            books[r.provider] = {
+                "spread": round(r.spread, 1) if pd.notna(r.spread) else None,
+                "spread_open": None,
+                "total": round(r.over_under, 1) if pd.notna(r.over_under) else None,
+                "total_open": None,
                 "home_ml": int(r.home_moneyline) if pd.notna(r.home_moneyline) else None,
                 "away_ml": int(r.away_moneyline) if pd.notna(r.away_moneyline) else None,
             }
@@ -715,13 +788,16 @@ def main():
     meta = {"generated_at": _now_iso(), "current_week": week_info}
     lines_meta = {"generated_at": _now_iso(), "current_week": lines_week_info}
 
-    (DOCS_DATA / "rankings.json").write_text(json.dumps({"meta": meta, "rankings": rankings}, indent=2))
-    (DOCS_DATA / "matchups.json").write_text(json.dumps({"meta": meta, "matchups": matchups}, indent=2))
-    (DOCS_DATA / "predictions.json").write_text(json.dumps({"meta": meta, "predictions": predictions}, indent=2))
-    (DOCS_DATA / "tracking.json").write_text(json.dumps({"meta": meta, "tracking": tracking}, indent=2))
-    (DOCS_DATA / "lines.json").write_text(json.dumps({"meta": lines_meta, "games": live_lines}, indent=2))
-    (DOCS_DATA / "line_history.json").write_text(json.dumps({"meta": lines_meta, "history": line_history}, indent=2))
-    (DOCS_DATA / "results.json").write_text(json.dumps({"meta": meta, "results": results}, indent=2))
+    def _write(name, payload):
+        (DOCS_DATA / name).write_text(json.dumps(_sanitize_nans(payload), indent=2))
+
+    _write("rankings.json", {"meta": meta, "rankings": rankings})
+    _write("matchups.json", {"meta": meta, "matchups": matchups})
+    _write("predictions.json", {"meta": meta, "predictions": predictions})
+    _write("tracking.json", {"meta": meta, "tracking": tracking})
+    _write("lines.json", {"meta": lines_meta, "games": live_lines})
+    _write("line_history.json", {"meta": lines_meta, "history": line_history})
+    _write("results.json", {"meta": meta, "results": results})
 
     print(f"Wrote rankings ({len(rankings)}), matchups ({len(matchups)}), "
           f"predictions ({len(predictions)}), live lines ({len(live_lines)}), "

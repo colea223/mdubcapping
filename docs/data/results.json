@@ -1,6 +1,6 @@
 {
   "meta": {
-    "generated_at": "2026-09-02T01:28:26Z",
+    "generated_at": "2026-09-02T01:41:21Z",
     "current_week": {
       "season": 2026,
       "week": 1
@@ -26,7 +26,7 @@
         "market_total_close": 55.5,
         "total_lean": "Over",
         "total_was_bet": false,
-        "total_result": NaN,
+        "total_result": null,
         "ml_lean": "Home",
         "ml_was_bet": true,
         "ml_result": "Loss"
@@ -67,7 +67,7 @@
         "total_result": "Loss",
         "ml_lean": "Away",
         "ml_was_bet": false,
-        "ml_result": NaN
+        "ml_result": null
       },
       "your_bets": []
     },
@@ -111,7 +111,7 @@
         "market_spread_close": -4.8,
         "spread_lean": "Away",
         "spread_was_bet": false,
-        "spread_result": NaN,
+        "spread_result": null,
         "total_pick": 52.1,
         "market_total_close": 48.5,
         "total_lean": "Over",
@@ -119,7 +119,7 @@
         "total_result": "Win",
         "ml_lean": "Away",
         "ml_was_bet": false,
-        "ml_result": NaN
+        "ml_result": null
       },
       "your_bets": []
     }
