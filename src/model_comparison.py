@@ -116,6 +116,7 @@ def run_comparison(con, edge_threshold=EDGE_THRESHOLD, min_train_games=MIN_TRAIN
             results.append({
                 "game_id": game_id, "season": row["season"], "week": row["week"],
                 "home_team": row["home_team"], "away_team": row["away_team"],
+                "home_points": row["home_points"], "away_points": row["away_points"],
                 "is_mw_game": row["home_team"] in MW_TEAMS_2026 or row["away_team"] in MW_TEAMS_2026,
                 "market_spread_home": market_close, "actual_margin": actual_margin,
                 "ridge_spread_home": ridge_spread_home[i], "ridge_edge": r_edge,

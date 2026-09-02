@@ -111,7 +111,7 @@ def write_detail_table(ws, df, start_row, season):
     ws.cell(row=r, column=1, value=f"{season} Mountain West Games -- Game by Game").font = SECTION_FONT
     r += 1
     headers = [
-        "Week", "Matchup", "Vegas Spread (Home)", "Actual Margin (Home)",
+        "Week", "Matchup", "Final Score", "Vegas Spread (Home)", "Actual Margin (Home)",
         "Ridge Line", "Ridge Edge", "Ridge Lean", "Ridge Result",
         "XGBoost Line", "XGBoost Edge", "XGBoost Lean", "XGBoost Result",
         "Models Agree?",
@@ -140,12 +140,19 @@ def write_detail_table(ws, df, start_row, season):
             return result
         return "Lean only" if lean != "Pick'em" else "--"
 
+    def fmt_score(row):
+        # Same Away @ Home order as the Matchup column, so the two read
+        # together naturally (e.g. "Wyoming @ Boise State" / "20-34").
+        if pd.isna(row.away_points) or pd.isna(row.home_points):
+            return "--"
+        return f"{int(row.away_points)}-{int(row.home_points)}"
+
     for row in mw_this_season.itertuples():
         matchup = f"{row.away_team} @ {row.home_team}"
         ridge_result_text = result_text(row.ridge_result, row.ridge_lean)
         xgb_result_text = result_text(row.xgb_result, row.xgb_lean)
         values = [
-            int(row.week), matchup,
+            int(row.week), matchup, fmt_score(row),
             fmt_spread(row.market_spread_home), fmt_spread(row.actual_margin),
             fmt_spread(row.ridge_spread_home), fmt_spread(row.ridge_edge),
             row.ridge_lean, ridge_result_text,
@@ -156,9 +163,9 @@ def write_detail_table(ws, df, start_row, season):
         for c, v in enumerate(values, start=1):
             cell = ws.cell(row=r, column=c, value=v)
             cell.font = FORMULA_FONT
-            if c == 8 and row.ridge_result in ("Win", "Loss"):
+            if c == 9 and row.ridge_result in ("Win", "Loss"):
                 cell.fill = WIN_FILL if row.ridge_result == "Win" else LOSS_FILL
-            if c == 12 and row.xgb_result in ("Win", "Loss"):
+            if c == 13 and row.xgb_result in ("Win", "Loss"):
                 cell.fill = WIN_FILL if row.xgb_result == "Win" else LOSS_FILL
         r += 1
 
@@ -193,7 +200,7 @@ def build_sheet(wb, df):
 
     row, header_row = write_detail_table(ws, df, row, current_season)
 
-    autosize(ws, [8, 26, 18, 18, 12, 12, 11, 12, 12, 12, 11, 12, 13])
+    autosize(ws, [8, 26, 12, 18, 18, 12, 12, 11, 12, 12, 12, 11, 12, 13])
     ws.freeze_panes = f"A{header_row + 1}"
 
 
