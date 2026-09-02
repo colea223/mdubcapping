@@ -1,6 +1,6 @@
 {
   "meta": {
-    "generated_at": "2026-09-02T01:41:21Z",
+    "generated_at": "2026-09-02T01:49:03Z",
     "current_week": {
       "season": 2026,
       "week": 1
@@ -92,7 +92,7 @@
         {
           "date": "2026-08-29",
           "week": 1,
-          "matchup": "Jacksonvillie State @ North Dakota State",
+          "matchup": "Jacksonville State @ North Dakota State",
           "bet_type": "Spread",
           "side": "North Dakota State -7.5",
           "odds": 100.0,
@@ -103,7 +103,7 @@
         {
           "date": "2026-08-29",
           "week": 1,
-          "matchup": "Jacksonvillie State @ North Dakota State",
+          "matchup": "Jacksonville State @ North Dakota State",
           "bet_type": "Moneyline",
           "side": "North Dakota State -285",
           "odds": -285.0,
@@ -125,7 +125,7 @@
         {
           "date": "2026-08-29",
           "week": 1,
-          "matchup": "Jacksonvillie State @ North Dakota State,Memphis @ UNLV",
+          "matchup": "Jacksonville State @ North Dakota State,Memphis @ UNLV",
           "bet_type": "ML Parlay",
           "side": "North Dakota State / UNLV",
           "odds": 110.0,

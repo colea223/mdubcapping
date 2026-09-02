@@ -1,6 +1,6 @@
 {
   "meta": {
-    "generated_at": "2026-09-02T01:41:21Z",
+    "generated_at": "2026-09-02T01:49:03Z",
     "current_week": {
       "season": 2026,
       "week": 1
@@ -95,7 +95,30 @@
         "ml_was_bet": true,
         "ml_result": "Win"
       },
-      "your_bets": []
+      "your_bets": [
+        {
+          "date": "2026-08-29",
+          "week": 1,
+          "matchup": "Jacksonville State @ North Dakota State",
+          "bet_type": "Spread",
+          "side": "North Dakota State -7.5",
+          "odds": 100.0,
+          "stake": 1.0,
+          "result": "W",
+          "units": 1.0
+        },
+        {
+          "date": "2026-08-29",
+          "week": 1,
+          "matchup": "Jacksonville State @ North Dakota State",
+          "bet_type": "Moneyline",
+          "side": "North Dakota State -285",
+          "odds": -285.0,
+          "stake": 5.0,
+          "result": "W",
+          "units": 1.75
+        }
+      ]
     },
     {
       "game_id": 401858201,
