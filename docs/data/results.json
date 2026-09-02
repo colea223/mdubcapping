@@ -1,6 +1,6 @@
 {
   "meta": {
-    "generated_at": "2026-09-02T01:49:03Z",
+    "generated_at": "2026-09-02T17:44:04Z",
     "current_week": {
       "season": 2026,
       "week": 1
@@ -17,12 +17,12 @@
       "home_points": 21,
       "away_points": 27,
       "model": {
-        "spread_pick": -9.8,
+        "spread_pick": -9.5,
         "market_spread_close": -4.8,
         "spread_lean": "Home",
         "spread_was_bet": true,
         "spread_result": "Loss",
-        "total_pick": 56.1,
+        "total_pick": 55.6,
         "market_total_close": 55.5,
         "total_lean": "Over",
         "total_was_bet": false,
@@ -46,6 +46,32 @@
       ]
     },
     {
+      "game_id": 401858201,
+      "season": 2026,
+      "week": 1,
+      "date": "2026-08-29",
+      "away_team": "Hawai'i",
+      "home_team": "Stanford",
+      "home_points": 37,
+      "away_points": 27,
+      "model": {
+        "spread_pick": -3.3,
+        "market_spread_close": -4.8,
+        "spread_lean": "Away",
+        "spread_was_bet": false,
+        "spread_result": null,
+        "total_pick": 51.5,
+        "market_total_close": 48.5,
+        "total_lean": "Over",
+        "total_was_bet": true,
+        "total_result": "Win",
+        "ml_lean": "Away",
+        "ml_was_bet": false,
+        "ml_result": null
+      },
+      "your_bets": []
+    },
+    {
       "game_id": 401864494,
       "season": 2026,
       "week": 1,
@@ -55,7 +81,7 @@
       "home_points": 42,
       "away_points": 26,
       "model": {
-        "spread_pick": -32.1,
+        "spread_pick": -32.5,
         "market_spread_close": -37.2,
         "spread_lean": "Away",
         "spread_was_bet": true,
@@ -81,12 +107,12 @@
       "home_points": 33,
       "away_points": 7,
       "model": {
-        "spread_pick": -16.3,
+        "spread_pick": -17.2,
         "market_spread_close": -6.8,
         "spread_lean": "Home",
         "spread_was_bet": true,
         "spread_result": "Win",
-        "total_pick": 53.2,
+        "total_pick": 53.0,
         "market_total_close": 46.5,
         "total_lean": "Over",
         "total_was_bet": true,
@@ -119,32 +145,6 @@
           "units": 1.75
         }
       ]
-    },
-    {
-      "game_id": 401858201,
-      "season": 2026,
-      "week": 1,
-      "date": "2026-08-29",
-      "away_team": "Hawai'i",
-      "home_team": "Stanford",
-      "home_points": 37,
-      "away_points": 27,
-      "model": {
-        "spread_pick": -4.2,
-        "market_spread_close": -4.8,
-        "spread_lean": "Away",
-        "spread_was_bet": false,
-        "spread_result": null,
-        "total_pick": 52.1,
-        "market_total_close": 48.5,
-        "total_lean": "Over",
-        "total_was_bet": true,
-        "total_result": "Win",
-        "ml_lean": "Away",
-        "ml_was_bet": false,
-        "ml_result": null
-      },
-      "your_bets": []
     }
   ]
 }
