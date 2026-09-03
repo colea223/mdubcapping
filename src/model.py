@@ -115,6 +115,21 @@ FEATURE_COLS = [
     # diagnostic/backtest after this change lands to confirm the fix actually
     # closes the gap before trusting these long-term.
     "std_down_ppa_diff", "passing_down_ppa_diff", "red_zone_ppa_diff", "explosive_rate_diff",
+    # Added after a real walk-forward A/B (src/diagnose_new_features.py) of 3
+    # candidates -- sos_diff, returning_production_diff, qb_continuity_diff
+    # -- computed in features.py but held out pending validation. Only this
+    # one earned its keep: overall ATS win rate 49.46% -> 49.85%, ROI -5.57%
+    # -> -4.82%, Brier 0.1793 -> 0.1782; on the Mountain West slice
+    # specifically, win rate 48.76% -> 49.54% and ROI -6.92% -> -5.42%. The
+    # other two were left OUT: sos_diff was net negative on both slices
+    # (likely redundant with rating_diff, which already implicitly prices in
+    # opponent strength via Elo's own update rule), and qb_continuity_diff
+    # barely moved anything (54 of 8441 games flipped) and moved the wrong
+    # way for MW where it did. Testing the 3 individually (not just as one
+    # combined block) mattered: running all 3 together washes out most of
+    # this feature's own MW-specific gain, since the other two's negative MW
+    # effects partially cancel it.
+    "returning_production_diff",
 ]
 ALPHAS = np.logspace(-2, 3, 25)
 
