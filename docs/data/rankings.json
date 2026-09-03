@@ -1,6 +1,6 @@
 {
   "meta": {
-    "generated_at": "2026-09-03T18:12:14Z",
+    "generated_at": "2026-09-03T18:25:38Z",
     "current_week": {
       "season": 2026,
       "week": 1
@@ -8,103 +8,103 @@
   },
   "rankings": [
     {
+      "team": "Air Force",
+      "rating": null,
+      "wins": 0,
+      "losses": 0,
+      "conf_wins": 0,
+      "conf_losses": 0,
+      "trend": 0.0,
+      "rank": 1
+    },
+    {
+      "team": "Hawai'i",
+      "rating": null,
+      "wins": 0,
+      "losses": 1,
+      "conf_wins": 0,
+      "conf_losses": 0,
+      "trend": 0.0,
+      "rank": 2
+    },
+    {
+      "team": "Nevada",
+      "rating": null,
+      "wins": 0,
+      "losses": 0,
+      "conf_wins": 0,
+      "conf_losses": 0,
+      "trend": 0.0,
+      "rank": 3
+    },
+    {
+      "team": "New Mexico",
+      "rating": null,
+      "wins": 0,
+      "losses": 0,
+      "conf_wins": 0,
+      "conf_losses": 0,
+      "trend": 0.0,
+      "rank": 4
+    },
+    {
       "team": "North Dakota State",
-      "rating": 1731.3,
+      "rating": null,
       "wins": 1,
       "losses": 0,
       "conf_wins": 0,
       "conf_losses": 0,
-      "trend": -59.6,
-      "rank": 1
-    },
-    {
-      "team": "UNLV",
-      "rating": 1585.5,
-      "wins": 0,
-      "losses": 1,
-      "conf_wins": 0,
-      "conf_losses": 0,
-      "trend": -59.8,
-      "rank": 2
-    },
-    {
-      "team": "New Mexico",
-      "rating": 1566.5,
-      "wins": 0,
-      "losses": 0,
-      "conf_wins": 0,
-      "conf_losses": 0,
-      "trend": -12.5,
-      "rank": 3
-    },
-    {
-      "team": "Hawai'i",
-      "rating": 1519.4,
-      "wins": 0,
-      "losses": 1,
-      "conf_wins": 0,
-      "conf_losses": 0,
-      "trend": -41.7,
-      "rank": 4
-    },
-    {
-      "team": "Air Force",
-      "rating": 1473.0,
-      "wins": 0,
-      "losses": 0,
-      "conf_wins": 0,
-      "conf_losses": 0,
-      "trend": 31.8,
+      "trend": 0.0,
       "rank": 5
     },
     {
+      "team": "Northern Illinois",
+      "rating": null,
+      "wins": 0,
+      "losses": 0,
+      "conf_wins": 0,
+      "conf_losses": 0,
+      "trend": 0.0,
+      "rank": 6
+    },
+    {
       "team": "San Jos\u00e9 State",
-      "rating": 1408.4,
+      "rating": null,
       "wins": 0,
       "losses": 1,
       "conf_wins": 0,
       "conf_losses": 0,
-      "trend": 20.3,
-      "rank": 6
-    },
-    {
-      "team": "Wyoming",
-      "rating": 1399.9,
-      "wins": 0,
-      "losses": 0,
-      "conf_wins": 0,
-      "conf_losses": 0,
-      "trend": -14.3,
+      "trend": 0.0,
       "rank": 7
     },
     {
-      "team": "Northern Illinois",
-      "rating": 1394.5,
+      "team": "UNLV",
+      "rating": null,
       "wins": 0,
-      "losses": 0,
+      "losses": 1,
       "conf_wins": 0,
       "conf_losses": 0,
-      "trend": -21.8,
+      "trend": 0.0,
       "rank": 8
     },
     {
-      "team": "Nevada",
-      "rating": 1361.9,
+      "team": "UTEP",
+      "rating": null,
       "wins": 0,
       "losses": 0,
       "conf_wins": 0,
       "conf_losses": 0,
-      "trend": -11.6,
+      "trend": 0.0,
       "rank": 9
     },
     {
-      "team": "UTEP",
-      "rating": 1302.8,
+      "team": "Wyoming",
+      "rating": null,
       "wins": 0,
       "losses": 0,
       "conf_wins": 0,
       "conf_losses": 0,
-      "trend": -16.0,
+      "trend": 0.0,
       "rank": 10
     }
   ]
