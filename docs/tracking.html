@@ -182,7 +182,7 @@ function renderBeta(beta) {
         <div class="sub">${beta.n_games} MW games compared, ${beta.season} season</div>
       </div>
     </div>
-    <div class="notes-box">${beta.note}</div>`;
+    ${beta.note ? `<div class="notes-box">${beta.note}</div>` : ""}`;
 }
 
 function renderPending(pending) {

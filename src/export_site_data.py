@@ -8,12 +8,34 @@ publish one), so that piece is manually maintained: edit site_notes.json in
 the project root -- {"Away Team @ Home Team": "note text"} -- and this script
 merges it in by matchup. Leave it out or empty and notes just render blank.
 
-The Tracking page shows TWO separate things side by side: the model's own
+The Tracking page shows THREE things side by side: the live model's own
 hypothetical flat-1-unit-stake performance (same walk-forward grading as
 backtest.py, filtered to the current season -- spread, total, AND moneyline),
-and YOUR actual bets, read directly from the Bet Log tab of
-excel/MW_Handicapping_Tracker.xlsx. The two are never blended into one number
--- the model's picks are a what-if; your Bet Log is what you actually staked.
+YOUR actual bets, read directly from the Bet Log tab of
+excel/MW_Handicapping_Tracker.xlsx, and the "Dub Beta Model" (XGBoost, spread
+only) -- see below. None of these are ever blended into one number -- the
+live model's picks are a what-if, your Bet Log is what you actually staked,
+and the Dub Beta Model is a candidate architecture being evaluated alongside
+the live model, not a replacement for it.
+
+Dub Beta Model (XGBoost) placement, and why it's sourced the way it is:
+  - Predictions page: this week's Dub Beta line comes from predict_week.py's
+    latest week_<season>_<week>_predictions.csv ("XGBoost Line (Home)"
+    column) -- NOT refit here. predict_week.py already runs as its own
+    pipeline step before this one (see run_pipeline.py's STEPS), so reading
+    its output avoids paying for the same XGBoost hyperparameter search
+    twice in one pipeline run.
+  - Results page & season tracking: graded Dub Beta history comes from
+    data/clean/model_comparison_results.csv, written by src/model_comparison.py.
+    That script is deliberately a standalone, hand-run script (same category
+    as backtest.py) because it reruns the XGBoost search once per historical
+    test week -- wiring it into every site export would make a routine
+    pipeline run as slow as a full backtest. Practically: this means the Dub
+    Beta Model's Results/Tracking numbers are only as fresh as the last time
+    you ran `python src/model_comparison.py` by hand, same staleness contract
+    excel/update_model_comparison_tab.py already has with this file. And
+    since model_comparison.py compares margin models only, Dub Beta's graded
+    record is spread-only -- it has no total/moneyline pick to show.
 
 Usage:
     source .venv/bin/activate
@@ -21,6 +43,7 @@ Usage:
 """
 import json
 import math
+import re
 from datetime import datetime, timezone
 from pathlib import Path
 
@@ -28,7 +51,7 @@ import duckdb
 import openpyxl
 import pandas as pd
 
-from config import DB_PATH
+from config import DB_PATH, CLEAN_DIR
 import model
 import totals_model
 import backtest
@@ -36,6 +59,7 @@ from odds import payout_profit
 from power_rating import current_ratings
 from teams import MW_TEAMS_2026
 from predict_week import auto_detect_week
+from features import team_home_venues, haversine_km
 
 ROOT = Path(__file__).resolve().parent.parent
 DOCS_DATA = ROOT / "docs" / "data"
@@ -44,6 +68,42 @@ MANUAL_LINES_PATH = ROOT / "manual_lines.json"
 TRACKER_PATH = ROOT / "excel" / "MW_Handicapping_Tracker.xlsx"
 BET_LOG_ROWS = range(2, 43)   # matches excel/build_tracker.py's layout
 CURRENT_SEASON = 2026
+
+# Dub Beta Model (XGBoost) data sources -- see module docstring above.
+PRED_FILE_RE = re.compile(r"^week_(\d{4})_(\d+)_predictions\.csv$")
+MODEL_COMPARISON_PATH = CLEAN_DIR / "model_comparison_results.csv"
+
+
+def latest_predictions_file():
+    """Same convention/name as excel/update_model_comparison_tab.py's own
+    helper (itself duplicated from excel/update_tracker.py's) -- duplicated
+    again here rather than imported, since every script in this project is
+    meant to stand alone. Finds predict_week.py's most recent
+    week_<season>_<week>_predictions.csv."""
+    candidates = []
+    for f in CLEAN_DIR.glob("week_*_predictions.csv"):
+        m = PRED_FILE_RE.match(f.name)
+        if m:
+            candidates.append(((int(m.group(1)), int(m.group(2))), f))
+    if not candidates:
+        return None
+    candidates.sort(key=lambda t: t[0])
+    return candidates[-1][1]
+
+
+def load_beta_comparison():
+    """
+    Dub Beta Model's graded history -- data/clean/model_comparison_results.csv,
+    written by src/model_comparison.py's walk-forward Ridge-vs-XGBoost
+    comparison. Returns None if that file doesn't exist yet (script never
+    run) or is empty, so every caller can just treat "no Dub Beta data" as a
+    normal, expected state -- same graceful-degradation pattern as
+    load_manual_lines()/load_notes() elsewhere in this file.
+    """
+    if not MODEL_COMPARISON_PATH.exists():
+        return None
+    df = pd.read_csv(MODEL_COMPARISON_PATH)
+    return df if not df.empty else None
 
 
 def _now_iso():
@@ -482,6 +542,26 @@ def build_matchups_and_predictions(con, notes: dict, manual_lines=None):
             model_spread_home = -pred_margin
             home_win_prob = model.margin_to_home_win_prob(pred_margin, residual_std)
 
+            # Dub Beta Model (XGBoost) -- read predict_week.py's latest
+            # predictions CSV rather than refitting here. predict_week.py is
+            # its own earlier pipeline step (see run_pipeline.py's STEPS) and
+            # already paid for the XGBoost hyperparameter search once for
+            # this exact upcoming week; refitting again here would pay for
+            # the same search a second time on every pipeline run for no
+            # benefit. If that CSV is missing, stale (a different week), or
+            # predates the "XGBoost Line (Home)" column, beta_by_game just
+            # stays empty and every game below shows no Dub Beta line --
+            # same graceful-degradation as a missing market line elsewhere
+            # in this file, never a crash.
+            beta_by_game = {}
+            pred_path = latest_predictions_file()
+            if pred_path is not None:
+                beta_csv = pd.read_csv(pred_path)
+                if "XGBoost Line (Home)" in beta_csv.columns:
+                    beta_by_game = dict(zip(
+                        beta_csv["Game ID"].astype(int), beta_csv["XGBoost Line (Home)"]
+                    ))
+
             # See src/totals_model.py -- SP+/PPA-based regression, same swap
             # made in backtest.py/predict_week.py, replacing the old
             # raw-scoring-average baseline (model.totals_baseline()).
@@ -496,7 +576,9 @@ def build_matchups_and_predictions(con, notes: dict, manual_lines=None):
             m_by_id = {m["game_id"]: m for m in matchups}
             for i, row in enumerate(upcoming.itertuples()):
                 mkt = m_by_id.get(row.game_id, {})
-                edge = (mkt.get("market_spread_home") - model_spread_home[i]) if mkt.get("market_spread_home") is not None else None
+                market_spread_home = mkt.get("market_spread_home")
+                market_total = mkt.get("market_total")
+                edge = (market_spread_home - model_spread_home[i]) if market_spread_home is not None else None
                 note_key = f"{row.away_team} @ {row.home_team}"
                 model_total = total_map.get(int(row.game_id))
 
@@ -525,11 +607,50 @@ def build_matchups_and_predictions(con, notes: dict, manual_lines=None):
                     elif actual_margin != 0:
                         straight_up_correct = None  # model called a dead-even pick'em; no favorite to grade
 
+                # Dub Beta Model grading -- same two-way grade as the live
+                # model just above (straight up / vs. its own line), plus
+                # whether it agrees with the live model on which side it
+                # favors. All three stay None whenever there's no Dub Beta
+                # line for this game (see beta_by_game above) or, for the
+                # agreement check, whenever either model calls a dead-even
+                # pick'em (0.0) -- there's no "side" to compare in that case.
+                beta_spread_home = beta_by_game.get(int(row.game_id))
+                beta_straight_up_correct = beta_covered_model_line = None
+                beta_agrees = None
+                if beta_spread_home is not None and pd.notna(beta_spread_home):
+                    beta_spread_home = float(beta_spread_home)
+                    if completed and actual_margin is not None:
+                        beta_margin_i = -beta_spread_home
+                        if beta_margin_i != 0:
+                            beta_straight_up_correct = (actual_margin > 0) == (beta_margin_i > 0)
+                            beta_diff = actual_margin - beta_margin_i
+                            beta_covered_model_line = (beta_diff >= 0) if beta_margin_i > 0 else (beta_diff <= 0)
+                    if model_spread_home[i] != 0 and beta_spread_home != 0:
+                        # bool(...) wrapper is load-bearing, not defensive
+                        # style: model_spread_home[i] is a numpy scalar (the
+                        # model's array output), so this comparison would
+                        # otherwise produce numpy.bool_ -- which json.dumps()
+                        # can't serialize (and which numpy 2.x's renamed
+                        # scalar type displays as plain "bool" in the
+                        # resulting TypeError, easy to misread as a real bug
+                        # in a plain Python bool). Every other new field here
+                        # already routes through a float()/bool() cast for
+                        # exactly this reason; this was the one that didn't.
+                        beta_agrees = bool((model_spread_home[i] < 0) == (beta_spread_home < 0))
+                else:
+                    beta_spread_home = None
+
                 predictions.append({
                     "game_id": int(row.game_id), "week": int(row.week),
                     "away_team": row.away_team, "home_team": row.home_team,
                     "model_spread_home": round(model_spread_home[i], 1),
                     "model_total": round(model_total, 1) if model_total is not None else None,
+                    # Market/Vegas line, shown directly on the Predictions
+                    # page next to the model's own line -- previously only
+                    # the derived "edge" (market minus model) was exposed,
+                    # never the raw market number itself.
+                    "market_spread_home": round(market_spread_home, 1) if market_spread_home is not None else None,
+                    "market_total": round(market_total, 1) if market_total is not None else None,
                     "home_win_prob": round(float(home_win_prob[i]), 3),
                     "edge": round(edge, 1) if edge is not None else None,
                     "notes": notes.get(note_key, ""),
@@ -538,6 +659,14 @@ def build_matchups_and_predictions(con, notes: dict, manual_lines=None):
                     "away_points": away_pts,
                     "straight_up_correct": straight_up_correct,
                     "covered_model_line": covered_model_line,
+                    # Dub Beta Model (XGBoost) -- informational only, see
+                    # this function's beta_by_game comment above. Never used
+                    # to compute edge/is_bet -- only the live model's "edge"
+                    # field above ever decides that.
+                    "beta_model_spread_home": round(beta_spread_home, 1) if beta_spread_home is not None else None,
+                    "beta_agrees": beta_agrees,
+                    "beta_straight_up_correct": beta_straight_up_correct,
+                    "beta_covered_model_line": beta_covered_model_line,
                 })
 
     return matchups, predictions, {"season": season, "week": week}
@@ -588,6 +717,242 @@ def build_model_tracking(con):
     }
 
 
+def build_beta_tracking():
+    """
+    Dub Beta Model (XGBoost)'s season-to-date -- spread only (see this
+    module's docstring for why: model_comparison.py, the source of this
+    data, only ever compares margin models). Sourced from
+    data/clean/model_comparison_results.csv via load_beta_comparison(), so
+    this is a snapshot from the last time you ran `python
+    src/model_comparison.py` by hand, not something recomputed on every
+    pipeline run -- same staleness contract as the Results page's beta_model
+    field and excel/update_model_comparison_tab.py's Upcoming Games section.
+    """
+    df = load_beta_comparison()
+    if df is None:
+        return {"n_games": 0, "note": "No Dub Beta Model comparison yet -- run `python src/model_comparison.py`, "
+                                       "then `python src/export_site_data.py`, to populate this."}
+
+    season_df = df[(df["season"] == CURRENT_SEASON) & df["is_mw_game"]]
+    if season_df.empty:
+        return {"n_games": 0, "note": f"No {CURRENT_SEASON} Mountain West games graded in the Dub Beta "
+                                       "comparison yet."}
+
+    bets = season_df[season_df["xgb_is_bet"] & season_df["xgb_result"].isin(["Win", "Loss"])]
+    wins = int((bets["xgb_result"] == "Win").sum())
+    losses = int((bets["xgb_result"] == "Loss").sum())
+    pushes = int((season_df["xgb_is_bet"] & (season_df["xgb_result"] == "Push")).sum())
+    n_bets = wins + losses
+    profit = wins * (100 / 110) - losses * 1.0
+
+    agree = season_df["models_agree"].dropna()
+    agree_rate = float(agree.mean()) if not agree.empty else None
+
+    return {
+        "season": CURRENT_SEASON,
+        "n_games": len(season_df),
+        "spread": {
+            "n_bets": n_bets, "wins": wins, "losses": losses, "pushes": pushes,
+            "win_rate": round(wins / n_bets, 4) if n_bets else None,
+            "units": round(profit, 2) if n_bets else 0.0,
+        },
+        "agree_rate": round(agree_rate, 4) if agree_rate is not None else None,
+        # No "note" here on purpose (unlike the two empty-data returns above,
+        # where it's actionable guidance) -- the section header's "Candidate,
+        # Spread Only" badge already says what this card is; a restated
+        # paragraph under real numbers was just clutter. See tracking.html's
+        # renderBeta(), which only renders a notes-box when .note is present.
+        "note": None,
+    }
+
+
+def _beta_result_dict(b):
+    """b is one row (itertuples) from model_comparison_results.csv, or None
+    if this game isn't in that snapshot. See build_results()'s docstring."""
+    if b is None:
+        return None
+    return {
+        "spread_pick": round(float(b.xgb_spread_home), 1) if pd.notna(b.xgb_spread_home) else None,
+        "spread_lean": b.xgb_lean if isinstance(b.xgb_lean, str) else None,
+        "spread_was_bet": bool(b.xgb_is_bet),
+        # xgb_result round-trips through the CSV as a real string or NaN
+        # (never bet -> Python None -> pandas NaN, same trap this module's
+        # _sanitize_nans() exists for elsewhere) -- guard explicitly rather
+        # than relying on isinstance() alone catching it.
+        "spread_result": b.xgb_result if isinstance(b.xgb_result, str) and pd.notna(b.xgb_result) else None,
+        "agrees_with_model": bool(b.models_agree) if pd.notna(b.models_agree) else None,
+    }
+
+
+def build_matchup_grid(con):
+    """
+    Matchup Predictor page: precomputes the live Ridge model's predicted
+    spread/win-probability for every ORDERED pair of the 10 current (2026)
+    Mountain West teams (home, away), including pairs that aren't actually
+    on this season's schedule -- e.g. "what would Boise State -7 at home vs.
+    Wyoming look like" even if they aren't playing each other this year. The
+    site is fully static (GitHub Pages, no server/API), so this has to be
+    precomputed here, not looked up client-side -- same "everything
+    precomputed, JS just renders" pattern as every other page.
+
+    Refits the SAME Ridge pipeline (model.py's build_pipeline()/
+    fit_margin_model(), on ALL available completed games, no walk-forward
+    cutoff) that predict_week.py fits for the live Weekly Slate -- cheap
+    (RidgeCV, no hyperparameter search), so refitting it here instead of
+    trying to reuse predict_week.py's in-memory pipe (which isn't persisted
+    anywhere) costs one extra Ridge fit per pipeline run, not a real backtest
+    or a search. This intentionally does NOT touch XGBoost/Dub Beta at all --
+    that model has no matchup-predictor role anywhere on the site.
+
+    FEATURE_COLS is mostly team-season-level lookups that are perfectly safe
+    to reuse for a hypothetical, unscheduled matchup: rating_diff (today's
+    Elo via power_rating.current_ratings(), already computed above for
+    build_rankings()), sp_diff/ppa_diff (prior-season SP+/net-PPA),
+    talent_diff (this season's recruiting), and the 7 drive_*_diff fields
+    (prior-season rates, via drive_stats_snapshots' last as_of_week). Only
+    five fields are genuinely game-specific/situational and need an assumed
+    value for a hypothetical, since there's no real scheduled game to read
+    them from:
+      - rest_diff = 0 (assume both teams equally rested)
+      - neutral_site_flag = 0 (assume it's played at the "home" team's own
+        usual venue -- see travel/elevation below)
+      - conference_game_flag = 1 and mw_involved_flag = 1 (both true for
+        any pair drawn from MW_TEAMS_2026 only, which is this grid's whole
+        scope)
+      - travel_km_away / elevation_delta_away_ft: NOT assumed -- these ARE
+        still computable for a hypothetical, using each team's real usual
+        home venue (features.py's own team_home_venues()/haversine_km()):
+        the "home" team's usual venue is assumed to host it, and the "away"
+        team's travel/elevation change is measured from ITS OWN usual venue
+        to that game site, exactly like a real scheduled game would be.
+
+    Any lookup a team is missing (most commonly drive_stats_snapshots, which
+    can be entirely empty on an older database -- see features.py's own
+    defensive try/except) is left as None/NaN in the feature row rather than
+    guessed at; the pipeline's own SimpleImputer(strategy="median"), fit on
+    the real training data, fills it in exactly like it would for a real
+    game missing that same feature, so a team with no drive-stats history
+    still gets a reasonable (if less-informed) prediction instead of a
+    crash.
+
+    Returns {"teams": [...], "grid": {home: {away: {...}}}} -- see the
+    per-pair dict below for the exact fields.
+    """
+    train_df = model.load_training_frame(con)
+    pipe, residual_std = model.fit_margin_model(train_df)
+
+    teams = sorted(MW_TEAMS_2026)
+    prior_season = CURRENT_SEASON - 1
+
+    ratings_now = current_ratings(con)
+    sp_map = {(r.season, r.team): r.rating for r in con.execute(
+        "SELECT season, team, rating FROM sp_ratings"
+    ).fetchdf().itertuples()}
+    ppa_map = {
+        (r.season, r.team): r.off_ppa - r.def_ppa
+        for r in con.execute(
+            "SELECT season, team, off_ppa, def_ppa FROM advanced_stats"
+        ).fetchdf().itertuples()
+        if pd.notna(r.off_ppa) and pd.notna(r.def_ppa)
+    }
+    talent_map = {(r.season, r.team): r.points for r in con.execute(
+        "SELECT season, team, points FROM recruiting"
+    ).fetchdf().itertuples()}
+
+    try:
+        drive_stats_df = con.execute("""
+            SELECT ds.season, ds.team, ds.yards_per_drive, ds.points_per_drive,
+                   ds.turnovers_per_drive, ds.pass_yards_per_drive, ds.rush_yards_per_drive,
+                   ds.yards_per_attempt, ds.yards_per_carry
+            FROM drive_stats_snapshots ds
+            INNER JOIN (
+                SELECT season, team, MAX(as_of_week) AS max_week
+                FROM drive_stats_snapshots GROUP BY season, team
+            ) mx ON mx.season = ds.season AND mx.team = ds.team AND mx.max_week = ds.as_of_week
+        """).fetchdf()
+        drive_map = {(r.season, r.team): r for r in drive_stats_df.itertuples()}
+    except duckdb.Error:
+        drive_map = {}
+
+    games = con.execute("""
+        SELECT home_team, away_team, venue_id, neutral_site FROM games
+    """).fetchdf()
+    home_venue = team_home_venues(games) if not games.empty else {}
+    venues = con.execute("SELECT venue_id, latitude, longitude, elevation_ft FROM venues").fetchdf()
+    venues = venues.set_index("venue_id") if not venues.empty else venues
+
+    def venue_for(team):
+        vid = home_venue.get(team)
+        if vid is None or venues is None or venues.empty or vid not in venues.index:
+            return None, None, None
+        row = venues.loc[vid]
+        return row["latitude"], row["longitude"], row["elevation_ft"]
+
+    def _drive_diff(home_drive, away_drive, field):
+        if home_drive is None or away_drive is None:
+            return None
+        h, a = getattr(home_drive, field), getattr(away_drive, field)
+        if h is None or a is None or pd.isna(h) or pd.isna(a):
+            return None
+        return h - a
+
+    rows, pair_keys = [], []
+    for home in teams:
+        home_rating = ratings_now.get(home)
+        home_sp, home_ppa = sp_map.get((prior_season, home)), ppa_map.get((prior_season, home))
+        home_talent = talent_map.get((CURRENT_SEASON, home))
+        home_drive = drive_map.get((prior_season, home))
+        home_lat, home_lon, home_elev = venue_for(home)
+
+        for away in teams:
+            if away == home:
+                continue
+            away_rating = ratings_now.get(away)
+            away_sp, away_ppa = sp_map.get((prior_season, away)), ppa_map.get((prior_season, away))
+            away_talent = talent_map.get((CURRENT_SEASON, away))
+            away_drive = drive_map.get((prior_season, away))
+            away_lat, away_lon, away_elev = venue_for(away)
+
+            rating_diff = (home_rating - away_rating) if (home_rating is not None and away_rating is not None) else None
+            sp_diff = (home_sp - away_sp) if (home_sp is not None and away_sp is not None) else None
+            ppa_diff = (home_ppa - away_ppa) if (home_ppa is not None and away_ppa is not None) else None
+            talent_diff = (home_talent - away_talent) if (home_talent is not None and away_talent is not None) else None
+            travel_km_away = haversine_km(home_lat, home_lon, away_lat, away_lon)
+            elevation_delta_away = (home_elev - away_elev) if (home_elev is not None and away_elev is not None) else None
+
+            rows.append({
+                "rating_diff": rating_diff, "rest_diff": 0.0,
+                "travel_km_away": travel_km_away,
+                "elevation_delta_away_ft": elevation_delta_away,
+                "neutral_site_flag": 0.0, "conference_game_flag": 1.0,
+                "sp_diff": sp_diff, "ppa_diff": ppa_diff, "talent_diff": talent_diff,
+                "mw_involved_flag": 1.0,
+                "drive_yards_diff": _drive_diff(home_drive, away_drive, "yards_per_drive"),
+                "drive_points_diff": _drive_diff(home_drive, away_drive, "points_per_drive"),
+                "drive_turnovers_diff": _drive_diff(home_drive, away_drive, "turnovers_per_drive"),
+                "pass_ypd_diff": _drive_diff(home_drive, away_drive, "pass_yards_per_drive"),
+                "rush_ypd_diff": _drive_diff(home_drive, away_drive, "rush_yards_per_drive"),
+                "ypa_diff": _drive_diff(home_drive, away_drive, "yards_per_attempt"),
+                "ypc_diff": _drive_diff(home_drive, away_drive, "yards_per_carry"),
+            })
+            pair_keys.append((home, away))
+
+    grid = {home: {} for home in teams}
+    if rows:
+        feat_df = pd.DataFrame(rows, columns=model.FEATURE_COLS)
+        pred_margin = model.predict_margin(pipe, feat_df)
+        spread_home = model.margin_to_model_spread_home(pred_margin)
+        win_prob = model.margin_to_home_win_prob(pred_margin, residual_std)
+        for (home, away), margin, spread, prob in zip(pair_keys, pred_margin, spread_home, win_prob):
+            grid[home][away] = {
+                "predicted_margin": round(float(margin), 1),
+                "spread_home": round(float(spread), 1),
+                "home_win_prob": round(float(prob), 4),
+            }
+
+    return {"teams": teams, "grid": grid, "residual_std": round(residual_std, 2)}
+
+
 def build_results(con):
     """
     Past Results page: every completed MW game this season, the model's own
@@ -596,6 +961,12 @@ def build_results(con):
     threshold) side by side with your own placed bets on that same game, if
     any. Matched to your Bet Log by the exact "Away @ Home" text in column C
     -- see read_bet_log()'s docstring.
+
+    Also carries a "beta_model" field per game -- the Dub Beta Model
+    (XGBoost)'s own graded spread pick for that same game, from
+    load_beta_comparison(). null whenever that game isn't in the last
+    model_comparison.py snapshot (script never run, or run before this game
+    was graded) -- see this module's docstring for the staleness contract.
     """
     df = backtest.run_backtest(con)
     if df.empty:
@@ -614,6 +985,9 @@ def build_results(con):
     bets_by_matchup = {}
     for b in read_bet_log().get("graded", []):
         bets_by_matchup.setdefault(b["matchup"], []).append(b)
+
+    beta_df = load_beta_comparison()
+    beta_by_game = {int(r.game_id): r for r in beta_df.itertuples()} if beta_df is not None else {}
 
     def _n(v):
         return round(float(v), 1) if pd.notna(v) else None
@@ -643,6 +1017,7 @@ def build_results(con):
                 "ml_was_bet": bool(row.is_ml_bet) if row.is_ml_bet is not None else None,
                 "ml_result": row.ml_bet_result,
             },
+            "beta_model": _beta_result_dict(beta_by_game.get(gid)),
             "your_bets": bets_by_matchup.get(matchup_key, []),
         })
 
@@ -781,8 +1156,9 @@ def main():
     matchups, predictions, week_info = build_matchups_and_predictions(con, notes, manual_lines)
     live_lines, lines_week_info = build_live_lines(con, manual_lines)
     line_history = build_line_history(con, [g["game_id"] for g in live_lines])
-    tracking = {"model": build_model_tracking(con), "yours": read_bet_log()}
+    tracking = {"model": build_model_tracking(con), "yours": read_bet_log(), "beta_model": build_beta_tracking()}
     results = build_results(con)
+    matchup_grid = build_matchup_grid(con)
     con.close()
 
     meta = {"generated_at": _now_iso(), "current_week": week_info}
@@ -798,10 +1174,13 @@ def main():
     _write("lines.json", {"meta": lines_meta, "games": live_lines})
     _write("line_history.json", {"meta": lines_meta, "history": line_history})
     _write("results.json", {"meta": meta, "results": results})
+    _write("matchup_grid.json", {"meta": meta, "teams": matchup_grid["teams"],
+                                  "grid": matchup_grid["grid"], "residual_std": matchup_grid["residual_std"]})
 
     print(f"Wrote rankings ({len(rankings)}), matchups ({len(matchups)}), "
           f"predictions ({len(predictions)}), live lines ({len(live_lines)}), "
-          f"results ({len(results)}), tracking summary to {DOCS_DATA}")
+          f"results ({len(results)}), tracking summary, matchup grid "
+          f"({len(matchup_grid['teams'])} teams) to {DOCS_DATA}")
 
 
 if __name__ == "__main__":

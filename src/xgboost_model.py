@@ -7,10 +7,15 @@ gradient-boosted trees), not a comparison muddied by also changing the
 inputs. See model_comparison.py for the walk-forward harness that actually
 grades the two against each other and against Vegas, and
 excel/update_model_comparison_tab.py for where that lands: its own "Model
-Comparison" tab in the tracker workbook, informational only. Nothing in
-run_pipeline.py, predict_week.py, or the website calls this module -- Ridge
-stays the one live/production model until a real backtest earns XGBoost
-that spot.
+Comparison" tab in the tracker workbook, informational only.
+
+predict_week.py also calls this module now, to produce a live "XGBoost Line
+(Home)" for the upcoming week alongside Ridge's -- but only as an extra,
+informational column in the predictions CSV that excel/update_tracker.py's
+Weekly Slate never reads (see predict_week.py's own docstring). Nothing in
+run_pipeline.py or the website calls this module directly, and Ridge stays
+the one live/production model everywhere a real bet is actually placed,
+until a real backtest earns XGBoost that spot.
 
 TUNING: same "cross-validation, not hand-tuned" discipline model.py's
 RidgeCV already applies to alpha -- XGBoost just has more knobs (tree depth,

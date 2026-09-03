@@ -8,6 +8,21 @@ cutoff needed here -- that discipline is for the backtest; a live prediction
 should use every game you actually have). Predicts for games in the target
 week that haven't been played yet.
 
+Also trains and predicts XGBoost's candidate margin model (xgboost_model.py)
+on the exact same training data and the exact same upcoming games, purely so
+there's a live, up-to-date XGBoost line to sit next to Ridge's -- same
+"informational only, never replacing Ridge" rule everywhere else in this
+project applies here too: Weekly Slate (via excel/update_tracker.py) still
+only ever reads the "Model Line (Home)"/"Model Total" columns below, which
+stay 100% Ridge. The new "XGBoost Line (Home)" column is additional, read
+only by excel/update_model_comparison_tab.py's upcoming-games section, so
+Ridge remains the one live model driving actual bets. This does add one
+XGBoost hyperparameter search (RandomizedSearchCV) to every pipeline run --
+unlike model_comparison.py's walk-forward backtest, which reruns that search
+once per historical test week (which is why THAT stays out of run_pipeline.py
+entirely, see its own docstring), this is a single fit for the single
+upcoming week, so the added cost is one search, not hundreds.
+
 Usage:
     source .venv/bin/activate
     python src/predict_week.py                  # auto-detects the next upcoming week
@@ -22,6 +37,7 @@ import pandas as pd
 from config import DB_PATH, CLEAN_DIR
 import model
 import totals_model
+import xgboost_model
 from teams import is_2026_mw_team
 
 
@@ -72,6 +88,11 @@ def main():
     pipe, residual_std = model.fit_margin_model(train_df)
     print(f"Trained on {len(train_df)} completed games. Residual std: {residual_std:.1f} pts.")
 
+    xgb_pipe, xgb_residual_std = xgboost_model.fit_xgboost_margin_model(train_df)
+    print(f"Trained XGBoost candidate on the same {len(train_df)} games. "
+          f"Residual std: {xgb_residual_std:.1f} pts. (Informational -- Ridge above is still "
+          "the live model; see excel/update_model_comparison_tab.py's upcoming-games section.)")
+
     upcoming = model.load_upcoming_frame(con, season, week)
     if upcoming.empty:
         print(f"No games found for season {season}, week {week}.")
@@ -97,6 +118,12 @@ def main():
     model_spread_home = -pred_margin
     home_win_prob = model.margin_to_home_win_prob(pred_margin, residual_std)
 
+    # predict_margin() is model-agnostic (just pipe.predict(df[FEATURE_COLS])),
+    # so it works unchanged on the XGBoost pipeline too -- same reasoning
+    # model_comparison.py already relies on to grade both through one code path.
+    xgb_pred_margin = model.predict_margin(xgb_pipe, upcoming)
+    xgb_spread_home = -xgb_pred_margin
+
     # See src/totals_model.py -- SP+/PPA-based regression, same upgrade the
     # spread model got from the SP+/PPA/talent work, replacing the old
     # raw-scoring-average baseline (model.totals_baseline()).
@@ -118,6 +145,9 @@ def main():
         "Model Line (Home)": [round(x, 1) for x in model_spread_home],
         "Model Total": [round(x, 1) if x is not None else None for x in model_total],
         "Home Win Prob": [round(x, 3) for x in home_win_prob],
+        # Informational only -- see the module docstring. Weekly Slate never
+        # reads this column; only excel/update_model_comparison_tab.py does.
+        "XGBoost Line (Home)": [round(x, 1) for x in xgb_spread_home],
     })
 
     CLEAN_DIR.mkdir(parents=True, exist_ok=True)
@@ -128,7 +158,9 @@ def main():
     print(out.to_string(index=False))
     print(
         "\nPaste the 'Model Line (Home)' and 'Model Total' columns into the Weekly Slate tab's "
-        "matching columns (fill in Market Line/Market Total by hand from your sportsbook)."
+        "matching columns (fill in Market Line/Market Total by hand from your sportsbook). "
+        "'XGBoost Line (Home)' is informational only -- run excel/update_model_comparison_tab.py "
+        "to see it alongside Ridge's line in the Model Comparison tab's upcoming-games section."
     )
 
     con.close()

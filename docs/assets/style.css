@@ -471,6 +471,51 @@ table.lines-table td.no-data { color: var(--text-muted); }
   flex-wrap: wrap;
 }
 
+/* ---------------------------------------------------------------- matchup predictor */
+.matchup-picker {
+  display: flex;
+  align-items: flex-end;
+  gap: 14px;
+  flex-wrap: wrap;
+}
+.picker-field {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  flex: 1;
+  min-width: 160px;
+}
+.picker-field label {
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--text-muted);
+  font-weight: 700;
+}
+.picker-field select {
+  background: var(--bg-card-alt);
+  border: 1px solid var(--border);
+  color: var(--text-primary);
+  font-family: var(--font);
+  font-size: 15px;
+  font-weight: 700;
+  padding: 10px 12px;
+  border-radius: 8px;
+}
+.swap-btn {
+  background: var(--bg-card-alt);
+  border: 1px solid var(--border);
+  color: var(--brand-purple-light);
+  font-size: 18px;
+  font-weight: 700;
+  width: 40px;
+  height: 40px;
+  border-radius: 8px;
+  cursor: pointer;
+  flex-shrink: 0;
+}
+.swap-btn:hover { background: var(--brand-purple); color: #fff; }
+
 .empty-state {
   padding: 40px 20px;
   text-align: center;

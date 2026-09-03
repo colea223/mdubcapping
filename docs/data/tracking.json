@@ -1,6 +1,6 @@
 {
   "meta": {
-    "generated_at": "2026-09-03T18:12:14Z",
+    "generated_at": "2026-09-03T18:49:58Z",
     "current_week": {
       "season": 2026,
       "week": 1
@@ -148,7 +148,7 @@
         "units": 0.82
       },
       "agree_rate": 1.0,
-      "note": "Hypothetical flat 1-unit spread-only tracking for the Dub Beta Model (XGBoost) -- a candidate architecture evaluated alongside the live model above, never a replacement for it. Snapshot from the last manual run of src/model_comparison.py, so it can lag behind the live model's own tracking above."
+      "note": null
     }
   }
 }

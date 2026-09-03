@@ -1,0 +1,494 @@
+{
+  "meta": {
+    "generated_at": "2026-09-03T18:49:58Z",
+    "current_week": {
+      "season": 2026,
+      "week": 1
+    }
+  },
+  "teams": [
+    "Air Force",
+    "Hawai'i",
+    "Nevada",
+    "New Mexico",
+    "North Dakota State",
+    "Northern Illinois",
+    "San Jos\u00e9 State",
+    "UNLV",
+    "UTEP",
+    "Wyoming"
+  ],
+  "grid": {
+    "Air Force": {
+      "Hawai'i": {
+        "predicted_margin": 0.5,
+        "spread_home": -0.5,
+        "home_win_prob": 0.5119
+      },
+      "Nevada": {
+        "predicted_margin": 6.3,
+        "spread_home": -6.3,
+        "home_win_prob": 0.6388
+      },
+      "New Mexico": {
+        "predicted_margin": -8.0,
+        "spread_home": 8.0,
+        "home_win_prob": 0.3237
+      },
+      "North Dakota State": {
+        "predicted_margin": -17.0,
+        "spread_home": 17.0,
+        "home_win_prob": 0.1664
+      },
+      "Northern Illinois": {
+        "predicted_margin": 4.8,
+        "spread_home": -4.8,
+        "home_win_prob": 0.6072
+      },
+      "San Jos\u00e9 State": {
+        "predicted_margin": 5.6,
+        "spread_home": -5.6,
+        "home_win_prob": 0.6244
+      },
+      "UNLV": {
+        "predicted_margin": -8.3,
+        "spread_home": 8.3,
+        "home_win_prob": 0.3178
+      },
+      "UTEP": {
+        "predicted_margin": 10.4,
+        "spread_home": -10.4,
+        "home_win_prob": 0.722
+      },
+      "Wyoming": {
+        "predicted_margin": 4.0,
+        "spread_home": -4.0,
+        "home_win_prob": 0.59
+      }
+    },
+    "Hawai'i": {
+      "Air Force": {
+        "predicted_margin": 3.2,
+        "spread_home": -3.2,
+        "home_win_prob": 0.5724
+      },
+      "Nevada": {
+        "predicted_margin": 8.0,
+        "spread_home": -8.0,
+        "home_win_prob": 0.6752
+      },
+      "New Mexico": {
+        "predicted_margin": -6.0,
+        "spread_home": 6.0,
+        "home_win_prob": 0.3658
+      },
+      "North Dakota State": {
+        "predicted_margin": -14.1,
+        "spread_home": 14.1,
+        "home_win_prob": 0.2112
+      },
+      "Northern Illinois": {
+        "predicted_margin": 6.9,
+        "spread_home": -6.9,
+        "home_win_prob": 0.6522
+      },
+      "San Jos\u00e9 State": {
+        "predicted_margin": 7.3,
+        "spread_home": -7.3,
+        "home_win_prob": 0.6601
+      },
+      "UNLV": {
+        "predicted_margin": -6.5,
+        "spread_home": 6.5,
+        "home_win_prob": 0.3559
+      },
+      "UTEP": {
+        "predicted_margin": 12.3,
+        "spread_home": -12.3,
+        "home_win_prob": 0.7581
+      },
+      "Wyoming": {
+        "predicted_margin": 6.1,
+        "spread_home": -6.1,
+        "home_win_prob": 0.6349
+      }
+    },
+    "Nevada": {
+      "Air Force": {
+        "predicted_margin": -3.7,
+        "spread_home": 3.7,
+        "home_win_prob": 0.4174
+      },
+      "Hawai'i": {
+        "predicted_margin": -4.6,
+        "spread_home": 4.6,
+        "home_win_prob": 0.3966
+      },
+      "New Mexico": {
+        "predicted_margin": -12.9,
+        "spread_home": 12.9,
+        "home_win_prob": 0.2318
+      },
+      "North Dakota State": {
+        "predicted_margin": -23.3,
+        "spread_home": 23.3,
+        "home_win_prob": 0.0924
+      },
+      "Northern Illinois": {
+        "predicted_margin": -0.0,
+        "spread_home": 0.0,
+        "home_win_prob": 0.5
+      },
+      "San Jos\u00e9 State": {
+        "predicted_margin": 0.5,
+        "spread_home": -0.5,
+        "home_win_prob": 0.5102
+      },
+      "UNLV": {
+        "predicted_margin": -13.4,
+        "spread_home": 13.4,
+        "home_win_prob": 0.2239
+      },
+      "UTEP": {
+        "predicted_margin": 5.5,
+        "spread_home": -5.5,
+        "home_win_prob": 0.6226
+      },
+      "Wyoming": {
+        "predicted_margin": -0.8,
+        "spread_home": 0.8,
+        "home_win_prob": 0.4814
+      }
+    },
+    "New Mexico": {
+      "Air Force": {
+        "predicted_margin": 10.4,
+        "spread_home": -10.4,
+        "home_win_prob": 0.7227
+      },
+      "Hawai'i": {
+        "predicted_margin": 9.7,
+        "spread_home": -9.7,
+        "home_win_prob": 0.7097
+      },
+      "Nevada": {
+        "predicted_margin": 15.5,
+        "spread_home": -15.5,
+        "home_win_prob": 0.8103
+      },
+      "North Dakota State": {
+        "predicted_margin": -7.2,
+        "spread_home": 7.2,
+        "home_win_prob": 0.3411
+      },
+      "Northern Illinois": {
+        "predicted_margin": 14.1,
+        "spread_home": -14.1,
+        "home_win_prob": 0.7878
+      },
+      "San Jos\u00e9 State": {
+        "predicted_margin": 14.8,
+        "spread_home": -14.8,
+        "home_win_prob": 0.7996
+      },
+      "UNLV": {
+        "predicted_margin": 0.9,
+        "spread_home": -0.9,
+        "home_win_prob": 0.5195
+      },
+      "UTEP": {
+        "predicted_margin": 19.5,
+        "spread_home": -19.5,
+        "home_win_prob": 0.8663
+      },
+      "Wyoming": {
+        "predicted_margin": 13.3,
+        "spread_home": -13.3,
+        "home_win_prob": 0.7749
+      }
+    },
+    "North Dakota State": {
+      "Air Force": {
+        "predicted_margin": 19.2,
+        "spread_home": -19.2,
+        "home_win_prob": 0.8625
+      },
+      "Hawai'i": {
+        "predicted_margin": 17.7,
+        "spread_home": -17.7,
+        "home_win_prob": 0.8428
+      },
+      "Nevada": {
+        "predicted_margin": 25.8,
+        "spread_home": -25.8,
+        "home_win_prob": 0.9284
+      },
+      "New Mexico": {
+        "predicted_margin": 9.5,
+        "spread_home": -9.5,
+        "home_win_prob": 0.7054
+      },
+      "Northern Illinois": {
+        "predicted_margin": 24.4,
+        "spread_home": -24.4,
+        "home_win_prob": 0.9173
+      },
+      "San Jos\u00e9 State": {
+        "predicted_margin": 24.9,
+        "spread_home": -24.9,
+        "home_win_prob": 0.9214
+      },
+      "UNLV": {
+        "predicted_margin": 8.5,
+        "spread_home": -8.5,
+        "home_win_prob": 0.6864
+      },
+      "UTEP": {
+        "predicted_margin": 30.1,
+        "spread_home": -30.1,
+        "home_win_prob": 0.9567
+      },
+      "Wyoming": {
+        "predicted_margin": 23.0,
+        "spread_home": -23.0,
+        "home_win_prob": 0.9042
+      }
+    },
+    "Northern Illinois": {
+      "Air Force": {
+        "predicted_margin": -2.2,
+        "spread_home": 2.2,
+        "home_win_prob": 0.4508
+      },
+      "Hawai'i": {
+        "predicted_margin": -2.8,
+        "spread_home": 2.8,
+        "home_win_prob": 0.4377
+      },
+      "Nevada": {
+        "predicted_margin": 3.0,
+        "spread_home": -3.0,
+        "home_win_prob": 0.5668
+      },
+      "New Mexico": {
+        "predicted_margin": -11.3,
+        "spread_home": 11.3,
+        "home_win_prob": 0.2595
+      },
+      "North Dakota State": {
+        "predicted_margin": -22.3,
+        "spread_home": 22.3,
+        "home_win_prob": 0.1024
+      },
+      "San Jos\u00e9 State": {
+        "predicted_margin": 2.3,
+        "spread_home": -2.3,
+        "home_win_prob": 0.5518
+      },
+      "UNLV": {
+        "predicted_margin": -11.6,
+        "spread_home": 11.6,
+        "home_win_prob": 0.2545
+      },
+      "UTEP": {
+        "predicted_margin": 7.0,
+        "spread_home": -7.0,
+        "home_win_prob": 0.6554
+      },
+      "Wyoming": {
+        "predicted_margin": 0.7,
+        "spread_home": -0.7,
+        "home_win_prob": 0.5155
+      }
+    },
+    "San Jos\u00e9 State": {
+      "Air Force": {
+        "predicted_margin": -2.9,
+        "spread_home": 2.9,
+        "home_win_prob": 0.4337
+      },
+      "Hawai'i": {
+        "predicted_margin": -3.9,
+        "spread_home": 3.9,
+        "home_win_prob": 0.4113
+      },
+      "Nevada": {
+        "predicted_margin": 1.9,
+        "spread_home": -1.9,
+        "home_win_prob": 0.5419
+      },
+      "New Mexico": {
+        "predicted_margin": -12.2,
+        "spread_home": 12.2,
+        "home_win_prob": 0.2445
+      },
+      "North Dakota State": {
+        "predicted_margin": -22.4,
+        "spread_home": 22.4,
+        "home_win_prob": 0.1017
+      },
+      "Northern Illinois": {
+        "predicted_margin": 0.7,
+        "spread_home": -0.7,
+        "home_win_prob": 0.5167
+      },
+      "UNLV": {
+        "predicted_margin": -12.6,
+        "spread_home": 12.6,
+        "home_win_prob": 0.2362
+      },
+      "UTEP": {
+        "predicted_margin": 6.2,
+        "spread_home": -6.2,
+        "home_win_prob": 0.6378
+      },
+      "Wyoming": {
+        "predicted_margin": -0.1,
+        "spread_home": 0.1,
+        "home_win_prob": 0.4981
+      }
+    },
+    "UNLV": {
+      "Air Force": {
+        "predicted_margin": 10.8,
+        "spread_home": -10.8,
+        "home_win_prob": 0.7308
+      },
+      "Hawai'i": {
+        "predicted_margin": 10.0,
+        "spread_home": -10.0,
+        "home_win_prob": 0.7146
+      },
+      "Nevada": {
+        "predicted_margin": 15.7,
+        "spread_home": -15.7,
+        "home_win_prob": 0.8143
+      },
+      "New Mexico": {
+        "predicted_margin": 1.6,
+        "spread_home": -1.6,
+        "home_win_prob": 0.5358
+      },
+      "North Dakota State": {
+        "predicted_margin": -6.1,
+        "spread_home": 6.1,
+        "home_win_prob": 0.3635
+      },
+      "Northern Illinois": {
+        "predicted_margin": 14.5,
+        "spread_home": -14.5,
+        "home_win_prob": 0.7951
+      },
+      "San Jos\u00e9 State": {
+        "predicted_margin": 15.0,
+        "spread_home": -15.0,
+        "home_win_prob": 0.8036
+      },
+      "UTEP": {
+        "predicted_margin": 20.0,
+        "spread_home": -20.0,
+        "home_win_prob": 0.8717
+      },
+      "Wyoming": {
+        "predicted_margin": 13.7,
+        "spread_home": -13.7,
+        "home_win_prob": 0.7818
+      }
+    },
+    "UTEP": {
+      "Air Force": {
+        "predicted_margin": -7.9,
+        "spread_home": 7.9,
+        "home_win_prob": 0.3265
+      },
+      "Hawai'i": {
+        "predicted_margin": -8.6,
+        "spread_home": 8.6,
+        "home_win_prob": 0.3118
+      },
+      "Nevada": {
+        "predicted_margin": -2.9,
+        "spread_home": 2.9,
+        "home_win_prob": 0.4355
+      },
+      "New Mexico": {
+        "predicted_margin": -17.2,
+        "spread_home": 17.2,
+        "home_win_prob": 0.1642
+      },
+      "North Dakota State": {
+        "predicted_margin": -27.8,
+        "spread_home": 27.8,
+        "home_win_prob": 0.0573
+      },
+      "Northern Illinois": {
+        "predicted_margin": -4.3,
+        "spread_home": 4.3,
+        "home_win_prob": 0.404
+      },
+      "San Jos\u00e9 State": {
+        "predicted_margin": -3.6,
+        "spread_home": 3.6,
+        "home_win_prob": 0.42
+      },
+      "UNLV": {
+        "predicted_margin": -17.5,
+        "spread_home": 17.5,
+        "home_win_prob": 0.1603
+      },
+      "Wyoming": {
+        "predicted_margin": -5.0,
+        "spread_home": 5.0,
+        "home_win_prob": 0.3877
+      }
+    },
+    "Wyoming": {
+      "Air Force": {
+        "predicted_margin": -1.7,
+        "spread_home": 1.7,
+        "home_win_prob": 0.4612
+      },
+      "Hawai'i": {
+        "predicted_margin": -2.3,
+        "spread_home": 2.3,
+        "home_win_prob": 0.4472
+      },
+      "Nevada": {
+        "predicted_margin": 3.4,
+        "spread_home": -3.4,
+        "home_win_prob": 0.5762
+      },
+      "New Mexico": {
+        "predicted_margin": -10.9,
+        "spread_home": 10.9,
+        "home_win_prob": 0.2683
+      },
+      "North Dakota State": {
+        "predicted_margin": -20.9,
+        "spread_home": 20.9,
+        "home_win_prob": 0.118
+      },
+      "Northern Illinois": {
+        "predicted_margin": 1.9,
+        "spread_home": -1.9,
+        "home_win_prob": 0.5436
+      },
+      "San Jos\u00e9 State": {
+        "predicted_margin": 2.7,
+        "spread_home": -2.7,
+        "home_win_prob": 0.5614
+      },
+      "UNLV": {
+        "predicted_margin": -11.2,
+        "spread_home": 11.2,
+        "home_win_prob": 0.2625
+      },
+      "UTEP": {
+        "predicted_margin": 7.5,
+        "spread_home": -7.5,
+        "home_win_prob": 0.6658
+      }
+    }
+  },
+  "residual_std": 17.59
+}

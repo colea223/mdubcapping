@@ -1,0 +1,152 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Matchup Predictor - Mountain Dub Handicapping</title>
+<link rel="stylesheet" href="assets/style.css">
+</head>
+<body>
+<div id="nav"></div>
+<div class="page-wrap">
+  <div class="page-header">
+    <h1>Matchup Predictor</h1>
+    <p>Pick any two Mountain West teams and see the live model's predicted spread and win probability for that matchup -- even one that isn't on this season's schedule.</p>
+  </div>
+
+  <div class="card" id="picker-card">
+    <div class="section-title">Choose A Matchup</div>
+    <div class="matchup-picker">
+      <div class="picker-field">
+        <label for="away-select">Away</label>
+        <select id="away-select"></select>
+      </div>
+      <button id="swap-btn" class="swap-btn" type="button" title="Swap home/away">&#8646;</button>
+      <div class="picker-field">
+        <label for="home-select">Home</label>
+        <select id="home-select"></select>
+      </div>
+    </div>
+  </div>
+
+  <div id="matchup-result" style="margin-top:16px;"></div>
+
+  <div class="footer-note" id="updated"></div>
+</div>
+
+<script src="assets/site.js"></script>
+<script>
+document.getElementById("nav").innerHTML = renderNav("matchup.html");
+
+// Every prediction here comes precomputed from docs/data/matchup_grid.json
+// (see export_site_data.py's build_matchup_grid()) -- the site is fully
+// static, so there's no server to fit the model against an arbitrary pair
+// on the fly. It's the SAME live Ridge margin model used everywhere else on
+// the site (never the Dub Beta/XGBoost candidate), just run against a
+// hypothetical, not-necessarily-scheduled matchup. A few assumptions make
+// that possible: both teams are assumed equally rested, the game is assumed
+// played at the "Home" team's own usual venue (so "Away" travels/adjusts for
+// elevation exactly like a real true road game), and it's treated as a
+// Mountain West conference game. Real travel distance, elevation change,
+// power ratings, and prior-season strength metrics are all still real
+// numbers, not guesses.
+function renderResult(home, away, cell, residualStd) {
+  const container = document.getElementById("matchup-result");
+  if (home === away) {
+    container.innerHTML = emptyState("Pick two different teams to see a predicted matchup.");
+    return;
+  }
+  if (!cell) {
+    container.innerHTML = emptyState("No prediction available for this matchup yet -- rerun the pipeline to regenerate the matchup grid.");
+    return;
+  }
+
+  const spreadHome = cell.spread_home;
+  const spreadAway = -spreadHome;
+  const fmt = (v) => (v > 0 ? `+${v}` : `${v}`);
+  const favTeam = spreadHome < 0 ? home : (spreadHome > 0 ? away : null);
+  const homeProb = cell.home_win_prob;
+  const homePct = Math.round(homeProb * 100);
+  const awayPct = 100 - homePct;
+
+  container.innerHTML = `
+    <div class="matchup-card">
+      <div class="matchup-teams">
+        <div class="team-row">
+          <span class="name"><span class="at">@</span>${away}</span>
+        </div>
+        <div class="team-row">
+          <span class="name">${home}</span>
+        </div>
+      </div>
+      <div class="odds-row">
+        <div class="odds-item">
+          <span class="odds-label">Predicted Spread</span>
+          <span class="odds-value">${fmt(spreadHome)} / ${fmt(spreadAway)}</span>
+        </div>
+        <div class="odds-item">
+          <span class="odds-label">Predicted Margin</span>
+          <span class="odds-value">${home} ${cell.predicted_margin > 0 ? "+" : ""}${cell.predicted_margin}</span>
+        </div>
+        <div class="odds-item">
+          <span class="odds-label">Favorite</span>
+          <span class="odds-value">${favTeam || "Pick 'em"}</span>
+        </div>
+      </div>
+      <div style="margin-top:12px;">
+        <div class="win-prob-bar"><div class="win-prob-fill" style="width:${homePct}%"></div></div>
+        <div class="odds-label" style="margin-top:4px;">
+          ${home} ${homePct}% &ndash; ${away} ${awayPct}%
+        </div>
+      </div>
+      <div class="notes-box">
+        A hypothetical model estimate, not a market line -- assumes equal rest for both teams
+        and the game played at ${home}'s usual home venue. ${away}'s travel distance and elevation
+        change are the real numbers for that trip. Typical model error on a real game this season
+        has been about &plusmn;${residualStd} points.
+      </div>
+    </div>`;
+}
+
+(async function () {
+  const data = await fetchJSON("data/matchup_grid.json");
+  const pickerCard = document.getElementById("picker-card");
+  const result = document.getElementById("matchup-result");
+
+  if (!data || !data.teams || !data.teams.length || !data.grid) {
+    pickerCard.style.display = "none";
+    result.innerHTML = emptyState("No matchup predictor data yet -- run the pipeline to generate this.");
+    return;
+  }
+
+  const teams = data.teams;
+  const homeSelect = document.getElementById("home-select");
+  const awaySelect = document.getElementById("away-select");
+  const options = teams.map(t => `<option value="${t}">${t}</option>`).join("");
+  homeSelect.innerHTML = options;
+  awaySelect.innerHTML = options;
+  homeSelect.value = teams[0];
+  awaySelect.value = teams.length > 1 ? teams[1] : teams[0];
+
+  function refresh() {
+    const home = homeSelect.value;
+    const away = awaySelect.value;
+    const cell = data.grid[home] ? data.grid[home][away] : undefined;
+    renderResult(home, away, cell, data.residual_std);
+  }
+
+  homeSelect.addEventListener("change", refresh);
+  awaySelect.addEventListener("change", refresh);
+  document.getElementById("swap-btn").addEventListener("click", () => {
+    const h = homeSelect.value, a = awaySelect.value;
+    homeSelect.value = a;
+    awaySelect.value = h;
+    refresh();
+  });
+
+  refresh();
+  document.getElementById("updated").textContent = lastUpdatedLabel(data.meta && data.meta.generated_at);
+})();
+</script>
+</body>
+</html>
