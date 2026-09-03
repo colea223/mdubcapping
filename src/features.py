@@ -50,6 +50,17 @@ Every feature here is computable from information available BEFORE kickoff:
     def_X -- the same off_ppa-minus-def_ppa framing ppa_map already uses
     for the overall, non-situational PPA diff), THEN the diff is that net
     rating, home minus away.
+  - sos_diff / returning_production_diff / qb_continuity_diff: CANDIDATE
+    features, computed here and stored in game_features but NOT yet in
+    model.FEATURE_COLS (see that list's own comment in model.py) -- these
+    need the same A/B-tested validation the situational splits got before
+    being trusted. sos_diff is prior-season strength of schedule (see
+    sos_ratings' own comment in schema.sql) -- same prior-season-only
+    lookup as sp_diff/ppa_diff, for the same leakage reason.
+    returning_production_diff/qb_continuity_diff are THIS season's overall/
+    passing-game returning-production percentage (see returning_production's
+    own comment in schema.sql) -- same SAME-season treatment as talent_diff,
+    since CFBD computes these before the season starts.
 
 Usage:
     source .venv/bin/activate
@@ -160,6 +171,42 @@ def build_features(con) -> pd.DataFrame:
         for r in con.execute("SELECT season, team, points FROM recruiting").fetchdf().itertuples()
         if _is_fbs(r.season, r.team)
     }
+
+    # THIS season's returning-production metrics -- same SAME-season timing
+    # as talent_map above (known before the season starts) and the same
+    # FBS-only filter as sp_map/talent_map (get_returning_production has no
+    # classification parameter either -- see returning_production's own
+    # comment in schema.sql). Wrapped defensively like drive_map/
+    # situational_map below: an older database without this table just runs
+    # with these 2 features all-NULL instead of crashing.
+    try:
+        ret_prod_df = con.execute(
+            "SELECT season, team, percent_ppa, percent_passing_ppa FROM returning_production"
+        ).fetchdf()
+        returning_prod_map = {
+            (r.season, r.team): r for r in ret_prod_df.itertuples() if _is_fbs(r.season, r.team)
+        }
+    except duckdb.Error:
+        print("features: returning_production table not found -- returning_production_diff/"
+              "qb_continuity_diff will be all-NULL. Rerun src/build_db.py to fix this.")
+        returning_prod_map = {}
+
+    # PRIOR-season strength of schedule (avg FBS-opponent rating) -- same
+    # prior-season timing as sp_diff/ppa_diff (this season's own SOS isn't
+    # fully known until the season's over). Already FBS-filtered at build
+    # time (see power_rating.py's build_sos_ratings_table()), so no extra
+    # _is_fbs() check needed here. Wrapped defensively like drive_map/
+    # situational_map: an older database without this table just runs with
+    # sos_diff all-NULL instead of crashing.
+    try:
+        sos_map = {
+            (r.season, r.team): r.avg_opponent_rating
+            for r in con.execute("SELECT season, team, avg_opponent_rating FROM sos_ratings").fetchdf().itertuples()
+        }
+    except duckdb.Error:
+        print("features: sos_ratings table not found -- sos_diff will be all-NULL. "
+              "Rerun src/power_rating.py to fix this.")
+        sos_map = {}
 
     # Prior-season drive-based rate stats -- the LAST as_of_week row for
     # each (season, team) in drive_stats_snapshots IS that whole season's
@@ -281,6 +328,28 @@ def build_features(con) -> pd.DataFrame:
         red_zone_ppa_diff = _situational_diff("off_red_zone_ppa", "def_red_zone_ppa")
         explosive_rate_diff = _situational_diff("off_explosive_rate", "def_explosive_rate")
 
+        # Candidate features -- NOT yet in model.FEATURE_COLS, see
+        # game_features' own comment in schema.sql. sos_diff is a
+        # PRIOR-season lookup (same reasoning as sp_diff/ppa_diff);
+        # returning_production_diff/qb_continuity_diff are THIS-season
+        # (same reasoning as talent_diff).
+        home_sos, away_sos = sos_map.get((prior_season, g.home_team)), sos_map.get((prior_season, g.away_team))
+        sos_diff = (home_sos - away_sos) if (home_sos is not None and away_sos is not None) else None
+
+        home_ret_prod = returning_prod_map.get((g.season, g.home_team))
+        away_ret_prod = returning_prod_map.get((g.season, g.away_team))
+
+        def _returning_prod_diff(field):
+            if home_ret_prod is None or away_ret_prod is None:
+                return None
+            h, a = getattr(home_ret_prod, field), getattr(away_ret_prod, field)
+            if h is None or a is None or pd.isna(h) or pd.isna(a):
+                return None
+            return h - a
+
+        returning_production_diff = _returning_prod_diff("percent_ppa")
+        qb_continuity_diff = _returning_prod_diff("percent_passing_ppa")
+
         rows.append((
             g.game_id, g.season, g.week, g.home_team, g.away_team,
             g.neutral_site, g.conference_game,
@@ -292,6 +361,7 @@ def build_features(con) -> pd.DataFrame:
             drive_yards_diff, drive_points_diff, drive_turnovers_diff,
             pass_ypd_diff, rush_ypd_diff, ypa_diff, ypc_diff,
             std_down_ppa_diff, passing_down_ppa_diff, red_zone_ppa_diff, explosive_rate_diff,
+            sos_diff, returning_production_diff, qb_continuity_diff,
         ))
 
     return pd.DataFrame(rows, columns=[
@@ -304,6 +374,7 @@ def build_features(con) -> pd.DataFrame:
         "drive_yards_diff", "drive_points_diff", "drive_turnovers_diff",
         "pass_ypd_diff", "rush_ypd_diff", "ypa_diff", "ypc_diff",
         "std_down_ppa_diff", "passing_down_ppa_diff", "red_zone_ppa_diff", "explosive_rate_diff",
+        "sos_diff", "returning_production_diff", "qb_continuity_diff",
     ])
 
 

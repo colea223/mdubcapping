@@ -105,6 +105,42 @@ CREATE TABLE IF NOT EXISTS recruiting (
     PRIMARY KEY (season, team)
 );
 
+-- CFBD's own returning-production metrics (PlayersApi.get_returning_production,
+-- src/pull_stats.py) -- usage/PPA-weighted percentage of last season's
+-- production that's back on the roster this season, same timing as
+-- recruiting above (known at/around signing day and spring roster
+-- finalization, i.e. before this season's games, so a SAME-season lookup in
+-- features.py is safe, not a prior-season one). percent_ppa is the overall
+-- team composite (offense+defense+special teams production returning,
+-- PPA-weighted) -- this project's "team returning strength" feature.
+-- percent_passing_ppa is the best available proxy for QB continuity: it's
+-- usage-weighted across the whole passing game, and the starting QB
+-- typically accounts for the large majority of a team's passing-down usage,
+-- so a team that returns its starter shows a high percent_passing_ppa while
+-- one that lost its starter (even with the rest of the passing-game roster
+-- intact) shows a sharp drop. The usage/passing_usage/rushing_usage/
+-- receiving_usage columns are the coarser, snap-count-weighted (not
+-- PPA-weighted) versions of the same idea, kept alongside in case the
+-- PPA-weighted numbers prove noisier in practice. Like sp_ratings/
+-- recruiting, get_returning_production has no classification filter, so
+-- features.py's same FBS-conference check (conf_hist_map/_is_fbs()) applies
+-- here too before this is used as a feature.
+CREATE TABLE IF NOT EXISTS returning_production (
+    season                  INTEGER,
+    team                    VARCHAR,
+    conference              VARCHAR,
+    total_ppa               DOUBLE,
+    percent_ppa             DOUBLE,  -- overall returning production (PPA-weighted) -- "team composite returning strength"
+    percent_passing_ppa     DOUBLE,  -- passing-game returning production (PPA-weighted) -- QB continuity proxy
+    percent_rushing_ppa     DOUBLE,
+    percent_receiving_ppa   DOUBLE,
+    usage                   DOUBLE,  -- overall returning production, snap-count-weighted
+    passing_usage           DOUBLE,
+    rushing_usage           DOUBLE,
+    receiving_usage         DOUBLE,
+    PRIMARY KEY (season, team)
+);
+
 -- One row per game per sportsbook provider (a game can have several).
 CREATE TABLE IF NOT EXISTS lines (
     game_id         BIGINT,
@@ -179,6 +215,42 @@ CREATE TABLE IF NOT EXISTS ratings_baseline (
     PRIMARY KEY (game_id, team)
 );
 
+-- Strength of schedule, one row per (season, team): the average pre-game
+-- Elo rating (ratings_baseline.rating_before) of every FBS opponent that
+-- team faced THAT season -- CFBD has no dedicated SOS endpoint (checked;
+-- TeamSRS/ExpandedTeamSRS carry a rating+ranking but no schedule-strength
+-- component), so this is computed entirely locally by
+-- build_db.py's build_sos_ratings_table(), same "no extra CFBD call" spirit
+-- as drive_stats_snapshots/situational_stats_snapshots. Deliberately built
+-- from each opponent's OWN rating_before in that specific game (not their
+-- end-of-season rating) -- that's the walk-forward-safe measure of "how
+-- good was this opponent at the time you actually played them", and it's
+-- exactly what ratings_baseline already stores for every game.
+--
+-- FBS opponents ONLY, same fix/reason as every other locally-computed table
+-- this season -- power_rating.py's Elo rates every team that appears in
+-- `games`, FCS included (see its own docstring), but an FCS opponent's Elo
+-- is usually an isolated, thinly-connected number (a team that only ever
+-- appears via one buy game, or via North Dakota State's own FCS-era
+-- schedule, never plays its way onto the real FBS-calibrated scale) -- a
+-- team's schedule shouldn't be scored as "tough" or "easy" using a number
+-- that isn't itself trustworthy. Filtered via FBS_CONFERENCES on the
+-- OPPONENT's conference that season, exactly like drive_stats_snapshots'
+-- own filter.
+--
+-- Read as a PRIOR-season lookup in features.py (season - 1), same pattern
+-- as sp_diff/ppa_diff/the drive-based features -- this season's own SOS
+-- isn't fully known until the season's over, so using it as a feature for
+-- a game IN that season would leak the rest of the season's schedule into
+-- the prediction.
+CREATE TABLE IF NOT EXISTS sos_ratings (
+    season              INTEGER,
+    team                VARCHAR,
+    avg_opponent_rating DOUBLE,
+    n_opponents         INTEGER,
+    PRIMARY KEY (season, team)
+);
+
 -- Phase 2: one row per game of leakage-safe pre-game features. See src/features.py.
 -- sp_diff/ppa_diff/talent_diff added Phase 3.5 (backtest revealed the model
 -- was ignoring SP+/PPA/recruiting data that pull_stats.py already collects).
@@ -217,7 +289,14 @@ CREATE OR REPLACE TABLE game_features (
     std_down_ppa_diff       DOUBLE,  -- prior-season standard-down net PPA (off minus def-allowed), home minus away -- see situational_stats_snapshots below
     passing_down_ppa_diff   DOUBLE,  -- prior-season passing-down net PPA (off minus def-allowed), home minus away
     red_zone_ppa_diff       DOUBLE,  -- prior-season red-zone net PPA (off minus def-allowed), home minus away
-    explosive_rate_diff     DOUBLE   -- prior-season explosive-play net rate (off rate minus def-allowed rate), home minus away
+    explosive_rate_diff     DOUBLE,  -- prior-season explosive-play net rate (off rate minus def-allowed rate), home minus away
+    -- Candidate features (see returning_production/sos_ratings above) --
+    -- NOT yet in model.FEATURE_COLS. Computed and stored here so they can be
+    -- A/B tested with diagnose_new_features.py before being trusted, same
+    -- discipline already applied to std_down_ppa_diff etc.
+    sos_diff                    DOUBLE,  -- prior-season strength of schedule (avg FBS opponent rating), home minus away
+    returning_production_diff   DOUBLE,  -- THIS season's overall returning production (PPA-weighted), home minus away
+    qb_continuity_diff          DOUBLE   -- THIS season's passing-game returning production (PPA-weighted) -- QB continuity proxy, home minus away
 );
 
 -- Raw drive-level data (one row per offensive possession) -- see

@@ -29,6 +29,7 @@ import duckdb
 import time
 
 from config import DB_PATH
+from teams import FBS_CONFERENCES
 
 BASE_RATING = 1500.0
 K_FACTOR = 20.0
@@ -120,11 +121,60 @@ def current_ratings(con):
     """).fetchall())
 
 
+def build_sos_ratings_table(con):
+    """
+    Strength of schedule, one row per (season, team) -- see sos_ratings' own
+    comment in schema.sql for the full reasoning (why this is computed
+    locally instead of pulled from CFBD, why it uses each opponent's
+    rating_before rather than their end-of-season rating, and why FCS
+    opponents are excluded). Must run AFTER write_ratings() has populated
+    ratings_baseline for this run -- it's a self-join against that table.
+    """
+    df = con.execute("""
+        SELECT g.season AS season,
+               r_self.team AS team,
+               r_opp.rating_before AS opponent_rating_before,
+               CASE WHEN r_opp.team = g.home_team THEN g.home_conference ELSE g.away_conference END AS opponent_conference
+        FROM ratings_baseline r_self
+        JOIN games g ON g.game_id = r_self.game_id
+        JOIN ratings_baseline r_opp ON r_opp.game_id = r_self.game_id AND r_opp.team != r_self.team
+        WHERE g.season IS NOT NULL
+    """).fetchdf()
+    if df.empty:
+        print("sos_ratings: no ratings_baseline data yet")
+        return
+
+    n_before = len(df)
+    df = df[df["opponent_conference"].isin(FBS_CONFERENCES)].copy()
+    n_dropped = n_before - len(df)
+    if n_dropped:
+        print(f"sos_ratings: dropped {n_dropped} of {n_before} team-games where the opponent wasn't FBS that season")
+    if df.empty:
+        print("sos_ratings: no FBS opponents found")
+        return
+
+    agg = df.groupby(["season", "team"]).agg(
+        avg_opponent_rating=("opponent_rating_before", "mean"),
+        n_opponents=("opponent_rating_before", "size"),
+    ).reset_index()
+    rows = [
+        (int(r.season), r.team, float(r.avg_opponent_rating), int(r.n_opponents))
+        for r in agg.itertuples()
+    ]
+    con.execute("DELETE FROM sos_ratings")
+    con.executemany(
+        "INSERT OR REPLACE INTO sos_ratings (season, team, avg_opponent_rating, n_opponents) VALUES (?,?,?,?)",
+        rows,
+    )
+    print(f"sos_ratings: {len(rows)} rows")
+
+
 def main():
     con = duckdb.connect(str(DB_PATH))
     rows = run_ratings(con)
     if rows:
         write_ratings(con, rows)
+        build_sos_ratings_table(con)
         ranked = sorted(current_ratings(con).items(), key=lambda kv: -kv[1])
         print("\nTop 10 current ratings:")
         for team, r in ranked[:10]:

@@ -43,3 +43,7 @@ def drives_api(client):
 
 def plays_api(client):
     return cfbd.PlaysApi(client)
+
+
+def players_api(client):
+    return cfbd.PlayersApi(client)

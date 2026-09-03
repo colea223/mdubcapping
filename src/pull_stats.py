@@ -1,9 +1,12 @@
 """
-Pull advanced (PPA/EPA) season stats, SP+ ratings, Elo, and recruiting talent
-composites. These are the "best measure" inputs discussed in the attack plan
--- efficiency margin as the primary signal, SP+/Elo as an external
-blend/sanity-check, recruiting as the prior for thin-sample teams (this year:
-UTEP, Northern Illinois, North Dakota State).
+Pull advanced (PPA/EPA) season stats, SP+ ratings, Elo, recruiting talent
+composites, and returning-production metrics. These are the "best measure"
+inputs discussed in the attack plan -- efficiency margin as the primary
+signal, SP+/Elo as an external blend/sanity-check, recruiting as the prior
+for thin-sample teams (this year: UTEP, Northern Illinois, North Dakota
+State), and returning production (PlayersApi.get_returning_production) as
+the team-composite-strength/QB-continuity signal -- see
+returning_production's own comment in db/schema.sql.
 
 Also keeps ppa_snapshots (db/schema.sql) current for the LIVE season only --
 see the pull_current_week_ppa_snapshot() docstring below and
@@ -35,7 +38,7 @@ import cfbd
 import time
 
 from config import START_YEAR, END_YEAR, RAW_DIR
-from cfbd_client import get_api_client, stats_api, ratings_api, recruiting_api, games_api
+from cfbd_client import get_api_client, stats_api, ratings_api, recruiting_api, players_api, games_api
 from raw_storage import write_json_gz, prune_superseded
 
 
@@ -81,6 +84,7 @@ def main(full_history: bool = False):
     stats = stats_api(client)
     ratings = ratings_api(client)
     recruiting = recruiting_api(client)
+    players = players_api(client)
     stamp = _stamp()
 
     years = range(START_YEAR, END_YEAR + 1) if full_history else [END_YEAR]
@@ -122,6 +126,15 @@ def main(full_history: bool = False):
         out_path = write_json_gz(RAW_DIR / f"recruiting_{year}_{stamp}.json", [r.dict(by_alias=False) for r in rec])
         print(f"  -> {len(rec)} teams")
         removed = prune_superseded(RAW_DIR, f"recruiting_{year}_*.json*", out_path)
+        if removed:
+            print(f"  pruned {len(removed)} superseded snapshot(s): {removed}")
+
+        print(f"Pulling {year} returning production...")
+        ret_prod = players.get_returning_production(year=year)
+        out_path = write_json_gz(RAW_DIR / f"returning_production_{year}_{stamp}.json",
+                                  [r.dict(by_alias=False) for r in ret_prod])
+        print(f"  -> {len(ret_prod)} teams")
+        removed = prune_superseded(RAW_DIR, f"returning_production_{year}_*.json*", out_path)
         if removed:
             print(f"  pruned {len(removed)} superseded snapshot(s): {removed}")
 

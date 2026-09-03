@@ -840,6 +840,43 @@ def build_recruiting_table(con, snapshots):
     print(f"recruiting: {len(rows)} rows")
 
 
+def build_returning_production_table(con, snapshots):
+    """
+    CFBD's own returning-production metrics (PlayersApi.get_returning_production,
+    src/pull_stats.py) -- see returning_production's own comment in
+    schema.sql for the full column semantics (percent_ppa = team composite
+    returning strength, percent_passing_ppa = QB continuity proxy). Explicit
+    column list on the INSERT (unlike sp_ratings/recruiting/elo_ratings
+    above, which predate this project's positional-insert lesson) -- see
+    build_advanced_stats_table()'s own comment for why a bare positional
+    INSERT is a silent-corruption risk the moment a column ever gets added
+    via ALTER TABLE.
+    """
+    rows = []
+    for (prefix, year), path in snapshots.items():
+        if prefix != "returning_production":
+            continue
+        for r in load_json(path):
+            rows.append((
+                r.get("season", year), normalize_team_name(r.get("team")), r.get("conference"),
+                r.get("total_ppa"), r.get("percent_ppa"),
+                r.get("percent_passing_ppa"), r.get("percent_rushing_ppa"), r.get("percent_receiving_ppa"),
+                r.get("usage"), r.get("passing_usage"), r.get("rushing_usage"), r.get("receiving_usage"),
+            ))
+    if not rows:
+        print("returning_production: no raw snapshots found yet (run src/pull_stats.py first)")
+        return
+    con.execute("DELETE FROM returning_production")
+    con.executemany(
+        "INSERT OR REPLACE INTO returning_production "
+        "(season, team, conference, total_ppa, percent_ppa, percent_passing_ppa, "
+        "percent_rushing_ppa, percent_receiving_ppa, usage, passing_usage, rushing_usage, receiving_usage) "
+        "VALUES (?,?,?,?,?,?,?,?,?,?,?,?)",
+        rows,
+    )
+    print(f"returning_production: {len(rows)} rows")
+
+
 def _parse_elevation(raw):
     """Venue.elevation comes back as a string, in meters, sometimes empty."""
     if not raw:
@@ -1098,6 +1135,7 @@ def main():
     build_sp_ratings_table(con, snapshots)
     build_elo_ratings_table(con, snapshots)
     build_recruiting_table(con, snapshots)
+    build_returning_production_table(con, snapshots)
     build_lines_table(con, snapshots)
     build_line_snapshots_table(con)
     build_odds_api_snapshots_table(con)
