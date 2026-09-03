@@ -19,7 +19,9 @@ from datetime import datetime
 from pathlib import Path
 
 import duckdb
+import numpy as np
 import pandas as pd
+import time
 
 from config import RAW_DIR, DB_PATH, END_YEAR
 from raw_storage import load_json_any
@@ -280,7 +282,24 @@ def build_advanced_stats_table(con, snapshots):
         print("advanced_stats: no raw snapshots found yet (run src/pull_stats.py first)")
         return
     con.execute("DELETE FROM advanced_stats")
-    con.executemany("INSERT OR REPLACE INTO advanced_stats VALUES (?,?,?,?,?,?,?,?,?,?)", rows)
+    # Explicit column list, not a bare "VALUES (?,?,...)" -- off_plays was
+    # added to this table via a mid-list ALTER TABLE ADD COLUMN (see main()),
+    # which always appends the new column at the table's PHYSICAL end. On
+    # any database where advanced_stats already existed before that
+    # migration, the table's real on-disk column order no longer matches
+    # this row tuple's schema.sql-declared order (off_plays 7th here, but
+    # last physically) -- and a bare, column-list-less INSERT matches by
+    # position, so it would silently scramble off_ppa/def_ppa/off_plays
+    # (and everything after) into the wrong columns with NO error, unlike
+    # the same-shaped bug in build_plays_table() above (which at least
+    # crashed loudly on a type mismatch). Naming every column here makes the
+    # insert match by NAME instead, correct regardless of physical order.
+    con.executemany(
+        "INSERT OR REPLACE INTO advanced_stats "
+        "(season, team, conference, off_ppa, off_success_rate, off_explosiveness, off_plays, "
+        "def_ppa, def_success_rate, def_explosiveness) VALUES (?,?,?,?,?,?,?,?,?,?)",
+        rows,
+    )
     print(f"advanced_stats: {len(rows)} rows")
 
 
@@ -293,7 +312,7 @@ DRIVES_COLUMNS = [
 ]
 PLAYS_COLUMNS = [
     "id", "drive_id", "game_id", "drive_number", "play_number", "offense", "defense",
-    "period", "down", "distance", "yards_gained", "play_type", "scoring",
+    "period", "down", "distance", "yards_to_goal", "yards_gained", "play_type", "scoring", "ppa",
 ]
 
 
@@ -358,7 +377,8 @@ def build_plays_table(con, snapshots):
                 p.get("drive_number"), p.get("play_number"),
                 normalize_team_name(p.get("offense")), normalize_team_name(p.get("defense")),
                 p.get("period"), p.get("down"), p.get("distance"),
-                p.get("yards_gained"), p.get("play_type"), p.get("scoring"),
+                p.get("yards_to_goal"), p.get("yards_gained"), p.get("play_type"), p.get("scoring"),
+                p.get("ppa"),
             ))
     if not rows:
         print("plays: no raw snapshots found yet (run src/pull_plays.py first)")
@@ -367,10 +387,27 @@ def build_plays_table(con, snapshots):
     # 1M+ rows (every play of every FBS game across 11 seasons), where
     # executemany's per-row overhead is genuinely slow. See build_drives_table's
     # docstring for the same reasoning.
+    #
+    # "INSERT INTO plays BY NAME", not a plain "INSERT INTO plays SELECT *" --
+    # a bare SELECT * matches columns by POSITION, which silently breaks on
+    # any database where `plays` already existed before yards_to_goal/ppa
+    # were added: ALTER TABLE ADD COLUMN always appends new columns at the
+    # END of the table's physical column order, but PLAYS_COLUMNS/schema.sql
+    # both declare yards_to_goal/ppa in the MIDDLE (right after distance).
+    # On such a database the two column orders no longer line up position-
+    # for-position, and a positional INSERT scrambles columns -- e.g.
+    # play_type (a string) lands in the physical `scoring` (BOOLEAN) slot,
+    # which crashes with "Could not convert string 'Rush' to BOOL" the
+    # instant it hits a real row. BY NAME matches each DataFrame column to
+    # the table column with the same name regardless of either one's
+    # physical order, so this is correct whether `plays` was just freshly
+    # created from schema.sql (columns already in the right order) or is an
+    # older table that picked up yards_to_goal/ppa via the ALTER TABLE
+    # migration in main() (appended at the end).
     df = pd.DataFrame(rows, columns=PLAYS_COLUMNS)
     con.execute("DELETE FROM plays")
     con.register("df_plays_bulk", df)
-    con.execute("INSERT INTO plays SELECT * FROM df_plays_bulk")
+    con.execute("INSERT INTO plays BY NAME SELECT * FROM df_plays_bulk")
     con.unregister("df_plays_bulk")
     print(f"plays: {len(df)} rows")
 
@@ -466,6 +503,189 @@ def build_drive_stats_snapshots_table(con):
         "INSERT OR REPLACE INTO drive_stats_snapshots VALUES (?,?,?,?,?,?,?,?,?,?,?,?)", rows
     )
     print(f"drive_stats_snapshots: {len(rows)} rows ({n_team_seasons} team-seasons)")
+
+
+def build_situational_stats_snapshots_table(con):
+    """
+    Down-and-distance situational splits of per-play PPA -- see the
+    situational_stats_snapshots comment in schema.sql for the full column
+    semantics and the standard-down/passing-down/red-zone/explosive
+    definitions used below. Computed entirely from the plays table already
+    loaded by build_plays_table() above (joined to games for season/week),
+    same walk-forward-safe (season, team, as_of_week) shape as
+    drive_stats_snapshots/ppa_snapshots.
+
+    Unlike drive_stats_snapshots (offense-only -- a team's own drive
+    efficiency), this tracks BOTH sides: off_* is this team's own PPA/rate
+    when it had the ball in that situation, def_* is the PPA/rate it
+    ALLOWED (the opposing offense's PPA) when it was on defense in that same
+    situation. model.py's *_diff columns combine the two sides (home's
+    off-minus-def net rating vs. away's) at feature-build time -- this table
+    just stores the raw two-sided splits.
+
+    Situation/red-zone/explosive classification is vectorized (np.select,
+    boolean masks) over the whole plays frame rather than a row-wise
+    .apply -- a full-history plays table is 1M+ rows, and .apply at that
+    size is slow enough to matter (same reasoning classify_play()'s caller
+    already applies via .map() instead of a Python loop). The walk-forward
+    accumulation itself uses a per-(season, team, week) aggregate followed
+    by groupby().cumsum(), not the nested "filter window per as_of_week"
+    loop drive_stats_snapshots uses -- cumsum gives the identical
+    walk-forward-safe result (each as_of_week's total is strictly plays
+    through that week, nothing from later weeks) in one pass instead of one
+    re-filter per week, which matters at this row count.
+
+    Skipped entirely (prints and returns) if plays is empty or has no
+    rush/pass snaps -- unlike drive_stats_snapshots, there's no
+    reduced-columns fallback here; every column this table has requires
+    play-by-play down/distance/yards_to_goal/ppa data, so there's nothing
+    useful to compute without it (run src/pull_plays.py, then rerun
+    build_db.py).
+    """
+    plays = con.execute("""
+        SELECT p.offense, p.defense, p.down, p.distance, p.yards_to_goal,
+               p.yards_gained, p.play_type, p.ppa,
+               g.season, g.week
+        FROM plays p
+        JOIN games g ON g.game_id = p.game_id
+        WHERE g.season IS NOT NULL AND g.week IS NOT NULL
+              AND p.offense IS NOT NULL AND p.defense IS NOT NULL
+    """).fetchdf()
+    if plays.empty:
+        print("situational_stats_snapshots: no plays joined to a known game yet "
+              "(run src/pull_plays.py, then rerun build_db.py)")
+        return
+
+    plays["kind"] = plays["play_type"].map(classify_play)
+    plays = plays[plays["kind"].isin(("rush", "pass"))].copy()
+    if plays.empty:
+        print("situational_stats_snapshots: no rush/pass plays found")
+        return
+
+    # .astype("float64") after to_numeric, not just to_numeric alone --
+    # DuckDB's fetchdf() hands back an INTEGER column with any NULLs as
+    # pandas' nullable Int32 dtype, which to_numeric() preserves as-is;
+    # comparisons on that dtype (down == 1, etc.) return pandas' nullable
+    # "boolean" extension dtype (with pd.NA for unknown rows) instead of a
+    # plain numpy bool ndarray, and np.select() below rejects that outright
+    # ("invalid entry in condlist: should be boolean ndarray"). Forcing
+    # float64 here converts NULL/pd.NA to a normal NaN and every downstream
+    # comparison back to a plain numpy bool array.
+    plays["down"] = pd.to_numeric(plays["down"], errors="coerce").astype("float64")
+    plays["distance"] = pd.to_numeric(plays["distance"], errors="coerce").astype("float64")
+    plays["yards_to_goal"] = pd.to_numeric(plays["yards_to_goal"], errors="coerce").astype("float64")
+    plays["yards_gained"] = pd.to_numeric(plays["yards_gained"], errors="coerce").fillna(0).astype("float64")
+    plays["ppa"] = pd.to_numeric(plays["ppa"], errors="coerce").astype("float64")
+
+    # Bill Connelly's SP+ standard-down/passing-down split (see schema.sql's
+    # comment for the full citation): standard = 1st down (any distance), or
+    # 2nd-and-7-or-less, or 3rd/4th-and-2-or-less; passing = 2nd-and-8-or-
+    # more, or 3rd/4th-and-3-or-more. A play with no recorded down/distance
+    # (down is NaN, e.g. some early-season or malformed CFBD rows) falls
+    # into "neither" via np.select's default and is excluded from both
+    # splits rather than guessed at.
+    is_standard = (
+        (plays["down"] == 1)
+        | ((plays["down"] == 2) & (plays["distance"] <= 7))
+        | (plays["down"].isin((3, 4)) & (plays["distance"] <= 2))
+    )
+    is_passing_down = (
+        ((plays["down"] == 2) & (plays["distance"] >= 8))
+        | (plays["down"].isin((3, 4)) & (plays["distance"] >= 3))
+    )
+    plays["situation"] = np.select(
+        [is_standard, is_passing_down], ["standard", "passing"], default="neither"
+    )
+
+    # Red zone: any scrimmage play snapped with 20 or fewer yards to the end
+    # zone. Explosive: a rush gaining 10+ yards, or a pass (including sacks/
+    # incompletions counted at their actual yards_gained -- see
+    # classify_play()'s "sack is a broken pass play" convention) gaining
+    # 15+ yards -- the same thresholds used across public CFB analytics.
+    plays["is_red_zone"] = plays["yards_to_goal"] <= 20
+    plays["is_explosive"] = (
+        ((plays["kind"] == "rush") & (plays["yards_gained"] >= 10))
+        | ((plays["kind"] == "pass") & (plays["yards_gained"] >= 15))
+    )
+    plays["std_ppa"] = plays["ppa"].where(plays["situation"] == "standard")
+    plays["passing_ppa"] = plays["ppa"].where(plays["situation"] == "passing")
+    plays["rz_ppa"] = plays["ppa"].where(plays["is_red_zone"])
+    plays["explosive_flag"] = plays["is_explosive"].astype(int)
+
+    def _safe_div(num, den):
+        with np.errstate(divide="ignore", invalid="ignore"):
+            ratio = num / den
+        return np.where(den > 0, ratio, np.nan)
+
+    def _side_stats(side_col, prefix):
+        """
+        side_col: "offense" or "defense" -- which column names the team for
+        this side of the snap. prefix: "off" or "def" -- the column prefix
+        in the returned frame. Returns one row per (season, team,
+        as_of_week) with <prefix>_plays/<prefix>_std_down_ppa/
+        <prefix>_passing_down_ppa/<prefix>_red_zone_ppa/
+        <prefix>_explosive_rate, each a strictly-through-that-week
+        cumulative total/rate.
+        """
+        df = plays.rename(columns={side_col: "team"})
+        weekly = df.groupby(["season", "team", "week"]).agg(
+            plays_n=("kind", "size"),
+            std_ppa_sum=("std_ppa", "sum"),
+            std_ppa_n=("std_ppa", "count"),
+            passing_ppa_sum=("passing_ppa", "sum"),
+            passing_ppa_n=("passing_ppa", "count"),
+            rz_ppa_sum=("rz_ppa", "sum"),
+            rz_ppa_n=("rz_ppa", "count"),
+            explosive_sum=("explosive_flag", "sum"),
+        ).reset_index()
+        weekly = weekly.sort_values(["season", "team", "week"])
+
+        cum_cols = ["plays_n", "std_ppa_sum", "std_ppa_n", "passing_ppa_sum",
+                    "passing_ppa_n", "rz_ppa_sum", "rz_ppa_n", "explosive_sum"]
+        cum = weekly.groupby(["season", "team"])[cum_cols].cumsum()
+        cum.columns = [f"cum_{c}" for c in cum_cols]
+        weekly = pd.concat([weekly[["season", "team", "week"]], cum], axis=1)
+
+        out = pd.DataFrame({
+            "season": weekly["season"],
+            "team": weekly["team"],
+            "as_of_week": weekly["week"],
+            f"{prefix}_plays": weekly["cum_plays_n"].astype(int),
+            f"{prefix}_std_down_ppa": _safe_div(weekly["cum_std_ppa_sum"], weekly["cum_std_ppa_n"]),
+            f"{prefix}_passing_down_ppa": _safe_div(weekly["cum_passing_ppa_sum"], weekly["cum_passing_ppa_n"]),
+            f"{prefix}_red_zone_ppa": _safe_div(weekly["cum_rz_ppa_sum"], weekly["cum_rz_ppa_n"]),
+            f"{prefix}_explosive_rate": _safe_div(weekly["cum_explosive_sum"], weekly["cum_plays_n"]),
+        })
+        return out
+
+    off_df = _side_stats("offense", "off")
+    def_df = _side_stats("defense", "def")
+    merged = off_df.merge(def_df, on=["season", "team", "as_of_week"], how="outer")
+
+    rows = []
+    for r in merged.itertuples(index=False):
+        rows.append((
+            int(r.season), r.team, int(r.as_of_week),
+            None if pd.isna(r.off_plays) else int(r.off_plays),
+            None if pd.isna(r.def_plays) else int(r.def_plays),
+            None if pd.isna(r.off_std_down_ppa) else float(r.off_std_down_ppa),
+            None if pd.isna(r.def_std_down_ppa) else float(r.def_std_down_ppa),
+            None if pd.isna(r.off_passing_down_ppa) else float(r.off_passing_down_ppa),
+            None if pd.isna(r.def_passing_down_ppa) else float(r.def_passing_down_ppa),
+            None if pd.isna(r.off_red_zone_ppa) else float(r.off_red_zone_ppa),
+            None if pd.isna(r.def_red_zone_ppa) else float(r.def_red_zone_ppa),
+            None if pd.isna(r.off_explosive_rate) else float(r.off_explosive_rate),
+            None if pd.isna(r.def_explosive_rate) else float(r.def_explosive_rate),
+        ))
+
+    if not rows:
+        print("situational_stats_snapshots: nothing computed")
+        return
+    con.execute("DELETE FROM situational_stats_snapshots")
+    con.executemany(
+        "INSERT OR REPLACE INTO situational_stats_snapshots VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?)", rows
+    )
+    print(f"situational_stats_snapshots: {len(rows)} rows")
 
 
 PPA_SNAPSHOT_PREFIX_RE = re.compile(r"^ppa_snapshot_w(?P<week>\d+)$")
@@ -790,6 +1010,14 @@ def main():
     # schema.sql. Full season-total offensive snaps; totals_model.py divides
     # by that season's games played to get a plays/game rate.
     con.execute("ALTER TABLE advanced_stats ADD COLUMN IF NOT EXISTS off_plays INTEGER")
+    # Migration for databases created before the down/distance situational-
+    # splits feature existed -- see the plays table's own comment in
+    # schema.sql. Both columns were already present on every cached raw
+    # plays_w*.json.gz snapshot (CFBD's Play object always had them); this
+    # migration just lets an existing `plays` table start storing them on
+    # the next build_db.py run, no re-pull needed.
+    con.execute("ALTER TABLE plays ADD COLUMN IF NOT EXISTS yards_to_goal INTEGER")
+    con.execute("ALTER TABLE plays ADD COLUMN IF NOT EXISTS ppa DOUBLE")
 
     build_teams_table(con)
 
@@ -804,6 +1032,7 @@ def main():
     build_drives_table(con, snapshots)
     build_plays_table(con, snapshots)
     build_drive_stats_snapshots_table(con)  # needs games + drives + plays already loaded above
+    build_situational_stats_snapshots_table(con)  # needs games + plays already loaded above
     build_advanced_stats_table(con, snapshots)
     build_ppa_snapshots_table(con, snapshots)
     build_sp_ratings_table(con, snapshots)
@@ -820,4 +1049,9 @@ def main():
 
 
 if __name__ == "__main__":
+    _script_start_time = time.time()
     main()
+
+    _script_elapsed = time.time() - _script_start_time
+    _mins, _secs = divmod(_script_elapsed, 60)
+    print(f"\n[Finished in {int(_mins)}m {_secs:04.1f}s]" if _mins else f"\n[Finished in {_secs:.1f}s]")

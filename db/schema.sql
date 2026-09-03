@@ -213,7 +213,11 @@ CREATE OR REPLACE TABLE game_features (
     pass_ypd_diff           DOUBLE,  -- prior-season passing yards/drive, home minus away
     rush_ypd_diff           DOUBLE,  -- prior-season rushing yards/drive, home minus away
     ypa_diff                DOUBLE,  -- prior-season yards/pass attempt, home minus away
-    ypc_diff                DOUBLE   -- prior-season yards/carry, home minus away
+    ypc_diff                DOUBLE,  -- prior-season yards/carry, home minus away
+    std_down_ppa_diff       DOUBLE,  -- prior-season standard-down net PPA (off minus def-allowed), home minus away -- see situational_stats_snapshots below
+    passing_down_ppa_diff   DOUBLE,  -- prior-season passing-down net PPA (off minus def-allowed), home minus away
+    red_zone_ppa_diff       DOUBLE,  -- prior-season red-zone net PPA (off minus def-allowed), home minus away
+    explosive_rate_diff     DOUBLE   -- prior-season explosive-play net rate (off rate minus def-allowed rate), home minus away
 );
 
 -- Raw drive-level data (one row per offensive possession) -- see
@@ -252,6 +256,18 @@ CREATE TABLE IF NOT EXISTS drives (
 -- computing drive_stats_snapshots below; kept here unclassified/raw so a
 -- future reclassification never requires re-pulling data, just rerunning
 -- build_db.py.
+-- yards_to_goal and ppa (added alongside the down/distance situational-splits
+-- feature work -- see situational_stats_snapshots below): both were already
+-- present on every play object CFBD's API returns and therefore already
+-- sitting in every cached data/raw/plays_w*.json.gz snapshot ever pulled --
+-- this is purely extracting two more fields build_plays_table() wasn't
+-- reading yet, NOT a new CFBD call. yards_to_goal is the field position
+-- (distance to the end zone) at the snap, used for the red-zone split. ppa
+-- is CFBD's own per-play predicted-points-added value -- the same
+-- opponent-adjusted efficiency metric advanced_stats/ppa_snapshots already
+-- use at the season/week level, just at the individual-play grain, which is
+-- what makes situational (standard-down/passing-down/red-zone) splits of it
+-- possible at all.
 CREATE TABLE IF NOT EXISTS plays (
     id              BIGINT PRIMARY KEY,
     drive_id        BIGINT,
@@ -263,9 +279,11 @@ CREATE TABLE IF NOT EXISTS plays (
     period          INTEGER,
     down            INTEGER,
     distance        INTEGER,
+    yards_to_goal   INTEGER,
     yards_gained    INTEGER,
     play_type       VARCHAR,
-    scoring         BOOLEAN
+    scoring         BOOLEAN,
+    ppa             DOUBLE
 );
 
 -- Drive-based rate stats, walk-forward-safe, EXACTLY the same (season, team,
@@ -306,5 +324,50 @@ CREATE TABLE IF NOT EXISTS drive_stats_snapshots (
     rush_yards_per_drive    DOUBLE,
     yards_per_attempt       DOUBLE,
     yards_per_carry         DOUBLE,
+    PRIMARY KEY (season, team, as_of_week)
+);
+
+-- Down-and-distance situational splits of per-play PPA -- the attack plan's
+-- own top-ranked predictive category (Section 2/"Recommended Predictive
+-- Measures": opponent-adjusted efficiency "split by ... down-and-distance
+-- situation (standard downs vs. passing downs, red zone)"), computed
+-- ENTIRELY LOCALLY by build_db.py from the plays table's yards_to_goal/ppa
+-- columns (see the plays table's own comment -- no new CFBD call). Same
+-- walk-forward-safe (season, team, as_of_week) shape and same two read
+-- patterns as drive_stats_snapshots/ppa_snapshots above (prior-season
+-- lookup for the margin model's FEATURE_COLS -- see model.py's
+-- std_down_ppa_diff/passing_down_ppa_diff/red_zone_ppa_diff/
+-- explosive_rate_diff -- or an in-season ASOF join, not currently wired in
+-- for the same "don't trust an untested in-season signal" reason
+-- drive_stats_snapshots' own comment gives).
+--
+-- Standard downs / passing downs use Bill Connelly's own definition (the
+-- same SP+ methodology this project already cites as a second-opinion
+-- measure in the attack plan) rather than inventing a new split: standard
+-- down = 1st down (any distance), or 2nd-and-7-or-less, or 3rd/4th-and-2-
+-- or-less; passing down = 2nd-and-8-or-more, or 3rd/4th-and-3-or-more. Red
+-- zone = any play snapped with yards_to_goal <= 20. Explosive = a rush
+-- gaining 10+ yards or a pass (including sacks/incompletions counted at
+-- their actual yards_gained -- see build_db.py's classify_play()) gaining
+-- 15+ yards, the same thresholds used across public CFB analytics.
+--
+-- off_*/def_* is this team's own NET margin in each situation (its offense's
+-- PPA/rate in that situation MINUS its defense's PPA/rate ALLOWED in that
+-- same situation) -- the same off-minus-def framing ppa_diff already uses
+-- overall, just split by situation instead of left as one aggregate number.
+CREATE TABLE IF NOT EXISTS situational_stats_snapshots (
+    season                  INTEGER,
+    team                    VARCHAR,
+    as_of_week              INTEGER,
+    off_plays               INTEGER,   -- offensive snaps counted (sample-size context, not a feature itself)
+    def_plays               INTEGER,   -- defensive snaps counted
+    off_std_down_ppa        DOUBLE,
+    def_std_down_ppa        DOUBLE,
+    off_passing_down_ppa    DOUBLE,
+    def_passing_down_ppa    DOUBLE,
+    off_red_zone_ppa        DOUBLE,
+    def_red_zone_ppa        DOUBLE,
+    off_explosive_rate      DOUBLE,
+    def_explosive_rate      DOUBLE,
     PRIMARY KEY (season, team, as_of_week)
 );

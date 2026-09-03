@@ -28,6 +28,16 @@
       </div>
     </div>
     <datalist id="team-options"></datalist>
+    <div class="model-toggle" id="model-toggle">
+      <label>
+        <input type="radio" name="model-choice" value="ridge" checked>
+        Ridge <span class="model-toggle-sub">(Live Model)</span>
+      </label>
+      <label>
+        <input type="radio" name="model-choice" value="xgboost">
+        Dub Beta <span class="model-toggle-sub">(XGBoost, candidate)</span>
+      </label>
+    </div>
   </div>
 
   <div id="matchup-result" style="margin-top:16px;"></div>
@@ -41,9 +51,12 @@ document.getElementById("nav").innerHTML = renderNav("matchup.html");
 
 // Every prediction here comes precomputed from docs/data/matchup_grid.json
 // (see export_site_data.py's build_matchup_grid()) -- the site is fully
-// static, so there's no server to fit the model against an arbitrary pair
-// on the fly. It's the SAME live Ridge margin model used everywhere else on
-// the site (never the Dub Beta/XGBoost candidate), just run against a
+// static, so there's no server to fit either model against an arbitrary
+// pair on the fly. build_matchup_grid() fits BOTH the live Ridge margin
+// model AND the Dub Beta (XGBoost) candidate on the same training data, so
+// this page -- unlike every other page, where Dub Beta is only ever a
+// secondary annotation next to Ridge's own pick -- lets the viewer toggle
+// which one they're looking at. Whichever is selected, it's run against a
 // hypothetical, not-necessarily-scheduled matchup, covering every FBS team
 // that played a game this season. Two assumptions make that possible: both
 // teams are assumed equally rested, and the game is assumed played at the
@@ -53,7 +66,7 @@ document.getElementById("nav").innerHTML = renderNav("matchup.html");
 // team, travel distance, elevation change, power ratings, and prior-season
 // strength metrics -- is the real value for that specific pair, not a
 // blanket guess.
-function renderResult(home, away, cell, residualStd) {
+function renderResult(home, away, modelCell, residualStd, isBeta) {
   const container = document.getElementById("matchup-result");
   if (!home || !away) {
     container.innerHTML = emptyState("Pick two teams from the list to see a predicted matchup.");
@@ -63,21 +76,34 @@ function renderResult(home, away, cell, residualStd) {
     container.innerHTML = emptyState("Pick two different teams to see a predicted matchup.");
     return;
   }
-  if (!cell) {
+  if (!modelCell) {
     container.innerHTML = emptyState("No prediction available for this matchup yet -- rerun the pipeline to regenerate the matchup grid.");
     return;
   }
 
-  const spreadHome = cell.spread_home;
+  const spreadHome = modelCell.spread_home;
   const spreadAway = -spreadHome;
   const fmt = (v) => (v > 0 ? `+${v}` : `${v}`);
-  const favTeam = spreadHome < 0 ? home : (spreadHome > 0 ? away : null);
-  const homeProb = cell.home_win_prob;
+  // Favorite's OWN spread number, not the raw home-referenced predicted
+  // margin -- this project's spread convention (site.js's formatSpreadPair,
+  // the Predicted Spread pair right above) is negative = favored. Reusing
+  // spreadHome/spreadAway here (rather than re-deriving from
+  // modelCell.predicted_margin with a manually-added "+") keeps the favorite
+  // always shown as "-X.X", matching standard sportsbook notation and never
+  // contradicting the Predicted Spread line two rows up.
+  const favTeam = spreadHome < 0 ? home : (spreadAway < 0 ? away : null);
+  const favSpread = spreadHome < 0 ? spreadHome : (spreadAway < 0 ? spreadAway : null);
+  const homeProb = modelCell.home_win_prob;
   const homePct = Math.round(homeProb * 100);
   const awayPct = 100 - homePct;
+  // Same dashed-purple "candidate, not the live model" badge Predictions/
+  // Results/Tracking already use for Dub Beta -- shown here too so picking
+  // XGBoost never reads as if it carries equal weight to Ridge.
+  const betaTagHtml = isBeta ? `<div style="margin-bottom:10px;"><span class="beta-tag">Dub Beta Model</span></div>` : "";
 
   container.innerHTML = `
     <div class="matchup-card">
+      ${betaTagHtml}
       <div class="matchup-teams">
         <div class="team-row">
           <span class="name"><span class="at">@</span>${away}</span>
@@ -92,12 +118,8 @@ function renderResult(home, away, cell, residualStd) {
           <span class="odds-value">${fmt(spreadHome)} / ${fmt(spreadAway)}</span>
         </div>
         <div class="odds-item">
-          <span class="odds-label">Predicted Margin</span>
-          <span class="odds-value">${home} ${cell.predicted_margin > 0 ? "+" : ""}${cell.predicted_margin}</span>
-        </div>
-        <div class="odds-item">
           <span class="odds-label">Favorite</span>
-          <span class="odds-value">${favTeam || "Pick 'em"}</span>
+          <span class="odds-value">${favTeam ? `${favTeam} ${fmt(favSpread)}` : "Pick 'em"}</span>
         </div>
       </div>
       <div style="margin-top:12px;">
@@ -107,9 +129,10 @@ function renderResult(home, away, cell, residualStd) {
         </div>
       </div>
       <div class="notes-box">
-        A hypothetical model estimate, not a market line -- assumes equal rest for both teams
-        and the game played at ${home}'s usual home venue. ${away}'s travel distance and elevation
-        change are the real numbers for that trip.
+        A hypothetical ${isBeta ? "Dub Beta (XGBoost)" : "Ridge"} model estimate, not a market line --
+        assumes equal rest for both teams and the game played at ${home}'s usual home venue. ${away}'s
+        travel distance and elevation change are the real numbers for that trip. Typical model error on
+        a real game this season has been about &plusmn;${residualStd} points.
       </div>
     </div>`;
 }
@@ -142,8 +165,12 @@ function renderResult(home, away, cell, residualStd) {
   function refresh() {
     const home = teamSet.has(homeInput.value) ? homeInput.value : null;
     const away = teamSet.has(awayInput.value) ? awayInput.value : null;
-    const cell = (home && away && data.grid[home]) ? data.grid[home][away] : undefined;
-    renderResult(home, away, cell, data.residual_std);
+    const pair = (home && away && data.grid[home]) ? data.grid[home][away] : undefined;
+    const modelChoice = document.querySelector('input[name="model-choice"]:checked').value;
+    const isBeta = modelChoice === "xgboost";
+    const modelCell = pair ? pair[modelChoice] : undefined;
+    const residualStd = isBeta ? data.xgboost_residual_std : data.ridge_residual_std;
+    renderResult(home, away, modelCell, residualStd, isBeta);
   }
 
   homeInput.addEventListener("input", refresh);
@@ -153,6 +180,9 @@ function renderResult(home, away, cell, residualStd) {
     homeInput.value = a;
     awayInput.value = h;
     refresh();
+  });
+  document.querySelectorAll('input[name="model-choice"]').forEach((r) => {
+    r.addEventListener("change", refresh);
   });
 
   refresh();

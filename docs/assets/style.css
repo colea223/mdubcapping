@@ -492,7 +492,8 @@ table.lines-table td.no-data { color: var(--text-muted); }
   color: var(--text-muted);
   font-weight: 700;
 }
-.picker-field select {
+.picker-field select,
+.picker-field input {
   background: var(--bg-card-alt);
   border: 1px solid var(--border);
   color: var(--text-primary);
@@ -501,6 +502,12 @@ table.lines-table td.no-data { color: var(--text-muted); }
   font-weight: 700;
   padding: 10px 12px;
   border-radius: 8px;
+  width: 100%;
+  box-sizing: border-box;
+}
+.picker-field input:focus {
+  outline: none;
+  border-color: var(--brand-purple-light);
 }
 .swap-btn {
   background: var(--bg-card-alt);
@@ -515,6 +522,48 @@ table.lines-table td.no-data { color: var(--text-muted); }
   flex-shrink: 0;
 }
 .swap-btn:hover { background: var(--brand-purple); color: #fff; }
+
+/* Ridge vs. Dub Beta (XGBoost) toggle -- Matchup Creator is the one page
+   where both models are fit for every hypothetical pair and the viewer
+   picks which one they're looking at (everywhere else on the site Dub
+   Beta is only ever a secondary annotation next to Ridge's own pick). Kept
+   visually distinct from the team pickers above so it doesn't read as a
+   third team field. */
+.model-toggle {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+  margin-top: 14px;
+  padding-top: 14px;
+  border-top: 1px solid var(--border);
+}
+.model-toggle label {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 12px;
+  background: var(--bg-card-alt);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--text-primary);
+  cursor: pointer;
+}
+.model-toggle label:has(input:checked) {
+  border-color: var(--brand-purple-light);
+  background: rgba(157,123,216,0.14);
+}
+.model-toggle input[type="radio"] {
+  accent-color: var(--brand-purple-light);
+}
+.model-toggle-sub {
+  font-weight: 400;
+  font-size: 11px;
+  color: var(--text-muted);
+  text-transform: none;
+  letter-spacing: normal;
+}
 
 .empty-state {
   padding: 40px 20px;

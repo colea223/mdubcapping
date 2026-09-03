@@ -54,6 +54,17 @@ src/features.py's leakage note and db/schema.sql's drive_stats_snapshots
 comment. Same safe-by-construction treatment as sp_diff/ppa_diff/talent_diff:
 a whole prior season's aggregate, never this season's own in-progress numbers.
 
+std_down_ppa_diff / passing_down_ppa_diff / red_zone_ppa_diff /
+explosive_rate_diff (added alongside the down/distance situational-splits
+feature work) are PRIOR-season splits of per-play PPA by standard-down/
+passing-down/red-zone situation, plus a prior-season explosive-play rate --
+see src/features.py's leakage note and db/schema.sql's
+situational_stats_snapshots comment for the exact definitions and the
+off-minus-def-allowed netting each diff is built from. Same
+safe-by-construction, whole-prior-season treatment as every other *_diff
+feature above -- and the attack plan's own top-ranked predictive category
+(Section 2/"Recommended Predictive Measures").
+
 WARNING SUPPRESSION: the earliest walk-forward test weeks in backtest.py/
 model_comparison.py train on 2016-only games, and every prior-season feature
 (sp_diff, ppa_diff, and the 7 drive diffs above) is null for ALL of them --
@@ -95,6 +106,12 @@ FEATURE_COLS = [
     "mw_involved_flag",
     "drive_yards_diff", "drive_points_diff", "drive_turnovers_diff",
     "pass_ypd_diff", "rush_ypd_diff", "ypa_diff", "ypc_diff",
+    # A/B test: temporarily OFF to isolate whether these 4 situational-split
+    # features (added alongside the down/distance feature-engineering work)
+    # actually improve backtest.py's ROI/ATS/CLV, or just add noise. Re-enable
+    # (uncomment) once the comparison is done -- see model.py's own docstring
+    # for what each one represents.
+    # "std_down_ppa_diff", "passing_down_ppa_diff", "red_zone_ppa_diff", "explosive_rate_diff",
 ]
 ALPHAS = np.logspace(-2, 3, 25)
 

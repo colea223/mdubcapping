@@ -39,6 +39,17 @@ Every feature here is computable from information available BEFORE kickoff:
     better, and drive rate stats are just as public/fast-moving. Wiring the
     in-season version in would need its own backtest confirming it helps
     first.)
+  - std_down_ppa_diff / passing_down_ppa_diff / red_zone_ppa_diff /
+    explosive_rate_diff: down-and-distance situational splits (see
+    db/schema.sql's situational_stats_snapshots comment and
+    src/build_db.py's build_situational_stats_snapshots_table() for the
+    standard-down/passing-down/red-zone/explosive definitions). Same
+    prior-season-only, last-as_of_week lookup as the drive-based features
+    above, and for the same leakage reason. Each team's own situational
+    rating nets its offense against its defense first (off_X minus
+    def_X -- the same off_ppa-minus-def_ppa framing ppa_map already uses
+    for the overall, non-situational PPA diff), THEN the diff is that net
+    rating, home minus away.
 
 Usage:
     source .venv/bin/activate
@@ -49,6 +60,7 @@ import math
 
 import duckdb
 import pandas as pd
+import time
 
 from config import DB_PATH
 from power_rating import current_ratings
@@ -139,6 +151,30 @@ def build_features(con) -> pd.DataFrame:
               "be all-NULL. Rerun src/build_db.py (which creates it from schema.sql) to fix this.")
         drive_map = {}
 
+    # Prior-season situational (down/distance) rate stats -- same
+    # last-as_of_week-of-prior-season lookup as drive_map above, and the
+    # same defensive try/except so an older database that hasn't had
+    # build_db.py rerun since this table was added just runs without these
+    # features instead of crashing.
+    try:
+        situational_df = con.execute("""
+            SELECT ss.season, ss.team, ss.off_std_down_ppa, ss.def_std_down_ppa,
+                   ss.off_passing_down_ppa, ss.def_passing_down_ppa,
+                   ss.off_red_zone_ppa, ss.def_red_zone_ppa,
+                   ss.off_explosive_rate, ss.def_explosive_rate
+            FROM situational_stats_snapshots ss
+            INNER JOIN (
+                SELECT season, team, MAX(as_of_week) AS max_week
+                FROM situational_stats_snapshots GROUP BY season, team
+            ) mx ON mx.season = ss.season AND mx.team = ss.team AND mx.max_week = ss.as_of_week
+        """).fetchdf()
+        situational_map = {(r.season, r.team): r for r in situational_df.itertuples()}
+    except duckdb.Error:
+        print("features: situational_stats_snapshots table not found -- down/distance diff "
+              "features will be all-NULL. Rerun src/build_db.py (which creates it from "
+              "schema.sql) to fix this.")
+        situational_map = {}
+
     home_venue = team_home_venues(games)
     rest = compute_rest_days(games)
     rest_map = {(r.game_id, r.team): r.rest_days for r in rest.itertuples()}
@@ -195,6 +231,23 @@ def build_features(con) -> pd.DataFrame:
         ypa_diff = _drive_diff("yards_per_attempt")
         ypc_diff = _drive_diff("yards_per_carry")
 
+        home_situational = situational_map.get((prior_season, g.home_team))
+        away_situational = situational_map.get((prior_season, g.away_team))
+
+        def _situational_diff(off_field, def_field):
+            if home_situational is None or away_situational is None:
+                return None
+            h_off, h_def = getattr(home_situational, off_field), getattr(home_situational, def_field)
+            a_off, a_def = getattr(away_situational, off_field), getattr(away_situational, def_field)
+            if any(v is None or pd.isna(v) for v in (h_off, h_def, a_off, a_def)):
+                return None
+            return (h_off - h_def) - (a_off - a_def)
+
+        std_down_ppa_diff = _situational_diff("off_std_down_ppa", "def_std_down_ppa")
+        passing_down_ppa_diff = _situational_diff("off_passing_down_ppa", "def_passing_down_ppa")
+        red_zone_ppa_diff = _situational_diff("off_red_zone_ppa", "def_red_zone_ppa")
+        explosive_rate_diff = _situational_diff("off_explosive_rate", "def_explosive_rate")
+
         rows.append((
             g.game_id, g.season, g.week, g.home_team, g.away_team,
             g.neutral_site, g.conference_game,
@@ -205,6 +258,7 @@ def build_features(con) -> pd.DataFrame:
             sp_diff, ppa_diff, talent_diff,
             drive_yards_diff, drive_points_diff, drive_turnovers_diff,
             pass_ypd_diff, rush_ypd_diff, ypa_diff, ypc_diff,
+            std_down_ppa_diff, passing_down_ppa_diff, red_zone_ppa_diff, explosive_rate_diff,
         ))
 
     return pd.DataFrame(rows, columns=[
@@ -216,6 +270,7 @@ def build_features(con) -> pd.DataFrame:
         "sp_diff", "ppa_diff", "talent_diff",
         "drive_yards_diff", "drive_points_diff", "drive_turnovers_diff",
         "pass_ypd_diff", "rush_ypd_diff", "ypa_diff", "ypc_diff",
+        "std_down_ppa_diff", "passing_down_ppa_diff", "red_zone_ppa_diff", "explosive_rate_diff",
     ])
 
 
@@ -235,4 +290,9 @@ def main():
 
 
 if __name__ == "__main__":
+    _script_start_time = time.time()
     main()
+
+    _script_elapsed = time.time() - _script_start_time
+    _mins, _secs = divmod(_script_elapsed, 60)
+    print(f"\n[Finished in {int(_mins)}m {_secs:04.1f}s]" if _mins else f"\n[Finished in {_secs:.1f}s]")

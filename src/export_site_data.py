@@ -55,6 +55,8 @@ from config import DB_PATH, CLEAN_DIR
 import model
 import totals_model
 import backtest
+import xgboost_model
+import time
 from odds import payout_profit
 from power_rating import current_ratings
 from teams import MW_TEAMS_2026
@@ -822,12 +824,22 @@ def build_matchup_grid(con):
 
     Refits the SAME Ridge pipeline (model.py's build_pipeline()/
     fit_margin_model(), on ALL available completed games, no walk-forward
-    cutoff) that predict_week.py fits for the live Weekly Slate -- cheap
-    (RidgeCV, no hyperparameter search), so refitting it here instead of
-    trying to reuse predict_week.py's in-memory pipe (which isn't persisted
-    anywhere) costs one extra Ridge fit per pipeline run, not a real backtest
-    or a search. This intentionally does NOT touch XGBoost/Dub Beta at all --
-    that model has no matchup-predictor role anywhere on the site.
+    cutoff) that predict_week.py fits for the live Weekly Slate, AND the same
+    Dub Beta (XGBoost) pipeline (xgboost_model.fit_xgboost_margin_model(),
+    same training data) predict_week.py also fits for its own "XGBoost Line
+    (Home)" column -- the page lets the viewer toggle between the two, same
+    "candidate alongside the live model, never silently blended" rule this
+    project applies everywhere else Dub Beta shows up (Predictions/Results/
+    Tracking pages). Refitting both here instead of trying to reuse predict_
+    week.py's in-memory pipes (neither is persisted anywhere) costs one
+    extra Ridge fit AND one extra XGBoost hyperparameter search per pipeline
+    run -- the Ridge fit is cheap, but the XGBoost search is the same real
+    cost predict_week.py already pays once for its own Dub Beta line, so this
+    roughly doubles that particular cost per `python src/export_site_data.py`
+    run. Worth it for a page whose whole point is comparing the two models
+    against an arbitrary matchup, not worth trying to avoid by adding
+    cross-process caching for what's still a routine, non-huge (thousands of
+    rows) dataset.
 
     FEATURE_COLS is mostly team-season-level lookups that are perfectly safe
     to reuse for a hypothetical, unscheduled matchup: rating_diff (today's
@@ -857,20 +869,29 @@ def build_matchup_grid(con):
         team's travel/elevation change is measured from ITS OWN usual venue
         to that game site, exactly like a real scheduled game would be.
 
-    Any lookup a team is missing (most commonly drive_stats_snapshots, which
-    can be entirely empty on an older database -- see features.py's own
-    defensive try/except) is left as None/NaN in the feature row rather than
-    guessed at; the pipeline's own SimpleImputer(strategy="median"), fit on
-    the real training data, fills it in exactly like it would for a real
-    game missing that same feature, so a team with no drive-stats history
-    still gets a reasonable (if less-informed) prediction instead of a
-    crash.
+    The same treatment applies to the 4 situational (down/distance) diff
+    fields -- std_down_ppa_diff/passing_down_ppa_diff/red_zone_ppa_diff/
+    explosive_rate_diff -- via situational_stats_snapshots' last as_of_week
+    of prior_season, netted off-minus-def-allowed exactly like
+    features.py's own _situational_diff() does for a real game.
 
-    Returns {"teams": [...], "grid": {home: {away: {...}}}} -- see the
-    per-pair dict below for the exact fields.
+    Any lookup a team is missing (most commonly drive_stats_snapshots/
+    situational_stats_snapshots, which can be entirely empty on an older
+    database -- see features.py's own defensive try/except) is left as
+    None/NaN in the feature row rather than guessed at; the pipeline's own
+    SimpleImputer(strategy="median"), fit on the real training data, fills
+    it in exactly like it would for a real game missing that same feature,
+    so a team with no drive-stats/situational-stats history still gets a
+    reasonable (if less-informed) prediction instead of a crash.
+
+    Returns {"teams": [...], "grid": {home: {away: {"ridge": {...}, "xgboost":
+    {...}}}}, "ridge_residual_std": ..., "xgboost_residual_std": ...} -- each
+    of "ridge"/"xgboost" carries the same predicted_margin/spread_home/
+    home_win_prob shape, just fit by that model.
     """
     train_df = model.load_training_frame(con)
-    pipe, residual_std = model.fit_margin_model(train_df)
+    ridge_pipe, ridge_residual_std = model.fit_margin_model(train_df)
+    xgb_pipe, xgb_residual_std = xgboost_model.fit_xgboost_margin_model(train_df)
 
     prior_season = CURRENT_SEASON - 1
 
@@ -918,6 +939,22 @@ def build_matchup_grid(con):
     except duckdb.Error:
         drive_map = {}
 
+    try:
+        situational_df = con.execute("""
+            SELECT ss.season, ss.team, ss.off_std_down_ppa, ss.def_std_down_ppa,
+                   ss.off_passing_down_ppa, ss.def_passing_down_ppa,
+                   ss.off_red_zone_ppa, ss.def_red_zone_ppa,
+                   ss.off_explosive_rate, ss.def_explosive_rate
+            FROM situational_stats_snapshots ss
+            INNER JOIN (
+                SELECT season, team, MAX(as_of_week) AS max_week
+                FROM situational_stats_snapshots GROUP BY season, team
+            ) mx ON mx.season = ss.season AND mx.team = ss.team AND mx.max_week = ss.as_of_week
+        """).fetchdf()
+        situational_map = {(r.season, r.team): r for r in situational_df.itertuples()}
+    except duckdb.Error:
+        situational_map = {}
+
     games = con.execute("""
         SELECT home_team, away_team, venue_id, neutral_site FROM games
     """).fetchdf()
@@ -940,12 +977,22 @@ def build_matchup_grid(con):
             return None
         return h - a
 
+    def _situational_diff(home_situational, away_situational, off_field, def_field):
+        if home_situational is None or away_situational is None:
+            return None
+        h_off, h_def = getattr(home_situational, off_field), getattr(home_situational, def_field)
+        a_off, a_def = getattr(away_situational, off_field), getattr(away_situational, def_field)
+        if any(v is None or pd.isna(v) for v in (h_off, h_def, a_off, a_def)):
+            return None
+        return (h_off - h_def) - (a_off - a_def)
+
     rows, pair_keys = [], []
     for home in teams:
         home_rating = ratings_now.get(home)
         home_sp, home_ppa = sp_map.get((prior_season, home)), ppa_map.get((prior_season, home))
         home_talent = talent_map.get((CURRENT_SEASON, home))
         home_drive = drive_map.get((prior_season, home))
+        home_situational = situational_map.get((prior_season, home))
         home_lat, home_lon, home_elev = venue_for(home)
 
         for away in teams:
@@ -955,6 +1002,7 @@ def build_matchup_grid(con):
             away_sp, away_ppa = sp_map.get((prior_season, away)), ppa_map.get((prior_season, away))
             away_talent = talent_map.get((CURRENT_SEASON, away))
             away_drive = drive_map.get((prior_season, away))
+            away_situational = situational_map.get((prior_season, away))
             away_lat, away_lon, away_elev = venue_for(away)
 
             rating_diff = (home_rating - away_rating) if (home_rating is not None and away_rating is not None) else None
@@ -980,23 +1028,49 @@ def build_matchup_grid(con):
                 "rush_ypd_diff": _drive_diff(home_drive, away_drive, "rush_yards_per_drive"),
                 "ypa_diff": _drive_diff(home_drive, away_drive, "yards_per_attempt"),
                 "ypc_diff": _drive_diff(home_drive, away_drive, "yards_per_carry"),
+                "std_down_ppa_diff": _situational_diff(
+                    home_situational, away_situational, "off_std_down_ppa", "def_std_down_ppa"),
+                "passing_down_ppa_diff": _situational_diff(
+                    home_situational, away_situational, "off_passing_down_ppa", "def_passing_down_ppa"),
+                "red_zone_ppa_diff": _situational_diff(
+                    home_situational, away_situational, "off_red_zone_ppa", "def_red_zone_ppa"),
+                "explosive_rate_diff": _situational_diff(
+                    home_situational, away_situational, "off_explosive_rate", "def_explosive_rate"),
             })
             pair_keys.append((home, away))
 
     grid = {home: {} for home in teams}
     if rows:
         feat_df = pd.DataFrame(rows, columns=model.FEATURE_COLS)
-        pred_margin = model.predict_margin(pipe, feat_df)
-        spread_home = model.margin_to_model_spread_home(pred_margin)
-        win_prob = model.margin_to_home_win_prob(pred_margin, residual_std)
-        for (home, away), margin, spread, prob in zip(pair_keys, pred_margin, spread_home, win_prob):
+
+        def _predict(pipe, resid_std):
+            pred_margin = model.predict_margin(pipe, feat_df)
+            spread_home = model.margin_to_model_spread_home(pred_margin)
+            win_prob = model.margin_to_home_win_prob(pred_margin, resid_std)
+            return pred_margin, spread_home, win_prob
+
+        ridge_margin, ridge_spread, ridge_prob = _predict(ridge_pipe, ridge_residual_std)
+        xgb_margin, xgb_spread, xgb_prob = _predict(xgb_pipe, xgb_residual_std)
+
+        for i, (home, away) in enumerate(pair_keys):
             grid[home][away] = {
-                "predicted_margin": round(float(margin), 1),
-                "spread_home": round(float(spread), 1),
-                "home_win_prob": round(float(prob), 4),
+                "ridge": {
+                    "predicted_margin": round(float(ridge_margin[i]), 1),
+                    "spread_home": round(float(ridge_spread[i]), 1),
+                    "home_win_prob": round(float(ridge_prob[i]), 4),
+                },
+                "xgboost": {
+                    "predicted_margin": round(float(xgb_margin[i]), 1),
+                    "spread_home": round(float(xgb_spread[i]), 1),
+                    "home_win_prob": round(float(xgb_prob[i]), 4),
+                },
             }
 
-    return {"teams": teams, "grid": grid, "residual_std": round(residual_std, 2)}
+    return {
+        "teams": teams, "grid": grid,
+        "ridge_residual_std": round(ridge_residual_std, 2),
+        "xgboost_residual_std": round(xgb_residual_std, 2),
+    }
 
 
 def build_results(con):
@@ -1220,8 +1294,11 @@ def main():
     _write("lines.json", {"meta": lines_meta, "games": live_lines})
     _write("line_history.json", {"meta": lines_meta, "history": line_history})
     _write("results.json", {"meta": meta, "results": results})
-    _write("matchup_grid.json", {"meta": meta, "teams": matchup_grid["teams"],
-                                  "grid": matchup_grid["grid"], "residual_std": matchup_grid["residual_std"]})
+    _write("matchup_grid.json", {
+        "meta": meta, "teams": matchup_grid["teams"], "grid": matchup_grid["grid"],
+        "ridge_residual_std": matchup_grid["ridge_residual_std"],
+        "xgboost_residual_std": matchup_grid["xgboost_residual_std"],
+    })
 
     print(f"Wrote rankings ({len(rankings)}), matchups ({len(matchups)}), "
           f"predictions ({len(predictions)}), live lines ({len(live_lines)}), "
@@ -1230,4 +1307,9 @@ def main():
 
 
 if __name__ == "__main__":
+    _script_start_time = time.time()
     main()
+
+    _script_elapsed = time.time() - _script_start_time
+    _mins, _secs = divmod(_script_elapsed, 60)
+    print(f"\n[Finished in {int(_mins)}m {_secs:04.1f}s]" if _mins else f"\n[Finished in {_secs:.1f}s]")
