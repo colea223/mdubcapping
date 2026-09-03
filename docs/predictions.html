@@ -11,7 +11,7 @@
 <div class="page-wrap">
   <div class="page-header">
     <h1 id="page-title">Model Predictions</h1>
-    <p>This week's model spread, total, and win probability for every Mountain West game, with notes.</p>
+    <p>This week's model spread, total, and win probability for every Mountain West game, with notes -- plus the Dub Beta Model's own line for comparison.</p>
   </div>
 
   <div id="predictions-container"></div>
@@ -58,6 +58,39 @@ document.getElementById("nav").innerHTML = renderNav("predictions.html");
       ? `<div class="notes-box">${p.notes}</div>`
       : "";
 
+    const gradeTag = (label, ok) => {
+      if (ok === null || ok === undefined) return `<span class="grade-tag push">${label}: n/a</span>`;
+      return `<span class="grade-tag ${ok ? "correct" : "incorrect"}">${label}: ${ok ? "Correct" : "Incorrect"}</span>`;
+    };
+
+    // Dub Beta Model (XGBoost) -- a candidate architecture shown alongside
+    // the live model's own pick above, never with equal weight: it's never
+    // part of edge/lean/bet-suggestion logic anywhere on the site, purely a
+    // second opinion. null (no beta_model_spread_home) means predict_week.py
+    // hasn't been run for this week yet -- see export_site_data.py's
+    // build_matchups_and_predictions() docstring comment.
+    let betaHtml = "";
+    if (p.beta_model_spread_home !== null && p.beta_model_spread_home !== undefined) {
+      const betaSpreads = formatSpreadPair(p.beta_model_spread_home);
+      const agreeTag = p.beta_agrees === null || p.beta_agrees === undefined
+        ? ""
+        : (p.beta_agrees
+            ? `<span class="grade-tag push">Agrees with live model</span>`
+            : `<span class="grade-tag incorrect">Disagrees with live model</span>`);
+      const betaGradeHtml = (p.completed && p.home_points !== null && p.away_points !== null)
+        ? `<div class="beta-line">${gradeTag("Straight up", p.beta_straight_up_correct)}${gradeTag("Vs. beta line", p.beta_covered_model_line)}</div>`
+        : "";
+      betaHtml = `
+        <div class="beta-block">
+          <span class="beta-tag">Dub Beta Model</span>
+          <div class="beta-line">
+            <span class="odds-value">${betaSpreads.home} / ${betaSpreads.away}</span>
+            ${agreeTag}
+          </div>
+          ${betaGradeHtml}
+        </div>`;
+    }
+
     // Once the game's final, swap the still-live win-prob bar for the
     // actual result plus how the model's own pick graded -- straight up
     // (did the favored team just win) and against the model's own number
@@ -69,11 +102,6 @@ document.getElementById("nav").innerHTML = renderNav("predictions.html");
       const homeWon = p.home_points > p.away_points;
       const awaySpan = homeWon ? `${p.away_team} ${p.away_points}` : `<span class="winner">${p.away_team} ${p.away_points}</span>`;
       const homeSpan = homeWon ? `<span class="winner">${p.home_team} ${p.home_points}</span>` : `${p.home_team} ${p.home_points}`;
-
-      const gradeTag = (label, ok) => {
-        if (ok === null || ok === undefined) return `<span class="grade-tag push">${label}: n/a</span>`;
-        return `<span class="grade-tag ${ok ? "correct" : "incorrect"}">${label}: ${ok ? "Correct" : "Incorrect"}</span>`;
-      };
 
       resultHtml = `
         <div class="final-score">
@@ -120,6 +148,7 @@ document.getElementById("nav").innerHTML = renderNav("predictions.html");
           </div>
         </div>
         ${resultHtml}
+        ${betaHtml}
         ${notesHtml}
       </div>`;
   }).join("");

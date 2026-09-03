@@ -1,6 +1,6 @@
 {
   "meta": {
-    "generated_at": "2026-09-03T17:33:08Z",
+    "generated_at": "2026-09-03T18:12:14Z",
     "current_week": {
       "season": 2026,
       "week": 1
@@ -21,7 +21,11 @@
       "home_points": 42,
       "away_points": 26,
       "straight_up_correct": true,
-      "covered_model_line": false
+      "covered_model_line": false,
+      "beta_model_spread_home": -31.0,
+      "beta_agrees": true,
+      "beta_straight_up_correct": true,
+      "beta_covered_model_line": false
     },
     {
       "game_id": 401864577,
@@ -37,7 +41,11 @@
       "home_points": 33,
       "away_points": 7,
       "straight_up_correct": true,
-      "covered_model_line": true
+      "covered_model_line": true,
+      "beta_model_spread_home": -16.7,
+      "beta_agrees": true,
+      "beta_straight_up_correct": true,
+      "beta_covered_model_line": true
     },
     {
       "game_id": 401858201,
@@ -53,7 +61,11 @@
       "home_points": 37,
       "away_points": 27,
       "straight_up_correct": true,
-      "covered_model_line": true
+      "covered_model_line": true,
+      "beta_model_spread_home": -1.8,
+      "beta_agrees": true,
+      "beta_straight_up_correct": true,
+      "beta_covered_model_line": true
     },
     {
       "game_id": 401862693,
@@ -69,7 +81,11 @@
       "home_points": 21,
       "away_points": 27,
       "straight_up_correct": false,
-      "covered_model_line": false
+      "covered_model_line": false,
+      "beta_model_spread_home": -5.7,
+      "beta_agrees": true,
+      "beta_straight_up_correct": false,
+      "beta_covered_model_line": false
     },
     {
       "game_id": 401864495,
@@ -85,7 +101,11 @@
       "home_points": null,
       "away_points": null,
       "straight_up_correct": null,
-      "covered_model_line": null
+      "covered_model_line": null,
+      "beta_model_spread_home": -11.3,
+      "beta_agrees": true,
+      "beta_straight_up_correct": null,
+      "beta_covered_model_line": null
     },
     {
       "game_id": 401856664,
@@ -101,7 +121,11 @@
       "home_points": null,
       "away_points": null,
       "straight_up_correct": null,
-      "covered_model_line": null
+      "covered_model_line": null,
+      "beta_model_spread_home": -33.5,
+      "beta_agrees": true,
+      "beta_straight_up_correct": null,
+      "beta_covered_model_line": null
     },
     {
       "game_id": 401864496,
@@ -117,7 +141,11 @@
       "home_points": null,
       "away_points": null,
       "straight_up_correct": null,
-      "covered_model_line": null
+      "covered_model_line": null,
+      "beta_model_spread_home": -33.5,
+      "beta_agrees": true,
+      "beta_straight_up_correct": null,
+      "beta_covered_model_line": null
     },
     {
       "game_id": 401864499,
@@ -133,7 +161,11 @@
       "home_points": null,
       "away_points": null,
       "straight_up_correct": null,
-      "covered_model_line": null
+      "covered_model_line": null,
+      "beta_model_spread_home": -36.7,
+      "beta_agrees": true,
+      "beta_straight_up_correct": null,
+      "beta_covered_model_line": null
     },
     {
       "game_id": 401858426,
@@ -149,7 +181,11 @@
       "home_points": null,
       "away_points": null,
       "straight_up_correct": null,
-      "covered_model_line": null
+      "covered_model_line": null,
+      "beta_model_spread_home": -27.0,
+      "beta_agrees": true,
+      "beta_straight_up_correct": null,
+      "beta_covered_model_line": null
     },
     {
       "game_id": 401860878,
@@ -165,7 +201,11 @@
       "home_points": null,
       "away_points": null,
       "straight_up_correct": null,
-      "covered_model_line": null
+      "covered_model_line": null,
+      "beta_model_spread_home": -1.6,
+      "beta_agrees": true,
+      "beta_straight_up_correct": null,
+      "beta_covered_model_line": null
     },
     {
       "game_id": 401864498,
@@ -181,7 +221,11 @@
       "home_points": null,
       "away_points": null,
       "straight_up_correct": null,
-      "covered_model_line": null
+      "covered_model_line": null,
+      "beta_model_spread_home": -10.7,
+      "beta_agrees": true,
+      "beta_straight_up_correct": null,
+      "beta_covered_model_line": null
     },
     {
       "game_id": 401864497,
@@ -197,7 +241,11 @@
       "home_points": null,
       "away_points": null,
       "straight_up_correct": null,
-      "covered_model_line": null
+      "covered_model_line": null,
+      "beta_model_spread_home": 0.1,
+      "beta_agrees": true,
+      "beta_straight_up_correct": null,
+      "beta_covered_model_line": null
     },
     {
       "game_id": 401864432,
@@ -213,7 +261,11 @@
       "home_points": null,
       "away_points": null,
       "straight_up_correct": null,
-      "covered_model_line": null
+      "covered_model_line": null,
+      "beta_model_spread_home": 10.7,
+      "beta_agrees": true,
+      "beta_straight_up_correct": null,
+      "beta_covered_model_line": null
     }
   ]
 }

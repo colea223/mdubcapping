@@ -11,7 +11,7 @@
 <div class="page-wrap">
   <div class="page-header">
     <h1>Season Tracking</h1>
-    <p>Three separate records, never blended: what Cole's placed and actually bet, and how the model's own picks have graded out.</p>
+    <p>Two separate records, never blended: what you've actually bet, and how the model's own picks have graded out.</p>
   </div>
 
   <div class="card" style="margin-bottom:20px;" id="pending-card">
@@ -20,13 +20,18 @@
   </div>
 
   <div class="card" style="margin-bottom:20px;">
-    <div class="section-title">Cole's Bet Results</div>
+    <div class="section-title">Your Bets</div>
     <div id="yours-container"></div>
   </div>
 
-  <div class="card">
+  <div class="card" style="margin-bottom:20px;">
     <div class="section-title">Model's Picks (Hypothetical)</div>
     <div id="model-container"></div>
+  </div>
+
+  <div class="card">
+    <div class="section-title">Dub Beta Model <span class="beta-tag">Candidate, Spread Only</span></div>
+    <div id="beta-container"></div>
   </div>
 
   <div class="footer-note" id="updated"></div>
@@ -141,6 +146,45 @@ function renderModel(model) {
     <div class="notes-box">${model.note}</div>`;
 }
 
+// Dub Beta Model (XGBoost) -- spread only (model_comparison.py, its data
+// source, only ever compares margin models -- see export_site_data.py's
+// build_beta_tracking() docstring). A snapshot from the last manual run of
+// src/model_comparison.py, so it can lag behind Model's Picks above, which
+// is why it gets its own note rather than sharing renderModel()'s.
+function renderBeta(beta) {
+  const container = document.getElementById("beta-container");
+  if (!beta || !beta.n_games || !beta.spread || beta.spread.n_bets === undefined) {
+    container.innerHTML = emptyState(
+      (beta && beta.note) || "No Dub Beta Model data yet -- run src/model_comparison.py, then src/export_site_data.py."
+    );
+    return;
+  }
+
+  const b = beta.spread;
+  container.innerHTML = `
+    <div class="stat-grid">
+      <div class="stat-tile">
+        <div class="label">Record (ATS)</div>
+        <div class="value">${record(b)}</div>
+        <div class="sub">${b.n_bets} graded bets</div>
+      </div>
+      <div class="stat-tile">
+        <div class="label">Win Rate</div>
+        <div class="value">${pct(b.win_rate)}</div>
+      </div>
+      <div class="stat-tile">
+        <div class="label">Units (flat 1u)</div>
+        <div class="value ${unitsClass(b.units)}">${unitsLabel(b.units)}</div>
+      </div>
+      <div class="stat-tile">
+        <div class="label">Agrees w/ Live Model</div>
+        <div class="value">${beta.agree_rate !== null && beta.agree_rate !== undefined ? pct(beta.agree_rate) : "&ndash;"}</div>
+        <div class="sub">${beta.n_games} MW games compared, ${beta.season} season</div>
+      </div>
+    </div>
+    <div class="notes-box">${beta.note}</div>`;
+}
+
 function renderPending(pending) {
   const container = document.getElementById("pending-container");
   if (!pending || !pending.length) {
@@ -174,11 +218,13 @@ function renderPending(pending) {
     document.getElementById("pending-container").innerHTML = emptyState("No tracking data yet -- run the pipeline to generate this.");
     document.getElementById("yours-container").innerHTML = emptyState("No tracking data yet -- run the pipeline to generate this.");
     document.getElementById("model-container").innerHTML = "";
+    document.getElementById("beta-container").innerHTML = "";
     return;
   }
   renderPending(data.tracking.yours && data.tracking.yours.pending);
   renderYours(data.tracking.yours);
   renderModel(data.tracking.model);
+  renderBeta(data.tracking.beta_model);
   document.getElementById("updated").textContent = lastUpdatedLabel(data.meta && data.meta.generated_at);
 })();
 </script>

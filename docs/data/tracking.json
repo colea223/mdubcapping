@@ -1,6 +1,6 @@
 {
   "meta": {
-    "generated_at": "2026-09-03T17:33:08Z",
+    "generated_at": "2026-09-03T18:12:14Z",
     "current_week": {
       "season": 2026,
       "week": 1
@@ -135,6 +135,20 @@
         }
       ],
       "note": "Your actual bets from the Bet Log tab, graded at the real odds you entered."
+    },
+    "beta_model": {
+      "season": 2026,
+      "n_games": 4,
+      "spread": {
+        "n_bets": 3,
+        "wins": 2,
+        "losses": 1,
+        "pushes": 0,
+        "win_rate": 0.6667,
+        "units": 0.82
+      },
+      "agree_rate": 1.0,
+      "note": "Hypothetical flat 1-unit spread-only tracking for the Dub Beta Model (XGBoost) -- a candidate architecture evaluated alongside the live model above, never a replacement for it. Snapshot from the last manual run of src/model_comparison.py, so it can lag behind the live model's own tracking above."
     }
   }
 }

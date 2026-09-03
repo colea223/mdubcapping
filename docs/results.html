@@ -11,7 +11,7 @@
 <div class="page-wrap">
   <div class="page-header">
     <h1 id="page-title">Past Results</h1>
-    <p>Every completed Mountain West game this season -- the model's own graded spread/total/moneyline pick, and your own placed bets on that same game, side by side.</p>
+    <p>Every completed Mountain West game this season -- the model's own graded spread/total/moneyline pick, the Dub Beta Model's own spread pick, and your own placed bets on that same game, side by side.</p>
   </div>
 
   <div id="results-container"></div>
@@ -53,6 +53,36 @@ function modelRow(label, pickText, marketText, lean, wasBet, result) {
       <span class="odds-label">${label}</span>
       <span class="odds-value">${pickText} <span class="odds-label" style="text-transform:none;">(mkt ${marketText})</span></span>
       <div style="margin-top:4px;">${tag}</div>
+    </div>`;
+}
+
+// Dub Beta Model's (XGBoost's) graded spread pick for this game -- null
+// means data/clean/model_comparison_results.csv hasn't been (re)run since
+// this game was graded, see export_site_data.py's build_results() docstring.
+// Reuses modelRow() against the SAME market close the live model's Spread
+// row already shows, since both models are graded against the one market
+// line -- and adds an agree/disagree tag since that's the one comparison
+// point a single-model row can't show on its own.
+function betaModelRow(beta, marketSpreadClose) {
+  if (!beta) {
+    return `
+      <div class="beta-block">
+        <span class="beta-tag">Dub Beta Model</span>
+        <div class="beta-line odds-label">No comparison run yet for this game</div>
+      </div>`;
+  }
+  const agreeTag = beta.agrees_with_model === null || beta.agrees_with_model === undefined
+    ? ""
+    : (beta.agrees_with_model
+        ? `<span class="grade-tag push">Agrees with live model</span>`
+        : `<span class="grade-tag incorrect">Disagrees with live model</span>`);
+  return `
+    <div class="beta-block">
+      <span class="beta-tag">Dub Beta Model</span>
+      <div class="beta-line">
+        ${modelRow("Spread", fmtSpread(beta.spread_pick), fmtSpread(marketSpreadClose), beta.spread_lean, beta.spread_was_bet, beta.spread_result)}
+      </div>
+      <div class="beta-line">${agreeTag}</div>
     </div>`;
 }
 
@@ -100,6 +130,7 @@ function betRow(b) {
           ${modelRow("Total", fmtTotal(m.total_pick), fmtTotal(m.market_total_close), m.total_lean, m.total_was_bet, m.total_result)}
           ${modelRow("Moneyline", "&ndash;", "&ndash;", m.ml_lean, m.ml_was_bet, m.ml_result)}
         </div>
+        ${betaModelRow(r.beta_model, m.market_spread_close)}
         <div class="final-score" style="border-top:1px solid var(--border);">
           <div class="odds-label" style="margin-bottom:6px;">YOUR BETS</div>
           ${betsHtml}

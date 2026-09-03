@@ -437,6 +437,40 @@ table.lines-table td.no-data { color: var(--text-muted); }
 .best-tiles .label { font-size: 11px; }
 .best-tiles .value { font-size: 20px; }
 
+/* Dub Beta Model (XGBoost) -- a candidate model shown alongside the live
+   model everywhere on the site, never with equal visual weight. Dashed
+   border + the same purple-light used for "away" leans elsewhere marks it
+   as experimental/secondary at a glance, without borrowing the win/loss/
+   push status colors (those stay reserved for actual grading). */
+.beta-tag {
+  display: inline-block;
+  padding: 2px 8px;
+  border-radius: 999px;
+  font-size: 10px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  background: rgba(157,123,216,0.14);
+  color: var(--brand-purple-light);
+  border: 1px dashed var(--brand-purple-light);
+  vertical-align: middle;
+}
+.beta-block {
+  margin-top: 10px;
+  padding: 10px 12px;
+  background: var(--bg-card-alt);
+  border-radius: 8px;
+  border-left: 3px solid var(--brand-purple-light);
+  font-size: 13px;
+}
+.beta-block .beta-line {
+  margin-top: 6px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
 .empty-state {
   padding: 40px 20px;
   text-align: center;
