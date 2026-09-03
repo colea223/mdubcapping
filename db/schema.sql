@@ -355,6 +355,18 @@ CREATE TABLE IF NOT EXISTS drive_stats_snapshots (
 -- PPA/rate in that situation MINUS its defense's PPA/rate ALLOWED in that
 -- same situation) -- the same off-minus-def framing ppa_diff already uses
 -- overall, just split by situation instead of left as one aggregate number.
+--
+-- FBS-vs-FBS plays ONLY -- build_situational_stats_snapshots_table() drops
+-- any play where either side's conference that season isn't in
+-- FBS_CONFERENCES (teams.py). Added after a real backtest A/B
+-- (src/diagnose_situational_features.py) traced a Mountain West-involved
+-- regression straight to FCS contamination: North Dakota State's every
+-- pre-2026 season is 100% FCS-vs-FCS (Missouri Valley Football Conference),
+-- and even legitimate FBS MW teams' own schedules include an FCS "buy game"
+-- most seasons (Hawai'i vs. Portland State, UTEP vs. Houston Christian,
+-- etc.) -- without the filter, those snaps got folded into a team's
+-- situational splits as if they were comparable to FBS-level competition,
+-- and were the single biggest source of the worst prediction swings.
 CREATE TABLE IF NOT EXISTS situational_stats_snapshots (
     season                  INTEGER,
     team                    VARCHAR,

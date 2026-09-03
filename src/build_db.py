@@ -32,7 +32,7 @@ from raw_storage import load_json_any
 # them. END_YEAR (config.py) is "the current season" throughout this
 # project; only its raw lines_<END_YEAR>_*.json snapshots get scanned here.
 LINE_HISTORY_SEASON = END_YEAR
-from teams import MW_TEAMS_2026, normalize_team_name
+from teams import MW_TEAMS_2026, normalize_team_name, FBS_CONFERENCES
 
 SCHEMA_PATH = Path(__file__).resolve().parent.parent / "db" / "schema.sql"
 
@@ -541,11 +541,33 @@ def build_situational_stats_snapshots_table(con):
     play-by-play down/distance/yards_to_goal/ppa data, so there's nothing
     useful to compute without it (run src/pull_plays.py, then rerun
     build_db.py).
+
+    FBS-vs-FBS plays ONLY -- both offense's and defense's conference THAT
+    SEASON must be in FBS_CONFERENCES (teams.py), or the play is dropped
+    before anything else runs. A real diagnostic
+    (src/diagnose_situational_features.py) traced a backtest regression on
+    Mountain West-involved games straight to this: North Dakota State (see
+    its own "Zero FBS history" note in teams.py's MW_TEAMS_2026) has every
+    pre-2026 season played entirely in the Missouri Valley Football
+    Conference -- 100% FCS-vs-FCS snaps -- and a handful of legitimate FBS
+    MW teams' own schedules include an FCS "buy game" most seasons (Hawai'i
+    vs. Portland State, UTEP vs. Houston Christian, etc.). Without this
+    filter, those snaps get folded into a team's situational splits as if
+    they were comparable to FBS-level competition, and the biggest
+    prediction swings the diagnostic found were overwhelmingly exactly
+    these games. drive_stats_snapshots/ppa_snapshots/advanced_stats don't
+    have this filter either (same underlying risk, not yet investigated
+    there) -- scoped tight to this table for now since this is the one a
+    real A/B backtest showed actually regressing.
     """
     plays = con.execute("""
         SELECT p.offense, p.defense, p.down, p.distance, p.yards_to_goal,
                p.yards_gained, p.play_type, p.ppa,
-               g.season, g.week
+               g.season, g.week,
+               CASE WHEN p.offense = g.home_team THEN g.home_conference
+                    WHEN p.offense = g.away_team THEN g.away_conference END AS offense_conference,
+               CASE WHEN p.defense = g.home_team THEN g.home_conference
+                    WHEN p.defense = g.away_team THEN g.away_conference END AS defense_conference
         FROM plays p
         JOIN games g ON g.game_id = p.game_id
         WHERE g.season IS NOT NULL AND g.week IS NOT NULL
@@ -554,6 +576,18 @@ def build_situational_stats_snapshots_table(con):
     if plays.empty:
         print("situational_stats_snapshots: no plays joined to a known game yet "
               "(run src/pull_plays.py, then rerun build_db.py)")
+        return
+
+    n_before = len(plays)
+    plays = plays[
+        plays["offense_conference"].isin(FBS_CONFERENCES) & plays["defense_conference"].isin(FBS_CONFERENCES)
+    ].copy()
+    n_dropped = n_before - len(plays)
+    if n_dropped:
+        print(f"situational_stats_snapshots: dropped {n_dropped} of {n_before} plays "
+              f"({n_dropped / n_before * 100:.1f}%) where either side wasn't FBS that season")
+    if plays.empty:
+        print("situational_stats_snapshots: no FBS-vs-FBS plays found")
         return
 
     plays["kind"] = plays["play_type"].map(classify_play)

@@ -59,7 +59,7 @@ import xgboost_model
 import time
 from odds import payout_profit
 from power_rating import current_ratings
-from teams import MW_TEAMS_2026
+from teams import MW_TEAMS_2026, FBS_CONFERENCES
 from predict_week import auto_detect_week
 from features import team_home_venues, haversine_km
 
@@ -75,23 +75,16 @@ CURRENT_SEASON = 2026
 PRED_FILE_RE = re.compile(r"^week_(\d{4})_(\d+)_predictions\.csv$")
 MODEL_COMPARISON_PATH = CLEAN_DIR / "model_comparison_results.csv"
 
-# CFBD's real conference names for current FBS members (see
-# build_matchup_grid()) -- everything else that shows up in `games`
-# (Big Sky, Southern, SWAC, MVFC, Southland, Patriot, OVC, NEC, UAC, MEAC,
-# "FCS Independents", etc.) is FCS. This DB pulls every FBS game plus a few
-# FCS opponents/histories (North Dakota State's pre-2026 seasons, any FCS
-# team that's ever played an FBS team) -- see config.py's/teams.py's own
-# comments -- so "in the games table" alone isn't enough to mean "FBS."
-# A conference-name allowlist is far more stable to maintain than a
-# hand-typed team roster (~10 conference names vs. ~135 team names that
-# shuffle around every realignment), and it's driven by CFBD's own current-
-# season classification, not a list this project would have to keep in sync
-# by hand.
-FBS_CONFERENCES = {
-    "ACC", "American Athletic", "Big 12", "Big Ten", "Conference USA",
-    "Mid-American", "Mountain West", "Pac-12", "SEC", "Sun Belt",
-    "FBS Independents",
-}
+# FBS_CONFERENCES now lives in teams.py (see its own comment there) so
+# build_db.py's build_situational_stats_snapshots_table() can share the
+# exact same allowlist for a season-by-season FBS/FCS check -- this file's
+# own use (see build_matchup_grid() below) is unchanged: everything that
+# shows up in `games` under a conference NOT in this set (Big Sky, Southern,
+# SWAC, MVFC, Southland, Patriot, OVC, NEC, UAC, MEAC, "FCS Independents",
+# etc.) is FCS. This DB pulls every FBS game plus a few FCS opponents/
+# histories (North Dakota State's pre-2026 seasons, any FCS team that's
+# ever played an FBS team) -- see config.py's/teams.py's own comments -- so
+# "in the games table" alone isn't enough to mean "FBS."
 
 
 def latest_predictions_file():

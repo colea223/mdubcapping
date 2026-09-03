@@ -106,12 +106,15 @@ FEATURE_COLS = [
     "mw_involved_flag",
     "drive_yards_diff", "drive_points_diff", "drive_turnovers_diff",
     "pass_ypd_diff", "rush_ypd_diff", "ypa_diff", "ypc_diff",
-    # A/B test: temporarily OFF to isolate whether these 4 situational-split
-    # features (added alongside the down/distance feature-engineering work)
-    # actually improve backtest.py's ROI/ATS/CLV, or just add noise. Re-enable
-    # (uncomment) once the comparison is done -- see model.py's own docstring
-    # for what each one represents.
-    # "std_down_ppa_diff", "passing_down_ppa_diff", "red_zone_ppa_diff", "explosive_rate_diff",
+    # Re-enabled after the FCS-contamination fix in
+    # build_situational_stats_snapshots_table() (see build_db.py/schema.sql) --
+    # the first A/B test (diagnose_situational_features.py) traced the
+    # Mountain West-involved regression to FCS snaps (mostly North Dakota
+    # State's pre-2026 history, plus real MW teams' FCS "buy games") leaking
+    # into these splits, not to the features themselves being bad. Re-run the
+    # diagnostic/backtest after this change lands to confirm the fix actually
+    # closes the gap before trusting these long-term.
+    "std_down_ppa_diff", "passing_down_ppa_diff", "red_zone_ppa_diff", "explosive_rate_diff",
 ]
 ALPHAS = np.logspace(-2, 3, 25)
 
