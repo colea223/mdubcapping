@@ -7,7 +7,7 @@ const NAV_LINKS = [
   { href: "predictions.html", label: "Predictions" },
   { href: "results.html", label: "Results" },
   { href: "tracking.html", label: "Tracking" },
-  { href: "matchup.html", label: "Matchup Predictor" },
+  { href: "matchup.html", label: "Matchup Creator" },
 ];
 
 function renderNav(activeHref) {

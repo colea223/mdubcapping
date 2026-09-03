@@ -471,7 +471,7 @@ table.lines-table td.no-data { color: var(--text-muted); }
   flex-wrap: wrap;
 }
 
-/* ---------------------------------------------------------------- matchup predictor */
+/* ---------------------------------------------------------------- matchup creator */
 .matchup-picker {
   display: flex;
   align-items: flex-end;

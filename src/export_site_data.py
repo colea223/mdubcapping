@@ -786,7 +786,7 @@ def _beta_result_dict(b):
 
 def build_matchup_grid(con):
     """
-    Matchup Predictor page: precomputes the live Ridge model's predicted
+    Matchup Creator page: precomputes the live Ridge model's predicted
     spread/win-probability for every ORDERED pair of the 10 current (2026)
     Mountain West teams (home, away), including pairs that aren't actually
     on this season's schedule -- e.g. "what would Boise State -7 at home vs.
