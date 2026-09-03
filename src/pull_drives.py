@@ -19,6 +19,7 @@ Usage:
     python src/pull_drives.py --full-history  # full START_YEAR..END_YEAR re-pull
 """
 import argparse
+import time
 from datetime import datetime, timezone
 
 from config import START_YEAR, END_YEAR, RAW_DIR
@@ -60,8 +61,13 @@ def main(full_history: bool = False):
 
 
 if __name__ == "__main__":
+    _script_start_time = time.time()
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--full-history", action="store_true",
                          help=f"Re-pull every season {START_YEAR}-{END_YEAR} instead of just {END_YEAR}.")
     args = parser.parse_args()
     main(full_history=args.full_history)
+
+    _script_elapsed = time.time() - _script_start_time
+    _mins, _secs = divmod(_script_elapsed, 60)
+    print(f"\n[Finished in {int(_mins)}m {_secs:04.1f}s]" if _mins else f"\n[Finished in {_secs:.1f}s]")

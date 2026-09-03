@@ -30,6 +30,7 @@ from pathlib import Path
 
 import duckdb
 import openpyxl
+import time
 
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent / "src"))
 from config import DB_PATH, CLEAN_DIR  # noqa: E402
@@ -205,4 +206,9 @@ def main():
 
 
 if __name__ == "__main__":
+    _script_start_time = time.time()
     main()
+
+    _script_elapsed = time.time() - _script_start_time
+    _mins, _secs = divmod(_script_elapsed, 60)
+    print(f"\n[Finished in {int(_mins)}m {_secs:04.1f}s]" if _mins else f"\n[Finished in {_secs:.1f}s]")

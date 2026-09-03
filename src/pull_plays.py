@@ -194,6 +194,7 @@ def main(full_history: bool = False, season: int = None, week: int = None):
 
 
 if __name__ == "__main__":
+    _script_start_time = time.time()
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--full-history", action="store_true",
                          help=f"Backfill every season {START_YEAR}-{END_YEAR} (one-time; ~150-200 CFBD calls).")
@@ -203,3 +204,7 @@ if __name__ == "__main__":
     if (args.season is None) != (args.week is None):
         parser.error("--season and --week must be given together.")
     main(full_history=args.full_history, season=args.season, week=args.week)
+
+    _script_elapsed = time.time() - _script_start_time
+    _mins, _secs = divmod(_script_elapsed, 60)
+    print(f"\n[Finished in {int(_mins)}m {_secs:04.1f}s]" if _mins else f"\n[Finished in {_secs:.1f}s]")
