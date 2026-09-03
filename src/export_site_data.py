@@ -73,6 +73,24 @@ CURRENT_SEASON = 2026
 PRED_FILE_RE = re.compile(r"^week_(\d{4})_(\d+)_predictions\.csv$")
 MODEL_COMPARISON_PATH = CLEAN_DIR / "model_comparison_results.csv"
 
+# CFBD's real conference names for current FBS members (see
+# build_matchup_grid()) -- everything else that shows up in `games`
+# (Big Sky, Southern, SWAC, MVFC, Southland, Patriot, OVC, NEC, UAC, MEAC,
+# "FCS Independents", etc.) is FCS. This DB pulls every FBS game plus a few
+# FCS opponents/histories (North Dakota State's pre-2026 seasons, any FCS
+# team that's ever played an FBS team) -- see config.py's/teams.py's own
+# comments -- so "in the games table" alone isn't enough to mean "FBS."
+# A conference-name allowlist is far more stable to maintain than a
+# hand-typed team roster (~10 conference names vs. ~135 team names that
+# shuffle around every realignment), and it's driven by CFBD's own current-
+# season classification, not a list this project would have to keep in sync
+# by hand.
+FBS_CONFERENCES = {
+    "ACC", "American Athletic", "Big 12", "Big Ten", "Conference USA",
+    "Mid-American", "Mountain West", "Pac-12", "SEC", "Sun Belt",
+    "FBS Independents",
+}
+
 
 def latest_predictions_file():
     """Same convention/name as excel/update_model_comparison_tab.py's own
@@ -787,13 +805,20 @@ def _beta_result_dict(b):
 def build_matchup_grid(con):
     """
     Matchup Creator page: precomputes the live Ridge model's predicted
-    spread/win-probability for every ORDERED pair of the 10 current (2026)
-    Mountain West teams (home, away), including pairs that aren't actually
-    on this season's schedule -- e.g. "what would Boise State -7 at home vs.
-    Wyoming look like" even if they aren't playing each other this year. The
-    site is fully static (GitHub Pages, no server/API), so this has to be
+    spread/win-probability for every ORDERED pair of this season's FBS teams
+    (home, away), including pairs that aren't actually on this season's
+    schedule -- e.g. "what would Boise State -7 at home vs. Wyoming look
+    like" even if they aren't playing each other this year. The site is
+    fully static (GitHub Pages, no server/API), so this has to be
     precomputed here, not looked up client-side -- same "everything
     precomputed, JS just renders" pattern as every other page.
+
+    Scope is "every FBS team that played a game this (CURRENT_SEASON) season,
+    per CFBD's own conference classification" -- not a hand-maintained roster
+    like MW_TEAMS_2026 (which stays exactly what it's always been: the 10-team
+    MW-specific flag used elsewhere in the model/backtest). See
+    FBS_CONFERENCES' own comment for why a conference-name allowlist, not a
+    team-name list, is what does the FBS/FCS split here.
 
     Refits the SAME Ridge pipeline (model.py's build_pipeline()/
     fit_margin_model(), on ALL available completed games, no walk-forward
@@ -811,14 +836,20 @@ def build_matchup_grid(con):
     talent_diff (this season's recruiting), and the 7 drive_*_diff fields
     (prior-season rates, via drive_stats_snapshots' last as_of_week). Only
     five fields are genuinely game-specific/situational and need an assumed
-    value for a hypothetical, since there's no real scheduled game to read
-    them from:
+    or derived value for a hypothetical, since there's no real scheduled game
+    to read them from:
       - rest_diff = 0 (assume both teams equally rested)
       - neutral_site_flag = 0 (assume it's played at the "home" team's own
         usual venue -- see travel/elevation below)
-      - conference_game_flag = 1 and mw_involved_flag = 1 (both true for
-        any pair drawn from MW_TEAMS_2026 only, which is this grid's whole
-        scope)
+      - conference_game_flag: NOT a blanket assumption now that this covers
+        every FBS conference, not just MW-on-MW -- computed per pair from
+        each team's real CURRENT_SEASON conference (the same lookup
+        FBS_CONFERENCES filtering already builds), 1 only if both teams
+        share the same real conference this season, same as a real game's
+        conference_game column would read.
+      - mw_involved_flag: also computed per pair now, exactly like
+        model.py's own _prep() does it for a real game -- 1 if EITHER team
+        is a current (2026) Mountain West team (MW_TEAMS_2026), else 0.
       - travel_km_away / elevation_delta_away_ft: NOT assumed -- these ARE
         still computable for a hypothetical, using each team's real usual
         home venue (features.py's own team_home_venues()/haversine_km()):
@@ -841,8 +872,21 @@ def build_matchup_grid(con):
     train_df = model.load_training_frame(con)
     pipe, residual_std = model.fit_margin_model(train_df)
 
-    teams = sorted(MW_TEAMS_2026)
     prior_season = CURRENT_SEASON - 1
+
+    # This season's real conference per team, straight from CFBD's own
+    # home_conference/away_conference columns (build_matchups_and_predictions()
+    # elsewhere in this file trusts these same columns for the live model's
+    # own conference_game feature) -- used both to scope "which teams are
+    # FBS this season" (filtered to FBS_CONFERENCES) and, per pair below, to
+    # decide conference_game_flag for a hypothetical matchup.
+    conf_df = con.execute("""
+        SELECT home_team AS team, home_conference AS conf FROM games WHERE season = ?
+        UNION
+        SELECT away_team AS team, away_conference AS conf FROM games WHERE season = ?
+    """, [CURRENT_SEASON, CURRENT_SEASON]).fetchdf()
+    conf_map = dict(zip(conf_df["team"], conf_df["conf"]))
+    teams = sorted(t for t, c in conf_map.items() if c in FBS_CONFERENCES)
 
     ratings_now = current_ratings(con)
     sp_map = {(r.season, r.team): r.rating for r in con.execute(
@@ -919,14 +963,16 @@ def build_matchup_grid(con):
             talent_diff = (home_talent - away_talent) if (home_talent is not None and away_talent is not None) else None
             travel_km_away = haversine_km(home_lat, home_lon, away_lat, away_lon)
             elevation_delta_away = (home_elev - away_elev) if (home_elev is not None and away_elev is not None) else None
+            conference_game_flag = 1.0 if (conf_map.get(home) is not None and conf_map.get(home) == conf_map.get(away)) else 0.0
+            mw_involved_flag = 1.0 if (home in MW_TEAMS_2026 or away in MW_TEAMS_2026) else 0.0
 
             rows.append({
                 "rating_diff": rating_diff, "rest_diff": 0.0,
                 "travel_km_away": travel_km_away,
                 "elevation_delta_away_ft": elevation_delta_away,
-                "neutral_site_flag": 0.0, "conference_game_flag": 1.0,
+                "neutral_site_flag": 0.0, "conference_game_flag": conference_game_flag,
                 "sp_diff": sp_diff, "ppa_diff": ppa_diff, "talent_diff": talent_diff,
-                "mw_involved_flag": 1.0,
+                "mw_involved_flag": mw_involved_flag,
                 "drive_yards_diff": _drive_diff(home_drive, away_drive, "yards_per_drive"),
                 "drive_points_diff": _drive_diff(home_drive, away_drive, "points_per_drive"),
                 "drive_turnovers_diff": _drive_diff(home_drive, away_drive, "turnovers_per_drive"),

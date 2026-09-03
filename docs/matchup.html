@@ -11,22 +11,23 @@
 <div class="page-wrap">
   <div class="page-header">
     <h1>Matchup Creator</h1>
-    <p>Pick any two Mountain West teams and see the live model's predicted spread and win probability for that matchup -- even one that isn't on this season's schedule.</p>
+    <p>Pick any two FBS teams and see the live model's predicted spread and win probability for that matchup -- even one that isn't on this season's schedule.</p>
   </div>
 
   <div class="card" id="picker-card">
     <div class="section-title">Choose A Matchup</div>
     <div class="matchup-picker">
       <div class="picker-field">
-        <label for="away-select">Away</label>
-        <select id="away-select"></select>
+        <label for="away-input">Away</label>
+        <input id="away-input" type="text" list="team-options" autocomplete="off" placeholder="Type a team...">
       </div>
       <button id="swap-btn" class="swap-btn" type="button" title="Swap home/away">&#8646;</button>
       <div class="picker-field">
-        <label for="home-select">Home</label>
-        <select id="home-select"></select>
+        <label for="home-input">Home</label>
+        <input id="home-input" type="text" list="team-options" autocomplete="off" placeholder="Type a team...">
       </div>
     </div>
+    <datalist id="team-options"></datalist>
   </div>
 
   <div id="matchup-result" style="margin-top:16px;"></div>
@@ -43,15 +44,21 @@ document.getElementById("nav").innerHTML = renderNav("matchup.html");
 // static, so there's no server to fit the model against an arbitrary pair
 // on the fly. It's the SAME live Ridge margin model used everywhere else on
 // the site (never the Dub Beta/XGBoost candidate), just run against a
-// hypothetical, not-necessarily-scheduled matchup. A few assumptions make
-// that possible: both teams are assumed equally rested, the game is assumed
-// played at the "Home" team's own usual venue (so "Away" travels/adjusts for
-// elevation exactly like a real true road game), and it's treated as a
-// Mountain West conference game. Real travel distance, elevation change,
-// power ratings, and prior-season strength metrics are all still real
-// numbers, not guesses.
+// hypothetical, not-necessarily-scheduled matchup, covering every FBS team
+// that played a game this season. Two assumptions make that possible: both
+// teams are assumed equally rested, and the game is assumed played at the
+// "Home" team's own usual venue (so "Away" travels/adjusts for elevation
+// exactly like a real true road game). Everything else -- whether it's a
+// real conference game, whether either team is a current Mountain West
+// team, travel distance, elevation change, power ratings, and prior-season
+// strength metrics -- is the real value for that specific pair, not a
+// blanket guess.
 function renderResult(home, away, cell, residualStd) {
   const container = document.getElementById("matchup-result");
+  if (!home || !away) {
+    container.innerHTML = emptyState("Pick two teams from the list to see a predicted matchup.");
+    return;
+  }
   if (home === away) {
     container.innerHTML = emptyState("Pick two different teams to see a predicted matchup.");
     return;
@@ -102,8 +109,7 @@ function renderResult(home, away, cell, residualStd) {
       <div class="notes-box">
         A hypothetical model estimate, not a market line -- assumes equal rest for both teams
         and the game played at ${home}'s usual home venue. ${away}'s travel distance and elevation
-        change are the real numbers for that trip. Typical model error on a real game this season
-        has been about &plusmn;${residualStd} points.
+        change are the real numbers for that trip.
       </div>
     </div>`;
 }
@@ -120,27 +126,32 @@ function renderResult(home, away, cell, residualStd) {
   }
 
   const teams = data.teams;
-  const homeSelect = document.getElementById("home-select");
-  const awaySelect = document.getElementById("away-select");
-  const options = teams.map(t => `<option value="${t}">${t}</option>`).join("");
-  homeSelect.innerHTML = options;
-  awaySelect.innerHTML = options;
-  homeSelect.value = teams[0];
-  awaySelect.value = teams.length > 1 ? teams[1] : teams[0];
+  const teamSet = new Set(teams);
+  const homeInput = document.getElementById("home-input");
+  const awayInput = document.getElementById("away-input");
+  document.getElementById("team-options").innerHTML =
+    teams.map(t => `<option value="${t}">`).join("");
+  homeInput.value = teams[0] || "";
+  awayInput.value = teams.length > 1 ? teams[1] : (teams[0] || "");
 
+  // A plain text input + <datalist> instead of a <select> -- with every FBS
+  // team in the list (100+), a native dropdown is a long scroll to find one
+  // team; this lets you type to filter and still only accepts an exact,
+  // valid team name (see refresh()'s home/away null-out below) so a
+  // half-typed name can't silently look up the wrong matchup.
   function refresh() {
-    const home = homeSelect.value;
-    const away = awaySelect.value;
-    const cell = data.grid[home] ? data.grid[home][away] : undefined;
+    const home = teamSet.has(homeInput.value) ? homeInput.value : null;
+    const away = teamSet.has(awayInput.value) ? awayInput.value : null;
+    const cell = (home && away && data.grid[home]) ? data.grid[home][away] : undefined;
     renderResult(home, away, cell, data.residual_std);
   }
 
-  homeSelect.addEventListener("change", refresh);
-  awaySelect.addEventListener("change", refresh);
+  homeInput.addEventListener("input", refresh);
+  awayInput.addEventListener("input", refresh);
   document.getElementById("swap-btn").addEventListener("click", () => {
-    const h = homeSelect.value, a = awaySelect.value;
-    homeSelect.value = a;
-    awaySelect.value = h;
+    const h = homeInput.value, a = awayInput.value;
+    homeInput.value = a;
+    awayInput.value = h;
     refresh();
   });
 
