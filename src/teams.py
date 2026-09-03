@@ -7,6 +7,8 @@ abbreviate to "San Jose St", etc). Route every source through normalize_team_nam
 before joining anything.
 """
 
+import time
+
 # The 10 Mountain West football members for the 2026 season, after the
 # Boise St / Colorado St / Fresno St / San Diego St / Utah St departure to the
 # rebuilt Pac-12 and the UTEP / Northern Illinois / North Dakota State arrivals.
@@ -73,6 +75,35 @@ MW_TEAMS_2026 = {
 # they were in the MW), but they are no longer 2026 MW matchups themselves.
 DEPARTED_2026 = ["Boise State", "Colorado State", "Fresno State", "San Diego State", "Utah State"]
 
+# CFBD's real conference names for FBS members, any season -- originally
+# defined in export_site_data.py (see that file's own comment for the
+# reasoning: a conference-name allowlist is far more stable across
+# realignment than a hand-typed team roster), moved here so build_db.py can
+# share the exact same set for a season-by-season FBS/FCS check rather than
+# keeping two copies in sync by hand. Everything else that shows up in
+# `games` (Big Sky, Southern, SWAC, MVFC, Southland, Patriot, OVC, NEC, UAC,
+# MEAC, "FCS Independents", etc.) is FCS.
+#
+# This matters well beyond just scoping "which teams are FBS this season":
+# North Dakota State (see its own MW_TEAMS_2026 entry above -- "Zero FBS
+# history") has EVERY pre-2026 season played entirely in the Missouri
+# Valley Football Conference, i.e. 100% FCS-vs-FCS competition. Any stat
+# computed from its play-by-play without a conference check (see
+# build_db.py's build_situational_stats_snapshots_table()) mixes that
+# fundamentally different level of play in as if it were comparable to an
+# FBS team's -- and a real diagnostic (src/diagnose_situational_features.py)
+# confirmed this is exactly what was happening: the biggest prediction
+# swings from the down/distance situational-splits feature were
+# overwhelmingly NDSU games (plus a handful of FCS "buy games" other real
+# MW teams schedule, e.g. Hawai'i vs. Portland State) -- not a general "MW
+# data is worse" problem, a specific "don't let FCS snaps into an FBS-only
+# stat" one.
+FBS_CONFERENCES = {
+    "ACC", "American Athletic", "Big 12", "Big Ten", "Conference USA",
+    "Mid-American", "Mountain West", "Pac-12", "SEC", "Sun Belt",
+    "FBS Independents",
+}
+
 # Common alternate spellings seen in odds archives / older box scores / CSVs.
 # Left side: alias as it might appear in a raw source. Right side: canonical name
 # matching CFBD's `school` field (and the keys in MW_TEAMS_2026 above).
@@ -121,8 +152,13 @@ def is_2026_mw_team(canonical_name: str) -> bool:
 
 
 if __name__ == "__main__":
+    _script_start_time = time.time()
     print(f"{len(MW_TEAMS_2026)} teams in the 2026 Mountain West:")
     for team, meta in MW_TEAMS_2026.items():
         flag = " (NEW)" if meta["joined_2026"] else ""
         print(f"  - {team}{flag}: prior = {meta['prior_conference']}")
     print(f"\nDeparted for Pac-12: {', '.join(DEPARTED_2026)}")
+
+    _script_elapsed = time.time() - _script_start_time
+    _mins, _secs = divmod(_script_elapsed, 60)
+    print(f"\n[Finished in {int(_mins)}m {_secs:04.1f}s]" if _mins else f"\n[Finished in {_secs:.1f}s]")

@@ -64,6 +64,7 @@ import time
 
 from config import DB_PATH
 from power_rating import current_ratings
+from teams import FBS_CONFERENCES
 
 EARTH_RADIUS_KM = 6371.0
 
@@ -116,17 +117,49 @@ def build_features(con) -> pd.DataFrame:
     ratings_hist_map = {(r.game_id, r.team): r.rating_before for r in ratings_hist.itertuples()}
     ratings_now = current_ratings(con)
 
+    # Season-by-season FBS/FCS check, keyed (season, team) -- see teams.py's
+    # own FBS_CONFERENCES comment for the full North Dakota State/FCS-
+    # contamination story. advanced_stats (ppa_map below) doesn't need this:
+    # pull_stats.py's get_advanced_season_stats() call relies on CFBD's own
+    # classification parameter, which DEFAULTS to 'fbs', so a team's FCS-era
+    # rows (e.g. North Dakota State's every pre-2026 season) never even make
+    # it into that table. get_sp() and get_team_recruiting_rankings() (behind
+    # sp_map/talent_map) have NO classification parameter at all, though --
+    # pull_stats.py pulls every team CFBD has a rating/recruiting class for
+    # that year, FCS included -- so without this check, a newly-promoted
+    # team's FCS-era SP+ rating or FCS-scale recruiting composite would get
+    # used as if it were on the same footing as an FBS team's, exactly the
+    # same contamination mechanism that hit situational_stats_snapshots (see
+    # src/diagnose_situational_features.py and that table's own fix).
+    conf_hist = con.execute("""
+        SELECT season, home_team AS team, home_conference AS conf FROM games
+        UNION
+        SELECT season, away_team AS team, away_conference AS conf FROM games
+    """).fetchdf()
+    conf_hist_map = {(r.season, r.team): r.conf for r in conf_hist.itertuples()}
+
+    def _is_fbs(season, team):
+        return conf_hist_map.get((season, team)) in FBS_CONFERENCES
+
     # Prior-season SP+ and net PPA (off_ppa - def_ppa), keyed by (season, team)
     # so a game in `season` looks up `season - 1`'s value -- see the leakage
     # note above. Recruiting talent uses the SAME season (safe -- set before
     # the season starts), keyed the same way for a consistent lookup pattern.
-    sp_map = {(r.season, r.team): r.rating for r in con.execute("SELECT season, team, rating FROM sp_ratings").fetchdf().itertuples()}
+    sp_map = {
+        (r.season, r.team): r.rating
+        for r in con.execute("SELECT season, team, rating FROM sp_ratings").fetchdf().itertuples()
+        if _is_fbs(r.season, r.team)
+    }
     ppa_map = {
         (r.season, r.team): r.off_ppa - r.def_ppa
         for r in con.execute("SELECT season, team, off_ppa, def_ppa FROM advanced_stats").fetchdf().itertuples()
         if pd.notna(r.off_ppa) and pd.notna(r.def_ppa)
     }
-    talent_map = {(r.season, r.team): r.points for r in con.execute("SELECT season, team, points FROM recruiting").fetchdf().itertuples()}
+    talent_map = {
+        (r.season, r.team): r.points
+        for r in con.execute("SELECT season, team, points FROM recruiting").fetchdf().itertuples()
+        if _is_fbs(r.season, r.team)
+    }
 
     # Prior-season drive-based rate stats -- the LAST as_of_week row for
     # each (season, team) in drive_stats_snapshots IS that whole season's

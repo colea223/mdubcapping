@@ -427,9 +427,23 @@ def build_drive_stats_snapshots_table(con):
     turnovers per drive, drives/game -- don't need play-by-play data at
     all); pass_yards_per_drive/rush_yards_per_drive/yards_per_attempt/
     yards_per_carry just stay NULL until src/pull_plays.py has been run.
+
+    FBS-vs-FBS drives ONLY -- same fix, and for the same reason, as
+    build_situational_stats_snapshots_table() below: North Dakota State's
+    every pre-2026 season is 100% FCS-vs-FCS (its own drives here would be
+    against Missouri Valley Football Conference defenses), and even real MW
+    teams' own schedules include an occasional FCS "buy game" whose drives
+    would otherwise get folded into that team's season rate stats as if
+    they were FBS-level performance. Unlike situational_stats_snapshots'
+    plays-table query (which had to derive each side's conference from a
+    join to games), the drives table already carries offense_conference/
+    defense_conference straight from CFBD's own drive object (see
+    build_drives_table() above), so this filters directly on those two
+    columns instead.
     """
     drives = con.execute("""
-        SELECT d.id AS drive_id, d.game_id, d.offense, d.plays, d.yards, d.drive_result,
+        SELECT d.id AS drive_id, d.game_id, d.offense, d.offense_conference,
+               d.defense_conference, d.plays, d.yards, d.drive_result,
                d.start_offense_score, d.end_offense_score,
                g.season, g.week
         FROM drives d
@@ -439,6 +453,18 @@ def build_drive_stats_snapshots_table(con):
     if drives.empty:
         print("drive_stats_snapshots: no drives joined to a known game yet "
               "(run src/pull_drives.py, then rerun build_db.py)")
+        return
+
+    n_before = len(drives)
+    drives = drives[
+        drives["offense_conference"].isin(FBS_CONFERENCES) & drives["defense_conference"].isin(FBS_CONFERENCES)
+    ].copy()
+    n_dropped = n_before - len(drives)
+    if n_dropped:
+        print(f"drive_stats_snapshots: dropped {n_dropped} of {n_before} drives "
+              f"({n_dropped / n_before * 100:.1f}%) where either side wasn't FBS that season")
+    if drives.empty:
+        print("drive_stats_snapshots: no FBS-vs-FBS drives found")
         return
 
     plays = con.execute("SELECT drive_id, yards_gained, play_type FROM plays").fetchdf()

@@ -1,6 +1,6 @@
 {
   "meta": {
-    "generated_at": "2026-09-03T19:20:56Z",
+    "generated_at": "2026-09-03T20:20:28Z",
     "current_week": {
       "season": 2026,
       "week": 1
@@ -182,8 +182,8 @@
           "spread_open": -3.5,
           "total": 56.5,
           "total_open": null,
-          "home_ml": -155,
-          "away_ml": 130
+          "home_ml": -148,
+          "away_ml": 124
         },
         "Bovada": {
           "spread": -3.0,
@@ -194,12 +194,12 @@
           "away_ml": 145
         },
         "FanDuel": {
-          "spread": -3.5,
+          "spread": -2.5,
           "spread_open": null,
           "total": 56.5,
           "total_open": null,
-          "home_ml": -156,
-          "away_ml": 130
+          "home_ml": -152,
+          "away_ml": 126
         }
       },
       "book_order": [
@@ -228,7 +228,7 @@
           "away_ml": null
         },
         "DraftKings": {
-          "spread": -41.5,
+          "spread": -40.5,
           "spread_open": -40.5,
           "total": 51.5,
           "total_open": null,
@@ -266,8 +266,8 @@
           "spread_open": -30.5,
           "total": 58.5,
           "total_open": 58.5,
-          "home_ml": -50000,
-          "away_ml": 4000
+          "home_ml": -8000,
+          "away_ml": 2200
         },
         "FanDuel": {
           "spread": -28.5,
@@ -295,17 +295,17 @@
       "close_total": null,
       "books": {
         "DraftKings": {
-          "spread": -39.5,
+          "spread": -41.5,
           "spread_open": -39.5,
-          "total": 57.5,
+          "total": 56.5,
           "total_open": 57.5,
           "home_ml": null,
           "away_ml": null
         },
         "FanDuel": {
-          "spread": -38.5,
+          "spread": -40.5,
           "spread_open": null,
-          "total": 56.5,
+          "total": 55.5,
           "total_open": null,
           "home_ml": null,
           "away_ml": null
@@ -328,7 +328,7 @@
       "close_total": null,
       "books": {
         "Bovada": {
-          "spread": -31.0,
+          "spread": -32.0,
           "spread_open": -29.5,
           "total": 44.5,
           "total_open": 43.5,
@@ -386,54 +386,12 @@
           "away_ml": 155
         },
         "FanDuel": {
-          "spread": -2.5,
+          "spread": -3.5,
           "spread_open": null,
           "total": 46.5,
           "total_open": null,
-          "home_ml": -156,
-          "away_ml": 130
-        }
-      },
-      "book_order": [
-        "Bovada",
-        "DraftKings",
-        "FanDuel"
-      ]
-    },
-    {
-      "game_id": 401864498,
-      "date": "2026-09-06T02:00:00Z",
-      "away_team": "Central Michigan",
-      "home_team": "New Mexico",
-      "open_spread_home": -12.5,
-      "open_total": 49.0,
-      "kicked_off": false,
-      "close_spread_home": null,
-      "close_total": null,
-      "books": {
-        "Bovada": {
-          "spread": -10.0,
-          "spread_open": -12.5,
-          "total": 46.5,
-          "total_open": 49.0,
-          "home_ml": -575,
-          "away_ml": 400
-        },
-        "DraftKings": {
-          "spread": -10.0,
-          "spread_open": -12.5,
-          "total": 46.5,
-          "total_open": null,
-          "home_ml": -395,
-          "away_ml": 310
-        },
-        "FanDuel": {
-          "spread": -10.5,
-          "spread_open": null,
-          "total": 46.5,
-          "total_open": null,
-          "home_ml": -410,
-          "away_ml": 315
+          "home_ml": -176,
+          "away_ml": 146
         }
       },
       "book_order": [
@@ -464,15 +422,57 @@
         "DraftKings": {
           "spread": 3.0,
           "spread_open": 1.5,
-          "total": 56.5,
+          "total": 55.5,
           "total_open": null,
-          "home_ml": 120,
-          "away_ml": -142
+          "home_ml": 130,
+          "away_ml": -155
         }
       },
       "book_order": [
         "Bovada",
         "DraftKings"
+      ]
+    },
+    {
+      "game_id": 401864498,
+      "date": "2026-09-06T02:00:00Z",
+      "away_team": "Central Michigan",
+      "home_team": "New Mexico",
+      "open_spread_home": -12.5,
+      "open_total": 49.0,
+      "kicked_off": false,
+      "close_spread_home": null,
+      "close_total": null,
+      "books": {
+        "Bovada": {
+          "spread": -10.0,
+          "spread_open": -12.5,
+          "total": 46.5,
+          "total_open": 49.0,
+          "home_ml": -575,
+          "away_ml": 400
+        },
+        "DraftKings": {
+          "spread": -10.5,
+          "spread_open": -12.5,
+          "total": 46.5,
+          "total_open": null,
+          "home_ml": -455,
+          "away_ml": 350
+        },
+        "FanDuel": {
+          "spread": -10.5,
+          "spread_open": null,
+          "total": 46.5,
+          "total_open": null,
+          "home_ml": -465,
+          "away_ml": 350
+        }
+      },
+      "book_order": [
+        "Bovada",
+        "DraftKings",
+        "FanDuel"
       ]
     },
     {
@@ -487,7 +487,7 @@
       "close_total": null,
       "books": {
         "Bovada": {
-          "spread": 2.5,
+          "spread": 1.0,
           "spread_open": 4.0,
           "total": 52.5,
           "total_open": 53.5,
@@ -495,20 +495,20 @@
           "away_ml": -140
         },
         "DraftKings": {
-          "spread": 2.5,
+          "spread": 1.5,
           "spread_open": 4.5,
           "total": 52.5,
           "total_open": null,
-          "home_ml": 110,
-          "away_ml": -130
+          "home_ml": -105,
+          "away_ml": -115
         },
         "FanDuel": {
-          "spread": 2.5,
+          "spread": 1.5,
           "spread_open": null,
           "total": 52.5,
           "total_open": null,
-          "home_ml": 116,
-          "away_ml": -140
+          "home_ml": -102,
+          "away_ml": -118
         }
       },
       "book_order": [

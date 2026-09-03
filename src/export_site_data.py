@@ -902,10 +902,31 @@ def build_matchup_grid(con):
     conf_map = dict(zip(conf_df["team"], conf_df["conf"]))
     teams = sorted(t for t, c in conf_map.items() if c in FBS_CONFERENCES)
 
+    # Full season-by-season (not just CURRENT_SEASON) FBS/FCS check for
+    # sp_map/talent_map below -- same reasoning as features.py's own
+    # conf_hist_map (see that file's comment): get_sp()/
+    # get_team_recruiting_rankings() have no classification filter, so a
+    # newly-promoted team's FCS-era SP+ rating (prior_season lookup) would
+    # otherwise leak in here exactly like it would in a real game's
+    # features. advanced_stats/ppa_map doesn't need this -- CFBD's own
+    # classification='fbs' default on get_advanced_season_stats already
+    # keeps FCS-era rows out of that table.
+    conf_hist_df = con.execute("""
+        SELECT season, home_team AS team, home_conference AS conf FROM games
+        UNION
+        SELECT season, away_team AS team, away_conference AS conf FROM games
+    """).fetchdf()
+    conf_hist_map = {(r.season, r.team): r.conf for r in conf_hist_df.itertuples()}
+
+    def _is_fbs(season, team):
+        return conf_hist_map.get((season, team)) in FBS_CONFERENCES
+
     ratings_now = current_ratings(con)
-    sp_map = {(r.season, r.team): r.rating for r in con.execute(
-        "SELECT season, team, rating FROM sp_ratings"
-    ).fetchdf().itertuples()}
+    sp_map = {
+        (r.season, r.team): r.rating
+        for r in con.execute("SELECT season, team, rating FROM sp_ratings").fetchdf().itertuples()
+        if _is_fbs(r.season, r.team)
+    }
     ppa_map = {
         (r.season, r.team): r.off_ppa - r.def_ppa
         for r in con.execute(
@@ -913,9 +934,11 @@ def build_matchup_grid(con):
         ).fetchdf().itertuples()
         if pd.notna(r.off_ppa) and pd.notna(r.def_ppa)
     }
-    talent_map = {(r.season, r.team): r.points for r in con.execute(
-        "SELECT season, team, points FROM recruiting"
-    ).fetchdf().itertuples()}
+    talent_map = {
+        (r.season, r.team): r.points
+        for r in con.execute("SELECT season, team, points FROM recruiting").fetchdf().itertuples()
+        if _is_fbs(r.season, r.team)
+    }
 
     try:
         drive_stats_df = con.execute("""

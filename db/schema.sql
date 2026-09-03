@@ -311,6 +311,17 @@ CREATE TABLE IF NOT EXISTS plays (
 -- Drive-based rate stats are just as public and fast-moving, so the
 -- in-season version of these features should NOT be trusted or wired into
 -- FEATURE_COLS without a real backtest confirming it actually helps first.
+--
+-- FBS-vs-FBS drives ONLY -- build_drive_stats_snapshots_table() drops any
+-- drive where either offense_conference or defense_conference that season
+-- isn't in FBS_CONFERENCES (teams.py), read straight off the drives table's
+-- own offense_conference/defense_conference columns (CFBD's own drive
+-- object, no join needed). Same fix, same reason, as
+-- situational_stats_snapshots below: North Dakota State's every pre-2026
+-- season is 100% FCS-vs-FCS, and real MW teams' own schedules include an
+-- occasional FCS "buy game" -- without this filter, those drives would get
+-- folded into a team's season rate stats as if they were FBS-level
+-- performance.
 CREATE TABLE IF NOT EXISTS drive_stats_snapshots (
     season                  INTEGER,
     team                    VARCHAR,
