@@ -1,14 +1,14 @@
 Game ID,Week,Date,Away Team,Home Team,Model Line (Home),Model Total,Home Win Prob,XGBoost Line (Home)
-401864494,1,2026-08-29,San José State,USC,-32.2,53.3,0.966,-31.0
-401864577,1,2026-08-29,Jacksonville State,North Dakota State,-16.4,53.2,0.824,-16.7
-401858201,1,2026-08-29,Hawai'i,Stanford,-4.3,52.0,0.597,-1.8
-401862693,1,2026-08-30,Memphis,UNLV,-9.9,56.1,0.714,-5.7
-401864495,1,2026-09-04,San José State,Eastern Michigan,-12.8,54.9,0.767,-11.3
-401856664,1,2026-09-05,UTEP,Oklahoma,-33.9,51.3,0.973,-33.5
-401864496,1,2026-09-05,Duquesne,Air Force,-22.0,53.3,0.894,-33.5
-401864499,1,2026-09-05,Fordham,North Dakota State,-49.9,55.7,0.998,-36.7
-401858426,1,2026-09-05,Northern Illinois,Iowa,-30.4,47.7,0.958,-27.0
-401860878,1,2026-09-05,Wyoming,Colorado State,-5.2,49.5,0.615,-1.6
-401864498,1,2026-09-06,Central Michigan,New Mexico,-17.2,50.1,0.836,-10.7
-401864497,1,2026-09-06,UNLV,Hawai'i,6.5,55.4,0.356,0.1
-401864432,1,2026-09-06,Western Kentucky,Nevada,5.0,51.6,0.388,10.7
+401864494,1,2026-08-29,San José State,USC,-30.7,53.3,0.961,-29.1
+401864577,1,2026-08-29,Jacksonville State,North Dakota State,-19.7,52.9,0.87,-16.7
+401858201,1,2026-08-29,Hawai'i,Stanford,-3.1,51.4,0.571,-2.7
+401862693,1,2026-08-30,Memphis,UNLV,-8.2,55.5,0.682,-6.3
+401864495,1,2026-09-04,San José State,Eastern Michigan,-11.6,54.3,0.747,-12.0
+401856664,1,2026-09-05,UTEP,Oklahoma,-34.9,52.5,0.977,-32.2
+401864496,1,2026-09-05,Duquesne,Air Force,-21.5,53.0,0.891,-29.9
+401864499,1,2026-09-05,Fordham,North Dakota State,-57.2,55.4,0.999,-36.9
+401858426,1,2026-09-05,Northern Illinois,Iowa,-30.3,47.7,0.958,-26.9
+401860878,1,2026-09-05,Wyoming,Colorado State,-2.9,49.3,0.566,-2.5
+401864497,1,2026-09-06,UNLV,Hawai'i,4.0,54.5,0.41,0.9
+401864498,1,2026-09-06,Central Michigan,New Mexico,-17.9,50.6,0.847,-12.2
+401864432,1,2026-09-06,Western Kentucky,Nevada,4.3,51.7,0.402,12.3
