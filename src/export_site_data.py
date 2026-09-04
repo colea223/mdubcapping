@@ -883,6 +883,31 @@ def build_matchup_grid(con):
     home_win_prob shape, just fit by that model.
     """
     train_df = model.load_training_frame(con)
+    if len(train_df) < 10:
+        # Same "not enough data for a meaningful fit" bar as
+        # build_matchups_and_predictions() above -- but unlike that
+        # function (which just leaves `predictions` an empty list, a
+        # harmless no-op since the Predictions page already handles a
+        # bye/no-upcoming-game week the same way), there's no safe empty
+        # value to return here: fit_margin_model()/fit_xgboost_margin_model()
+        # below have no row-count guard of their own and crash outright on
+        # zero training rows (sklearn's "Found array with 0 sample(s)").
+        # This was a REAL, repeated production failure, not a hypothetical:
+        # every GitHub Actions run starts from a fresh, unpersisted DuckDB
+        # file (see db/*.duckdb in .gitignore), and run_odds_update.py's
+        # Mon-Fri workflow -- before it was fixed to also run
+        # power_rating.py/features.py, see that script's own docstring --
+        # never populated game_features at all, so this call always saw 0
+        # training rows there and crashed the whole job before the "Commit
+        # updated data" step ever ran. Returning None here (rather than an
+        # empty {"teams": [], "grid": {}}) lets main() below skip writing
+        # matchup_grid.json entirely on a run like that, instead of
+        # committing an empty grid over whatever real one the last full
+        # pipeline run produced.
+        print(f"  [matchup grid] only {len(train_df)} completed+lined training game(s) in game_features -- "
+              f"not enough for a meaningful fit (need >= 10). Skipping -- matchup_grid.json is left as-is "
+              f"rather than being overwritten with an empty grid.")
+        return None
     ridge_pipe, ridge_residual_std = model.fit_margin_model(train_df)
     xgb_pipe, xgb_residual_std = xgboost_model.fit_xgboost_margin_model(train_df)
 
@@ -1310,16 +1335,20 @@ def main():
     _write("lines.json", {"meta": lines_meta, "games": live_lines})
     _write("line_history.json", {"meta": lines_meta, "history": line_history})
     _write("results.json", {"meta": meta, "results": results})
-    _write("matchup_grid.json", {
-        "meta": meta, "teams": matchup_grid["teams"], "grid": matchup_grid["grid"],
-        "ridge_residual_std": matchup_grid["ridge_residual_std"],
-        "xgboost_residual_std": matchup_grid["xgboost_residual_std"],
-    })
+    if matchup_grid is not None:
+        _write("matchup_grid.json", {
+            "meta": meta, "teams": matchup_grid["teams"], "grid": matchup_grid["grid"],
+            "ridge_residual_std": matchup_grid["ridge_residual_std"],
+            "xgboost_residual_std": matchup_grid["xgboost_residual_std"],
+        })
+    # else: build_matchup_grid() already printed why it's skipping -- leave
+    # docs/data/matchup_grid.json untouched (whatever the last successful
+    # run wrote) rather than overwrite it with an empty grid.
 
     print(f"Wrote rankings ({len(rankings)}), matchups ({len(matchups)}), "
           f"predictions ({len(predictions)}), live lines ({len(live_lines)}), "
           f"results ({len(results)}), tracking summary, matchup grid "
-          f"({len(matchup_grid['teams'])} teams) to {DOCS_DATA}")
+          f"({len(matchup_grid['teams']) if matchup_grid is not None else 'SKIPPED'} teams) to {DOCS_DATA}")
 
 
 if __name__ == "__main__":
