@@ -1,6 +1,6 @@
 {
   "meta": {
-    "generated_at": "2026-09-03T20:20:28Z",
+    "generated_at": "2026-09-04T20:19:46Z",
     "current_week": {
       "season": 2026,
       "week": 1
@@ -158,21 +158,6 @@
       "away_points": null
     },
     {
-      "game_id": 401864497,
-      "week": 1,
-      "date": "2026-09-06",
-      "away_team": "UNLV",
-      "home_team": "Hawai'i",
-      "market_spread_home": 3.0,
-      "market_total": 55.8,
-      "home_moneyline": 130,
-      "away_moneyline": -152,
-      "manual_line_used": false,
-      "completed": false,
-      "home_points": null,
-      "away_points": null
-    },
-    {
       "game_id": 401864498,
       "week": 1,
       "date": "2026-09-06",
@@ -182,6 +167,21 @@
       "market_total": 46.5,
       "home_moneyline": -515,
       "away_moneyline": 375,
+      "manual_line_used": false,
+      "completed": false,
+      "home_points": null,
+      "away_points": null
+    },
+    {
+      "game_id": 401864497,
+      "week": 1,
+      "date": "2026-09-06",
+      "away_team": "UNLV",
+      "home_team": "Hawai'i",
+      "market_spread_home": 3.0,
+      "market_total": 55.8,
+      "home_moneyline": 130,
+      "away_moneyline": -152,
       "manual_line_used": false,
       "completed": false,
       "home_points": null,
