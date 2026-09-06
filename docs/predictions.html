@@ -79,7 +79,7 @@ document.getElementById("nav").innerHTML = renderNav("predictions.html");
             ? `<span class="grade-tag push">Agrees with live model</span>`
             : `<span class="grade-tag incorrect">Disagrees with live model</span>`);
       const betaGradeHtml = (p.completed && p.home_points !== null && p.away_points !== null)
-        ? `<div class="beta-line">${gradeTag("Straight up", p.beta_straight_up_correct)}${gradeTag("Vs. beta line", p.beta_covered_model_line)}</div>`
+        ? `<div class="beta-line">${gradeTag("Straight up", p.beta_straight_up_correct)}${gradeTag("Vs. market line", p.beta_covered_market_line)}</div>`
         : "";
       betaHtml = `
         <div class="beta-block">
@@ -94,10 +94,15 @@ document.getElementById("nav").innerHTML = renderNav("predictions.html");
 
     // Once the game's final, swap the still-live win-prob bar for the
     // actual result plus how the model's own pick graded -- straight up
-    // (did the favored team just win) and against the model's own number
-    // (a stricter bar: the favorite can win outright and still miss the
-    // model's predicted margin). See export_site_data.py's
-    // build_matchups_and_predictions() for exactly how these are computed.
+    // (did the favored team just win) and against the real market spread
+    // (did the SIDE the model leaned -- same lean backtest.py grades a real
+    // bet on -- actually cover the market line, i.e. would betting that
+    // side have won). This is graded against the market, not the model's
+    // own predicted margin -- a model that leans the right side still
+    // grades as a win even if the final margin lands short of (or past)
+    // the model's own number, as long as that side covered the real line.
+    // See export_site_data.py's build_matchups_and_predictions() for
+    // exactly how these are computed.
     let resultHtml;
     if (p.completed && p.home_points !== null && p.away_points !== null) {
       const homeWon = p.home_points > p.away_points;
@@ -111,7 +116,7 @@ document.getElementById("nav").innerHTML = renderNav("predictions.html");
         </div>
         <div style="margin-top:8px;">
           ${gradeTag("Straight up", p.straight_up_correct)}
-          ${gradeTag("Vs. model line", p.covered_model_line)}
+          ${gradeTag("Vs. market line", p.covered_market_line)}
         </div>`;
     } else {
       resultHtml = `

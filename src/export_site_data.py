@@ -596,39 +596,57 @@ def build_matchups_and_predictions(con, notes: dict, manual_lines=None):
                 model_total = total_map.get(int(row.game_id))
 
                 # Once the game's final -- grade the model's own pick two
-                # ways, same idea as backtest.py's bet grading but against
-                # the model's own predicted margin rather than the market
-                # line. straight_up: did the team the model favored just win
-                # the game outright. covered_model_line: did the actual
-                # margin fall on the model's side of its OWN predicted
-                # margin (a stricter bar -- the favorite can win outright and
-                # still "miss" its own number). Both are None until the game
-                # is final, and null a "pick'em" (model_spread_home==0) up on
-                # covered_model_line specifically since there's no favored
-                # side to grade against.
+                # ways. straight_up: did the team the model favored just win
+                # the game outright. covered_market_line: did the SIDE THE
+                # MODEL LEANED (per `edge` above -- the same lean backtest.py
+                # grades a real bet on) cover the ACTUAL MARKET SPREAD, i.e.
+                # would a real bet on that side have won. This used to grade
+                # against the model's own predicted margin instead (a
+                # "covered_model_line" field) -- that read as a false
+                # "miss" any time the model nailed the right side of the
+                # market but its exact predicted margin was a bit off, e.g.
+                # market -9.5 / model -11.5 / favorite wins by 10 or 11: the
+                # model correctly said the market's -9.5 was too generous to
+                # the underdog, so leaning the favorite covers the real
+                # -9.5 you could actually bet, even though the margin came
+                # up short of the model's own -11.5 number -- that's a model
+                # win, not a miss. Same logic mirrored the other direction
+                # (model leaning the dog, e.g. market -40.5 / model -38.5 /
+                # favorite wins by 39 or 40: the model's lean was the dog at
+                # +40.5, which covers). Both straight_up_correct and
+                # covered_market_line are None until the game is final;
+                # covered_market_line also stays None with no real market
+                # line to grade against, or when edge is exactly 0 (model
+                # dead-even with the market -- no side to grade).
                 completed = bool(mkt.get("completed"))
                 home_pts, away_pts = mkt.get("home_points"), mkt.get("away_points")
-                straight_up_correct = covered_model_line = None
+                straight_up_correct = covered_market_line = None
                 actual_margin = None
                 if completed and home_pts is not None and away_pts is not None:
                     actual_margin = home_pts - away_pts
                     pred_margin_i = float(pred_margin[i])
                     if pred_margin_i != 0:
                         straight_up_correct = (actual_margin > 0) == (pred_margin_i > 0)
-                        diff = actual_margin - pred_margin_i
-                        covered_model_line = (diff >= 0) if pred_margin_i > 0 else (diff <= 0)
                     elif actual_margin != 0:
                         straight_up_correct = None  # model called a dead-even pick'em; no favorite to grade
 
+                    if market_spread_home is not None and edge:
+                        cover_value = actual_margin + market_spread_home
+                        if cover_value != 0:  # a push covers nobody
+                            home_covers = cover_value > 0
+                            leaned_home = edge > 0
+                            covered_market_line = leaned_home == home_covers
+
                 # Dub Beta Model grading -- same two-way grade as the live
-                # model just above (straight up / vs. its own line), plus
-                # whether it agrees with the live model on which side it
-                # favors. All three stay None whenever there's no Dub Beta
-                # line for this game (see beta_by_game above) or, for the
-                # agreement check, whenever either model calls a dead-even
-                # pick'em (0.0) -- there's no "side" to compare in that case.
+                # model just above (straight up / vs. the real market line),
+                # plus whether it agrees with the live model on which side
+                # it favors. All three stay None whenever there's no Dub
+                # Beta line for this game (see beta_by_game above) or, for
+                # the agreement check, whenever either model calls a
+                # dead-even pick'em (0.0) -- there's no "side" to compare in
+                # that case.
                 beta_spread_home = beta_by_game.get(int(row.game_id))
-                beta_straight_up_correct = beta_covered_model_line = None
+                beta_straight_up_correct = beta_covered_market_line = None
                 beta_agrees = None
                 if beta_spread_home is not None and pd.notna(beta_spread_home):
                     beta_spread_home = float(beta_spread_home)
@@ -636,8 +654,13 @@ def build_matchups_and_predictions(con, notes: dict, manual_lines=None):
                         beta_margin_i = -beta_spread_home
                         if beta_margin_i != 0:
                             beta_straight_up_correct = (actual_margin > 0) == (beta_margin_i > 0)
-                            beta_diff = actual_margin - beta_margin_i
-                            beta_covered_model_line = (beta_diff >= 0) if beta_margin_i > 0 else (beta_diff <= 0)
+                        beta_edge = (market_spread_home - beta_spread_home) if market_spread_home is not None else None
+                        if beta_edge and market_spread_home is not None:
+                            beta_cover_value = actual_margin + market_spread_home
+                            if beta_cover_value != 0:
+                                beta_home_covers = beta_cover_value > 0
+                                beta_leaned_home = beta_edge > 0
+                                beta_covered_market_line = beta_leaned_home == beta_home_covers
                     if model_spread_home[i] != 0 and beta_spread_home != 0:
                         # bool(...) wrapper is load-bearing, not defensive
                         # style: model_spread_home[i] is a numpy scalar (the
@@ -671,7 +694,7 @@ def build_matchups_and_predictions(con, notes: dict, manual_lines=None):
                     "home_points": home_pts,
                     "away_points": away_pts,
                     "straight_up_correct": straight_up_correct,
-                    "covered_model_line": covered_model_line,
+                    "covered_market_line": covered_market_line,
                     # Dub Beta Model (XGBoost) -- informational only, see
                     # this function's beta_by_game comment above. Never used
                     # to compute edge/is_bet -- only the live model's "edge"
@@ -679,7 +702,7 @@ def build_matchups_and_predictions(con, notes: dict, manual_lines=None):
                     "beta_model_spread_home": round(beta_spread_home, 1) if beta_spread_home is not None else None,
                     "beta_agrees": beta_agrees,
                     "beta_straight_up_correct": beta_straight_up_correct,
-                    "beta_covered_model_line": beta_covered_model_line,
+                    "beta_covered_market_line": beta_covered_market_line,
                 })
 
     return matchups, predictions, {"season": season, "week": week}
