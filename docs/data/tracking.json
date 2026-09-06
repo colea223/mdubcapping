@@ -1,6 +1,6 @@
 {
   "meta": {
-    "generated_at": "2026-09-06T01:05:51Z",
+    "generated_at": "2026-09-06T16:57:42Z",
     "current_week": {
       "season": 2026,
       "week": 1
@@ -9,30 +9,30 @@
   "tracking": {
     "model": {
       "season": 2026,
-      "n_games": 9,
+      "n_games": 13,
       "spread": {
-        "n_bets": 8,
-        "wins": 2,
-        "losses": 6,
+        "n_bets": 11,
+        "wins": 4,
+        "losses": 7,
         "pushes": 0,
-        "win_rate": 0.25,
-        "units": -4.18
+        "win_rate": 0.3636,
+        "units": -3.36
       },
       "total": {
+        "n_bets": 7,
+        "wins": 3,
+        "losses": 4,
+        "pushes": 0,
+        "win_rate": 0.4286,
+        "units": -1.27
+      },
+      "moneyline": {
         "n_bets": 5,
         "wins": 2,
         "losses": 3,
         "pushes": 0,
         "win_rate": 0.4,
-        "units": -1.18
-      },
-      "moneyline": {
-        "n_bets": 5,
-        "wins": 1,
-        "losses": 4,
-        "pushes": 0,
-        "win_rate": 0.2,
-        "units": -3.66
+        "units": -2.11
       },
       "upset_calls": 5,
       "upset_wins": 1,

@@ -1,6 +1,6 @@
 {
   "meta": {
-    "generated_at": "2026-09-06T01:05:51Z",
+    "generated_at": "2026-09-06T16:57:42Z",
     "current_week": {
       "season": 2026,
       "week": 1
@@ -19,33 +19,23 @@
     },
     {
       "team": "UNLV",
-      "rating": 1585.5,
-      "wins": 0,
+      "rating": 1613.1,
+      "wins": 1,
       "losses": 1,
-      "conf_wins": 0,
+      "conf_wins": 1,
       "conf_losses": 0,
-      "trend": -59.8,
+      "trend": 27.6,
       "rank": 2
     },
     {
       "team": "New Mexico",
-      "rating": 1566.5,
-      "wins": 0,
+      "rating": 1569.0,
+      "wins": 1,
       "losses": 0,
       "conf_wins": 0,
       "conf_losses": 0,
-      "trend": -12.5,
+      "trend": 2.5,
       "rank": 3
-    },
-    {
-      "team": "Hawai'i",
-      "rating": 1519.4,
-      "wins": 0,
-      "losses": 1,
-      "conf_wins": 0,
-      "conf_losses": 0,
-      "trend": -41.7,
-      "rank": 4
     },
     {
       "team": "Air Force",
@@ -55,7 +45,27 @@
       "conf_wins": 0,
       "conf_losses": 0,
       "trend": 26.4,
+      "rank": 4
+    },
+    {
+      "team": "Hawai'i",
+      "rating": 1491.7,
+      "wins": 0,
+      "losses": 2,
+      "conf_wins": 0,
+      "conf_losses": 1,
+      "trend": -27.6,
       "rank": 5
+    },
+    {
+      "team": "Nevada",
+      "rating": 1439.9,
+      "wins": 1,
+      "losses": 0,
+      "conf_wins": 0,
+      "conf_losses": 0,
+      "trend": 78.0,
+      "rank": 6
     },
     {
       "team": "San Jos\u00e9 State",
@@ -65,7 +75,7 @@
       "conf_wins": 0,
       "conf_losses": 0,
       "trend": 24.3,
-      "rank": 6
+      "rank": 7
     },
     {
       "team": "Northern Illinois",
@@ -75,26 +85,16 @@
       "conf_wins": 0,
       "conf_losses": 0,
       "trend": 17.6,
-      "rank": 7
-    },
-    {
-      "team": "Wyoming",
-      "rating": 1399.9,
-      "wins": 0,
-      "losses": 0,
-      "conf_wins": 0,
-      "conf_losses": 0,
-      "trend": -14.3,
       "rank": 8
     },
     {
-      "team": "Nevada",
-      "rating": 1361.9,
+      "team": "Wyoming",
+      "rating": 1396.8,
       "wins": 0,
-      "losses": 0,
+      "losses": 1,
       "conf_wins": 0,
       "conf_losses": 0,
-      "trend": -11.6,
+      "trend": -3.0,
       "rank": 9
     },
     {
