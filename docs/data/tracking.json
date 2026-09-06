@@ -1,6 +1,6 @@
 {
   "meta": {
-    "generated_at": "2026-09-06T20:43:30Z",
+    "generated_at": "2026-09-06T22:40:34Z",
     "current_week": {
       "season": 2026,
       "week": 1
@@ -174,16 +174,16 @@
     },
     "beta_model": {
       "season": 2026,
-      "n_games": 4,
+      "n_games": 13,
       "spread": {
-        "n_bets": 3,
-        "wins": 1,
-        "losses": 2,
+        "n_bets": 9,
+        "wins": 2,
+        "losses": 7,
         "pushes": 0,
-        "win_rate": 0.3333,
-        "units": -1.09
+        "win_rate": 0.2222,
+        "units": -5.18
       },
-      "agree_rate": 1.0,
+      "agree_rate": 0.8462,
       "note": null
     }
   }
