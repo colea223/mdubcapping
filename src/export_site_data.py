@@ -635,7 +635,15 @@ def build_matchups_and_predictions(con, notes: dict, manual_lines=None):
                         if cover_value != 0:  # a push covers nobody
                             home_covers = cover_value > 0
                             leaned_home = edge > 0
-                            covered_market_line = leaned_home == home_covers
+                            # bool(...) wrapper is load-bearing, not defensive
+                            # style: `edge` traces back to model_spread_home[i],
+                            # a numpy scalar (the model's array output), so
+                            # `edge > 0` is numpy.bool_ rather than a plain
+                            # bool, and comparing two of those is still
+                            # numpy.bool_ -- which json.dumps() can't
+                            # serialize. Same gotcha beta_agrees below already
+                            # works around; this is the same fix.
+                            covered_market_line = bool(leaned_home == home_covers)
 
                 # Dub Beta Model grading -- same two-way grade as the live
                 # model just above (straight up / vs. the real market line),
@@ -660,7 +668,13 @@ def build_matchups_and_predictions(con, notes: dict, manual_lines=None):
                             if beta_cover_value != 0:
                                 beta_home_covers = beta_cover_value > 0
                                 beta_leaned_home = beta_edge > 0
-                                beta_covered_market_line = beta_leaned_home == beta_home_covers
+                                # bool(...) here too -- beta_spread_home is
+                                # already float()-cast above so this branch is
+                                # probably safe either way, but matching the
+                                # live-model line above (and the file's
+                                # established convention) rather than relying
+                                # on that.
+                                beta_covered_market_line = bool(beta_leaned_home == beta_home_covers)
                     if model_spread_home[i] != 0 and beta_spread_home != 0:
                         # bool(...) wrapper is load-bearing, not defensive
                         # style: model_spread_home[i] is a numpy scalar (the
