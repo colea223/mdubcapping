@@ -1,6 +1,6 @@
 {
   "meta": {
-    "generated_at": "2026-09-06T16:57:42Z",
+    "generated_at": "2026-09-06T17:43:26Z",
     "current_week": {
       "season": 2026,
       "week": 1
@@ -24,7 +24,7 @@
       "away_points": 7,
       "straight_up_correct": true,
       "covered_model_line": true,
-      "beta_model_spread_home": -16.6,
+      "beta_model_spread_home": -16.5,
       "beta_agrees": true,
       "beta_straight_up_correct": true,
       "beta_covered_model_line": true
@@ -46,7 +46,7 @@
       "away_points": 0,
       "straight_up_correct": true,
       "covered_model_line": false,
-      "beta_model_spread_home": -33.6,
+      "beta_model_spread_home": -33.0,
       "beta_agrees": true,
       "beta_straight_up_correct": true,
       "beta_covered_model_line": true
@@ -68,7 +68,7 @@
       "away_points": 26,
       "straight_up_correct": true,
       "covered_model_line": false,
-      "beta_model_spread_home": -32.2,
+      "beta_model_spread_home": -32.6,
       "beta_agrees": true,
       "beta_straight_up_correct": true,
       "beta_covered_model_line": false
@@ -90,7 +90,7 @@
       "away_points": 27,
       "straight_up_correct": true,
       "covered_model_line": true,
-      "beta_model_spread_home": -1.4,
+      "beta_model_spread_home": -0.7,
       "beta_agrees": true,
       "beta_straight_up_correct": true,
       "beta_covered_model_line": true
@@ -134,7 +134,7 @@
       "away_points": 27,
       "straight_up_correct": false,
       "covered_model_line": false,
-      "beta_model_spread_home": -9.8,
+      "beta_model_spread_home": -9.2,
       "beta_agrees": true,
       "beta_straight_up_correct": false,
       "beta_covered_model_line": false
@@ -156,7 +156,7 @@
       "away_points": 0,
       "straight_up_correct": true,
       "covered_model_line": true,
-      "beta_model_spread_home": -33.9,
+      "beta_model_spread_home": -33.8,
       "beta_agrees": true,
       "beta_straight_up_correct": true,
       "beta_covered_model_line": true
@@ -178,7 +178,7 @@
       "away_points": 0,
       "straight_up_correct": true,
       "covered_model_line": true,
-      "beta_model_spread_home": -29.2,
+      "beta_model_spread_home": -29.4,
       "beta_agrees": true,
       "beta_straight_up_correct": true,
       "beta_covered_model_line": true
@@ -200,7 +200,7 @@
       "away_points": 0,
       "straight_up_correct": true,
       "covered_model_line": true,
-      "beta_model_spread_home": -25.4,
+      "beta_model_spread_home": -24.3,
       "beta_agrees": true,
       "beta_straight_up_correct": true,
       "beta_covered_model_line": true
@@ -214,7 +214,7 @@
       "model_total": 49.3,
       "market_spread_home": -2.8,
       "market_total": 46.0,
-      "home_win_prob": 0.68,
+      "home_win_prob": 0.679,
       "edge": 5.5,
       "notes": "",
       "completed": true,
@@ -222,7 +222,29 @@
       "away_points": 13,
       "straight_up_correct": true,
       "covered_model_line": true,
-      "beta_model_spread_home": -3.3,
+      "beta_model_spread_home": -4.0,
+      "beta_agrees": true,
+      "beta_straight_up_correct": true,
+      "beta_covered_model_line": true
+    },
+    {
+      "game_id": 401864498,
+      "week": 1,
+      "away_team": "Central Michigan",
+      "home_team": "New Mexico",
+      "model_spread_home": -18.2,
+      "model_total": 50.6,
+      "market_spread_home": -11.2,
+      "market_total": 47.2,
+      "home_win_prob": 0.846,
+      "edge": 7.0,
+      "notes": "",
+      "completed": true,
+      "home_points": 38,
+      "away_points": 7,
+      "straight_up_correct": true,
+      "covered_model_line": true,
+      "beta_model_spread_home": -12.2,
       "beta_agrees": true,
       "beta_straight_up_correct": true,
       "beta_covered_model_line": true
@@ -244,32 +266,10 @@
       "away_points": 21,
       "straight_up_correct": true,
       "covered_model_line": true,
-      "beta_model_spread_home": -0.4,
+      "beta_model_spread_home": -1.1,
       "beta_agrees": false,
       "beta_straight_up_correct": false,
       "beta_covered_model_line": false
-    },
-    {
-      "game_id": 401864498,
-      "week": 1,
-      "away_team": "Central Michigan",
-      "home_team": "New Mexico",
-      "model_spread_home": -18.2,
-      "model_total": 50.6,
-      "market_spread_home": -11.2,
-      "market_total": 47.2,
-      "home_win_prob": 0.846,
-      "edge": 7.0,
-      "notes": "",
-      "completed": true,
-      "home_points": 38,
-      "away_points": 7,
-      "straight_up_correct": true,
-      "covered_model_line": true,
-      "beta_model_spread_home": -11.6,
-      "beta_agrees": true,
-      "beta_straight_up_correct": true,
-      "beta_covered_model_line": true
     },
     {
       "game_id": 401864432,
@@ -288,7 +288,7 @@
       "away_points": 14,
       "straight_up_correct": false,
       "covered_model_line": false,
-      "beta_model_spread_home": 3.0,
+      "beta_model_spread_home": 3.3,
       "beta_agrees": true,
       "beta_straight_up_correct": false,
       "beta_covered_model_line": false
