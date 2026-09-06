@@ -1,0 +1,73 @@
+name: Update Mountain Dub Handicapping data
+
+# Runs the full pipeline (pull data -> build ratings/features -> model
+# predictions -> Excel tracker -> website JSON) on GitHub's free cloud
+# runners, then commits whatever changed back into the repo. Since docs/
+# is published via GitHub Pages, that commit is what makes the website
+# "live update" week to week with no local environment involved.
+#
+# Schedule below runs THREE times a week: twice on Sunday (morning + evening)
+# and once on Wednesday. The extra Sunday evening pass exists because
+# "week 1 is done" isn't a fixed calendar moment -- CFBD assigns a game's
+# `week` number per its own schedule, and a handful of that week's games
+# routinely finish as late as Sunday itself (see auto_detect_week()'s own
+# comment: it keeps reporting the SAME week as long as ANY of that week's
+# games is still incomplete). A single Sunday-morning run can easily miss
+# Saturday-night/Sunday-day finishers; the evening pass catches those same-
+# day instead of leaving them stale until Wednesday. None of this
+# guarantees catching the exact moment a week turns over -- it's a coarse
+# approximation of "run again once more games are likely final," not a rule
+# the code enforces anywhere.
+#
+# You can always trigger an extra run by hand from the Actions tab (the
+# workflow_dispatch trigger below adds a "Run workflow" button) -- e.g.
+# right after a game you care about finishes. Cron times are UTC; adjust if
+# you want a different local time (see each entry's own comment for its
+# Eastern-clock equivalent AS OF NOW -- these are fixed UTC offsets, so they
+# will read one hour different on the clock once Daylight Saving ends
+# ~Nov 1, 2026, unless you shift them back then). If you ever hit CFBD's
+# monthly call limit, reduce the frequency here rather than removing the
+# schedule entirely.
+
+on:
+  schedule:
+    - cron: "0 13 * * 0"  # Sunday, 13:00 UTC (~9am Eastern right now / 6am Pacific) -- morning pass
+    - cron: "0 22 * * 0"  # Sunday, 22:00 UTC (~6pm Eastern right now / 3pm Pacific) -- evening pass
+    - cron: "0 14 * * 3"  # Wednesday, 14:00 UTC (~10am Eastern right now) -- unchanged
+  workflow_dispatch: {}
+
+permissions:
+  contents: write
+
+jobs:
+  run-pipeline:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - name: Check out repo
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Install dependencies
+        run: pip install -r requirements.txt
+
+      - name: Run full pipeline
+        env:
+          CFBD_API_KEY: ${{ secrets.CFBD_API_KEY }}
+        run: python src/run_pipeline.py
+
+      - name: Commit updated data back to the repo
+        run: |
+          git config user.name "mw-handicapping-bot"
+          git config user.email "actions@users.noreply.github.com"
+          git add db/ data/raw/ data/clean/ docs/data/ excel/MW_Handicapping_Tracker.xlsx
+          if git diff --cached --quiet; then
+            echo "Nothing changed -- skipping commit."
+          else
+            git commit -m "Automated data refresh $(date -u +'%Y-%m-%d %H:%M UTC')"
+            git push
+          fi

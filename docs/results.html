@@ -97,6 +97,52 @@ function betRow(b) {
     </div>`;
 }
 
+// One result card's HTML -- pulled out to its own function (previously
+// inline in a single .map() over the flat results list) so it can be
+// reused per-week now that results are grouped into collapsible sections
+// below, instead of one flat grid.
+function resultCard(r) {
+  const homeWon = r.home_points !== null && r.away_points !== null && r.home_points > r.away_points;
+  const awaySpan = (r.home_points === null) ? r.away_team
+    : (homeWon ? `${r.away_team} ${r.away_points}` : `<span class="winner">${r.away_team} ${r.away_points}</span>`);
+  const homeSpan = (r.home_points === null) ? r.home_team
+    : (homeWon ? `<span class="winner">${r.home_team} ${r.home_points}</span>` : `${r.home_team} ${r.home_points}`);
+
+  const m = r.model;
+  const betsHtml = r.your_bets.length
+    ? r.your_bets.map(betRow).join("")
+    : `<div class="your-bet-row"><span class="odds-label">No bet placed on this game</span></div>`;
+
+  return `
+    <div class="matchup-card">
+      <div class="matchup-date">${formatDate(r.date)} &ndash; Week ${r.week} <span class="final-badge">Final</span></div>
+      <div class="matchup-teams">
+        <div class="team-row"><span class="name"><span class="at">@</span>${awaySpan}</span></div>
+        <div class="team-row"><span class="name">${homeSpan}</span></div>
+      </div>
+      <div class="odds-row">
+        ${modelRow("Spread", fmtSpread(m.spread_pick), fmtSpread(m.market_spread_close), m.spread_lean, m.spread_was_bet, m.spread_result)}
+        ${modelRow("Total", fmtTotal(m.total_pick), fmtTotal(m.market_total_close), m.total_lean, m.total_was_bet, m.total_result)}
+        ${modelRow("Moneyline", "&ndash;", "&ndash;", m.ml_lean, m.ml_was_bet, m.ml_result)}
+      </div>
+      ${betaModelRow(r.beta_model, m.market_spread_close)}
+      <div class="final-score" style="border-top:1px solid var(--border);">
+        <div class="odds-label" style="margin-bottom:6px;">YOUR BETS</div>
+        ${betsHtml}
+      </div>
+    </div>`;
+}
+
+// Toggle one week's section open/closed. Kept as a plain global function
+// (rather than addEventListener) so the onclick can live right on the
+// button in the template string below, same inline-handler style the rest
+// of this file already uses for one-off DOM wiring.
+function toggleWeekSection(header) {
+  const section = header.closest(".week-section");
+  const isOpen = section.classList.toggle("open");
+  header.setAttribute("aria-expanded", String(isOpen));
+}
+
 (async function () {
   const data = await fetchJSON("data/results.json");
   const container = document.getElementById("results-container");
@@ -106,39 +152,41 @@ function betRow(b) {
     return;
   }
 
-  const cards = data.results.map(r => {
-    const homeWon = r.home_points !== null && r.away_points !== null && r.home_points > r.away_points;
-    const awaySpan = (r.home_points === null) ? r.away_team
-      : (homeWon ? `${r.away_team} ${r.away_points}` : `<span class="winner">${r.away_team} ${r.away_points}</span>`);
-    const homeSpan = (r.home_points === null) ? r.home_team
-      : (homeWon ? `<span class="winner">${r.home_team} ${r.home_points}</span>` : `${r.home_team} ${r.home_points}`);
+  // Group into one section per week -- results.json already arrives sorted
+  // newest-first (see export_site_data.py's build_results()), but that sort
+  // is primarily by date, and a week can span many calendar days (CFBD's
+  // own week boundaries, not a fixed Mon-Sun range -- see the site's other
+  // pages' notes on this), so games from two different weeks can interleave
+  // by date alone. Grouping explicitly by r.week, then sorting the WEEK
+  // NUMBERS themselves descending, guarantees clean per-week groups
+  // regardless of how the underlying dates line up. Cards within a week
+  // keep the order they arrived in (already newest-first from the API).
+  const byWeek = new Map();
+  data.results.forEach(r => {
+    if (!byWeek.has(r.week)) byWeek.set(r.week, []);
+    byWeek.get(r.week).push(r);
+  });
+  const weekNumbers = [...byWeek.keys()].sort((a, b) => b - a);
 
-    const m = r.model;
-    const betsHtml = r.your_bets.length
-      ? r.your_bets.map(betRow).join("")
-      : `<div class="your-bet-row"><span class="odds-label">No bet placed on this game</span></div>`;
-
+  const sections = weekNumbers.map((wk, i) => {
+    const games = byWeek.get(wk);
+    const cardsHtml = games.map(resultCard).join("");
+    // Most recent week starts open (what you almost always came here to
+    // see); earlier weeks start collapsed so the page isn't one long scroll
+    // once a few weeks of history pile up. Click any header to toggle it --
+    // any number of weeks can be open at once, it's not an exclusive accordion.
+    const openClass = i === 0 ? " open" : "";
     return `
-      <div class="matchup-card">
-        <div class="matchup-date">${formatDate(r.date)} &ndash; Week ${r.week} <span class="final-badge">Final</span></div>
-        <div class="matchup-teams">
-          <div class="team-row"><span class="name"><span class="at">@</span>${awaySpan}</span></div>
-          <div class="team-row"><span class="name">${homeSpan}</span></div>
-        </div>
-        <div class="odds-row">
-          ${modelRow("Spread", fmtSpread(m.spread_pick), fmtSpread(m.market_spread_close), m.spread_lean, m.spread_was_bet, m.spread_result)}
-          ${modelRow("Total", fmtTotal(m.total_pick), fmtTotal(m.market_total_close), m.total_lean, m.total_was_bet, m.total_result)}
-          ${modelRow("Moneyline", "&ndash;", "&ndash;", m.ml_lean, m.ml_was_bet, m.ml_result)}
-        </div>
-        ${betaModelRow(r.beta_model, m.market_spread_close)}
-        <div class="final-score" style="border-top:1px solid var(--border);">
-          <div class="odds-label" style="margin-bottom:6px;">YOUR BETS</div>
-          ${betsHtml}
-        </div>
+      <div class="week-section${openClass}">
+        <button class="week-toggle" onclick="toggleWeekSection(this)" aria-expanded="${i === 0}">
+          <span class="week-toggle-label">Week ${wk} <span class="week-count">${games.length} game${games.length === 1 ? "" : "s"}</span></span>
+          <span class="chevron">&#9662;</span>
+        </button>
+        <div class="matchup-grid week-cards">${cardsHtml}</div>
       </div>`;
   }).join("");
 
-  container.innerHTML = `<div class="matchup-grid">${cards}</div>`;
+  container.innerHTML = sections;
   document.getElementById("updated").textContent = lastUpdatedLabel(data.meta && data.meta.generated_at);
 })();
 </script>

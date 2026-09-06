@@ -1,6 +1,6 @@
 {
   "meta": {
-    "generated_at": "2026-09-06T22:40:34Z",
+    "generated_at": "2026-09-06T23:20:32Z",
     "current_week": {
       "season": 2026,
       "week": 1
@@ -320,7 +320,7 @@
           "week": 1,
           "matchup": "San Jos\u00e9 State @ Eastern Michigan",
           "bet_type": "Spread",
-          "side": "Eastern Michigan -3.5",
+          "side": "Eastern Michigan",
           "odds": -110.0,
           "stake": 2.0,
           "result": "L",
@@ -365,7 +365,7 @@
           "week": 1,
           "matchup": "Memphis @ UNLV",
           "bet_type": "Moneyline",
-          "side": "UNLV -178",
+          "side": "UNLV",
           "odds": -178.0,
           "stake": 5.0,
           "result": "L",
@@ -443,7 +443,7 @@
           "week": 1,
           "matchup": "Jacksonville State @ North Dakota State",
           "bet_type": "Spread",
-          "side": "North Dakota State -7.5",
+          "side": "North Dakota State",
           "odds": 100.0,
           "stake": 1.0,
           "result": "W",
@@ -454,7 +454,7 @@
           "week": 1,
           "matchup": "Jacksonville State @ North Dakota State",
           "bet_type": "Moneyline",
-          "side": "North Dakota State -285",
+          "side": "North Dakota State",
           "odds": -285.0,
           "stake": 5.0,
           "result": "W",

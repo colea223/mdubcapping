@@ -160,6 +160,47 @@ table.rankings td.num, table.rankings th.num { text-align: right; font-variant-n
 .trend-down { color: var(--critical); font-weight: 600; }
 .trend-flat { color: var(--text-muted); }
 
+/* ---------------------------------------------------------------- results page: per-week collapsible sections */
+.week-section { margin-bottom: 14px; }
+.week-toggle {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  background: var(--bg-card-alt);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 12px 18px;
+  margin-bottom: 10px;
+  color: var(--text-primary);
+  font: inherit;
+  font-weight: 700;
+  font-size: 15px;
+  cursor: pointer;
+  text-align: left;
+}
+.week-toggle:hover { background: var(--bg-card); }
+.week-toggle-label { display: flex; align-items: baseline; gap: 10px; }
+.week-toggle .week-count {
+  font-size: 11px;
+  font-weight: 400;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--text-muted);
+}
+.week-toggle .chevron {
+  color: var(--text-muted);
+  font-size: 13px;
+  transition: transform 0.15s ease;
+}
+/* Closed by default -- .week-section.open (set on the most recent week's
+   section when the page renders, and toggled by toggleWeekSection() on
+   click) is what reveals a week's cards and flips its chevron. */
+.week-section .week-cards { display: none; }
+.week-section.open .week-cards { display: grid; }
+.week-section.open .chevron { transform: rotate(180deg); }
+
 /* ---------------------------------------------------------------- matchup / prediction cards */
 .matchup-grid { display: grid; gap: 14px; }
 .matchup-card {
