@@ -31,8 +31,8 @@ name: Update Mountain Dub Handicapping data
 
 on:
   schedule:
-    - cron: "0 13 * * 0"  # Sunday, 13:00 UTC (~9am Eastern right now / 6am Pacific) -- morning pass
-    - cron: "0 22 * * 0"  # Sunday, 22:00 UTC (~6pm Eastern right now / 3pm Pacific) -- evening pass
+    - cron: "0 13 * * 0"  # Sunday, 13:00 UTC (~9am Eastern right now) -- morning pass
+    - cron: "0 13 * * 1"  # Monday, 13:00 UTC (~9am Eastern right now) -- catches anything that finished Sunday night
     - cron: "0 14 * * 3"  # Wednesday, 14:00 UTC (~10am Eastern right now) -- unchanged
   workflow_dispatch: {}
 
