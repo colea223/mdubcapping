@@ -1,6 +1,6 @@
 {
   "meta": {
-    "generated_at": "2026-09-03T20:20:28Z",
+    "generated_at": "2026-09-06T19:51:15Z",
     "current_week": {
       "season": 2026,
       "week": 1
@@ -11,12 +11,12 @@
       "season": 2026,
       "n_games": 4,
       "spread": {
-        "n_bets": 3,
+        "n_bets": 4,
         "wins": 2,
-        "losses": 1,
+        "losses": 2,
         "pushes": 0,
-        "win_rate": 0.6667,
-        "units": 0.82
+        "win_rate": 0.5,
+        "units": -0.18
       },
       "total": {
         "n_bets": 3,
@@ -27,31 +27,31 @@
         "units": -1.09
       },
       "moneyline": {
-        "n_bets": 2,
+        "n_bets": 3,
         "wins": 1,
-        "losses": 1,
+        "losses": 2,
         "pushes": 0,
-        "win_rate": 0.5,
-        "units": -0.66
+        "win_rate": 0.3333,
+        "units": -1.66
       },
-      "upset_calls": 1,
+      "upset_calls": 2,
       "upset_wins": 1,
       "note": "Hypothetical flat 1-unit-per-bet tracking of the model's own picks (spread/total at -110, moneyline at the real posted odds) -- not your personal bets."
     },
     "yours": {
-      "n_bets": 4,
-      "wins": 2,
-      "losses": 2,
+      "n_bets": 9,
+      "wins": 5,
+      "losses": 4,
       "pushes": 0,
-      "win_rate": 0.5,
-      "units": -5.25,
+      "win_rate": 0.5556,
+      "units": 3.29,
       "by_type": {
         "Spread": {
-          "wins": 1,
-          "losses": 0,
+          "wins": 3,
+          "losses": 1,
           "pushes": 0,
-          "win_rate": 1.0,
-          "units": 1.0
+          "win_rate": 0.75,
+          "units": 8.09
         },
         "Moneyline": {
           "wins": 1,
@@ -62,32 +62,20 @@
         },
         "ML Parlay": {
           "wins": 0,
-          "losses": 1,
+          "losses": 2,
           "pushes": 0,
           "win_rate": 0.0,
-          "units": -3.0
+          "units": -5.0
+        },
+        "ML": {
+          "wins": 1,
+          "losses": 0,
+          "pushes": 0,
+          "win_rate": 1.0,
+          "units": 3.45
         }
       },
-      "pending": [
-        {
-          "date": "2026-09-04",
-          "week": 1,
-          "matchup": "San Jos\u00e9 State @ Eastern Michigan",
-          "bet_type": "Spread",
-          "side": "Eastern Michigan -3.5",
-          "odds": -110.0,
-          "stake": 2.0
-        },
-        {
-          "date": "2026-09-05",
-          "week": 1,
-          "matchup": "San Jos\u00e9 State @ Eastern Michigan, Wyoming at Colorado State",
-          "bet_type": "ML Parlay",
-          "side": "Eastern Michigan, Colorado State",
-          "odds": 149.0,
-          "stake": 2.0
-        }
-      ],
+      "pending": [],
       "graded": [
         {
           "date": "2026-08-29",
@@ -132,6 +120,61 @@
           "stake": 3.0,
           "result": "L",
           "units": -3.0
+        },
+        {
+          "date": "2026-09-04",
+          "week": 1,
+          "matchup": "San Jos\u00e9 State @ Eastern Michigan",
+          "bet_type": "Spread",
+          "side": "Eastern Michigan -3.5",
+          "odds": -110.0,
+          "stake": 2.0,
+          "result": "L",
+          "units": -2.0
+        },
+        {
+          "date": "2026-09-05",
+          "week": 1,
+          "matchup": "San Jos\u00e9 State @ Eastern Michigan, Wyoming at Colorado State",
+          "bet_type": "ML Parlay",
+          "side": "Eastern Michigan, Colorado State",
+          "odds": 149.0,
+          "stake": 2.0,
+          "result": "L",
+          "units": -2.0
+        },
+        {
+          "date": "2026-09-05",
+          "week": 1,
+          "matchup": "Wyoming @ Colorado State",
+          "bet_type": "Spread",
+          "side": "Colorado State",
+          "odds": -110.0,
+          "stake": 5.0,
+          "result": "W",
+          "units": 4.55
+        },
+        {
+          "date": "2026-09-05",
+          "week": 1,
+          "matchup": "Wyoming @ Colorado State",
+          "bet_type": "ML",
+          "side": "Colorado State",
+          "odds": -145.0,
+          "stake": 5.0,
+          "result": "W",
+          "units": 3.45
+        },
+        {
+          "date": "2026-09-05",
+          "week": 1,
+          "matchup": "Central Michigan @ New Mexico",
+          "bet_type": "Spread",
+          "side": "New Mexico",
+          "odds": -110.0,
+          "stake": 5.0,
+          "result": "W",
+          "units": 4.55
         }
       ],
       "note": "Your actual bets from the Bet Log tab, graded at the real odds you entered."
@@ -141,11 +184,11 @@
       "n_games": 4,
       "spread": {
         "n_bets": 3,
-        "wins": 2,
-        "losses": 1,
+        "wins": 1,
+        "losses": 2,
         "pushes": 0,
-        "win_rate": 0.6667,
-        "units": 0.82
+        "win_rate": 0.3333,
+        "units": -1.09
       },
       "agree_rate": 1.0,
       "note": null
