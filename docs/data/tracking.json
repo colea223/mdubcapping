@@ -1,6 +1,6 @@
 {
   "meta": {
-    "generated_at": "2026-09-06T19:51:15Z",
+    "generated_at": "2026-09-06T20:43:30Z",
     "current_week": {
       "season": 2026,
       "week": 1
@@ -9,32 +9,32 @@
   "tracking": {
     "model": {
       "season": 2026,
-      "n_games": 4,
+      "n_games": 13,
       "spread": {
-        "n_bets": 4,
-        "wins": 2,
-        "losses": 2,
+        "n_bets": 11,
+        "wins": 4,
+        "losses": 7,
         "pushes": 0,
-        "win_rate": 0.5,
-        "units": -0.18
+        "win_rate": 0.3636,
+        "units": -3.36
       },
       "total": {
-        "n_bets": 3,
-        "wins": 1,
-        "losses": 2,
+        "n_bets": 7,
+        "wins": 3,
+        "losses": 4,
         "pushes": 0,
-        "win_rate": 0.3333,
-        "units": -1.09
+        "win_rate": 0.4286,
+        "units": -1.27
       },
       "moneyline": {
-        "n_bets": 3,
+        "n_bets": 4,
         "wins": 1,
-        "losses": 2,
+        "losses": 3,
         "pushes": 0,
-        "win_rate": 0.3333,
-        "units": -1.66
+        "win_rate": 0.25,
+        "units": -2.66
       },
-      "upset_calls": 2,
+      "upset_calls": 5,
       "upset_wins": 1,
       "note": "Hypothetical flat 1-unit-per-bet tracking of the model's own picks (spread/total at -110, moneyline at the real posted odds) -- not your personal bets."
     },
@@ -44,21 +44,21 @@
       "losses": 4,
       "pushes": 0,
       "win_rate": 0.5556,
-      "units": 3.29,
+      "units": -1.5,
       "by_type": {
         "Spread": {
           "wins": 3,
           "losses": 1,
           "pushes": 0,
           "win_rate": 0.75,
-          "units": 8.09
+          "units": 5.36
         },
         "Moneyline": {
-          "wins": 1,
+          "wins": 2,
           "losses": 1,
           "pushes": 0,
-          "win_rate": 0.5,
-          "units": -3.25
+          "win_rate": 0.6667,
+          "units": -1.87
         },
         "ML Parlay": {
           "wins": 0,
@@ -66,13 +66,6 @@
           "pushes": 0,
           "win_rate": 0.0,
           "units": -5.0
-        },
-        "ML": {
-          "wins": 1,
-          "losses": 0,
-          "pushes": 0,
-          "win_rate": 1.0,
-          "units": 3.45
         }
       },
       "pending": [],
@@ -146,24 +139,24 @@
         {
           "date": "2026-09-05",
           "week": 1,
-          "matchup": "Wyoming @ Colorado State",
+          "matchup": "Wyoming @  Colorado State",
           "bet_type": "Spread",
           "side": "Colorado State",
           "odds": -110.0,
-          "stake": 5.0,
+          "stake": 2.0,
           "result": "W",
-          "units": 4.55
+          "units": 1.82
         },
         {
           "date": "2026-09-05",
           "week": 1,
-          "matchup": "Wyoming @ Colorado State",
-          "bet_type": "ML",
+          "matchup": "Wyoming @  Colorado State",
+          "bet_type": "Moneyline",
           "side": "Colorado State",
           "odds": -145.0,
-          "stake": 5.0,
+          "stake": 2.0,
           "result": "W",
-          "units": 3.45
+          "units": 1.38
         },
         {
           "date": "2026-09-05",

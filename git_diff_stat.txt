@@ -1,0 +1,34 @@
+ data/clean/backtest_results.csv                    | 16874 ++++++++++---------
+ data/clean/week_2026_1_predictions.csv             |    26 +-
+ .../advanced_stats_2026_20260902T173611Z.json.gz   |   Bin 5515 -> 0 bytes
+ data/raw/drives_2026_20260902T173617Z.json.gz      |   Bin 62088 -> 0 bytes
+ data/raw/elo_ratings_2026_20260902T173611Z.json.gz |   Bin 375 -> 0 bytes
+ data/raw/games_fbs_2026_20260903T181955Z.json.gz   |   Bin 42097 -> 0 bytes
+ data/raw/games_ndsu_2026_20260903T181955Z.json.gz  |   Bin 1073 -> 0 bytes
+ data/raw/recruiting_2026_20260902T173611Z.json.gz  |   Bin 2863 -> 0 bytes
+ data/raw/sp_ratings_2026_20260902T173611Z.json.gz  |   Bin 4069 -> 0 bytes
+ data/raw/venues_static_20260902T173617Z.json.gz    |   Bin 39630 -> 0 bytes
+ excel/MW_Handicapping_Tracker.xlsx                 |   Bin 24197 -> 18477 bytes
+ excel/update_model_comparison_tab.py               |     6 +
+ excel/update_tracker.py                            |     8 +-
+ src/backfill_ppa_snapshots.py                      |     5 +
+ src/backtest.py                                    |     6 +
+ src/diagnose_spread_bias.py                        |     6 +
+ src/diagnose_spread_home_bias.py                   |     6 +
+ src/diagnose_spread_mw_perspective.py              |     6 +
+ src/diagnose_totals_bias.py                        |     6 +
+ src/diagnose_totals_newcomers.py                   |     6 +
+ src/model_comparison.py                            |     5 +
+ src/power_rating.py                                |     8 +-
+ src/predict_week.py                                |     6 +
+ src/prune_line_snapshot_history.py                 |     6 +
+ src/pull_drives.py                                 |     6 +
+ src/pull_games.py                                  |     6 +
+ src/pull_lines.py                                  |     6 +
+ src/pull_odds_api.py                               |     6 +
+ src/pull_plays.py                                  |     5 +
+ src/pull_stats.py                                  |     6 +
+ src/pull_venues.py                                 |     6 +
+ src/run_odds_update.py                             |     5 +
+ src/sweep_total_threshold.py                       |     6 +
+ 33 files changed, 8584 insertions(+), 8448 deletions(-)
