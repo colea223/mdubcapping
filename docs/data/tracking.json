@@ -1,6 +1,6 @@
 {
   "meta": {
-    "generated_at": "2026-09-07T03:20:41Z",
+    "generated_at": "2026-09-07T06:18:48Z",
     "current_week": {
       "season": 2026,
       "week": 1
@@ -11,20 +11,24 @@
       "season": 2026,
       "n_games": 13,
       "spread": {
-        "n_bets": 11,
-        "wins": 4,
-        "losses": 7,
+        "n_bets": 13,
+        "wins": 5,
+        "losses": 8,
         "pushes": 0,
-        "win_rate": 0.3636,
-        "units": -3.36
+        "win_rate": 0.3846,
+        "units": -3.45,
+        "n_real_edge_bets": 11,
+        "real_edge_win_rate": 0.3636
       },
       "total": {
-        "n_bets": 7,
-        "wins": 3,
-        "losses": 4,
+        "n_bets": 13,
+        "wins": 6,
+        "losses": 7,
         "pushes": 0,
-        "win_rate": 0.4286,
-        "units": -1.27
+        "win_rate": 0.4615,
+        "units": -1.55,
+        "n_real_edge_bets": 7,
+        "real_edge_win_rate": 0.4286
       },
       "moneyline": {
         "n_bets": 4,
@@ -32,7 +36,9 @@
         "losses": 3,
         "pushes": 0,
         "win_rate": 0.25,
-        "units": -2.66
+        "units": -2.66,
+        "n_real_edge_bets": null,
+        "real_edge_win_rate": null
       },
       "upset_calls": 5,
       "upset_wins": 1,
@@ -176,19 +182,37 @@
       "season": 2026,
       "n_games": 13,
       "spread": {
-        "n_bets": 9,
-        "wins": 2,
-        "losses": 7,
+        "n_bets": 13,
+        "wins": 5,
+        "losses": 8,
         "pushes": 0,
-        "win_rate": 0.2222,
-        "units": -5.18
+        "win_rate": 0.3846,
+        "units": -3.45,
+        "n_real_edge_bets": 9,
+        "real_edge_wins": 2,
+        "real_edge_losses": 7,
+        "real_edge_win_rate": 0.2222
       },
-      "agree_rate": 0.8462,
+      "agree_rate": 0.6923,
       "note": null
     },
     "gamma_model": {
+      "season": 2026,
       "n_games": 0,
-      "note": "Dub Gamma Model comparison data is stale (predates the Gamma columns) -- run `python src/model_comparison.py` again, then `python src/export_site_data.py`, to populate this."
+      "spread": {
+        "n_bets": 0,
+        "wins": 0,
+        "losses": 0,
+        "pushes": 0,
+        "win_rate": null,
+        "units": 0.0,
+        "n_real_edge_bets": 0,
+        "real_edge_wins": 0,
+        "real_edge_losses": 0,
+        "real_edge_win_rate": null
+      },
+      "agree_rate": null,
+      "note": "No 2026 games graded under the Dub Gamma seed yet -- ratings replay starts at week 2 of the seed season (see moore_seed_2026.py)."
     }
   }
 }

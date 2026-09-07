@@ -15,7 +15,7 @@ Usage:
 import re
 import unicodedata
 from collections import defaultdict
-from datetime import datetime
+from datetime import datetime, timezone
 from pathlib import Path
 
 import duckdb
@@ -877,6 +877,79 @@ def build_returning_production_table(con, snapshots):
     print(f"returning_production: {len(rows)} rows")
 
 
+def build_player_season_ppa_table(con, snapshots):
+    """
+    Per-player season PPA (src/pull_stats.py's pull_player_season_ppa) --
+    feeds src/gamma_model.py's injury-differential term as an objective
+    "how much is this player worth" weight. "Latest wins" like sp_ratings/
+    elo_ratings above (a player's season-cumulative PPA is one running
+    total, nothing to key by week the way injury_reports below needs to
+    be). total_ppa is a nested {"all": ..., "rush": ..., ...} object in the
+    raw response -- gamma_model.py only ever wants the "all" figure (see
+    that table's own comment in schema.sql for why total, not average).
+    """
+    rows = []
+    for (prefix, year), path in snapshots.items():
+        if prefix != "player_ppa":
+            continue
+        for p in load_json(path):
+            total = p.get("total_ppa") or {}
+            rows.append((
+                p.get("season", year), p.get("name"), p.get("position"),
+                normalize_team_name(p.get("team")), total.get("all"),
+            ))
+    if not rows:
+        print("player_season_ppa: no raw snapshots found yet (run src/pull_stats.py first)")
+        return
+    con.execute("DELETE FROM player_season_ppa")
+    con.executemany(
+        "INSERT OR REPLACE INTO player_season_ppa (season, player_name, position, team, total_ppa) "
+        "VALUES (?,?,?,?,?)",
+        rows,
+    )
+    print(f"player_season_ppa: {len(rows)} rows")
+
+
+INJURY_SNAPSHOT_PREFIX_RE = re.compile(r"^injury_report_w(?P<week>\d+)$")
+
+
+def build_injury_reports_table(con, snapshots):
+    """
+    Weekly injury report scraped from covers.com (src/pull_injuries.py) --
+    same "keyed by (season, WEEK), not just season" shape as ppa_snapshots,
+    see build_ppa_snapshots_table()'s own comment for why that lets
+    latest_snapshots()'s normal grouping do the right thing on its own (one
+    entry per (season, week), no special-casing). If pull_injuries.py has
+    never run yet (or hasn't found an upcoming week to tag), this is simply
+    a no-op -- gamma_model.py treats a missing week's injury data as "no
+    reported injuries that week" rather than an error, since the whole
+    feature is best-effort by design (see gamma_model.py's own docstring).
+    """
+    rows = []
+    for (prefix, year), path in snapshots.items():
+        m = INJURY_SNAPSHOT_PREFIX_RE.match(prefix)
+        if not m:
+            continue
+        week = int(m.group("week"))
+        for r in load_json(path):
+            rows.append((
+                year, week, r.get("team"), r.get("player_initial"),
+                r.get("player_last_name"), r.get("position"), r.get("status"),
+                datetime.now(timezone.utc),
+            ))
+    if not rows:
+        print("injury_reports: no raw snapshots found yet (run src/pull_injuries.py first)")
+        return
+    con.execute("DELETE FROM injury_reports")
+    con.executemany(
+        "INSERT OR REPLACE INTO injury_reports "
+        "(season, week, team, player_initial, player_last_name, position, status, scraped_at) "
+        "VALUES (?,?,?,?,?,?,?,?)",
+        rows,
+    )
+    print(f"injury_reports: {len(rows)} rows")
+
+
 def _parse_elevation(raw):
     """Venue.elevation comes back as a string, in meters, sometimes empty."""
     if not raw:
@@ -1136,6 +1209,8 @@ def main():
     build_elo_ratings_table(con, snapshots)
     build_recruiting_table(con, snapshots)
     build_returning_production_table(con, snapshots)
+    build_player_season_ppa_table(con, snapshots)
+    build_injury_reports_table(con, snapshots)
     build_lines_table(con, snapshots)
     build_line_snapshots_table(con)
     build_odds_api_snapshots_table(con)

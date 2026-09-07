@@ -473,3 +473,50 @@ CREATE TABLE IF NOT EXISTS situational_stats_snapshots (
     def_explosive_rate      DOUBLE,
     PRIMARY KEY (season, team, as_of_week)
 );
+
+-- Dub Gamma Model support tables (src/gamma_model.py) -- a third, simpler
+-- power-rating model seeded from an external human rating (Sonny Moore's own
+-- published ratings) rather than fit from CFBD data at all. See
+-- gamma_model.py's own module docstring for the full update formula; these
+-- two tables supply its "injury differential" term, the one piece of the
+-- formula no CFBD endpoint provides on its own.
+
+-- One row per FBS player per season: their season-cumulative PPA (points
+-- added across every situation, MetricsApi.get_predicted_points_added_by_
+-- player_season's total_ppa.all) -- used as an objective "how much is this
+-- player worth" weight so gamma_model.py doesn't have to invent one. Total,
+-- not average/per-play: a highly-efficient low-usage backup should weigh
+-- less than a heavily-used average starter, and total_ppa already reflects
+-- that (average_ppa would not).
+CREATE TABLE IF NOT EXISTS player_season_ppa (
+    season      INTEGER,
+    player_name VARCHAR,   -- CFBD's own "First Last" formatting
+    position    VARCHAR,
+    team        VARCHAR,
+    total_ppa   DOUBLE,
+    PRIMARY KEY (season, player_name, team)
+);
+
+-- One row per (season, week, team, player) injury listing, scraped from
+-- covers.com's NCAAF injury report (src/pull_injuries.py) -- there is no
+-- CFBD endpoint for this. Keyed by WEEK (unlike most snapshot tables, which
+-- are "latest wins") because an injury status is only meaningful as of the
+-- game it preceded: gamma_model.py's walk-forward replay needs to look back
+-- at what a team's injury picture was entering week N specifically, not
+-- whatever the injury report says right now. player_last_name is exactly
+-- that -- covers.com only ever publishes a first initial + last name (e.g.
+-- "D. Hubbard"), never a full first name, so matching to player_season_ppa
+-- above is necessarily last-name-plus-team-plus-initial, not an exact name
+-- join (see gamma_model.py's own comment on this for the rare-collision
+-- caveat).
+CREATE TABLE IF NOT EXISTS injury_reports (
+    season              INTEGER,
+    week                INTEGER,
+    team                VARCHAR,
+    player_initial      VARCHAR,
+    player_last_name    VARCHAR,
+    position            VARCHAR,
+    status              VARCHAR,   -- raw designation as scraped, e.g. "Questionable - Knee"
+    scraped_at          TIMESTAMP,
+    PRIMARY KEY (season, week, team, player_last_name, position)
+);

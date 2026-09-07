@@ -46,6 +46,31 @@ def _stamp():
     return datetime.now(timezone.utc).strftime("%Y%m%dT%H%M%SZ")
 
 
+def pull_player_season_ppa(client, year, stamp):
+    """
+    Per-player season PPA (MetricsApi.get_predicted_points_added_by_
+    player_season) -- feeds src/gamma_model.py's injury-differential term
+    (see that file's docstring and db/schema.sql's player_season_ppa
+    comment). "Latest wins" like advanced_stats/sp_ratings/etc. above, NOT
+    keyed by week like ppa_snapshots -- a player's season-cumulative PPA is
+    a single running total, there's nothing to look back at week by week the
+    way the injury REPORT itself needs to be (that's injury_reports, a
+    separate table, kept because the injury status is what's tied to a
+    specific week, not the player-value weight it gets multiplied by).
+    One call per year, no team filter -- returns every FBS player at once,
+    same shape as get_advanced_season_stats(year=year) above.
+    """
+    from cfbd_client import get_api_client as _  # noqa: F401 (keeps import graph obvious at a glance)
+    metrics = cfbd.MetricsApi(client)
+    print(f"Pulling {year} player season PPA...")
+    ppa = metrics.get_predicted_points_added_by_player_season(year=year)
+    out_path = write_json_gz(RAW_DIR / f"player_ppa_{year}_{stamp}.json", [p.dict(by_alias=False) for p in ppa])
+    print(f"  -> {len(ppa)} players")
+    removed = prune_superseded(RAW_DIR, f"player_ppa_{year}_*.json*", out_path)
+    if removed:
+        print(f"  pruned {len(removed)} superseded snapshot(s): {removed}")
+
+
 def pull_current_week_ppa_snapshot(client, stamp):
     """
     Pulls exactly one extra snapshot per run: END_YEAR's advanced stats
@@ -137,6 +162,8 @@ def main(full_history: bool = False):
         removed = prune_superseded(RAW_DIR, f"returning_production_{year}_*.json*", out_path)
         if removed:
             print(f"  pruned {len(removed)} superseded snapshot(s): {removed}")
+
+        pull_player_season_ppa(client, year, stamp)
 
     pull_current_week_ppa_snapshot(client, stamp)
 

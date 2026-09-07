@@ -38,6 +38,7 @@ import pull_lines
 import pull_venues
 import pull_drives
 import pull_plays
+import pull_injuries
 import build_db
 import power_rating
 import features
@@ -49,11 +50,15 @@ import update_tracker  # noqa: E402
 
 STEPS = [
     ("Games", pull_games.main),
-    ("Stats (PPA/SP+/Elo/Recruiting)", pull_stats.main),
+    ("Stats (PPA/SP+/Elo/Recruiting/Player PPA)", pull_stats.main),
     ("Lines", pull_lines.main),
     ("Venues", pull_venues.main),
     ("Drives", pull_drives.main),
     ("Plays", pull_plays.main),
+    # Calendar-based (not a DB query), so this is safe to run alongside the
+    # other pulls above, before build_db.py has loaded anything this run --
+    # see pull_injuries.py's own _detect_current_week() comment for why.
+    ("Injury report (Dub Gamma Model input)", pull_injuries.main),
     ("Build DB", build_db.main),
     ("Baseline power ratings", power_rating.main),
     ("Pre-game features", features.main),

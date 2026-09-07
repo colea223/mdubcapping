@@ -38,6 +38,7 @@ from config import DB_PATH, CLEAN_DIR
 import model
 import totals_model
 import xgboost_model
+import gamma_model
 import time
 from teams import is_2026_mw_team
 
@@ -94,6 +95,15 @@ def main():
           f"Residual std: {xgb_residual_std:.1f} pts. (Informational -- Ridge above is still "
           "the live model; see excel/update_model_comparison_tab.py's upcoming-games section.)")
 
+    # Dub Gamma Model -- no fitting involved (see gamma_model.py's own
+    # docstring), just a full replay of this season's completed games from
+    # the fixed Moore seed. Same "informational only" rule as XGBoost above.
+    gamma_ratings, gamma_warned = gamma_model.replay_ratings(con)
+    if gamma_warned:
+        print(f"Dub Gamma: {len(gamma_warned)} team(s) had no Moore seed rating this run, defaulted to "
+              f"{gamma_model.DEFAULT_SEED_RATING:.2f} -- see moore_seed_2026.py's MOORE_NAME_ALIASES: "
+              f"{gamma_warned}")
+
     upcoming = model.load_upcoming_frame(con, season, week)
     if upcoming.empty:
         print(f"No games found for season {season}, week {week}.")
@@ -125,6 +135,13 @@ def main():
     xgb_pred_margin = model.predict_margin(xgb_pipe, upcoming)
     xgb_spread_home = -xgb_pred_margin
 
+    gamma_spread_home = [
+        gamma_model.predict_spread_home(
+            gamma_ratings, row.home_team, row.away_team, neutral_site=bool(row.neutral_site)
+        )
+        for row in upcoming.itertuples()
+    ]
+
     # See src/totals_model.py -- SP+/PPA-based regression, same upgrade the
     # spread model got from the SP+/PPA/talent work, replacing the old
     # raw-scoring-average baseline (model.totals_baseline()).
@@ -149,6 +166,8 @@ def main():
         # Informational only -- see the module docstring. Weekly Slate never
         # reads this column; only excel/update_model_comparison_tab.py does.
         "XGBoost Line (Home)": [round(x, 1) for x in xgb_spread_home],
+        # Also informational only -- see gamma_model.py's own docstring.
+        "Gamma Line (Home)": [round(x, 1) for x in gamma_spread_home],
     })
 
     CLEAN_DIR.mkdir(parents=True, exist_ok=True)
@@ -160,8 +179,9 @@ def main():
     print(
         "\nPaste the 'Model Line (Home)' and 'Model Total' columns into the Weekly Slate tab's "
         "matching columns (fill in Market Line/Market Total by hand from your sportsbook). "
-        "'XGBoost Line (Home)' is informational only -- run excel/update_model_comparison_tab.py "
-        "to see it alongside Ridge's line in the Model Comparison tab's upcoming-games section."
+        "'XGBoost Line (Home)' and 'Gamma Line (Home)' are informational only -- run "
+        "excel/update_model_comparison_tab.py to see them alongside Ridge's line in the Model "
+        "Comparison tab's upcoming-games section."
     )
 
     con.close()
