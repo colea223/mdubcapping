@@ -1,14 +1,14 @@
-Game ID,Week,Date,Away Team,Home Team,Model Line (Home),Model Total,Home Win Prob,XGBoost Line (Home)
-401864494,1,2026-08-29,San José State,USC,-34.9,53.3,0.974,-32.4
-401864577,1,2026-08-29,Jacksonville State,North Dakota State,-18.9,52.9,0.855,-16.0
-401858201,1,2026-08-29,Hawai'i,Stanford,-1.8,51.3,0.541,-0.5
-401862693,1,2026-08-30,Memphis,UNLV,-11.3,55.5,0.736,-7.0
-401864495,1,2026-09-04,San José State,Eastern Michigan,-16.0,54.3,0.815,-9.6
-401856664,1,2026-09-05,UTEP,Oklahoma,-34.9,52.4,0.975,-33.4
-401864496,1,2026-09-05,Duquesne,Air Force,-17.3,53.0,0.833,-29.2
-401864499,1,2026-09-05,Fordham,North Dakota State,-39.8,55.2,0.987,-32.6
-401858426,1,2026-09-05,Northern Illinois,Iowa,-28.7,47.7,0.946,-24.6
-401860878,1,2026-09-05,Wyoming,Colorado State,-8.3,49.3,0.679,-4.3
-401864497,1,2026-09-06,UNLV,Hawai'i,3.5,54.4,0.422,-0.8
-401864498,1,2026-09-06,Central Michigan,New Mexico,-18.2,50.5,0.845,-12.9
-401864432,1,2026-09-06,Western Kentucky,Nevada,2.6,51.7,0.442,3.9
+Game ID,Week,Date,Away Team,Home Team,Model Line (Home),Model Total,Home Win Prob,XGBoost Line (Home),Gamma Line (Home)
+401864494,1,2026-08-29,San José State,USC,-34.9,53.3,0.975,-32.2,-16.1
+401864577,1,2026-08-29,Jacksonville State,North Dakota State,-18.9,52.9,0.856,-14.0,-25.5
+401858201,1,2026-08-29,Hawai'i,Stanford,-1.9,51.4,0.541,0.3,-11.2
+401862693,1,2026-08-30,Memphis,UNLV,-11.3,55.5,0.736,-7.6,1.6
+401864495,1,2026-09-04,San José State,Eastern Michigan,-16.0,54.2,0.816,-12.4,0.5
+401856664,1,2026-09-05,UTEP,Oklahoma,-34.9,52.4,0.975,-34.6,-44.4
+401864496,1,2026-09-05,Duquesne,Air Force,-17.3,53.0,0.834,-29.5,2.3
+401864499,1,2026-09-05,Fordham,North Dakota State,-39.8,55.2,0.987,-32.1,-19.6
+401858426,1,2026-09-05,Northern Illinois,Iowa,-28.7,47.7,0.946,-25.0,-41.0
+401860878,1,2026-09-05,Wyoming,Colorado State,-8.3,49.3,0.679,-4.1,-6.4
+401864498,1,2026-09-06,Central Michigan,New Mexico,-18.2,50.6,0.846,-13.9,-15.6
+401864497,1,2026-09-06,UNLV,Hawai'i,3.5,54.4,0.421,-0.3,4.4
+401864432,1,2026-09-06,Western Kentucky,Nevada,2.6,51.7,0.442,3.4,-2.5

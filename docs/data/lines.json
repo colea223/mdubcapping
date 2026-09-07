@@ -1,6 +1,6 @@
 {
   "meta": {
-    "generated_at": "2026-09-07T06:36:07Z",
+    "generated_at": "2026-09-07T18:17:10Z",
     "current_week": {
       "season": 2026,
       "week": 1
@@ -419,39 +419,6 @@
       ]
     },
     {
-      "game_id": 401864497,
-      "date": "2026-09-06T02:00:00Z",
-      "away_team": "UNLV",
-      "home_team": "Hawai'i",
-      "open_spread_home": 1.5,
-      "open_total": 58.5,
-      "kicked_off": true,
-      "close_spread_home": 2.8,
-      "close_total": 55.5,
-      "books": {
-        "Bovada": {
-          "spread": 3.0,
-          "spread_open": 1.5,
-          "total": 55.5,
-          "total_open": 58.5,
-          "home_ml": 130,
-          "away_ml": -150
-        },
-        "DraftKings": {
-          "spread": 2.5,
-          "spread_open": null,
-          "total": 55.5,
-          "total_open": null,
-          "home_ml": null,
-          "away_ml": null
-        }
-      },
-      "book_order": [
-        "Bovada",
-        "DraftKings"
-      ]
-    },
-    {
       "game_id": 401864498,
       "date": "2026-09-06T02:00:00Z",
       "away_team": "Central Michigan",
@@ -491,6 +458,39 @@
         "Bovada",
         "DraftKings",
         "FanDuel"
+      ]
+    },
+    {
+      "game_id": 401864497,
+      "date": "2026-09-06T02:00:00Z",
+      "away_team": "UNLV",
+      "home_team": "Hawai'i",
+      "open_spread_home": 1.5,
+      "open_total": 58.5,
+      "kicked_off": true,
+      "close_spread_home": 2.8,
+      "close_total": 55.5,
+      "books": {
+        "Bovada": {
+          "spread": 3.0,
+          "spread_open": 1.5,
+          "total": 55.5,
+          "total_open": 58.5,
+          "home_ml": 130,
+          "away_ml": -150
+        },
+        "DraftKings": {
+          "spread": 2.5,
+          "spread_open": null,
+          "total": 55.5,
+          "total_open": null,
+          "home_ml": null,
+          "away_ml": null
+        }
+      },
+      "book_order": [
+        "Bovada",
+        "DraftKings"
       ]
     },
     {

@@ -1,6 +1,6 @@
 {
   "meta": {
-    "generated_at": "2026-09-07T06:36:07Z",
+    "generated_at": "2026-09-07T18:17:10Z",
     "current_week": {
       "season": 2026,
       "week": 1
@@ -603,6 +603,14 @@
             "home_ml": null,
             "away_ml": null,
             "source": "cfbd"
+          },
+          {
+            "t": "2026-09-07T18:07:08Z",
+            "spread": -41.0,
+            "total": 51.0,
+            "home_ml": null,
+            "away_ml": null,
+            "source": "cfbd"
           }
         ]
       },
@@ -884,6 +892,14 @@
           },
           {
             "t": "2026-09-07T00:21:51Z",
+            "spread": -40.5,
+            "total": 51.5,
+            "home_ml": null,
+            "away_ml": null,
+            "source": "cfbd"
+          },
+          {
+            "t": "2026-09-07T18:07:08Z",
             "spread": -40.5,
             "total": 51.5,
             "home_ml": null,
@@ -1339,6 +1355,14 @@
             "home_ml": -170,
             "away_ml": 145,
             "source": "cfbd"
+          },
+          {
+            "t": "2026-09-07T18:07:08Z",
+            "spread": -5.0,
+            "total": 48.5,
+            "home_ml": -170,
+            "away_ml": 145,
+            "source": "cfbd"
           }
         ]
       },
@@ -1548,6 +1572,14 @@
           },
           {
             "t": "2026-09-07T00:21:51Z",
+            "spread": -4.5,
+            "total": 48.5,
+            "home_ml": -205,
+            "away_ml": 170,
+            "source": "cfbd"
+          },
+          {
+            "t": "2026-09-07T18:07:08Z",
             "spread": -4.5,
             "total": 48.5,
             "home_ml": -205,
@@ -2145,6 +2177,14 @@
             "home_ml": -100000,
             "away_ml": 4500,
             "source": "cfbd"
+          },
+          {
+            "t": "2026-09-07T18:07:08Z",
+            "spread": -32.0,
+            "total": 44.5,
+            "home_ml": -100000,
+            "away_ml": 4500,
+            "source": "cfbd"
           }
         ]
       },
@@ -2426,6 +2466,14 @@
           },
           {
             "t": "2026-09-07T00:21:51Z",
+            "spread": -31.5,
+            "total": 44.5,
+            "home_ml": null,
+            "away_ml": null,
+            "source": "cfbd"
+          },
+          {
+            "t": "2026-09-07T18:07:08Z",
             "spread": -31.5,
             "total": 44.5,
             "home_ml": null,
@@ -3273,6 +3321,14 @@
             "home_ml": -180,
             "away_ml": 155,
             "source": "cfbd"
+          },
+          {
+            "t": "2026-09-07T18:07:08Z",
+            "spread": -3.0,
+            "total": 46.5,
+            "home_ml": -180,
+            "away_ml": 155,
+            "source": "cfbd"
           }
         ]
       },
@@ -3562,6 +3618,14 @@
           },
           {
             "t": "2026-09-07T00:21:51Z",
+            "spread": -2.5,
+            "total": 46.5,
+            "home_ml": -142,
+            "away_ml": 120,
+            "source": "cfbd"
+          },
+          {
+            "t": "2026-09-07T18:07:08Z",
             "spread": -2.5,
             "total": 46.5,
             "home_ml": -142,
@@ -4217,6 +4281,14 @@
             "home_ml": -170,
             "away_ml": 145,
             "source": "cfbd"
+          },
+          {
+            "t": "2026-09-07T18:07:08Z",
+            "spread": -5.0,
+            "total": 55.5,
+            "home_ml": -170,
+            "away_ml": 145,
+            "source": "cfbd"
           }
         ]
       },
@@ -4458,6 +4530,14 @@
           },
           {
             "t": "2026-09-07T00:21:51Z",
+            "spread": -4.0,
+            "total": 55.5,
+            "home_ml": -198,
+            "away_ml": 164,
+            "source": "cfbd"
+          },
+          {
+            "t": "2026-09-07T18:07:08Z",
             "spread": -4.0,
             "total": 55.5,
             "home_ml": -198,
@@ -5209,6 +5289,14 @@
             "home_ml": 120,
             "away_ml": -140,
             "source": "cfbd"
+          },
+          {
+            "t": "2026-09-07T18:07:08Z",
+            "spread": -1.0,
+            "total": 51.5,
+            "home_ml": 120,
+            "away_ml": -140,
+            "source": "cfbd"
           }
         ]
       },
@@ -5458,6 +5546,14 @@
           },
           {
             "t": "2026-09-07T00:21:51Z",
+            "spread": 1.5,
+            "total": 51.5,
+            "home_ml": -108,
+            "away_ml": -112,
+            "source": "cfbd"
+          },
+          {
+            "t": "2026-09-07T18:07:08Z",
             "spread": 1.5,
             "total": 51.5,
             "home_ml": -108,
@@ -6121,6 +6217,14 @@
             "home_ml": -100000,
             "away_ml": 3500,
             "source": "cfbd"
+          },
+          {
+            "t": "2026-09-07T18:07:08Z",
+            "spread": -37.0,
+            "total": 60.5,
+            "home_ml": -100000,
+            "away_ml": 3500,
+            "source": "cfbd"
           }
         ]
       },
@@ -6252,8 +6356,8 @@
             "t": "2026-08-30T17:59:38Z",
             "spread": -37.5,
             "total": 61.5,
-            "home_ml": -100000,
-            "away_ml": 5000,
+            "home_ml": null,
+            "away_ml": null,
             "source": "cfbd"
           },
           {
@@ -6362,6 +6466,14 @@
           },
           {
             "t": "2026-09-07T00:21:51Z",
+            "spread": -37.5,
+            "total": 61.5,
+            "home_ml": null,
+            "away_ml": null,
+            "source": "cfbd"
+          },
+          {
+            "t": "2026-09-07T18:07:08Z",
             "spread": -37.5,
             "total": 61.5,
             "home_ml": null,
@@ -7081,6 +7193,14 @@
             "home_ml": -170,
             "away_ml": 145,
             "source": "cfbd"
+          },
+          {
+            "t": "2026-09-07T18:07:08Z",
+            "spread": -1.5,
+            "total": 55.0,
+            "home_ml": -170,
+            "away_ml": 145,
+            "source": "cfbd"
           }
         ]
       },
@@ -7362,6 +7482,14 @@
           },
           {
             "t": "2026-09-07T00:21:51Z",
+            "spread": -1.5,
+            "total": 55.5,
+            "home_ml": -115,
+            "away_ml": -105,
+            "source": "cfbd"
+          },
+          {
+            "t": "2026-09-07T18:07:08Z",
             "spread": -1.5,
             "total": 55.5,
             "home_ml": -115,
@@ -7781,6 +7909,14 @@
             "home_ml": null,
             "away_ml": null,
             "source": "cfbd"
+          },
+          {
+            "t": "2026-09-07T18:07:08Z",
+            "spread": -28.5,
+            "total": 57.5,
+            "home_ml": null,
+            "away_ml": null,
+            "source": "cfbd"
           }
         ]
       },
@@ -8062,6 +8198,14 @@
           },
           {
             "t": "2026-09-07T00:21:51Z",
+            "spread": -31.5,
+            "total": 55.5,
+            "home_ml": -6500,
+            "away_ml": 2000,
+            "source": "cfbd"
+          },
+          {
+            "t": "2026-09-07T18:07:08Z",
             "spread": -31.5,
             "total": 55.5,
             "home_ml": -6500,
@@ -8407,6 +8551,14 @@
             "home_ml": 130,
             "away_ml": -150,
             "source": "cfbd"
+          },
+          {
+            "t": "2026-09-07T18:07:08Z",
+            "spread": 3.0,
+            "total": 55.5,
+            "home_ml": 130,
+            "away_ml": -150,
+            "source": "cfbd"
           }
         ]
       },
@@ -8616,6 +8768,14 @@
           },
           {
             "t": "2026-09-07T00:21:51Z",
+            "spread": 3.0,
+            "total": 55.5,
+            "home_ml": 120,
+            "away_ml": -142,
+            "source": "cfbd"
+          },
+          {
+            "t": "2026-09-07T18:07:08Z",
             "spread": 3.0,
             "total": 55.5,
             "home_ml": 120,
@@ -9253,6 +9413,14 @@
             "home_ml": -575,
             "away_ml": 400,
             "source": "cfbd"
+          },
+          {
+            "t": "2026-09-07T18:07:08Z",
+            "spread": -11.0,
+            "total": 47.0,
+            "home_ml": -575,
+            "away_ml": 400,
+            "source": "cfbd"
           }
         ]
       },
@@ -9502,6 +9670,14 @@
           },
           {
             "t": "2026-09-07T00:21:51Z",
+            "spread": -10.5,
+            "total": 47.5,
+            "home_ml": -440,
+            "away_ml": 340,
+            "source": "cfbd"
+          },
+          {
+            "t": "2026-09-07T18:07:08Z",
             "spread": -10.5,
             "total": 47.5,
             "home_ml": -440,
@@ -9945,6 +10121,14 @@
             "home_ml": null,
             "away_ml": null,
             "source": "cfbd"
+          },
+          {
+            "t": "2026-09-07T18:07:08Z",
+            "spread": -41.5,
+            "total": 54.0,
+            "home_ml": null,
+            "away_ml": null,
+            "source": "cfbd"
           }
         ]
       },
@@ -10226,6 +10410,14 @@
           },
           {
             "t": "2026-09-07T00:21:51Z",
+            "spread": -41.5,
+            "total": 54.5,
+            "home_ml": null,
+            "away_ml": null,
+            "source": "cfbd"
+          },
+          {
+            "t": "2026-09-07T18:07:08Z",
             "spread": -41.5,
             "total": 54.5,
             "home_ml": null,
@@ -10747,6 +10939,14 @@
             "home_ml": -330,
             "away_ml": 265,
             "source": "cfbd"
+          },
+          {
+            "t": "2026-09-07T18:07:08Z",
+            "spread": -7.0,
+            "total": 46.5,
+            "home_ml": -330,
+            "away_ml": 265,
+            "source": "cfbd"
           }
         ]
       },
@@ -10878,8 +11078,8 @@
             "t": "2026-08-30T17:59:38Z",
             "spread": -6.5,
             "total": 46.5,
-            "home_ml": -265,
-            "away_ml": 215,
+            "home_ml": null,
+            "away_ml": null,
             "source": "cfbd"
           },
           {
@@ -10988,6 +11188,14 @@
           },
           {
             "t": "2026-09-07T00:21:51Z",
+            "spread": -6.5,
+            "total": 46.5,
+            "home_ml": null,
+            "away_ml": null,
+            "source": "cfbd"
+          },
+          {
+            "t": "2026-09-07T18:07:08Z",
             "spread": -6.5,
             "total": 46.5,
             "home_ml": null,
