@@ -62,6 +62,7 @@ from power_rating import current_ratings
 from teams import MW_TEAMS_2026, FBS_CONFERENCES
 from predict_week import auto_detect_week
 from features import team_home_venues, haversine_km
+import gamma_model
 
 ROOT = Path(__file__).resolve().parent.parent
 DOCS_DATA = ROOT / "docs" / "data"
@@ -1058,16 +1059,22 @@ def build_matchup_grid(con):
     cutoff) that predict_week.py fits for the live Weekly Slate, AND the same
     Dub Beta (XGBoost) pipeline (xgboost_model.fit_xgboost_margin_model(),
     same training data) predict_week.py also fits for its own "XGBoost Line
-    (Home)" column -- the page lets the viewer toggle between the two, same
-    "candidate alongside the live model, never silently blended" rule this
-    project applies everywhere else Dub Beta shows up (Predictions/Results/
-    Tracking pages). Refitting both here instead of trying to reuse predict_
-    week.py's in-memory pipes (neither is persisted anywhere) costs one
-    extra Ridge fit AND one extra XGBoost hyperparameter search per pipeline
-    run -- the Ridge fit is cheap, but the XGBoost search is the same real
-    cost predict_week.py already pays once for its own Dub Beta line, so this
-    roughly doubles that particular cost per `python src/export_site_data.py`
-    run. Worth it for a page whose whole point is comparing the two models
+    (Home)" column, AND the Dub Gamma Model (gamma_model.py) -- the page lets
+    the viewer toggle between all three, same "candidate alongside the live
+    model, never silently blended" rule this project applies everywhere else
+    Dub Beta/Gamma show up (Predictions/Results/Tracking pages). Refitting
+    Ridge/XGBoost here instead of trying to reuse predict_week.py's in-memory
+    pipes (neither is persisted anywhere) costs one extra Ridge fit AND one
+    extra XGBoost hyperparameter search per pipeline run -- the Ridge fit is
+    cheap, but the XGBoost search is the same real cost predict_week.py
+    already pays once for its own Dub Beta line, so this roughly doubles
+    that particular cost per `python src/export_site_data.py` run. Gamma
+    adds negligible cost by comparison -- no fit at all, just
+    gamma_model.replay_ratings(con) (a plain chronological replay using the
+    Moore seed, same call predict_week.py/model_comparison.py already make)
+    computed ONCE up front and reused for every pair below, since a team's
+    Gamma rating doesn't depend on who it's hypothetically matched up
+    against. Worth it for a page whose whole point is comparing the models
     against an arbitrary matchup, not worth trying to avoid by adding
     cross-process caching for what's still a routine, non-huge (thousands of
     rows) dataset.
@@ -1116,9 +1123,13 @@ def build_matchup_grid(con):
     reasonable (if less-informed) prediction instead of a crash.
 
     Returns {"teams": [...], "grid": {home: {away: {"ridge": {...}, "xgboost":
-    {...}}}}, "ridge_residual_std": ..., "xgboost_residual_std": ...} -- each
-    of "ridge"/"xgboost" carries the same predicted_margin/spread_home/
-    home_win_prob shape, just fit by that model.
+    {...}, "gamma": {...}}}}, "ridge_residual_std": ..., "xgboost_residual_std":
+    ...} -- "ridge"/"xgboost" carry the same predicted_margin/spread_home/
+    home_win_prob shape, just fit by that model. "gamma" only ever carries
+    spread_home -- gamma_model.py has no residual/win-prob concept at all
+    (it's a deterministic rating-diff formula, not a fitted model with
+    residuals to measure), same "spread only, no win-prob bar" treatment
+    Gamma already gets on the Predictions/Results pages.
     """
     train_df = model.load_training_frame(con)
     if len(train_df) < 10:
@@ -1148,6 +1159,18 @@ def build_matchup_grid(con):
         return None
     ridge_pipe, ridge_residual_std = model.fit_margin_model(train_df)
     xgb_pipe, xgb_residual_std = xgboost_model.fit_xgboost_margin_model(train_df)
+
+    # No fit for Gamma (see this function's own docstring) -- just today's
+    # ratings from a full replay of the Moore seed through every completed
+    # game so far. Same call predict_week.py/model_comparison.py already
+    # make; gamma_warned lists any team encountered with no Moore seed
+    # rating at all (fell back to gamma_model.DEFAULT_SEED_RATING) -- surfaced
+    # the same "loud, not silent" way those two callers already do.
+    gamma_ratings, gamma_warned = gamma_model.replay_ratings(con)
+    if gamma_warned:
+        print(f"  [matchup grid] Dub Gamma: {len(gamma_warned)} team(s) had no Moore seed rating, "
+              f"defaulted to {gamma_model.DEFAULT_SEED_RATING:.2f} -- see moore_seed_2026.py's "
+              f"MOORE_NAME_ALIASES: {gamma_warned}")
 
     prior_season = CURRENT_SEASON - 1
 
@@ -1342,6 +1365,16 @@ def build_matchup_grid(con):
                     "predicted_margin": round(float(xgb_margin[i]), 1),
                     "spread_home": round(float(xgb_spread[i]), 1),
                     "home_win_prob": round(float(xgb_prob[i]), 4),
+                },
+                "gamma": {
+                    # neutral_site=False -- same "assume it's played at the
+                    # 'home' team's own usual venue" convention this whole
+                    # function already applies to Ridge/XGBoost's own
+                    # neutral_site_flag=0.0 above (see this function's own
+                    # docstring).
+                    "spread_home": round(
+                        gamma_model.predict_spread_home(gamma_ratings, home, away, neutral_site=False), 1
+                    ),
                 },
             }
 

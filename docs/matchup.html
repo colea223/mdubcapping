@@ -37,6 +37,10 @@
         <input type="radio" name="model-choice" value="xgboost">
         Dub Beta <span class="model-toggle-sub">(XGBoost, candidate)</span>
       </label>
+      <label>
+        <input type="radio" name="model-choice" value="gamma">
+        Dub Gamma <span class="model-toggle-sub">(Moore-seeded, candidate)</span>
+      </label>
     </div>
   </div>
 
@@ -53,20 +57,27 @@ document.getElementById("nav").innerHTML = renderNav("matchup.html");
 // (see export_site_data.py's build_matchup_grid()) -- the site is fully
 // static, so there's no server to fit either model against an arbitrary
 // pair on the fly. build_matchup_grid() fits BOTH the live Ridge margin
-// model AND the Dub Beta (XGBoost) candidate on the same training data, so
-// this page -- unlike every other page, where Dub Beta is only ever a
-// secondary annotation next to Ridge's own pick -- lets the viewer toggle
-// which one they're looking at. Whichever is selected, it's run against a
-// hypothetical, not-necessarily-scheduled matchup, covering every FBS team
-// that played a game this season. Two assumptions make that possible: both
-// teams are assumed equally rested, and the game is assumed played at the
-// "Home" team's own usual venue (so "Away" travels/adjusts for elevation
-// exactly like a real true road game). Everything else -- whether it's a
-// real conference game, whether either team is a current Mountain West
-// team, travel distance, elevation change, power ratings, and prior-season
-// strength metrics -- is the real value for that specific pair, not a
-// blanket guess.
-function renderResult(home, away, modelCell, residualStd, isBeta) {
+// model AND the Dub Beta (XGBoost) candidate on the same training data,
+// PLUS runs the Dub Gamma Model's rating-diff formula (no fit -- see that
+// function's own docstring), so this page -- unlike every other page,
+// where Dub Beta/Gamma are only ever a secondary annotation next to
+// Ridge's own pick -- lets the viewer toggle which one they're looking at.
+// Whichever is selected, it's run against a hypothetical, not-necessarily-
+// scheduled matchup, covering every FBS team that played a game this
+// season (Gamma additionally needs a Moore seed rating for the team --
+// see gamma_model.py/moore_seed_2026.py; a team with none falls back to
+// gamma_model.DEFAULT_SEED_RATING, same as everywhere else Gamma runs).
+// Two assumptions make the hypothetical possible: both teams are assumed
+// equally rested, and the game is assumed played at the "Home" team's own
+// usual venue (so "Away" travels/adjusts for elevation exactly like a real
+// true road game). Everything else -- whether it's a real conference game,
+// whether either team is a current Mountain West team, travel distance,
+// elevation change, power ratings, and prior-season strength metrics --
+// is the real value for that specific pair, not a blanket guess.
+const MODEL_LABELS = { ridge: "Ridge", xgboost: "Dub Beta (XGBoost)", gamma: "Dub Gamma" };
+const MODEL_BADGE_TAGS = { xgboost: "Dub Beta Model", gamma: "Dub Gamma Model" };
+
+function renderResult(home, away, modelCell, residualStd, modelChoice) {
   const container = document.getElementById("matchup-result");
   if (!home || !away) {
     container.innerHTML = emptyState("Pick two teams from the list to see a predicted matchup.");
@@ -93,17 +104,39 @@ function renderResult(home, away, modelCell, residualStd, isBeta) {
   // contradicting the Predicted Spread line two rows up.
   const favTeam = spreadHome < 0 ? home : (spreadAway < 0 ? away : null);
   const favSpread = spreadHome < 0 ? spreadHome : (spreadAway < 0 ? spreadAway : null);
+  // Gamma has no win-probability concept at all (it's a rating-diff formula,
+  // not a fitted model with a residual to convert into odds -- see this
+  // function's own top comment and build_matchup_grid()'s docstring), so
+  // home_win_prob is simply absent from its grid cell -- guard the whole
+  // win-prob bar on that instead of assuming every model has one.
   const homeProb = modelCell.home_win_prob;
-  const homePct = Math.round(homeProb * 100);
-  const awayPct = 100 - homePct;
+  const hasWinProb = homeProb !== null && homeProb !== undefined;
+  const homePct = hasWinProb ? Math.round(homeProb * 100) : null;
+  const awayPct = hasWinProb ? 100 - homePct : null;
+  const winProbHtml = hasWinProb ? `
+      <div style="margin-top:12px;">
+        <div class="win-prob-bar"><div class="win-prob-fill" style="width:${homePct}%"></div></div>
+        <div class="odds-label" style="margin-top:4px;">
+          ${home} ${homePct}% &ndash; ${away} ${awayPct}%
+        </div>
+      </div>` : "";
   // Same dashed-purple "candidate, not the live model" badge Predictions/
-  // Results/Tracking already use for Dub Beta -- shown here too so picking
-  // XGBoost never reads as if it carries equal weight to Ridge.
-  const betaTagHtml = isBeta ? `<div style="margin-bottom:10px;"><span class="beta-tag">Dub Beta Model</span></div>` : "";
+  // Results/Tracking already use for Dub Beta/Gamma -- shown here too so
+  // picking either candidate never reads as if it carries equal weight to
+  // Ridge.
+  const badgeTag = MODEL_BADGE_TAGS[modelChoice];
+  const badgeHtml = badgeTag ? `<div style="margin-bottom:10px;"><span class="beta-tag">${badgeTag}</span></div>` : "";
+  const modelLabel = MODEL_LABELS[modelChoice];
+  // Gamma's notes drop the "typical model error" sentence entirely (no
+  // residualStd exists for it to report -- see above) rather than printing
+  // a blank/undefined number.
+  const errorSentence = (residualStd !== null && residualStd !== undefined)
+    ? ` Typical model error on a real game this season has been about &plusmn;${residualStd} points.`
+    : "";
 
   container.innerHTML = `
     <div class="matchup-card">
-      ${betaTagHtml}
+      ${badgeHtml}
       <div class="matchup-teams">
         <div class="team-row">
           <span class="name"><span class="at">@</span>${away}</span>
@@ -122,17 +155,11 @@ function renderResult(home, away, modelCell, residualStd, isBeta) {
           <span class="odds-value">${favTeam ? `${favTeam} ${fmt(favSpread)}` : "Pick 'em"}</span>
         </div>
       </div>
-      <div style="margin-top:12px;">
-        <div class="win-prob-bar"><div class="win-prob-fill" style="width:${homePct}%"></div></div>
-        <div class="odds-label" style="margin-top:4px;">
-          ${home} ${homePct}% &ndash; ${away} ${awayPct}%
-        </div>
-      </div>
+      ${winProbHtml}
       <div class="notes-box">
-        A hypothetical ${isBeta ? "Dub Beta (XGBoost)" : "Ridge"} model estimate, not a market line --
+        A hypothetical ${modelLabel} model estimate, not a market line --
         assumes equal rest for both teams and the game played at ${home}'s usual home venue. ${away}'s
-        travel distance and elevation change are the real numbers for that trip. Typical model error on
-        a real game this season has been about &plusmn;${residualStd} points.
+        travel distance and elevation change are the real numbers for that trip.${errorSentence}
       </div>
     </div>`;
 }
@@ -167,10 +194,15 @@ function renderResult(home, away, modelCell, residualStd, isBeta) {
     const away = teamSet.has(awayInput.value) ? awayInput.value : null;
     const pair = (home && away && data.grid[home]) ? data.grid[home][away] : undefined;
     const modelChoice = document.querySelector('input[name="model-choice"]:checked').value;
-    const isBeta = modelChoice === "xgboost";
     const modelCell = pair ? pair[modelChoice] : undefined;
-    const residualStd = isBeta ? data.xgboost_residual_std : data.ridge_residual_std;
-    renderResult(home, away, modelCell, residualStd, isBeta);
+    // Gamma has no residual_std anywhere in matchup_grid.json (see
+    // build_matchup_grid()'s docstring) -- undefined here correctly tells
+    // renderResult() to drop the "typical model error" sentence rather than
+    // printing "undefined points".
+    const residualStd = modelChoice === "xgboost" ? data.xgboost_residual_std
+      : modelChoice === "ridge" ? data.ridge_residual_std
+      : undefined;
+    renderResult(home, away, modelCell, residualStd, modelChoice);
   }
 
   homeInput.addEventListener("input", refresh);
