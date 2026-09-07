@@ -25,6 +25,15 @@ prediction at all) for any season before SEED_SEASON -- see
 gamma_model.py's and moore_seed_2026.py's own docstrings -- so its columns
 simply read "n/a" for older seasons/games throughout this sheet.
 
+SEED_SEASON's own week 1 IS graded by Gamma (per Cole's own request), but
+that grade reuses the Moore seed exactly as pasted -- which already
+reflects week 1's own results, since the seed was snapshotted "entering
+week 2" (see moore_seed_2026.py's and model_comparison.py's own
+docstrings). Those rows carry a "(seed week)" tag in the Game-by-Game
+Gamma Result column (see the gamma_is_seed_week handling in
+write_detail_table()) so a Win/Loss there is never mistaken for a genuine
+out-of-sample prediction the way every other graded week is.
+
 CLV (closing-line value) columns -- a separate axis from ATS win/loss above:
 whichever model's own predicted line ends up numerically CLOSEST to the
 actual closing market number is "tightest" that game (see _clv_stats()'s and
@@ -306,10 +315,19 @@ def write_detail_table(ws, df, start_row, season):
         xgb_result_text = result_text(row.xgb_result, row.xgb_lean, getattr(row, "xgb_is_bet", None))
         gamma_lean = _gamma_val(row, "gamma_lean")
         gamma_is_bet = _gamma_val(row, "gamma_is_bet")
+        gamma_is_seed_week = _gamma_val(row, "gamma_is_seed_week")
         gamma_result_text = (
             result_text(_gamma_val(row, "gamma_result"), gamma_lean, gamma_is_bet)
             if gamma_lean is not None else "n/a"
         )
+        # gamma_is_seed_week is True only for the seed season's own week 1 --
+        # that grade reuses the Moore seed exactly as pasted, which already
+        # reflects week 1's own results (see moore_seed_2026.py's docstring
+        # and model_comparison.py's), so it's tagged here the same way
+        # results.html flags it, right alongside the existing "(no real
+        # edge)" tag from result_text() above (both can appear together).
+        if gamma_is_seed_week and gamma_result_text not in ("n/a", "--"):
+            gamma_result_text = f"{gamma_result_text} (seed week)"
         gamma_edge = _gamma_val(row, "gamma_edge")
         gamma_spread_home = _gamma_val(row, "gamma_spread_home")
         gamma_agrees = _gamma_val(row, "gamma_agrees_with_ridge")

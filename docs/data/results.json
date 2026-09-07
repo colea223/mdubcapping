@@ -1,6 +1,6 @@
 {
   "meta": {
-    "generated_at": "2026-09-07T20:23:59Z",
+    "generated_at": "2026-09-07T22:13:10Z",
     "current_week": {
       "season": 2026,
       "week": 1
@@ -38,7 +38,14 @@
         "spread_result": "Loss",
         "agrees_with_model": false
       },
-      "gamma_model": null,
+      "gamma_model": {
+        "spread_pick": 4.4,
+        "spread_lean": "Away",
+        "spread_was_bet": false,
+        "spread_result": "Win",
+        "agrees_with_model": true,
+        "is_seed_week": true
+      },
       "your_bets": []
     },
     {
@@ -72,7 +79,14 @@
         "spread_result": "Win",
         "agrees_with_model": true
       },
-      "gamma_model": null,
+      "gamma_model": {
+        "spread_pick": -15.6,
+        "spread_lean": "Home",
+        "spread_was_bet": true,
+        "spread_result": "Win",
+        "agrees_with_model": true,
+        "is_seed_week": true
+      },
       "your_bets": [
         {
           "date": "2026-09-05",
@@ -118,7 +132,14 @@
         "spread_result": "Loss",
         "agrees_with_model": true
       },
-      "gamma_model": null,
+      "gamma_model": {
+        "spread_pick": -2.5,
+        "spread_lean": "Home",
+        "spread_was_bet": true,
+        "spread_result": "Win",
+        "agrees_with_model": false,
+        "is_seed_week": true
+      },
       "your_bets": []
     },
     {
@@ -152,7 +173,14 @@
         "spread_result": "Loss",
         "agrees_with_model": true
       },
-      "gamma_model": null,
+      "gamma_model": {
+        "spread_pick": -44.4,
+        "spread_lean": "Home",
+        "spread_was_bet": true,
+        "spread_result": "Win",
+        "agrees_with_model": false,
+        "is_seed_week": true
+      },
       "your_bets": []
     },
     {
@@ -186,7 +214,14 @@
         "spread_result": "Win",
         "agrees_with_model": false
       },
-      "gamma_model": null,
+      "gamma_model": {
+        "spread_pick": 2.3,
+        "spread_lean": "Away",
+        "spread_was_bet": true,
+        "spread_result": "Loss",
+        "agrees_with_model": true,
+        "is_seed_week": true
+      },
       "your_bets": []
     },
     {
@@ -220,7 +255,14 @@
         "spread_result": "Win",
         "agrees_with_model": false
       },
-      "gamma_model": null,
+      "gamma_model": {
+        "spread_pick": -19.6,
+        "spread_lean": "Away",
+        "spread_was_bet": true,
+        "spread_result": "Win",
+        "agrees_with_model": false,
+        "is_seed_week": true
+      },
       "your_bets": []
     },
     {
@@ -254,7 +296,14 @@
         "spread_result": "Loss",
         "agrees_with_model": true
       },
-      "gamma_model": null,
+      "gamma_model": {
+        "spread_pick": -41.0,
+        "spread_lean": "Home",
+        "spread_was_bet": true,
+        "spread_result": "Win",
+        "agrees_with_model": false,
+        "is_seed_week": true
+      },
       "your_bets": []
     },
     {
@@ -288,7 +337,14 @@
         "spread_result": "Win",
         "agrees_with_model": true
       },
-      "gamma_model": null,
+      "gamma_model": {
+        "spread_pick": -6.4,
+        "spread_lean": "Home",
+        "spread_was_bet": true,
+        "spread_result": "Win",
+        "agrees_with_model": true,
+        "is_seed_week": true
+      },
       "your_bets": []
     },
     {
@@ -322,7 +378,14 @@
         "spread_result": "Loss",
         "agrees_with_model": true
       },
-      "gamma_model": null,
+      "gamma_model": {
+        "spread_pick": 0.5,
+        "spread_lean": "Away",
+        "spread_was_bet": true,
+        "spread_result": "Win",
+        "agrees_with_model": false,
+        "is_seed_week": true
+      },
       "your_bets": [
         {
           "date": "2026-09-04",
@@ -368,7 +431,14 @@
         "spread_result": "Loss",
         "agrees_with_model": true
       },
-      "gamma_model": null,
+      "gamma_model": {
+        "spread_pick": 1.6,
+        "spread_lean": "Away",
+        "spread_was_bet": true,
+        "spread_result": "Win",
+        "agrees_with_model": false,
+        "is_seed_week": true
+      },
       "your_bets": [
         {
           "date": "2026-08-29",
@@ -414,7 +484,14 @@
         "spread_result": "Loss",
         "agrees_with_model": false
       },
-      "gamma_model": null,
+      "gamma_model": {
+        "spread_pick": -16.1,
+        "spread_lean": "Away",
+        "spread_was_bet": true,
+        "spread_result": "Win",
+        "agrees_with_model": true,
+        "is_seed_week": true
+      },
       "your_bets": []
     },
     {
@@ -448,7 +525,14 @@
         "spread_result": "Win",
         "agrees_with_model": true
       },
-      "gamma_model": null,
+      "gamma_model": {
+        "spread_pick": -25.5,
+        "spread_lean": "Home",
+        "spread_was_bet": true,
+        "spread_result": "Win",
+        "agrees_with_model": true,
+        "is_seed_week": true
+      },
       "your_bets": [
         {
           "date": "2026-08-29",
@@ -505,7 +589,14 @@
         "spread_result": "Loss",
         "agrees_with_model": true
       },
-      "gamma_model": null,
+      "gamma_model": {
+        "spread_pick": -11.2,
+        "spread_lean": "Home",
+        "spread_was_bet": true,
+        "spread_result": "Win",
+        "agrees_with_model": false,
+        "is_seed_week": true
+      },
       "your_bets": []
     }
   ]

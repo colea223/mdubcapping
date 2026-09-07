@@ -14,9 +14,22 @@ start_date is strictly before that week's earliest kickoff, then graded on
 that week only, then forgotten. Gamma has no fitting step at all (see
 gamma_model.py's own docstring -- it's a deterministic replay from a fixed
 seed, not a trained model), but gets the exact same walk-forward-safe
-treatment in spirit: gamma_model.ratings_entering_week() only ever uses
-ratings as they stood BEFORE the test week's games, via the same
-season/week boundary Ridge/XGBoost's train/test split already uses.
+treatment in spirit for gamma_model.SEED_SEASON's week 2 onward:
+gamma_model.ratings_entering_week() only ever uses ratings as they stood
+BEFORE the test week's games, via the same season/week boundary
+Ridge/XGBoost's train/test split already uses.
+
+ONE deliberate exception, per Cole's own request: SEED_SEASON's own week 1
+is ALSO graded now, reusing the raw Moore seed exactly as-is (see
+run_comparison()'s own comment on gamma_ratings for the mechanics). That
+seed was pasted after week 1 had already been played -- see
+moore_seed_2026.py's own docstring, it's explicitly "entering week 2" -- so
+week 1's grade uses hindsight, not a genuine out-of-sample prediction the
+way every other graded week is. Each row carries a gamma_is_seed_week flag
+so every downstream consumer (this script's own console summary,
+excel/update_model_comparison_tab.py, export_site_data.py, the site) can
+label that week as informational rather than presenting it as equivalent to
+a real prediction.
 
 Grading itself is backtest.grade_spread_pick() -- the SAME function
 backtest.py's own live Ridge grading uses, imported rather than
@@ -114,7 +127,23 @@ def run_comparison(con, edge_threshold=EDGE_THRESHOLD, min_train_games=MIN_TRAIN
         # moore_seed_2026.py's own docstring) -- other seasons' games simply
         # get gamma_spread_home = None throughout, which _grade_side() below
         # already handles (edge/lean/result all None too).
-        if wk.season == gamma_model.SEED_SEASON and wk.week >= gamma_model.SEED_ENTERING_WEEK:
+        #
+        # SEED_SEASON's own week 1 (< SEED_ENTERING_WEEK) is a deliberate
+        # exception, per Cole's own request: ratings_entering_week() for any
+        # week <= SEED_ENTERING_WEEK - 1 already replays zero games (the
+        # query's week >= SEED_ENTERING_WEEK AND week <= through_week range
+        # is empty), so it harmlessly returns the raw Moore seed unchanged --
+        # the exact same "reuse the current seed" grading week 2 already
+        # gets. The catch, and why gamma_is_seed_week is threaded through
+        # below: that seed was pasted AFTER week 1 was played (see
+        # moore_seed_2026.py's own docstring -- it's already "entering week
+        # 2"), so grading week 1 with it isn't a genuine out-of-sample
+        # prediction, just an informational replay with the answer already
+        # baked in. Downstream consumers (export_site_data.py, the site) use
+        # gamma_is_seed_week to label this clearly rather than presenting it
+        # as equivalent to every other graded week.
+        gamma_is_seed_week = (wk.season == gamma_model.SEED_SEASON and wk.week < gamma_model.SEED_ENTERING_WEEK)
+        if wk.season == gamma_model.SEED_SEASON:
             gamma_ratings = gamma_model.ratings_entering_week(con, wk.season, wk.week)
         else:
             gamma_ratings = None
@@ -152,6 +181,12 @@ def run_comparison(con, edge_threshold=EDGE_THRESHOLD, min_train_games=MIN_TRAIN
                 "xgb_lean": x_lean, "xgb_is_bet": x_is_bet, "xgb_result": x_result,
                 "gamma_spread_home": gamma_spread_home_i, "gamma_edge": g_edge,
                 "gamma_lean": g_lean, "gamma_is_bet": g_is_bet, "gamma_result": g_result,
+                # True only for SEED_SEASON's own week 1 -- see this function's
+                # own comment above on gamma_ratings for why that week's grade
+                # uses hindsight (the seed already reflects week 1's results)
+                # and needs to be labeled as informational, not a real
+                # prediction, wherever it's shown.
+                "gamma_is_seed_week": bool(gamma_is_seed_week) if gamma_ratings is not None else None,
                 "models_agree": (r_lean == x_lean) if (r_lean != "Pick'em" and x_lean != "Pick'em") else None,
                 "gamma_agrees_with_ridge": (
                     (r_lean == g_lean) if (g_lean is not None and r_lean != "Pick'em" and g_lean != "Pick'em")

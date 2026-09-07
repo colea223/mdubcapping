@@ -965,6 +965,29 @@ def build_gamma_tracking():
 
     graded_games = int(season_df["gamma_spread_home"].notna().sum())
 
+    # SEED_SEASON's own week 1 only -- see model_comparison.py's own
+    # docstring. .columns check keeps a pre-this-change CSV snapshot (no
+    # gamma_is_seed_week column at all) rendering exactly as it did before,
+    # with no caveat note.
+    has_seed_week_games = (
+        bool((season_df["gamma_is_seed_week"] == True).any())  # noqa: E712 -- NaN-safe
+        if "gamma_is_seed_week" in season_df.columns else False
+    )
+
+    if not graded_games:
+        note = (
+            f"No {CURRENT_SEASON} games graded under the Dub Gamma seed yet -- ratings replay starts at "
+            "week 2 of the seed season (see moore_seed_2026.py)."
+        )
+    elif has_seed_week_games:
+        note = (
+            "Week 1's record above uses the Moore seed exactly as pasted, which already reflects Week 1's "
+            "own results (see moore_seed_2026.py's own docstring) -- so it's informational only, not a "
+            "genuine out-of-sample prediction the way Week 2 onward is."
+        )
+    else:
+        note = None
+
     return {
         "season": CURRENT_SEASON,
         "n_games": graded_games,
@@ -980,10 +1003,7 @@ def build_gamma_tracking():
         # Same "no note on the happy path" convention as build_beta_tracking()
         # above -- tracking.html's renderGamma() only shows a notes-box when
         # .note is present.
-        "note": None if graded_games else (
-            f"No {CURRENT_SEASON} games graded under the Dub Gamma seed yet -- ratings replay starts at "
-            "week 2 of the seed season (see moore_seed_2026.py)."
-        ),
+        "note": note,
     }
 
 
@@ -1027,12 +1047,18 @@ def _gamma_result_dict(g):
     gamma_is_bet = getattr(g, "gamma_is_bet", None)
     gamma_result = getattr(g, "gamma_result", None)
     gamma_agrees = getattr(g, "gamma_agrees_with_ridge", None)
+    # SEED_SEASON's own week 1 only -- see model_comparison.py's own docstring
+    # and run_comparison()'s comment on gamma_ratings. getattr() default False
+    # keeps a pre-this-change CSV snapshot (no gamma_is_seed_week column at
+    # all) rendering exactly as it did before, with no caveat tag.
+    gamma_is_seed_week = getattr(g, "gamma_is_seed_week", False)
     return {
         "spread_pick": round(float(gamma_spread_home), 1),
         "spread_lean": gamma_lean if isinstance(gamma_lean, str) else None,
         "spread_was_bet": bool(gamma_is_bet) if pd.notna(gamma_is_bet) else False,
         "spread_result": gamma_result if isinstance(gamma_result, str) and pd.notna(gamma_result) else None,
         "agrees_with_model": bool(gamma_agrees) if pd.notna(gamma_agrees) else None,
+        "is_seed_week": bool(gamma_is_seed_week) if pd.notna(gamma_is_seed_week) else False,
     }
 
 

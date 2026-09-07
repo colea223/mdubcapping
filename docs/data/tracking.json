@@ -1,6 +1,6 @@
 {
   "meta": {
-    "generated_at": "2026-09-07T20:23:59Z",
+    "generated_at": "2026-09-07T22:13:10Z",
     "current_week": {
       "season": 2026,
       "week": 1
@@ -198,21 +198,21 @@
     },
     "gamma_model": {
       "season": 2026,
-      "n_games": 0,
+      "n_games": 13,
       "spread": {
-        "n_bets": 0,
-        "wins": 0,
-        "losses": 0,
+        "n_bets": 13,
+        "wins": 12,
+        "losses": 1,
         "pushes": 0,
-        "win_rate": null,
-        "units": 0.0,
-        "n_real_edge_bets": 0,
-        "real_edge_wins": 0,
-        "real_edge_losses": 0,
-        "real_edge_win_rate": null
+        "win_rate": 0.9231,
+        "units": 9.91,
+        "n_real_edge_bets": 12,
+        "real_edge_wins": 11,
+        "real_edge_losses": 1,
+        "real_edge_win_rate": 0.9167
       },
-      "agree_rate": null,
-      "note": "No 2026 games graded under the Dub Gamma seed yet -- ratings replay starts at week 2 of the seed season (see moore_seed_2026.py)."
+      "agree_rate": 0.4615,
+      "note": "Week 1's record above uses the Moore seed exactly as pasted, which already reflects Week 1's own results (see moore_seed_2026.py's own docstring) -- so it's informational only, not a genuine out-of-sample prediction the way Week 2 onward is."
     }
   }
 }

@@ -102,6 +102,12 @@ function betaModelRow(beta, marketSpreadClose) {
 // hasn't been (re)run since this game was graded, OR (unlike Beta) this
 // game predates gamma_model.SEED_ENTERING_WEEK entirely -- see
 // export_site_data.py's build_results() docstring and _gamma_result_dict().
+// gamma.is_seed_week (true only for the seed season's own week 1) means
+// this grade reuses the Moore seed exactly as pasted, which already
+// reflects week 1's own results (see moore_seed_2026.py's own docstring
+// and model_comparison.py's) -- flagged here so a Win/Loss there is never
+// mistaken for a genuine out-of-sample prediction the way every other
+// graded week is.
 function gammaModelRow(gamma, marketSpreadClose) {
   if (!gamma) {
     return `
@@ -115,6 +121,9 @@ function gammaModelRow(gamma, marketSpreadClose) {
     : (gamma.agrees_with_model
         ? `<span class="grade-tag push">Agrees with live model</span>`
         : `<span class="grade-tag incorrect">Disagrees with live model</span>`);
+  const seedWeekNote = gamma.is_seed_week
+    ? `<div class="beta-line odds-label" style="margin-top:2px;">Seed week -- uses the Moore seed as pasted, not a real prediction</div>`
+    : "";
   return `
     <div class="beta-block">
       <span class="beta-tag">Dub Gamma Model</span>
@@ -122,6 +131,7 @@ function gammaModelRow(gamma, marketSpreadClose) {
         ${modelRow("Spread", fmtSpread(gamma.spread_pick), fmtSpread(marketSpreadClose), gamma.spread_lean, gamma.spread_was_bet, gamma.spread_result)}
       </div>
       <div class="beta-line">${agreeTag}</div>
+      ${seedWeekNote}
     </div>`;
 }
 
