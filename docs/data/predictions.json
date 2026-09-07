@@ -1,6 +1,6 @@
 {
   "meta": {
-    "generated_at": "2026-09-06T23:20:32Z",
+    "generated_at": "2026-09-07T00:42:18Z",
     "current_week": {
       "season": 2026,
       "week": 1
@@ -24,10 +24,14 @@
       "away_points": 26,
       "straight_up_correct": true,
       "covered_market_line": true,
-      "beta_model_spread_home": -32.3,
+      "beta_model_spread_home": -32.4,
       "beta_agrees": true,
       "beta_straight_up_correct": true,
-      "beta_covered_market_line": true
+      "beta_covered_market_line": true,
+      "gamma_model_spread_home": null,
+      "gamma_agrees": null,
+      "gamma_straight_up_correct": null,
+      "gamma_covered_market_line": null
     },
     {
       "game_id": 401864577,
@@ -46,10 +50,14 @@
       "away_points": 7,
       "straight_up_correct": true,
       "covered_market_line": true,
-      "beta_model_spread_home": -16.3,
+      "beta_model_spread_home": -16.0,
       "beta_agrees": true,
       "beta_straight_up_correct": true,
-      "beta_covered_market_line": true
+      "beta_covered_market_line": true,
+      "gamma_model_spread_home": null,
+      "gamma_agrees": null,
+      "gamma_straight_up_correct": null,
+      "gamma_covered_market_line": null
     },
     {
       "game_id": 401858201,
@@ -57,7 +65,7 @@
       "away_team": "Hawai'i",
       "home_team": "Stanford",
       "model_spread_home": -1.8,
-      "model_total": 51.4,
+      "model_total": 51.3,
       "market_spread_home": -4.8,
       "market_total": 48.5,
       "home_win_prob": 0.541,
@@ -68,10 +76,14 @@
       "away_points": 27,
       "straight_up_correct": true,
       "covered_market_line": false,
-      "beta_model_spread_home": -0.3,
+      "beta_model_spread_home": -0.5,
       "beta_agrees": true,
       "beta_straight_up_correct": true,
-      "beta_covered_market_line": false
+      "beta_covered_market_line": false,
+      "gamma_model_spread_home": null,
+      "gamma_agrees": null,
+      "gamma_straight_up_correct": null,
+      "gamma_covered_market_line": null
     },
     {
       "game_id": 401862693,
@@ -90,10 +102,14 @@
       "away_points": 27,
       "straight_up_correct": false,
       "covered_market_line": false,
-      "beta_model_spread_home": -6.7,
+      "beta_model_spread_home": -7.0,
       "beta_agrees": true,
       "beta_straight_up_correct": false,
-      "beta_covered_market_line": false
+      "beta_covered_market_line": false,
+      "gamma_model_spread_home": null,
+      "gamma_agrees": null,
+      "gamma_straight_up_correct": null,
+      "gamma_covered_market_line": null
     },
     {
       "game_id": 401864495,
@@ -112,32 +128,40 @@
       "away_points": 27,
       "straight_up_correct": false,
       "covered_market_line": false,
-      "beta_model_spread_home": -9.9,
+      "beta_model_spread_home": -9.6,
       "beta_agrees": true,
       "beta_straight_up_correct": false,
-      "beta_covered_market_line": false
+      "beta_covered_market_line": false,
+      "gamma_model_spread_home": null,
+      "gamma_agrees": null,
+      "gamma_straight_up_correct": null,
+      "gamma_covered_market_line": null
     },
     {
       "game_id": 401856664,
       "week": 1,
       "away_team": "UTEP",
       "home_team": "Oklahoma",
-      "model_spread_home": -35.0,
+      "model_spread_home": -34.9,
       "model_total": 52.4,
       "market_spread_home": -40.8,
       "market_total": 51.2,
       "home_win_prob": 0.975,
-      "edge": -5.8,
+      "edge": -5.9,
       "notes": "",
       "completed": true,
       "home_points": 51,
       "away_points": 0,
       "straight_up_correct": true,
       "covered_market_line": false,
-      "beta_model_spread_home": -33.6,
+      "beta_model_spread_home": -33.4,
       "beta_agrees": true,
       "beta_straight_up_correct": true,
-      "beta_covered_market_line": false
+      "beta_covered_market_line": false,
+      "gamma_model_spread_home": null,
+      "gamma_agrees": null,
+      "gamma_straight_up_correct": null,
+      "gamma_covered_market_line": null
     },
     {
       "game_id": 401864496,
@@ -156,10 +180,14 @@
       "away_points": 0,
       "straight_up_correct": true,
       "covered_market_line": false,
-      "beta_model_spread_home": -29.5,
+      "beta_model_spread_home": -29.2,
       "beta_agrees": true,
       "beta_straight_up_correct": true,
-      "beta_covered_market_line": false
+      "beta_covered_market_line": false,
+      "gamma_model_spread_home": null,
+      "gamma_agrees": null,
+      "gamma_straight_up_correct": null,
+      "gamma_covered_market_line": null
     },
     {
       "game_id": 401864499,
@@ -181,7 +209,11 @@
       "beta_model_spread_home": -32.6,
       "beta_agrees": true,
       "beta_straight_up_correct": true,
-      "beta_covered_market_line": true
+      "beta_covered_market_line": true,
+      "gamma_model_spread_home": null,
+      "gamma_agrees": null,
+      "gamma_straight_up_correct": null,
+      "gamma_covered_market_line": null
     },
     {
       "game_id": 401858426,
@@ -200,10 +232,14 @@
       "away_points": 0,
       "straight_up_correct": true,
       "covered_market_line": false,
-      "beta_model_spread_home": -25.6,
+      "beta_model_spread_home": -24.6,
       "beta_agrees": true,
       "beta_straight_up_correct": true,
-      "beta_covered_market_line": false
+      "beta_covered_market_line": false,
+      "gamma_model_spread_home": null,
+      "gamma_agrees": null,
+      "gamma_straight_up_correct": null,
+      "gamma_covered_market_line": null
     },
     {
       "game_id": 401860878,
@@ -222,32 +258,14 @@
       "away_points": 13,
       "straight_up_correct": true,
       "covered_market_line": true,
-      "beta_model_spread_home": -3.9,
+      "beta_model_spread_home": -4.3,
       "beta_agrees": true,
       "beta_straight_up_correct": true,
-      "beta_covered_market_line": true
-    },
-    {
-      "game_id": 401864498,
-      "week": 1,
-      "away_team": "Central Michigan",
-      "home_team": "New Mexico",
-      "model_spread_home": -18.2,
-      "model_total": 50.6,
-      "market_spread_home": -11.2,
-      "market_total": 47.2,
-      "home_win_prob": 0.845,
-      "edge": 7.0,
-      "notes": "",
-      "completed": true,
-      "home_points": 38,
-      "away_points": 7,
-      "straight_up_correct": true,
-      "covered_market_line": true,
-      "beta_model_spread_home": -12.2,
-      "beta_agrees": true,
-      "beta_straight_up_correct": true,
-      "beta_covered_market_line": true
+      "beta_covered_market_line": true,
+      "gamma_model_spread_home": null,
+      "gamma_agrees": null,
+      "gamma_straight_up_correct": null,
+      "gamma_covered_market_line": null
     },
     {
       "game_id": 401864497,
@@ -266,10 +284,40 @@
       "away_points": 21,
       "straight_up_correct": true,
       "covered_market_line": true,
-      "beta_model_spread_home": -1.1,
+      "beta_model_spread_home": -0.8,
       "beta_agrees": false,
       "beta_straight_up_correct": false,
-      "beta_covered_market_line": false
+      "beta_covered_market_line": false,
+      "gamma_model_spread_home": null,
+      "gamma_agrees": null,
+      "gamma_straight_up_correct": null,
+      "gamma_covered_market_line": null
+    },
+    {
+      "game_id": 401864498,
+      "week": 1,
+      "away_team": "Central Michigan",
+      "home_team": "New Mexico",
+      "model_spread_home": -18.2,
+      "model_total": 50.5,
+      "market_spread_home": -11.2,
+      "market_total": 47.2,
+      "home_win_prob": 0.845,
+      "edge": 7.0,
+      "notes": "",
+      "completed": true,
+      "home_points": 38,
+      "away_points": 7,
+      "straight_up_correct": true,
+      "covered_market_line": true,
+      "beta_model_spread_home": -12.9,
+      "beta_agrees": true,
+      "beta_straight_up_correct": true,
+      "beta_covered_market_line": true,
+      "gamma_model_spread_home": null,
+      "gamma_agrees": null,
+      "gamma_straight_up_correct": null,
+      "gamma_covered_market_line": null
     },
     {
       "game_id": 401864432,
@@ -288,10 +336,14 @@
       "away_points": 14,
       "straight_up_correct": false,
       "covered_market_line": false,
-      "beta_model_spread_home": 4.4,
+      "beta_model_spread_home": 3.9,
       "beta_agrees": true,
       "beta_straight_up_correct": false,
-      "beta_covered_market_line": false
+      "beta_covered_market_line": false,
+      "gamma_model_spread_home": null,
+      "gamma_agrees": null,
+      "gamma_straight_up_correct": null,
+      "gamma_covered_market_line": null
     }
   ]
 }

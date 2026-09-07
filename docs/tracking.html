@@ -29,9 +29,14 @@
     <div id="model-container"></div>
   </div>
 
-  <div class="card">
+  <div class="card" style="margin-bottom:20px;">
     <div class="section-title">Dub Beta Model <span class="beta-tag">Candidate, Spread Only</span></div>
     <div id="beta-container"></div>
+  </div>
+
+  <div class="card">
+    <div class="section-title">Dub Gamma Model <span class="beta-tag">Candidate, Spread Only</span></div>
+    <div id="gamma-container"></div>
   </div>
 
   <div class="footer-note" id="updated"></div>
@@ -185,6 +190,45 @@ function renderBeta(beta) {
     ${beta.note ? `<div class="notes-box">${beta.note}</div>` : ""}`;
 }
 
+// Dub Gamma Model -- spread only, same shape and same staleness contract as
+// renderBeta() just above (export_site_data.py's build_gamma_tracking()
+// reads the same model_comparison_results.csv snapshot). Gamma has no seed
+// for any game before its seed season's entering week, so n_games/spread
+// here can legitimately be smaller than Beta's for the same season.
+function renderGamma(gamma) {
+  const container = document.getElementById("gamma-container");
+  if (!gamma || !gamma.n_games || !gamma.spread || gamma.spread.n_bets === undefined) {
+    container.innerHTML = emptyState(
+      (gamma && gamma.note) || "No Dub Gamma Model data yet -- run src/model_comparison.py, then src/export_site_data.py."
+    );
+    return;
+  }
+
+  const g = gamma.spread;
+  container.innerHTML = `
+    <div class="stat-grid">
+      <div class="stat-tile">
+        <div class="label">Record (ATS)</div>
+        <div class="value">${record(g)}</div>
+        <div class="sub">${g.n_bets} graded bets</div>
+      </div>
+      <div class="stat-tile">
+        <div class="label">Win Rate</div>
+        <div class="value">${pct(g.win_rate)}</div>
+      </div>
+      <div class="stat-tile">
+        <div class="label">Units (flat 1u)</div>
+        <div class="value ${unitsClass(g.units)}">${unitsLabel(g.units)}</div>
+      </div>
+      <div class="stat-tile">
+        <div class="label">Agrees w/ Live Model</div>
+        <div class="value">${gamma.agree_rate !== null && gamma.agree_rate !== undefined ? pct(gamma.agree_rate) : "&ndash;"}</div>
+        <div class="sub">${gamma.n_games} MW games compared, ${gamma.season} season</div>
+      </div>
+    </div>
+    ${gamma.note ? `<div class="notes-box">${gamma.note}</div>` : ""}`;
+}
+
 function renderPending(pending) {
   const container = document.getElementById("pending-container");
   if (!pending || !pending.length) {
@@ -219,12 +263,14 @@ function renderPending(pending) {
     document.getElementById("yours-container").innerHTML = emptyState("No tracking data yet -- run the pipeline to generate this.");
     document.getElementById("model-container").innerHTML = "";
     document.getElementById("beta-container").innerHTML = "";
+    document.getElementById("gamma-container").innerHTML = "";
     return;
   }
   renderPending(data.tracking.yours && data.tracking.yours.pending);
   renderYours(data.tracking.yours);
   renderModel(data.tracking.model);
   renderBeta(data.tracking.beta_model);
+  renderGamma(data.tracking.gamma_model);
   document.getElementById("updated").textContent = lastUpdatedLabel(data.meta && data.meta.generated_at);
 })();
 </script>

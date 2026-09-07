@@ -567,12 +567,21 @@ def build_matchups_and_predictions(con, notes: dict, manual_lines=None):
             # same graceful-degradation as a missing market line elsewhere
             # in this file, never a crash.
             beta_by_game = {}
+            gamma_by_game = {}
             pred_path = latest_predictions_file()
             if pred_path is not None:
                 beta_csv = pd.read_csv(pred_path)
                 if "XGBoost Line (Home)" in beta_csv.columns:
                     beta_by_game = dict(zip(
                         beta_csv["Game ID"].astype(int), beta_csv["XGBoost Line (Home)"]
+                    ))
+                # Dub Gamma Model -- same graceful-degradation as Beta above:
+                # a predictions CSV from before gamma_model.py existed simply
+                # has no "Gamma Line (Home)" column, so gamma_by_game stays
+                # empty and every game below shows no Dub Gamma line.
+                if "Gamma Line (Home)" in beta_csv.columns:
+                    gamma_by_game = dict(zip(
+                        beta_csv["Game ID"].astype(int), beta_csv["Gamma Line (Home)"]
                     ))
 
             # See src/totals_model.py -- SP+/PPA-based regression, same swap
@@ -690,6 +699,34 @@ def build_matchups_and_predictions(con, notes: dict, manual_lines=None):
                 else:
                     beta_spread_home = None
 
+                # Dub Gamma Model grading -- exact same two-way grade/agree
+                # shape as Dub Beta above, just reading gamma_by_game instead.
+                # See gamma_model.py's own docstring for what this model is;
+                # like Beta, it's informational only and never feeds edge/
+                # is_bet for the live model.
+                gamma_spread_home = gamma_by_game.get(int(row.game_id))
+                gamma_straight_up_correct = gamma_covered_market_line = None
+                gamma_agrees = None
+                if gamma_spread_home is not None and pd.notna(gamma_spread_home):
+                    gamma_spread_home = float(gamma_spread_home)
+                    if completed and actual_margin is not None:
+                        gamma_margin_i = -gamma_spread_home
+                        if gamma_margin_i != 0:
+                            gamma_straight_up_correct = (actual_margin > 0) == (gamma_margin_i > 0)
+                        gamma_edge = (market_spread_home - gamma_spread_home) if market_spread_home is not None else None
+                        if gamma_edge and market_spread_home is not None:
+                            gamma_cover_value = actual_margin + market_spread_home
+                            if gamma_cover_value != 0:
+                                gamma_home_covers = gamma_cover_value > 0
+                                gamma_leaned_home = gamma_edge > 0
+                                gamma_covered_market_line = bool(gamma_leaned_home == gamma_home_covers)
+                    if model_spread_home[i] != 0 and gamma_spread_home != 0:
+                        # bool(...) load-bearing here too -- see beta_agrees'
+                        # own comment above for exactly why.
+                        gamma_agrees = bool((model_spread_home[i] < 0) == (gamma_spread_home < 0))
+                else:
+                    gamma_spread_home = None
+
                 predictions.append({
                     "game_id": int(row.game_id), "week": int(row.week),
                     "away_team": row.away_team, "home_team": row.home_team,
@@ -717,6 +754,12 @@ def build_matchups_and_predictions(con, notes: dict, manual_lines=None):
                     "beta_agrees": beta_agrees,
                     "beta_straight_up_correct": beta_straight_up_correct,
                     "beta_covered_market_line": beta_covered_market_line,
+                    # Dub Gamma Model (Sonny-Moore-seeded power rating) --
+                    # informational only, same rule as Beta above.
+                    "gamma_model_spread_home": round(gamma_spread_home, 1) if gamma_spread_home is not None else None,
+                    "gamma_agrees": gamma_agrees,
+                    "gamma_straight_up_correct": gamma_straight_up_correct,
+                    "gamma_covered_market_line": gamma_covered_market_line,
                 })
 
     return matchups, predictions, {"season": season, "week": week}
@@ -816,6 +859,75 @@ def build_beta_tracking():
     }
 
 
+def build_gamma_tracking():
+    """
+    Dub Gamma Model's season-to-date -- spread only, same shape and same
+    staleness contract as build_beta_tracking() just above (sourced from the
+    same data/clean/model_comparison_results.csv via load_beta_comparison(),
+    which now carries gamma_* columns alongside the xgb_* ones -- see
+    model_comparison.py). Gamma has no seed for any season before
+    gamma_model.SEED_SEASON (moore_seed_2026.py's own docstring), so a
+    pre-seed CURRENT_SEASON simply reports "no games graded yet" below,
+    same as it would for a genuinely-not-yet-run comparison.
+    """
+    df = load_beta_comparison()
+    if df is None:
+        return {"n_games": 0, "note": "No Dub Gamma Model comparison yet -- run `python src/model_comparison.py`, "
+                                       "then `python src/export_site_data.py`, to populate this."}
+
+    # model_comparison_results.csv is a snapshot from whenever you last ran
+    # model_comparison.py by hand -- if that was BEFORE gamma_model.py was
+    # added to that script, the CSV on disk simply has no gamma_* columns at
+    # all yet (not NaN values -- the columns themselves are absent), which
+    # would otherwise KeyError below. Same "stale/not-run-yet" story as the
+    # df-is-None case above, just one script-version step later.
+    required_cols = {"gamma_is_bet", "gamma_result", "gamma_agrees_with_ridge", "gamma_spread_home"}
+    if not required_cols.issubset(df.columns):
+        return {"n_games": 0, "note": "Dub Gamma Model comparison data is stale (predates the Gamma columns) -- "
+                                       "run `python src/model_comparison.py` again, then `python "
+                                       "src/export_site_data.py`, to populate this."}
+
+    season_df = df[(df["season"] == CURRENT_SEASON) & df["is_mw_game"]]
+    if season_df.empty:
+        return {"n_games": 0, "note": f"No {CURRENT_SEASON} Mountain West games graded in the Dub Gamma "
+                                       "comparison yet."}
+
+    # gamma_is_bet/gamma_result are real NaN/None for any game predating
+    # gamma_model.SEED_ENTERING_WEEK (see model_comparison.py) -- boolean
+    # indexing with a NaN column raises, so coerce to a plain bool Series
+    # first rather than relying on pandas to short-circuit it.
+    has_gamma_bet = season_df["gamma_is_bet"].fillna(False).astype(bool)
+    bets = season_df[has_gamma_bet & season_df["gamma_result"].isin(["Win", "Loss"])]
+    wins = int((bets["gamma_result"] == "Win").sum())
+    losses = int((bets["gamma_result"] == "Loss").sum())
+    pushes = int((has_gamma_bet & (season_df["gamma_result"] == "Push")).sum())
+    n_bets = wins + losses
+    profit = wins * (100 / 110) - losses * 1.0
+
+    agree = season_df["gamma_agrees_with_ridge"].dropna()
+    agree_rate = float(agree.mean()) if not agree.empty else None
+
+    graded_games = int(season_df["gamma_spread_home"].notna().sum())
+
+    return {
+        "season": CURRENT_SEASON,
+        "n_games": graded_games,
+        "spread": {
+            "n_bets": n_bets, "wins": wins, "losses": losses, "pushes": pushes,
+            "win_rate": round(wins / n_bets, 4) if n_bets else None,
+            "units": round(profit, 2) if n_bets else 0.0,
+        },
+        "agree_rate": round(agree_rate, 4) if agree_rate is not None else None,
+        # Same "no note on the happy path" convention as build_beta_tracking()
+        # above -- tracking.html's renderGamma() only shows a notes-box when
+        # .note is present.
+        "note": None if graded_games else (
+            f"No {CURRENT_SEASON} games graded under the Dub Gamma seed yet -- ratings replay starts at "
+            "week 2 of the seed season (see moore_seed_2026.py)."
+        ),
+    }
+
+
 def _beta_result_dict(b):
     """b is one row (itertuples) from model_comparison_results.csv, or None
     if this game isn't in that snapshot. See build_results()'s docstring."""
@@ -831,6 +943,37 @@ def _beta_result_dict(b):
         # than relying on isinstance() alone catching it.
         "spread_result": b.xgb_result if isinstance(b.xgb_result, str) and pd.notna(b.xgb_result) else None,
         "agrees_with_model": bool(b.models_agree) if pd.notna(b.models_agree) else None,
+    }
+
+
+def _gamma_result_dict(g):
+    """g is one row (itertuples) from model_comparison_results.csv, or None
+    if this game isn't in that snapshot -- mirrors _beta_result_dict() above
+    exactly, reading the gamma_* columns instead of xgb_*/models_agree.
+    gamma_is_bet/gamma_result are real None/NaN (not just "never bet") for
+    any game predating gamma_model.SEED_ENTERING_WEEK, so this guards
+    pd.notna() on gamma_is_bet too, unlike _beta_result_dict()'s bare
+    bool(b.xgb_is_bet) (XGBoost has no such pre-seed gap). Also uses
+    getattr() rather than bare attribute access -- a model_comparison_results.csv
+    snapshot from before gamma_model.py was added to model_comparison.py has
+    no gamma_* columns at ALL yet, so itertuples() wouldn't even have these
+    attributes to read (see build_gamma_tracking()'s own column-existence
+    guard for the same staleness case, one level up)."""
+    if g is None:
+        return None
+    gamma_spread_home = getattr(g, "gamma_spread_home", None)
+    if pd.isna(gamma_spread_home):
+        return None
+    gamma_lean = getattr(g, "gamma_lean", None)
+    gamma_is_bet = getattr(g, "gamma_is_bet", None)
+    gamma_result = getattr(g, "gamma_result", None)
+    gamma_agrees = getattr(g, "gamma_agrees_with_ridge", None)
+    return {
+        "spread_pick": round(float(gamma_spread_home), 1),
+        "spread_lean": gamma_lean if isinstance(gamma_lean, str) else None,
+        "spread_was_bet": bool(gamma_is_bet) if pd.notna(gamma_is_bet) else False,
+        "spread_result": gamma_result if isinstance(gamma_result, str) and pd.notna(gamma_result) else None,
+        "agrees_with_model": bool(gamma_agrees) if pd.notna(gamma_agrees) else None,
     }
 
 
@@ -1162,9 +1305,13 @@ def build_results(con):
 
     Also carries a "beta_model" field per game -- the Dub Beta Model
     (XGBoost)'s own graded spread pick for that same game, from
-    load_beta_comparison(). null whenever that game isn't in the last
+    load_beta_comparison() -- and a "gamma_model" field the same way for the
+    Dub Gamma Model. Both are null whenever that game isn't in the last
     model_comparison.py snapshot (script never run, or run before this game
-    was graded) -- see this module's docstring for the staleness contract.
+    was graded); gamma_model is also null for any game predating
+    gamma_model.SEED_ENTERING_WEEK even when the snapshot itself is fresh
+    (no seed ratings exist that far back) -- see this module's docstring for
+    the staleness contract.
     """
     df = backtest.run_backtest(con)
     if df.empty:
@@ -1216,6 +1363,7 @@ def build_results(con):
                 "ml_result": row.ml_bet_result,
             },
             "beta_model": _beta_result_dict(beta_by_game.get(gid)),
+            "gamma_model": _gamma_result_dict(beta_by_game.get(gid)),
             "your_bets": bets_by_matchup.get(matchup_key, []),
         })
 
@@ -1354,7 +1502,10 @@ def main():
     matchups, predictions, week_info = build_matchups_and_predictions(con, notes, manual_lines)
     live_lines, lines_week_info = build_live_lines(con, manual_lines)
     line_history = build_line_history(con, [g["game_id"] for g in live_lines])
-    tracking = {"model": build_model_tracking(con), "yours": read_bet_log(), "beta_model": build_beta_tracking()}
+    tracking = {
+        "model": build_model_tracking(con), "yours": read_bet_log(),
+        "beta_model": build_beta_tracking(), "gamma_model": build_gamma_tracking(),
+    }
     results = build_results(con)
     matchup_grid = build_matchup_grid(con)
     con.close()

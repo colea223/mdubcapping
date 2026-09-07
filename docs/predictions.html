@@ -11,7 +11,7 @@
 <div class="page-wrap">
   <div class="page-header">
     <h1 id="page-title">Model Predictions</h1>
-    <p>This week's model spread, total, and win probability for every Mountain West game, with notes -- plus the Dub Beta Model's own line for comparison.</p>
+    <p>This week's model spread, total, and win probability for every Mountain West game, with notes -- plus the Dub Beta and Dub Gamma Models' own lines for comparison.</p>
   </div>
 
   <div id="predictions-container"></div>
@@ -92,6 +92,38 @@ document.getElementById("nav").innerHTML = renderNav("predictions.html");
         </div>`;
     }
 
+    // Dub Gamma Model -- same "second opinion, never in the live edge/lean
+    // logic" treatment as the Dub Beta block just above, mirroring it field
+    // for field (gamma_model_spread_home/gamma_agrees/
+    // gamma_straight_up_correct/gamma_covered_market_line instead of
+    // beta_model_spread_home/beta_agrees/beta_straight_up_correct/
+    // beta_covered_market_line). null (no gamma_model_spread_home) means
+    // either predict_week.py hasn't been run for this week yet, or -- for
+    // any game before gamma_model.SEED_ENTERING_WEEK -- the Gamma seed
+    // simply doesn't reach back that far yet. See export_site_data.py's
+    // build_matchups_and_predictions() for exactly how these are computed.
+    let gammaHtml = "";
+    if (p.gamma_model_spread_home !== null && p.gamma_model_spread_home !== undefined) {
+      const gammaSpreads = formatSpreadPair(p.gamma_model_spread_home);
+      const gammaAgreeTag = p.gamma_agrees === null || p.gamma_agrees === undefined
+        ? ""
+        : (p.gamma_agrees
+            ? `<span class="grade-tag push">Agrees with live model</span>`
+            : `<span class="grade-tag incorrect">Disagrees with live model</span>`);
+      const gammaGradeHtml = (p.completed && p.home_points !== null && p.away_points !== null)
+        ? `<div class="beta-line">${gradeTag("Straight up", p.gamma_straight_up_correct)}${gradeTag("Vs. market line", p.gamma_covered_market_line)}</div>`
+        : "";
+      gammaHtml = `
+        <div class="beta-block">
+          <span class="beta-tag">Dub Gamma Model</span>
+          <div class="beta-line">
+            <span class="odds-value">${gammaSpreads.home} / ${gammaSpreads.away}</span>
+            ${gammaAgreeTag}
+          </div>
+          ${gammaGradeHtml}
+        </div>`;
+    }
+
     // Once the game's final, swap the still-live win-prob bar for the
     // actual result plus how the model's own pick graded -- straight up
     // (did the favored team just win) and against the real market spread
@@ -163,6 +195,7 @@ document.getElementById("nav").innerHTML = renderNav("predictions.html");
         </div>
         ${resultHtml}
         ${betaHtml}
+        ${gammaHtml}
         ${notesHtml}
       </div>`;
   }).join("");

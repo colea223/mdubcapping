@@ -11,7 +11,7 @@
 <div class="page-wrap">
   <div class="page-header">
     <h1 id="page-title">Past Results</h1>
-    <p>Every completed Mountain West game this season -- the model's own graded spread/total/moneyline pick, the Dub Beta Model's own spread pick, and your own placed bets on that same game, side by side.</p>
+    <p>Every completed Mountain West game this season -- the model's own graded spread/total/moneyline pick, the Dub Beta and Dub Gamma Models' own spread picks, and your own placed bets on that same game, side by side.</p>
   </div>
 
   <div id="results-container"></div>
@@ -86,6 +86,34 @@ function betaModelRow(beta, marketSpreadClose) {
     </div>`;
 }
 
+// Dub Gamma Model's graded spread pick for this game -- mirrors
+// betaModelRow() exactly. null means either data/clean/model_comparison_results.csv
+// hasn't been (re)run since this game was graded, OR (unlike Beta) this
+// game predates gamma_model.SEED_ENTERING_WEEK entirely -- see
+// export_site_data.py's build_results() docstring and _gamma_result_dict().
+function gammaModelRow(gamma, marketSpreadClose) {
+  if (!gamma) {
+    return `
+      <div class="beta-block">
+        <span class="beta-tag">Dub Gamma Model</span>
+        <div class="beta-line odds-label">No comparison run yet for this game</div>
+      </div>`;
+  }
+  const agreeTag = gamma.agrees_with_model === null || gamma.agrees_with_model === undefined
+    ? ""
+    : (gamma.agrees_with_model
+        ? `<span class="grade-tag push">Agrees with live model</span>`
+        : `<span class="grade-tag incorrect">Disagrees with live model</span>`);
+  return `
+    <div class="beta-block">
+      <span class="beta-tag">Dub Gamma Model</span>
+      <div class="beta-line">
+        ${modelRow("Spread", fmtSpread(gamma.spread_pick), fmtSpread(marketSpreadClose), gamma.spread_lean, gamma.spread_was_bet, gamma.spread_result)}
+      </div>
+      <div class="beta-line">${agreeTag}</div>
+    </div>`;
+}
+
 function betRow(b) {
   const cls = b.result === "W" ? "correct" : b.result === "L" ? "incorrect" : "push";
   const resultLabel = b.result === "W" ? "Win" : b.result === "L" ? "Loss" : "Push";
@@ -126,6 +154,7 @@ function resultCard(r) {
         ${modelRow("Moneyline", "&ndash;", "&ndash;", m.ml_lean, m.ml_was_bet, m.ml_result)}
       </div>
       ${betaModelRow(r.beta_model, m.market_spread_close)}
+      ${gammaModelRow(r.gamma_model, m.market_spread_close)}
       <div class="final-score" style="border-top:1px solid var(--border);">
         <div class="odds-label" style="margin-bottom:6px;">YOUR BETS</div>
         ${betsHtml}

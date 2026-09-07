@@ -1,57 +1,12 @@
 {
   "meta": {
-    "generated_at": "2026-09-06T23:20:32Z",
+    "generated_at": "2026-09-07T00:42:18Z",
     "current_week": {
       "season": 2026,
       "week": 1
     }
   },
   "results": [
-    {
-      "game_id": 401864498,
-      "season": 2026,
-      "week": 1,
-      "date": "2026-09-06",
-      "away_team": "Central Michigan",
-      "home_team": "New Mexico",
-      "home_points": 38,
-      "away_points": 7,
-      "model": {
-        "spread_pick": -17.5,
-        "market_spread_close": -11.2,
-        "spread_lean": "Home",
-        "spread_was_bet": true,
-        "spread_result": "Win",
-        "total_pick": 50.6,
-        "market_total_close": 47.2,
-        "total_lean": "Over",
-        "total_was_bet": true,
-        "total_result": "Loss",
-        "ml_lean": "Home",
-        "ml_was_bet": false,
-        "ml_result": null
-      },
-      "beta_model": {
-        "spread_pick": -11.6,
-        "spread_lean": "Home",
-        "spread_was_bet": false,
-        "spread_result": null,
-        "agrees_with_model": true
-      },
-      "your_bets": [
-        {
-          "date": "2026-09-05",
-          "week": 1,
-          "matchup": "Central Michigan @ New Mexico",
-          "bet_type": "Spread",
-          "side": "New Mexico",
-          "odds": -110.0,
-          "stake": 5.0,
-          "result": "W",
-          "units": 4.55
-        }
-      ]
-    },
     {
       "game_id": 401864497,
       "season": 2026,
@@ -83,7 +38,54 @@
         "spread_result": "Loss",
         "agrees_with_model": false
       },
+      "gamma_model": null,
       "your_bets": []
+    },
+    {
+      "game_id": 401864498,
+      "season": 2026,
+      "week": 1,
+      "date": "2026-09-06",
+      "away_team": "Central Michigan",
+      "home_team": "New Mexico",
+      "home_points": 38,
+      "away_points": 7,
+      "model": {
+        "spread_pick": -17.5,
+        "market_spread_close": -11.2,
+        "spread_lean": "Home",
+        "spread_was_bet": true,
+        "spread_result": "Win",
+        "total_pick": 50.6,
+        "market_total_close": 47.2,
+        "total_lean": "Over",
+        "total_was_bet": true,
+        "total_result": "Loss",
+        "ml_lean": "Home",
+        "ml_was_bet": false,
+        "ml_result": null
+      },
+      "beta_model": {
+        "spread_pick": -11.6,
+        "spread_lean": "Home",
+        "spread_was_bet": false,
+        "spread_result": null,
+        "agrees_with_model": true
+      },
+      "gamma_model": null,
+      "your_bets": [
+        {
+          "date": "2026-09-05",
+          "week": 1,
+          "matchup": "Central Michigan @ New Mexico",
+          "bet_type": "Spread",
+          "side": "New Mexico",
+          "odds": -110.0,
+          "stake": 5.0,
+          "result": "W",
+          "units": 4.55
+        }
+      ]
     },
     {
       "game_id": 401864432,
@@ -116,6 +118,7 @@
         "spread_result": "Loss",
         "agrees_with_model": true
       },
+      "gamma_model": null,
       "your_bets": []
     },
     {
@@ -149,6 +152,7 @@
         "spread_result": "Loss",
         "agrees_with_model": true
       },
+      "gamma_model": null,
       "your_bets": []
     },
     {
@@ -182,6 +186,7 @@
         "spread_result": null,
         "agrees_with_model": true
       },
+      "gamma_model": null,
       "your_bets": []
     },
     {
@@ -215,6 +220,7 @@
         "spread_result": "Win",
         "agrees_with_model": true
       },
+      "gamma_model": null,
       "your_bets": []
     },
     {
@@ -248,6 +254,7 @@
         "spread_result": "Loss",
         "agrees_with_model": true
       },
+      "gamma_model": null,
       "your_bets": []
     },
     {
@@ -281,6 +288,7 @@
         "spread_result": null,
         "agrees_with_model": false
       },
+      "gamma_model": null,
       "your_bets": []
     },
     {
@@ -314,6 +322,7 @@
         "spread_result": "Loss",
         "agrees_with_model": true
       },
+      "gamma_model": null,
       "your_bets": [
         {
           "date": "2026-09-04",
@@ -359,6 +368,7 @@
         "spread_result": "Loss",
         "agrees_with_model": true
       },
+      "gamma_model": null,
       "your_bets": [
         {
           "date": "2026-08-29",
@@ -404,6 +414,7 @@
         "spread_result": null,
         "agrees_with_model": true
       },
+      "gamma_model": null,
       "your_bets": []
     },
     {
@@ -437,6 +448,7 @@
         "spread_result": "Win",
         "agrees_with_model": true
       },
+      "gamma_model": null,
       "your_bets": [
         {
           "date": "2026-08-29",
@@ -493,6 +505,7 @@
         "spread_result": "Loss",
         "agrees_with_model": true
       },
+      "gamma_model": null,
       "your_bets": []
     }
   ]
