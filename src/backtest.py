@@ -28,6 +28,35 @@ Metrics computed, per the plan, for EACH of spread/total/moneyline:
   - All of the above sliced overall AND filtered to games involving a 2026
     Mountain West team, since the whole point is MW-specific edges.
 
+EVERY GRADED GAME COUNTS TOWARD THE RECORD NOW (spread + total; moneyline
+unchanged) -- previously, a game whose edge didn't clear EDGE_THRESHOLD was
+simply left out of the record entirely (no lean/no bet at all). Per Cole's
+own request, that's gone: every game with a market line now gets graded,
+so the season record reflects "if you always took a side on every game,"
+not just the subset where the model found a real edge. The two bet types
+default differently when the edge is too small to clear the threshold:
+  - Spread: takes the market's own favorite (whichever team has the
+    negative market spread), NOT the model's raw edge-sign lean. A tiny
+    edge can point either direction almost at random relative to which
+    team is actually favored (model and market can still disagree on
+    magnitude while agreeing on which team is better) -- see is_bet's own
+    comment below for a worked-out example of why this matters. A true
+    pick'em game (market spread of exactly 0) has no favorite to default
+    to, and stays ungraded, same as it always has.
+  - Total: no change needed -- total_lean was ALREADY computed as "whichever
+    side the model's own number leans toward" regardless of the edge
+    threshold, so there's no separate "favorite" concept to substitute in;
+    the only change is that this lean now always gets graded into a real
+    result instead of being discarded when the edge was too small to count
+    as an actual recommended bet.
+  is_bet/is_total_bet keep their EXACT old meaning -- "a real, threshold-
+  clearing edge you'd actually stake money on" -- and still gate CLV (there's
+  no real closing-line comparison to make on a game you never actually
+  bet). summarize()/summarize_totals() report the full record as the
+  headline numbers now, with n_real_edge_bets/etc. as a secondary
+  breakdown of how many of those were genuine value plays vs. the
+  favorite/model-lean default.
+
 Usage:
     source .venv/bin/activate
     python src/backtest.py
@@ -56,6 +85,73 @@ def _test_weeks(con):
         GROUP BY season, week
         ORDER BY week_start
     """).fetchdf()
+
+
+def grade_spread_pick(model_spread_home, market_close, market_open, actual_margin, edge_threshold):
+    """
+    Shared spread-grading logic -- factored out so backtest.py's own live
+    Ridge grading and model_comparison.py's Ridge/XGBoost/Gamma 3-way
+    comparison always apply the EXACT same favorite-default rule (see this
+    module's own docstring for the full rationale). Returns a dict:
+    edge, raw_lean (the model's own value-sign lean, pre-override),
+    favorite (the market's favorite side, or None for a true pick'em),
+    is_bet (a real, threshold-clearing edge), lean (the actual tracked
+    pick -- raw_lean if is_bet, else favorite), bet_result (Win/Loss/Push,
+    or None only for a true pick'em with no favorite to default to), and
+    clv_pts (only ever populated when is_bet -- there's no closing number
+    to compare against on a game that was never actually bet).
+    """
+    edge = market_close - model_spread_home
+    raw_lean = "Home" if edge > 0 else ("Away" if edge < 0 else "Pick'em")
+
+    if market_close < 0:
+        favorite = "Home"
+    elif market_close > 0:
+        favorite = "Away"
+    else:
+        favorite = None
+
+    # bool(...) wrapper is load-bearing, not defensive style: model_spread_home/
+    # market_close often trace back to a numpy array element (a model's
+    # array output), so `abs(edge) >= edge_threshold` is numpy.bool_, and
+    # `numpy.bool_ and <python bool>` can itself evaluate to numpy.bool_
+    # depending on which side short-circuits -- which json.dumps() can't
+    # serialize (see export_site_data.py's own comments on this exact
+    # gotcha, hit once already this project). Normalizing here means every
+    # caller of this function gets a real Python bool for free.
+    is_bet = bool(abs(edge) >= edge_threshold and raw_lean != "Pick'em")
+
+    if is_bet:
+        lean = raw_lean
+    elif favorite is not None:
+        lean = favorite
+    else:
+        lean = "Pick'em"
+
+    cover_value = actual_margin + market_close
+    if cover_value > 0:
+        home_covers = True
+    elif cover_value < 0:
+        home_covers = False
+    else:
+        home_covers = None  # push
+
+    bet_result = None
+    clv_pts = None
+    if lean != "Pick'em":
+        if home_covers is None:
+            bet_result = "Push"
+        elif (lean == "Home") == home_covers:
+            bet_result = "Win"
+        else:
+            bet_result = "Loss"
+        if is_bet and market_open is not None and pd.notna(market_open):
+            clv_pts = (market_open - market_close) if lean == "Home" else (market_close - market_open)
+
+    return {
+        "edge": edge, "raw_lean": raw_lean, "favorite": favorite,
+        "is_bet": is_bet, "lean": lean, "bet_result": bet_result, "clv_pts": clv_pts,
+    }
 
 
 def run_backtest(con, edge_threshold=EDGE_THRESHOLD, ml_edge_threshold=ML_EDGE_THRESHOLD,
@@ -98,31 +194,12 @@ def run_backtest(con, edge_threshold=EDGE_THRESHOLD, ml_edge_threshold=ML_EDGE_T
             # ---------------------------------------------------- spread
             market_close = row["market_spread_home"]
             market_open = row["market_spread_home_open"]
-            edge = market_close - model_spread_home[i]
-            lean = "Home" if edge > 0 else ("Away" if edge < 0 else "Pick'em")
-
             actual_margin = row["margin"]
-            cover_value = actual_margin + market_close
-            if cover_value > 0:
-                home_covers = True
-            elif cover_value < 0:
-                home_covers = False
-            else:
-                home_covers = None  # push
 
-            is_bet = abs(edge) >= edge_threshold and lean != "Pick'em"
-            bet_result = None
-            clv = None
-            if is_bet:
-                if home_covers is None:
-                    bet_result = "Push"
-                elif (lean == "Home") == home_covers:
-                    bet_result = "Win"
-                else:
-                    bet_result = "Loss"
-                # CLV in the units of the side actually bet -- positive means
-                # you'd have gotten a worse number for that side by closing.
-                clv = (market_open - market_close) if lean == "Home" else (market_close - market_open)
+            spread_grade = grade_spread_pick(
+                model_spread_home[i], market_close, market_open, actual_margin, edge_threshold)
+            edge, lean = spread_grade["edge"], spread_grade["lean"]
+            is_bet, bet_result, clv = spread_grade["is_bet"], spread_grade["bet_result"], spread_grade["clv_pts"]
 
             actual_home_win = 1.0 if actual_margin > 0 else (0.0 if actual_margin < 0 else 0.5)
 
@@ -133,16 +210,24 @@ def run_backtest(con, edge_threshold=EDGE_THRESHOLD, ml_edge_threshold=ML_EDGE_T
             total_edge, total_lean, is_total_bet, total_bet_result, total_clv = (None,) * 5
             if pd.notna(market_total_close) and model_total[i] is not None:
                 total_edge = model_total[i] - market_total_close
+                # Already "the model's own lean direction" regardless of the
+                # edge threshold -- unlike spread, there's no independent
+                # "favorite" concept for a total to default to instead, so
+                # this needs no override (see this module's docstring).
                 total_lean = "Over" if total_edge > 0 else ("Under" if total_edge < 0 else "Pick'em")
                 is_total_bet = abs(total_edge) >= edge_threshold and total_lean != "Pick'em"
-                if is_total_bet:
+                # Graded whenever there's a real lean at all now, same
+                # "track every game" change as spread above -- only the
+                # gate on is_total_bet moved, the lean computation itself
+                # didn't change.
+                if total_lean != "Pick'em":
                     if actual_total == market_total_close:
                         total_bet_result = "Push"
                     elif (total_lean == "Over") == (actual_total > market_total_close):
                         total_bet_result = "Win"
                     else:
                         total_bet_result = "Loss"
-                    if pd.notna(market_total_open):
+                    if is_total_bet and pd.notna(market_total_open):
                         # Over wants the total to have been LOW when bet and to
                         # rise by closing (market agreeing more games go over);
                         # mirror image for Under.
@@ -183,51 +268,99 @@ def run_backtest(con, edge_threshold=EDGE_THRESHOLD, ml_edge_threshold=ML_EDGE_T
 
 
 def summarize(df: pd.DataFrame, label: str) -> dict:
-    """Spread (ATS) summary -- flat -110 odds, the standard spread price."""
+    """
+    Spread (ATS) summary -- flat -110 odds, the standard spread price.
+
+    The headline record here is now the FULL record -- every graded game,
+    including the ones below EDGE_THRESHOLD that default to the market
+    favorite (see run_backtest()'s own docstring) -- not just the subset
+    that cleared the edge threshold as a real recommended bet. Those real
+    edges are still broken out separately below (n_real_edge_bets etc.),
+    since "would this have made money if I only bet my actual edges" is a
+    different, still-useful question from "how does the model do overall."
+    """
     if df.empty:
         return {"slice": label, "n_games": 0}
-    bets = df[df["is_bet"] & df["bet_result"].isin(["Win", "Loss"])]
+    bets = df[df["bet_result"].isin(["Win", "Loss"])]
     wins = (bets["bet_result"] == "Win").sum()
     losses = (bets["bet_result"] == "Loss").sum()
-    pushes = (df["is_bet"] & (df["bet_result"] == "Push")).sum()
+    pushes = (df["bet_result"] == "Push").sum()
     n_bets = wins + losses
     ats_win_rate = wins / n_bets if n_bets else float("nan")
     profit = wins * (100 / 110) - losses * 1.0
     roi = profit / n_bets if n_bets else float("nan")
     brier = float(np.mean((df["home_win_prob"] - df["actual_home_win"]) ** 2))
-    mean_clv = bets["clv"].mean() if n_bets else float("nan")
+
+    # CLV only ever exists for real, threshold-clearing edges (see
+    # run_backtest() -- there's no closing line to compare against on a
+    # game you never actually bet), so it's computed off the real-edge
+    # slice specifically, not the full-record one above.
+    real_edge_bets = df[df["is_bet"] & df["bet_result"].isin(["Win", "Loss"])]
+    n_real_edge_bets = int(df["is_bet"].sum())
+    real_edge_wins = int((real_edge_bets["bet_result"] == "Win").sum())
+    real_edge_losses = int((real_edge_bets["bet_result"] == "Loss").sum())
+    n_real_edge_decided = real_edge_wins + real_edge_losses
+    real_edge_win_rate = real_edge_wins / n_real_edge_decided if n_real_edge_decided else None
+    real_edge_profit = real_edge_wins * (100 / 110) - real_edge_losses * 1.0
+    real_edge_roi = real_edge_profit / n_real_edge_decided if n_real_edge_decided else None
+    mean_clv = real_edge_bets["clv"].mean() if n_real_edge_decided else float("nan")
+
     return {
         "slice": label, "n_games": len(df), "n_bets": int(n_bets),
         "wins": int(wins), "losses": int(losses), "pushes": int(pushes),
         "ats_win_rate": round(ats_win_rate, 4) if n_bets else None,
         "roi_flat_stake": round(roi, 4) if n_bets else None,
         "brier_score": round(brier, 4),
-        "mean_clv_pts": round(mean_clv, 3) if n_bets else None,
+        "mean_clv_pts": round(mean_clv, 3) if n_real_edge_decided else None,
+        # Secondary breakdown -- how many of the games above were a real,
+        # threshold-clearing edge (vs. the market-favorite default).
+        "n_real_edge_bets": n_real_edge_bets,
+        "real_edge_wins": real_edge_wins, "real_edge_losses": real_edge_losses,
+        "real_edge_win_rate": round(real_edge_win_rate, 4) if real_edge_win_rate is not None else None,
+        "real_edge_roi": round(real_edge_roi, 4) if real_edge_roi is not None else None,
     }
 
 
 def summarize_totals(df: pd.DataFrame, label: str) -> dict:
-    """Over/under summary -- flat -110 odds, same as spread."""
+    """
+    Over/under summary -- flat -110 odds, same as spread. Same "full record
+    is the headline now, real-edge-only broken out separately" shape as
+    summarize() above -- see that function's own docstring.
+    """
     if df.empty:
         return {"slice": label, "n_games": 0}
     graded = df.dropna(subset=["model_total", "actual_total"])
-    bets = df[(df["is_total_bet"] == True) & (df["total_bet_result"].isin(["Win", "Loss"]))]
+    bets = df[df["total_bet_result"].isin(["Win", "Loss"])]
     wins = (bets["total_bet_result"] == "Win").sum()
     losses = (bets["total_bet_result"] == "Loss").sum()
-    pushes = ((df["is_total_bet"] == True) & (df["total_bet_result"] == "Push")).sum()
+    pushes = (df["total_bet_result"] == "Push").sum()
     n_bets = wins + losses
     win_rate = wins / n_bets if n_bets else float("nan")
     profit = wins * (100 / 110) - losses * 1.0
     roi = profit / n_bets if n_bets else float("nan")
     mae = float(np.mean(np.abs(graded["model_total"] - graded["actual_total"]))) if not graded.empty else None
-    mean_clv = bets["total_clv"].mean() if n_bets else float("nan")
+
+    real_edge_bets = df[(df["is_total_bet"] == True) & df["total_bet_result"].isin(["Win", "Loss"])]
+    n_real_edge_bets = int((df["is_total_bet"] == True).sum())
+    real_edge_wins = int((real_edge_bets["total_bet_result"] == "Win").sum())
+    real_edge_losses = int((real_edge_bets["total_bet_result"] == "Loss").sum())
+    n_real_edge_decided = real_edge_wins + real_edge_losses
+    real_edge_win_rate = real_edge_wins / n_real_edge_decided if n_real_edge_decided else None
+    real_edge_profit = real_edge_wins * (100 / 110) - real_edge_losses * 1.0
+    real_edge_roi = real_edge_profit / n_real_edge_decided if n_real_edge_decided else None
+    mean_clv = real_edge_bets["total_clv"].mean() if n_real_edge_decided else float("nan")
+
     return {
         "slice": label, "n_games": len(df), "n_bets": int(n_bets),
         "wins": int(wins), "losses": int(losses), "pushes": int(pushes),
         "win_rate": round(win_rate, 4) if n_bets else None,
         "roi_flat_stake": round(roi, 4) if n_bets else None,
         "mean_abs_error_pts": round(mae, 2) if mae is not None else None,
-        "mean_clv_pts": round(mean_clv, 3) if n_bets and pd.notna(mean_clv) else None,
+        "mean_clv_pts": round(mean_clv, 3) if n_real_edge_decided and pd.notna(mean_clv) else None,
+        "n_real_edge_bets": n_real_edge_bets,
+        "real_edge_wins": real_edge_wins, "real_edge_losses": real_edge_losses,
+        "real_edge_win_rate": round(real_edge_win_rate, 4) if real_edge_win_rate is not None else None,
+        "real_edge_roi": round(real_edge_roi, 4) if real_edge_roi is not None else None,
     }
 
 

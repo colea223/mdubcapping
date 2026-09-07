@@ -45,14 +45,28 @@ document.getElementById("nav").innerHTML = renderNav("predictions.html");
     const awayPct = 100 - homePct;
     const favTeam = p.model_spread_home !== null && p.model_spread_home < 0 ? p.home_team : p.away_team;
 
-    let edgeClass = "none", edgeLabel = "No edge";
-    if (p.edge !== null && p.edge !== undefined) {
-      if (Math.abs(p.edge) >= 2.0) {
-        edgeClass = p.edge > 0 ? "lean-home" : "lean-away";
-        edgeLabel = `Lean ${p.edge > 0 ? p.home_team : p.away_team} (${Math.abs(p.edge).toFixed(1)} pt edge)`;
+    // lean_side/is_real_edge come straight from backtest.grade_spread_pick()
+    // (see export_site_data.py's build_matchups_and_predictions() and its
+    // _grade_model_line() helper) -- the SAME function that decides the
+    // season record on the Tracking page, so this tag always matches what
+    // eventually gets graded there. A real edge (is_real_edge true) shows
+    // the model's own value pick same as always; anything smaller now
+    // defaults to the market's actual favorite instead of a bare "no
+    // significant edge" label -- see backtest.py's own docstring for why
+    // (a tiny edge can point the wrong direction relative to who's really
+    // favored). lean_side is only ever null for a true pick'em (market
+    // spread of exactly 0), which has no favorite to default to.
+    let edgeClass = "none", edgeLabel = "No pick";
+    if (p.lean_side && p.lean_side !== "Pick'em") {
+      const leanTeam = p.lean_side === "Home" ? p.home_team : p.away_team;
+      if (p.is_real_edge) {
+        edgeClass = p.lean_side === "Home" ? "lean-home" : "lean-away";
+        edgeLabel = `Lean ${leanTeam} (${Math.abs(p.edge).toFixed(1)} pt edge)`;
       } else {
-        edgeLabel = "No significant edge";
+        edgeLabel = `No real edge – favorite: ${leanTeam}`;
       }
+    } else {
+      edgeLabel = "Dead-even pick'em – no favorite";
     }
 
     const notesHtml = p.notes
@@ -78,8 +92,11 @@ document.getElementById("nav").innerHTML = renderNav("predictions.html");
         : (p.beta_agrees
             ? `<span class="grade-tag push">Agrees with live model</span>`
             : `<span class="grade-tag incorrect">Disagrees with live model</span>`);
+      const betaNoRealEdgeNote = (p.beta_is_real_edge === false && p.beta_lean_side && p.beta_lean_side !== "Pick'em")
+        ? `<span class="odds-label" style="margin-left:6px;">(no real edge -- favorite default)</span>`
+        : "";
       const betaGradeHtml = (p.completed && p.home_points !== null && p.away_points !== null)
-        ? `<div class="beta-line">${gradeTag("Straight up", p.beta_straight_up_correct)}${gradeTag("Vs. market line", p.beta_covered_market_line)}</div>`
+        ? `<div class="beta-line">${gradeTag("Straight up", p.beta_straight_up_correct)}${gradeTag("Vs. market line", p.beta_covered_market_line)}${betaNoRealEdgeNote}</div>`
         : "";
       betaHtml = `
         <div class="beta-block">
@@ -110,8 +127,11 @@ document.getElementById("nav").innerHTML = renderNav("predictions.html");
         : (p.gamma_agrees
             ? `<span class="grade-tag push">Agrees with live model</span>`
             : `<span class="grade-tag incorrect">Disagrees with live model</span>`);
+      const gammaNoRealEdgeNote = (p.gamma_is_real_edge === false && p.gamma_lean_side && p.gamma_lean_side !== "Pick'em")
+        ? `<span class="odds-label" style="margin-left:6px;">(no real edge -- favorite default)</span>`
+        : "";
       const gammaGradeHtml = (p.completed && p.home_points !== null && p.away_points !== null)
-        ? `<div class="beta-line">${gradeTag("Straight up", p.gamma_straight_up_correct)}${gradeTag("Vs. market line", p.gamma_covered_market_line)}</div>`
+        ? `<div class="beta-line">${gradeTag("Straight up", p.gamma_straight_up_correct)}${gradeTag("Vs. market line", p.gamma_covered_market_line)}${gammaNoRealEdgeNote}</div>`
         : "";
       gammaHtml = `
         <div class="beta-block">
@@ -141,6 +161,13 @@ document.getElementById("nav").innerHTML = renderNav("predictions.html");
       const awaySpan = homeWon ? `${p.away_team} ${p.away_points}` : `<span class="winner">${p.away_team} ${p.away_points}</span>`;
       const homeSpan = homeWon ? `<span class="winner">${p.home_team} ${p.home_points}</span>` : `${p.home_team} ${p.home_points}`;
 
+      // "Vs. market line" is graded on whatever the tracked pick actually
+      // was -- a real edge, or (below threshold) the auto-defaulted
+      // favorite. This note flags the latter case so a win/loss here isn't
+      // mistaken for a genuine value call.
+      const noRealEdgeNote = (p.is_real_edge === false && p.lean_side && p.lean_side !== "Pick'em")
+        ? `<span class="odds-label" style="margin-left:6px;">(no real edge -- favorite default)</span>`
+        : "";
       resultHtml = `
         <div class="final-score">
           <span class="at">@</span>${awaySpan} &ndash; ${homeSpan}
@@ -148,7 +175,7 @@ document.getElementById("nav").innerHTML = renderNav("predictions.html");
         </div>
         <div style="margin-top:8px;">
           ${gradeTag("Straight up", p.straight_up_correct)}
-          ${gradeTag("Vs. market line", p.covered_market_line)}
+          ${gradeTag("Vs. market line", p.covered_market_line)}${noRealEdgeNote}
         </div>`;
     } else {
       resultHtml = `

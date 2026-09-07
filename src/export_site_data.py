@@ -595,6 +595,57 @@ def build_matchups_and_predictions(con, notes: dict, manual_lines=None):
                 total_preds = totals_model.predict_total(total_pipe, wk_totals_features)
                 total_map = dict(zip(wk_totals_features["game_id"].astype(int), total_preds))
 
+            def _grade_model_line(model_line, market_spread_home, actual_margin, completed):
+                """
+                Runs one model's spread through backtest.grade_spread_pick() --
+                the SAME shared function backtest.py's own season record and
+                model_comparison.py's 3-way comparison use, so a game shown
+                here grades identically to how it'll eventually land in the
+                Tracking/Results pages once model_comparison.py picks it up.
+                That includes the "below EDGE_THRESHOLD, default to the
+                market's own favorite instead of a noisy raw edge-sign lean"
+                behavior -- see backtest.py's own docstring for the full
+                rationale (this is the exact fix for the Penn State/Temple-
+                style case where the model and market both agree on the
+                favorite but disagree slightly on the number).
+
+                Returns (covered_market_line, is_real_edge, lean_side):
+                  - covered_market_line: True/False once the game's final
+                    and there's a real result to grade, else None (also None
+                    for a push, or a true pick'em with no favorite -- same
+                    "n/a" treatment predictions.html already gives those).
+                  - is_real_edge: whether this cleared EDGE_THRESHOLD as a
+                    genuine recommended bet (the old "is_bet") -- None if
+                    there's no market line to grade against at all.
+                  - lean_side: "Home"/"Away"/"Pick'em" -- the actual tracked
+                    pick (favorite-defaulted when below threshold), so the
+                    front end can show WHICH team a below-threshold "auto"
+                    pick is on instead of a bare "no significant edge".
+                """
+                if model_line is None or market_spread_home is None:
+                    return None, None, None
+                # actual_margin is only used inside grade_spread_pick() to
+                # compute bet_result -- lean/is_bet/favorite depend only on
+                # the two spread numbers, so a game that hasn't been played
+                # yet can still be graded for lean/is_real_edge (needed for
+                # the Predictions page's pre-game edge tag); a 0.0 placeholder
+                # margin is safe here because bet_result is simply never read
+                # below unless the game is actually completed.
+                margin_for_grading = actual_margin if actual_margin is not None else 0.0
+                grade = backtest.grade_spread_pick(
+                    float(model_line), float(market_spread_home), None,
+                    margin_for_grading, backtest.EDGE_THRESHOLD)
+                covered_market_line = None
+                if completed and actual_margin is not None:
+                    if grade["bet_result"] == "Win":
+                        covered_market_line = True
+                    elif grade["bet_result"] == "Loss":
+                        covered_market_line = False
+                    # Push, or None (a true pick'em with no favorite to
+                    # default to) -- leave covered_market_line as None, same
+                    # "n/a" treatment as always.
+                return covered_market_line, grade["is_bet"], grade["lean"]
+
             m_by_id = {m["game_id"]: m for m in matchups}
             for i, row in enumerate(upcoming.itertuples()):
                 mkt = m_by_id.get(row.game_id, {})
@@ -604,32 +655,13 @@ def build_matchups_and_predictions(con, notes: dict, manual_lines=None):
                 note_key = f"{row.away_team} @ {row.home_team}"
                 model_total = total_map.get(int(row.game_id))
 
-                # Once the game's final -- grade the model's own pick two
-                # ways. straight_up: did the team the model favored just win
-                # the game outright. covered_market_line: did the SIDE THE
-                # MODEL LEANED (per `edge` above -- the same lean backtest.py
-                # grades a real bet on) cover the ACTUAL MARKET SPREAD, i.e.
-                # would a real bet on that side have won. This used to grade
-                # against the model's own predicted margin instead (a
-                # "covered_model_line" field) -- that read as a false
-                # "miss" any time the model nailed the right side of the
-                # market but its exact predicted margin was a bit off, e.g.
-                # market -9.5 / model -11.5 / favorite wins by 10 or 11: the
-                # model correctly said the market's -9.5 was too generous to
-                # the underdog, so leaning the favorite covers the real
-                # -9.5 you could actually bet, even though the margin came
-                # up short of the model's own -11.5 number -- that's a model
-                # win, not a miss. Same logic mirrored the other direction
-                # (model leaning the dog, e.g. market -40.5 / model -38.5 /
-                # favorite wins by 39 or 40: the model's lean was the dog at
-                # +40.5, which covers). Both straight_up_correct and
-                # covered_market_line are None until the game is final;
-                # covered_market_line also stays None with no real market
-                # line to grade against, or when edge is exactly 0 (model
-                # dead-even with the market -- no side to grade).
+                # straight_up_correct: did the team the model favored just
+                # win outright -- purely about the model's OWN predicted
+                # margin, no market/threshold concept involved at all, so
+                # it's unaffected by the favorite-default logic below.
                 completed = bool(mkt.get("completed"))
                 home_pts, away_pts = mkt.get("home_points"), mkt.get("away_points")
-                straight_up_correct = covered_market_line = None
+                straight_up_correct = None
                 actual_margin = None
                 if completed and home_pts is not None and away_pts is not None:
                     actual_margin = home_pts - away_pts
@@ -639,51 +671,36 @@ def build_matchups_and_predictions(con, notes: dict, manual_lines=None):
                     elif actual_margin != 0:
                         straight_up_correct = None  # model called a dead-even pick'em; no favorite to grade
 
-                    if market_spread_home is not None and edge:
-                        cover_value = actual_margin + market_spread_home
-                        if cover_value != 0:  # a push covers nobody
-                            home_covers = cover_value > 0
-                            leaned_home = edge > 0
-                            # bool(...) wrapper is load-bearing, not defensive
-                            # style: `edge` traces back to model_spread_home[i],
-                            # a numpy scalar (the model's array output), so
-                            # `edge > 0` is numpy.bool_ rather than a plain
-                            # bool, and comparing two of those is still
-                            # numpy.bool_ -- which json.dumps() can't
-                            # serialize. Same gotcha beta_agrees below already
-                            # works around; this is the same fix.
-                            covered_market_line = bool(leaned_home == home_covers)
+                # covered_market_line: did the side the model ACTUALLY leans
+                # (real edge if it cleared the threshold, else the market
+                # favorite -- see _grade_model_line() above) cover the real
+                # market spread, i.e. would that side have won a real bet.
+                # This grades against the market's own line, not the model's
+                # predicted margin -- see _grade_model_line()'s own docstring
+                # for the worked-out market -9.5/model -11.5 example this
+                # was originally built to fix, which still applies here.
+                covered_market_line, is_real_edge, lean_side = _grade_model_line(
+                    float(model_spread_home[i]), market_spread_home, actual_margin, completed)
 
-                # Dub Beta Model grading -- same two-way grade as the live
-                # model just above (straight up / vs. the real market line),
-                # plus whether it agrees with the live model on which side
-                # it favors. All three stay None whenever there's no Dub
-                # Beta line for this game (see beta_by_game above) or, for
-                # the agreement check, whenever either model calls a
-                # dead-even pick'em (0.0) -- there's no "side" to compare in
-                # that case.
+                # Dub Beta Model grading -- same shared-function treatment as
+                # the live model just above, plus whether it agrees with the
+                # live model on which side it favors. All stay None whenever
+                # there's no Dub Beta line for this game (see beta_by_game
+                # above) or, for the agreement check, whenever either model
+                # calls a dead-even pick'em (0.0) -- there's no "side" to
+                # compare in that case.
                 beta_spread_home = beta_by_game.get(int(row.game_id))
-                beta_straight_up_correct = beta_covered_market_line = None
+                beta_straight_up_correct = None
                 beta_agrees = None
+                beta_covered_market_line = beta_is_real_edge = beta_lean_side = None
                 if beta_spread_home is not None and pd.notna(beta_spread_home):
                     beta_spread_home = float(beta_spread_home)
-                    if completed and actual_margin is not None:
+                    if actual_margin is not None:
                         beta_margin_i = -beta_spread_home
                         if beta_margin_i != 0:
                             beta_straight_up_correct = (actual_margin > 0) == (beta_margin_i > 0)
-                        beta_edge = (market_spread_home - beta_spread_home) if market_spread_home is not None else None
-                        if beta_edge and market_spread_home is not None:
-                            beta_cover_value = actual_margin + market_spread_home
-                            if beta_cover_value != 0:
-                                beta_home_covers = beta_cover_value > 0
-                                beta_leaned_home = beta_edge > 0
-                                # bool(...) here too -- beta_spread_home is
-                                # already float()-cast above so this branch is
-                                # probably safe either way, but matching the
-                                # live-model line above (and the file's
-                                # established convention) rather than relying
-                                # on that.
-                                beta_covered_market_line = bool(beta_leaned_home == beta_home_covers)
+                    beta_covered_market_line, beta_is_real_edge, beta_lean_side = _grade_model_line(
+                        beta_spread_home, market_spread_home, actual_margin, completed)
                     if model_spread_home[i] != 0 and beta_spread_home != 0:
                         # bool(...) wrapper is load-bearing, not defensive
                         # style: model_spread_home[i] is a numpy scalar (the
@@ -692,34 +709,28 @@ def build_matchups_and_predictions(con, notes: dict, manual_lines=None):
                         # can't serialize (and which numpy 2.x's renamed
                         # scalar type displays as plain "bool" in the
                         # resulting TypeError, easy to misread as a real bug
-                        # in a plain Python bool). Every other new field here
-                        # already routes through a float()/bool() cast for
-                        # exactly this reason; this was the one that didn't.
+                        # in a plain Python bool).
                         beta_agrees = bool((model_spread_home[i] < 0) == (beta_spread_home < 0))
                 else:
                     beta_spread_home = None
 
-                # Dub Gamma Model grading -- exact same two-way grade/agree
-                # shape as Dub Beta above, just reading gamma_by_game instead.
-                # See gamma_model.py's own docstring for what this model is;
-                # like Beta, it's informational only and never feeds edge/
-                # is_bet for the live model.
+                # Dub Gamma Model grading -- exact same shape as Dub Beta
+                # above, just reading gamma_by_game instead. See
+                # gamma_model.py's own docstring for what this model is;
+                # like Beta, it's informational only and never feeds the
+                # live model's own edge/is_real_edge.
                 gamma_spread_home = gamma_by_game.get(int(row.game_id))
-                gamma_straight_up_correct = gamma_covered_market_line = None
+                gamma_straight_up_correct = None
                 gamma_agrees = None
+                gamma_covered_market_line = gamma_is_real_edge = gamma_lean_side = None
                 if gamma_spread_home is not None and pd.notna(gamma_spread_home):
                     gamma_spread_home = float(gamma_spread_home)
-                    if completed and actual_margin is not None:
+                    if actual_margin is not None:
                         gamma_margin_i = -gamma_spread_home
                         if gamma_margin_i != 0:
                             gamma_straight_up_correct = (actual_margin > 0) == (gamma_margin_i > 0)
-                        gamma_edge = (market_spread_home - gamma_spread_home) if market_spread_home is not None else None
-                        if gamma_edge and market_spread_home is not None:
-                            gamma_cover_value = actual_margin + market_spread_home
-                            if gamma_cover_value != 0:
-                                gamma_home_covers = gamma_cover_value > 0
-                                gamma_leaned_home = gamma_edge > 0
-                                gamma_covered_market_line = bool(gamma_leaned_home == gamma_home_covers)
+                    gamma_covered_market_line, gamma_is_real_edge, gamma_lean_side = _grade_model_line(
+                        gamma_spread_home, market_spread_home, actual_margin, completed)
                     if model_spread_home[i] != 0 and gamma_spread_home != 0:
                         # bool(...) load-bearing here too -- see beta_agrees'
                         # own comment above for exactly why.
@@ -740,6 +751,15 @@ def build_matchups_and_predictions(con, notes: dict, manual_lines=None):
                     "market_total": round(market_total, 1) if market_total is not None else None,
                     "home_win_prob": round(float(home_win_prob[i]), 3),
                     "edge": round(edge, 1) if edge is not None else None,
+                    # lean_side/is_real_edge: the ACTUAL tracked pick (see
+                    # _grade_model_line() above) -- lean_side is always
+                    # populated (never left as a bare "no edge") except a
+                    # true pick'em with no favorite to default to. The front
+                    # end uses these instead of re-deriving a lean from the
+                    # raw edge sign, so a small/noisy edge never gets shown
+                    # as backwards from the actual favorite.
+                    "lean_side": lean_side,
+                    "is_real_edge": is_real_edge,
                     "notes": notes.get(note_key, ""),
                     "completed": completed,
                     "home_points": home_pts,
@@ -748,18 +768,21 @@ def build_matchups_and_predictions(con, notes: dict, manual_lines=None):
                     "covered_market_line": covered_market_line,
                     # Dub Beta Model (XGBoost) -- informational only, see
                     # this function's beta_by_game comment above. Never used
-                    # to compute edge/is_bet -- only the live model's "edge"
-                    # field above ever decides that.
+                    # to compute the live model's own edge/lean_side.
                     "beta_model_spread_home": round(beta_spread_home, 1) if beta_spread_home is not None else None,
                     "beta_agrees": beta_agrees,
                     "beta_straight_up_correct": beta_straight_up_correct,
                     "beta_covered_market_line": beta_covered_market_line,
+                    "beta_lean_side": beta_lean_side,
+                    "beta_is_real_edge": beta_is_real_edge,
                     # Dub Gamma Model (Sonny-Moore-seeded power rating) --
                     # informational only, same rule as Beta above.
                     "gamma_model_spread_home": round(gamma_spread_home, 1) if gamma_spread_home is not None else None,
                     "gamma_agrees": gamma_agrees,
                     "gamma_straight_up_correct": gamma_straight_up_correct,
                     "gamma_covered_market_line": gamma_covered_market_line,
+                    "gamma_lean_side": gamma_lean_side,
+                    "gamma_is_real_edge": gamma_is_real_edge,
                 })
 
     return matchups, predictions, {"season": season, "week": week}
@@ -774,6 +797,14 @@ def _bet_type_block(summary: dict, win_rate_key: str) -> dict:
         "pushes": summary.get("pushes", 0),
         "win_rate": summary.get(win_rate_key),
         "units": summary.get("units_won") if "units_won" in summary else round((summary.get("roi_flat_stake") or 0) * n_bets, 2),
+        # n_bets/wins/losses above are now the FULL record (every graded
+        # game, including the below-threshold auto/favorite picks -- see
+        # backtest.py's own docstring). These two fields break out how many
+        # of those were a real, threshold-clearing edge you'd actually have
+        # staked money on -- absent for moneyline, which backtest.py never
+        # changed (Cole's request was spread/total only).
+        "n_real_edge_bets": summary.get("n_real_edge_bets"),
+        "real_edge_win_rate": summary.get("real_edge_win_rate"),
     }
 
 
@@ -831,12 +862,25 @@ def build_beta_tracking():
         return {"n_games": 0, "note": f"No {CURRENT_SEASON} Mountain West games graded in the Dub Beta "
                                        "comparison yet."}
 
-    bets = season_df[season_df["xgb_is_bet"] & season_df["xgb_result"].isin(["Win", "Loss"])]
+    # Full record now (every graded game, including the ones below
+    # EDGE_THRESHOLD that model_comparison.py's grade_spread_pick() call
+    # defaults to the market favorite) -- not just the real, threshold-
+    # clearing bets. Real edges are still broken out separately below,
+    # same "n_real_edge_bets" shape as backtest.py's own summarize().
+    bets = season_df[season_df["xgb_result"].isin(["Win", "Loss"])]
     wins = int((bets["xgb_result"] == "Win").sum())
     losses = int((bets["xgb_result"] == "Loss").sum())
-    pushes = int((season_df["xgb_is_bet"] & (season_df["xgb_result"] == "Push")).sum())
+    pushes = int((season_df["xgb_result"] == "Push").sum())
     n_bets = wins + losses
     profit = wins * (100 / 110) - losses * 1.0
+
+    real_edge_mask = season_df["xgb_is_bet"] == True  # noqa: E712 -- NaN-safe (NaN == True is False)
+    real_edge_bets = season_df[real_edge_mask & season_df["xgb_result"].isin(["Win", "Loss"])]
+    n_real_edge_bets = int(real_edge_mask.sum())
+    real_edge_wins = int((real_edge_bets["xgb_result"] == "Win").sum())
+    real_edge_losses = int((real_edge_bets["xgb_result"] == "Loss").sum())
+    n_real_edge_decided = real_edge_wins + real_edge_losses
+    real_edge_win_rate = real_edge_wins / n_real_edge_decided if n_real_edge_decided else None
 
     agree = season_df["models_agree"].dropna()
     agree_rate = float(agree.mean()) if not agree.empty else None
@@ -848,6 +892,9 @@ def build_beta_tracking():
             "n_bets": n_bets, "wins": wins, "losses": losses, "pushes": pushes,
             "win_rate": round(wins / n_bets, 4) if n_bets else None,
             "units": round(profit, 2) if n_bets else 0.0,
+            "n_real_edge_bets": n_real_edge_bets,
+            "real_edge_wins": real_edge_wins, "real_edge_losses": real_edge_losses,
+            "real_edge_win_rate": round(real_edge_win_rate, 4) if real_edge_win_rate is not None else None,
         },
         "agree_rate": round(agree_rate, 4) if agree_rate is not None else None,
         # No "note" here on purpose (unlike the two empty-data returns above,
@@ -892,17 +939,25 @@ def build_gamma_tracking():
         return {"n_games": 0, "note": f"No {CURRENT_SEASON} Mountain West games graded in the Dub Gamma "
                                        "comparison yet."}
 
-    # gamma_is_bet/gamma_result are real NaN/None for any game predating
-    # gamma_model.SEED_ENTERING_WEEK (see model_comparison.py) -- boolean
-    # indexing with a NaN column raises, so coerce to a plain bool Series
-    # first rather than relying on pandas to short-circuit it.
-    has_gamma_bet = season_df["gamma_is_bet"].fillna(False).astype(bool)
-    bets = season_df[has_gamma_bet & season_df["gamma_result"].isin(["Win", "Loss"])]
+    # Full record now, same change as build_beta_tracking() just above --
+    # gamma_result is real NaN/None for any game predating
+    # gamma_model.SEED_ENTERING_WEEK (see model_comparison.py), and
+    # .isin(["Win","Loss"]) on a NaN is simply False, so those rows fall out
+    # naturally without needing their own NaN guard.
+    bets = season_df[season_df["gamma_result"].isin(["Win", "Loss"])]
     wins = int((bets["gamma_result"] == "Win").sum())
     losses = int((bets["gamma_result"] == "Loss").sum())
-    pushes = int((has_gamma_bet & (season_df["gamma_result"] == "Push")).sum())
+    pushes = int((season_df["gamma_result"] == "Push").sum())
     n_bets = wins + losses
     profit = wins * (100 / 110) - losses * 1.0
+
+    real_edge_mask = season_df["gamma_is_bet"] == True  # noqa: E712 -- NaN-safe (NaN == True is False)
+    real_edge_bets = season_df[real_edge_mask & season_df["gamma_result"].isin(["Win", "Loss"])]
+    n_real_edge_bets = int(real_edge_mask.sum())
+    real_edge_wins = int((real_edge_bets["gamma_result"] == "Win").sum())
+    real_edge_losses = int((real_edge_bets["gamma_result"] == "Loss").sum())
+    n_real_edge_decided = real_edge_wins + real_edge_losses
+    real_edge_win_rate = real_edge_wins / n_real_edge_decided if n_real_edge_decided else None
 
     agree = season_df["gamma_agrees_with_ridge"].dropna()
     agree_rate = float(agree.mean()) if not agree.empty else None
@@ -916,6 +971,9 @@ def build_gamma_tracking():
             "n_bets": n_bets, "wins": wins, "losses": losses, "pushes": pushes,
             "win_rate": round(wins / n_bets, 4) if n_bets else None,
             "units": round(profit, 2) if n_bets else 0.0,
+            "n_real_edge_bets": n_real_edge_bets,
+            "real_edge_wins": real_edge_wins, "real_edge_losses": real_edge_losses,
+            "real_edge_win_rate": round(real_edge_win_rate, 4) if real_edge_win_rate is not None else None,
         },
         "agree_rate": round(agree_rate, 4) if agree_rate is not None else None,
         # Same "no note on the happy path" convention as build_beta_tracking()

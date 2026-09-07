@@ -68,7 +68,14 @@ lines = [
     "",
     "Tabs",
     "  Settings        = bankroll, edge thresholds, and other assumptions used across the workbook",
-    "  Weekly Slate    = this week's matchups: model line vs. market line, edge, and a suggested lean",
+    "  Weekly Slate    = this week's matchups: model line vs. market line, edge, and a suggested bet.",
+    "                    Suggested Bet (Spread) always names a side now -- a real edge (>= the",
+    "                    threshold) uses the model's own lean; anything smaller defaults to the",
+    "                    market's actual favorite instead of leaving it blank, tagged '(auto)' so you",
+    "                    can tell a real value play from a no-edge default at a glance. Suggested Bet",
+    "                    (Total) works the same way but has no separate 'favorite' concept to fall",
+    "                    back on, so it always just shows the model's own Over/Under lean, '(auto)'-",
+    "                    tagged below threshold the same way.",
     "  Bet Log         = every bet placed -- stake, line, closing line (for CLV), result, running bankroll",
     "  Team Profiles   = one row per 2026 Mountain West team, pre-filled with conference history;",
     "                    paste in power ratings / PPA / talent rank weekly as your pipeline produces them",
@@ -140,8 +147,19 @@ ws["J2"] = 41.0
 ws["J2"].font = INPUT_FONT
 ws["K2"] = "=I2-J2"                                             # Total Edge = Model - Market
 ws["L2"] = '=IF(K2=0,"Push",IF(K2>0,"Over","Under"))'
-ws["M2"] = f'=IF(ABS(G2)>={SPREAD_THRESH_CELL},H2,"Pass")'
-ws["N2"] = f'=IF(ABS(K2)>={TOTAL_THRESH_CELL},L2,"Pass")'
+# Suggested Bet (Spread): a real edge (>= threshold) uses the model's own
+# lean (H) same as always; anything smaller now defaults to the market's
+# actual favorite (from the Market Line in F) instead of "Pass" -- tagged
+# "(auto)" so a genuine value play is never confused with a no-edge default.
+# A true pick'em market line (F=0) has no favorite to default to, so it
+# stays "Pick'em" untagged, same as H's own Pick'em case.
+ws["M2"] = (f'=IF(ABS(G2)>={SPREAD_THRESH_CELL},H2,'
+            f'IF(F2=0,"Pick\'em",IF(F2<0,"Home (auto)","Away (auto)")))')
+# Suggested Bet (Total): no separate "favorite" concept for a total to fall
+# back on (Over/Under is symmetric), so below threshold this just shows the
+# model's own Over/Under lean (L) again, "(auto)"-tagged the same way. A
+# true dead-even total (K=0) stays "Push" untagged, matching L's own case.
+ws["N2"] = f'=IF(ABS(K2)>={TOTAL_THRESH_CELL},L2,IF(K2=0,"Push",L2&" (auto)"))'
 ws["O2"] = "Starting QB confirmed healthy per Thu injury report"
 ws["O2"].font = INPUT_FONT
 ws["P2"] = "Home -4.5"
@@ -155,8 +173,9 @@ for r in range(3, 43):
     ws[f"H{r}"] = f'=IF(G{r}=0,"Pick\'em",IF(G{r}>0,"Home","Away"))'
     ws[f"K{r}"] = f"=I{r}-J{r}"
     ws[f"L{r}"] = f'=IF(K{r}=0,"Push",IF(K{r}>0,"Over","Under"))'
-    ws[f"M{r}"] = f'=IF(ABS(G{r})>={SPREAD_THRESH_CELL},H{r},"Pass")'
-    ws[f"N{r}"] = f'=IF(ABS(K{r})>={TOTAL_THRESH_CELL},L{r},"Pass")'
+    ws[f"M{r}"] = (f'=IF(ABS(G{r})>={SPREAD_THRESH_CELL},H{r},'
+                   f'IF(F{r}=0,"Pick\'em",IF(F{r}<0,"Home (auto)","Away (auto)")))')
+    ws[f"N{r}"] = f'=IF(ABS(K{r})>={TOTAL_THRESH_CELL},L{r},IF(K{r}=0,"Push",L{r}&" (auto)"))'
     for col in ("G", "H", "K", "L", "M", "N"):
         ws[f"{col}{r}"].font = FORMULA_FONT
 

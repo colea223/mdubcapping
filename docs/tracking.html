@@ -11,7 +11,7 @@
 <div class="page-wrap">
   <div class="page-header">
     <h1>Season Tracking</h1>
-    <p>Two separate records, never blended: what you've actually bet, and how the model's own picks have graded out.</p>
+    <p>Two separate records, never blended: what you've actually bet, and how the model's own picks have graded out. Spread/total records below now cover every graded game (not just the ones that cleared a real betting edge) -- see the "(N real edge)" note under each record for how many were a genuine value call.</p>
   </div>
 
   <div class="card" style="margin-bottom:20px;" id="pending-card">
@@ -59,6 +59,19 @@ function pct(rate) {
 }
 function record(b) {
   return `${b.wins}-${b.losses}${b.pushes ? `-${b.pushes}` : ""}`;
+}
+// n_bets/wins/losses on every record here are now the FULL record --
+// every graded game, including the below-EDGE_THRESHOLD games that default
+// to the market favorite (spread) or the model's own lean (total) instead
+// of being left out entirely (see backtest.py's own docstring). This shows
+// how many of those were a real, threshold-clearing edge you'd actually
+// have staked money on, so a strong full-record number isn't mistaken for
+// "the model found this many genuine edges." Blank for moneyline and
+// anywhere n_real_edge_bets wasn't provided (nothing changed there).
+function realEdgeNote(b) {
+  if (!b || b.n_real_edge_bets === null || b.n_real_edge_bets === undefined) return "";
+  const rate = b.real_edge_win_rate !== null && b.real_edge_win_rate !== undefined ? `, ${pct(b.real_edge_win_rate)}` : "";
+  return `<div class="odds-label" style="text-transform:none; font-weight:400;">(${b.n_real_edge_bets} real edge${rate})</div>`;
 }
 
 function renderYours(yours) {
@@ -124,7 +137,7 @@ function renderModel(model) {
   const rows = types.map(([label, b]) => `
     <tr>
       <td class="team-name">${label}</td>
-      <td class="num">${record(b)}</td>
+      <td class="num">${record(b)}${realEdgeNote(b)}</td>
       <td class="num">${pct(b.win_rate)}</td>
       <td class="num ${unitsClass(b.units)}">${unitsLabel(b.units)}</td>
     </tr>`).join("");
@@ -171,7 +184,7 @@ function renderBeta(beta) {
       <div class="stat-tile">
         <div class="label">Record (ATS)</div>
         <div class="value">${record(b)}</div>
-        <div class="sub">${b.n_bets} graded bets</div>
+        <div class="sub">${b.n_bets} graded picks${realEdgeNote(b)}</div>
       </div>
       <div class="stat-tile">
         <div class="label">Win Rate</div>
@@ -210,7 +223,7 @@ function renderGamma(gamma) {
       <div class="stat-tile">
         <div class="label">Record (ATS)</div>
         <div class="value">${record(g)}</div>
-        <div class="sub">${g.n_bets} graded bets</div>
+        <div class="sub">${g.n_bets} graded picks${realEdgeNote(g)}</div>
       </div>
       <div class="stat-tile">
         <div class="label">Win Rate</div>

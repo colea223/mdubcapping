@@ -32,21 +32,32 @@ function fmtTotal(v) {
 }
 
 // A model market row (spread/total/moneyline): the pick/lean, plus a grade
-// tag once it's graded. was_bet === null means there wasn't even enough
-// market data to grade this market at all (never happens for spread, can
-// happen for total/moneyline if a book never posted that line); was_bet
-// === false means it WAS gradable but didn't clear the edge threshold, so
-// there's a lean but no official win/loss call.
+// tag once it's graded. Spread and total are now graded EVERY time there's
+// a real pick at all -- wasBet=false no longer means "no result," it means
+// "graded, but on the auto-defaulted favorite/lean rather than a real,
+// threshold-clearing edge" (see backtest.py's own docstring for the full
+// "why" -- Cole's own request to track every game, not just real bets, for
+// the season record). Moneyline didn't change: wasBet===null still means
+// there wasn't even enough market data to grade this market at all (a book
+// never posted odds), and wasBet===false there still means "no result at
+// all, didn't clear the moneyline edge threshold."
 function modelRow(label, pickText, marketText, lean, wasBet, result) {
   let tag;
-  if (wasBet === null) {
+  if (result === "Win" || result === "Loss") {
+    const auxNote = wasBet ? "" : " (no real edge)";
+    tag = `<span class="grade-tag ${result === "Win" ? "correct" : "incorrect"}">${lean}: ${result}${auxNote}</span>`;
+  } else if (result === "Push") {
+    const auxNote = wasBet ? "" : " (no real edge)";
+    tag = `<span class="grade-tag push">Push${auxNote}</span>`;
+  } else if (wasBet === null) {
     tag = `<span class="grade-tag push">No market data</span>`;
   } else if (!wasBet) {
-    tag = `<span class="grade-tag push">${lean ? `Lean ${lean}` : "No edge"} (not a bet)</span>`;
-  } else if (result === "Push") {
-    tag = `<span class="grade-tag push">Push</span>`;
+    // No result at all -- either moneyline's old "didn't clear the ml
+    // threshold" case, or spread/total's genuine pick'em (a market number
+    // of exactly 0, so there's no favorite to default the pick to).
+    tag = `<span class="grade-tag push">${lean && lean !== "Pick'em" ? `Lean ${lean}` : "Pick'em"} (not a bet)</span>`;
   } else {
-    tag = `<span class="grade-tag ${result === "Win" ? "correct" : "incorrect"}">${lean}: ${result}</span>`;
+    tag = `<span class="grade-tag push">Pending</span>`;
   }
   return `
     <div class="odds-item">
