@@ -67,9 +67,21 @@ function doPost(e) {
         return _json({ ok: false, error: "Missing field: " + key });
       }
     }
+    const sheet = _sheet();
+    // Self-healing: if the sheet is completely empty (e.g. freshly created,
+    // nothing appended yet), write a header row first so doGet's
+    // values.slice(1) below has a real header to skip instead of eating the
+    // first real submission -- this bit a fresh sheet that skipped straight
+    // to a submission with no header row ever added.
+    if (sheet.getLastRow() === 0) {
+      sheet.appendRow([
+        "id", "submitted_at", "date", "week", "matchup",
+        "bet_type", "side", "line", "odds", "stake",
+      ]);
+    }
     const id = Utilities.getUuid();
     const submittedAt = new Date().toISOString();
-    _sheet().appendRow([
+    sheet.appendRow([
       id, submittedAt, body.date, body.week, body.matchup,
       body.bet_type, body.side, body.line, body.odds, body.stake,
     ]);

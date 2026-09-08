@@ -1,6 +1,6 @@
 {
   "meta": {
-    "generated_at": "2026-09-08T18:59:31Z",
+    "generated_at": "2026-09-08T21:48:24Z",
     "current_week": {
       "season": 2026,
       "week": 2
@@ -82,6 +82,15 @@
         }
       },
       "pending": [
+        {
+          "date": "2026-09-08T04:00:00.000Z",
+          "week": 2,
+          "matchup": "Maryland @ UConn",
+          "bet_type": "Spread",
+          "side": "UConn",
+          "odds": -110.0,
+          "stake": 2.0
+        },
         {
           "date": "2026-09-12",
           "week": 2,
