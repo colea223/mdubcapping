@@ -42,6 +42,21 @@ SEED_ENTERING_WEEK = 2
 # BEFORE teams.normalize_team_name() (which then also runs on the result, a
 # harmless no-op for names that are already canonical).
 MOORE_NAME_ALIASES = {
+    # These 5 are the only " ST." schools Moore rates that were missing from
+    # this table (found 2026-09-08, via Cole spotting Texas as a bogus 25-pt
+    # favorite over Ohio State in the Matchup Creator): normalize_team_name()
+    # is a flat dict lookup with no generic "St. -> State" expansion, so
+    # without an explicit entry each one fell through as the literal
+    # title-cased Moore spelling ("Ohio St.", not "Ohio State") -- a key that
+    # never matches CFBD's actual name, so every real lookup silently missed
+    # and fell back to DEFAULT_SEED_RATING (the all-team average) instead of
+    # the team's real Moore rating. Same fix pattern as every other aliased
+    # "___ ST." school already below.
+    "OHIO ST.": "Ohio State",
+    "ARIZONA ST.": "Arizona State",
+    "NORTH CAROLINA ST.": "NC State",
+    "FLORIDA ST.": "Florida State",
+    "MICHIGAN ST.": "Michigan State",
     "MIAMI FL.": "Miami",
     "MIAMI OHIO": "Miami (OH)",
     "MISSISSIPPI": "Ole Miss",
@@ -60,7 +75,11 @@ MOORE_NAME_ALIASES = {
     "JACKSONVILLE ST.": "Jacksonville State",
     "FRESNO ST.": "Fresno State",
     "KENNESAW ST.": "Kennesaw State",
-    "FLORIDA INTERNATIONAL": "FIU",
+    # CFBD's own games table calls this school "Florida International", not
+    # "FIU" -- the old alias below was a guess made without checking the real
+    # name, which silently caused the exact same DEFAULT_SEED_RATING miss as
+    # the missing " ST." schools above (see the 2026-09-08 audit comment).
+    "FLORIDA INTERNATIONAL": "Florida International",
     "ARKANSAS ST.": "Arkansas State",
     "SOUTHERN MISSISSIPPI": "Southern Miss",
     "OREGON ST.": "Oregon State",
@@ -73,18 +92,37 @@ MOORE_NAME_ALIASES = {
     "MISSOURI ST.": "Missouri State",
     "NEW MEXICO ST.": "New Mexico State",
     "OKLAHOMA ST.": "Oklahoma State",
-    "APPALACHIAN ST.": "Appalachian State",
+    # CFBD calls this school "App State", not "Appalachian State" -- same
+    # unverified-guess bug as Florida International above.
+    "APPALACHIAN ST.": "App State",
     "GEORGIA ST": "Georgia State",
     "MIDDLE TENNESSEE ST.": "Middle Tennessee",
     "KENT ST.": "Kent State",
     "NORTH CAROLINA CHARLOTTE": "Charlotte",
     "BALL ST.": "Ball State",
-    "LOUISIANA-MONROE": "Louisiana Monroe",
+    # CFBD calls this school "UL Monroe", not "Louisiana Monroe" -- same
+    # unverified-guess bug as Florida International/App State above.
+    "LOUISIANA-MONROE": "UL Monroe",
     "SAM HOUSTON ST.": "Sam Houston",
     "SACRAMENTO ST.": "Sacramento State",
     "TEXAS EL PASO": "UTEP",
-    "MASSACHUSETTS": "UMass",
+    # CFBD calls this school "Massachusetts" (not "UMass") -- same
+    # unverified-guess bug as the other three fixed above.
+    "MASSACHUSETTS": "Massachusetts",
     "SAN DIEGO ST.": "San Diego State",
+    # Plain acronym schools: title() mangles an all-caps key into e.g. "Lsu"
+    # (capitalize-first-letter-only, no acronym awareness), which then never
+    # matches CFBD's own all-caps spelling -- same DEFAULT_SEED_RATING miss
+    # as every other entry in this table, just from the opposite direction
+    # (over-lowercasing instead of a wrong guess). Self-mapped here so they
+    # pass through unchanged. Found via the same 2026-09-08 full audit.
+    "LSU": "LSU",
+    "BYU": "BYU",
+    "SMU": "SMU",
+    "TCU": "TCU",
+    "UCLA": "UCLA",
+    "SOUTHERN CALIFORNIA": "USC",
+    "CONNECTICUT": "UConn",
 }
 
 # team name (Moore's spelling) -> power rating, i.e. the LAST number on
