@@ -619,3 +619,57 @@ table.lines-table td.no-data { color: var(--text-muted); }
   color: var(--text-muted);
   text-align: center;
 }
+
+/* ---------------------------------------------------------------- bet log form (log-bet.html) */
+.bet-form {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+  gap: 14px;
+}
+.bet-form .picker-field.wide { grid-column: 1 / -1; }
+.bet-form select {
+  background: var(--bg-card-alt);
+  border: 1px solid var(--border);
+  color: var(--text-primary);
+  font-family: var(--font);
+  font-size: 15px;
+  font-weight: 700;
+  padding: 10px 12px;
+  border-radius: 8px;
+  width: 100%;
+  box-sizing: border-box;
+}
+.submit-btn {
+  background: var(--brand-purple);
+  border: 1px solid var(--brand-purple);
+  color: #fff;
+  font-family: var(--font);
+  font-size: 15px;
+  font-weight: 700;
+  padding: 12px 20px;
+  border-radius: 8px;
+  cursor: pointer;
+  width: 100%;
+  margin-top: 18px;
+}
+.submit-btn:hover { background: #5f3894; }
+.submit-btn:disabled { opacity: 0.5; cursor: not-allowed; }
+.form-banner {
+  margin-top: 14px;
+  padding: 12px 14px;
+  border-radius: 8px;
+  font-size: 13px;
+  font-weight: 600;
+}
+.form-banner.success { background: rgba(12,163,12,0.16); color: #4ee14e; }
+.form-banner.error { background: rgba(208,59,59,0.18); color: #ff6b6b; }
+.form-banner.hidden { display: none; }
+.setup-warning {
+  margin-bottom: 16px;
+  padding: 12px 14px;
+  border-radius: 8px;
+  font-size: 13px;
+  background: rgba(250,178,25,0.14);
+  color: var(--warning);
+  border: 1px solid rgba(250,178,25,0.3);
+}

@@ -12,6 +12,13 @@ load_dotenv(ROOT / ".env")
 CFBD_API_KEY = os.getenv("CFBD_API_KEY", "")
 ODDS_API_KEY = os.getenv("ODDS_API_KEY", "")
 
+# Only needed for excel/import_bet_log.py -- the read side of the Log Bet
+# page's Google Apps Script Web App (see google_apps_script/bet_log_webapp.gs
+# for setup). BET_WEBAPP_URL is the deployed Web App's /exec URL;
+# BET_WEBAPP_TOKEN must match the READ_TOKEN you set inside that script.
+BET_WEBAPP_URL = os.getenv("BET_WEBAPP_URL", "")
+BET_WEBAPP_TOKEN = os.getenv("BET_WEBAPP_TOKEN", "")
+
 RAW_DIR = ROOT / "data" / "raw"
 CLEAN_DIR = ROOT / "data" / "clean"
 DB_PATH = ROOT / "db" / "mw_handicapping.duckdb"

@@ -8,6 +8,7 @@ const NAV_LINKS = [
   { href: "results.html", label: "Results" },
   { href: "tracking.html", label: "Tracking" },
   { href: "matchup.html", label: "Matchup Creator" },
+  { href: "log-bet.html", label: "Log Bet" },
 ];
 
 function renderNav(activeHref) {
