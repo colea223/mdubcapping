@@ -1,0 +1,174 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Log Bet - Mountain Dub Handicapping</title>
+<link rel="stylesheet" href="assets/style.css">
+</head>
+<body>
+<div id="nav"></div>
+<div class="page-wrap">
+  <div class="page-header">
+    <h1>Log Bet</h1>
+    <p>Fill this out right after you place a bet. It gets sent to a private Google Sheet -- run
+      <code>excel/import_bet_log.py</code> to pull whatever's landed there into the tracker's Bet
+      Log tab (Closing Line and Result still get filled in later, same as always).</p>
+  </div>
+
+  <div id="setup-warning" class="setup-warning hidden">
+    This page isn't wired up yet -- <code>WEBAPP_URL</code> in this file's script still has the
+    placeholder value. See <code>google_apps_script/bet_log_webapp.gs</code> for the one-time
+    Google setup, then paste your deployed Web App URL in here.
+  </div>
+
+  <div class="card" id="form-card">
+    <div class="section-title">New Bet</div>
+    <form id="bet-form" class="bet-form">
+      <div class="picker-field">
+        <label for="date-input">Date</label>
+        <input id="date-input" type="date" required>
+      </div>
+      <div class="picker-field">
+        <label for="week-input">Week</label>
+        <input id="week-input" type="number" min="0" max="20" step="1" required>
+      </div>
+      <div class="picker-field">
+        <label for="away-input">Away</label>
+        <input id="away-input" type="text" list="team-options" autocomplete="off" placeholder="Type a team..." required>
+      </div>
+      <div class="picker-field">
+        <label for="home-input">Home</label>
+        <input id="home-input" type="text" list="team-options" autocomplete="off" placeholder="Type a team..." required>
+      </div>
+      <datalist id="team-options"></datalist>
+
+      <div class="picker-field">
+        <label for="bet-type-input">Bet Type</label>
+        <select id="bet-type-input" required>
+          <option value="Spread">Spread</option>
+          <option value="Moneyline">Moneyline</option>
+          <option value="Total">Total</option>
+          <option value="Prop">Prop</option>
+          <option value="Other">Other</option>
+        </select>
+      </div>
+      <div class="picker-field wide">
+        <label for="side-input">Side</label>
+        <input id="side-input" type="text" autocomplete="off" placeholder="e.g. Air Force -4.5, or Over 54.5" required>
+      </div>
+
+      <div class="picker-field">
+        <label for="line-input">Line Taken</label>
+        <input id="line-input" type="number" step="0.5" placeholder="-4.5" required>
+      </div>
+      <div class="picker-field">
+        <label for="odds-input">Odds (American)</label>
+        <input id="odds-input" type="number" step="1" value="-110" required>
+      </div>
+      <div class="picker-field">
+        <label for="stake-input">Stake (units)</label>
+        <input id="stake-input" type="number" step="0.25" min="0" value="1" required>
+      </div>
+
+      <button type="submit" class="submit-btn" id="submit-btn" style="grid-column:1/-1;">Log Bet</button>
+    </form>
+    <div id="form-banner" class="form-banner hidden"></div>
+  </div>
+
+  <div class="footer-note">
+    Closing Line and Result aren't collected here -- those are only known later and still get
+    filled in on the Bet Log tab itself (or by whatever grading step you're using).
+  </div>
+</div>
+
+<script src="assets/site.js"></script>
+<script>
+document.getElementById("nav").innerHTML = renderNav("log-bet.html");
+
+// One-time setup: paste your own deployed Google Apps Script Web App URL here
+// (see google_apps_script/bet_log_webapp.gs). This is a plain endpoint, not a
+// secret -- it can only APPEND a row (doPost), the same trust model as any
+// public contact form. Nothing about your Google account or Sheet is exposed
+// by publishing this URL in client-side JS.
+const WEBAPP_URL = "https://script.google.com/macros/s/AKfycbxT_yAwi30L33kA_Sdpgofq_svZF7FfZgWWbcHEDA3rJpFIDMYfbSwJDvCC_LqTQGr0/exec";
+
+const form = document.getElementById("bet-form");
+const banner = document.getElementById("form-banner");
+const submitBtn = document.getElementById("submit-btn");
+const setupWarning = document.getElementById("setup-warning");
+
+if (!WEBAPP_URL || WEBAPP_URL.indexOf("PASTE_YOUR") === 0) {
+  setupWarning.classList.remove("hidden");
+  submitBtn.disabled = true;
+}
+
+function showBanner(kind, message) {
+  banner.className = `form-banner ${kind}`;
+  banner.textContent = message;
+}
+
+(async function () {
+  const data = await fetchJSON("data/matchup_grid.json");
+  document.getElementById("date-input").value = new Date().toISOString().slice(0, 10);
+  if (data && data.meta && data.meta.current_week) {
+    document.getElementById("week-input").value = data.meta.current_week.week;
+  }
+  if (data && data.teams) {
+    document.getElementById("team-options").innerHTML =
+      data.teams.map(t => `<option value="${t}">`).join("");
+  }
+})();
+
+form.addEventListener("submit", async (e) => {
+  e.preventDefault();
+  if (submitBtn.disabled) return;
+
+  const away = document.getElementById("away-input").value.trim();
+  const home = document.getElementById("home-input").value.trim();
+  const payload = {
+    date: document.getElementById("date-input").value,
+    week: document.getElementById("week-input").value,
+    matchup: `${away} @ ${home}`,
+    bet_type: document.getElementById("bet-type-input").value,
+    side: document.getElementById("side-input").value.trim(),
+    line: document.getElementById("line-input").value,
+    odds: document.getElementById("odds-input").value,
+    stake: document.getElementById("stake-input").value,
+  };
+  for (const [key, val] of Object.entries(payload)) {
+    if (val === "" || val === null || val === undefined) {
+      showBanner("error", `Fill in every field before logging (missing: ${key}).`);
+      return;
+    }
+  }
+
+  submitBtn.disabled = true;
+  submitBtn.textContent = "Logging...";
+  try {
+    // mode: "no-cors" -- Apps Script Web Apps don't return CORS headers a
+    // browser fetch can read across origins, so the response here is opaque
+    // (we can't inspect status/body). A thrown error still means a real
+    // network failure (offline, wrong URL); anything that reaches Google is
+    // treated as delivered. Confirm arrivals for real by checking the Google
+    // Sheet, or by running excel/import_bet_log.py, which DOES get a real
+    // response (server-to-server requests aren't subject to browser CORS).
+    await fetch(WEBAPP_URL, {
+      method: "POST",
+      mode: "no-cors",
+      headers: { "Content-Type": "text/plain;charset=utf-8" },
+      body: JSON.stringify(payload),
+    });
+    showBanner("success", `Logged: ${payload.side} (${payload.bet_type}), ${payload.matchup}.`);
+    document.getElementById("side-input").value = "";
+    document.getElementById("line-input").value = "";
+  } catch (err) {
+    showBanner("error", "Couldn't reach the logging service -- check your connection and try again.");
+  } finally {
+    submitBtn.disabled = false;
+    submitBtn.textContent = "Log Bet";
+  }
+});
+</script>
+</body>
+</html>

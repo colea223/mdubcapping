@@ -16,6 +16,17 @@ Thumbs.db
 .vscode/
 .idea/
 
+# Local dedup state for excel/import_bet_log.py -- tracks which Log Bet
+# submissions have already been written into the tracker. Not shared/needed
+# elsewhere: re-running the importer from a different clone just re-checks
+# the Google Sheet fresh (worst case is a duplicate row, not a crash -- see
+# that script's own docstring).
+excel/.bet_log_imported_ids.json
+
+# Log output from excel/run_import_bet_log.bat's scheduled (Task Scheduler)
+# runs -- purely local diagnostic output, not needed anywhere else.
+excel/import_bet_log_log.txt
+
 # NOTE: data/raw/, data/clean/, docs/data/, and the Excel tracker are
 # intentionally NOT ignored (db/schema.sql isn't either) -- the GitHub
 # Actions workflow commits them back to the repo on every run so the site
