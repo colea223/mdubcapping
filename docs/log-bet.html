@@ -85,8 +85,8 @@
 document.getElementById("nav").innerHTML = renderNav("log-bet.html");
 
 // Deployed Google Apps Script Web App URL (see google_apps_script/bet_log_webapp.gs).
-// This URL alone doesn't grant access to submit -- doPost on the other end
-// also checks a password (see below) before it'll append anything, so
+// This URL alone doesn't grant access to submit -- the script on the other
+// end also checks a password (see below) before it'll append anything, so
 // publishing this URL in client-side JS doesn't let a random visitor log a
 // bet even though they can see it.
 const WEBAPP_URL = "https://script.google.com/macros/s/AKfycbxT_yAwi30L33kA_Sdpgofq_svZF7FfZgWWbcHEDA3rJpFIDMYfbSwJDvCC_LqTQGr0/exec";
@@ -100,6 +100,43 @@ const passwordInput = document.getElementById("password-input");
 function showBanner(kind, message) {
   banner.className = `form-banner ${kind}`;
   banner.textContent = message;
+}
+
+// A plain cross-origin fetch() to an Apps Script Web App hits a real CORS
+// wall -- the browser can't reliably read the response, which is exactly
+// what silently turned a wrong password into a false "Logged!" earlier.
+// JSONP sidesteps that: load the request as a <script src="..."> tag
+// (not subject to CORS the way fetch/XHR are) and let the response --
+// wrapped by the Apps Script in a call to a function we define here --
+// invoke that function with the real result when it loads. Only works for
+// GET (a script tag can't POST), which is why every field, password
+// included, travels as a URL query parameter instead of a request body.
+function jsonp(url) {
+  return new Promise((resolve, reject) => {
+    const callbackName = "mdubjsonp" + Date.now() + Math.floor(Math.random() * 1e6);
+    const script = document.createElement("script");
+    const cleanup = () => {
+      delete window[callbackName];
+      script.remove();
+    };
+    const timeout = setTimeout(() => {
+      cleanup();
+      reject(new Error("Timed out waiting for a response."));
+    }, 15000);
+    window[callbackName] = (data) => {
+      clearTimeout(timeout);
+      cleanup();
+      resolve(data);
+    };
+    script.onerror = () => {
+      clearTimeout(timeout);
+      cleanup();
+      reject(new Error("Network error."));
+    };
+    const sep = url.indexOf("?") === -1 ? "?" : "&";
+    script.src = url + sep + "callback=" + callbackName;
+    document.body.appendChild(script);
+  });
 }
 
 // Remember the password on this device only (never sent anywhere except to
@@ -130,6 +167,7 @@ form.addEventListener("submit", async (e) => {
   const home = document.getElementById("home-input").value.trim();
   const password = passwordInput.value;
   const payload = {
+    action: "submit",
     date: document.getElementById("date-input").value,
     week: document.getElementById("week-input").value,
     matchup: `${away} @ ${home}`,
@@ -150,19 +188,8 @@ form.addEventListener("submit", async (e) => {
   submitBtn.disabled = true;
   submitBtn.textContent = "Logging...";
   try {
-    // A real (non-"no-cors") request -- Content-Type: text/plain keeps this
-    // a CORS-simple request (no preflight, which Apps Script Web Apps don't
-    // handle), and Google does return readable CORS headers on the actual
-    // response for an "Anyone" access deployment, so unlike a truly opaque
-    // no-cors request, this lets the page see whether doPost actually
-    // accepted it -- essential now that a wrong password needs to show up
-    // as a real error instead of a false "Logged!".
-    const res = await fetch(WEBAPP_URL, {
-      method: "POST",
-      headers: { "Content-Type": "text/plain;charset=utf-8" },
-      body: JSON.stringify(payload),
-    });
-    const result = await res.json();
+    const url = WEBAPP_URL + "?" + new URLSearchParams(payload).toString();
+    const result = await jsonp(url);
     if (!result.ok) {
       showBanner("error", result.error === "Wrong password" ? "Wrong password." : (result.error || "Something went wrong -- try again."));
       return;
