@@ -1,6 +1,6 @@
 {
   "meta": {
-    "generated_at": "2026-09-08T16:28:02Z",
+    "generated_at": "2026-09-08T17:11:29Z",
     "current_week": {
       "season": 2026,
       "week": 2
@@ -13,11 +13,11 @@
       "away_team": "UNLV",
       "home_team": "North Texas",
       "model_spread_home": -3.9,
-      "model_total": 58.2,
-      "market_spread_home": 3.8,
-      "market_total": 57.2,
+      "model_total": 63.2,
+      "market_spread_home": 3.5,
+      "market_total": 56.8,
       "home_win_prob": 0.585,
-      "edge": 7.7,
+      "edge": 7.4,
       "lean_side": "Home",
       "is_real_edge": true,
       "notes": "",
@@ -205,11 +205,11 @@
       "away_team": "North Dakota State",
       "home_team": "Air Force",
       "model_spread_home": 16.9,
-      "model_total": 53.3,
-      "market_spread_home": 3.0,
-      "market_total": 47.2,
+      "model_total": 44.6,
+      "market_spread_home": 2.5,
+      "market_total": 47.5,
       "home_win_prob": 0.173,
-      "edge": -13.9,
+      "edge": -14.4,
       "lean_side": "Away",
       "is_real_edge": true,
       "notes": "",
@@ -269,11 +269,11 @@
       "away_team": "New Mexico State",
       "home_team": "Hawai'i",
       "model_spread_home": -14.2,
-      "model_total": 55.6,
-      "market_spread_home": -9.8,
+      "model_total": 55.2,
+      "market_spread_home": -8.5,
       "market_total": 50.5,
       "home_win_prob": 0.786,
-      "edge": 4.4,
+      "edge": 5.7,
       "lean_side": "Home",
       "is_real_edge": true,
       "notes": "",
@@ -292,8 +292,8 @@
       "gamma_agrees": true,
       "gamma_straight_up_correct": null,
       "gamma_covered_market_line": null,
-      "gamma_lean_side": "Away",
-      "gamma_is_real_edge": true
+      "gamma_lean_side": "Home",
+      "gamma_is_real_edge": false
     }
   ]
 }

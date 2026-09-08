@@ -1,6 +1,6 @@
 {
   "meta": {
-    "generated_at": "2026-09-08T16:28:02Z",
+    "generated_at": "2026-09-08T17:11:29Z",
     "current_week": {
       "season": 2026,
       "week": 2
@@ -74,7 +74,44 @@
           "units": -5.0
         }
       },
-      "pending": [],
+      "pending": [
+        {
+          "date": "2026-09-12",
+          "week": 2,
+          "matchup": "UNLV @ North Texas",
+          "bet_type": "Spread",
+          "side": "North Texas",
+          "odds": -114.0,
+          "stake": 1.0
+        },
+        {
+          "date": "2026-09-13",
+          "week": 2,
+          "matchup": "North Dakota State @ Airforce",
+          "bet_type": "Spread",
+          "side": "North Dakota State",
+          "odds": -112.0,
+          "stake": 2.5
+        },
+        {
+          "date": "2026-09-13",
+          "week": 2,
+          "matchup": "North Dakota State @ Airforce",
+          "bet_type": "Moneyline",
+          "side": "North Dakota State",
+          "odds": -134.0,
+          "stake": 2.5
+        },
+        {
+          "date": "2026-09-13",
+          "week": 2,
+          "matchup": "New Mexico State @ Hawaii",
+          "bet_type": "Moneyline",
+          "side": "Hawaii",
+          "odds": -330.0,
+          "stake": 1.0
+        }
+      ],
       "graded": [
         {
           "date": "2026-08-29",
