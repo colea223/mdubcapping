@@ -16,12 +16,6 @@
       Log tab (Closing Line and Result still get filled in later, same as always).</p>
   </div>
 
-  <div id="setup-warning" class="setup-warning hidden">
-    This page isn't wired up yet -- <code>WEBAPP_URL</code> in this file's script still has the
-    placeholder value. See <code>google_apps_script/bet_log_webapp.gs</code> for the one-time
-    Google setup, then paste your deployed Web App URL in here.
-  </div>
-
   <div class="card" id="form-card">
     <div class="section-title">New Bet</div>
     <form id="bet-form" class="bet-form">
@@ -70,6 +64,10 @@
         <label for="stake-input">Stake (units)</label>
         <input id="stake-input" type="number" step="0.25" min="0" value="1" required>
       </div>
+      <div class="picker-field">
+        <label for="password-input">Password</label>
+        <input id="password-input" type="password" autocomplete="current-password" required>
+      </div>
 
       <button type="submit" class="submit-btn" id="submit-btn" style="grid-column:1/-1;">Log Bet</button>
     </form>
@@ -86,27 +84,31 @@
 <script>
 document.getElementById("nav").innerHTML = renderNav("log-bet.html");
 
-// One-time setup: paste your own deployed Google Apps Script Web App URL here
-// (see google_apps_script/bet_log_webapp.gs). This is a plain endpoint, not a
-// secret -- it can only APPEND a row (doPost), the same trust model as any
-// public contact form. Nothing about your Google account or Sheet is exposed
-// by publishing this URL in client-side JS.
+// Deployed Google Apps Script Web App URL (see google_apps_script/bet_log_webapp.gs).
+// This URL alone doesn't grant access to submit -- doPost on the other end
+// also checks a password (see below) before it'll append anything, so
+// publishing this URL in client-side JS doesn't let a random visitor log a
+// bet even though they can see it.
 const WEBAPP_URL = "https://script.google.com/macros/s/AKfycbxT_yAwi30L33kA_Sdpgofq_svZF7FfZgWWbcHEDA3rJpFIDMYfbSwJDvCC_LqTQGr0/exec";
+const PASSWORD_STORAGE_KEY = "mdub-bet-log-password";
 
 const form = document.getElementById("bet-form");
 const banner = document.getElementById("form-banner");
 const submitBtn = document.getElementById("submit-btn");
-const setupWarning = document.getElementById("setup-warning");
-
-if (!WEBAPP_URL || WEBAPP_URL.indexOf("PASTE_YOUR") === 0) {
-  setupWarning.classList.remove("hidden");
-  submitBtn.disabled = true;
-}
+const passwordInput = document.getElementById("password-input");
 
 function showBanner(kind, message) {
   banner.className = `form-banner ${kind}`;
   banner.textContent = message;
 }
+
+// Remember the password on this device only (never sent anywhere except to
+// the Apps Script itself) so you're not retyping it every time you log a
+// bet from your own phone/laptop.
+try {
+  const saved = localStorage.getItem(PASSWORD_STORAGE_KEY);
+  if (saved) passwordInput.value = saved;
+} catch (e) { /* private browsing / storage blocked -- fine, just re-type it */ }
 
 (async function () {
   const data = await fetchJSON("data/matchup_grid.json");
@@ -126,6 +128,7 @@ form.addEventListener("submit", async (e) => {
 
   const away = document.getElementById("away-input").value.trim();
   const home = document.getElementById("home-input").value.trim();
+  const password = passwordInput.value;
   const payload = {
     date: document.getElementById("date-input").value,
     week: document.getElementById("week-input").value,
@@ -135,10 +138,11 @@ form.addEventListener("submit", async (e) => {
     line: document.getElementById("line-input").value,
     odds: document.getElementById("odds-input").value,
     stake: document.getElementById("stake-input").value,
+    password: password,
   };
   for (const [key, val] of Object.entries(payload)) {
     if (val === "" || val === null || val === undefined) {
-      showBanner("error", `Fill in every field before logging (missing: ${key}).`);
+      showBanner("error", key === "password" ? "Enter the password before logging." : `Fill in every field before logging (missing: ${key}).`);
       return;
     }
   }
@@ -146,19 +150,24 @@ form.addEventListener("submit", async (e) => {
   submitBtn.disabled = true;
   submitBtn.textContent = "Logging...";
   try {
-    // mode: "no-cors" -- Apps Script Web Apps don't return CORS headers a
-    // browser fetch can read across origins, so the response here is opaque
-    // (we can't inspect status/body). A thrown error still means a real
-    // network failure (offline, wrong URL); anything that reaches Google is
-    // treated as delivered. Confirm arrivals for real by checking the Google
-    // Sheet, or by running excel/import_bet_log.py, which DOES get a real
-    // response (server-to-server requests aren't subject to browser CORS).
-    await fetch(WEBAPP_URL, {
+    // A real (non-"no-cors") request -- Content-Type: text/plain keeps this
+    // a CORS-simple request (no preflight, which Apps Script Web Apps don't
+    // handle), and Google does return readable CORS headers on the actual
+    // response for an "Anyone" access deployment, so unlike a truly opaque
+    // no-cors request, this lets the page see whether doPost actually
+    // accepted it -- essential now that a wrong password needs to show up
+    // as a real error instead of a false "Logged!".
+    const res = await fetch(WEBAPP_URL, {
       method: "POST",
-      mode: "no-cors",
       headers: { "Content-Type": "text/plain;charset=utf-8" },
       body: JSON.stringify(payload),
     });
+    const result = await res.json();
+    if (!result.ok) {
+      showBanner("error", result.error === "Wrong password" ? "Wrong password." : (result.error || "Something went wrong -- try again."));
+      return;
+    }
+    try { localStorage.setItem(PASSWORD_STORAGE_KEY, password); } catch (e) { /* fine, just re-type next time */ }
     showBanner("success", `Logged: ${payload.side} (${payload.bet_type}), ${payload.matchup}.`);
     document.getElementById("side-input").value = "";
     document.getElementById("line-input").value = "";

@@ -664,12 +664,3 @@ table.lines-table td.no-data { color: var(--text-muted); }
 .form-banner.success { background: rgba(12,163,12,0.16); color: #4ee14e; }
 .form-banner.error { background: rgba(208,59,59,0.18); color: #ff6b6b; }
 .form-banner.hidden { display: none; }
-.setup-warning {
-  margin-bottom: 16px;
-  padding: 12px 14px;
-  border-radius: 8px;
-  font-size: 13px;
-  background: rgba(250,178,25,0.14);
-  color: var(--warning);
-  border: 1px solid rgba(250,178,25,0.3);
-}

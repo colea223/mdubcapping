@@ -12,10 +12,16 @@
  * PUBLIC -- anything embedded in its client-side JS is visible to any
  * visitor. A write-capable API key embedded there would let a stranger read
  * or corrupt your data. This script instead deploys as "execute as me" --
- * the PUBLIC URL below can only ever run the two functions you write (append
- * a row / return rows IF the caller has the right token), never anything
- * broader. Nothing about your Google account, or direct access to the Sheet,
- * is ever exposed.
+ * the PUBLIC URL below can only ever run the two functions you write: append
+ * a row IF the caller supplies the right WRITE_PASSWORD, or return rows IF
+ * the caller supplies the right READ_TOKEN (a separate secret -- see doGet).
+ * Nothing about your Google account, or direct access to the Sheet, is ever
+ * exposed, and neither secret is ever committed to the (public) repo or
+ * visible in the site's page source: WRITE_PASSWORD lives only here -- you
+ * type it into docs/log-bet.html's own password field each time (or once
+ * per device, since that page remembers it locally in your browser, never
+ * sent anywhere but here); READ_TOKEN lives only here and in your local,
+ * gitignored .env.
  *
  * ---------------------------------------------------------------- SETUP ---
  * 1. Create a new Google Sheet (sheets.new). Rename its first tab to
@@ -24,7 +30,11 @@
  *    and paste this whole file in.
  * 3. Pick your own random string for READ_TOKEN below (anything -- e.g.
  *    mash the keyboard) and replace REPLACE_WITH_YOUR_OWN_RANDOM_STRING.
- *    Save the project (any name is fine, e.g. "Bet Log Web App").
+ *    Also pick a WRITE_PASSWORD below -- this is the password the Log Bet
+ *    page on the site will ask for before it'll submit anything; make it
+ *    something you can actually remember/type on your phone, unlike
+ *    READ_TOKEN (which you never type by hand). Save the project (any name
+ *    is fine, e.g. "Bet Log Web App").
  * 4. Deploy > New deployment > gear icon > "Web app".
  *      - Execute as: Me
  *      - Who has access: Anyone
@@ -42,7 +52,8 @@
  *    the change to actually take effect -- saving alone isn't enough.
  * ----------------------------------------------------------------------- */
 const SHEET_NAME = "Submissions";
-const READ_TOKEN = "REPLACE_WITH_YOUR_OWN_RANDOM_STRING";
+const READ_TOKEN = "ffda132-dsB12-dnsA349876";
+const WRITE_PASSWORD = "slumcut6967";
 
 function _sheet() {
   return SpreadsheetApp.getActiveSpreadsheet().getSheetByName(SHEET_NAME);
@@ -53,14 +64,20 @@ function _json(obj) {
     .setMimeType(ContentService.MimeType.JSON);
 }
 
-// Called by docs/log-bet.html on every "Log Bet" submit. Deliberately has NO
-// token check -- same trust model as any public contact form (anyone can
-// submit a row; nobody can READ the sheet through this endpoint). Worst case
-// is junk rows you can just delete; there's no way to expose or corrupt
-// anything else through this function.
+// Called by docs/log-bet.html on every "Log Bet" submit. Gated by
+// WRITE_PASSWORD -- unlike a plain public contact form, this checks a
+// password before appending anything, so knowing this URL alone (visible in
+// the site's public page source) isn't enough to submit a bet. Nobody can
+// READ the sheet through this endpoint either way (that's READ_TOKEN's job,
+// checked separately in doGet below) -- worst case of a leaked/guessed
+// WRITE_PASSWORD is junk rows you can just delete, never exposure of your
+// actual data.
 function doPost(e) {
   try {
     const body = JSON.parse(e.postData.contents);
+    if (!body.password || body.password !== WRITE_PASSWORD) {
+      return _json({ ok: false, error: "Wrong password" });
+    }
     const required = ["date", "week", "matchup", "bet_type", "side", "line", "odds", "stake"];
     for (const key of required) {
       if (body[key] === undefined || body[key] === null || body[key] === "") {
