@@ -1,6 +1,6 @@
 {
   "meta": {
-    "generated_at": "2026-09-08T17:11:29Z",
+    "generated_at": "2026-09-08T18:32:29Z",
     "current_week": {
       "season": 2026,
       "week": 2
@@ -35,17 +35,41 @@
           "away_ml": -185
         },
         "FanDuel": {
-          "spread": 6.5,
+          "spread": 3.5,
           "spread_open": null,
-          "total": 60.5,
+          "total": 57.5,
           "total_open": null,
-          "home_ml": 198,
-          "away_ml": -245
+          "home_ml": 146,
+          "away_ml": -176
         }
       },
       "book_order": [
         "Bovada",
         "DraftKings",
+        "FanDuel"
+      ]
+    },
+    {
+      "game_id": 401864506,
+      "date": "2026-09-12T20:00:00Z",
+      "away_team": "Northern Colorado",
+      "home_team": "Wyoming",
+      "open_spread_home": null,
+      "open_total": null,
+      "kicked_off": false,
+      "close_spread_home": null,
+      "close_total": null,
+      "books": {
+        "FanDuel": {
+          "spread": -23.5,
+          "spread_open": null,
+          "total": 48.5,
+          "total_open": null,
+          "home_ml": -4000,
+          "away_ml": 1400
+        }
+      },
+      "book_order": [
         "FanDuel"
       ]
     },
@@ -63,7 +87,7 @@
         "FanDuel": {
           "spread": -41.5,
           "spread_open": null,
-          "total": 51.5,
+          "total": 52.5,
           "total_open": null,
           "home_ml": null,
           "away_ml": null
@@ -72,19 +96,6 @@
       "book_order": [
         "FanDuel"
       ]
-    },
-    {
-      "game_id": 401864506,
-      "date": "2026-09-12T20:00:00Z",
-      "away_team": "Northern Colorado",
-      "home_team": "Wyoming",
-      "open_spread_home": null,
-      "open_total": null,
-      "kicked_off": false,
-      "close_spread_home": null,
-      "close_total": null,
-      "books": {},
-      "book_order": []
     },
     {
       "game_id": 401864503,
@@ -96,8 +107,19 @@
       "kicked_off": false,
       "close_spread_home": null,
       "close_total": null,
-      "books": {},
-      "book_order": []
+      "books": {
+        "FanDuel": {
+          "spread": 3.5,
+          "spread_open": null,
+          "total": 47.5,
+          "total_open": null,
+          "home_ml": 138,
+          "away_ml": -166
+        }
+      },
+      "book_order": [
+        "FanDuel"
+      ]
     },
     {
       "game_id": 401864505,
@@ -109,8 +131,19 @@
       "kicked_off": false,
       "close_spread_home": null,
       "close_total": null,
-      "books": {},
-      "book_order": []
+      "books": {
+        "FanDuel": {
+          "spread": -26.5,
+          "spread_open": null,
+          "total": 53.5,
+          "total_open": null,
+          "home_ml": -7000,
+          "away_ml": 2000
+        }
+      },
+      "book_order": [
+        "FanDuel"
+      ]
     },
     {
       "game_id": 401864504,
@@ -124,12 +157,12 @@
       "close_total": null,
       "books": {
         "FanDuel": {
-          "spread": -21.5,
+          "spread": -20.5,
           "spread_open": null,
           "total": 57.5,
           "total_open": null,
-          "home_ml": -2800,
-          "away_ml": 1160
+          "home_ml": -2300,
+          "away_ml": 1060
         }
       },
       "book_order": [
@@ -162,11 +195,20 @@
           "total_open": 47.5,
           "home_ml": 140,
           "away_ml": -165
+        },
+        "FanDuel": {
+          "spread": 2.5,
+          "spread_open": null,
+          "total": 47.5,
+          "total_open": null,
+          "home_ml": 112,
+          "away_ml": -134
         }
       },
       "book_order": [
         "Bovada",
-        "DraftKings"
+        "DraftKings",
+        "FanDuel"
       ]
     },
     {
@@ -179,8 +221,19 @@
       "kicked_off": false,
       "close_spread_home": null,
       "close_total": null,
-      "books": {},
-      "book_order": []
+      "books": {
+        "FanDuel": {
+          "spread": 3.5,
+          "spread_open": null,
+          "total": 50.5,
+          "total_open": null,
+          "home_ml": 155,
+          "away_ml": -188
+        }
+      },
+      "book_order": [
+        "FanDuel"
+      ]
     },
     {
       "game_id": 401864578,
