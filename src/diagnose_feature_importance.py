@@ -104,7 +104,13 @@ def section2_lasso(df):
     X_imp = SimpleImputer(strategy="median").fit_transform(X)
     X_scaled = StandardScaler().fit_transform(X_imp)
 
-    lasso = LassoCV(cv=5, random_state=0, max_iter=20000, n_alphas=100)
+    # n_alphas deliberately omitted -- it's 100 either way (LassoCV's own
+    # default), but the keyword itself was removed in newer scikit-learn
+    # (deprecated as of 1.8, gone by the version this project pins in
+    # requirements.txt) while still present in older installs, so passing it
+    # explicitly broke on a newer sklearn than the one this was written
+    # against. Omitting it gets the same 100-alphas behavior on any version.
+    lasso = LassoCV(cv=5, random_state=0, max_iter=20000)
     lasso.fit(X_scaled, y)
 
     coefs = sorted(zip(FEATURE_COLS, lasso.coef_), key=lambda kv: -abs(kv[1]))

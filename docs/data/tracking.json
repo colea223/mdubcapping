@@ -1,6 +1,6 @@
 {
   "meta": {
-    "generated_at": "2026-09-08T16:00:23Z",
+    "generated_at": "2026-09-08T16:28:02Z",
     "current_week": {
       "season": 2026,
       "week": 2
@@ -8,8 +8,41 @@
   },
   "tracking": {
     "model": {
-      "n_games": 0,
-      "note": "Not enough graded history yet."
+      "season": 2026,
+      "n_games": 13,
+      "spread": {
+        "n_bets": 13,
+        "wins": 5,
+        "losses": 8,
+        "pushes": 0,
+        "win_rate": 0.3846,
+        "units": -3.45,
+        "n_real_edge_bets": 11,
+        "real_edge_win_rate": 0.3636
+      },
+      "total": {
+        "n_bets": 13,
+        "wins": 6,
+        "losses": 7,
+        "pushes": 0,
+        "win_rate": 0.4615,
+        "units": -1.55,
+        "n_real_edge_bets": 7,
+        "real_edge_win_rate": 0.4286
+      },
+      "moneyline": {
+        "n_bets": 4,
+        "wins": 1,
+        "losses": 3,
+        "pushes": 0,
+        "win_rate": 0.25,
+        "units": -2.66,
+        "n_real_edge_bets": null,
+        "real_edge_win_rate": null
+      },
+      "upset_calls": 5,
+      "upset_wins": 1,
+      "note": "Hypothetical flat 1-unit-per-bet tracking of the model's own picks (spread/total at -110, moneyline at the real posted odds) -- not your personal bets."
     },
     "yours": {
       "n_bets": 9,
