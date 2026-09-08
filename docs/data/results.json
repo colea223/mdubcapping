@@ -1,6 +1,6 @@
 {
   "meta": {
-    "generated_at": "2026-09-08T17:11:29Z",
+    "generated_at": "2026-09-08T18:59:31Z",
     "current_week": {
       "season": 2026,
       "week": 2
@@ -181,7 +181,19 @@
         "agrees_with_model": false,
         "is_seed_week": true
       },
-      "your_bets": []
+      "your_bets": [
+        {
+          "date": "2026-09-04",
+          "week": 1,
+          "matchup": "UTEP @ Oklahoma",
+          "bet_type": "Total",
+          "side": null,
+          "odds": -128.0,
+          "stake": 2.5,
+          "result": "L",
+          "units": -2.5
+        }
+      ]
     },
     {
       "game_id": 401864496,

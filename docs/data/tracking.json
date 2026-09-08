@@ -1,6 +1,6 @@
 {
   "meta": {
-    "generated_at": "2026-09-08T17:11:29Z",
+    "generated_at": "2026-09-08T18:59:31Z",
     "current_week": {
       "season": 2026,
       "week": 2
@@ -45,26 +45,26 @@
       "note": "Hypothetical flat 1-unit-per-bet tracking of the model's own picks (spread/total at -110, moneyline at the real posted odds) -- not your personal bets."
     },
     "yours": {
-      "n_bets": 9,
-      "wins": 5,
-      "losses": 4,
+      "n_bets": 27,
+      "wins": 12,
+      "losses": 15,
       "pushes": 0,
-      "win_rate": 0.5556,
-      "units": -1.5,
+      "win_rate": 0.4444,
+      "units": -1.18,
       "by_type": {
         "Spread": {
-          "wins": 3,
-          "losses": 1,
+          "wins": 9,
+          "losses": 7,
           "pushes": 0,
-          "win_rate": 0.75,
-          "units": 5.36
+          "win_rate": 0.5625,
+          "units": 2.39
         },
         "Moneyline": {
-          "wins": 2,
-          "losses": 1,
+          "wins": 3,
+          "losses": 4,
           "pushes": 0,
-          "win_rate": 0.6667,
-          "units": -1.87
+          "win_rate": 0.4286,
+          "units": 8.92
         },
         "ML Parlay": {
           "wins": 0,
@@ -72,6 +72,13 @@
           "pushes": 0,
           "win_rate": 0.0,
           "units": -5.0
+        },
+        "Total": {
+          "wins": 0,
+          "losses": 2,
+          "pushes": 0,
+          "win_rate": 0.0,
+          "units": -7.5
         }
       },
       "pending": [
@@ -211,6 +218,204 @@
           "stake": 5.0,
           "result": "W",
           "units": 4.55
+        },
+        {
+          "date": "2026-09-07",
+          "week": 1,
+          "matchup": "SMU @ Florida State",
+          "bet_type": "Spread",
+          "side": "SMU",
+          "odds": -122.0,
+          "stake": 2.0,
+          "result": "W",
+          "units": 1.64
+        },
+        {
+          "date": "2026-09-07",
+          "week": 1,
+          "matchup": "SMU @ Florida State",
+          "bet_type": "Spread",
+          "side": "Florida State",
+          "odds": -118.0,
+          "stake": 3.0,
+          "result": "W",
+          "units": 2.54
+        },
+        {
+          "date": "2026-09-07",
+          "week": 1,
+          "matchup": "SMU @ Florida State",
+          "bet_type": "Moneyline",
+          "side": "Florida State",
+          "odds": 265.0,
+          "stake": 1.0,
+          "result": "L",
+          "units": -1.0
+        },
+        {
+          "date": "2026-09-06",
+          "week": 1,
+          "matchup": "Louisville @ Ole Miss",
+          "bet_type": "Spread",
+          "side": "Louisville",
+          "odds": -108.0,
+          "stake": 3.0,
+          "result": "W",
+          "units": 2.78
+        },
+        {
+          "date": "2026-09-06",
+          "week": 1,
+          "matchup": "Louisville @ Ole Miss",
+          "bet_type": "Spread",
+          "side": "Louisville",
+          "odds": 114.0,
+          "stake": 3.0,
+          "result": "W",
+          "units": 3.42
+        },
+        {
+          "date": "2026-09-06",
+          "week": 1,
+          "matchup": "Wisconsin @ Notre Dame",
+          "bet_type": "Spread",
+          "side": "Wisconsin",
+          "odds": -132.0,
+          "stake": 3.0,
+          "result": "L",
+          "units": -3.0
+        },
+        {
+          "date": "2026-09-05",
+          "week": 1,
+          "matchup": "Clemson @ LSU",
+          "bet_type": "Spread",
+          "side": "Clemson",
+          "odds": -138.0,
+          "stake": 7.5,
+          "result": "L",
+          "units": -7.5
+        },
+        {
+          "date": "2026-09-05",
+          "week": 1,
+          "matchup": "Clemson @ LSU",
+          "bet_type": "Spread",
+          "side": "Clemson",
+          "odds": -118.0,
+          "stake": 2.5,
+          "result": "L",
+          "units": -2.5
+        },
+        {
+          "date": "2026-09-05",
+          "week": 1,
+          "matchup": "Western Michigan @ Michigan",
+          "bet_type": "Moneyline",
+          "side": "Michigan",
+          "odds": 146.0,
+          "stake": 11.5,
+          "result": "W",
+          "units": 16.79
+        },
+        {
+          "date": "2026-09-05",
+          "week": 1,
+          "matchup": "Boise State @ Oregon",
+          "bet_type": "Spread",
+          "side": "Boise State",
+          "odds": 108.0,
+          "stake": 3.0,
+          "result": "L",
+          "units": -3.0
+        },
+        {
+          "date": "2026-09-05",
+          "week": 1,
+          "matchup": "Tarleton State @ Bowling Green",
+          "bet_type": "Moneyline",
+          "side": "Bowling Green",
+          "odds": 200.0,
+          "stake": 3.0,
+          "result": "L",
+          "units": -3.0
+        },
+        {
+          "date": "2026-09-04",
+          "week": 1,
+          "matchup": "Miami @ Stanford",
+          "bet_type": "Spread",
+          "side": "Miami",
+          "odds": 100.0,
+          "stake": 2.5,
+          "result": "W",
+          "units": 2.5
+        },
+        {
+          "date": "2026-09-04",
+          "week": 1,
+          "matchup": "Fresno State @ USC",
+          "bet_type": "Total",
+          "side": null,
+          "odds": -102.0,
+          "stake": 5.0,
+          "result": "L",
+          "units": -5.0
+        },
+        {
+          "date": "2026-09-04",
+          "week": 1,
+          "matchup": "Toledo @ MSU",
+          "bet_type": "Spread",
+          "side": "Michigan",
+          "odds": -114.0,
+          "stake": 3.5,
+          "result": "L",
+          "units": -3.5
+        },
+        {
+          "date": "2026-09-04",
+          "week": 1,
+          "matchup": "UTEP @ Oklahoma",
+          "bet_type": "Total",
+          "side": null,
+          "odds": -128.0,
+          "stake": 2.5,
+          "result": "L",
+          "units": -2.5
+        },
+        {
+          "date": "2026-09-04",
+          "week": 1,
+          "matchup": "San Jose State @ Eastern Michigan",
+          "bet_type": "Moneyline",
+          "side": "Eastern Michigan",
+          "odds": -146.0,
+          "stake": 2.0,
+          "result": "L",
+          "units": -2.0
+        },
+        {
+          "date": "2026-09-04",
+          "week": 1,
+          "matchup": "UAB @ Illinois",
+          "bet_type": "Spread",
+          "side": "UAB",
+          "odds": -106.0,
+          "stake": 2.75,
+          "result": "L",
+          "units": -2.75
+        },
+        {
+          "date": "2026-09-04",
+          "week": 1,
+          "matchup": "UAB @ Illinois",
+          "bet_type": "Spread",
+          "side": "UAB",
+          "odds": 320.0,
+          "stake": 2.0,
+          "result": "W",
+          "units": 6.4
         }
       ],
       "note": "Your actual bets from the Bet Log tab, graded at the real odds you entered."
