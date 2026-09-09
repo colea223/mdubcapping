@@ -1,6 +1,6 @@
 {
   "meta": {
-    "generated_at": "2026-09-08T22:08:07Z",
+    "generated_at": "2026-09-09T17:44:08Z",
     "current_week": {
       "season": 2026,
       "week": 2
@@ -31,12 +31,12 @@
         "real_edge_win_rate": 0.4286
       },
       "moneyline": {
-        "n_bets": 4,
-        "wins": 1,
+        "n_bets": 5,
+        "wins": 2,
         "losses": 3,
         "pushes": 0,
-        "win_rate": 0.25,
-        "units": -2.66,
+        "win_rate": 0.4,
+        "units": -2.11,
         "n_real_edge_bets": null,
         "real_edge_win_rate": null
       },
