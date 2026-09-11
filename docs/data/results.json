@@ -1,6 +1,6 @@
 {
   "meta": {
-    "generated_at": "2026-09-10T18:19:42Z",
+    "generated_at": "2026-09-11T18:24:24Z",
     "current_week": {
       "season": 2026,
       "week": 2
@@ -143,6 +143,47 @@
       "your_bets": []
     },
     {
+      "game_id": 401864499,
+      "season": 2026,
+      "week": 1,
+      "date": "2026-09-05",
+      "away_team": "Fordham",
+      "home_team": "North Dakota State",
+      "home_points": 38,
+      "away_points": 0,
+      "model": {
+        "spread_pick": -40.9,
+        "market_spread_close": -41.5,
+        "spread_lean": "Home",
+        "spread_was_bet": false,
+        "spread_result": "Loss",
+        "total_pick": 55.4,
+        "market_total_close": 54.2,
+        "total_lean": "Over",
+        "total_was_bet": false,
+        "total_result": "Loss",
+        "ml_lean": null,
+        "ml_was_bet": null,
+        "ml_result": null
+      },
+      "beta_model": {
+        "spread_pick": -35.0,
+        "spread_lean": "Away",
+        "spread_was_bet": true,
+        "spread_result": "Win",
+        "agrees_with_model": false
+      },
+      "gamma_model": {
+        "spread_pick": -19.6,
+        "spread_lean": "Away",
+        "spread_was_bet": true,
+        "spread_result": "Win",
+        "agrees_with_model": false,
+        "is_seed_week": true
+      },
+      "your_bets": []
+    },
+    {
       "game_id": 401858426,
       "season": 2026,
       "week": 1,
@@ -220,47 +261,6 @@
         "spread_was_bet": true,
         "spread_result": "Win",
         "agrees_with_model": true,
-        "is_seed_week": true
-      },
-      "your_bets": []
-    },
-    {
-      "game_id": 401864499,
-      "season": 2026,
-      "week": 1,
-      "date": "2026-09-05",
-      "away_team": "Fordham",
-      "home_team": "North Dakota State",
-      "home_points": 38,
-      "away_points": 0,
-      "model": {
-        "spread_pick": -40.9,
-        "market_spread_close": -41.5,
-        "spread_lean": "Home",
-        "spread_was_bet": false,
-        "spread_result": "Loss",
-        "total_pick": 55.4,
-        "market_total_close": 54.2,
-        "total_lean": "Over",
-        "total_was_bet": false,
-        "total_result": "Loss",
-        "ml_lean": null,
-        "ml_was_bet": null,
-        "ml_result": null
-      },
-      "beta_model": {
-        "spread_pick": -35.0,
-        "spread_lean": "Away",
-        "spread_was_bet": true,
-        "spread_result": "Win",
-        "agrees_with_model": false
-      },
-      "gamma_model": {
-        "spread_pick": -19.6,
-        "spread_lean": "Away",
-        "spread_was_bet": true,
-        "spread_result": "Win",
-        "agrees_with_model": false,
         "is_seed_week": true
       },
       "your_bets": []

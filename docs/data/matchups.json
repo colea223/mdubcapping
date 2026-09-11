@@ -1,6 +1,6 @@
 {
   "meta": {
-    "generated_at": "2026-09-10T18:19:42Z",
+    "generated_at": "2026-09-11T18:24:24Z",
     "current_week": {
       "season": 2026,
       "week": 2
@@ -23,11 +23,11 @@
       "away_points": null
     },
     {
-      "game_id": 401865252,
+      "game_id": 401864506,
       "week": 2,
       "date": "2026-09-12",
-      "away_team": "Mercyhurst",
-      "home_team": "New Mexico",
+      "away_team": "Northern Colorado",
+      "home_team": "Wyoming",
       "market_spread_home": null,
       "market_total": null,
       "home_moneyline": null,
@@ -38,11 +38,11 @@
       "away_points": null
     },
     {
-      "game_id": 401864506,
+      "game_id": 401865252,
       "week": 2,
       "date": "2026-09-12",
-      "away_team": "Northern Colorado",
-      "home_team": "Wyoming",
+      "away_team": "Mercyhurst",
+      "home_team": "New Mexico",
       "market_spread_home": null,
       "market_total": null,
       "home_moneyline": null,
@@ -68,11 +68,11 @@
       "away_points": null
     },
     {
-      "game_id": 401864505,
+      "game_id": 401864504,
       "week": 2,
       "date": "2026-09-13",
-      "away_team": "Texas Southern",
-      "home_team": "UTEP",
+      "away_team": "Cal Poly",
+      "home_team": "San Jos\u00e9 State",
       "market_spread_home": null,
       "market_total": null,
       "home_moneyline": null,
@@ -83,11 +83,11 @@
       "away_points": null
     },
     {
-      "game_id": 401864504,
+      "game_id": 401864505,
       "week": 2,
       "date": "2026-09-13",
-      "away_team": "Cal Poly",
-      "home_team": "San Jos\u00e9 State",
+      "away_team": "Texas Southern",
+      "home_team": "UTEP",
       "market_spread_home": null,
       "market_total": null,
       "home_moneyline": null,
