@@ -1,6 +1,6 @@
 {
   "meta": {
-    "generated_at": "2026-09-11T18:24:24Z",
+    "generated_at": "2026-09-12T17:53:08Z",
     "current_week": {
       "season": 2026,
       "week": 2
@@ -68,11 +68,11 @@
       "away_points": null
     },
     {
-      "game_id": 401864504,
+      "game_id": 401864505,
       "week": 2,
       "date": "2026-09-13",
-      "away_team": "Cal Poly",
-      "home_team": "San Jos\u00e9 State",
+      "away_team": "Texas Southern",
+      "home_team": "UTEP",
       "market_spread_home": null,
       "market_total": null,
       "home_moneyline": null,
@@ -83,11 +83,11 @@
       "away_points": null
     },
     {
-      "game_id": 401864505,
+      "game_id": 401864504,
       "week": 2,
       "date": "2026-09-13",
-      "away_team": "Texas Southern",
-      "home_team": "UTEP",
+      "away_team": "Cal Poly",
+      "home_team": "San Jos\u00e9 State",
       "market_spread_home": null,
       "market_total": null,
       "home_moneyline": null,
