@@ -1,70 +1,70 @@
 {
   "meta": {
-    "generated_at": "2026-09-12T17:53:08Z",
+    "generated_at": "2026-09-13T16:24:45Z",
     "current_week": {
       "season": 2026,
-      "week": 2
+      "week": 3
     }
   },
   "tracking": {
     "model": {
       "season": 2026,
-      "n_games": 13,
+      "n_games": 17,
       "spread": {
-        "n_bets": 13,
-        "wins": 5,
-        "losses": 8,
+        "n_bets": 17,
+        "wins": 8,
+        "losses": 9,
         "pushes": 0,
-        "win_rate": 0.3846,
-        "units": -3.45,
-        "n_real_edge_bets": 11,
-        "real_edge_win_rate": 0.3636
+        "win_rate": 0.4706,
+        "units": -1.73,
+        "n_real_edge_bets": 15,
+        "real_edge_win_rate": 0.4667
       },
       "total": {
-        "n_bets": 13,
+        "n_bets": 17,
         "wins": 6,
-        "losses": 7,
+        "losses": 11,
         "pushes": 0,
-        "win_rate": 0.4615,
-        "units": -1.55,
-        "n_real_edge_bets": 7,
-        "real_edge_win_rate": 0.4286
+        "win_rate": 0.3529,
+        "units": -5.55,
+        "n_real_edge_bets": 11,
+        "real_edge_win_rate": 0.2727
       },
       "moneyline": {
-        "n_bets": 5,
-        "wins": 2,
-        "losses": 3,
+        "n_bets": 8,
+        "wins": 4,
+        "losses": 4,
         "pushes": 0,
-        "win_rate": 0.4,
-        "units": -2.11,
+        "win_rate": 0.5,
+        "units": -0.91,
         "n_real_edge_bets": null,
         "real_edge_win_rate": null
       },
-      "upset_calls": 5,
-      "upset_wins": 1,
+      "upset_calls": 7,
+      "upset_wins": 2,
       "note": "Hypothetical flat 1-unit-per-bet tracking of the model's own picks (spread/total at -110, moneyline at the real posted odds) -- not your personal bets."
     },
     "yours": {
-      "n_bets": 27,
-      "wins": 12,
-      "losses": 15,
+      "n_bets": 33,
+      "wins": 17,
+      "losses": 16,
       "pushes": 0,
-      "win_rate": 0.4444,
-      "units": -1.18,
+      "win_rate": 0.5152,
+      "units": 203.09,
       "by_type": {
         "Spread": {
-          "wins": 9,
-          "losses": 7,
+          "wins": 11,
+          "losses": 8,
           "pushes": 0,
-          "win_rate": 0.5625,
-          "units": 2.39
+          "win_rate": 0.5789,
+          "units": 4.5
         },
         "Moneyline": {
-          "wins": 3,
+          "wins": 6,
           "losses": 4,
           "pushes": 0,
-          "win_rate": 0.4286,
-          "units": 8.92
+          "win_rate": 0.6,
+          "units": 211.09
         },
         "ML Parlay": {
           "wins": 0,
@@ -81,44 +81,7 @@
           "units": -7.5
         }
       },
-      "pending": [
-        {
-          "date": "2026-09-12",
-          "week": 2,
-          "matchup": "UNLV @ North Texas",
-          "bet_type": "Spread",
-          "side": "North Texas",
-          "odds": -114.0,
-          "stake": 1.0
-        },
-        {
-          "date": "2026-09-13",
-          "week": 2,
-          "matchup": "North Dakota State @ Airforce",
-          "bet_type": "Spread",
-          "side": "North Dakota State",
-          "odds": -112.0,
-          "stake": 2.5
-        },
-        {
-          "date": "2026-09-13",
-          "week": 2,
-          "matchup": "North Dakota State @ Airforce",
-          "bet_type": "Moneyline",
-          "side": "North Dakota State",
-          "odds": -134.0,
-          "stake": 2.5
-        },
-        {
-          "date": "2026-09-13",
-          "week": 2,
-          "matchup": "New Mexico State @ Hawaii",
-          "bet_type": "Moneyline",
-          "side": "Hawaii",
-          "odds": -330.0,
-          "stake": 1.0
-        }
-      ],
+      "pending": [],
       "graded": [
         {
           "date": "2026-08-29",
@@ -416,6 +379,72 @@
           "stake": 2.0,
           "result": "W",
           "units": 6.4
+        },
+        {
+          "date": "2026-09-12",
+          "week": 2,
+          "matchup": "UNLV @ North Texas",
+          "bet_type": "Spread",
+          "side": "North Texas",
+          "odds": -114.0,
+          "stake": 1.0,
+          "result": "W",
+          "units": 0.88
+        },
+        {
+          "date": "2026-09-13",
+          "week": 2,
+          "matchup": "North Dakota State @ Airforce",
+          "bet_type": "Spread",
+          "side": "North Dakota State",
+          "odds": -112.0,
+          "stake": 2.5,
+          "result": "W",
+          "units": 2.23
+        },
+        {
+          "date": "2026-09-13",
+          "week": 2,
+          "matchup": "North Dakota State @ Airforce",
+          "bet_type": "Moneyline",
+          "side": "North Dakota State",
+          "odds": -134.0,
+          "stake": 2.5,
+          "result": "W",
+          "units": 1.87
+        },
+        {
+          "date": "2026-09-13",
+          "week": 2,
+          "matchup": "New Mexico State @ Hawaii",
+          "bet_type": "Moneyline",
+          "side": "Hawaii",
+          "odds": -330.0,
+          "stake": 1.0,
+          "result": "W",
+          "units": 0.3
+        },
+        {
+          "date": "2026-09-12",
+          "week": 2,
+          "matchup": "Maryland @ Uconn",
+          "bet_type": "Spread",
+          "side": "Uconn",
+          "odds": -110.0,
+          "stake": 1.0,
+          "result": "L",
+          "units": -1.0
+        },
+        {
+          "date": "2026-09-12",
+          "week": 2,
+          "matchup": "Ohio State @ Texas",
+          "bet_type": "Moneyline",
+          "side": "Texas",
+          "odds": 500.0,
+          "stake": 40.0,
+          "result": "W",
+          "units": 200.0
         }
       ],
       "note": "Your actual bets from the Bet Log tab, graded at the real odds you entered."
