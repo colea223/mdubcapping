@@ -6,18 +6,19 @@ name: Update Mountain Dub Handicapping data
 # is published via GitHub Pages, that commit is what makes the website
 # "live update" week to week with no local environment involved.
 #
-# Schedule below runs THREE times a week: twice on Sunday (morning + evening)
-# and once on Wednesday. The extra Sunday evening pass exists because
-# "week 1 is done" isn't a fixed calendar moment -- CFBD assigns a game's
-# `week` number per its own schedule, and a handful of that week's games
-# routinely finish as late as Sunday itself (see auto_detect_week()'s own
-# comment: it keeps reporting the SAME week as long as ANY of that week's
-# games is still incomplete). A single Sunday-morning run can easily miss
-# Saturday-night/Sunday-day finishers; the evening pass catches those same-
-# day instead of leaving them stale until Wednesday. None of this
-# guarantees catching the exact moment a week turns over -- it's a coarse
-# approximation of "run again once more games are likely final," not a rule
-# the code enforces anywhere.
+# Schedule below runs THREE times a week: Sunday morning, Monday morning, and
+# Wednesday. The Monday-morning pass exists because "week done" isn't a fixed
+# calendar moment -- CFBD assigns a game's `week` number per its own
+# schedule, and a handful of that week's games routinely finish as late as
+# Sunday itself (see auto_detect_week()'s own comment: it keeps reporting the
+# SAME week as long as ANY of that week's games is still incomplete). A
+# single Sunday-morning run can easily miss Saturday-night/Sunday-day
+# finishers; Monday morning catches those instead of leaving them stale until
+# Wednesday. odds_pull.yml's own Sunday-morning run (see that file) covers
+# live odds/scores earlier the same day, ahead of this workflow's own Sunday
+# pass. None of this guarantees catching the exact moment a week turns over
+# -- it's a coarse approximation of "run again once more games are likely
+# final," not a rule the code enforces anywhere.
 #
 # You can always trigger an extra run by hand from the Actions tab (the
 # workflow_dispatch trigger below adds a "Run workflow" button) -- e.g.
@@ -31,9 +32,15 @@ name: Update Mountain Dub Handicapping data
 
 on:
   schedule:
-    - cron: "0 13 * * 0"  # Sunday, 13:00 UTC (~9am Eastern right now) -- morning pass
-    - cron: "0 13 * * 1"  # Monday, 13:00 UTC (~9am Eastern right now) -- catches anything that finished Sunday night
-    - cron: "0 14 * * 3"  # Wednesday, 14:00 UTC (~10am Eastern right now) -- unchanged
+    # Minute deliberately NOT :00 -- GitHub's own docs warn that schedules
+    # landing on the exact hour are the most congested slot on their
+    # scheduler and are the ones most likely to be delayed or silently
+    # dropped entirely (this bit us: the Sep 13 9am Sunday run never fired
+    # at all, no failed run, nothing -- just never started). Off-the-hour
+    # minutes see much less contention.
+    - cron: "6 13 * * 0"  # Sunday, 13:06 UTC (~9am Eastern right now) -- morning pass
+    - cron: "6 13 * * 1"  # Monday, 13:06 UTC (~9am Eastern right now) -- catches anything that finished Sunday night
+    - cron: "6 14 * * 3"  # Wednesday, 14:06 UTC (~10am Eastern right now) -- unchanged
   workflow_dispatch: {}
 
 permissions:

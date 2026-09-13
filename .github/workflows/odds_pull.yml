@@ -11,17 +11,17 @@ name: Update live odds and game results
 # weekly_pipeline.yml's own ~40-50/month -- still comfortable headroom under
 # the 1,000/month cap. See src/run_odds_update.py for the exact step list.
 #
-# Tue-Sat (not Mon-Fri) deliberately excludes both Sunday AND Monday --
-# weekly_pipeline.yml already covers Sunday (twice, see its own comment), and
-# Monday is skipped because that's typically still mid-transition between
-# weeks (a week's last games can finish as late as Sunday itself -- see
-# auto_detect_week()'s own comment), so a live-odds-only refresh on Monday
-# has little left to do before Tuesday's fuller picture. Saturday IS
-# included here (added, since it's the biggest live-odds/game-day traffic
-# day of the week) even though weekly_pipeline.yml doesn't run that day.
+# Tue-Sat (not Mon-Fri-only) deliberately excludes Monday -- that's typically
+# still mid-transition between weeks (a week's last games can finish as late
+# as Sunday itself -- see auto_detect_week()'s own comment), so a live-odds-
+# only refresh on Monday has little left to do before Tuesday's fuller
+# picture. Saturday IS included here (added, since it's the biggest live-
+# odds/game-day traffic day of the week) even though weekly_pipeline.yml
+# doesn't run that day. Sunday morning IS also included (added) as its own
+# early pass -- see that entry's own comment below for why.
 #
-# Schedule below runs at 15:00 UTC, deliberately set an hour AFTER
-# weekly_pipeline.yml's 14:00 UTC Wednesday run (not 14:00 itself) on the one
+# Schedule below runs at 15:06 UTC Tue-Sat, deliberately set an hour AFTER
+# weekly_pipeline.yml's 14:06 UTC Wednesday run (not 14:06 itself) on the one
 # day they overlap (Wednesday) -- both workflows now touch the SAME files
 # (db/, data/raw/, docs/data/ -- matchups.json and predictions.json included,
 # now that this workflow also refreshes scores), so firing at the exact same
@@ -32,16 +32,25 @@ name: Update live odds and game results
 # always safe to resolve by regenerating -- see the JSON files' own comments
 # in export_site_data.py). weekly_pipeline.yml times out at 30 minutes, so
 # the 1-hour gap here is a comfortable buffer even on a slow run. Sunday
-# still isn't in this schedule at all, so there's nothing to stagger against
-# either of weekly_pipeline.yml's Sunday runs. You can always trigger an
-# extra run by hand from the Actions tab (the workflow_dispatch trigger adds
-# a "Run workflow" button). Cron times are UTC; adjust if you want a
-# different local time -- just keep Wednesday at least ~30-60 min clear of
-# weekly_pipeline.yml's 14:00 UTC slot.
+# morning's own entry below is staggered the same way against
+# weekly_pipeline.yml's own Sunday-morning run -- see its comment. You can
+# always trigger an extra run by hand from the Actions tab (the
+# workflow_dispatch trigger adds a "Run workflow" button). Cron times are
+# UTC; adjust if you want a different local time -- just keep Wednesday and
+# Sunday at least ~30-60 min clear of weekly_pipeline.yml's own runs that
+# same day.
+#
+# Minute deliberately NOT :00 on every entry below -- GitHub's own docs warn
+# that schedules landing on the exact hour are the most congested slot on
+# their scheduler and the ones most likely to be delayed or silently dropped
+# entirely (this is exactly what bit weekly_pipeline.yml's Sunday-morning
+# run once -- see that file's own comment). Off-the-hour minutes see much
+# less contention.
 
 on:
   schedule:
-    - cron: "0 15 * * 2-6"  # Tuesday-Saturday, 15:00 UTC (1hr clear of weekly_pipeline.yml's Wed 14:00 UTC run)
+    - cron: "6 15 * * 2-6"  # Tuesday-Saturday, 15:06 UTC (1hr clear of weekly_pipeline.yml's Wed 14:06 UTC run)
+    - cron: "6 12 * * 0"    # Sunday, 12:06 UTC (~8am Eastern right now) -- live odds/scores ahead of weekly_pipeline.yml's own 13:06 UTC Sunday run (1hr clear, same stagger logic as Wednesday above)
   workflow_dispatch: {}
 
 permissions:
