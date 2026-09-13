@@ -1,6 +1,6 @@
 {
   "meta": {
-    "generated_at": "2026-09-13T16:24:45Z",
+    "generated_at": "2026-09-13T20:47:03Z",
     "current_week": {
       "season": 2026,
       "week": 3
@@ -8,6 +8,20 @@
   },
   "history": {
     "401856690": {
+      "DraftKings": {
+        "open_spread": -23.5,
+        "open_total": 48.5,
+        "points": [
+          {
+            "t": "2026-09-13T18:34:04Z",
+            "spread": -23.5,
+            "total": 48.5,
+            "home_ml": -2400,
+            "away_ml": 1200,
+            "source": "cfbd"
+          }
+        ]
+      },
       "FanDuel": {
         "open_spread": null,
         "open_total": null,
@@ -24,6 +38,20 @@
       }
     },
     "401856793": {
+      "DraftKings": {
+        "open_spread": -35.5,
+        "open_total": 49.5,
+        "points": [
+          {
+            "t": "2026-09-13T18:34:04Z",
+            "spread": -35.5,
+            "total": 49.5,
+            "home_ml": null,
+            "away_ml": null,
+            "source": "cfbd"
+          }
+        ]
+      },
       "FanDuel": {
         "open_spread": null,
         "open_total": null,
@@ -40,6 +68,20 @@
       }
     },
     "401858450": {
+      "DraftKings": {
+        "open_spread": -36.5,
+        "open_total": 49.5,
+        "points": [
+          {
+            "t": "2026-09-13T18:34:04Z",
+            "spread": -36.5,
+            "total": 49.5,
+            "home_ml": null,
+            "away_ml": null,
+            "source": "cfbd"
+          }
+        ]
+      },
       "FanDuel": {
         "open_spread": null,
         "open_total": null,
@@ -56,6 +98,20 @@
       }
     },
     "401860888": {
+      "DraftKings": {
+        "open_spread": 7.5,
+        "open_total": 52.5,
+        "points": [
+          {
+            "t": "2026-09-13T18:34:04Z",
+            "spread": 7.0,
+            "total": 52.5,
+            "home_ml": 225,
+            "away_ml": -278,
+            "source": "cfbd"
+          }
+        ]
+      },
       "FanDuel": {
         "open_spread": null,
         "open_total": null,
@@ -71,7 +127,53 @@
         ]
       }
     },
+    "401864443": {
+      "DraftKings": {
+        "open_spread": 6.5,
+        "open_total": 49.5,
+        "points": [
+          {
+            "t": "2026-09-13T18:34:04Z",
+            "spread": 6.5,
+            "total": 49.5,
+            "home_ml": 180,
+            "away_ml": -218,
+            "source": "cfbd"
+          }
+        ]
+      }
+    },
+    "401864507": {
+      "DraftKings": {
+        "open_spread": 23.5,
+        "open_total": 53.5,
+        "points": [
+          {
+            "t": "2026-09-13T18:34:04Z",
+            "spread": 26.5,
+            "total": 53.5,
+            "home_ml": 2000,
+            "away_ml": -6500,
+            "source": "cfbd"
+          }
+        ]
+      }
+    },
     "401864508": {
+      "DraftKings": {
+        "open_spread": -2.5,
+        "open_total": 39.5,
+        "points": [
+          {
+            "t": "2026-09-13T18:34:04Z",
+            "spread": -2.5,
+            "total": 39.5,
+            "home_ml": -130,
+            "away_ml": 110,
+            "source": "cfbd"
+          }
+        ]
+      },
       "FanDuel": {
         "open_spread": null,
         "open_total": null,

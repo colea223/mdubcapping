@@ -1,6 +1,6 @@
 {
   "meta": {
-    "generated_at": "2026-09-13T16:24:45Z",
+    "generated_at": "2026-09-13T20:47:03Z",
     "current_week": {
       "season": 2026,
       "week": 3
@@ -12,12 +12,20 @@
       "date": "2026-09-19T17:00:00Z",
       "away_team": "Wyoming",
       "home_team": "Central Michigan",
-      "open_spread_home": null,
-      "open_total": null,
+      "open_spread_home": -2.5,
+      "open_total": 39.5,
       "kicked_off": false,
       "close_spread_home": null,
       "close_total": null,
       "books": {
+        "DraftKings": {
+          "spread": -2.5,
+          "spread_open": -2.5,
+          "total": 39.5,
+          "total_open": 39.5,
+          "home_ml": -130,
+          "away_ml": 110
+        },
         "FanDuel": {
           "spread": -1.5,
           "spread_open": null,
@@ -28,6 +36,7 @@
         }
       },
       "book_order": [
+        "DraftKings",
         "FanDuel"
       ]
     },
@@ -36,12 +45,20 @@
       "date": "2026-09-19T19:30:00Z",
       "away_team": "UTEP",
       "home_team": "Michigan",
-      "open_spread_home": null,
-      "open_total": null,
+      "open_spread_home": -36.5,
+      "open_total": 49.5,
       "kicked_off": false,
       "close_spread_home": null,
       "close_total": null,
       "books": {
+        "DraftKings": {
+          "spread": -36.5,
+          "spread_open": -36.5,
+          "total": 49.5,
+          "total_open": 49.5,
+          "home_ml": null,
+          "away_ml": null
+        },
         "FanDuel": {
           "spread": -35.5,
           "spread_open": null,
@@ -52,6 +69,7 @@
         }
       },
       "book_order": [
+        "DraftKings",
         "FanDuel"
       ]
     },
@@ -60,25 +78,44 @@
       "date": "2026-09-19T23:00:00Z",
       "away_team": "Nevada",
       "home_team": "Middle Tennessee",
-      "open_spread_home": null,
-      "open_total": null,
+      "open_spread_home": 6.5,
+      "open_total": 49.5,
       "kicked_off": false,
       "close_spread_home": null,
       "close_total": null,
-      "books": {},
-      "book_order": []
+      "books": {
+        "DraftKings": {
+          "spread": 6.5,
+          "spread_open": 6.5,
+          "total": 49.5,
+          "total_open": 49.5,
+          "home_ml": 180,
+          "away_ml": -218
+        }
+      },
+      "book_order": [
+        "DraftKings"
+      ]
     },
     {
       "game_id": 401856690,
       "date": "2026-09-19T23:30:00Z",
       "away_team": "New Mexico",
       "home_team": "Oklahoma",
-      "open_spread_home": null,
-      "open_total": null,
+      "open_spread_home": -23.5,
+      "open_total": 48.5,
       "kicked_off": false,
       "close_spread_home": null,
       "close_total": null,
       "books": {
+        "DraftKings": {
+          "spread": -23.5,
+          "spread_open": -23.5,
+          "total": 48.5,
+          "total_open": 48.5,
+          "home_ml": -2400,
+          "away_ml": 1200
+        },
         "FanDuel": {
           "spread": -19.5,
           "spread_open": null,
@@ -89,7 +126,32 @@
         }
       },
       "book_order": [
+        "DraftKings",
         "FanDuel"
+      ]
+    },
+    {
+      "game_id": 401864507,
+      "date": "2026-09-20T02:30:00Z",
+      "away_team": "North Dakota State",
+      "home_team": "Sacramento State",
+      "open_spread_home": 23.5,
+      "open_total": 53.5,
+      "kicked_off": false,
+      "close_spread_home": null,
+      "close_total": null,
+      "books": {
+        "DraftKings": {
+          "spread": 26.5,
+          "spread_open": 23.5,
+          "total": 53.5,
+          "total_open": 53.5,
+          "home_ml": 2000,
+          "away_ml": -6500
+        }
+      },
+      "book_order": [
+        "DraftKings"
       ]
     },
     {
@@ -97,12 +159,20 @@
       "date": "2026-09-20T02:30:00Z",
       "away_team": "Northern Illinois",
       "home_team": "Arizona",
-      "open_spread_home": null,
-      "open_total": null,
+      "open_spread_home": -35.5,
+      "open_total": 49.5,
       "kicked_off": false,
       "close_spread_home": null,
       "close_total": null,
       "books": {
+        "DraftKings": {
+          "spread": -35.5,
+          "spread_open": -35.5,
+          "total": 49.5,
+          "total_open": 49.5,
+          "home_ml": null,
+          "away_ml": null
+        },
         "FanDuel": {
           "spread": -35.5,
           "spread_open": null,
@@ -113,33 +183,29 @@
         }
       },
       "book_order": [
+        "DraftKings",
         "FanDuel"
       ]
-    },
-    {
-      "game_id": 401864507,
-      "date": "2026-09-20T02:30:00Z",
-      "away_team": "North Dakota State",
-      "home_team": "Sacramento State",
-      "open_spread_home": null,
-      "open_total": null,
-      "kicked_off": false,
-      "close_spread_home": null,
-      "close_total": null,
-      "books": {},
-      "book_order": []
     },
     {
       "game_id": 401860888,
       "date": "2026-09-20T03:00:00Z",
       "away_team": "Fresno State",
       "home_team": "San Jos\u00e9 State",
-      "open_spread_home": null,
-      "open_total": null,
+      "open_spread_home": 7.5,
+      "open_total": 52.5,
       "kicked_off": false,
       "close_spread_home": null,
       "close_total": null,
       "books": {
+        "DraftKings": {
+          "spread": 7.0,
+          "spread_open": 7.5,
+          "total": 52.5,
+          "total_open": 52.5,
+          "home_ml": 225,
+          "away_ml": -278
+        },
         "FanDuel": {
           "spread": 7.5,
           "spread_open": null,
@@ -150,6 +216,7 @@
         }
       },
       "book_order": [
+        "DraftKings",
         "FanDuel"
       ]
     }
