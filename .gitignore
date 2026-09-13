@@ -2,6 +2,14 @@
 # GitHub Actions secret instead (see README for setup steps).
 .env
 
+# Firebase service-account key (excel/import_bet_log.py's read credential
+# for the Log Bet page's Firestore database) -- this can read/write the
+# whole Firebase project, so it must never be committed. Covers both the
+# recommended filename above and Firebase's own default download name
+# (mountain-dub-log-bet-firebase-adminsdk-<id>.json).
+firebase-service-account.json
+*firebase-adminsdk*.json
+
 # Local virtual environment
 .venv/
 venv/

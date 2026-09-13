@@ -1,4 +1,16 @@
 /**
+ * RETIRED as of the Firebase migration -- docs/log-bet.html no longer talks
+ * to this Web App at all; it signs in with Firebase Auth and writes straight
+ * to Firestore (project mountain-dub-log-bet) instead. excel/import_bet_log.py
+ * reads from that Firestore database now too (via a service-account key --
+ * see that script's own docstring), not from the Google Sheet below.
+ *
+ * This file (and the Google Sheet/Apps Script deployment it describes) is
+ * kept only as a reference for how the old system worked -- it's safe to
+ * delete the Apps Script project and the Sheet whenever you want; nothing
+ * in the live pipeline depends on either anymore. Everything below this
+ * point describes the OLD (no longer used) system.
+ *
  * Mountain Dub Handicapping -- Bet Log web app.
  *
  * WHAT THIS IS: docs/log-bet.html is a page on the (fully static, no server)

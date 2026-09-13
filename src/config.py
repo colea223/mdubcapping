@@ -13,11 +13,15 @@ CFBD_API_KEY = os.getenv("CFBD_API_KEY", "")
 ODDS_API_KEY = os.getenv("ODDS_API_KEY", "")
 
 # Only needed for excel/import_bet_log.py -- the read side of the Log Bet
-# page's Google Apps Script Web App (see google_apps_script/bet_log_webapp.gs
-# for setup). BET_WEBAPP_URL is the deployed Web App's /exec URL;
-# BET_WEBAPP_TOKEN must match the READ_TOKEN you set inside that script.
-BET_WEBAPP_URL = os.getenv("BET_WEBAPP_URL", "")
-BET_WEBAPP_TOKEN = os.getenv("BET_WEBAPP_TOKEN", "")
+# page's Firebase backend (project mountain-dub-log-bet; see
+# docs/log-bet.html for the write side, which signs in with Firebase Auth
+# and writes to Firestore directly from the browser). This is the path to
+# a service-account JSON key (Project settings -> Service accounts ->
+# Generate new private key in the Firebase console) that lets this script
+# read every submission back out, bypassing Firestore's security rules
+# (which otherwise block ALL reads from the browser, signed in or not).
+# Never commit this key -- see .gitignore.
+FIREBASE_SERVICE_ACCOUNT_PATH = os.getenv("FIREBASE_SERVICE_ACCOUNT_PATH", "")
 
 RAW_DIR = ROOT / "data" / "raw"
 CLEAN_DIR = ROOT / "data" / "clean"

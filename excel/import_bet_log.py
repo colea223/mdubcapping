@@ -4,14 +4,16 @@ and appends them into the Bet Log tab of MW_Handicapping_Tracker.xlsx.
 
 WHY THIS EXISTS: docs/ is a plain static GitHub Pages site (no server -- see
 README's "The website" section), so a browser form on it can never write
-directly to a file on your machine. log-bet.html instead POSTs each
-submission to a small Google Apps Script Web App bound to a Google Sheet you
-own (see google_apps_script/bet_log_webapp.gs for the script + one-time
-setup) -- that Sheet is the durable landing spot. This script is the other
-half: it reads whatever's landed there via the Apps Script's doGet (gated by
-a shared secret token that's never exposed on the public site -- see
-.env.example / config.BET_WEBAPP_TOKEN) and appends each new row into the Bet
-Log tab's columns A-H, exactly what you'd type in by hand:
+directly to a file on your machine. log-bet.html instead signs in with your
+own Firebase Auth account and writes each submission straight to Firestore
+(project mountain-dub-log-bet) -- that database is the durable landing spot.
+Firestore's security rules only allow a signed-in write; nobody, signed in
+or not, can read a bet back from the browser. This script is the other
+half: it reads every "bets" document back out using a private
+service-account key (never shipped to the browser -- see .env.example /
+config.FIREBASE_SERVICE_ACCOUNT_PATH, which bypasses those rules for a
+trusted server-side read) and appends each new row into the Bet Log tab's
+columns A-H, exactly what you'd type in by hand:
     Date, Week, Matchup, Bet Type, Side, Line Taken, Odds (American), Stake (units)
 Columns I (Closing Line) and K (Result) are deliberately left blank -- those
 are only known later (once the market closes / the game is graded), same as
@@ -19,12 +21,22 @@ a hand-entered bet. Columns J/L/M are pre-built FORMULAS (CLV, Units
 Won/Lost, Running Bankroll) already sitting on every template row and are
 never touched here.
 
-DEDUPING: each submission gets a unique id (a UUID minted by the Apps Script
-on doPost) -- this script keeps a local record of which ids it's already
-imported (excel/.bet_log_imported_ids.json, gitignored) so re-running it
-never double-enters the same bet. Nothing is ever deleted from the Google
-Sheet by this script -- it stays a full history/backup of every submission,
-independent of the tracker.
+ONE-TIME SETUP:
+  1. Firebase console -> gear icon (Project settings) -> Service accounts
+     tab -> "Generate new private key". Save the downloaded JSON somewhere
+     on your machine (NOT committed -- .gitignore already covers the
+     recommended filename and Firebase's own default download name) and
+     point FIREBASE_SERVICE_ACCOUNT_PATH at it in your .env (see
+     .env.example).
+  2. pip install -r requirements.txt (firebase-admin is already in it).
+
+DEDUPING: Firestore mints a unique document id for every submission
+(the addDoc() call in log-bet.html auto-generates it) -- this script keeps
+a local record of which ids it's already imported
+(excel/.bet_log_imported_ids.json, gitignored) so re-running it never
+double-enters the same bet. Nothing is ever deleted from Firestore by this
+script -- it stays a full history/backup of every submission, independent
+of the tracker.
 
 Usage:
     source .venv/bin/activate     (or the Windows equivalent)
@@ -36,14 +48,15 @@ import time
 from pathlib import Path
 
 import openpyxl
-import requests
 
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent / "src"))
-from config import BET_WEBAPP_URL, BET_WEBAPP_TOKEN  # noqa: E402
+from config import FIREBASE_SERVICE_ACCOUNT_PATH  # noqa: E402
 
 TRACKER_PATH = Path(__file__).resolve().parent / "MW_Handicapping_Tracker.xlsx"
 IMPORTED_IDS_PATH = Path(__file__).resolve().parent / ".bet_log_imported_ids.json"
 BET_LOG_ROWS = range(2, 43)  # matches build_tracker.py's Bet Log layout (row 1 = headers)
+
+_firestore_client = None  # module-level cache so repeated calls in one run don't re-init the SDK
 
 
 def _load_imported_ids():
@@ -56,13 +69,31 @@ def _save_imported_ids(ids):
     IMPORTED_IDS_PATH.write_text(json.dumps(sorted(ids), indent=2))
 
 
+def _get_firestore_client():
+    global _firestore_client
+    if _firestore_client is not None:
+        return _firestore_client
+    import firebase_admin
+    from firebase_admin import credentials, firestore
+
+    if not firebase_admin._apps:
+        cred = credentials.Certificate(FIREBASE_SERVICE_ACCOUNT_PATH)
+        firebase_admin.initialize_app(cred)
+    _firestore_client = firestore.client()
+    return _firestore_client
+
+
 def fetch_submissions():
-    resp = requests.get(BET_WEBAPP_URL, params={"token": BET_WEBAPP_TOKEN}, timeout=30)
-    resp.raise_for_status()
-    payload = resp.json()
-    if not payload.get("ok"):
-        raise RuntimeError(f"Web app returned an error: {payload.get('error')}")
-    return payload.get("rows", [])
+    db = _get_firestore_client()
+    # Oldest first, same ordering the old Apps Script version used, so
+    # rows land in the tracker in the order they were placed.
+    docs = db.collection("bets").order_by("submitted_at").stream()
+    rows = []
+    for doc in docs:
+        data = doc.to_dict()
+        data["id"] = doc.id  # Firestore's own auto-id -- what we dedupe on
+        rows.append(data)
+    return rows
 
 
 def first_empty_row(ws):
@@ -87,24 +118,26 @@ def write_row(ws, row_num, sub):
 
 
 def main():
-    if not BET_WEBAPP_URL or not BET_WEBAPP_TOKEN:
-        print("BET_WEBAPP_URL / BET_WEBAPP_TOKEN not set in .env -- see .env.example and "
-              "google_apps_script/bet_log_webapp.gs for setup.")
+    if not FIREBASE_SERVICE_ACCOUNT_PATH:
+        print("FIREBASE_SERVICE_ACCOUNT_PATH not set in .env -- see .env.example for setup.")
+        return
+    if not Path(FIREBASE_SERVICE_ACCOUNT_PATH).exists():
+        print(f"Service account key not found at {FIREBASE_SERVICE_ACCOUNT_PATH}.")
         return
     if not TRACKER_PATH.exists():
         print(f"Tracker workbook not found at {TRACKER_PATH}.")
         return
 
-    print("Fetching submissions from the Log Bet web app...")
+    print("Fetching submissions from Firestore...")
     submissions = fetch_submissions()
-    print(f"  {len(submissions)} total submission(s) on the sheet")
+    print(f"  {len(submissions)} total submission(s) in the 'bets' collection")
 
     imported_ids = _load_imported_ids()
     new_subs = [s for s in submissions if s["id"] not in imported_ids]
     if not new_subs:
         print("Nothing new to import.")
         return
-    new_subs.sort(key=lambda s: s.get("submitted_at", ""))  # oldest first
+    # already ordered oldest-first by the Firestore query in fetch_submissions()
 
     wb = openpyxl.load_workbook(TRACKER_PATH)  # formulas preserved as formulas, not evaluated
     ws = wb["Bet Log"]

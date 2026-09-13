@@ -11,7 +11,7 @@
 <div class="page-wrap">
   <div class="page-header">
     <h1>Log Bet</h1>
-    <p>Fill this out right after you place a bet. It gets sent to a private Google Sheet -- run
+    <p>Fill this out right after you place a bet. It gets sent to a private Firestore database -- run
       <code>excel/import_bet_log.py</code> to pull whatever's landed there into the tracker's Bet
       Log tab (Closing Line and Result still get filled in later, same as always).</p>
   </div>
@@ -81,15 +81,44 @@
 </div>
 
 <script src="assets/site.js"></script>
-<script>
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/12.19.0/firebase-app.js";
+import {
+  getAuth, signInWithEmailAndPassword,
+} from "https://www.gstatic.com/firebasejs/12.19.0/firebase-auth.js";
+import {
+  getFirestore, collection, addDoc, serverTimestamp,
+} from "https://www.gstatic.com/firebasejs/12.19.0/firebase-firestore.js";
+
 document.getElementById("nav").innerHTML = renderNav("log-bet.html");
 
-// Deployed Google Apps Script Web App URL (see google_apps_script/bet_log_webapp.gs).
-// This URL alone doesn't grant access to submit -- the script on the other
-// end also checks a password (see below) before it'll append anything, so
-// publishing this URL in client-side JS doesn't let a random visitor log a
-// bet even though they can see it.
-const WEBAPP_URL = "https://script.google.com/macros/s/AKfycbzS5jjCKFse1QnFkTWBdw8fycmD3Pv45nfyeyy1VklxtpVpWgqbDQrY2PwApX5MTDk/exec";
+// This project's own Firebase project (see google_apps_script/ -- no, see
+// FIREBASE_SETUP.md-equivalent context in commit history/chat -- this
+// replaced the old Google Apps Script Web App entirely). These values are
+// meant to be public in client-side code -- Firebase's security model is
+// enforced by the Firestore rules published in the console (only a signed-
+// in user may create a bet document; nobody, signed in or not, may read one
+// back from the browser), never by keeping this config secret. See
+// excel/import_bet_log.py for the read side, which uses a private service-
+// account key instead (never shipped to the browser).
+const firebaseConfig = {
+  apiKey: "AIzaSyBt1R55AZzguqYjrLOSDOElS_0rUBEyUDI",
+  authDomain: "mountain-dub-log-bet.firebaseapp.com",
+  projectId: "mountain-dub-log-bet",
+  storageBucket: "mountain-dub-log-bet.firebasestorage.app",
+  messagingSenderId: "66659769321",
+  appId: "1:66659769321:web:b747ddc667c5750d970978",
+};
+// The one Firebase Auth account this page signs in as before it's allowed
+// to write anything -- see the Firestore rules (allow create: if
+// request.auth != null). The password field on this page IS that account's
+// real password; there's no separate app-level secret anymore.
+const LOGIN_EMAIL = "cole.andrewlevich@gmail.com";
+
+const app = initializeApp(firebaseConfig);
+const auth = getAuth(app);
+const db = getFirestore(app);
+
 const PASSWORD_STORAGE_KEY = "mdub-bet-log-password";
 
 const form = document.getElementById("bet-form");
@@ -102,46 +131,10 @@ function showBanner(kind, message) {
   banner.textContent = message;
 }
 
-// A plain cross-origin fetch() to an Apps Script Web App hits a real CORS
-// wall -- the browser can't reliably read the response, which is exactly
-// what silently turned a wrong password into a false "Logged!" earlier.
-// JSONP sidesteps that: load the request as a <script src="..."> tag
-// (not subject to CORS the way fetch/XHR are) and let the response --
-// wrapped by the Apps Script in a call to a function we define here --
-// invoke that function with the real result when it loads. Only works for
-// GET (a script tag can't POST), which is why every field, password
-// included, travels as a URL query parameter instead of a request body.
-function jsonp(url) {
-  return new Promise((resolve, reject) => {
-    const callbackName = "mdubjsonp" + Date.now() + Math.floor(Math.random() * 1e6);
-    const script = document.createElement("script");
-    const cleanup = () => {
-      delete window[callbackName];
-      script.remove();
-    };
-    const timeout = setTimeout(() => {
-      cleanup();
-      reject(new Error("Timed out waiting for a response."));
-    }, 15000);
-    window[callbackName] = (data) => {
-      clearTimeout(timeout);
-      cleanup();
-      resolve(data);
-    };
-    script.onerror = () => {
-      clearTimeout(timeout);
-      cleanup();
-      reject(new Error("Network error."));
-    };
-    const sep = url.indexOf("?") === -1 ? "?" : "&";
-    script.src = url + sep + "callback=" + callbackName;
-    document.body.appendChild(script);
-  });
-}
-
 // Remember the password on this device only (never sent anywhere except to
-// the Apps Script itself) so you're not retyping it every time you log a
-// bet from your own phone/laptop.
+// Firebase's own sign-in endpoint, over HTTPS, the same way any real login
+// form works) so you're not retyping it every time you log a bet from your
+// own phone/laptop.
 try {
   const saved = localStorage.getItem(PASSWORD_STORAGE_KEY);
   if (saved) passwordInput.value = saved;
@@ -167,7 +160,6 @@ form.addEventListener("submit", async (e) => {
   const home = document.getElementById("home-input").value.trim();
   const password = passwordInput.value;
   const payload = {
-    action: "submit",
     date: document.getElementById("date-input").value,
     week: document.getElementById("week-input").value,
     matchup: `${away} @ ${home}`,
@@ -176,30 +168,55 @@ form.addEventListener("submit", async (e) => {
     line: document.getElementById("line-input").value,
     odds: document.getElementById("odds-input").value,
     stake: document.getElementById("stake-input").value,
-    password: password,
   };
   for (const [key, val] of Object.entries(payload)) {
     if (val === "" || val === null || val === undefined) {
-      showBanner("error", key === "password" ? "Enter the password before logging." : `Fill in every field before logging (missing: ${key}).`);
+      showBanner("error", `Fill in every field before logging (missing: ${key}).`);
       return;
     }
+  }
+  if (!password) {
+    showBanner("error", "Enter the password before logging.");
+    return;
   }
 
   submitBtn.disabled = true;
   submitBtn.textContent = "Logging...";
   try {
-    const url = WEBAPP_URL + "?" + new URLSearchParams(payload).toString();
-    const result = await jsonp(url);
-    if (!result.ok) {
-      showBanner("error", result.error === "Wrong password" ? "Wrong password." : (result.error || "Something went wrong -- try again."));
-      return;
-    }
+    // Signing in IS the password check -- a wrong password fails right
+    // here with a real error from Firebase's own auth service (no more
+    // guessing whether a CORS-blocked response secretly meant "wrong" or
+    // "network problem," the whole reason the old Apps Script version got
+    // rebuilt around JSONP in the first place).
+    await signInWithEmailAndPassword(auth, LOGIN_EMAIL, password);
+
+    await addDoc(collection(db, "bets"), {
+      date: payload.date,
+      week: Number(payload.week),
+      matchup: payload.matchup,
+      bet_type: payload.bet_type,
+      side: payload.side,
+      line: Number(payload.line),
+      odds: Number(payload.odds),
+      stake: Number(payload.stake),
+      submitted_at: serverTimestamp(),
+    });
+
     try { localStorage.setItem(PASSWORD_STORAGE_KEY, password); } catch (e) { /* fine, just re-type next time */ }
     showBanner("success", `Logged: ${payload.side} (${payload.bet_type}), ${payload.matchup}.`);
     document.getElementById("side-input").value = "";
     document.getElementById("line-input").value = "";
   } catch (err) {
-    showBanner("error", "Couldn't reach the logging service -- check your connection and try again.");
+    const code = err && err.code;
+    if (code === "auth/wrong-password" || code === "auth/invalid-credential" || code === "auth/invalid-login-credentials") {
+      showBanner("error", "Wrong password.");
+    } else if (code === "auth/network-request-failed") {
+      showBanner("error", "Couldn't reach the logging service -- check your connection and try again.");
+    } else if (code === "permission-denied") {
+      showBanner("error", "Signed in, but the database refused the write -- check the Firestore rules.");
+    } else {
+      showBanner("error", `Something went wrong (${code || err}) -- try again.`);
+    }
   } finally {
     submitBtn.disabled = false;
     submitBtn.textContent = "Log Bet";
