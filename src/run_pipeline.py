@@ -71,14 +71,17 @@ STEPS = [
 # every refresh:
 #   python src/backtest.py                    (an evaluation report, not a data step)
 #   python src/predict_week.py --season .. --week ..   (for a week other than the next upcoming one)
-#   python src/model_comparison.py             (Ridge vs. XGBoost evaluation -- slower than
-#                                                backtest.py alone since it refits an XGBoost
-#                                                hyperparameter search per test week; see its
-#                                                own docstring. Follow with
+#   python src/model_comparison.py             (Ridge vs. XGBoost vs. Dub Gamma evaluation --
+#                                                slower than backtest.py alone since it refits
+#                                                an XGBoost hyperparameter search per test week;
+#                                                see its own docstring. Follow with
 #                                                excel/update_model_comparison_tab.py to push
 #                                                the result into the tracker's "Model
-#                                                Comparison" tab. Informational only -- Ridge
-#                                                stays the live model in every step above.)
+#                                                Comparison" tab, then export_site_data.py again
+#                                                so the site picks it up too. Kept out of THIS
+#                                                script's own STEPS to keep a local run fast --
+#                                                it's automated separately, as its own step in
+#                                                .github/workflows/weekly_pipeline.yml.)
 
 
 def main():

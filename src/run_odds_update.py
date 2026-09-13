@@ -1,11 +1,20 @@
 """
 Runs the odds + game-results refresh half of the pipeline: pull_games ->
-pull_odds_api -> build_db -> power_rating -> features -> export_site_data.
-Deliberately does NOT touch pull_stats / pull_lines / pull_venues /
-predict_week / update_tracker -- those are CFBD full-pipeline concerns
+pull_odds_api -> build_db -> power_rating -> features -> predict_week ->
+update_tracker -> export_site_data. Deliberately does NOT touch pull_stats /
+pull_lines / pull_venues -- those are CFBD full-pipeline concerns
 (run_pipeline.py handles them) and re-running them here would burn CFBD
-quota for no reason. This is the lighter refresh meant to run Mon-Fri on
-its own schedule -- see .github/workflows/odds_pull.yml.
+quota for no reason. This is the lighter refresh meant to run Tue-Sat (plus
+Sunday morning) on its own schedule -- see .github/workflows/odds_pull.yml.
+
+predict_week.py/update_tracker.py WERE excluded here (added per a later
+request from Cole) -- without them, this daily-ish refresh left the live
+model's own predictions (and Dub Beta/Dub Gamma alongside it) frozen between
+full pipeline runs, so a game could show a fresh Final score here while its
+model prediction was still several days stale. predict_week.py only
+refits/re-searches for the ONE upcoming week (not a full historical
+walk-forward the way model_comparison.py is), so it's cheap enough to run
+here too -- see that script's own docstring for its own cost profile.
 
 pull_games.main() was added alongside pull_odds_api so that a game's
 completed/home_points/away_points show up on the site (Matchups/Predictions
@@ -54,12 +63,19 @@ Usage:
 import sys
 import time
 
+import sys as _sys
+from pathlib import Path as _Path
+
 import pull_games
 import pull_odds_api
 import build_db
 import power_rating
 import features
+import predict_week
 import export_site_data
+
+_sys.path.insert(0, str(_Path(__file__).resolve().parent.parent / "excel"))
+import update_tracker  # noqa: E402
 
 STEPS = [
     ("Pull game results (scores/completed status)", pull_games.main),
@@ -67,6 +83,16 @@ STEPS = [
     ("Build DB (folds new games + odds snapshots in)", build_db.main),
     ("Recompute power ratings (Elo + strength of schedule)", power_rating.main),
     ("Recompute game features (game_features table)", features.main),
+    # Added per Cole's request -- previously this daily refresh left the
+    # live model / Dub Beta / Dub Gamma predictions frozen until the next
+    # Sun/Mon/Wed full pipeline run (predict_week.py wasn't in this script's
+    # step list at all), so the site could show a Final score from today's
+    # games sitting next to a model prediction that was still several days
+    # stale. predict_week.py only refits/re-searches for ONE upcoming week
+    # (not a full historical walk-forward like model_comparison.py), so it's
+    # cheap enough to run daily -- see that script's own docstring.
+    ("Predict next upcoming week (Ridge/XGBoost/Dub Gamma)", predict_week.main),
+    ("Update Excel tracker's Weekly Slate", update_tracker.main),
     ("Update website data (docs/data/*.json)", export_site_data.main),
 ]
 
