@@ -76,12 +76,22 @@ lean/is_bet/bet_result/clv/model_spread_home all None for those rows). This
 doesn't affect the site's Tracking/Results pages: they already filter this
 DataFrame down to CURRENT_SEASON == gamma_model.SEED_SEASON before doing
 anything with it. Running `python src/backtest.py` directly, though, will
-now show a smaller SPREAD-specific overall record than TOTAL/MONEYLINE do
-(both of those are untouched by this change -- total still comes from
-totals_model.py's regression, moneyline still comes from Ridge's own
-win-probability, since Gamma has no win-prob concept -- see gamma_model.py's
-own docstring). That's an accepted, documented trade-off of Gamma's seed
-having no pre-2026 history, not a bug.
+now show a smaller SPREAD- and MONEYLINE-specific overall record than TOTAL
+does (TOTAL is untouched by this change -- still comes from
+totals_model.py's regression). That's an accepted, documented trade-off of
+Gamma's seed having no pre-2026 history, not a bug.
+
+MONEYLINE IS ALSO GAMMA'S NOW (Cole's own follow-up request, quoting
+Massey's ratings theory page: win probabilities are "computed from the
+ratings by considering the predicted margin of victory and assuming a
+normal distribution of possible game results," with "the standard deviation
+... estimated from previous games"). gamma_model.predict_home_win_prob()
+converts Gamma's own predicted margin into a win probability via a normal
+CDF, using gamma_model.gamma_residual_std() for the std -- computed
+walk-forward per test week here (through_week=wk.week - 1, so a week's own
+moneyline grading never uses a std estimated off games that, in real time,
+hadn't been played yet). Same "None for any pre-SEED_SEASON game" treatment
+as the spread pick above.
 
 gamma_is_seed_week (added per-row, mirroring model_comparison.py exactly):
 True only for gamma_model.SEED_SEASON's own week 1, which reuses the raw
@@ -93,9 +103,9 @@ consumers (export_site_data.py, the site) use this flag to label that week
 clearly rather than presenting it as equivalent to a real prediction.
 
 Ridge (model.py) is STILL fit here, every test week, same walk-forward
-discipline as always -- it's no longer used for the spread pick, but its
-win-probability output is the only source moneyline grading has (Gamma has
-none), so it hasn't gone away, just been narrowed to that one job.
+discipline as always -- it's no longer used for the spread pick OR
+moneyline; its win-probability output (ridge_home_win_prob) is now purely
+an informational/candidate column, same demotion its spread already got.
 
 Usage:
     source .venv/bin/activate
@@ -219,12 +229,12 @@ def run_backtest(con, edge_threshold=EDGE_THRESHOLD, ml_edge_threshold=ML_EDGE_T
             continue
 
         # Ridge -- still fit every test week, same walk-forward discipline as
-        # always, but now used ONLY for home_win_prob (moneyline grading).
-        # See this module's own docstring for why Gamma took over the spread
-        # pick below.
+        # always, but now used ONLY for its own informational candidate win
+        # prob (ridge_home_win_prob below) -- see this module's own docstring
+        # for why Gamma took over both the spread pick AND moneyline below.
         pipe, residual_std = model.fit_margin_model(train_df)
         pred_margin = model.predict_margin(pipe, test_df)
-        home_win_prob = model.margin_to_home_win_prob(pred_margin, residual_std)
+        ridge_home_win_prob = model.margin_to_home_win_prob(pred_margin, residual_std)
 
         # Dub Gamma Model -- THE live spread pick now (see module docstring).
         # No fitting involved (gamma_model.py is a deterministic replay, not
@@ -237,8 +247,17 @@ def run_backtest(con, edge_threshold=EDGE_THRESHOLD, ml_edge_threshold=ML_EDGE_T
         gamma_is_seed_week = (wk.season == gamma_model.SEED_SEASON and wk.week < gamma_model.SEED_ENTERING_WEEK)
         if wk.season == gamma_model.SEED_SEASON:
             gamma_ratings = gamma_model.ratings_entering_week(con, wk.season, wk.week)
+            # Walk-forward safe: through_week=wk.week - 1 means this week's
+            # own moneyline grading never uses a std estimated from games
+            # that (in real time) hadn't been played yet -- see
+            # gamma_model.gamma_residual_std()'s own docstring. Gamma's win
+            # prob is ALSO the live one now (Cole's follow-up request,
+            # quoting Massey's ratings theory page), so moneyline below
+            # grades against gamma_home_win_prob, not Ridge's.
+            gamma_win_prob_std = gamma_model.gamma_residual_std(con, season=wk.season, through_week=wk.week - 1)
         else:
             gamma_ratings = None
+            gamma_win_prob_std = None
 
         # Same walk-forward discipline for the totals model -- rebuilt per
         # test week from only games strictly before it. See
@@ -268,8 +287,15 @@ def run_backtest(con, edge_threshold=EDGE_THRESHOLD, ml_edge_threshold=ML_EDGE_T
                 is_neutral = bool(row["neutral_site"]) if pd.notna(row.get("neutral_site")) else False
                 model_spread_home_i = gamma_model.predict_spread_home(
                     gamma_ratings, row["home_team"], row["away_team"], neutral_site=is_neutral)
+                # THE live win prob now too (see this module's own docstring
+                # and gamma_win_prob_std above) -- feeds moneyline grading
+                # just below, same job Ridge's win prob used to do.
+                gamma_home_win_prob_i = gamma_model.predict_home_win_prob(
+                    gamma_ratings, row["home_team"], row["away_team"],
+                    neutral_site=is_neutral, std=gamma_win_prob_std)
             else:
                 model_spread_home_i = None
+                gamma_home_win_prob_i = None
 
             if model_spread_home_i is not None:
                 spread_grade = grade_spread_pick(
@@ -313,11 +339,17 @@ def run_backtest(con, edge_threshold=EDGE_THRESHOLD, ml_edge_threshold=ML_EDGE_T
                                      else (market_total_open - market_total_close))
 
             # ---------------------------------------------------- moneyline
+            # THE live win prob is Gamma's now (gamma_home_win_prob_i) --
+            # None whenever gamma_ratings is None (any season before
+            # gamma_model.SEED_SEASON), same "not enough seed history yet"
+            # treatment spread already gets above -- moneyline simply isn't
+            # graded at all for those games now (it used to always grade off
+            # Ridge). See this module's own docstring.
             home_ml, away_ml = row["market_home_ml"], row["market_away_ml"]
             ml_lean, is_ml_bet, ml_bet_result, ml_profit, ml_edge = (None,) * 5
-            if pd.notna(home_ml) and pd.notna(away_ml):
+            if pd.notna(home_ml) and pd.notna(away_ml) and gamma_home_win_prob_i is not None:
                 market_home_prob = no_vig_prob(home_ml, away_ml)
-                ml_edge = home_win_prob[i] - market_home_prob
+                ml_edge = gamma_home_win_prob_i - market_home_prob
                 ml_lean = "Home" if ml_edge > 0 else "Away"
                 is_ml_bet = abs(ml_edge) >= ml_edge_threshold
                 if is_ml_bet:
@@ -336,7 +368,14 @@ def run_backtest(con, edge_threshold=EDGE_THRESHOLD, ml_edge_threshold=ML_EDGE_T
                 # this module's own docstring on why that week's grade is
                 # hindsight, not a genuine out-of-sample prediction.
                 "gamma_is_seed_week": bool(gamma_is_seed_week) if model_spread_home_i is not None else None,
-                "home_win_prob": home_win_prob[i], "actual_home_win": actual_home_win,
+                # THE live win prob (Gamma's) -- feeds moneyline grading
+                # above and the Brier calibration score in summarize()/
+                # summarize_moneyline(). None pre-gamma_model.SEED_SEASON,
+                # same treatment as model_spread_home_i above.
+                "home_win_prob": gamma_home_win_prob_i, "actual_home_win": actual_home_win,
+                # Ridge's own win prob -- informational/candidate only now,
+                # same demotion its spread already got.
+                "ridge_home_win_prob": ridge_home_win_prob[i],
                 "actual_margin": actual_margin,
                 "model_total": model_total[i], "market_total": market_total_close,
                 "total_edge": total_edge, "total_lean": total_lean, "is_total_bet": is_total_bet,

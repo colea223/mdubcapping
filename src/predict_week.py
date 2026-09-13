@@ -8,13 +8,16 @@ gamma_model.py), per Cole's explicit request to switch the live/actionable
 pick over from Ridge. "Model Line (Home)" below -- the ONE column
 excel/update_tracker.py reads into Weekly Slate, and the one every downstream
 consumer treats as "the pick" -- is now Dub Gamma's spread, not Ridge's.
-Ridge (model.py) is still fit here (needed for "Home Win Prob," which feeds
-moneyline grading -- Gamma has no win-probability concept at all, see
-gamma_model.py's own docstring) and its own spread is written out too, as the
-new "Ridge Line (Home)" column -- informational only now, same "candidate,
-never the live pick" treatment XGBoost's column already had before this
-change. XGBoost itself is unaffected -- still a candidate, still written to
-"XGBoost Line (Home)".
+"Home Win Prob" is ALSO Gamma's own now (gamma_model.predict_home_win_prob(),
+using an empirically-fit std -- see gamma_model.gamma_residual_std()'s own
+docstring, and Cole's follow-up request quoting Massey's ratings theory page
+that this std be "estimated from previous games," not a fixed constant) --
+this feeds moneyline grading exactly where Ridge's win prob used to.
+Ridge (model.py) is still fit here for its own now-informational "Ridge Line
+(Home)"/"Ridge Win Prob" columns -- candidate only, same "never the live
+pick" treatment XGBoost's column already had before this change. XGBoost
+itself is unaffected -- still a candidate, still written to "XGBoost Line
+(Home)".
 
 Ridge is trained on ALL available completed games (no walk-forward cutoff
 needed here -- that discipline is for the backtest; a live prediction should
@@ -114,6 +117,15 @@ def main():
               f"{gamma_model.DEFAULT_SEED_RATING:.2f} -- see moore_seed_2026.py's MOORE_NAME_ALIASES: "
               f"{gamma_warned}")
 
+    # Gamma's own win probability -- empirically-fit std (Massey's ratings
+    # theory: "the standard deviation is estimated from previous games," per
+    # Cole's own request), not the old fixed-17.0 constant. See
+    # gamma_model.gamma_residual_std()'s own docstring for the walk-forward
+    # methodology and the early-season fallback.
+    gamma_win_prob_std = gamma_model.gamma_residual_std(con)
+    print(f"Dub Gamma win-prob std: {gamma_win_prob_std:.1f} pts "
+          f"({'empirically fit' if gamma_win_prob_std != gamma_model.GAMMA_WIN_PROB_STD_FALLBACK else 'fallback -- not enough graded games yet'}).")
+
     upcoming = model.load_upcoming_frame(con, season, week)
     if upcoming.empty:
         print(f"No games found for season {season}, week {week}.")
@@ -137,7 +149,10 @@ def main():
 
     pred_margin = model.predict_margin(pipe, upcoming)
     model_spread_home = -pred_margin
-    home_win_prob = model.margin_to_home_win_prob(pred_margin, residual_std)
+    # Ridge's own win prob -- informational/candidate only now, same demotion
+    # its spread already got (see this module's own docstring). Kept only so
+    # the "Ridge Win Prob" column below still exists for comparison.
+    ridge_home_win_prob = model.margin_to_home_win_prob(pred_margin, residual_std)
 
     # predict_margin() is model-agnostic (just pipe.predict(df[FEATURE_COLS])),
     # so it works unchanged on the XGBoost pipeline too -- same reasoning
@@ -148,6 +163,15 @@ def main():
     gamma_spread_home = [
         gamma_model.predict_spread_home(
             gamma_ratings, row.home_team, row.away_team, neutral_site=bool(row.neutral_site)
+        )
+        for row in upcoming.itertuples()
+    ]
+    # THE live win prob now -- Gamma's own, via the empirically-fit std
+    # computed above (see this module's own docstring / gamma_win_prob_std).
+    gamma_home_win_prob = [
+        gamma_model.predict_home_win_prob(
+            gamma_ratings, row.home_team, row.away_team,
+            neutral_site=bool(row.neutral_site), std=gamma_win_prob_std,
         )
         for row in upcoming.itertuples()
     ]
@@ -176,14 +200,17 @@ def main():
         # no edit at all for this swap to take effect.
         "Model Line (Home)": [round(x, 1) for x in gamma_spread_home],
         "Model Total": [round(x, 1) if x is not None else None for x in model_total],
-        # Still Ridge's own win probability -- Gamma has no win-prob concept
-        # (see gamma_model.py's own docstring), so moneyline grading keeps
-        # reading this column exactly as before.
-        "Home Win Prob": [round(x, 3) for x in home_win_prob],
+        # THE live win prob now -- Gamma's own (empirically-fit std, see this
+        # module's own docstring). Moneyline grading reads this column,
+        # exactly as it read Ridge's before this change.
+        "Home Win Prob": [round(x, 3) for x in gamma_home_win_prob],
         # Ridge is now informational only -- see the module docstring. Weekly
         # Slate never reads this column; only
         # excel/update_model_comparison_tab.py does.
         "Ridge Line (Home)": [round(x, 1) for x in model_spread_home],
+        # Ridge's own win prob -- informational/candidate only now, same
+        # treatment as "Ridge Line (Home)" just above.
+        "Ridge Win Prob": [round(x, 3) for x in ridge_home_win_prob],
         # XGBoost stays informational only, same as it always was.
         "XGBoost Line (Home)": [round(x, 1) for x in xgb_spread_home],
     })

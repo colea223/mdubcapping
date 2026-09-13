@@ -11,13 +11,17 @@ merges it in by matchup. Leave it out or empty and notes just render blank.
 THE LIVE MODEL IS NOW THE DUB GAMMA MODEL (Sonny-Moore-seeded power rating,
 gamma_model.py), per Cole's explicit request to switch the live/actionable
 pick over from Ridge. Every place in this file that used to compute/read
-"the live model's" spread now sources it from Gamma instead -- Ridge
-(model.py) is still fit where needed for its win-probability output (Gamma
-has no win-prob concept at all -- see gamma_model.py's own docstring -- so
-moneyline grading still runs through Ridge), and Ridge's own spread is now
-just an informational "candidate" line, same treatment XGBoost's line
-always had. Look for "ridge_model_spread_home"/"ridge_model" throughout this
-file -- that's Ridge's new role.
+"the live model's" spread now sources it from Gamma instead -- and, per
+Cole's own follow-up request (quoting Massey's ratings theory page on
+computing win probabilities from a power rating differential, with the std
+"estimated from previous games"), Gamma now ALSO has its own win
+probability (gamma_model.predict_home_win_prob(), using
+gamma_model.gamma_residual_std() for the std), so moneyline grading runs
+through Gamma too. Ridge (model.py) is still fit where needed for its own
+now-informational "ridge_model_spread_home"/"ridge_home_win_prob" candidate
+fields -- same treatment XGBoost's line always had. Look for
+"ridge_model_spread_home"/"ridge_home_win_prob"/"ridge_model" throughout
+this file -- that's Ridge's new role.
 
 The Tracking page shows FOUR things side by side: the live model's (Gamma's)
 own hypothetical flat-1-unit-stake performance (same walk-forward grading as
@@ -40,8 +44,9 @@ sourced the way they are:
     twice in one pipeline run. Ridge's candidate line, by contrast, IS
     refit locally in build_matchups_and_predictions() below -- a Ridge fit
     is cheap (unlike XGBoost's hyperparameter search) and that same local
-    fit is already needed for home_win_prob, so there's no real cost to
-    reusing it for Ridge's own informational spread too.
+    fit is already needed for Ridge's own informational ridge_home_win_prob,
+    so there's no real cost to reusing it for Ridge's own informational
+    spread too.
   - Results page & season tracking: graded Dub Beta AND Ridge history both
     come from data/clean/model_comparison_results.csv, written by
     src/model_comparison.py. That script is deliberately a standalone,
@@ -564,9 +569,10 @@ def build_matchups_and_predictions(con, notes: dict, manual_lines=None):
     print(f"  [predictions diag] train_df: {len(train_df)} completed games w/ a market line "
           f"(need >= 10) -- games this week (MW-involved): {len(games)}")
     if len(train_df) >= 10 and not games.empty:
-        # Ridge -- still fit here, but now ONLY for home_win_prob (moneyline
-        # grading; Gamma has no win-prob concept, see gamma_model.py's own
-        # docstring) and for its own now-informational candidate spread line.
+        # Ridge -- still fit here, but now ONLY for its own now-informational
+        # candidate spread line and candidate win prob (ridge_home_win_prob
+        # below) -- see this module's own docstring for why Gamma took over
+        # both the live spread pick AND the live win prob/moneyline lean.
         pipe, residual_std = model.fit_margin_model(train_df)
         upcoming = model.load_upcoming_frame(con, season, week)
         upcoming_before = len(upcoming)
@@ -576,7 +582,7 @@ def build_matchups_and_predictions(con, notes: dict, manual_lines=None):
         if not upcoming.empty:
             pred_margin = model.predict_margin(pipe, upcoming)
             ridge_spread_home = -pred_margin
-            home_win_prob = model.margin_to_home_win_prob(pred_margin, residual_std)
+            ridge_home_win_prob = model.margin_to_home_win_prob(pred_margin, residual_std)
 
             # Dub Gamma Model -- THE live pick now (see module docstring).
             # Computed directly here (gamma_model.replay_ratings(con)) rather
@@ -595,6 +601,17 @@ def build_matchups_and_predictions(con, notes: dict, manual_lines=None):
             model_spread_home = [
                 gamma_model.predict_spread_home(
                     gamma_ratings, row.home_team, row.away_team, neutral_site=bool(row.neutral_site)
+                )
+                for row in upcoming.itertuples()
+            ]
+            # THE live win prob now too -- Gamma's own, via an empirically-
+            # fit std (Cole's own request, quoting Massey's ratings theory
+            # page -- see gamma_model.gamma_residual_std()'s own docstring).
+            gamma_win_prob_std = gamma_model.gamma_residual_std(con)
+            home_win_prob = [
+                gamma_model.predict_home_win_prob(
+                    gamma_ratings, row.home_team, row.away_team,
+                    neutral_site=bool(row.neutral_site), std=gamma_win_prob_std,
                 )
                 for row in upcoming.itertuples()
             ]
@@ -784,6 +801,8 @@ def build_matchups_and_predictions(con, notes: dict, manual_lines=None):
                     # never the raw market number itself.
                     "market_spread_home": round(market_spread_home, 1) if market_spread_home is not None else None,
                     "market_total": round(market_total, 1) if market_total is not None else None,
+                    # THE live win prob now -- Gamma's own (see this
+                    # function's own comment on gamma_win_prob_std above).
                     "home_win_prob": round(float(home_win_prob[i]), 3),
                     "edge": round(edge, 1) if edge is not None else None,
                     # lean_side/is_real_edge: the ACTUAL tracked pick (see
@@ -819,6 +838,9 @@ def build_matchups_and_predictions(con, notes: dict, manual_lines=None):
                     "ridge_covered_market_line": ridge_covered_market_line,
                     "ridge_lean_side": ridge_lean_side,
                     "ridge_is_real_edge": ridge_is_real_edge,
+                    # Ridge's own win prob -- informational/candidate only
+                    # now, same demotion its spread already got above.
+                    "ridge_home_win_prob": round(float(ridge_home_win_prob[i]), 3),
                 })
 
     return matchups, predictions, {"season": season, "week": week}
@@ -1174,12 +1196,15 @@ def build_matchup_grid(con):
 
     Returns {"teams": [...], "grid": {home: {away: {"ridge": {...}, "xgboost":
     {...}, "gamma": {...}}}}, "ridge_residual_std": ..., "xgboost_residual_std":
-    ...} -- "ridge"/"xgboost" carry the same predicted_margin/spread_home/
-    home_win_prob shape, just fit by that model. "gamma" only ever carries
-    spread_home -- gamma_model.py has no residual/win-prob concept at all
-    (it's a deterministic rating-diff formula, not a fitted model with
-    residuals to measure), same "spread only, no win-prob bar" treatment
-    Gamma already gets on the Predictions/Results pages.
+    ..., "gamma_residual_std": ...} -- all three of "ridge"/"xgboost"/"gamma"
+    now carry the same spread_home/home_win_prob shape (Ridge/XGBoost add
+    their own predicted_margin too, a byproduct of being fitted regressions;
+    Gamma has no separate "predicted margin" concept from its spread, see
+    gamma_model.py's own docstring). Gamma's win prob uses
+    gamma_model.gamma_residual_std(con) -- an empirically-fit std, not a
+    fixed constant (Cole's own request, quoting Massey's ratings theory
+    page) -- computed ONCE up front, same as gamma_ratings above, since it
+    doesn't depend on which pair is being looked at.
     """
     train_df = model.load_training_frame(con)
     if len(train_df) < 10:
@@ -1221,6 +1246,9 @@ def build_matchup_grid(con):
         print(f"  [matchup grid] Dub Gamma: {len(gamma_warned)} team(s) had no Moore seed rating, "
               f"defaulted to {gamma_model.DEFAULT_SEED_RATING:.2f} -- see moore_seed_2026.py's "
               f"MOORE_NAME_ALIASES: {gamma_warned}")
+    # Empirically-fit std for Gamma's own win prob -- see this function's own
+    # docstring / gamma_model.gamma_residual_std()'s docstring.
+    gamma_win_prob_std = gamma_model.gamma_residual_std(con)
 
     prior_season = CURRENT_SEASON - 1
 
@@ -1425,6 +1453,11 @@ def build_matchup_grid(con):
                     "spread_home": round(
                         gamma_model.predict_spread_home(gamma_ratings, home, away, neutral_site=False), 1
                     ),
+                    "home_win_prob": round(
+                        gamma_model.predict_home_win_prob(
+                            gamma_ratings, home, away, neutral_site=False, std=gamma_win_prob_std
+                        ), 4
+                    ),
                 },
             }
 
@@ -1432,6 +1465,7 @@ def build_matchup_grid(con):
         "teams": teams, "grid": grid,
         "ridge_residual_std": round(ridge_residual_std, 2),
         "xgboost_residual_std": round(xgb_residual_std, 2),
+        "gamma_residual_std": round(gamma_win_prob_std, 2),
     }
 
 
@@ -1677,6 +1711,7 @@ def main():
             "meta": meta, "teams": matchup_grid["teams"], "grid": matchup_grid["grid"],
             "ridge_residual_std": matchup_grid["ridge_residual_std"],
             "xgboost_residual_std": matchup_grid["xgboost_residual_std"],
+            "gamma_residual_std": matchup_grid["gamma_residual_std"],
         })
     # else: build_matchup_grid() already printed why it's skipping -- leave
     # docs/data/matchup_grid.json untouched (whatever the last successful

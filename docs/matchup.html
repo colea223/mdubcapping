@@ -107,11 +107,11 @@ function renderResult(home, away, modelCell, residualStd, modelChoice) {
   // contradicting the Predicted Spread line two rows up.
   const favTeam = spreadHome < 0 ? home : (spreadAway < 0 ? away : null);
   const favSpread = spreadHome < 0 ? spreadHome : (spreadAway < 0 ? spreadAway : null);
-  // Gamma has no win-probability concept at all (it's a rating-diff formula,
-  // not a fitted model with a residual to convert into odds -- see this
-  // function's own top comment and build_matchup_grid()'s docstring), so
-  // home_win_prob is simply absent from its grid cell -- guard the whole
-  // win-prob bar on that instead of assuming every model has one.
+  // All three models carry a home_win_prob now (Gamma's own is a normal CDF
+  // over its predicted margin, using an empirically-fit std -- see
+  // build_matchup_grid()'s docstring and gamma_model.gamma_residual_std());
+  // still guarded rather than assumed, in case a stale matchup_grid.json
+  // predates that field for one of them.
   const homeProb = modelCell.home_win_prob;
   const hasWinProb = homeProb !== null && homeProb !== undefined;
   const homePct = hasWinProb ? Math.round(homeProb * 100) : null;
@@ -198,13 +198,13 @@ function renderResult(home, away, modelCell, residualStd, modelChoice) {
     const pair = (home && away && data.grid[home]) ? data.grid[home][away] : undefined;
     const modelChoice = document.querySelector('input[name="model-choice"]:checked').value;
     const modelCell = pair ? pair[modelChoice] : undefined;
-    // Gamma has no residual_std anywhere in matchup_grid.json (see
-    // build_matchup_grid()'s docstring) -- undefined here correctly tells
-    // renderResult() to drop the "typical model error" sentence rather than
-    // printing "undefined points".
+    // Gamma now has its own residual_std too (an empirically-fit value, not
+    // the fixed constant it used to have no equivalent of at all -- see
+    // build_matchup_grid()'s docstring and gamma_model.gamma_residual_std())
+    // -- so all three models show the "typical model error" sentence now.
     const residualStd = modelChoice === "xgboost" ? data.xgboost_residual_std
       : modelChoice === "ridge" ? data.ridge_residual_std
-      : undefined;
+      : data.gamma_residual_std;
     renderResult(home, away, modelCell, residualStd, modelChoice);
   }
 

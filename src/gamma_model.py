@@ -81,6 +81,26 @@ HFA = 4.0
 CARRY_FORWARD = 0.9
 PERFORMANCE_WEIGHT = 0.1
 
+# A team with ZERO completed games tracked in `games` this season at all --
+# NOT the same case DEFAULT_SEED_RATING handles (a real FBS team that's
+# played real games this season but has no original Moore seed -- see
+# replay_ratings()'s own get_rating() fallback just below). This pipeline
+# only pulls FBS + North Dakota State's own FCS history (see config.py's own
+# comment on teams.py), so any OTHER FCS opponent in an early-season "money
+# game" -- Mercyhurst, Northern Colorado, Cal Poly, Montana State, etc. --
+# never appears in `games` at all and so never enters `ratings` through
+# replay_ratings(). Confirmed as a real problem once Gamma became the live
+# model (per Cole's own testing): defaulting a team like that to
+# DEFAULT_SEED_RATING (the flat AVERAGE FBS rating, ~64) made a home FBS
+# team look like a coin flip or worse against an opponent a real sportsbook
+# would post as a 25-40 point underdog. This is a deliberately low,
+# hand-picked placeholder -- NOT derived from any real rating data, just
+# "meaningfully below the weakest real FBS team in the Moore seed" -- used
+# only in predict_spread_home() below, standing in until every FCS
+# opponent's own real strength is tracked here the way North Dakota State's
+# already is (see teams.py).
+UNRATED_OPPONENT_RATING = 25.0
+
 
 def true_game_performance_level(net_score, opponent_old_rating, own_injury_weight, opp_injury_weight):
     return net_score + opponent_old_rating + (own_injury_weight - opp_injury_weight)
@@ -92,12 +112,130 @@ def update_rating(old_rating, net_score, opponent_old_rating, own_injury_weight=
 
 
 def predict_spread_home(ratings, home_team, away_team, neutral_site=False):
+    """
+    home_rating/away_rating fall back to UNRATED_OPPONENT_RATING (NOT
+    DEFAULT_SEED_RATING) when a team isn't in `ratings` at all -- see that
+    constant's own comment just above for exactly which teams that covers
+    and why the two defaults are deliberately different values.
+    """
     home_team = normalize_team_name(home_team)
     away_team = normalize_team_name(away_team)
-    home_rating = ratings.get(home_team, DEFAULT_SEED_RATING)
-    away_rating = ratings.get(away_team, DEFAULT_SEED_RATING)
+    home_rating = ratings.get(home_team, UNRATED_OPPONENT_RATING)
+    away_rating = ratings.get(away_team, UNRATED_OPPONENT_RATING)
     hfa = 0.0 if neutral_site else HFA
     return away_rating - home_rating - hfa
+
+
+# Fallback standard deviation, used ONLY when there isn't enough graded
+# in-season history yet to estimate one empirically (see gamma_residual_std()
+# below -- Cole's own follow-up, quoting Massey's own ratings theory page,
+# was explicit that "the standard deviation is estimated from previous
+# games," not a fixed constant, which supersedes the fixed-17.0-always
+# approach this constant used to be). 17.0 points is the standard
+# rule-of-thumb value cited for power-rating systems like SP+ -- Cole's
+# original source: https://www.reddit.com/r/CFB/comments/dhptj9/
+# win_total_probability_distributions_per_sp/ (SP+ win-probability write-up)
+# -- kept as the early-season/no-data prior, same role model.py's own
+# fit_margin_model() gives its "~14 pts is a reasonable CFB prior" fallback.
+GAMMA_WIN_PROB_STD_FALLBACK = 17.0
+
+# Below this many graded (non-seed-week) games this season, gamma_residual_std()
+# below just returns GAMMA_WIN_PROB_STD_FALLBACK rather than a same estimate
+# off a handful of games -- an empirical std from, say, 3 games is noisier
+# than the well-established generic rule-of-thumb value it would replace.
+GAMMA_RESIDUAL_STD_MIN_GAMES = 8
+
+
+def gamma_residual_std(con, season=SEED_SEASON, entering_week=SEED_ENTERING_WEEK, through_week=None,
+                        min_games=GAMMA_RESIDUAL_STD_MIN_GAMES, fallback=GAMMA_WIN_PROB_STD_FALLBACK):
+    """
+    Empirically estimates the standard deviation of (actual scoring margin -
+    Gamma's own predicted margin) across this season's completed, graded
+    FBS games -- Cole's own requested approach, per Massey's ratings theory
+    page: "Probabilities are computed from the ratings by considering the
+    predicted margin of victory and assuming a normal distribution of
+    possible game results. The standard deviation is estimated from
+    previous games." Supersedes the old fixed-17.0-always constant (see
+    GAMMA_WIN_PROB_STD_FALLBACK's own comment just above), which is now only
+    the early-season fallback below.
+
+    Walk-forward safe, same discipline backtest.py's run_backtest() already
+    applies to Gamma's own spread grading: for each week, ratings are
+    replayed only through the week BEFORE it (ratings_entering_week()), so
+    a game's own residual never uses a rating computed from games that
+    happened after it.
+
+    `through_week`, when given, ALSO excludes any game in a week after it --
+    e.g. backtest.py passes wk.week - 1 for each historical test week, so
+    the std estimate used to grade that week's moneyline picks never uses
+    games that (in real time) hadn't been played yet either. None (the
+    default, used by predict_week.py/export_site_data.py for live,
+    current-week predictions) means "every graded game so far this season."
+
+    Excludes `entering_week` itself (gamma_model.SEED_SEASON's own hindsight
+    week -- see moore_seed_2026.py's docstring and backtest.py's
+    gamma_is_seed_week comments): that week's "prediction" reuses the Moore
+    seed exactly as pasted, which already reflects that week's own results,
+    so its residual would be artificially small and skew the estimate.
+
+    Falls back to `fallback` (the fixed SP+/Reddit rule-of-thumb value)
+    whenever fewer than `min_games` graded games are available -- an
+    empirical std from a handful of games this early in a season is noisier
+    than just using the generic value.
+    """
+    query = """
+        SELECT week, home_team, away_team, home_points, away_points, neutral_site
+        FROM games
+        WHERE season = ? AND week > ? AND completed = TRUE
+    """
+    params = [season, entering_week]
+    if through_week is not None:
+        query += " AND week <= ?"
+        params.append(through_week)
+    query += " ORDER BY week, start_date"
+    games = con.execute(query, params).fetchall()
+    if not games:
+        return fallback
+
+    residuals = []
+    ratings_cache = {}
+    for week, home_team, away_team, home_points, away_points, neutral_site in games:
+        if home_points is None or away_points is None:
+            continue
+        if week not in ratings_cache:
+            ratings_cache[week] = ratings_entering_week(con, season, week)
+        wk_ratings = ratings_cache[week]
+        pred_spread = predict_spread_home(wk_ratings, home_team, away_team,
+                                           neutral_site=bool(neutral_site))
+        pred_margin = -pred_spread
+        actual_margin = home_points - away_points
+        residuals.append(actual_margin - pred_margin)
+
+    if len(residuals) < min_games:
+        return fallback
+
+    import numpy as np
+    return float(np.std(residuals))
+
+
+def predict_home_win_prob(ratings, home_team, away_team, neutral_site=False, std=GAMMA_WIN_PROB_STD_FALLBACK):
+    """
+    Converts Gamma's own predicted spread into a home win probability via a
+    normal CDF -- Cole's own requested approach (Massey's ratings theory
+    page, see gamma_residual_std()'s own docstring): take the expected
+    margin (positive = home favored, the sign flip of predict_spread_home()'s
+    own convention), divide by `std`, and run it through the standard normal
+    CDF -- P(actual margin > 0) under a Normal(expected margin, std) model.
+    Same norm.cdf() building block model.py's own margin_to_home_win_prob()
+    uses. Callers should pass `std` from gamma_residual_std(con) (an
+    empirically-fit, walk-forward-safe estimate) rather than relying on this
+    default -- the default is only here so this function still has a sane
+    behavior if called without one.
+    """
+    from scipy.stats import norm
+    spread_home = predict_spread_home(ratings, home_team, away_team, neutral_site=neutral_site)
+    predicted_margin_home = -spread_home
+    return float(norm.cdf(predicted_margin_home / std))
 
 
 def load_injury_weights_by_week(con, season):
