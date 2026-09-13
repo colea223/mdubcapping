@@ -1,6 +1,6 @@
 {
   "meta": {
-    "generated_at": "2026-09-13T21:08:10Z",
+    "generated_at": "2026-09-13T21:18:32Z",
     "current_week": {
       "season": 2026,
       "week": 3
@@ -83,7 +83,7 @@
       },
       "pending": [
         {
-          "date": "2026-09-13",
+          "date": "2026-09-19",
           "week": 3,
           "matchup": "Wyoming @ Central Michigan",
           "bet_type": "Spread",
@@ -92,7 +92,7 @@
           "stake": 1.0
         },
         {
-          "date": "2026-09-13",
+          "date": "2026-09-19",
           "week": 3,
           "matchup": "Wyoming @ Central Michigan",
           "bet_type": "Moneyline",
@@ -101,13 +101,13 @@
           "stake": 1.0
         },
         {
-          "date": "2026-09-13",
+          "date": "2026-09-19",
           "week": 3,
           "matchup": "Sacramento State @ North Dakota State",
           "bet_type": "Spread",
           "side": "North Dakota State",
           "odds": -115.0,
-          "stake": 1.0
+          "stake": 2.0
         }
       ],
       "graded": [
