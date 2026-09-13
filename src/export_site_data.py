@@ -8,34 +8,53 @@ publish one), so that piece is manually maintained: edit site_notes.json in
 the project root -- {"Away Team @ Home Team": "note text"} -- and this script
 merges it in by matchup. Leave it out or empty and notes just render blank.
 
-The Tracking page shows THREE things side by side: the live model's own
-hypothetical flat-1-unit-stake performance (same walk-forward grading as
+THE LIVE MODEL IS NOW THE DUB GAMMA MODEL (Sonny-Moore-seeded power rating,
+gamma_model.py), per Cole's explicit request to switch the live/actionable
+pick over from Ridge. Every place in this file that used to compute/read
+"the live model's" spread now sources it from Gamma instead -- Ridge
+(model.py) is still fit where needed for its win-probability output (Gamma
+has no win-prob concept at all -- see gamma_model.py's own docstring -- so
+moneyline grading still runs through Ridge), and Ridge's own spread is now
+just an informational "candidate" line, same treatment XGBoost's line
+always had. Look for "ridge_model_spread_home"/"ridge_model" throughout this
+file -- that's Ridge's new role.
+
+The Tracking page shows FOUR things side by side: the live model's (Gamma's)
+own hypothetical flat-1-unit-stake performance (same walk-forward grading as
 backtest.py, filtered to the current season -- spread, total, AND moneyline),
 YOUR actual bets, read directly from the Bet Log tab of
-excel/MW_Handicapping_Tracker.xlsx, and the "Dub Beta Model" (XGBoost, spread
-only) -- see below. None of these are ever blended into one number -- the
-live model's picks are a what-if, your Bet Log is what you actually staked,
-and the Dub Beta Model is a candidate architecture being evaluated alongside
-the live model, not a replacement for it.
+excel/MW_Handicapping_Tracker.xlsx, the "Dub Beta Model" (XGBoost, spread
+only), and "Ridge" (spread only) -- see below. None of these are ever
+blended into one number -- the live model's picks are a what-if, your Bet
+Log is what you actually staked, and Dub Beta/Ridge are candidate
+architectures being evaluated alongside the live model, not replacements
+for it.
 
-Dub Beta Model (XGBoost) placement, and why it's sourced the way it is:
+Dub Beta Model (XGBoost) and Ridge candidate placement, and why they're
+sourced the way they are:
   - Predictions page: this week's Dub Beta line comes from predict_week.py's
     latest week_<season>_<week>_predictions.csv ("XGBoost Line (Home)"
     column) -- NOT refit here. predict_week.py already runs as its own
     pipeline step before this one (see run_pipeline.py's STEPS), so reading
     its output avoids paying for the same XGBoost hyperparameter search
-    twice in one pipeline run.
-  - Results page & season tracking: graded Dub Beta history comes from
-    data/clean/model_comparison_results.csv, written by src/model_comparison.py.
-    That script is deliberately a standalone, hand-run script (same category
-    as backtest.py) because it reruns the XGBoost search once per historical
-    test week -- wiring it into every site export would make a routine
-    pipeline run as slow as a full backtest. Practically: this means the Dub
-    Beta Model's Results/Tracking numbers are only as fresh as the last time
-    you ran `python src/model_comparison.py` by hand, same staleness contract
+    twice in one pipeline run. Ridge's candidate line, by contrast, IS
+    refit locally in build_matchups_and_predictions() below -- a Ridge fit
+    is cheap (unlike XGBoost's hyperparameter search) and that same local
+    fit is already needed for home_win_prob, so there's no real cost to
+    reusing it for Ridge's own informational spread too.
+  - Results page & season tracking: graded Dub Beta AND Ridge history both
+    come from data/clean/model_comparison_results.csv, written by
+    src/model_comparison.py. That script is deliberately a standalone,
+    hand-run script (same category as backtest.py) because it reruns the
+    XGBoost search once per historical test week -- wiring it into every
+    site export would make a routine pipeline run as slow as a full
+    backtest. Practically: this means the Dub Beta/Ridge candidates'
+    Results/Tracking numbers are only as fresh as the last time you ran
+    `python src/model_comparison.py` by hand, same staleness contract
     excel/update_model_comparison_tab.py already has with this file. And
-    since model_comparison.py compares margin models only, Dub Beta's graded
-    record is spread-only -- it has no total/moneyline pick to show.
+    since model_comparison.py compares margin models only, both candidates'
+    graded record is spread-only -- neither has a total/moneyline pick to
+    show.
 
 Usage:
     source .venv/bin/activate
@@ -545,6 +564,9 @@ def build_matchups_and_predictions(con, notes: dict, manual_lines=None):
     print(f"  [predictions diag] train_df: {len(train_df)} completed games w/ a market line "
           f"(need >= 10) -- games this week (MW-involved): {len(games)}")
     if len(train_df) >= 10 and not games.empty:
+        # Ridge -- still fit here, but now ONLY for home_win_prob (moneyline
+        # grading; Gamma has no win-prob concept, see gamma_model.py's own
+        # docstring) and for its own now-informational candidate spread line.
         pipe, residual_std = model.fit_margin_model(train_df)
         upcoming = model.load_upcoming_frame(con, season, week)
         upcoming_before = len(upcoming)
@@ -553,8 +575,29 @@ def build_matchups_and_predictions(con, notes: dict, manual_lines=None):
               f"-- matching this week's MW games: {len(upcoming)}")
         if not upcoming.empty:
             pred_margin = model.predict_margin(pipe, upcoming)
-            model_spread_home = -pred_margin
+            ridge_spread_home = -pred_margin
             home_win_prob = model.margin_to_home_win_prob(pred_margin, residual_std)
+
+            # Dub Gamma Model -- THE live pick now (see module docstring).
+            # Computed directly here (gamma_model.replay_ratings(con)) rather
+            # than read from predict_week.py's CSV: unlike XGBoost's
+            # expensive hyperparameter search, a Gamma replay is cheap (a
+            # plain linear pass, no fit at all -- see gamma_model.py's own
+            # docstring), and computing it fresh means this function never
+            # depends on predict_week.py's CSV being present/fresh for what
+            # is now the PRIMARY line -- if that CSV is stale or missing,
+            # Gamma's own line here is unaffected (only the XGBoost
+            # candidate below degrades gracefully in that case).
+            gamma_ratings, gamma_warned = gamma_model.replay_ratings(con)
+            if gamma_warned:
+                print(f"  [predictions diag] Dub Gamma: {len(gamma_warned)} team(s) had no Moore seed "
+                      f"rating, defaulted to {gamma_model.DEFAULT_SEED_RATING:.2f}: {gamma_warned}")
+            model_spread_home = [
+                gamma_model.predict_spread_home(
+                    gamma_ratings, row.home_team, row.away_team, neutral_site=bool(row.neutral_site)
+                )
+                for row in upcoming.itertuples()
+            ]
 
             # Dub Beta Model (XGBoost) -- read predict_week.py's latest
             # predictions CSV rather than refitting here. predict_week.py is
@@ -568,21 +611,12 @@ def build_matchups_and_predictions(con, notes: dict, manual_lines=None):
             # same graceful-degradation as a missing market line elsewhere
             # in this file, never a crash.
             beta_by_game = {}
-            gamma_by_game = {}
             pred_path = latest_predictions_file()
             if pred_path is not None:
                 beta_csv = pd.read_csv(pred_path)
                 if "XGBoost Line (Home)" in beta_csv.columns:
                     beta_by_game = dict(zip(
                         beta_csv["Game ID"].astype(int), beta_csv["XGBoost Line (Home)"]
-                    ))
-                # Dub Gamma Model -- same graceful-degradation as Beta above:
-                # a predictions CSV from before gamma_model.py existed simply
-                # has no "Gamma Line (Home)" column, so gamma_by_game stays
-                # empty and every game below shows no Dub Gamma line.
-                if "Gamma Line (Home)" in beta_csv.columns:
-                    gamma_by_game = dict(zip(
-                        beta_csv["Game ID"].astype(int), beta_csv["Gamma Line (Home)"]
                     ))
 
             # See src/totals_model.py -- SP+/PPA-based regression, same swap
@@ -601,14 +635,11 @@ def build_matchups_and_predictions(con, notes: dict, manual_lines=None):
                 Runs one model's spread through backtest.grade_spread_pick() --
                 the SAME shared function backtest.py's own season record and
                 model_comparison.py's 3-way comparison use, so a game shown
-                here grades identically to how it'll eventually land in the
-                Tracking/Results pages once model_comparison.py picks it up.
-                That includes the "below EDGE_THRESHOLD, default to the
-                market's own favorite instead of a noisy raw edge-sign lean"
-                behavior -- see backtest.py's own docstring for the full
-                rationale (this is the exact fix for the Penn State/Temple-
-                style case where the model and market both agree on the
-                favorite but disagree slightly on the number).
+                here grades identically to how it lands in the Tracking/
+                Results pages. Per Cole's own request, the tracked pick is
+                always the model's own raw side (see backtest.py's own
+                docstring) -- there's no more falling back to the market's
+                favorite just because the edge is small.
 
                 Returns (covered_market_line, is_real_edge, lean_side):
                   - covered_market_line: True/False once the game's final
@@ -617,11 +648,11 @@ def build_matchups_and_predictions(con, notes: dict, manual_lines=None):
                     "n/a" treatment predictions.html already gives those).
                   - is_real_edge: whether this cleared EDGE_THRESHOLD as a
                     genuine recommended bet (the old "is_bet") -- None if
-                    there's no market line to grade against at all.
+                    there's no market line to grade against at all. No
+                    longer changes which side lean_side reports (see above)
+                    -- it's purely a confidence label now.
                   - lean_side: "Home"/"Away"/"Pick'em" -- the actual tracked
-                    pick (favorite-defaulted when below threshold), so the
-                    front end can show WHICH team a below-threshold "auto"
-                    pick is on instead of a bare "no significant edge".
+                    pick, always the model's own raw lean.
                 """
                 if model_line is None or market_spread_home is None:
                     return None, None, None
@@ -658,17 +689,24 @@ def build_matchups_and_predictions(con, notes: dict, manual_lines=None):
 
                 # straight_up_correct: did the team the model favored just
                 # win outright -- purely about the model's OWN predicted
-                # margin, no market/threshold concept involved at all, so
-                # it's unaffected by the favorite-default logic below.
+                # margin, no market/threshold concept involved at all. The
+                # live model is Gamma now, so this reads model_spread_home
+                # (Gamma's spread) rather than Ridge's own pred_margin --
+                # Gamma has no "predicted margin" concept separate from its
+                # spread (spread_home = away_rating - home_rating - hfa, see
+                # gamma_model.py), so the margin-equivalent is simply its
+                # negation, same convention beta_margin_i/gamma_margin_i
+                # (now ridge_margin_i) already use just below for the
+                # candidate models.
                 completed = bool(mkt.get("completed"))
                 home_pts, away_pts = mkt.get("home_points"), mkt.get("away_points")
                 straight_up_correct = None
                 actual_margin = None
                 if completed and home_pts is not None and away_pts is not None:
                     actual_margin = home_pts - away_pts
-                    pred_margin_i = float(pred_margin[i])
-                    if pred_margin_i != 0:
-                        straight_up_correct = (actual_margin > 0) == (pred_margin_i > 0)
+                    model_margin_i = -float(model_spread_home[i])
+                    if model_margin_i != 0:
+                        straight_up_correct = (actual_margin > 0) == (model_margin_i > 0)
                     elif actual_margin != 0:
                         straight_up_correct = None  # model called a dead-even pick'em; no favorite to grade
 
@@ -715,29 +753,25 @@ def build_matchups_and_predictions(con, notes: dict, manual_lines=None):
                 else:
                     beta_spread_home = None
 
-                # Dub Gamma Model grading -- exact same shape as Dub Beta
-                # above, just reading gamma_by_game instead. See
-                # gamma_model.py's own docstring for what this model is;
-                # like Beta, it's informational only and never feeds the
-                # live model's own edge/is_real_edge.
-                gamma_spread_home = gamma_by_game.get(int(row.game_id))
-                gamma_straight_up_correct = None
-                gamma_agrees = None
-                gamma_covered_market_line = gamma_is_real_edge = gamma_lean_side = None
-                if gamma_spread_home is not None and pd.notna(gamma_spread_home):
-                    gamma_spread_home = float(gamma_spread_home)
-                    if actual_margin is not None:
-                        gamma_margin_i = -gamma_spread_home
-                        if gamma_margin_i != 0:
-                            gamma_straight_up_correct = (actual_margin > 0) == (gamma_margin_i > 0)
-                    gamma_covered_market_line, gamma_is_real_edge, gamma_lean_side = _grade_model_line(
-                        gamma_spread_home, market_spread_home, actual_margin, completed)
-                    if model_spread_home[i] != 0 and gamma_spread_home != 0:
-                        # bool(...) load-bearing here too -- see beta_agrees'
-                        # own comment above for exactly why.
-                        gamma_agrees = bool((model_spread_home[i] < 0) == (gamma_spread_home < 0))
-                else:
-                    gamma_spread_home = None
+                # Ridge candidate grading -- exact same shape as Dub Beta
+                # above, just reading ridge_spread_home (the local Ridge fit
+                # already computed above for home_win_prob) instead of a CSV
+                # lookup. Ridge is informational only now and never feeds
+                # the live model's (Gamma's) own edge/is_real_edge.
+                ridge_spread_home_i = float(ridge_spread_home[i])
+                ridge_straight_up_correct = None
+                ridge_agrees = None
+                ridge_covered_market_line = ridge_is_real_edge = ridge_lean_side = None
+                if actual_margin is not None:
+                    ridge_margin_i = -ridge_spread_home_i
+                    if ridge_margin_i != 0:
+                        ridge_straight_up_correct = (actual_margin > 0) == (ridge_margin_i > 0)
+                ridge_covered_market_line, ridge_is_real_edge, ridge_lean_side = _grade_model_line(
+                    ridge_spread_home_i, market_spread_home, actual_margin, completed)
+                if model_spread_home[i] != 0 and ridge_spread_home_i != 0:
+                    # bool(...) load-bearing here too -- see beta_agrees'
+                    # own comment above for exactly why.
+                    ridge_agrees = bool((model_spread_home[i] < 0) == (ridge_spread_home_i < 0))
 
                 predictions.append({
                     "game_id": int(row.game_id), "week": int(row.week),
@@ -776,14 +810,15 @@ def build_matchups_and_predictions(con, notes: dict, manual_lines=None):
                     "beta_covered_market_line": beta_covered_market_line,
                     "beta_lean_side": beta_lean_side,
                     "beta_is_real_edge": beta_is_real_edge,
-                    # Dub Gamma Model (Sonny-Moore-seeded power rating) --
-                    # informational only, same rule as Beta above.
-                    "gamma_model_spread_home": round(gamma_spread_home, 1) if gamma_spread_home is not None else None,
-                    "gamma_agrees": gamma_agrees,
-                    "gamma_straight_up_correct": gamma_straight_up_correct,
-                    "gamma_covered_market_line": gamma_covered_market_line,
-                    "gamma_lean_side": gamma_lean_side,
-                    "gamma_is_real_edge": gamma_is_real_edge,
+                    # Ridge -- informational/candidate only now, same rule
+                    # as Beta above (see this function's own comment on
+                    # ridge_spread_home).
+                    "ridge_model_spread_home": round(ridge_spread_home_i, 1),
+                    "ridge_agrees": ridge_agrees,
+                    "ridge_straight_up_correct": ridge_straight_up_correct,
+                    "ridge_covered_market_line": ridge_covered_market_line,
+                    "ridge_lean_side": ridge_lean_side,
+                    "ridge_is_real_edge": ridge_is_real_edge,
                 })
 
     return matchups, predictions, {"season": season, "week": week}
@@ -810,6 +845,11 @@ def _bet_type_block(summary: dict, win_rate_key: str) -> dict:
 
 
 def build_model_tracking(con):
+    """
+    The live model's (Dub Gamma's spread pick, Ridge's win-prob-driven
+    moneyline pick, totals_model.py's total pick) season-to-date record --
+    see backtest.run_backtest() for exactly how each bet type is now sourced.
+    """
     df = backtest.run_backtest(con)
     if df.empty:
         return {"n_games": 0, "note": "Not enough graded history yet."}
@@ -829,6 +869,17 @@ def build_model_tracking(con):
     upset_wins = int((upsets["bet_result"] == "Win").sum()) if not upsets.empty else 0
     upset_total = len(upsets)
 
+    note = ("Hypothetical flat 1-unit-per-bet tracking of the live model's own picks (spread/total at "
+            "-110, moneyline at the real posted odds) -- not your personal bets.")
+    # Seed-week caveat -- see backtest.py's own docstring on gamma_is_seed_week:
+    # gamma_model.SEED_SEASON's own week 1 grades against the raw Moore seed,
+    # which already reflects that week's own results, so it's hindsight, not
+    # a genuine out-of-sample prediction the way every other graded week is.
+    if "gamma_is_seed_week" in mw_df.columns and bool((mw_df["gamma_is_seed_week"] == True).any()):  # noqa: E712
+        note += (" Week 1's spread record includes the seed week -- it uses the Moore seed exactly as "
+                  "pasted, which already reflects that week's own results, so it's informational only, "
+                  "not a genuine out-of-sample prediction (see moore_seed_2026.py).")
+
     return {
         "season": CURRENT_SEASON,
         "n_games": spread.get("n_games", 0),
@@ -837,8 +888,7 @@ def build_model_tracking(con):
         "moneyline": _bet_type_block(moneyline, "win_rate"),
         "upset_calls": upset_total,
         "upset_wins": upset_wins,
-        "note": "Hypothetical flat 1-unit-per-bet tracking of the model's own picks (spread/total at -110, "
-                "moneyline at the real posted odds) -- not your personal bets.",
+        "note": note,
     }
 
 
@@ -852,6 +902,13 @@ def build_beta_tracking():
     src/model_comparison.py` by hand, not something recomputed on every
     pipeline run -- same staleness contract as the Results page's beta_model
     field and excel/update_model_comparison_tab.py's Upcoming Games section.
+
+    "agree_rate" is XGBoost's agreement with the LIVE model (Dub Gamma) --
+    gamma_agrees_with_xgb, not the models_agree column (which is Ridge vs.
+    XGBoost, two candidates agreeing with each other, not "agrees with live
+    model" -- see model_comparison.py's own docstring on why that column
+    exists separately). Absent (pre-this-change) CSV snapshots simply show
+    no agree_rate rather than a wrong one.
     """
     df = load_beta_comparison()
     if df is None:
@@ -883,7 +940,7 @@ def build_beta_tracking():
     n_real_edge_decided = real_edge_wins + real_edge_losses
     real_edge_win_rate = real_edge_wins / n_real_edge_decided if n_real_edge_decided else None
 
-    agree = season_df["models_agree"].dropna()
+    agree = season_df["gamma_agrees_with_xgb"].dropna() if "gamma_agrees_with_xgb" in season_df.columns else pd.Series(dtype=float)
     agree_rate = float(agree.mean()) if not agree.empty else None
 
     return {
@@ -907,90 +964,60 @@ def build_beta_tracking():
     }
 
 
-def build_gamma_tracking():
+def build_ridge_tracking():
     """
-    Dub Gamma Model's season-to-date -- spread only, same shape and same
-    staleness contract as build_beta_tracking() just above (sourced from the
-    same data/clean/model_comparison_results.csv via load_beta_comparison(),
-    which now carries gamma_* columns alongside the xgb_* ones -- see
-    model_comparison.py). Gamma has no seed for any season before
-    gamma_model.SEED_SEASON (moore_seed_2026.py's own docstring), so a
-    pre-seed CURRENT_SEASON simply reports "no games graded yet" below,
-    same as it would for a genuinely-not-yet-run comparison.
+    Ridge's season-to-date -- spread only, same shape and same staleness
+    contract as build_beta_tracking() just above (sourced from the same
+    data/clean/model_comparison_results.csv via load_beta_comparison()).
+    Ridge is a candidate now (see this module's own docstring) -- the live
+    model's own record is build_model_tracking() above, sourced from
+    backtest.py directly rather than this snapshot.
+
+    Unlike Dub Gamma when IT was the candidate being tracked here, Ridge has
+    no seed-history gap -- it's fit fresh every walk-forward test week all
+    the way back through the earliest season in the backtest -- so this
+    function doesn't need Dub Gamma's old pre-seed-week guarding logic at
+    all; it's structurally identical to build_beta_tracking(), just reading
+    ridge_* columns and using gamma_agrees_with_ridge for the agree rate
+    (Ridge's agreement with the LIVE model, Gamma -- symmetric with
+    gamma_agrees_with_xgb just above).
     """
     df = load_beta_comparison()
     if df is None:
-        return {"n_games": 0, "note": "No Dub Gamma Model comparison yet -- run `python src/model_comparison.py`, "
+        return {"n_games": 0, "note": "No Ridge comparison yet -- run `python src/model_comparison.py`, "
                                        "then `python src/export_site_data.py`, to populate this."}
-
-    # model_comparison_results.csv is a snapshot from whenever you last ran
-    # model_comparison.py by hand -- if that was BEFORE gamma_model.py was
-    # added to that script, the CSV on disk simply has no gamma_* columns at
-    # all yet (not NaN values -- the columns themselves are absent), which
-    # would otherwise KeyError below. Same "stale/not-run-yet" story as the
-    # df-is-None case above, just one script-version step later.
-    required_cols = {"gamma_is_bet", "gamma_result", "gamma_agrees_with_ridge", "gamma_spread_home"}
-    if not required_cols.issubset(df.columns):
-        return {"n_games": 0, "note": "Dub Gamma Model comparison data is stale (predates the Gamma columns) -- "
-                                       "run `python src/model_comparison.py` again, then `python "
-                                       "src/export_site_data.py`, to populate this."}
 
     season_df = df[(df["season"] == CURRENT_SEASON) & df["is_mw_game"]]
     if season_df.empty:
-        return {"n_games": 0, "note": f"No {CURRENT_SEASON} Mountain West games graded in the Dub Gamma "
+        return {"n_games": 0, "note": f"No {CURRENT_SEASON} Mountain West games graded in the Ridge "
                                        "comparison yet."}
 
-    # Full record now, same change as build_beta_tracking() just above --
-    # gamma_result is real NaN/None for any game predating
-    # gamma_model.SEED_ENTERING_WEEK (see model_comparison.py), and
-    # .isin(["Win","Loss"]) on a NaN is simply False, so those rows fall out
-    # naturally without needing their own NaN guard.
-    bets = season_df[season_df["gamma_result"].isin(["Win", "Loss"])]
-    wins = int((bets["gamma_result"] == "Win").sum())
-    losses = int((bets["gamma_result"] == "Loss").sum())
-    pushes = int((season_df["gamma_result"] == "Push").sum())
+    # Full record now (every graded game, including the ones below
+    # EDGE_THRESHOLD that model_comparison.py's grade_spread_pick() call
+    # grades on Ridge's own raw lean) -- not just the real, threshold-
+    # clearing bets. Real edges are still broken out separately below, same
+    # "n_real_edge_bets" shape as backtest.py's own summarize().
+    bets = season_df[season_df["ridge_result"].isin(["Win", "Loss"])]
+    wins = int((bets["ridge_result"] == "Win").sum())
+    losses = int((bets["ridge_result"] == "Loss").sum())
+    pushes = int((season_df["ridge_result"] == "Push").sum())
     n_bets = wins + losses
     profit = wins * (100 / 110) - losses * 1.0
 
-    real_edge_mask = season_df["gamma_is_bet"] == True  # noqa: E712 -- NaN-safe (NaN == True is False)
-    real_edge_bets = season_df[real_edge_mask & season_df["gamma_result"].isin(["Win", "Loss"])]
+    real_edge_mask = season_df["ridge_is_bet"] == True  # noqa: E712 -- NaN-safe (NaN == True is False)
+    real_edge_bets = season_df[real_edge_mask & season_df["ridge_result"].isin(["Win", "Loss"])]
     n_real_edge_bets = int(real_edge_mask.sum())
-    real_edge_wins = int((real_edge_bets["gamma_result"] == "Win").sum())
-    real_edge_losses = int((real_edge_bets["gamma_result"] == "Loss").sum())
+    real_edge_wins = int((real_edge_bets["ridge_result"] == "Win").sum())
+    real_edge_losses = int((real_edge_bets["ridge_result"] == "Loss").sum())
     n_real_edge_decided = real_edge_wins + real_edge_losses
     real_edge_win_rate = real_edge_wins / n_real_edge_decided if n_real_edge_decided else None
 
-    agree = season_df["gamma_agrees_with_ridge"].dropna()
+    agree = season_df["gamma_agrees_with_ridge"].dropna() if "gamma_agrees_with_ridge" in season_df.columns else pd.Series(dtype=float)
     agree_rate = float(agree.mean()) if not agree.empty else None
-
-    graded_games = int(season_df["gamma_spread_home"].notna().sum())
-
-    # SEED_SEASON's own week 1 only -- see model_comparison.py's own
-    # docstring. .columns check keeps a pre-this-change CSV snapshot (no
-    # gamma_is_seed_week column at all) rendering exactly as it did before,
-    # with no caveat note.
-    has_seed_week_games = (
-        bool((season_df["gamma_is_seed_week"] == True).any())  # noqa: E712 -- NaN-safe
-        if "gamma_is_seed_week" in season_df.columns else False
-    )
-
-    if not graded_games:
-        note = (
-            f"No {CURRENT_SEASON} games graded under the Dub Gamma seed yet -- ratings replay starts at "
-            "week 2 of the seed season (see moore_seed_2026.py)."
-        )
-    elif has_seed_week_games:
-        note = (
-            "Week 1's record above uses the Moore seed exactly as pasted, which already reflects Week 1's "
-            "own results (see moore_seed_2026.py's own docstring) -- so it's informational only, not a "
-            "genuine out-of-sample prediction the way Week 2 onward is."
-        )
-    else:
-        note = None
 
     return {
         "season": CURRENT_SEASON,
-        "n_games": graded_games,
+        "n_games": len(season_df),
         "spread": {
             "n_bets": n_bets, "wins": wins, "losses": losses, "pushes": pushes,
             "win_rate": round(wins / n_bets, 4) if n_bets else None,
@@ -1001,9 +1028,9 @@ def build_gamma_tracking():
         },
         "agree_rate": round(agree_rate, 4) if agree_rate is not None else None,
         # Same "no note on the happy path" convention as build_beta_tracking()
-        # above -- tracking.html's renderGamma() only shows a notes-box when
+        # above -- tracking.html's renderRidge() only shows a notes-box when
         # .note is present.
-        "note": note,
+        "note": None,
     }
 
 
@@ -1021,52 +1048,47 @@ def _beta_result_dict(b):
         # _sanitize_nans() exists for elsewhere) -- guard explicitly rather
         # than relying on isinstance() alone catching it.
         "spread_result": b.xgb_result if isinstance(b.xgb_result, str) and pd.notna(b.xgb_result) else None,
-        "agrees_with_model": bool(b.models_agree) if pd.notna(b.models_agree) else None,
+        # Agreement with the LIVE model (Gamma), not with Ridge -- see
+        # model_comparison.py's own docstring on gamma_agrees_with_xgb vs.
+        # models_agree. getattr() default handles a pre-this-change CSV
+        # snapshot that has no gamma_agrees_with_xgb column at all yet.
+        "agrees_with_model": (
+            bool(b.gamma_agrees_with_xgb) if pd.notna(getattr(b, "gamma_agrees_with_xgb", None)) else None
+        ),
     }
 
 
-def _gamma_result_dict(g):
+def _ridge_result_dict(g):
     """g is one row (itertuples) from model_comparison_results.csv, or None
     if this game isn't in that snapshot -- mirrors _beta_result_dict() above
-    exactly, reading the gamma_* columns instead of xgb_*/models_agree.
-    gamma_is_bet/gamma_result are real None/NaN (not just "never bet") for
-    any game predating gamma_model.SEED_ENTERING_WEEK, so this guards
-    pd.notna() on gamma_is_bet too, unlike _beta_result_dict()'s bare
-    bool(b.xgb_is_bet) (XGBoost has no such pre-seed gap). Also uses
-    getattr() rather than bare attribute access -- a model_comparison_results.csv
-    snapshot from before gamma_model.py was added to model_comparison.py has
-    no gamma_* columns at ALL yet, so itertuples() wouldn't even have these
-    attributes to read (see build_gamma_tracking()'s own column-existence
-    guard for the same staleness case, one level up)."""
+    exactly, reading the ridge_* columns instead of xgb_*/models_agree.
+    Unlike Dub Gamma when IT was the candidate tracked here, ridge_is_bet/
+    ridge_result are never a real pre-seed gap -- Ridge is fit fresh back
+    through the earliest season in the backtest -- so this is a much closer
+    mirror of _beta_result_dict() than the old _gamma_result_dict() it
+    replaces needed to be. Kept as its own function (not merged into
+    _beta_result_dict() with a prefix argument) since the two are read from
+    different attribute names on the same namedtuple, not worth the
+    indirection to unify."""
     if g is None:
         return None
-    gamma_spread_home = getattr(g, "gamma_spread_home", None)
-    if pd.isna(gamma_spread_home):
-        return None
-    gamma_lean = getattr(g, "gamma_lean", None)
-    gamma_is_bet = getattr(g, "gamma_is_bet", None)
-    gamma_result = getattr(g, "gamma_result", None)
-    gamma_agrees = getattr(g, "gamma_agrees_with_ridge", None)
-    # SEED_SEASON's own week 1 only -- see model_comparison.py's own docstring
-    # and run_comparison()'s comment on gamma_ratings. getattr() default False
-    # keeps a pre-this-change CSV snapshot (no gamma_is_seed_week column at
-    # all) rendering exactly as it did before, with no caveat tag.
-    gamma_is_seed_week = getattr(g, "gamma_is_seed_week", False)
     return {
-        "spread_pick": round(float(gamma_spread_home), 1),
-        "spread_lean": gamma_lean if isinstance(gamma_lean, str) else None,
-        "spread_was_bet": bool(gamma_is_bet) if pd.notna(gamma_is_bet) else False,
-        "spread_result": gamma_result if isinstance(gamma_result, str) and pd.notna(gamma_result) else None,
-        "agrees_with_model": bool(gamma_agrees) if pd.notna(gamma_agrees) else None,
-        "is_seed_week": bool(gamma_is_seed_week) if pd.notna(gamma_is_seed_week) else False,
+        "spread_pick": round(float(g.ridge_spread_home), 1) if pd.notna(g.ridge_spread_home) else None,
+        "spread_lean": g.ridge_lean if isinstance(g.ridge_lean, str) else None,
+        "spread_was_bet": bool(g.ridge_is_bet),
+        "spread_result": g.ridge_result if isinstance(g.ridge_result, str) and pd.notna(g.ridge_result) else None,
+        # Ridge's agreement with the LIVE model (Gamma) -- same
+        # gamma_agrees_with_ridge column build_ridge_tracking() uses.
+        "agrees_with_model": bool(g.gamma_agrees_with_ridge) if pd.notna(g.gamma_agrees_with_ridge) else None,
     }
 
 
 def build_matchup_grid(con):
     """
-    Matchup Creator page: precomputes the live Ridge model's predicted
-    spread/win-probability for every ORDERED pair of this season's FBS teams
-    (home, away), including pairs that aren't actually on this season's
+    Matchup Creator page: precomputes all three models' (Ridge, XGBoost, and
+    the now-live Dub Gamma Model) predicted spread/win-probability for every
+    ORDERED pair of this season's FBS teams (home, away), including pairs
+    that aren't actually on this season's
     schedule -- e.g. "what would Boise State -7 at home vs. Wyoming look
     like" even if they aren't playing each other this year. The site is
     fully static (GitHub Pages, no server/API), so this has to be
@@ -1082,16 +1104,18 @@ def build_matchup_grid(con):
 
     Refits the SAME Ridge pipeline (model.py's build_pipeline()/
     fit_margin_model(), on ALL available completed games, no walk-forward
-    cutoff) that predict_week.py fits for the live Weekly Slate, AND the same
-    Dub Beta (XGBoost) pipeline (xgboost_model.fit_xgboost_margin_model(),
-    same training data) predict_week.py also fits for its own "XGBoost Line
-    (Home)" column, AND the Dub Gamma Model (gamma_model.py) -- the page lets
-    the viewer toggle between all three, same "candidate alongside the live
-    model, never silently blended" rule this project applies everywhere else
-    Dub Beta/Gamma show up (Predictions/Results/Tracking pages). Refitting
-    Ridge/XGBoost here instead of trying to reuse predict_week.py's in-memory
-    pipes (neither is persisted anywhere) costs one extra Ridge fit AND one
-    extra XGBoost hyperparameter search per pipeline run -- the Ridge fit is
+    cutoff) that predict_week.py fits for its now-informational "Ridge Line
+    (Home)" column, AND the same Dub Beta (XGBoost) pipeline
+    (xgboost_model.fit_xgboost_margin_model(), same training data)
+    predict_week.py also fits for its own "XGBoost Line (Home)" column, AND
+    the Dub Gamma Model (gamma_model.py) -- the page lets the viewer toggle
+    between all three, same "candidate alongside the live model, never
+    silently blended" rule this project applies everywhere else Ridge/Beta
+    show up (Predictions/Results/Tracking pages) -- Gamma is the live model
+    now, Ridge and XGBoost are both candidates here. Refitting Ridge/XGBoost
+    here instead of trying to reuse predict_week.py's in-memory pipes
+    (neither is persisted anywhere) costs one extra Ridge fit AND one extra
+    XGBoost hyperparameter search per pipeline run -- the Ridge fit is
     cheap, but the XGBoost search is the same real cost predict_week.py
     already pays once for its own Dub Beta line, so this roughly doubles
     that particular cost per `python src/export_site_data.py` run. Gamma
@@ -1420,15 +1444,20 @@ def build_results(con):
     any. Matched to your Bet Log by the exact "Away @ Home" text in column C
     -- see read_bet_log()'s docstring.
 
+    "model" is now Dub Gamma's own graded pick for spread (Ridge's for
+    moneyline, totals_model.py's for total) -- see backtest.py's own
+    docstring. "model.spread_is_seed_week" flags CURRENT_SEASON's own week 1
+    (see backtest.py's gamma_is_seed_week) -- that week's spread grade reuses
+    the Moore seed exactly as pasted, which already reflects week 1's own
+    results, so it's hindsight, not a genuine out-of-sample prediction.
+
     Also carries a "beta_model" field per game -- the Dub Beta Model
     (XGBoost)'s own graded spread pick for that same game, from
-    load_beta_comparison() -- and a "gamma_model" field the same way for the
-    Dub Gamma Model. Both are null whenever that game isn't in the last
-    model_comparison.py snapshot (script never run, or run before this game
-    was graded); gamma_model is also null for any game predating
-    gamma_model.SEED_ENTERING_WEEK even when the snapshot itself is fresh
-    (no seed ratings exist that far back) -- see this module's docstring for
-    the staleness contract.
+    load_beta_comparison() -- and a "ridge_model" field the same way for
+    Ridge (both candidates now). Both are null whenever that game isn't in
+    the last model_comparison.py snapshot (script never run, or run before
+    this game was graded) -- see this module's docstring for the staleness
+    contract.
     """
     df = backtest.run_backtest(con)
     if df.empty:
@@ -1468,8 +1497,11 @@ def build_results(con):
             "model": {
                 "spread_pick": _n(row.model_spread_home),
                 "market_spread_close": _n(row.market_spread_home),
-                "spread_lean": row.lean, "spread_was_bet": bool(row.is_bet),
+                "spread_lean": row.lean, "spread_was_bet": bool(row.is_bet) if row.is_bet is not None else None,
                 "spread_result": row.bet_result,
+                # True only for CURRENT_SEASON's own week 1 -- see this
+                # function's own docstring and backtest.py's gamma_is_seed_week.
+                "spread_is_seed_week": bool(row.gamma_is_seed_week) if getattr(row, "gamma_is_seed_week", None) else False,
                 "total_pick": _n(row.model_total),
                 "market_total_close": _n(row.market_total),
                 "total_lean": row.total_lean,
@@ -1480,7 +1512,7 @@ def build_results(con):
                 "ml_result": row.ml_bet_result,
             },
             "beta_model": _beta_result_dict(beta_by_game.get(gid)),
-            "gamma_model": _gamma_result_dict(beta_by_game.get(gid)),
+            "ridge_model": _ridge_result_dict(beta_by_game.get(gid)),
             "your_bets": bets_by_matchup.get(matchup_key, []),
         })
 
@@ -1621,7 +1653,7 @@ def main():
     line_history = build_line_history(con, [g["game_id"] for g in live_lines])
     tracking = {
         "model": build_model_tracking(con), "yours": read_bet_log(),
-        "beta_model": build_beta_tracking(), "gamma_model": build_gamma_tracking(),
+        "beta_model": build_beta_tracking(), "ridge_model": build_ridge_tracking(),
     }
     results = build_results(con)
     matchup_grid = build_matchup_grid(con)

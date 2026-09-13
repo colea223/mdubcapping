@@ -1,12 +1,19 @@
 """
-Walk-forward comparison of THREE margin-of-victory approaches -- Ridge
-(model.py, the live/production model), XGBoost (xgboost_model.py, a fitted
-candidate), and the Dub Gamma Model (gamma_model.py, a non-fitted candidate
-seeded from Sonny Moore's own ratings) -- against each other AND against
-Vegas's closing spread. Spread only (not totals/moneyline): both candidates
-are drop-in alternatives to model.py's margin model specifically, and
-totals_model.py is a separate, already-validated piece of machinery this
-comparison doesn't touch.
+Walk-forward comparison of THREE margin-of-victory approaches -- the Dub
+Gamma Model (gamma_model.py, a non-fitted model seeded from Sonny Moore's
+own ratings, now the LIVE/production model per Cole's explicit request),
+Ridge (model.py, a fitted candidate), and XGBoost (xgboost_model.py, a
+fitted candidate) -- against each other AND against Vegas's closing spread.
+Spread only (not totals/moneyline): both candidates are drop-in alternatives
+to Gamma's margin call specifically, and totals_model.py is a separate,
+already-validated piece of machinery this comparison doesn't touch.
+
+(Column names below still use the original "ridge"/"xgb"/"gamma" prefixes
+from before the live-model swap -- renaming them would break every existing
+data/clean/model_comparison_results.csv snapshot and every downstream reader
+of this CSV, excel/update_model_comparison_tab.py and export_site_data.py
+included, for no real benefit. Read "ridge_*"/"xgb_*" as "the two
+candidates" and "gamma_*" as "the live model" throughout this file now.)
 
 Ridge and XGBoost use the same walk-forward discipline as backtest.py: for
 every test week, both are refit from scratch using only games whose
@@ -32,29 +39,37 @@ label that week as informational rather than presenting it as equivalent to
 a real prediction.
 
 Grading itself is backtest.grade_spread_pick() -- the SAME function
-backtest.py's own live Ridge grading uses, imported rather than
-reimplemented so all three models here are graded through identical rules,
-including the "below edge threshold, default to the market's own favorite
-instead of the model's raw (possibly noisy) edge-sign lean" behavior --
-see that function's and backtest.py's own docstrings for the full
-rationale. is_bet/*_result now come out of that shared function too:
+backtest.py's own live Gamma grading uses, imported rather than
+reimplemented so all three models here are graded through identical rules.
+Per Cole's own explicit request, the graded/tracked pick for every model
+here is simply whichever side that model's own number favors, full stop --
+see backtest.py's own docstring for the full history of that rule (it
+previously defaulted a below-threshold pick back to the market's favorite;
+that's gone now). is_bet/*_result come out of that shared function too:
 *_result is populated for EVERY graded game (not just real, threshold-
 clearing bets), so the season-to-date record built from this script's
 output reflects the full record, same change as backtest.py.
 
-This is deliberately a standalone script, same category backtest.py already
-established for itself in run_pipeline.py's own comments ("an evaluation
-report, not a data step") -- it is NOT wired into run_pipeline.py or the
-GitHub Actions workflows. Two reasons: GitHub Actions' 30-minute timeout, and
-because refitting an XGBoost hyperparameter search for every historical week
-is meaningfully more compute than the Ridge-only backtest already does (Gamma
-adds negligible cost by comparison -- a plain replay, not a fit). Run it by
-hand whenever you want a fresh read on how the three compare.
+Still deliberately a standalone script, NOT part of run_pipeline.py itself
+(same category backtest.py already established for itself in run_pipeline.py's
+own comments, "an evaluation report, not a data step") -- refitting an
+XGBoost hyperparameter search for every historical week is meaningfully more
+compute than the Ridge-only backtest already does (Gamma adds negligible
+cost by comparison -- a plain replay, not a fit), so it stays out of
+run_pipeline.py's own STEPS list to keep a local/manual `python
+src/run_pipeline.py` run fast. It IS, however, wired directly into
+.github/workflows/weekly_pipeline.yml as its own step, immediately after the
+full pipeline runs -- Cole asked to stop having to remember to run this by
+hand, and that workflow's timeout was raised specifically to give this the
+room it needs (see that file's own comment). Still fine to also run by hand
+locally (e.g. right after a game you care about finishes) if you want a
+fresher read than waiting for the next scheduled run.
 
 Usage:
     source .venv/bin/activate
     python src/model_comparison.py
     python excel/update_model_comparison_tab.py   # writes the result into the tracker
+    python src/export_site_data.py                # so the site/Tracking page picks it up too
 """
 import time
 
@@ -187,9 +202,24 @@ def run_comparison(con, edge_threshold=EDGE_THRESHOLD, min_train_games=MIN_TRAIN
                 # and needs to be labeled as informational, not a real
                 # prediction, wherever it's shown.
                 "gamma_is_seed_week": bool(gamma_is_seed_week) if gamma_ratings is not None else None,
+                # Two candidates agreeing with EACH OTHER -- unaffected by
+                # the live-model swap, still just "do Ridge and XGBoost lean
+                # the same way."
                 "models_agree": (r_lean == x_lean) if (r_lean != "Pick'em" and x_lean != "Pick'em") else None,
+                # Each candidate's agreement with the LIVE model (Gamma) --
+                # this is the pair the site actually shows as "Agrees with
+                # live model" on the Predictions/Results/Tracking pages (see
+                # export_site_data.py's _beta_result_dict()/_ridge_result_dict()/
+                # build_beta_tracking()/build_ridge_tracking()). Symmetric by
+                # construction (order doesn't matter), so the same
+                # gamma_agrees_with_ridge column also serves as "does Ridge
+                # agree with the live model" from the other direction.
                 "gamma_agrees_with_ridge": (
                     (r_lean == g_lean) if (g_lean is not None and r_lean != "Pick'em" and g_lean != "Pick'em")
+                    else None
+                ),
+                "gamma_agrees_with_xgb": (
+                    (x_lean == g_lean) if (g_lean is not None and x_lean != "Pick'em" and g_lean != "Pick'em")
                     else None
                 ),
             })
@@ -259,11 +289,17 @@ def main():
 
     agree_rate = df["models_agree"].dropna().mean() if df["models_agree"].notna().any() else None
     if agree_rate is not None:
-        print(f"Ridge and XGBoost agree on which side to lean in {agree_rate:.1%} of graded games\n")
-    gamma_agree = df["gamma_agrees_with_ridge"].dropna()
-    if not gamma_agree.empty:
-        print(f"Gamma agrees with Ridge on which side to lean in {gamma_agree.mean():.1%} of graded games "
-              f"(gamma_model.SEED_ENTERING_WEEK onward only)\n")
+        print(f"Ridge and XGBoost (the two candidates) agree with EACH OTHER on which side to lean "
+              f"in {agree_rate:.1%} of graded games\n")
+    ridge_gamma_agree = df["gamma_agrees_with_ridge"].dropna()
+    if not ridge_gamma_agree.empty:
+        print(f"Ridge agrees with the live model (Gamma) on which side to lean in "
+              f"{ridge_gamma_agree.mean():.1%} of graded games (gamma_model.SEED_ENTERING_WEEK onward only)\n")
+    if "gamma_agrees_with_xgb" in df.columns:
+        xgb_gamma_agree = df["gamma_agrees_with_xgb"].dropna()
+        if not xgb_gamma_agree.empty:
+            print(f"XGBoost agrees with the live model (Gamma) on which side to lean in "
+                  f"{xgb_gamma_agree.mean():.1%} of graded games (gamma_model.SEED_ENTERING_WEEK onward only)\n")
 
     slices = [("Overall (all FBS)", df), ("Mountain West-involved", df[df["is_mw_game"]])]
     for label, sl in slices:
@@ -271,8 +307,8 @@ def main():
         # Gamma was left out of this loop when it was first added to
         # run_comparison()/the CSV output -- fixed here so the console
         # summary always covers all three models, not just two.
-        for prefix, name in [("ridge", "RIDGE (live model)"), ("xgb", "XGBOOST (candidate)"),
-                              ("gamma", "DUB GAMMA (candidate)")]:
+        for prefix, name in [("gamma", "DUB GAMMA (live model)"), ("ridge", "RIDGE (candidate)"),
+                              ("xgb", "XGBOOST (candidate)")]:
             s = summarize(sl, prefix, label)
             print(f"--- {name} ---")
             for k, v in s.items():

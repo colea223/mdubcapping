@@ -3,25 +3,33 @@ Phase 3: generates this week's (or any specified week's) matchup projections,
 in a layout that pastes straight into the Excel tracker's Weekly Slate tab
 (Model Line (Home), Model Total columns).
 
-Trains the margin model on ALL available completed games (no walk-forward
-cutoff needed here -- that discipline is for the backtest; a live prediction
-should use every game you actually have). Predicts for games in the target
-week that haven't been played yet.
+THE LIVE MODEL IS NOW THE DUB GAMMA MODEL (Sonny-Moore-seeded power rating,
+gamma_model.py), per Cole's explicit request to switch the live/actionable
+pick over from Ridge. "Model Line (Home)" below -- the ONE column
+excel/update_tracker.py reads into Weekly Slate, and the one every downstream
+consumer treats as "the pick" -- is now Dub Gamma's spread, not Ridge's.
+Ridge (model.py) is still fit here (needed for "Home Win Prob," which feeds
+moneyline grading -- Gamma has no win-probability concept at all, see
+gamma_model.py's own docstring) and its own spread is written out too, as the
+new "Ridge Line (Home)" column -- informational only now, same "candidate,
+never the live pick" treatment XGBoost's column already had before this
+change. XGBoost itself is unaffected -- still a candidate, still written to
+"XGBoost Line (Home)".
 
-Also trains and predicts XGBoost's candidate margin model (xgboost_model.py)
-on the exact same training data and the exact same upcoming games, purely so
-there's a live, up-to-date XGBoost line to sit next to Ridge's -- same
-"informational only, never replacing Ridge" rule everywhere else in this
-project applies here too: Weekly Slate (via excel/update_tracker.py) still
-only ever reads the "Model Line (Home)"/"Model Total" columns below, which
-stay 100% Ridge. The new "XGBoost Line (Home)" column is additional, read
-only by excel/update_model_comparison_tab.py's upcoming-games section, so
-Ridge remains the one live model driving actual bets. This does add one
-XGBoost hyperparameter search (RandomizedSearchCV) to every pipeline run --
-unlike model_comparison.py's walk-forward backtest, which reruns that search
-once per historical test week (which is why THAT stays out of run_pipeline.py
-entirely, see its own docstring), this is a single fit for the single
-upcoming week, so the added cost is one search, not hundreds.
+Ridge is trained on ALL available completed games (no walk-forward cutoff
+needed here -- that discipline is for the backtest; a live prediction should
+use every game you actually have). Predicts for games in the target week
+that haven't been played yet -- same for XGBoost's candidate fit. Dub Gamma
+needs no fit at all (see gamma_model.py's own docstring) -- just a full
+replay of this season's completed games from the fixed Moore seed, which is
+cheap (a few hundred games, one linear pass).
+
+This does add one XGBoost hyperparameter search (RandomizedSearchCV) to
+every pipeline run -- unlike model_comparison.py's walk-forward backtest,
+which reruns that search once per historical test week (which is why THAT
+stays out of run_pipeline.py entirely, see its own docstring), this is a
+single fit for the single upcoming week, so the added cost is one search,
+not hundreds.
 
 Usage:
     source .venv/bin/activate
@@ -88,12 +96,14 @@ def main():
         return
 
     pipe, residual_std = model.fit_margin_model(train_df)
-    print(f"Trained on {len(train_df)} completed games. Residual std: {residual_std:.1f} pts.")
+    print(f"Trained Ridge on {len(train_df)} completed games. Residual std: {residual_std:.1f} pts. "
+          "(Candidate now -- still fit for its Home Win Prob/moneyline use, and its own spread is "
+          "written out as an informational column; see this module's docstring.)")
 
     xgb_pipe, xgb_residual_std = xgboost_model.fit_xgboost_margin_model(train_df)
     print(f"Trained XGBoost candidate on the same {len(train_df)} games. "
-          f"Residual std: {xgb_residual_std:.1f} pts. (Informational -- Ridge above is still "
-          "the live model; see excel/update_model_comparison_tab.py's upcoming-games section.)")
+          f"Residual std: {xgb_residual_std:.1f} pts. (Informational -- see "
+          "excel/update_model_comparison_tab.py's upcoming-games section.)")
 
     # Dub Gamma Model -- no fitting involved (see gamma_model.py's own
     # docstring), just a full replay of this season's completed games from
@@ -160,14 +170,22 @@ def main():
         "Date": pd.to_datetime(upcoming["start_date"]).dt.strftime("%Y-%m-%d"),
         "Away Team": upcoming["away_team"].values,
         "Home Team": upcoming["home_team"].values,
-        "Model Line (Home)": [round(x, 1) for x in model_spread_home],
+        # THE LIVE PICK -- Dub Gamma's spread now, not Ridge's (see this
+        # module's own docstring). Weekly Slate (via excel/update_tracker.py)
+        # reads exactly this column, unchanged by name, so that script needed
+        # no edit at all for this swap to take effect.
+        "Model Line (Home)": [round(x, 1) for x in gamma_spread_home],
         "Model Total": [round(x, 1) if x is not None else None for x in model_total],
+        # Still Ridge's own win probability -- Gamma has no win-prob concept
+        # (see gamma_model.py's own docstring), so moneyline grading keeps
+        # reading this column exactly as before.
         "Home Win Prob": [round(x, 3) for x in home_win_prob],
-        # Informational only -- see the module docstring. Weekly Slate never
-        # reads this column; only excel/update_model_comparison_tab.py does.
+        # Ridge is now informational only -- see the module docstring. Weekly
+        # Slate never reads this column; only
+        # excel/update_model_comparison_tab.py does.
+        "Ridge Line (Home)": [round(x, 1) for x in model_spread_home],
+        # XGBoost stays informational only, same as it always was.
         "XGBoost Line (Home)": [round(x, 1) for x in xgb_spread_home],
-        # Also informational only -- see gamma_model.py's own docstring.
-        "Gamma Line (Home)": [round(x, 1) for x in gamma_spread_home],
     })
 
     CLEAN_DIR.mkdir(parents=True, exist_ok=True)
@@ -177,10 +195,10 @@ def main():
     print(f"\n{len(out)} matchups for season {season}, week {week} -- saved to {out_path}\n")
     print(out.to_string(index=False))
     print(
-        "\nPaste the 'Model Line (Home)' and 'Model Total' columns into the Weekly Slate tab's "
-        "matching columns (fill in Market Line/Market Total by hand from your sportsbook). "
-        "'XGBoost Line (Home)' and 'Gamma Line (Home)' are informational only -- run "
-        "excel/update_model_comparison_tab.py to see them alongside Ridge's line in the Model "
+        "\nPaste the 'Model Line (Home)' (Dub Gamma's live pick) and 'Model Total' columns into "
+        "the Weekly Slate tab's matching columns (fill in Market Line/Market Total by hand from "
+        "your sportsbook). 'Ridge Line (Home)' and 'XGBoost Line (Home)' are informational only -- "
+        "run excel/update_model_comparison_tab.py to see them alongside Gamma's line in the Model "
         "Comparison tab's upcoming-games section."
     )
 

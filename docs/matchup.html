@@ -30,16 +30,16 @@
     <datalist id="team-options"></datalist>
     <div class="model-toggle" id="model-toggle">
       <label>
-        <input type="radio" name="model-choice" value="ridge" checked>
-        Ridge <span class="model-toggle-sub">(Live Model)</span>
+        <input type="radio" name="model-choice" value="gamma" checked>
+        Dub Gamma <span class="model-toggle-sub">(Moore-seeded, Live Model)</span>
+      </label>
+      <label>
+        <input type="radio" name="model-choice" value="ridge">
+        Ridge <span class="model-toggle-sub">(candidate)</span>
       </label>
       <label>
         <input type="radio" name="model-choice" value="xgboost">
         Dub Beta <span class="model-toggle-sub">(XGBoost, candidate)</span>
-      </label>
-      <label>
-        <input type="radio" name="model-choice" value="gamma">
-        Dub Gamma <span class="model-toggle-sub">(Moore-seeded, candidate)</span>
       </label>
     </div>
   </div>
@@ -56,17 +56,20 @@ document.getElementById("nav").innerHTML = renderNav("matchup.html");
 // Every prediction here comes precomputed from docs/data/matchup_grid.json
 // (see export_site_data.py's build_matchup_grid()) -- the site is fully
 // static, so there's no server to fit either model against an arbitrary
-// pair on the fly. build_matchup_grid() fits BOTH the live Ridge margin
-// model AND the Dub Beta (XGBoost) candidate on the same training data,
-// PLUS runs the Dub Gamma Model's rating-diff formula (no fit -- see that
-// function's own docstring), so this page -- unlike every other page,
-// where Dub Beta/Gamma are only ever a secondary annotation next to
-// Ridge's own pick -- lets the viewer toggle which one they're looking at.
-// Whichever is selected, it's run against a hypothetical, not-necessarily-
-// scheduled matchup, covering every FBS team that played a game this
-// season (Gamma additionally needs a Moore seed rating for the team --
-// see gamma_model.py/moore_seed_2026.py; a team with none falls back to
-// gamma_model.DEFAULT_SEED_RATING, same as everywhere else Gamma runs).
+// pair on the fly. build_matchup_grid() fits BOTH the Ridge margin model
+// AND the Dub Beta (XGBoost) candidate on the same training data, PLUS runs
+// the Dub Gamma Model's rating-diff formula (no fit -- see that function's
+// own docstring) -- Gamma is the LIVE model now (Ridge and XGBoost are both
+// candidates), so this page -- unlike every other page, where Ridge/Beta
+// are only ever a secondary annotation next to Gamma's own pick -- lets the
+// viewer toggle which one they're looking at. Whichever is selected, it's
+// run against a hypothetical, not-necessarily-scheduled matchup, covering
+// every FBS team that played a game this season (Gamma additionally needs a
+// Moore seed OR at least one tracked game this season for the team -- see
+// gamma_model.py/moore_seed_2026.py; a team with neither falls back to
+// gamma_model.UNRATED_OPPONENT_RATING, same as everywhere else Gamma runs,
+// though in practice every team in this page's own list has played a
+// tracked game by definition -- see build_matchup_grid()'s docstring).
 // Two assumptions make the hypothetical possible: both teams are assumed
 // equally rested, and the game is assumed played at the "Home" team's own
 // usual venue (so "Away" travels/adjusts for elevation exactly like a real
@@ -74,8 +77,8 @@ document.getElementById("nav").innerHTML = renderNav("matchup.html");
 // whether either team is a current Mountain West team, travel distance,
 // elevation change, power ratings, and prior-season strength metrics --
 // is the real value for that specific pair, not a blanket guess.
-const MODEL_LABELS = { ridge: "Ridge", xgboost: "Dub Beta (XGBoost)", gamma: "Dub Gamma" };
-const MODEL_BADGE_TAGS = { xgboost: "Dub Beta Model", gamma: "Dub Gamma Model" };
+const MODEL_LABELS = { gamma: "Dub Gamma", ridge: "Ridge", xgboost: "Dub Beta (XGBoost)" };
+const MODEL_BADGE_TAGS = { ridge: "Ridge Model", xgboost: "Dub Beta Model" };
 
 function renderResult(home, away, modelCell, residualStd, modelChoice) {
   const container = document.getElementById("matchup-result");
@@ -121,9 +124,9 @@ function renderResult(home, away, modelCell, residualStd, modelChoice) {
         </div>
       </div>` : "";
   // Same dashed-purple "candidate, not the live model" badge Predictions/
-  // Results/Tracking already use for Dub Beta/Gamma -- shown here too so
+  // Results/Tracking already use for Ridge/Dub Beta -- shown here too so
   // picking either candidate never reads as if it carries equal weight to
-  // Ridge.
+  // Dub Gamma, the live model.
   const badgeTag = MODEL_BADGE_TAGS[modelChoice];
   const badgeHtml = badgeTag ? `<div style="margin-bottom:10px;"><span class="beta-tag">${badgeTag}</span></div>` : "";
   const modelLabel = MODEL_LABELS[modelChoice];

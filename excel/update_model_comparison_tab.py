@@ -1,6 +1,7 @@
 """
 Adds/refreshes a "Model Comparison" tab in MW_Handicapping_Tracker.xlsx --
-Ridge (the live model) vs. XGBoost vs. the Dub Gamma Model (two candidates),
+the Dub Gamma Model (the live model, per Cole's explicit request to switch
+the live pick over from Ridge) vs. Ridge vs. XGBoost (two candidates),
 graded against Vegas's closing spread, side by side. Reads
 src/model_comparison.py's output (data/clean/model_comparison_results.csv --
 run that script first) for the historical/graded sections, PLUS
@@ -17,13 +18,20 @@ or clearing and rewriting ONLY that sheet's cells if it does. Every other
 tab (Read Me, Settings, Weekly Slate, Bet Log, Team Profiles, and anything
 else you've added) is left completely untouched.
 
-This does NOT change what Weekly Slate uses, and does NOT touch Ridge's
-role as the live model anywhere in this project -- it's an informational
-side-by-side, nothing more, per the explicit instruction that neither
-candidate is taking over yet. Gamma has no seed rating (and so no
-prediction at all) for any season before SEED_SEASON -- see
-gamma_model.py's and moore_seed_2026.py's own docstrings -- so its columns
-simply read "n/a" for older seasons/games throughout this sheet.
+This does NOT change what Weekly Slate uses (Weekly Slate reads the "Model
+Line (Home)" column of predict_week.py's CSV directly -- see
+excel/update_tracker.py -- and that column is Gamma's now, independent of
+anything this sheet does) -- it's an informational side-by-side, nothing
+more. Gamma has no seed rating (and so no prediction at all) for any season
+before SEED_SEASON -- see gamma_model.py's and moore_seed_2026.py's own
+docstrings -- so its columns simply read "n/a" for older seasons/games
+throughout this sheet.
+
+Column names throughout this file still use the original "ridge"/"xgb"/
+"gamma" prefixes from before the live-model swap (they trace straight back
+to model_comparison.py's own CSV columns -- see that script's docstring for
+why those weren't renamed). Read "gamma" as "the live model" and "ridge"/
+"xgb" as "the two candidates" throughout.
 
 SEED_SEASON's own week 1 IS graded by Gamma (per Cole's own request), but
 that grade reuses the Moore seed exactly as pasted -- which already
@@ -212,8 +220,8 @@ def write_summary_block(ws, df, start_row, title, season_filter=None):
     style_header_row(ws, r, len(headers))
     r += 1
 
-    for prefix, label in [("ridge", "Ridge (live model)"), ("xgb", "XGBoost (candidate)"),
-                          ("gamma", "Dub Gamma Model (candidate)")]:
+    for prefix, label in [("gamma", "Dub Gamma Model (live model)"), ("ridge", "Ridge (candidate)"),
+                          ("xgb", "XGBoost (candidate)")]:
         s_overall = summarize(sl, prefix, "overall")
         clv_overall = _clv_stats(sl, prefix)
         _summary_row(ws, r, f"{label} -- all FBS", s_overall, clv_overall)
@@ -252,7 +260,7 @@ def write_detail_table(ws, df, start_row, season):
         "Ridge Line", "Ridge Edge", "Ridge Lean", "Ridge Result",
         "XGBoost Line", "XGBoost Edge", "XGBoost Lean", "XGBoost Result",
         "Gamma Line", "Gamma Edge", "Gamma Lean", "Gamma Result",
-        "Ridge/XGBoost Agree?", "Gamma Agrees (w/ Ridge)?", "Tightest CLV Line",
+        "Ridge/XGBoost Agree?", "Ridge Agrees (w/ Live Model)?", "Tightest CLV Line",
         "Ridge CLV Pts (Cum.)", "XGBoost CLV Pts (Cum.)", "Gamma CLV Pts (Cum.)",
     ]
     for c, h in enumerate(headers, start=1):
@@ -444,12 +452,13 @@ def write_upcoming_block(ws, start_row, con):
     upcoming week, side by side -- NOT graded (the games haven't been
     played yet), just each model's current line plus whatever market line
     has posted so far. Reads predict_week.py's latest predictions CSV,
-    which now carries both an 'XGBoost Line (Home)' and a 'Gamma Line
-    (Home)' column alongside Ridge's (see that script's docstring for why
-    this doesn't touch Weekly Slate/Ridge's live-model status at all). A
-    predictions CSV from before the Gamma column existed still renders fine
-    here -- Gamma's cells just read "n/a" (see the .get()-style column
-    lookups below).
+    which carries "Model Line (Home)" (Gamma -- THE live pick, see that
+    script's own docstring), "Ridge Line (Home)" (Ridge's now-informational
+    candidate line), and "XGBoost Line (Home)" (XGBoost's candidate line).
+    A predictions CSV from before this file's live-model swap won't have a
+    "Ridge Line (Home)" column yet -- has_ridge below handles that the same
+    graceful-degradation way the old has_gamma check used to (Ridge's cells
+    just read "n/a" instead of crashing).
 
     "Tightest (Live)*" is a PROVISIONAL version of the graded table's
     "Tightest CLV Line" column below -- it compares each model's line to
@@ -475,7 +484,7 @@ def write_upcoming_block(ws, start_row, con):
                 value="Latest predictions CSV has no XGBoost column yet -- rerun src/predict_week.py "
                       "(it now produces one).").font = NOTE_FONT
         return r + 2, None
-    has_gamma = "Gamma Line (Home)" in preds.columns
+    has_ridge = "Ridge Line (Home)" in preds.columns
 
     game_ids = [int(g) for g in preds["Game ID"].tolist()]
     placeholders = ",".join("?" * len(game_ids))
@@ -503,13 +512,16 @@ def write_upcoming_block(ws, start_row, con):
     for row in preds.to_dict("records"):
         matchup = f"{row['Away Team']} @ {row['Home Team']}"
         market_line = market.get(int(row["Game ID"]))
-        ridge_line = row["Model Line (Home)"]
+        # "Model Line (Home)" is Gamma's column now -- THE live pick (see
+        # predict_week.py's own docstring). Ridge's own line moved to the
+        # new "Ridge Line (Home)" column, informational/candidate only.
+        gamma_line = row["Model Line (Home)"]
         xgb_line = row["XGBoost Line (Home)"]
-        gamma_line = row.get("Gamma Line (Home)") if has_gamma else None
-        ridge_lean, ridge_is_bet = _lean(ridge_line, market_line)
+        ridge_line = row.get("Ridge Line (Home)") if has_ridge else None
         xgb_lean, xgb_is_bet = _lean(xgb_line, market_line)
-        gamma_lean, gamma_is_bet = (
-            _lean(gamma_line, market_line) if gamma_line is not None and pd.notna(gamma_line) else (None, None)
+        gamma_lean, gamma_is_bet = _lean(gamma_line, market_line)
+        ridge_lean, ridge_is_bet = (
+            _lean(ridge_line, market_line) if ridge_line is not None and pd.notna(ridge_line) else (None, None)
         )
         agree = None
         if ridge_lean not in (None, "Pick'em") and xgb_lean not in (None, "Pick'em"):
@@ -518,9 +530,9 @@ def write_upcoming_block(ws, start_row, con):
         if market_line is None or pd.isna(market_line):
             tighter_live = "n/a"
         else:
-            candidates = [("Ridge", abs(ridge_line - market_line)), ("XGBoost", abs(xgb_line - market_line))]
-            if gamma_line is not None and pd.notna(gamma_line):
-                candidates.append(("Gamma", abs(gamma_line - market_line)))
+            candidates = [("Gamma", abs(gamma_line - market_line)), ("XGBoost", abs(xgb_line - market_line))]
+            if ridge_line is not None and pd.notna(ridge_line):
+                candidates.append(("Ridge", abs(ridge_line - market_line)))
             best_abs = min(d for _, d in candidates)
             winners = [name for name, d in candidates if d == best_abs]
             tighter_live = winners[0] if len(winners) == 1 else "Tie"
@@ -554,13 +566,13 @@ def build_sheet(wb, df, con):
     ws = wb.create_sheet(SHEET_NAME)
     ws.sheet_view.showGridLines = False
 
-    ws["A1"] = "Ridge vs. XGBoost vs. Dub Gamma -- Model Comparison"
+    ws["A1"] = "Dub Gamma vs. Ridge vs. XGBoost -- Model Comparison"
     ws["A1"].font = TITLE_FONT
     ws["A2"] = (
-        "Informational only. Ridge is still the live model everywhere else in this workbook and on "
-        "the website -- XGBoost and the Dub Gamma Model are candidates being evaluated here, not "
-        "replacements. Gamma has no rating (and so no prediction) for any season before it was "
-        "seeded -- its columns read \"n/a\" for older games."
+        "Informational only. The Dub Gamma Model (Sonny-Moore-seeded) is the live model everywhere "
+        "else in this workbook and on the website -- Ridge and XGBoost are candidates being "
+        "evaluated here, not replacements. Gamma has no rating (and so no prediction) for any "
+        "season before it was seeded -- its columns read \"n/a\" for older games."
     )
     ws["A2"].font = NOTE_FONT
 
@@ -572,10 +584,13 @@ def build_sheet(wb, df, con):
 
     agree_rate = df["models_agree"].dropna().mean() if df["models_agree"].notna().any() else None
     if agree_rate is not None:
-        note = f"Ridge and XGBoost agree on which side to lean in {agree_rate:.1%} of all graded games."
+        note = f"Ridge and XGBoost (the two candidates) agree with each other in {agree_rate:.1%} of all graded games."
         if "gamma_agrees_with_ridge" in df.columns and df["gamma_agrees_with_ridge"].notna().any():
-            gamma_agree_rate = df["gamma_agrees_with_ridge"].dropna().mean()
-            note += f" Gamma agrees with Ridge in {gamma_agree_rate:.1%} of games it has a rating for."
+            ridge_gamma_rate = df["gamma_agrees_with_ridge"].dropna().mean()
+            note += f" Ridge agrees with the live model (Gamma) in {ridge_gamma_rate:.1%} of games it has a rating for."
+        if "gamma_agrees_with_xgb" in df.columns and df["gamma_agrees_with_xgb"].notna().any():
+            xgb_gamma_rate = df["gamma_agrees_with_xgb"].dropna().mean()
+            note += f" XGBoost agrees with the live model (Gamma) in {xgb_gamma_rate:.1%} of games it has a rating for."
         ws.cell(row=row, column=1, value=note).font = NOTE_FONT
         row += 2
 

@@ -33,29 +33,69 @@ unchanged) -- previously, a game whose edge didn't clear EDGE_THRESHOLD was
 simply left out of the record entirely (no lean/no bet at all). Per Cole's
 own request, that's gone: every game with a market line now gets graded,
 so the season record reflects "if you always took a side on every game,"
-not just the subset where the model found a real edge. The two bet types
-default differently when the edge is too small to clear the threshold:
-  - Spread: takes the market's own favorite (whichever team has the
-    negative market spread), NOT the model's raw edge-sign lean. A tiny
-    edge can point either direction almost at random relative to which
-    team is actually favored (model and market can still disagree on
-    magnitude while agreeing on which team is better) -- see is_bet's own
-    comment below for a worked-out example of why this matters. A true
-    pick'em game (market spread of exactly 0) has no favorite to default
-    to, and stays ungraded, same as it always has.
-  - Total: no change needed -- total_lean was ALREADY computed as "whichever
-    side the model's own number leans toward" regardless of the edge
-    threshold, so there's no separate "favorite" concept to substitute in;
-    the only change is that this lean now always gets graded into a real
-    result instead of being discarded when the edge was too small to count
-    as an actual recommended bet.
+not just the subset where the model found a real edge.
+
+SPREAD LEAN IS ALWAYS THE MODEL'S OWN RAW SIDE (updated per a later request
+from Cole -- this superseded an earlier version of this rule). grade_spread_
+pick() used to default back to the market's own favorite whenever the edge
+was too small to clear EDGE_THRESHOLD, on the theory that a tiny edge can
+point either direction almost at random. Cole explicitly asked to drop that
+override: the graded/tracked pick is now simply whichever side the model's
+own number favors, full stop, even when the edge is small. EDGE_THRESHOLD
+hasn't gone away -- is_bet still flags whether a given pick cleared it, so
+"how'd the model do overall" and "how'd the model do on its real, high-
+confidence edges specifically" (n_real_edge_bets/real_edge_win_rate) stay
+separately reportable -- it just no longer changes WHICH side gets graded.
+  - Total: no change from the original "every graded game counts" rollout --
+    total_lean was ALREADY computed as "whichever side the model's own
+    number leans toward" regardless of the edge threshold, so there was
+    never a separate "favorite" concept to substitute in for totals.
   is_bet/is_total_bet keep their EXACT old meaning -- "a real, threshold-
   clearing edge you'd actually stake money on" -- and still gate CLV (there's
   no real closing-line comparison to make on a game you never actually
   bet). summarize()/summarize_totals() report the full record as the
   headline numbers now, with n_real_edge_bets/etc. as a secondary
-  breakdown of how many of those were genuine value plays vs. the
-  favorite/model-lean default.
+  breakdown of how many of those were genuine value plays vs. just
+  whichever way the model's raw number happened to lean.
+
+THE LIVE MODEL'S SPREAD PICK IS NOW THE DUB GAMMA MODEL (updated per Cole's
+explicit request to switch the live/actionable pick over from Ridge to the
+Sonny-Moore-seeded power rating in gamma_model.py -- "I want the moore model
+to be the live model"). run_backtest() below now grades SPREAD the exact
+same way model_comparison.py already grades Gamma's own column: per test
+week, gamma_model.ratings_entering_week() gives the ratings as they stood
+BEFORE that week's games (walk-forward safe, same discipline as Ridge's own
+per-week refit), and gamma_model.predict_spread_home() turns that into a
+spread for grading via the SAME shared grade_spread_pick() every other model
+in this project uses.
+
+Gamma has no rating (and so no spread prediction at all) for any season
+before gamma_model.SEED_SEASON -- see moore_seed_2026.py's own docstring --
+so every pre-SEED_SEASON test week here simply has no spread pick (edge/
+lean/is_bet/bet_result/clv/model_spread_home all None for those rows). This
+doesn't affect the site's Tracking/Results pages: they already filter this
+DataFrame down to CURRENT_SEASON == gamma_model.SEED_SEASON before doing
+anything with it. Running `python src/backtest.py` directly, though, will
+now show a smaller SPREAD-specific overall record than TOTAL/MONEYLINE do
+(both of those are untouched by this change -- total still comes from
+totals_model.py's regression, moneyline still comes from Ridge's own
+win-probability, since Gamma has no win-prob concept -- see gamma_model.py's
+own docstring). That's an accepted, documented trade-off of Gamma's seed
+having no pre-2026 history, not a bug.
+
+gamma_is_seed_week (added per-row, mirroring model_comparison.py exactly):
+True only for gamma_model.SEED_SEASON's own week 1, which reuses the raw
+Moore seed exactly as pasted -- and that seed was pasted AFTER week 1 was
+already played (see moore_seed_2026.py's own docstring, it's explicitly
+"entering week 2"), so grading week 1 with it is hindsight, not a genuine
+out-of-sample prediction the way every other graded week is. Downstream
+consumers (export_site_data.py, the site) use this flag to label that week
+clearly rather than presenting it as equivalent to a real prediction.
+
+Ridge (model.py) is STILL fit here, every test week, same walk-forward
+discipline as always -- it's no longer used for the spread pick, but its
+win-probability output is the only source moneyline grading has (Gamma has
+none), so it hasn't gone away, just been narrowed to that one job.
 
 Usage:
     source .venv/bin/activate
@@ -68,6 +108,7 @@ import pandas as pd
 from config import DB_PATH, CLEAN_DIR
 import model
 import totals_model
+import gamma_model
 import time
 from odds import no_vig_prob, payout_profit
 from teams import MW_TEAMS_2026
@@ -121,12 +162,17 @@ def grade_spread_pick(model_spread_home, market_close, market_open, actual_margi
     # caller of this function gets a real Python bool for free.
     is_bet = bool(abs(edge) >= edge_threshold and raw_lean != "Pick'em")
 
-    if is_bet:
-        lean = raw_lean
-    elif favorite is not None:
-        lean = favorite
-    else:
-        lean = "Pick'em"
+    # Per Cole's own explicit request, the tracked/graded pick is ALWAYS the
+    # model's own raw lean now -- never overridden back to the market's
+    # favorite just because the edge is small. `is_bet` (the edge_threshold
+    # check above) still exists and is still returned below -- it's kept
+    # purely as a "was this a real, high-confidence edge" label for
+    # reporting (n_real_edge_bets/real_edge_win_rate and similar breakdowns
+    # downstream), it just no longer changes WHICH side gets graded.
+    # `favorite` is likewise kept in the return value for anything downstream
+    # that still wants to know which side the market favored, but nothing
+    # here uses it to pick a side anymore.
+    lean = raw_lean
 
     cover_value = actual_margin + market_close
     if cover_value > 0:
@@ -172,10 +218,27 @@ def run_backtest(con, edge_threshold=EDGE_THRESHOLD, ml_edge_threshold=ML_EDGE_T
         if test_df.empty:
             continue
 
+        # Ridge -- still fit every test week, same walk-forward discipline as
+        # always, but now used ONLY for home_win_prob (moneyline grading).
+        # See this module's own docstring for why Gamma took over the spread
+        # pick below.
         pipe, residual_std = model.fit_margin_model(train_df)
         pred_margin = model.predict_margin(pipe, test_df)
-        model_spread_home = -pred_margin
         home_win_prob = model.margin_to_home_win_prob(pred_margin, residual_std)
+
+        # Dub Gamma Model -- THE live spread pick now (see module docstring).
+        # No fitting involved (gamma_model.py is a deterministic replay, not
+        # a trained model) -- just the ratings as they stood entering this
+        # test week, exactly like model_comparison.py's own walk-forward
+        # Gamma grading. Only meaningful for gamma_model.SEED_SEASON (no seed
+        # exists for any other season) -- other seasons get gamma_ratings =
+        # None, and every game that test week simply has no spread pick at
+        # all (see this module's own docstring).
+        gamma_is_seed_week = (wk.season == gamma_model.SEED_SEASON and wk.week < gamma_model.SEED_ENTERING_WEEK)
+        if wk.season == gamma_model.SEED_SEASON:
+            gamma_ratings = gamma_model.ratings_entering_week(con, wk.season, wk.week)
+        else:
+            gamma_ratings = None
 
         # Same walk-forward discipline for the totals model -- rebuilt per
         # test week from only games strictly before it. See
@@ -196,10 +259,25 @@ def run_backtest(con, edge_threshold=EDGE_THRESHOLD, ml_edge_threshold=ML_EDGE_T
             market_open = row["market_spread_home_open"]
             actual_margin = row["margin"]
 
-            spread_grade = grade_spread_pick(
-                model_spread_home[i], market_close, market_open, actual_margin, edge_threshold)
-            edge, lean = spread_grade["edge"], spread_grade["lean"]
-            is_bet, bet_result, clv = spread_grade["is_bet"], spread_grade["bet_result"], spread_grade["clv_pts"]
+            # THE live pick -- Dub Gamma's spread (see this module's own
+            # docstring). None whenever gamma_ratings is None (any season
+            # before gamma_model.SEED_SEASON) -- that game simply gets no
+            # spread grade at all, same "not enough seed history yet"
+            # treatment gamma_model.py/model_comparison.py already apply.
+            if gamma_ratings is not None:
+                is_neutral = bool(row["neutral_site"]) if pd.notna(row.get("neutral_site")) else False
+                model_spread_home_i = gamma_model.predict_spread_home(
+                    gamma_ratings, row["home_team"], row["away_team"], neutral_site=is_neutral)
+            else:
+                model_spread_home_i = None
+
+            if model_spread_home_i is not None:
+                spread_grade = grade_spread_pick(
+                    model_spread_home_i, market_close, market_open, actual_margin, edge_threshold)
+                edge, lean = spread_grade["edge"], spread_grade["lean"]
+                is_bet, bet_result, clv = spread_grade["is_bet"], spread_grade["bet_result"], spread_grade["clv_pts"]
+            else:
+                edge = lean = is_bet = bet_result = clv = None
 
             actual_home_win = 1.0 if actual_margin > 0 else (0.0 if actual_margin < 0 else 0.5)
 
@@ -252,8 +330,12 @@ def run_backtest(con, edge_threshold=EDGE_THRESHOLD, ml_edge_threshold=ML_EDGE_T
                 "game_id": game_id, "season": row["season"], "week": row["week"],
                 "home_team": row["home_team"], "away_team": row["away_team"],
                 "is_mw_game": row["home_team"] in MW_TEAMS_2026 or row["away_team"] in MW_TEAMS_2026,
-                "model_spread_home": model_spread_home[i], "market_spread_home": market_close,
+                "model_spread_home": model_spread_home_i, "market_spread_home": market_close,
                 "edge": edge, "lean": lean, "is_bet": is_bet, "bet_result": bet_result, "clv": clv,
+                # True only for gamma_model.SEED_SEASON's own week 1 -- see
+                # this module's own docstring on why that week's grade is
+                # hindsight, not a genuine out-of-sample prediction.
+                "gamma_is_seed_week": bool(gamma_is_seed_week) if model_spread_home_i is not None else None,
                 "home_win_prob": home_win_prob[i], "actual_home_win": actual_home_win,
                 "actual_margin": actual_margin,
                 "model_total": model_total[i], "market_total": market_total_close,

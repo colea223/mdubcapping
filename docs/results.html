@@ -11,7 +11,7 @@
 <div class="page-wrap">
   <div class="page-header">
     <h1 id="page-title">Past Results</h1>
-    <p>Every completed Mountain West game this season -- the model's own graded spread/total/moneyline pick, the Dub Beta and Dub Gamma Models' own spread picks, and your own placed bets on that same game, side by side.</p>
+    <p>Every completed Mountain West game this season -- the model's own graded spread/total/moneyline pick, the Ridge and Dub Beta candidate models' own spread picks, and your own placed bets on that same game, side by side.</p>
   </div>
 
   <div id="results-container"></div>
@@ -97,41 +97,34 @@ function betaModelRow(beta, marketSpreadClose) {
     </div>`;
 }
 
-// Dub Gamma Model's graded spread pick for this game -- mirrors
-// betaModelRow() exactly. null means either data/clean/model_comparison_results.csv
-// hasn't been (re)run since this game was graded, OR (unlike Beta) this
-// game predates gamma_model.SEED_ENTERING_WEEK entirely -- see
-// export_site_data.py's build_results() docstring and _gamma_result_dict().
-// gamma.is_seed_week (true only for the seed season's own week 1) means
-// this grade reuses the Moore seed exactly as pasted, which already
-// reflects week 1's own results (see moore_seed_2026.py's own docstring
-// and model_comparison.py's) -- flagged here so a Win/Loss there is never
-// mistaken for a genuine out-of-sample prediction the way every other
-// graded week is.
-function gammaModelRow(gamma, marketSpreadClose) {
-  if (!gamma) {
+// Ridge's graded spread pick for this game -- mirrors betaModelRow()
+// exactly, since Ridge is a candidate now too (not the live model -- see
+// export_site_data.py's build_results() docstring and _ridge_result_dict()).
+// null means data/clean/model_comparison_results.csv hasn't been (re)run
+// since this game was graded. Unlike Dub Gamma when IT was the candidate
+// shown here, Ridge has no seed-history gap, so there's no seed-week caveat
+// needed on this block -- see modelRow("Spread", ...) below in resultCard()
+// for where THAT caveat now lives, on the live model's own Spread row.
+function ridgeModelRow(ridge, marketSpreadClose) {
+  if (!ridge) {
     return `
       <div class="beta-block">
-        <span class="beta-tag">Dub Gamma Model</span>
+        <span class="beta-tag">Ridge Model</span>
         <div class="beta-line odds-label">No comparison run yet for this game</div>
       </div>`;
   }
-  const agreeTag = gamma.agrees_with_model === null || gamma.agrees_with_model === undefined
+  const agreeTag = ridge.agrees_with_model === null || ridge.agrees_with_model === undefined
     ? ""
-    : (gamma.agrees_with_model
+    : (ridge.agrees_with_model
         ? `<span class="grade-tag push">Agrees with live model</span>`
         : `<span class="grade-tag incorrect">Disagrees with live model</span>`);
-  const seedWeekNote = gamma.is_seed_week
-    ? `<div class="beta-line odds-label" style="margin-top:2px;">Seed week -- uses the Moore seed as pasted, not a real prediction</div>`
-    : "";
   return `
     <div class="beta-block">
-      <span class="beta-tag">Dub Gamma Model</span>
+      <span class="beta-tag">Ridge Model</span>
       <div class="beta-line">
-        ${modelRow("Spread", fmtSpread(gamma.spread_pick), fmtSpread(marketSpreadClose), gamma.spread_lean, gamma.spread_was_bet, gamma.spread_result)}
+        ${modelRow("Spread", fmtSpread(ridge.spread_pick), fmtSpread(marketSpreadClose), ridge.spread_lean, ridge.spread_was_bet, ridge.spread_result)}
       </div>
       <div class="beta-line">${agreeTag}</div>
-      ${seedWeekNote}
     </div>`;
 }
 
@@ -174,8 +167,16 @@ function resultCard(r) {
         ${modelRow("Total", fmtTotal(m.total_pick), fmtTotal(m.market_total_close), m.total_lean, m.total_was_bet, m.total_result)}
         ${modelRow("Moneyline", "&ndash;", "&ndash;", m.ml_lean, m.ml_was_bet, m.ml_result)}
       </div>
+      ${m.spread_is_seed_week ? `
+      <div class="notes-box">
+        This week's Spread grade comes from the live model's pasted preseason
+        (Sonny Moore) ratings, used as-is with no in-season games played yet --
+        so it's hindsight, not a genuine out-of-sample prediction. See
+        export_site_data.py's build_results() / gamma_model.py's SEED_SEASON
+        for the full "why."
+      </div>` : ""}
       ${betaModelRow(r.beta_model, m.market_spread_close)}
-      ${gammaModelRow(r.gamma_model, m.market_spread_close)}
+      ${ridgeModelRow(r.ridge_model, m.market_spread_close)}
       <div class="final-score" style="border-top:1px solid var(--border);">
         <div class="odds-label" style="margin-bottom:6px;">YOUR BETS</div>
         ${betsHtml}

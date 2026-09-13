@@ -11,7 +11,7 @@
 <div class="page-wrap">
   <div class="page-header">
     <h1 id="page-title">Model Predictions</h1>
-    <p>This week's model spread, total, and win probability for every Mountain West game, with notes -- plus the Dub Beta and Dub Gamma Models' own lines for comparison.</p>
+    <p>This week's model spread, total, and win probability for every Mountain West game, with notes -- plus the Ridge and Dub Beta candidate models' own lines for comparison.</p>
   </div>
 
   <div id="predictions-container"></div>
@@ -109,38 +109,36 @@ document.getElementById("nav").innerHTML = renderNav("predictions.html");
         </div>`;
     }
 
-    // Dub Gamma Model -- same "second opinion, never in the live edge/lean
-    // logic" treatment as the Dub Beta block just above, mirroring it field
-    // for field (gamma_model_spread_home/gamma_agrees/
-    // gamma_straight_up_correct/gamma_covered_market_line instead of
-    // beta_model_spread_home/beta_agrees/beta_straight_up_correct/
-    // beta_covered_market_line). null (no gamma_model_spread_home) means
-    // either predict_week.py hasn't been run for this week yet, or -- for
-    // any game before gamma_model.SEED_ENTERING_WEEK -- the Gamma seed
-    // simply doesn't reach back that far yet. See export_site_data.py's
+    // Ridge -- same "second opinion, never in the live edge/lean logic"
+    // treatment as the Dub Beta block just above, mirroring it field for
+    // field (ridge_model_spread_home/ridge_agrees/ridge_straight_up_correct/
+    // ridge_covered_market_line instead of beta_model_spread_home/
+    // beta_agrees/beta_straight_up_correct/beta_covered_market_line). Ridge
+    // is a candidate now -- the live model (whose pick is shown above as
+    // "Model Spread") is Dub Gamma. See export_site_data.py's
     // build_matchups_and_predictions() for exactly how these are computed.
-    let gammaHtml = "";
-    if (p.gamma_model_spread_home !== null && p.gamma_model_spread_home !== undefined) {
-      const gammaSpreads = formatSpreadPair(p.gamma_model_spread_home);
-      const gammaAgreeTag = p.gamma_agrees === null || p.gamma_agrees === undefined
+    let ridgeHtml = "";
+    if (p.ridge_model_spread_home !== null && p.ridge_model_spread_home !== undefined) {
+      const ridgeSpreads = formatSpreadPair(p.ridge_model_spread_home);
+      const ridgeAgreeTag = p.ridge_agrees === null || p.ridge_agrees === undefined
         ? ""
-        : (p.gamma_agrees
+        : (p.ridge_agrees
             ? `<span class="grade-tag push">Agrees with live model</span>`
             : `<span class="grade-tag incorrect">Disagrees with live model</span>`);
-      const gammaNoRealEdgeNote = (p.gamma_is_real_edge === false && p.gamma_lean_side && p.gamma_lean_side !== "Pick'em")
+      const ridgeNoRealEdgeNote = (p.ridge_is_real_edge === false && p.ridge_lean_side && p.ridge_lean_side !== "Pick'em")
         ? `<span class="odds-label" style="margin-left:6px;">(no real edge -- favorite default)</span>`
         : "";
-      const gammaGradeHtml = (p.completed && p.home_points !== null && p.away_points !== null)
-        ? `<div class="beta-line">${gradeTag("Straight up", p.gamma_straight_up_correct)}${gradeTag("Vs. market line", p.gamma_covered_market_line)}${gammaNoRealEdgeNote}</div>`
+      const ridgeGradeHtml = (p.completed && p.home_points !== null && p.away_points !== null)
+        ? `<div class="beta-line">${gradeTag("Straight up", p.ridge_straight_up_correct)}${gradeTag("Vs. market line", p.ridge_covered_market_line)}${ridgeNoRealEdgeNote}</div>`
         : "";
-      gammaHtml = `
+      ridgeHtml = `
         <div class="beta-block">
-          <span class="beta-tag">Dub Gamma Model</span>
+          <span class="beta-tag">Ridge Model</span>
           <div class="beta-line">
-            <span class="odds-value">${gammaSpreads.home} / ${gammaSpreads.away}</span>
-            ${gammaAgreeTag}
+            <span class="odds-value">${ridgeSpreads.home} / ${ridgeSpreads.away}</span>
+            ${ridgeAgreeTag}
           </div>
-          ${gammaGradeHtml}
+          ${ridgeGradeHtml}
         </div>`;
     }
 
@@ -222,7 +220,7 @@ document.getElementById("nav").innerHTML = renderNav("predictions.html");
         </div>
         ${resultHtml}
         ${betaHtml}
-        ${gammaHtml}
+        ${ridgeHtml}
         ${notesHtml}
       </div>`;
   }).join("");
