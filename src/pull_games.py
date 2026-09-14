@@ -86,6 +86,7 @@ def main(full_history: bool = False):
 
 if __name__ == "__main__":
     _script_start_time = time.time()
+    print(f"[Started at {time.strftime('%Y-%m-%d %H:%M:%S')}]")
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--full-history", action="store_true",
                          help=f"Re-pull every season {START_YEAR}-{END_YEAR} instead of just {END_YEAR}.")

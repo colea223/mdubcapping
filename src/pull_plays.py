@@ -195,6 +195,7 @@ def main(full_history: bool = False, season: int = None, week: int = None):
 
 if __name__ == "__main__":
     _script_start_time = time.time()
+    print(f"[Started at {time.strftime('%Y-%m-%d %H:%M:%S')}]")
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--full-history", action="store_true",
                          help=f"Backfill every season {START_YEAR}-{END_YEAR} (one-time; ~150-200 CFBD calls).")

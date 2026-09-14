@@ -225,5 +225,6 @@ def main():
 
 if __name__ == "__main__":
     _script_start_time = time.time()
+    print(f"[Started at {time.strftime('%Y-%m-%d %H:%M:%S')}]")
     main()
     print(f"\nDone in {time.time() - _script_start_time:.1f}s.")

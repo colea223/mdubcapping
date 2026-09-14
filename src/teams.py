@@ -153,6 +153,7 @@ def is_2026_mw_team(canonical_name: str) -> bool:
 
 if __name__ == "__main__":
     _script_start_time = time.time()
+    print(f"[Started at {time.strftime('%Y-%m-%d %H:%M:%S')}]")
     print(f"{len(MW_TEAMS_2026)} teams in the 2026 Mountain West:")
     for team, meta in MW_TEAMS_2026.items():
         flag = " (NEW)" if meta["joined_2026"] else ""

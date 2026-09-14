@@ -86,6 +86,7 @@ STEPS = [
 
 def main():
     start = time.time()
+    print(f"[Started at {time.strftime('%Y-%m-%d %H:%M:%S')}]")
     for label, fn in STEPS:
         print(f"\n{'=' * 60}\n{label}\n{'=' * 60}")
         try:
