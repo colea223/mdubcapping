@@ -1,8 +1,8 @@
 Game ID,Week,Date,Away Team,Home Team,Model Line (Home),Model Total,Home Win Prob,Ridge Line (Home),Ridge Win Prob,XGBoost Line (Home)
-401864508,3,2026-09-19,Wyoming,Central Michigan,-9.3,43.2,0.707,-9.6,0.705,-9.3
-401858450,3,2026-09-19,UTEP,Michigan,-29.7,47.5,0.96,-35.0,0.975,-30.7
-401864443,3,2026-09-19,Nevada,Middle Tennessee,2.9,53.6,0.432,-3.7,0.582,2.3
-401856690,3,2026-09-19,New Mexico,Oklahoma,-10.8,43.8,0.737,-14.2,0.787,-14.6
-401864507,3,2026-09-20,North Dakota State,Sacramento State,35.9,47.9,0.017,12.6,0.239,17.9
-401856793,3,2026-09-20,Northern Illinois,Arizona,-30.9,41.0,0.965,-26.4,0.93,-20.9
-401860888,3,2026-09-20,Fresno State,San José State,1.2,50.8,0.472,3.0,0.434,10.5
+401864507,3,2026-09-20,North Dakota State,Sacramento State,35.9,47.9,0.017,12.6,0.24,18.2
+401864508,3,2026-09-19,Wyoming,Central Michigan,-9.3,43.2,0.707,-9.6,0.705,-9.1
+401858450,3,2026-09-19,UTEP,Michigan,-29.7,47.5,0.96,-35.0,0.975,-31.9
+401864443,3,2026-09-19,Nevada,Middle Tennessee,2.9,53.6,0.432,-3.7,0.582,2.2
+401856690,3,2026-09-19,New Mexico,Oklahoma,-10.8,43.8,0.737,-14.2,0.787,-14.8
+401856793,3,2026-09-20,Northern Illinois,Arizona,-30.9,41.0,0.965,-26.4,0.93,-21.5
+401860888,3,2026-09-20,Fresno State,San José State,1.2,50.8,0.472,3.0,0.434,11.2

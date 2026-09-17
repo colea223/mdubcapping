@@ -1,6 +1,6 @@
 {
   "meta": {
-    "generated_at": "2026-09-16T19:03:07Z",
+    "generated_at": "2026-09-17T19:13:04Z",
     "current_week": {
       "season": 2026,
       "week": 3
@@ -213,6 +213,59 @@
       "your_bets": []
     },
     {
+      "game_id": 401862705,
+      "season": 2026,
+      "week": 2,
+      "date": "2026-09-12",
+      "away_team": "UNLV",
+      "home_team": "North Texas",
+      "home_points": 44,
+      "away_points": 6,
+      "model": {
+        "spread_pick": -5.3,
+        "market_spread_close": 2.8,
+        "spread_lean": "Home",
+        "spread_was_bet": true,
+        "spread_result": "Win",
+        "spread_is_seed_week": false,
+        "total_pick": 63.2,
+        "market_total_close": 58.2,
+        "total_lean": "Over",
+        "total_was_bet": true,
+        "total_result": "Loss",
+        "ml_lean": "Home",
+        "ml_was_bet": true,
+        "ml_result": "Win"
+      },
+      "beta_model": {
+        "spread_pick": 1.4,
+        "spread_lean": "Home",
+        "spread_was_bet": false,
+        "spread_result": "Win",
+        "agrees_with_model": true
+      },
+      "ridge_model": {
+        "spread_pick": -3.6,
+        "spread_lean": "Home",
+        "spread_was_bet": true,
+        "spread_result": "Win",
+        "agrees_with_model": true
+      },
+      "your_bets": [
+        {
+          "date": "2026-09-12",
+          "week": 2,
+          "matchup": "UNLV @ North Texas",
+          "bet_type": "Spread",
+          "side": "North Texas",
+          "odds": -114.0,
+          "stake": 1.0,
+          "result": "W",
+          "units": 0.88
+        }
+      ]
+    },
+    {
       "game_id": 401864506,
       "season": 2026,
       "week": 2,
@@ -334,59 +387,6 @@
         "agrees_with_model": true
       },
       "your_bets": []
-    },
-    {
-      "game_id": 401862705,
-      "season": 2026,
-      "week": 2,
-      "date": "2026-09-12",
-      "away_team": "UNLV",
-      "home_team": "North Texas",
-      "home_points": 44,
-      "away_points": 6,
-      "model": {
-        "spread_pick": -5.3,
-        "market_spread_close": 2.8,
-        "spread_lean": "Home",
-        "spread_was_bet": true,
-        "spread_result": "Win",
-        "spread_is_seed_week": false,
-        "total_pick": 63.2,
-        "market_total_close": 58.2,
-        "total_lean": "Over",
-        "total_was_bet": true,
-        "total_result": "Loss",
-        "ml_lean": "Home",
-        "ml_was_bet": true,
-        "ml_result": "Win"
-      },
-      "beta_model": {
-        "spread_pick": 1.4,
-        "spread_lean": "Home",
-        "spread_was_bet": false,
-        "spread_result": "Win",
-        "agrees_with_model": true
-      },
-      "ridge_model": {
-        "spread_pick": -3.6,
-        "spread_lean": "Home",
-        "spread_was_bet": true,
-        "spread_result": "Win",
-        "agrees_with_model": true
-      },
-      "your_bets": [
-        {
-          "date": "2026-09-12",
-          "week": 2,
-          "matchup": "UNLV @ North Texas",
-          "bet_type": "Spread",
-          "side": "North Texas",
-          "odds": -114.0,
-          "stake": 1.0,
-          "result": "W",
-          "units": 0.88
-        }
-      ]
     },
     {
       "game_id": 401864497,
@@ -659,47 +659,6 @@
       "your_bets": []
     },
     {
-      "game_id": 401864499,
-      "season": 2026,
-      "week": 1,
-      "date": "2026-09-05",
-      "away_team": "Fordham",
-      "home_team": "North Dakota State",
-      "home_points": 38,
-      "away_points": 0,
-      "model": {
-        "spread_pick": -58.5,
-        "market_spread_close": -41.5,
-        "spread_lean": "Home",
-        "spread_was_bet": true,
-        "spread_result": "Loss",
-        "spread_is_seed_week": true,
-        "total_pick": 55.4,
-        "market_total_close": 54.2,
-        "total_lean": "Over",
-        "total_was_bet": false,
-        "total_result": "Loss",
-        "ml_lean": null,
-        "ml_was_bet": null,
-        "ml_result": null
-      },
-      "beta_model": {
-        "spread_pick": -34.9,
-        "spread_lean": "Away",
-        "spread_was_bet": true,
-        "spread_result": "Win",
-        "agrees_with_model": false
-      },
-      "ridge_model": {
-        "spread_pick": -40.9,
-        "spread_lean": "Away",
-        "spread_was_bet": false,
-        "spread_result": "Win",
-        "agrees_with_model": false
-      },
-      "your_bets": []
-    },
-    {
       "game_id": 401860878,
       "season": 2026,
       "week": 1,
@@ -737,6 +696,47 @@
         "spread_was_bet": true,
         "spread_result": "Win",
         "agrees_with_model": true
+      },
+      "your_bets": []
+    },
+    {
+      "game_id": 401864499,
+      "season": 2026,
+      "week": 1,
+      "date": "2026-09-05",
+      "away_team": "Fordham",
+      "home_team": "North Dakota State",
+      "home_points": 38,
+      "away_points": 0,
+      "model": {
+        "spread_pick": -58.5,
+        "market_spread_close": -41.5,
+        "spread_lean": "Home",
+        "spread_was_bet": true,
+        "spread_result": "Loss",
+        "spread_is_seed_week": true,
+        "total_pick": 55.4,
+        "market_total_close": 54.2,
+        "total_lean": "Over",
+        "total_was_bet": false,
+        "total_result": "Loss",
+        "ml_lean": null,
+        "ml_was_bet": null,
+        "ml_result": null
+      },
+      "beta_model": {
+        "spread_pick": -34.9,
+        "spread_lean": "Away",
+        "spread_was_bet": true,
+        "spread_result": "Win",
+        "agrees_with_model": false
+      },
+      "ridge_model": {
+        "spread_pick": -40.9,
+        "spread_lean": "Away",
+        "spread_was_bet": false,
+        "spread_result": "Win",
+        "agrees_with_model": false
       },
       "your_bets": []
     },

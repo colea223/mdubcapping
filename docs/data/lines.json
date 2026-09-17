@@ -1,6 +1,6 @@
 {
   "meta": {
-    "generated_at": "2026-09-16T19:03:07Z",
+    "generated_at": "2026-09-17T19:13:04Z",
     "current_week": {
       "season": 2026,
       "week": 3
@@ -35,12 +35,12 @@
           "away_ml": 100
         },
         "FanDuel": {
-          "spread": -1.5,
+          "spread": 1.5,
           "spread_open": null,
-          "total": 39.5,
+          "total": 38.5,
           "total_open": null,
-          "home_ml": -120,
-          "away_ml": 100
+          "home_ml": -102,
+          "away_ml": -118
         }
       },
       "book_order": [
@@ -79,7 +79,7 @@
         "FanDuel": {
           "spread": -34.5,
           "spread_open": null,
-          "total": 49.5,
+          "total": 48.5,
           "total_open": null,
           "home_ml": null,
           "away_ml": null
@@ -123,8 +123,8 @@
           "spread_open": null,
           "total": 50.5,
           "total_open": null,
-          "home_ml": 138,
-          "away_ml": -166
+          "home_ml": 146,
+          "away_ml": -176
         }
       },
       "book_order": [
@@ -161,12 +161,12 @@
           "away_ml": 1000
         },
         "FanDuel": {
-          "spread": -22.5,
+          "spread": -21.5,
           "spread_open": null,
           "total": 46.5,
           "total_open": null,
-          "home_ml": -3500,
-          "away_ml": 1280
+          "home_ml": -3000,
+          "away_ml": 1200
         }
       },
       "book_order": [
@@ -245,12 +245,12 @@
           "away_ml": null
         },
         "FanDuel": {
-          "spread": -34.5,
+          "spread": -33.5,
           "spread_open": null,
           "total": 49.5,
           "total_open": null,
-          "home_ml": null,
-          "away_ml": null
+          "home_ml": -50000,
+          "away_ml": 5500
         }
       },
       "book_order": [
@@ -291,8 +291,8 @@
           "spread_open": null,
           "total": 50.5,
           "total_open": null,
-          "home_ml": 210,
-          "away_ml": -260
+          "home_ml": 198,
+          "away_ml": -245
         }
       },
       "book_order": [
