@@ -1,6 +1,6 @@
 {
   "meta": {
-    "generated_at": "2026-09-18T18:33:52Z",
+    "generated_at": "2026-09-19T18:09:22Z",
     "current_week": {
       "season": 2026,
       "week": 3
@@ -14,9 +14,9 @@
       "home_team": "Central Michigan",
       "open_spread_home": -2.0,
       "open_total": 39.5,
-      "kicked_off": false,
-      "close_spread_home": null,
-      "close_total": null,
+      "kicked_off": true,
+      "close_spread_home": 1.2,
+      "close_total": 38.8,
       "books": {
         "Bovada": {
           "spread": 1.0,
@@ -35,12 +35,12 @@
           "away_ml": -112
         },
         "FanDuel": {
-          "spread": 1.5,
+          "spread": -6.5,
           "spread_open": null,
-          "total": 38.5,
+          "total": 36.5,
           "total_open": null,
-          "home_ml": -106,
-          "away_ml": -113
+          "home_ml": -370,
+          "away_ml": 265
         }
       },
       "book_order": [
@@ -123,8 +123,8 @@
           "spread_open": null,
           "total": 49.5,
           "total_open": null,
-          "home_ml": 152,
-          "away_ml": -184
+          "home_ml": 140,
+          "away_ml": -170
         }
       },
       "book_order": [
@@ -163,52 +163,10 @@
         "FanDuel": {
           "spread": -21.5,
           "spread_open": null,
-          "total": 45.5,
+          "total": 46.5,
           "total_open": null,
           "home_ml": -3000,
           "away_ml": 1200
-        }
-      },
-      "book_order": [
-        "Bovada",
-        "DraftKings",
-        "FanDuel"
-      ]
-    },
-    {
-      "game_id": 401864507,
-      "date": "2026-09-20T02:30:00Z",
-      "away_team": "North Dakota State",
-      "home_team": "Sacramento State",
-      "open_spread_home": 25.8,
-      "open_total": 53.2,
-      "kicked_off": false,
-      "close_spread_home": null,
-      "close_total": null,
-      "books": {
-        "DraftKings": {
-          "spread": 27.5,
-          "spread_open": 23.5,
-          "total": 50.5,
-          "total_open": 53.5,
-          "home_ml": 2200,
-          "away_ml": -8000
-        },
-        "Bovada": {
-          "spread": 26.5,
-          "spread_open": 28.0,
-          "total": 50.5,
-          "total_open": 53.0,
-          "home_ml": 1300,
-          "away_ml": -7000
-        },
-        "FanDuel": {
-          "spread": 27.5,
-          "spread_open": null,
-          "total": 50.5,
-          "total_open": null,
-          "home_ml": 2000,
-          "away_ml": -7000
         }
       },
       "book_order": [
@@ -245,12 +203,54 @@
           "away_ml": null
         },
         "FanDuel": {
-          "spread": -33.5,
+          "spread": -34.5,
           "spread_open": null,
-          "total": 49.5,
+          "total": 50.5,
           "total_open": null,
           "home_ml": null,
           "away_ml": null
+        }
+      },
+      "book_order": [
+        "Bovada",
+        "DraftKings",
+        "FanDuel"
+      ]
+    },
+    {
+      "game_id": 401864507,
+      "date": "2026-09-20T02:30:00Z",
+      "away_team": "North Dakota State",
+      "home_team": "Sacramento State",
+      "open_spread_home": 25.8,
+      "open_total": 53.2,
+      "kicked_off": false,
+      "close_spread_home": null,
+      "close_total": null,
+      "books": {
+        "DraftKings": {
+          "spread": 27.5,
+          "spread_open": 23.5,
+          "total": 50.5,
+          "total_open": 53.5,
+          "home_ml": 2200,
+          "away_ml": -8000
+        },
+        "Bovada": {
+          "spread": 26.5,
+          "spread_open": 28.0,
+          "total": 50.5,
+          "total_open": 53.0,
+          "home_ml": 1300,
+          "away_ml": -7000
+        },
+        "FanDuel": {
+          "spread": 26.5,
+          "spread_open": null,
+          "total": 50.5,
+          "total_open": null,
+          "home_ml": 1600,
+          "away_ml": -4500
         }
       },
       "book_order": [
@@ -287,12 +287,12 @@
           "away_ml": -275
         },
         "FanDuel": {
-          "spread": 6.5,
+          "spread": 5.5,
           "spread_open": null,
-          "total": 49.5,
+          "total": 48.5,
           "total_open": null,
-          "home_ml": 195,
-          "away_ml": -245
+          "home_ml": 176,
+          "away_ml": -215
         }
       },
       "book_order": [

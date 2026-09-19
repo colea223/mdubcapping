@@ -1,6 +1,6 @@
 {
   "meta": {
-    "generated_at": "2026-09-18T18:33:52Z",
+    "generated_at": "2026-09-19T18:09:22Z",
     "current_week": {
       "season": 2026,
       "week": 3
@@ -68,21 +68,6 @@
       "away_points": null
     },
     {
-      "game_id": 401864507,
-      "week": 3,
-      "date": "2026-09-20",
-      "away_team": "North Dakota State",
-      "home_team": "Sacramento State",
-      "market_spread_home": 27.0,
-      "market_total": 50.5,
-      "home_moneyline": 1750,
-      "away_moneyline": -7500,
-      "manual_line_used": false,
-      "completed": false,
-      "home_points": null,
-      "away_points": null
-    },
-    {
       "game_id": 401856793,
       "week": 3,
       "date": "2026-09-20",
@@ -92,6 +77,21 @@
       "market_total": 50.2,
       "home_moneyline": -6500,
       "away_moneyline": 2000,
+      "manual_line_used": false,
+      "completed": false,
+      "home_points": null,
+      "away_points": null
+    },
+    {
+      "game_id": 401864507,
+      "week": 3,
+      "date": "2026-09-20",
+      "away_team": "North Dakota State",
+      "home_team": "Sacramento State",
+      "market_spread_home": 27.0,
+      "market_total": 50.5,
+      "home_moneyline": 1750,
+      "away_moneyline": -7500,
       "manual_line_used": false,
       "completed": false,
       "home_points": null,
