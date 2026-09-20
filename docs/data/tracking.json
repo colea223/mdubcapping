@@ -1,6 +1,6 @@
 {
   "meta": {
-    "generated_at": "2026-09-20T16:08:29Z",
+    "generated_at": "2026-09-20T17:28:28Z",
     "current_week": {
       "season": 2026,
       "week": 4
@@ -27,16 +27,16 @@
         "pushes": 0,
         "win_rate": 0.4483,
         "units": -4.18,
-        "n_real_edge_bets": 20,
-        "real_edge_win_rate": 0.45
+        "n_real_edge_bets": 19,
+        "real_edge_win_rate": 0.4211
       },
       "moneyline": {
-        "n_bets": 15,
-        "wins": 9,
-        "losses": 6,
+        "n_bets": 16,
+        "wins": 11,
+        "losses": 5,
         "pushes": 0,
-        "win_rate": 0.6,
-        "units": 2.95,
+        "win_rate": 0.6875,
+        "units": 4.94,
         "n_real_edge_bets": null,
         "real_edge_win_rate": null
       },
@@ -479,38 +479,38 @@
     },
     "beta_model": {
       "season": 2026,
-      "n_games": 22,
+      "n_games": 29,
       "spread": {
-        "n_bets": 22,
-        "wins": 9,
-        "losses": 13,
+        "n_bets": 29,
+        "wins": 13,
+        "losses": 16,
         "pushes": 0,
-        "win_rate": 0.4091,
-        "units": -4.82,
-        "n_real_edge_bets": 16,
-        "real_edge_wins": 4,
-        "real_edge_losses": 12,
-        "real_edge_win_rate": 0.25
+        "win_rate": 0.4483,
+        "units": -4.18,
+        "n_real_edge_bets": 24,
+        "real_edge_wins": 11,
+        "real_edge_losses": 13,
+        "real_edge_win_rate": 0.4583
       },
-      "agree_rate": 0.5,
+      "agree_rate": 0.4828,
       "note": null
     },
     "ridge_model": {
       "season": 2026,
-      "n_games": 22,
+      "n_games": 29,
       "spread": {
-        "n_bets": 22,
-        "wins": 11,
-        "losses": 11,
+        "n_bets": 29,
+        "wins": 17,
+        "losses": 12,
         "pushes": 0,
-        "win_rate": 0.5,
-        "units": -1.0,
-        "n_real_edge_bets": 19,
-        "real_edge_wins": 8,
+        "win_rate": 0.5862,
+        "units": 3.45,
+        "n_real_edge_bets": 24,
+        "real_edge_wins": 13,
         "real_edge_losses": 11,
-        "real_edge_win_rate": 0.4211
+        "real_edge_win_rate": 0.5417
       },
-      "agree_rate": 0.5,
+      "agree_rate": 0.5517,
       "note": null
     }
   }

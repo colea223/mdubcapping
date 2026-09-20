@@ -1,6 +1,6 @@
 {
   "meta": {
-    "generated_at": "2026-09-20T16:08:29Z",
+    "generated_at": "2026-09-20T17:28:28Z",
     "current_week": {
       "season": 2026,
       "week": 4
@@ -39,6 +39,22 @@
         ]
       }
     },
+    "401864510": {
+      "DraftKings": {
+        "open_spread": 5.5,
+        "open_total": 44.5,
+        "points": [
+          {
+            "t": "2026-09-20T16:44:05Z",
+            "spread": 5.5,
+            "total": 44.5,
+            "home_ml": 170,
+            "away_ml": -205,
+            "source": "cfbd"
+          }
+        ]
+      }
+    },
     "401864511": {
       "BetRivers": {
         "open_spread": null,
@@ -51,6 +67,20 @@
             "home_ml": -360,
             "away_ml": 265,
             "source": "odds_api"
+          }
+        ]
+      },
+      "DraftKings": {
+        "open_spread": -8.5,
+        "open_total": 54.5,
+        "points": [
+          {
+            "t": "2026-09-20T16:44:05Z",
+            "spread": -8.5,
+            "total": 54.5,
+            "home_ml": -380,
+            "away_ml": 300,
+            "source": "cfbd"
           }
         ]
       },
@@ -84,6 +114,20 @@
           }
         ]
       },
+      "DraftKings": {
+        "open_spread": 14.0,
+        "open_total": 49.5,
+        "points": [
+          {
+            "t": "2026-09-20T16:44:05Z",
+            "spread": 14.0,
+            "total": 49.5,
+            "home_ml": 470,
+            "away_ml": -650,
+            "source": "cfbd"
+          }
+        ]
+      },
       "FanDuel": {
         "open_spread": null,
         "open_total": null,
@@ -111,6 +155,20 @@
             "home_ml": 370,
             "away_ml": -560,
             "source": "odds_api"
+          }
+        ]
+      },
+      "DraftKings": {
+        "open_spread": 12.5,
+        "open_total": 49.5,
+        "points": [
+          {
+            "t": "2026-09-20T16:44:05Z",
+            "spread": 12.5,
+            "total": 49.5,
+            "home_ml": 410,
+            "away_ml": -550,
+            "source": "cfbd"
           }
         ]
       },

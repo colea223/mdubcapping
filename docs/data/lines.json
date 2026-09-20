@@ -1,6 +1,6 @@
 {
   "meta": {
-    "generated_at": "2026-09-20T16:08:29Z",
+    "generated_at": "2026-09-20T17:28:28Z",
     "current_week": {
       "season": 2026,
       "week": 4
@@ -12,12 +12,20 @@
       "date": "2026-09-26T16:00:00Z",
       "away_team": "UNLV",
       "home_team": "Akron",
-      "open_spread_home": null,
-      "open_total": null,
+      "open_spread_home": 14.0,
+      "open_total": 49.5,
       "kicked_off": false,
       "close_spread_home": null,
       "close_total": null,
       "books": {
+        "DraftKings": {
+          "spread": 14.0,
+          "spread_open": 14.0,
+          "total": 49.5,
+          "total_open": 49.5,
+          "home_ml": 470,
+          "away_ml": -650
+        },
         "FanDuel": {
           "spread": 14.5,
           "spread_open": null,
@@ -28,6 +36,7 @@
         }
       },
       "book_order": [
+        "DraftKings",
         "FanDuel"
       ]
     },
@@ -36,12 +45,20 @@
       "date": "2026-09-26T18:00:00Z",
       "away_team": "Northern Illinois",
       "home_team": "Georgia State",
-      "open_spread_home": null,
-      "open_total": null,
+      "open_spread_home": -8.5,
+      "open_total": 54.5,
       "kicked_off": false,
       "close_spread_home": null,
       "close_total": null,
       "books": {
+        "DraftKings": {
+          "spread": -8.5,
+          "spread_open": -8.5,
+          "total": 54.5,
+          "total_open": 54.5,
+          "home_ml": -380,
+          "away_ml": 300
+        },
         "FanDuel": {
           "spread": -9.5,
           "spread_open": null,
@@ -52,6 +69,7 @@
         }
       },
       "book_order": [
+        "DraftKings",
         "FanDuel"
       ]
     },
@@ -60,25 +78,44 @@
       "date": "2026-09-26T19:00:00Z",
       "away_team": "Hawai'i",
       "home_team": "Wyoming",
-      "open_spread_home": null,
-      "open_total": null,
+      "open_spread_home": 5.5,
+      "open_total": 44.5,
       "kicked_off": false,
       "close_spread_home": null,
       "close_total": null,
-      "books": {},
-      "book_order": []
+      "books": {
+        "DraftKings": {
+          "spread": 5.5,
+          "spread_open": 5.5,
+          "total": 44.5,
+          "total_open": 44.5,
+          "home_ml": 170,
+          "away_ml": -205
+        }
+      },
+      "book_order": [
+        "DraftKings"
+      ]
     },
     {
       "game_id": 401864579,
       "date": "2026-09-26T19:30:00Z",
       "away_team": "New Mexico",
       "home_team": "New Mexico State",
-      "open_spread_home": null,
-      "open_total": null,
+      "open_spread_home": 12.5,
+      "open_total": 49.5,
       "kicked_off": false,
       "close_spread_home": null,
       "close_total": null,
       "books": {
+        "DraftKings": {
+          "spread": 12.5,
+          "spread_open": 12.5,
+          "total": 49.5,
+          "total_open": 49.5,
+          "home_ml": 410,
+          "away_ml": -550
+        },
         "FanDuel": {
           "spread": 13.5,
           "spread_open": null,
@@ -89,6 +126,7 @@
         }
       },
       "book_order": [
+        "DraftKings",
         "FanDuel"
       ]
     },
