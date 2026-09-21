@@ -1,6 +1,6 @@
 {
   "meta": {
-    "generated_at": "2026-09-20T17:28:28Z",
+    "generated_at": "2026-09-21T19:32:40Z",
     "current_week": {
       "season": 2026,
       "week": 4
@@ -482,17 +482,17 @@
       "n_games": 29,
       "spread": {
         "n_bets": 29,
-        "wins": 13,
-        "losses": 16,
+        "wins": 14,
+        "losses": 15,
         "pushes": 0,
-        "win_rate": 0.4483,
-        "units": -4.18,
-        "n_real_edge_bets": 24,
-        "real_edge_wins": 11,
-        "real_edge_losses": 13,
-        "real_edge_win_rate": 0.4583
+        "win_rate": 0.4828,
+        "units": -2.27,
+        "n_real_edge_bets": 22,
+        "real_edge_wins": 10,
+        "real_edge_losses": 12,
+        "real_edge_win_rate": 0.4545
       },
-      "agree_rate": 0.4828,
+      "agree_rate": 0.5172,
       "note": null
     },
     "ridge_model": {

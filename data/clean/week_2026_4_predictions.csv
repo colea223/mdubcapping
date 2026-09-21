@@ -1,7 +1,7 @@
 Game ID,Week,Date,Away Team,Home Team,Model Line (Home),Model Total,Home Win Prob,Ridge Line (Home),Ridge Win Prob,XGBoost Line (Home)
-401864512,4,2026-09-26,UNLV,Akron,4.0,49.1,0.397,1.4,0.469,9.7
-401864511,4,2026-09-26,Northern Illinois,Georgia State,-7.8,43.3,0.694,-11.7,0.744,-3.6
-401864510,4,2026-09-26,Hawai'i,Wyoming,1.9,42.9,0.451,6.1,0.365,0.4
-401864579,4,2026-09-26,New Mexico,New Mexico State,18.8,47.1,0.111,6.7,0.354,12.8
-401860895,4,2026-09-27,Oregon State,UTEP,10.5,49.0,0.248,-3.8,0.584,0.8
-401864509,4,2026-09-27,Air Force,Nevada,2.3,47.2,0.441,3.5,0.423,-0.2
+401864512,4,2026-09-26,UNLV,Akron,4.0,47.8,0.397,1.4,0.469,9.3
+401864511,4,2026-09-26,Northern Illinois,Georgia State,-7.8,46.1,0.694,-11.7,0.744,-3.2
+401864510,4,2026-09-26,Hawai'i,Wyoming,1.9,44.9,0.451,6.1,0.365,1.2
+401864579,4,2026-09-26,New Mexico,New Mexico State,18.8,45.7,0.111,6.7,0.354,12.1
+401860895,4,2026-09-27,Oregon State,UTEP,10.5,50.9,0.248,-3.8,0.584,0.9
+401864509,4,2026-09-27,Air Force,Nevada,2.3,46.6,0.441,3.5,0.423,0.7

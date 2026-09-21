@@ -1,6 +1,6 @@
 {
   "meta": {
-    "generated_at": "2026-09-20T17:28:28Z",
+    "generated_at": "2026-09-21T19:32:40Z",
     "current_week": {
       "season": 2026,
       "week": 4
@@ -12,19 +12,27 @@
       "date": "2026-09-26T16:00:00Z",
       "away_team": "UNLV",
       "home_team": "Akron",
-      "open_spread_home": 14.0,
-      "open_total": 49.5,
+      "open_spread_home": 13.8,
+      "open_total": 49.8,
       "kicked_off": false,
       "close_spread_home": null,
       "close_total": null,
       "books": {
         "DraftKings": {
-          "spread": 14.0,
+          "spread": 13.5,
           "spread_open": 14.0,
-          "total": 49.5,
+          "total": 50.5,
           "total_open": 49.5,
-          "home_ml": 470,
-          "away_ml": -650
+          "home_ml": 410,
+          "away_ml": -550
+        },
+        "Bovada": {
+          "spread": 13.5,
+          "spread_open": 13.5,
+          "total": 51.0,
+          "total_open": 50.0,
+          "home_ml": 400,
+          "away_ml": -575
         },
         "FanDuel": {
           "spread": 14.5,
@@ -36,6 +44,7 @@
         }
       },
       "book_order": [
+        "Bovada",
         "DraftKings",
         "FanDuel"
       ]
@@ -45,19 +54,27 @@
       "date": "2026-09-26T18:00:00Z",
       "away_team": "Northern Illinois",
       "home_team": "Georgia State",
-      "open_spread_home": -8.5,
-      "open_total": 54.5,
+      "open_spread_home": -9.2,
+      "open_total": 54.8,
       "kicked_off": false,
       "close_spread_home": null,
       "close_total": null,
       "books": {
         "DraftKings": {
-          "spread": -8.5,
+          "spread": -10.0,
           "spread_open": -8.5,
-          "total": 54.5,
+          "total": 56.5,
           "total_open": 54.5,
+          "home_ml": -375,
+          "away_ml": 295
+        },
+        "Bovada": {
+          "spread": -10.0,
+          "spread_open": -10.0,
+          "total": 55.5,
+          "total_open": 55.0,
           "home_ml": -380,
-          "away_ml": 300
+          "away_ml": 290
         },
         "FanDuel": {
           "spread": -9.5,
@@ -69,6 +86,7 @@
         }
       },
       "book_order": [
+        "Bovada",
         "DraftKings",
         "FanDuel"
       ]
@@ -78,22 +96,31 @@
       "date": "2026-09-26T19:00:00Z",
       "away_team": "Hawai'i",
       "home_team": "Wyoming",
-      "open_spread_home": 5.5,
-      "open_total": 44.5,
+      "open_spread_home": 4.2,
+      "open_total": 45.2,
       "kicked_off": false,
       "close_spread_home": null,
       "close_total": null,
       "books": {
         "DraftKings": {
-          "spread": 5.5,
+          "spread": 3.0,
           "spread_open": 5.5,
-          "total": 44.5,
+          "total": 45.5,
           "total_open": 44.5,
-          "home_ml": 170,
-          "away_ml": -205
+          "home_ml": 136,
+          "away_ml": -162
+        },
+        "Bovada": {
+          "spread": 3.0,
+          "spread_open": 3.0,
+          "total": 46.0,
+          "total_open": 46.0,
+          "home_ml": 135,
+          "away_ml": -160
         }
       },
       "book_order": [
+        "Bovada",
         "DraftKings"
       ]
     },
@@ -102,8 +129,8 @@
       "date": "2026-09-26T19:30:00Z",
       "away_team": "New Mexico",
       "home_team": "New Mexico State",
-      "open_spread_home": 12.5,
-      "open_total": 49.5,
+      "open_spread_home": 12.2,
+      "open_total": 49.0,
       "kicked_off": false,
       "close_spread_home": null,
       "close_total": null,
@@ -111,10 +138,18 @@
         "DraftKings": {
           "spread": 12.5,
           "spread_open": 12.5,
-          "total": 49.5,
+          "total": 48.5,
           "total_open": 49.5,
-          "home_ml": 410,
-          "away_ml": -550
+          "home_ml": 370,
+          "away_ml": -485
+        },
+        "Bovada": {
+          "spread": 13.0,
+          "spread_open": 12.0,
+          "total": 48.5,
+          "total_open": 48.5,
+          "home_ml": 370,
+          "away_ml": -510
         },
         "FanDuel": {
           "spread": 13.5,
@@ -126,6 +161,7 @@
         }
       },
       "book_order": [
+        "Bovada",
         "DraftKings",
         "FanDuel"
       ]
@@ -135,12 +171,28 @@
       "date": "2026-09-27T01:00:00Z",
       "away_team": "Oregon State",
       "home_team": "UTEP",
-      "open_spread_home": null,
-      "open_total": null,
+      "open_spread_home": 11.8,
+      "open_total": 54.8,
       "kicked_off": false,
       "close_spread_home": null,
       "close_total": null,
       "books": {
+        "DraftKings": {
+          "spread": 10.5,
+          "spread_open": 12.5,
+          "total": 53.5,
+          "total_open": 55.5,
+          "home_ml": 340,
+          "away_ml": -440
+        },
+        "Bovada": {
+          "spread": 10.5,
+          "spread_open": 11.0,
+          "total": 53.5,
+          "total_open": 54.0,
+          "home_ml": 355,
+          "away_ml": -490
+        },
         "FanDuel": {
           "spread": 11.5,
           "spread_open": null,
@@ -151,6 +203,8 @@
         }
       },
       "book_order": [
+        "Bovada",
+        "DraftKings",
         "FanDuel"
       ]
     },
@@ -159,12 +213,28 @@
       "date": "2026-09-27T02:30:00Z",
       "away_team": "Air Force",
       "home_team": "Nevada",
-      "open_spread_home": null,
-      "open_total": null,
+      "open_spread_home": 4.2,
+      "open_total": 48.8,
       "kicked_off": false,
       "close_spread_home": null,
       "close_total": null,
       "books": {
+        "DraftKings": {
+          "spread": 5.5,
+          "spread_open": 4.5,
+          "total": 48.5,
+          "total_open": 48.5,
+          "home_ml": 180,
+          "away_ml": -218
+        },
+        "Bovada": {
+          "spread": 5.5,
+          "spread_open": 4.0,
+          "total": 49.0,
+          "total_open": 49.0,
+          "home_ml": 160,
+          "away_ml": -185
+        },
         "FanDuel": {
           "spread": 4.5,
           "spread_open": null,
@@ -175,6 +245,8 @@
         }
       },
       "book_order": [
+        "Bovada",
+        "DraftKings",
         "FanDuel"
       ]
     }
