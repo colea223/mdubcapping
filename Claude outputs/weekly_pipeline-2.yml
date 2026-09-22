@@ -1,0 +1,113 @@
+name: Update Mountain Dub Handicapping data
+
+# Runs the full pipeline (pull data -> build ratings/features -> model
+# predictions -> Excel tracker -> website JSON) PLUS the Dub Beta/Dub Gamma
+# model comparison refresh, on GitHub's free cloud runners, then commits
+# whatever changed back into the repo. Since docs/ is published via GitHub
+# Pages, that commit is what makes the website "live update" week to week
+# with no local environment involved.
+#
+# Schedule below runs THREE times a week: Sunday morning, Monday morning, and
+# Wednesday. The Monday-morning pass exists because "week done" isn't a fixed
+# calendar moment -- CFBD assigns a game's `week` number per its own
+# schedule, and a handful of that week's games routinely finish as late as
+# Sunday itself (see auto_detect_week()'s own comment: it keeps reporting the
+# SAME week as long as ANY of that week's games is still incomplete). A
+# single Sunday-morning run can easily miss Saturday-night/Sunday-day
+# finishers; Monday morning catches those instead of leaving them stale until
+# Wednesday. odds_pull.yml's own Sunday-morning run (see that file) covers
+# live odds/scores earlier the same day, ahead of this workflow's own Sunday
+# pass. None of this guarantees catching the exact moment a week turns over
+# -- it's a coarse approximation of "run again once more games are likely
+# final," not a rule the code enforces anywhere.
+#
+# You can always trigger an extra run by hand from the Actions tab (the
+# workflow_dispatch trigger below adds a "Run workflow" button) -- e.g.
+# right after a game you care about finishes. Cron times are UTC; adjust if
+# you want a different local time (see each entry's own comment for its
+# Eastern-clock equivalent AS OF NOW -- these are fixed UTC offsets, so they
+# will read one hour different on the clock once Daylight Saving ends
+# ~Nov 1, 2026, unless you shift them back then). If you ever hit CFBD's
+# monthly call limit, reduce the frequency here rather than removing the
+# schedule entirely.
+
+on:
+  schedule:
+    # Minute deliberately NOT :00 -- GitHub's own docs warn that schedules
+    # landing on the exact hour are the most congested slot on their
+    # scheduler and are the ones most likely to be delayed or silently
+    # dropped entirely (this bit us: the Sep 13 9am Sunday run never fired
+    # at all, no failed run, nothing -- just never started). Off-the-hour
+    # minutes see much less contention.
+    - cron: "6 13 * * 0"  # Sunday, 13:06 UTC (~9am Eastern right now) -- morning pass
+    - cron: "6 13 * * 1"  # Monday, 13:06 UTC (~9am Eastern right now) -- catches anything that finished Sunday night
+    - cron: "6 14 * * 3"  # Wednesday, 14:06 UTC (~10am Eastern right now) -- unchanged
+  workflow_dispatch: {}
+
+permissions:
+  contents: write
+
+jobs:
+  run-pipeline:
+    # Bumped from 30 -- model_comparison.py (added below, per Cole's request
+    # to stop having to run it by hand) reruns a full historical walk-forward
+    # XGBoost search, meaningfully more compute than run_pipeline.py alone.
+    # GitHub's free tier for a public repo is 2,000 build-minutes/month, so
+    # an occasional long run here is not a real cost concern.
+    runs-on: ubuntu-latest
+    timeout-minutes: 90
+    steps:
+      - name: Check out repo
+        # v4 was pinned on Node.js 20, which GitHub deprecated -- runs were
+        # already being silently upgraded to Node 24 under the hood (with a
+        # warning annotation) rather than actually failing. Bumped to the
+        # latest major (first Node-24-native at v5) to run on its own real
+        # supported runtime instead of a forced compatibility shim.
+        uses: actions/checkout@v7
+
+      - name: Set up Python
+        # Same Node 20 -> 24 deprecation as checkout above (setup-python's
+        # own Node 24 support started at v6) -- bumped to latest for the
+        # same reason.
+        uses: actions/setup-python@v7
+        with:
+          python-version: "3.11"
+
+      - name: Install dependencies
+        run: pip install -r requirements.txt
+
+      - name: Run full pipeline
+        env:
+          CFBD_API_KEY: ${{ secrets.CFBD_API_KEY }}
+        run: python src/run_pipeline.py
+
+      - name: Run Dub Beta/Dub Gamma model comparison
+        # Previously a hand-run-only step (see model_comparison.py's own
+        # docstring for why: a full historical walk-forward re-search is
+        # too slow for the OLD 30-minute timeout) -- Cole asked to stop
+        # having to remember to run this himself, so it's wired in here now
+        # that the timeout above has room for it. update_model_comparison_tab.py
+        # pushes the result into the tracker's "Model Comparison" tab, and
+        # export_site_data.py is re-run right after so the freshly-updated
+        # data/clean/model_comparison_results.csv actually reaches the site's
+        # Tracking/Results pages this same run (its first run above, as part
+        # of run_pipeline.py, used whatever comparison data already existed
+        # on disk before this step).
+        env:
+          CFBD_API_KEY: ${{ secrets.CFBD_API_KEY }}
+        run: |
+          python src/model_comparison.py
+          python excel/update_model_comparison_tab.py
+          python src/export_site_data.py
+
+      - name: Commit updated data back to the repo
+        run: |
+          git config user.name "mw-handicapping-bot"
+          git config user.email "actions@users.noreply.github.com"
+          git add db/ data/raw/ data/clean/ docs/data/ excel/MW_Handicapping_Tracker.xlsx
+          if git diff --cached --quiet; then
+            echo "Nothing changed -- skipping commit."
+          else
+            git commit -m "Automated data refresh $(date -u +'%Y-%m-%d %H:%M UTC')"
+            git push
+          fi

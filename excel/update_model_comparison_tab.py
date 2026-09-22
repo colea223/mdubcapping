@@ -1,16 +1,23 @@
 """
 Adds/refreshes a "Model Comparison" tab in MW_Handicapping_Tracker.xlsx --
 the Dub Gamma Model (the live model, per Cole's explicit request to switch
-the live pick over from Ridge) vs. Ridge vs. XGBoost (two candidates),
-graded against Vegas's closing spread, side by side. Reads
-src/model_comparison.py's output (data/clean/model_comparison_results.csv --
-run that script first) for the historical/graded sections, PLUS
-src/predict_week.py's latest predictions CSV for a live "Upcoming Games"
-section (all three models' current lines for the next not-yet-played week,
-ungraded since there's no result yet) -- see write_upcoming_block(). That
-section also needs a database connection (for the current market line on
-each upcoming game), which is why main() now opens one against
-db/mw_handicapping.duckdb.
+the live pick over from Ridge) vs. Ridge vs. XGBoost vs. Massey (three
+candidates), graded against Vegas's closing spread, side by side. Massey
+(src/massey_model.py) is a simultaneous-solve rating method (classic
+Massey Rating Method linear system, ridge-regularized) added as a fourth
+candidate -- unlike Ridge/XGBoost it needs no separate seed or training
+step, so it's graded across every season in the CSV, not just the current
+one. Reads src/model_comparison.py's output
+(data/clean/model_comparison_results.csv -- run that script first) for the
+historical/graded sections, PLUS src/predict_week.py's latest predictions
+CSV for a live "Upcoming Games" section (Ridge/XGBoost/Gamma's current
+lines for the next not-yet-played week, ungraded since there's no result
+yet) -- see write_upcoming_block(). Massey is deliberately NOT included in
+that Upcoming Games section: predict_week.py doesn't produce a Massey
+prediction yet, and wiring that in is out of scope for this file (Cole's
+own request was "just model comparison tab on excel"). That section also
+needs a database connection (for the current market line on each upcoming
+game), which is why main() now opens one against db/mw_handicapping.duckdb.
 
 NON-DESTRUCTIVE, same rule as excel/update_tracker.py: this only ever
 touches the "Model Comparison" sheet -- creating it if it doesn't exist yet,
@@ -118,7 +125,7 @@ def style_header_row(ws, row, ncols):
         cell.border = BORDER
 
 
-ALL_MODEL_PREFIXES = ["ridge", "xgb", "gamma"]
+ALL_MODEL_PREFIXES = ["ridge", "xgb", "gamma", "massey"]
 
 
 def _clv_stats(df_slice, prefix, all_prefixes=ALL_MODEL_PREFIXES):
@@ -142,8 +149,21 @@ def _clv_stats(df_slice, prefix, all_prefixes=ALL_MODEL_PREFIXES):
         graded game in this slice, in raw points -- not converted to units/
         dollars. Confirmed with Cole this is meant as a raw point tally, same
         units the per-game Edge columns already use, not a real-money figure.
+
+    Degrades to the same all-zero/None stub as an empty slice if `prefix`'s
+    edge column isn't in df_slice at all (not merely all-NaN) -- this
+    happens for real right after a new model is wired into
+    model_comparison.py but data/clean/model_comparison_results.csv hasn't
+    been regenerated yet with that model's columns (see this file's own
+    Usage docstring: model_comparison.py has to run BEFORE this script).
+    Without this guard, dropna(subset=[edge_col]) raises a KeyError instead
+    of just reporting "n/a" -- and since this crashes before the workbook is
+    saved, EVERY model's row goes missing from the sheet, not just the new
+    one's.
     """
     edge_col = f"{prefix}_edge"
+    if edge_col not in df_slice.columns:
+        return {"tighter_games": 0, "tighter_pct": None, "clv_pts": 0.0, "n": 0}
     other_cols = [f"{p}_edge" for p in all_prefixes if p != prefix]
     valid = df_slice.dropna(subset=[edge_col])
     if valid.empty:
@@ -205,8 +225,23 @@ def write_summary_block(ws, df, start_row, title, season_filter=None):
     out how many of those were a genuine, threshold-clearing value call
     rather than a below-threshold auto-default to the market's favorite --
     same distinction the Tracking page's "(N real edge)" note makes.
+
+    Uses _safe_summarize() below rather than model_comparison.summarize()
+    directly -- summarize() indexes df[f"{prefix}_result"] unconditionally,
+    so a CSV that predates a given model's wiring (missing that column
+    entirely, not just all-NaN) raises a bare KeyError and takes the whole
+    sheet-write down with it, same failure mode _clv_stats() guards against
+    above. This can genuinely happen the first time a new model (e.g.
+    Massey) is added here: model_comparison.py has to be re-run to produce
+    the new columns before this script reads them (see this file's own
+    Usage docstring) -- easy to do out of order once.
     """
     from model_comparison import summarize
+
+    def _safe_summarize(d, p, lbl):
+        if f"{p}_result" not in d.columns:
+            return {"slice": lbl, "model": p, "n_games": len(d)}
+        return summarize(d, p, lbl)
 
     sl = df if season_filter is None else df[df["season"] == season_filter]
     r = start_row
@@ -214,20 +249,20 @@ def write_summary_block(ws, df, start_row, title, season_filter=None):
     r += 1
     headers = ["Model", "Games Graded", "Picks Graded", "Wins", "Losses", "Pushes", "ATS Win %",
                "ROI (flat stake)", "Real Edge Bets", "Real Edge Win %",
-               "Tightest Of The Three (CLV)", "CLV Pts (cum.)"]
+               "Tightest Of The Four (CLV)", "CLV Pts (cum.)"]
     for c, h in enumerate(headers, start=1):
         ws.cell(row=r, column=c, value=h)
     style_header_row(ws, r, len(headers))
     r += 1
 
     for prefix, label in [("gamma", "Dub Gamma Model (live model)"), ("ridge", "Ridge (candidate)"),
-                          ("xgb", "XGBoost (candidate)")]:
-        s_overall = summarize(sl, prefix, "overall")
+                          ("xgb", "XGBoost (candidate)"), ("massey", "Massey (candidate)")]:
+        s_overall = _safe_summarize(sl, prefix, "overall")
         clv_overall = _clv_stats(sl, prefix)
         _summary_row(ws, r, f"{label} -- all FBS", s_overall, clv_overall)
         r += 1
         mw_sl = sl[sl["is_mw_game"]]
-        s_mw = summarize(mw_sl, prefix, "mw")
+        s_mw = _safe_summarize(mw_sl, prefix, "mw")
         clv_mw = _clv_stats(mw_sl, prefix)
         _summary_row(ws, r, f"{label} -- MW-involved", s_mw, clv_mw)
         r += 1
@@ -247,6 +282,12 @@ def write_detail_table(ws, df, start_row, season):
     table's own row order (week ascending) -- same running-total convention
     as the Bet Log tab's Running Bankroll column, just for CLV points
     instead of bet units.
+
+    Massey's own Line/Edge/Lean/Result columns sit right after Gamma's --
+    same _model_val()-normalized None/NaN handling as Gamma, since Massey
+    is graded for every season (no seed needed, see this file's own module
+    docstring) and should basically never actually read "n/a" here, unlike
+    Gamma's pre-seed seasons.
     """
     mw_this_season = df[(df["season"] == season) & (df["is_mw_game"])].sort_values(
         ["week", "home_team"]
@@ -260,8 +301,9 @@ def write_detail_table(ws, df, start_row, season):
         "Ridge Line", "Ridge Edge", "Ridge Lean", "Ridge Result",
         "XGBoost Line", "XGBoost Edge", "XGBoost Lean", "XGBoost Result",
         "Gamma Line", "Gamma Edge", "Gamma Lean", "Gamma Result",
+        "Massey Line", "Massey Edge", "Massey Lean", "Massey Result",
         "Ridge/XGBoost Agree?", "Ridge Agrees (w/ Live Model)?", "Tightest CLV Line",
-        "Ridge CLV Pts (Cum.)", "XGBoost CLV Pts (Cum.)", "Gamma CLV Pts (Cum.)",
+        "Ridge CLV Pts (Cum.)", "XGBoost CLV Pts (Cum.)", "Gamma CLV Pts (Cum.)", "Massey CLV Pts (Cum.)",
     ]
     for c, h in enumerate(headers, start=1):
         ws.cell(row=r, column=c, value=h)
@@ -300,32 +342,37 @@ def write_detail_table(ws, df, start_row, season):
             return "--"
         return f"{int(row.away_points)}-{int(row.home_points)}"
 
-    def _gamma_val(row, attr):
-        # gamma_* columns are entirely absent (None throughout) for any
-        # season before gamma_model.SEED_SEASON -- see this file's own
-        # module docstring. getattr() with a None default handles that
-        # cleanly whether the column exists-but-empty or wasn't written at
-        # all for this CSV's rows. Pandas silently turns a None in an object
-        # column (gamma_lean, gamma_result, gamma_agrees_with_ridge) into a
-        # bare float nan on DataFrame construction/CSV round-trip -- `nan is
-        # not None` is True, so a naive None-check downstream would miss it
-        # and print the literal string "nan" instead of "n/a". Normalizing
-        # that nan back to None here fixes it once for every caller.
+    def _model_val(row, attr):
+        # Generalized from a gamma-only helper: gamma_* columns are entirely
+        # absent (None throughout) for any season before
+        # gamma_model.SEED_SEASON -- see this file's own module docstring --
+        # while massey_* columns should be present for essentially every
+        # row (Massey needs no seed), but this same normalization is cheap
+        # insurance either way. getattr() with a None default handles a
+        # column that exists-but-empty or wasn't written at all for this
+        # CSV's rows. Pandas silently turns a None in an object column
+        # (gamma_lean, gamma_result, gamma_agrees_with_ridge, massey_lean,
+        # massey_result, ...) into a bare float nan on DataFrame
+        # construction/CSV round-trip -- `nan is not None` is True, so a
+        # naive None-check downstream would miss it and print the literal
+        # string "nan" instead of "n/a". Normalizing that nan back to None
+        # here fixes it once for every caller.
         val = getattr(row, attr, None)
         return None if (isinstance(val, float) and pd.isna(val)) else val
 
     ridge_clv_cum = 0.0
     xgb_clv_cum = 0.0
     gamma_clv_cum = 0.0
+    massey_clv_cum = 0.0
     for row in mw_this_season.itertuples():
         matchup = f"{row.away_team} @ {row.home_team}"
         ridge_result_text = result_text(row.ridge_result, row.ridge_lean, getattr(row, "ridge_is_bet", None))
         xgb_result_text = result_text(row.xgb_result, row.xgb_lean, getattr(row, "xgb_is_bet", None))
-        gamma_lean = _gamma_val(row, "gamma_lean")
-        gamma_is_bet = _gamma_val(row, "gamma_is_bet")
-        gamma_is_seed_week = _gamma_val(row, "gamma_is_seed_week")
+        gamma_lean = _model_val(row, "gamma_lean")
+        gamma_is_bet = _model_val(row, "gamma_is_bet")
+        gamma_is_seed_week = _model_val(row, "gamma_is_seed_week")
         gamma_result_text = (
-            result_text(_gamma_val(row, "gamma_result"), gamma_lean, gamma_is_bet)
+            result_text(_model_val(row, "gamma_result"), gamma_lean, gamma_is_bet)
             if gamma_lean is not None else "n/a"
         )
         # gamma_is_seed_week is True only for the seed season's own week 1 --
@@ -336,9 +383,23 @@ def write_detail_table(ws, df, start_row, season):
         # edge)" tag from result_text() above (both can appear together).
         if gamma_is_seed_week and gamma_result_text not in ("n/a", "--"):
             gamma_result_text = f"{gamma_result_text} (seed week)"
-        gamma_edge = _gamma_val(row, "gamma_edge")
-        gamma_spread_home = _gamma_val(row, "gamma_spread_home")
-        gamma_agrees = _gamma_val(row, "gamma_agrees_with_ridge")
+        gamma_edge = _model_val(row, "gamma_edge")
+        gamma_spread_home = _model_val(row, "gamma_spread_home")
+        gamma_agrees = _model_val(row, "gamma_agrees_with_ridge")
+
+        # Massey needs no seed (see this file's own module docstring), so
+        # unlike Gamma it should have a real value for essentially every
+        # row -- _model_val()'s None/NaN normalization is still used for
+        # consistency and as cheap insurance against a CSV that predates
+        # this wiring (which would just leave these columns entirely absent).
+        massey_lean = _model_val(row, "massey_lean")
+        massey_is_bet = _model_val(row, "massey_is_bet")
+        massey_result_text = (
+            result_text(_model_val(row, "massey_result"), massey_lean, massey_is_bet)
+            if massey_lean is not None else "n/a"
+        )
+        massey_edge = _model_val(row, "massey_edge")
+        massey_spread_home = _model_val(row, "massey_spread_home")
 
         # Tightest CLV Line: whichever model's predicted line ended up
         # numerically closest to the actual closing market number, i.e.
@@ -352,6 +413,8 @@ def write_detail_table(ws, df, start_row, season):
         candidates = [("Ridge", row.ridge_edge), ("XGBoost", row.xgb_edge)]
         if gamma_edge is not None and pd.notna(gamma_edge):
             candidates.append(("Gamma", gamma_edge))
+        if massey_edge is not None and pd.notna(massey_edge):
+            candidates.append(("Massey", massey_edge))
         valid_candidates = [(name, e) for name, e in candidates if pd.notna(e)]
         if len(valid_candidates) >= 2:
             best_abs = min(abs(e) for _, e in valid_candidates)
@@ -365,6 +428,8 @@ def write_detail_table(ws, df, start_row, season):
             xgb_clv_cum += row.xgb_edge
         if gamma_edge is not None and pd.notna(gamma_edge):
             gamma_clv_cum += gamma_edge
+        if massey_edge is not None and pd.notna(massey_edge):
+            massey_clv_cum += massey_edge
 
         values = [
             int(row.week), matchup, fmt_score(row),
@@ -375,9 +440,11 @@ def write_detail_table(ws, df, start_row, season):
             row.xgb_lean, xgb_result_text,
             fmt_spread(gamma_spread_home), fmt_spread(gamma_edge),
             gamma_lean if gamma_lean is not None else "n/a", gamma_result_text,
+            fmt_spread(massey_spread_home), fmt_spread(massey_edge),
+            massey_lean if massey_lean is not None else "n/a", massey_result_text,
             ("Yes" if row.models_agree is True else ("No" if row.models_agree is False else "n/a")),
             ("Yes" if gamma_agrees is True else ("No" if gamma_agrees is False else "n/a")),
-            tighter, f"{ridge_clv_cum:+.1f}", f"{xgb_clv_cum:+.1f}", f"{gamma_clv_cum:+.1f}",
+            tighter, f"{ridge_clv_cum:+.1f}", f"{xgb_clv_cum:+.1f}", f"{gamma_clv_cum:+.1f}", f"{massey_clv_cum:+.1f}",
         ]
         for c, v in enumerate(values, start=1):
             cell = ws.cell(row=r, column=c, value=v)
@@ -386,9 +453,11 @@ def write_detail_table(ws, df, start_row, season):
                 cell.fill = WIN_FILL if row.ridge_result == "Win" else LOSS_FILL
             if c == 13 and row.xgb_result in ("Win", "Loss"):
                 cell.fill = WIN_FILL if row.xgb_result == "Win" else LOSS_FILL
-            if c == 17 and _gamma_val(row, "gamma_result") in ("Win", "Loss"):
-                cell.fill = WIN_FILL if _gamma_val(row, "gamma_result") == "Win" else LOSS_FILL
-            if c == 20 and tighter in ("Ridge", "XGBoost", "Gamma"):
+            if c == 17 and _model_val(row, "gamma_result") in ("Win", "Loss"):
+                cell.fill = WIN_FILL if _model_val(row, "gamma_result") == "Win" else LOSS_FILL
+            if c == 21 and _model_val(row, "massey_result") in ("Win", "Loss"):
+                cell.fill = WIN_FILL if _model_val(row, "massey_result") == "Win" else LOSS_FILL
+            if c == 24 and tighter in ("Ridge", "XGBoost", "Gamma", "Massey"):
                 cell.fill = WIN_FILL
         r += 1
 
@@ -470,6 +539,11 @@ def write_upcoming_block(ws, start_row, con):
     """
     r = start_row
     ws.cell(row=r, column=1, value="Upcoming Games -- Ridge vs. XGBoost vs. Dub Gamma (Not Yet Graded)").font = SECTION_FONT
+    r += 1
+    ws.cell(row=r, column=1,
+            value="Massey (the fourth candidate below in the graded tables) isn't shown here -- "
+                  "predict_week.py doesn't produce a Massey prediction yet, so it has no live line "
+                  "to show for upcoming games.").font = NOTE_FONT
     r += 1
 
     pred_path = latest_predictions_file()
@@ -566,13 +640,16 @@ def build_sheet(wb, df, con):
     ws = wb.create_sheet(SHEET_NAME)
     ws.sheet_view.showGridLines = False
 
-    ws["A1"] = "Dub Gamma vs. Ridge vs. XGBoost -- Model Comparison"
+    ws["A1"] = "Dub Gamma vs. Ridge vs. XGBoost vs. Massey -- Model Comparison"
     ws["A1"].font = TITLE_FONT
     ws["A2"] = (
         "Informational only. The Dub Gamma Model (Sonny-Moore-seeded) is the live model everywhere "
-        "else in this workbook and on the website -- Ridge and XGBoost are candidates being "
+        "else in this workbook and on the website -- Ridge, XGBoost, and Massey are candidates being "
         "evaluated here, not replacements. Gamma has no rating (and so no prediction) for any "
-        "season before it was seeded -- its columns read \"n/a\" for older games."
+        "season before it was seeded -- its columns read \"n/a\" for older games. Massey (a "
+        "simultaneous-solve rating method, see src/massey_model.py) needs no seed, so it's graded "
+        "across every season here; it isn't shown in the live Upcoming Games table below since "
+        "predict_week.py doesn't produce a Massey prediction yet."
     )
     ws["A2"].font = NOTE_FONT
 
@@ -591,6 +668,9 @@ def build_sheet(wb, df, con):
         if "gamma_agrees_with_xgb" in df.columns and df["gamma_agrees_with_xgb"].notna().any():
             xgb_gamma_rate = df["gamma_agrees_with_xgb"].dropna().mean()
             note += f" XGBoost agrees with the live model (Gamma) in {xgb_gamma_rate:.1%} of games it has a rating for."
+        if "gamma_agrees_with_massey" in df.columns and df["gamma_agrees_with_massey"].notna().any():
+            massey_gamma_rate = df["gamma_agrees_with_massey"].dropna().mean()
+            note += f" Massey agrees with the live model (Gamma) in {massey_gamma_rate:.1%} of games it has a rating for."
         ws.cell(row=row, column=1, value=note).font = NOTE_FONT
         row += 2
 
@@ -599,12 +679,14 @@ def build_sheet(wb, df, con):
 
     row, header_row = write_detail_table(ws, df, row, current_season)
 
-    # 23 columns now (detail table is the widest of the three stacked
-    # tables) -- widened where a column's meaning differs between tables
-    # that share a column index (e.g. col 9 is "Ridge Result" in the graded
-    # table but "Tightest Of The Three (CLV)" in the summary blocks).
-    autosize(ws, [8, 26, 12, 18, 18, 11, 11, 10, 15, 11, 11, 10, 15, 11, 11, 10, 15,
-                  17, 20, 15, 15, 15, 15])
+    # 28 columns now (detail table is the widest of the three stacked
+    # tables, and got 5 wider with Massey's Line/Edge/Lean/Result plus its
+    # own CLV Pts (Cum.) column) -- widened where a column's meaning differs
+    # between tables that share a column index (e.g. col 9 is "Ridge
+    # Result" in the graded table but "Tightest Of The Four (CLV)" in the
+    # summary blocks).
+    autosize(ws, [8, 26, 12, 18, 18, 11, 11, 10, 15, 11, 11, 10, 15, 11, 11, 10, 15, 11, 11, 10, 15,
+                  17, 20, 15, 15, 15, 15, 15])
     # NOT header_row-based: this sheet stacks several tables (summary blocks,
     # the upcoming-games table, the graded detail table), each with its own
     # header further down the sheet -- freezing through the last one (as an
