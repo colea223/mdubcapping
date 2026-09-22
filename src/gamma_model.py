@@ -257,6 +257,24 @@ def load_injury_weights_by_week(con, season):
     comments) -- a CatalogException here just means "no injury signal
     available at all yet," not a real error, so this returns {} instead of
     propagating it.
+
+    PER-GAME NORMALIZATION (added after Cole flagged South Carolina QB
+    Lanorris Sellers carrying an outsized 24.8 injury weight -- IDENTICAL in
+    both week 1 and week 2 -- versus a season-wide median of just 1.13
+    across every other team-week). Root cause: total_ppa is a single
+    season-cumulative "latest wins" number (see db/schema.sql's
+    player_season_ppa comment), not a per-game rate, so a star out for
+    multiple straight weeks had his ENTIRE season total re-applied fresh
+    every single week he stayed out, rather than a "value of missing him in
+    just this one game" estimate -- compounding without bound the longer he
+    sat. Dividing by the team's own completed-game count entering that week
+    (clamped to at least 1) converts total_ppa into an approximate per-game
+    rate that shrinks automatically as more games pass without him, instead
+    of reapplying the same full-season number over and over. Team games
+    played is used as the proxy denominator (CFBD's season-PPA endpoint
+    doesn't expose the player's own games-played), which slightly overstates
+    the rate for a player hurt mid-game but is a much closer estimate than
+    the un-normalized season total.
     """
     try:
         injuries = con.execute(
@@ -282,6 +300,24 @@ def load_injury_weights_by_week(con, season):
         if key not in ppa_by_team_lastname or total_ppa > ppa_by_team_lastname[key]:
             ppa_by_team_lastname[key] = total_ppa
 
+    # Each team's completed-game weeks this season -- the per-game
+    # normalization's denominator. normalize_team_name() here so this joins
+    # cleanly against injury_reports/player_season_ppa's own team spellings
+    # the same way replay_ratings() already normalizes `games` team names
+    # below.
+    game_weeks_by_team = {}
+    for wk, home_team, away_team in con.execute(
+        "SELECT week, home_team, away_team FROM games WHERE season = ? AND completed = TRUE", [season]
+    ).fetchall():
+        game_weeks_by_team.setdefault(normalize_team_name(home_team), []).append(wk)
+        game_weeks_by_team.setdefault(normalize_team_name(away_team), []).append(wk)
+
+    def games_played_before(team, week):
+        # Games strictly before `week` -- matches "entering week W" everywhere
+        # else in this file (ratings_entering_week()/replay_ratings()).
+        weeks = game_weeks_by_team.get(normalize_team_name(team))
+        return sum(1 for w in weeks if w < week) if weeks else 0
+
     weights = {}
     for week, team, last_name, status in injuries:
         if not last_name:
@@ -290,7 +326,9 @@ def load_injury_weights_by_week(con, season):
         if player_value is None or player_value <= 0:
             continue  # unmatched, or a replacement-level/negative season -- contributes nothing either way
         mult, _ = status_weight(status or "")
-        weights[(team, week)] = weights.get((team, week), 0.0) + mult * player_value
+        games_so_far = max(games_played_before(team, week), 1)
+        per_game_value = player_value / games_so_far
+        weights[(team, week)] = weights.get((team, week), 0.0) + mult * per_game_value
     return weights
 
 

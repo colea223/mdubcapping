@@ -1,12 +1,26 @@
 """
-Walk-forward comparison of THREE margin-of-victory approaches -- the Dub
+Walk-forward comparison of FOUR margin-of-victory approaches -- the Dub
 Gamma Model (gamma_model.py, a non-fitted model seeded from Sonny Moore's
 own ratings, now the LIVE/production model per Cole's explicit request),
-Ridge (model.py, a fitted candidate), and XGBoost (xgboost_model.py, a
-fitted candidate) -- against each other AND against Vegas's closing spread.
-Spread only (not totals/moneyline): both candidates are drop-in alternatives
-to Gamma's margin call specifically, and totals_model.py is a separate,
-already-validated piece of machinery this comparison doesn't touch.
+Ridge (model.py, a fitted candidate), XGBoost (xgboost_model.py, a fitted
+candidate), and Massey (massey_model.py, a fourth candidate added after
+Cole asked "why don't we do the win-loss matrix" -- a classic Massey Rating
+Method simultaneous solve, prototyped here specifically to see whether it
+predicts better than Gamma before ever being considered for anything more
+than a candidate) -- against each other AND against Vegas's closing spread.
+Spread only (not totals/moneyline): all three candidates are drop-in
+alternatives to Gamma's margin call specifically, and totals_model.py is a
+separate, already-validated piece of machinery this comparison doesn't
+touch.
+
+Massey, like Gamma, needs no fitting step (see massey_model.py's own
+docstring -- it's a per-season linear solve, not a trained model), but
+UNLIKE Gamma it isn't tied to gamma_model.SEED_SEASON/Moore's seed at all --
+it's graded across every season in the DB with enough games to solve, the
+same as Ridge/XGBoost, not just SEED_SEASON. That asymmetry (Massey vs.
+Ridge/XGBoost graded everywhere, Gamma graded only in SEED_SEASON) is
+deliberate, not an oversight -- Gamma's whole design depends on Moore's
+seed, which only exists for one season.
 
 (Column names below still use the original "ridge"/"xgb"/"gamma" prefixes
 from before the live-model swap -- renaming them would break every existing
@@ -81,6 +95,7 @@ from config import DB_PATH, CLEAN_DIR
 import model
 import xgboost_model
 import gamma_model
+import massey_model
 from teams import MW_TEAMS_2026
 from backtest import _test_weeks, EDGE_THRESHOLD, MIN_TRAIN_GAMES, grade_spread_pick
 
@@ -163,6 +178,16 @@ def run_comparison(con, edge_threshold=EDGE_THRESHOLD, min_train_games=MIN_TRAIN
         else:
             gamma_ratings = None
 
+        # Massey -- no fitting either (see massey_model.py's own docstring),
+        # just a linear solve over this season's completed games entering
+        # this test week. Unlike gamma_ratings above, this runs for EVERY
+        # season/week here, not just gamma_model.SEED_SEASON -- see this
+        # module's own docstring on why that asymmetry is deliberate. Comes
+        # back {} (falsy) rather than None when there's simply no completed
+        # game yet this season to solve from -- handled the same way as
+        # gamma_ratings being None just below.
+        massey_ratings = massey_model.ratings_entering_week(con, wk.season, wk.week)
+
         print(f"    done in {time.time() - t0:.0f}s -- grading {len(test_df)} game(s)", flush=True)
 
         for i, (game_id, row) in enumerate(test_df.iterrows()):
@@ -174,8 +199,9 @@ def run_comparison(con, edge_threshold=EDGE_THRESHOLD, min_train_games=MIN_TRAIN
             x_edge, x_lean, x_is_bet, x_result = _grade_side(
                 xgb_spread_home[i], market_close, actual_margin, edge_threshold)
 
+            is_neutral = bool(row["neutral_site"]) if pd.notna(row.get("neutral_site")) else False
+
             if gamma_ratings is not None:
-                is_neutral = bool(row["neutral_site"]) if pd.notna(row.get("neutral_site")) else False
                 gamma_spread_home_i = gamma_model.predict_spread_home(
                     gamma_ratings, row["home_team"], row["away_team"], neutral_site=is_neutral
                 )
@@ -183,6 +209,15 @@ def run_comparison(con, edge_threshold=EDGE_THRESHOLD, min_train_games=MIN_TRAIN
                     gamma_spread_home_i, market_close, actual_margin, edge_threshold)
             else:
                 gamma_spread_home_i = g_edge = g_lean = g_is_bet = g_result = None
+
+            if massey_ratings:
+                massey_spread_home_i = massey_model.predict_spread_home(
+                    massey_ratings, row["home_team"], row["away_team"], neutral_site=is_neutral
+                )
+                m_edge, m_lean, m_is_bet, m_result = _grade_side(
+                    massey_spread_home_i, market_close, actual_margin, edge_threshold)
+            else:
+                massey_spread_home_i = m_edge = m_lean = m_is_bet = m_result = None
 
             results.append({
                 "game_id": game_id, "season": row["season"], "week": row["week"],
@@ -196,6 +231,8 @@ def run_comparison(con, edge_threshold=EDGE_THRESHOLD, min_train_games=MIN_TRAIN
                 "xgb_lean": x_lean, "xgb_is_bet": x_is_bet, "xgb_result": x_result,
                 "gamma_spread_home": gamma_spread_home_i, "gamma_edge": g_edge,
                 "gamma_lean": g_lean, "gamma_is_bet": g_is_bet, "gamma_result": g_result,
+                "massey_spread_home": massey_spread_home_i, "massey_edge": m_edge,
+                "massey_lean": m_lean, "massey_is_bet": m_is_bet, "massey_result": m_result,
                 # True only for SEED_SEASON's own week 1 -- see this function's
                 # own comment above on gamma_ratings for why that week's grade
                 # uses hindsight (the seed already reflects week 1's results)
@@ -220,6 +257,16 @@ def run_comparison(con, edge_threshold=EDGE_THRESHOLD, min_train_games=MIN_TRAIN
                 ),
                 "gamma_agrees_with_xgb": (
                     (x_lean == g_lean) if (g_lean is not None and x_lean != "Pick'em" and g_lean != "Pick'em")
+                    else None
+                ),
+                # Massey's agreement with the live model -- the headline
+                # number for "does this candidate actually diverge from
+                # Gamma, or mostly just reproduce it." Only populated where
+                # BOTH have a real lean (SEED_SEASON, both with enough
+                # history to solve/replay from).
+                "gamma_agrees_with_massey": (
+                    (m_lean == g_lean) if (g_lean is not None and m_lean is not None
+                                            and m_lean != "Pick'em" and g_lean != "Pick'em")
                     else None
                 ),
             })
@@ -300,15 +347,22 @@ def main():
         if not xgb_gamma_agree.empty:
             print(f"XGBoost agrees with the live model (Gamma) on which side to lean in "
                   f"{xgb_gamma_agree.mean():.1%} of graded games (gamma_model.SEED_ENTERING_WEEK onward only)\n")
+    if "gamma_agrees_with_massey" in df.columns:
+        massey_gamma_agree = df["gamma_agrees_with_massey"].dropna()
+        if not massey_gamma_agree.empty:
+            print(f"Massey agrees with the live model (Gamma) on which side to lean in "
+                  f"{massey_gamma_agree.mean():.1%} of graded games (gamma_model.SEED_ENTERING_WEEK onward only)\n")
 
     slices = [("Overall (all FBS)", df), ("Mountain West-involved", df[df["is_mw_game"]])]
     for label, sl in slices:
         print(f"=== {label} ===")
         # Gamma was left out of this loop when it was first added to
         # run_comparison()/the CSV output -- fixed here so the console
-        # summary always covers all three models, not just two.
+        # summary always covers all models, not just some. Massey added
+        # after Cole's own "why don't we do the win-loss matrix" ask -- see
+        # this module's own docstring.
         for prefix, name in [("gamma", "DUB GAMMA (live model)"), ("ridge", "RIDGE (candidate)"),
-                              ("xgb", "XGBOOST (candidate)")]:
+                              ("xgb", "XGBOOST (candidate)"), ("massey", "MASSEY (candidate)")]:
             s = summarize(sl, prefix, label)
             print(f"--- {name} ---")
             for k, v in s.items():
