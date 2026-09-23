@@ -1,6 +1,6 @@
 {
   "meta": {
-    "generated_at": "2026-09-22T19:01:10Z",
+    "generated_at": "2026-09-23T19:18:34Z",
     "current_week": {
       "season": 2026,
       "week": 4
@@ -21,7 +21,7 @@
         "DraftKings": {
           "spread": 13.5,
           "spread_open": 14.0,
-          "total": 50.5,
+          "total": 52.5,
           "total_open": 49.5,
           "home_ml": 410,
           "away_ml": -550
@@ -29,7 +29,7 @@
         "Bovada": {
           "spread": 13.5,
           "spread_open": 13.5,
-          "total": 51.0,
+          "total": 52.0,
           "total_open": 50.0,
           "home_ml": 400,
           "away_ml": -575
@@ -61,15 +61,15 @@
       "close_total": null,
       "books": {
         "DraftKings": {
-          "spread": -10.0,
+          "spread": -10.5,
           "spread_open": -8.5,
-          "total": 56.5,
+          "total": 55.5,
           "total_open": 54.5,
           "home_ml": -375,
           "away_ml": 295
         },
         "Bovada": {
-          "spread": -10.0,
+          "spread": -10.5,
           "spread_open": -10.0,
           "total": 55.5,
           "total_open": 55.0,
@@ -105,15 +105,15 @@
         "DraftKings": {
           "spread": 3.0,
           "spread_open": 5.5,
-          "total": 45.5,
+          "total": 44.5,
           "total_open": 44.5,
-          "home_ml": 136,
-          "away_ml": -162
+          "home_ml": 130,
+          "away_ml": -155
         },
         "Bovada": {
           "spread": 3.0,
           "spread_open": 3.0,
-          "total": 46.0,
+          "total": 44.5,
           "total_open": 46.0,
           "home_ml": 135,
           "away_ml": -160
@@ -136,15 +136,15 @@
       "close_total": null,
       "books": {
         "DraftKings": {
-          "spread": 12.5,
+          "spread": 11.5,
           "spread_open": 12.5,
           "total": 48.5,
           "total_open": 49.5,
-          "home_ml": 370,
-          "away_ml": -485
+          "home_ml": 350,
+          "away_ml": -455
         },
         "Bovada": {
-          "spread": 13.0,
+          "spread": 11.0,
           "spread_open": 12.0,
           "total": 48.5,
           "total_open": 48.5,
@@ -180,7 +180,7 @@
         "DraftKings": {
           "spread": 10.5,
           "spread_open": 12.5,
-          "total": 53.5,
+          "total": 55.5,
           "total_open": 55.5,
           "home_ml": 340,
           "away_ml": -440
@@ -188,7 +188,7 @@
         "Bovada": {
           "spread": 10.5,
           "spread_open": 11.0,
-          "total": 53.5,
+          "total": 55.5,
           "total_open": 54.0,
           "home_ml": 355,
           "away_ml": -490
@@ -222,15 +222,15 @@
         "DraftKings": {
           "spread": 5.5,
           "spread_open": 4.5,
-          "total": 48.5,
+          "total": 49.5,
           "total_open": 48.5,
-          "home_ml": 180,
-          "away_ml": -218
+          "home_ml": 190,
+          "away_ml": -230
         },
         "Bovada": {
           "spread": 5.5,
           "spread_open": 4.0,
-          "total": 49.0,
+          "total": 49.5,
           "total_open": 49.0,
           "home_ml": 160,
           "away_ml": -185

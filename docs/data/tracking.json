@@ -1,6 +1,6 @@
 {
   "meta": {
-    "generated_at": "2026-09-22T19:01:10Z",
+    "generated_at": "2026-09-23T19:18:34Z",
     "current_week": {
       "season": 2026,
       "week": 4
@@ -539,38 +539,38 @@
     },
     "beta_model": {
       "season": 2026,
-      "n_games": 22,
+      "n_games": 29,
       "spread": {
-        "n_bets": 22,
-        "wins": 8,
-        "losses": 14,
+        "n_bets": 29,
+        "wins": 14,
+        "losses": 15,
         "pushes": 0,
-        "win_rate": 0.3636,
-        "units": -6.73,
-        "n_real_edge_bets": 16,
-        "real_edge_wins": 4,
+        "win_rate": 0.4828,
+        "units": -2.27,
+        "n_real_edge_bets": 22,
+        "real_edge_wins": 10,
         "real_edge_losses": 12,
-        "real_edge_win_rate": 0.25
+        "real_edge_win_rate": 0.4545
       },
-      "agree_rate": 0.4545,
+      "agree_rate": 0.5172,
       "note": null
     },
     "ridge_model": {
       "season": 2026,
-      "n_games": 22,
+      "n_games": 29,
       "spread": {
-        "n_bets": 22,
-        "wins": 11,
-        "losses": 11,
+        "n_bets": 29,
+        "wins": 17,
+        "losses": 12,
         "pushes": 0,
-        "win_rate": 0.5,
-        "units": -1.0,
-        "n_real_edge_bets": 19,
-        "real_edge_wins": 8,
+        "win_rate": 0.5862,
+        "units": 3.45,
+        "n_real_edge_bets": 24,
+        "real_edge_wins": 13,
         "real_edge_losses": 11,
-        "real_edge_win_rate": 0.4211
+        "real_edge_win_rate": 0.5417
       },
-      "agree_rate": 0.5,
+      "agree_rate": 0.5517,
       "note": null
     }
   }
