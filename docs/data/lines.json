@@ -1,6 +1,6 @@
 {
   "meta": {
-    "generated_at": "2026-09-23T19:18:34Z",
+    "generated_at": "2026-09-24T19:15:53Z",
     "current_week": {
       "season": 2026,
       "week": 4
@@ -39,8 +39,8 @@
           "spread_open": null,
           "total": 52.5,
           "total_open": null,
-          "home_ml": 440,
-          "away_ml": -610
+          "home_ml": 400,
+          "away_ml": -550
         }
       },
       "book_order": [
@@ -81,8 +81,8 @@
           "spread_open": null,
           "total": 55.5,
           "total_open": null,
-          "home_ml": -410,
-          "away_ml": 315
+          "home_ml": -400,
+          "away_ml": 310
         }
       },
       "book_order": [
@@ -156,8 +156,8 @@
           "spread_open": null,
           "total": 48.5,
           "total_open": null,
-          "home_ml": 360,
-          "away_ml": -480
+          "home_ml": 340,
+          "away_ml": -450
         }
       },
       "book_order": [
@@ -196,10 +196,10 @@
         "FanDuel": {
           "spread": 10.5,
           "spread_open": null,
-          "total": 55.5,
+          "total": 56.5,
           "total_open": null,
           "home_ml": 375,
-          "away_ml": -490
+          "away_ml": -500
         }
       },
       "book_order": [
