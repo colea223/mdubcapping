@@ -1,6 +1,6 @@
 {
   "meta": {
-    "generated_at": "2026-09-24T19:15:53Z",
+    "generated_at": "2026-09-25T19:23:30Z",
     "current_week": {
       "season": 2026,
       "week": 4
@@ -26,7 +26,7 @@
       "away_points": null,
       "straight_up_correct": null,
       "covered_market_line": null,
-      "beta_model_spread_home": 10.4,
+      "beta_model_spread_home": 10.3,
       "beta_agrees": true,
       "beta_straight_up_correct": null,
       "beta_covered_market_line": null,
@@ -59,7 +59,7 @@
       "away_points": null,
       "straight_up_correct": null,
       "covered_market_line": null,
-      "beta_model_spread_home": -3.3,
+      "beta_model_spread_home": -2.5,
       "beta_agrees": true,
       "beta_straight_up_correct": null,
       "beta_covered_market_line": null,
@@ -92,8 +92,8 @@
       "away_points": null,
       "straight_up_correct": null,
       "covered_market_line": null,
-      "beta_model_spread_home": -0.4,
-      "beta_agrees": false,
+      "beta_model_spread_home": 0.5,
+      "beta_agrees": true,
       "beta_straight_up_correct": null,
       "beta_covered_market_line": null,
       "beta_lean_side": "Home",
@@ -125,7 +125,7 @@
       "away_points": null,
       "straight_up_correct": null,
       "covered_market_line": null,
-      "beta_model_spread_home": 12.8,
+      "beta_model_spread_home": 12.2,
       "beta_agrees": true,
       "beta_straight_up_correct": null,
       "beta_covered_market_line": null,
@@ -137,7 +137,7 @@
       "ridge_covered_market_line": null,
       "ridge_lean_side": "Home",
       "ridge_is_real_edge": true,
-      "ridge_home_win_prob": 0.354
+      "ridge_home_win_prob": 0.353
     },
     {
       "game_id": 401860895,
@@ -148,7 +148,7 @@
       "model_total": 50.9,
       "market_spread_home": 10.5,
       "market_total": 55.5,
-      "home_win_prob": 0.248,
+      "home_win_prob": 0.247,
       "edge": 0.0,
       "lean_side": "Home",
       "is_real_edge": false,
@@ -158,7 +158,7 @@
       "away_points": null,
       "straight_up_correct": null,
       "covered_market_line": null,
-      "beta_model_spread_home": 2.0,
+      "beta_model_spread_home": 1.6,
       "beta_agrees": true,
       "beta_straight_up_correct": null,
       "beta_covered_market_line": null,
@@ -170,7 +170,7 @@
       "ridge_covered_market_line": null,
       "ridge_lean_side": "Home",
       "ridge_is_real_edge": true,
-      "ridge_home_win_prob": 0.585
+      "ridge_home_win_prob": 0.584
     },
     {
       "game_id": 401864509,
@@ -191,8 +191,8 @@
       "away_points": null,
       "straight_up_correct": null,
       "covered_market_line": null,
-      "beta_model_spread_home": -0.3,
-      "beta_agrees": false,
+      "beta_model_spread_home": 0.3,
+      "beta_agrees": true,
       "beta_straight_up_correct": null,
       "beta_covered_market_line": null,
       "beta_lean_side": "Home",

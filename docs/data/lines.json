@@ -1,6 +1,6 @@
 {
   "meta": {
-    "generated_at": "2026-09-24T19:15:53Z",
+    "generated_at": "2026-09-25T19:23:30Z",
     "current_week": {
       "season": 2026,
       "week": 4
@@ -39,8 +39,8 @@
           "spread_open": null,
           "total": 52.5,
           "total_open": null,
-          "home_ml": 400,
-          "away_ml": -550
+          "home_ml": 385,
+          "away_ml": -520
         }
       },
       "book_order": [
@@ -81,8 +81,8 @@
           "spread_open": null,
           "total": 55.5,
           "total_open": null,
-          "home_ml": -400,
-          "away_ml": 310
+          "home_ml": -465,
+          "away_ml": 350
         }
       },
       "book_order": [
@@ -156,8 +156,8 @@
           "spread_open": null,
           "total": 48.5,
           "total_open": null,
-          "home_ml": 340,
-          "away_ml": -450
+          "home_ml": 385,
+          "away_ml": -520
         }
       },
       "book_order": [
@@ -198,8 +198,8 @@
           "spread_open": null,
           "total": 56.5,
           "total_open": null,
-          "home_ml": 375,
-          "away_ml": -500
+          "home_ml": 390,
+          "away_ml": -530
         }
       },
       "book_order": [
@@ -240,8 +240,8 @@
           "spread_open": null,
           "total": 50.5,
           "total_open": null,
-          "home_ml": 180,
-          "away_ml": -220
+          "home_ml": 188,
+          "away_ml": -230
         }
       },
       "book_order": [
