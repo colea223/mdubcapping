@@ -10,14 +10,22 @@ step, so it's graded across every season in the CSV, not just the current
 one. Reads src/model_comparison.py's output
 (data/clean/model_comparison_results.csv -- run that script first) for the
 historical/graded sections, PLUS src/predict_week.py's latest predictions
-CSV for a live "Upcoming Games" section (Ridge/XGBoost/Gamma's current
-lines for the next not-yet-played week, ungraded since there's no result
-yet) -- see write_upcoming_block(). Massey is deliberately NOT included in
-that Upcoming Games section: predict_week.py doesn't produce a Massey
-prediction yet, and wiring that in is out of scope for this file (Cole's
-own request was "just model comparison tab on excel"). That section also
-needs a database connection (for the current market line on each upcoming
-game), which is why main() now opens one against db/mw_handicapping.duckdb.
+CSV for a live "Upcoming Games" section (Ridge/XGBoost/Massey/Gamma's
+current lines for the next not-yet-played week, ungraded since there's no
+result yet) -- see write_upcoming_block(). Massey's live line comes from
+predict_week.py's own "Massey Line (Home)" column (added alongside this
+file's own Massey wiring, per Cole's explicit follow-up request to see
+Massey picking real upcoming games in Excel too, NOT on the website --
+export_site_data.py's Matchup Creator page refits its own models
+independently rather than reading predict_week.py's CSV at all, and its
+Tracking-page Dub Beta numbers only ever read that CSV's "XGBoost Line
+(Home)" column by name, so a new column there is invisible to the site
+unless someone deliberately wires it in later). Massey's line can still
+read "n/a" for a given week if this season doesn't have enough completed
+games yet to solve its rating system from -- see write_upcoming_block()'s
+own docstring. That section also needs a database connection (for the
+current market line on each upcoming game), which is why main() now opens
+one against db/mw_handicapping.duckdb.
 
 NON-DESTRUCTIVE, same rule as excel/update_tracker.py: this only ever
 touches the "Model Comparison" sheet -- creating it if it doesn't exist yet,
@@ -517,17 +525,27 @@ def _tag_lean(lean, is_bet):
 
 def write_upcoming_block(ws, start_row, con):
     """
-    Ridge's, XGBoost's, and the Dub Gamma Model's live picks for the next
-    upcoming week, side by side -- NOT graded (the games haven't been
-    played yet), just each model's current line plus whatever market line
-    has posted so far. Reads predict_week.py's latest predictions CSV,
+    Ridge's, XGBoost's, Massey's, and the Dub Gamma Model's live picks for
+    the next upcoming week, side by side -- NOT graded (the games haven't
+    been played yet), just each model's current line plus whatever market
+    line has posted so far. Reads predict_week.py's latest predictions CSV,
     which carries "Model Line (Home)" (Gamma -- THE live pick, see that
     script's own docstring), "Ridge Line (Home)" (Ridge's now-informational
-    candidate line), and "XGBoost Line (Home)" (XGBoost's candidate line).
-    A predictions CSV from before this file's live-model swap won't have a
-    "Ridge Line (Home)" column yet -- has_ridge below handles that the same
-    graceful-degradation way the old has_gamma check used to (Ridge's cells
-    just read "n/a" instead of crashing).
+    candidate line), "XGBoost Line (Home)" (XGBoost's candidate line), and
+    "Massey Line (Home)" (Massey's candidate line). A predictions CSV from
+    before a given column was added won't have it yet -- has_ridge/
+    has_massey below handle that the same graceful-degradation way the old
+    has_gamma check used to (that model's cells just read "n/a" instead of
+    crashing).
+
+    Massey's own line can ALSO legitimately read "n/a" even on a
+    predictions CSV that has the column -- predict_week.py writes it as a
+    blank when this season doesn't have enough completed games yet to
+    solve Massey's rating system from (see massey_model.py's own
+    docstring on why week 1 in particular is always empty this way). That
+    is a real "no prediction yet," not a missing-column situation, so it's
+    handled the same way (falls out of the Lean/Tightest logic naturally
+    via pd.notna() below) rather than needing its own separate check.
 
     "Tightest (Live)*" is a PROVISIONAL version of the graded table's
     "Tightest CLV Line" column below -- it compares each model's line to
@@ -538,12 +556,8 @@ def write_upcoming_block(ws, start_row, con):
     mistaken for a final CLV read the way the graded table's version is.
     """
     r = start_row
-    ws.cell(row=r, column=1, value="Upcoming Games -- Ridge vs. XGBoost vs. Dub Gamma (Not Yet Graded)").font = SECTION_FONT
-    r += 1
     ws.cell(row=r, column=1,
-            value="Massey (the fourth candidate below in the graded tables) isn't shown here -- "
-                  "predict_week.py doesn't produce a Massey prediction yet, so it has no live line "
-                  "to show for upcoming games.").font = NOTE_FONT
+            value="Upcoming Games -- Ridge vs. XGBoost vs. Massey vs. Dub Gamma (Not Yet Graded)").font = SECTION_FONT
     r += 1
 
     pred_path = latest_predictions_file()
@@ -559,6 +573,12 @@ def write_upcoming_block(ws, start_row, con):
                       "(it now produces one).").font = NOTE_FONT
         return r + 2, None
     has_ridge = "Ridge Line (Home)" in preds.columns
+    has_massey = "Massey Line (Home)" in preds.columns
+    if not has_massey:
+        ws.cell(row=r, column=1,
+                value="Latest predictions CSV predates Massey's column -- rerun src/predict_week.py "
+                      "to see Massey's live line here too.").font = NOTE_FONT
+        r += 1
 
     game_ids = [int(g) for g in preds["Game ID"].tolist()]
     placeholders = ",".join("?" * len(game_ids))
@@ -566,8 +586,8 @@ def write_upcoming_block(ws, start_row, con):
         SELECT game_id, AVG(spread) FROM lines WHERE game_id IN ({placeholders}) GROUP BY game_id
     """, game_ids).fetchall()) if game_ids else {}
 
-    headers = ["Week", "Matchup", "Market Line (Home)", "Ridge Line", "XGBoost Line", "Gamma Line",
-               "Ridge Lean", "XGBoost Lean", "Gamma Lean", "Ridge/XGBoost Agree?", "Tightest (Live)*"]
+    headers = ["Week", "Matchup", "Market Line (Home)", "Ridge Line", "XGBoost Line", "Gamma Line", "Massey Line",
+               "Ridge Lean", "XGBoost Lean", "Gamma Lean", "Massey Lean", "Ridge/XGBoost Agree?", "Tightest (Live)*"]
     for c, h in enumerate(headers, start=1):
         ws.cell(row=r, column=c, value=h)
     style_header_row(ws, r, len(headers))
@@ -592,10 +612,14 @@ def write_upcoming_block(ws, start_row, con):
         gamma_line = row["Model Line (Home)"]
         xgb_line = row["XGBoost Line (Home)"]
         ridge_line = row.get("Ridge Line (Home)") if has_ridge else None
+        massey_line = row.get("Massey Line (Home)") if has_massey else None
         xgb_lean, xgb_is_bet = _lean(xgb_line, market_line)
         gamma_lean, gamma_is_bet = _lean(gamma_line, market_line)
         ridge_lean, ridge_is_bet = (
             _lean(ridge_line, market_line) if ridge_line is not None and pd.notna(ridge_line) else (None, None)
+        )
+        massey_lean, massey_is_bet = (
+            _lean(massey_line, market_line) if massey_line is not None and pd.notna(massey_line) else (None, None)
         )
         agree = None
         if ridge_lean not in (None, "Pick'em") and xgb_lean not in (None, "Pick'em"):
@@ -607,21 +631,24 @@ def write_upcoming_block(ws, start_row, con):
             candidates = [("Gamma", abs(gamma_line - market_line)), ("XGBoost", abs(xgb_line - market_line))]
             if ridge_line is not None and pd.notna(ridge_line):
                 candidates.append(("Ridge", abs(ridge_line - market_line)))
+            if massey_line is not None and pd.notna(massey_line):
+                candidates.append(("Massey", abs(massey_line - market_line)))
             best_abs = min(d for _, d in candidates)
             winners = [name for name, d in candidates if d == best_abs]
             tighter_live = winners[0] if len(winners) == 1 else "Tie"
 
         values = [
             int(row["Week"]), matchup, fmt_spread(market_line),
-            fmt_spread(ridge_line), fmt_spread(xgb_line), fmt_spread(gamma_line),
+            fmt_spread(ridge_line), fmt_spread(xgb_line), fmt_spread(gamma_line), fmt_spread(massey_line),
             _tag_lean(ridge_lean, ridge_is_bet), _tag_lean(xgb_lean, xgb_is_bet), _tag_lean(gamma_lean, gamma_is_bet),
+            _tag_lean(massey_lean, massey_is_bet),
             ("Yes" if agree is True else ("No" if agree is False else "n/a")),
             tighter_live,
         ]
         for c, v in enumerate(values, start=1):
             cell = ws.cell(row=r, column=c, value=v)
             cell.font = FORMULA_FONT
-            if c == 11 and tighter_live in ("Ridge", "XGBoost", "Gamma"):
+            if c == 13 and tighter_live in ("Ridge", "XGBoost", "Gamma", "Massey"):
                 cell.fill = WIN_FILL
         r += 1
 
@@ -648,8 +675,9 @@ def build_sheet(wb, df, con):
         "evaluated here, not replacements. Gamma has no rating (and so no prediction) for any "
         "season before it was seeded -- its columns read \"n/a\" for older games. Massey (a "
         "simultaneous-solve rating method, see src/massey_model.py) needs no seed, so it's graded "
-        "across every season here; it isn't shown in the live Upcoming Games table below since "
-        "predict_week.py doesn't produce a Massey prediction yet."
+        "across every season here; it can still read \"n/a\" for a game in the live Upcoming Games "
+        "table below in one specific case -- not enough completed games yet this season to solve its "
+        "rating system from (typically just week 1)."
     )
     ws["A2"].font = NOTE_FONT
 

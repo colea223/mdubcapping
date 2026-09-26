@@ -1,6 +1,6 @@
 {
   "meta": {
-    "generated_at": "2026-09-22T00:31:06Z",
+    "generated_at": "2026-09-26T19:14:25Z",
     "current_week": {
       "season": 2026,
       "week": 4
@@ -33,7 +33,7 @@
         "ml_result": "Win"
       },
       "beta_model": {
-        "spread_pick": -27.7,
+        "spread_pick": -27.6,
         "spread_lean": "Home",
         "spread_was_bet": true,
         "spread_result": "Loss",
@@ -74,7 +74,7 @@
         "ml_result": null
       },
       "beta_model": {
-        "spread_pick": -20.3,
+        "spread_pick": -19.9,
         "spread_lean": "Away",
         "spread_was_bet": true,
         "spread_result": "Loss",
@@ -115,7 +115,7 @@
         "ml_result": "Win"
       },
       "beta_model": {
-        "spread_pick": 14.3,
+        "spread_pick": 14.7,
         "spread_lean": "Away",
         "spread_was_bet": true,
         "spread_result": "Win",
@@ -156,7 +156,7 @@
         "ml_result": "Loss"
       },
       "beta_model": {
-        "spread_pick": -13.2,
+        "spread_pick": -11.6,
         "spread_lean": "Home",
         "spread_was_bet": true,
         "spread_result": "Loss",
@@ -197,7 +197,7 @@
         "ml_result": "Loss"
       },
       "beta_model": {
-        "spread_pick": -12.9,
+        "spread_pick": -13.3,
         "spread_lean": "Home",
         "spread_was_bet": true,
         "spread_result": "Win",
@@ -238,7 +238,7 @@
         "ml_result": "Win"
       },
       "beta_model": {
-        "spread_pick": 1.1,
+        "spread_pick": 1.4,
         "spread_lean": "Home",
         "spread_was_bet": false,
         "spread_result": "Win",
@@ -291,7 +291,7 @@
         "ml_result": null
       },
       "beta_model": {
-        "spread_pick": -21.9,
+        "spread_pick": -22.1,
         "spread_lean": "Away",
         "spread_was_bet": false,
         "spread_result": "Win",
@@ -332,7 +332,7 @@
         "ml_result": null
       },
       "beta_model": {
-        "spread_pick": -27.7,
+        "spread_pick": -28.0,
         "spread_lean": "Away",
         "spread_was_bet": true,
         "spread_result": "Loss",
@@ -373,7 +373,7 @@
         "ml_result": "Loss"
       },
       "beta_model": {
-        "spread_pick": -15.7,
+        "spread_pick": -16.3,
         "spread_lean": "Home",
         "spread_was_bet": true,
         "spread_result": "Loss",
@@ -414,7 +414,7 @@
         "ml_result": null
       },
       "beta_model": {
-        "spread_pick": -1.9,
+        "spread_pick": -1.8,
         "spread_lean": "Home",
         "spread_was_bet": true,
         "spread_result": "Loss",
@@ -455,11 +455,11 @@
         "ml_result": null
       },
       "beta_model": {
-        "spread_pick": -10.6,
-        "spread_lean": "Away",
+        "spread_pick": -11.6,
+        "spread_lean": "Home",
         "spread_was_bet": false,
-        "spread_result": "Loss",
-        "agrees_with_model": false
+        "spread_result": "Win",
+        "agrees_with_model": true
       },
       "ridge_model": {
         "spread_pick": -17.5,
@@ -508,7 +508,7 @@
         "ml_result": "Win"
       },
       "beta_model": {
-        "spread_pick": 6.7,
+        "spread_pick": 7.3,
         "spread_lean": "Away",
         "spread_was_bet": true,
         "spread_result": "Loss",
@@ -602,7 +602,7 @@
         "ml_result": null
       },
       "beta_model": {
-        "spread_pick": -29.0,
+        "spread_pick": -28.3,
         "spread_lean": "Away",
         "spread_was_bet": false,
         "spread_result": "Loss",
@@ -643,7 +643,7 @@
         "ml_result": null
       },
       "beta_model": {
-        "spread_pick": -34.8,
+        "spread_pick": -35.0,
         "spread_lean": "Away",
         "spread_was_bet": true,
         "spread_result": "Win",
@@ -684,7 +684,7 @@
         "ml_result": null
       },
       "beta_model": {
-        "spread_pick": -24.3,
+        "spread_pick": -25.4,
         "spread_lean": "Away",
         "spread_was_bet": true,
         "spread_result": "Loss",
@@ -725,11 +725,11 @@
         "ml_result": null
       },
       "beta_model": {
-        "spread_pick": -2.9,
-        "spread_lean": "Home",
+        "spread_pick": -2.5,
+        "spread_lean": "Away",
         "spread_was_bet": false,
-        "spread_result": "Win",
-        "agrees_with_model": true
+        "spread_result": "Loss",
+        "agrees_with_model": false
       },
       "ridge_model": {
         "spread_pick": -7.8,
@@ -766,7 +766,7 @@
         "ml_result": "Win"
       },
       "beta_model": {
-        "spread_pick": -10.1,
+        "spread_pick": -10.5,
         "spread_lean": "Home",
         "spread_was_bet": true,
         "spread_result": "Loss",
@@ -819,9 +819,9 @@
         "ml_result": "Win"
       },
       "beta_model": {
-        "spread_pick": -6.2,
+        "spread_pick": -7.4,
         "spread_lean": "Home",
-        "spread_was_bet": false,
+        "spread_was_bet": true,
         "spread_result": "Loss",
         "agrees_with_model": false
       },
@@ -872,9 +872,9 @@
         "ml_result": null
       },
       "beta_model": {
-        "spread_pick": -34.3,
+        "spread_pick": -35.3,
         "spread_lean": "Away",
-        "spread_was_bet": true,
+        "spread_was_bet": false,
         "spread_result": "Win",
         "agrees_with_model": true
       },
@@ -913,7 +913,7 @@
         "ml_result": "Win"
       },
       "beta_model": {
-        "spread_pick": -15.0,
+        "spread_pick": -14.4,
         "spread_lean": "Home",
         "spread_was_bet": true,
         "spread_result": "Win",
@@ -977,7 +977,7 @@
         "ml_result": "Win"
       },
       "beta_model": {
-        "spread_pick": 0.6,
+        "spread_pick": 1.1,
         "spread_lean": "Away",
         "spread_was_bet": true,
         "spread_result": "Loss",

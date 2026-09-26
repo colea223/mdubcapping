@@ -34,6 +34,19 @@ stays out of run_pipeline.py entirely, see its own docstring), this is a
 single fit for the single upcoming week, so the added cost is one search,
 not hundreds.
 
+Massey (massey_model.py, a fourth candidate -- see model_comparison.py's
+own docstring for its full history/rationale) is now ALSO written out here,
+as "Massey Line (Home)" -- informational only, same "never the live pick"
+treatment as Ridge/XGBoost. Like Gamma, Massey needs no fit, just a single
+linear solve (massey_model.ratings_entering_week()) over this season's
+completed games -- negligible added cost. Cole's own scope for this
+addition was "Excel only, not the site" -- export_site_data.py reads this
+CSV for exactly one column by name ("XGBoost Line (Home)", for Dub Beta's
+Tracking-page numbers) and its own Matchup Creator page refits Ridge/
+XGBoost/Gamma independently rather than reading this CSV at all, so a new
+column here is simply invisible to it unless someone later edits it on
+purpose to read "Massey Line (Home)" too.
+
 Usage:
     source .venv/bin/activate
     python src/predict_week.py                  # auto-detects the next upcoming week
@@ -50,6 +63,7 @@ import model
 import totals_model
 import xgboost_model
 import gamma_model
+import massey_model
 import time
 from teams import is_2026_mw_team
 
@@ -126,6 +140,21 @@ def main():
     print(f"Dub Gamma win-prob std: {gamma_win_prob_std:.1f} pts "
           f"({'empirically fit' if gamma_win_prob_std != gamma_model.GAMMA_WIN_PROB_STD_FALLBACK else 'fallback -- not enough graded games yet'}).")
 
+    # Massey -- no fitting either (see massey_model.py's own docstring), just
+    # a single linear solve over this season's own completed games entering
+    # this week. Same "informational only" treatment as Ridge/XGBoost above
+    # (see this module's own docstring). Week 1 of a season (or any week
+    # before this season has any completed games at all) has nothing to
+    # solve from -- ratings_entering_week() returns an empty dict in that
+    # case, handled below the same way model_comparison.py's own walk-forward
+    # grading already does (a real "n/a" this week, not a made-up flat line).
+    massey_ratings = massey_model.ratings_entering_week(con, season, week)
+    print(
+        f"Massey: solved from this season's completed games entering week {week} "
+        + (f"({len(massey_ratings)} teams rated)." if massey_ratings
+           else "-- no completed games yet this season, so it reads \"n/a\" this week.")
+    )
+
     upcoming = model.load_upcoming_frame(con, season, week)
     if upcoming.empty:
         print(f"No games found for season {season}, week {week}.")
@@ -176,6 +205,15 @@ def main():
         for row in upcoming.itertuples()
     ]
 
+    # None (not a flat 0.0-vs-0.0 line) when massey_ratings is empty -- see
+    # this function's own comment just above where it's computed.
+    massey_spread_home = [
+        (massey_model.predict_spread_home(massey_ratings, row.home_team, row.away_team,
+                                           neutral_site=bool(row.neutral_site))
+         if massey_ratings else None)
+        for row in upcoming.itertuples()
+    ]
+
     # See src/totals_model.py -- SP+/PPA-based regression, same upgrade the
     # spread model got from the SP+/PPA/talent work, replacing the old
     # raw-scoring-average baseline (model.totals_baseline()).
@@ -213,6 +251,10 @@ def main():
         "Ridge Win Prob": [round(x, 3) for x in ridge_home_win_prob],
         # XGBoost stays informational only, same as it always was.
         "XGBoost Line (Home)": [round(x, 1) for x in xgb_spread_home],
+        # Massey -- informational only, same treatment as Ridge/XGBoost
+        # above (see this module's own docstring). None/blank when there
+        # weren't enough completed games this season yet to solve from.
+        "Massey Line (Home)": [round(x, 1) if x is not None else None for x in massey_spread_home],
     })
 
     CLEAN_DIR.mkdir(parents=True, exist_ok=True)
@@ -224,9 +266,9 @@ def main():
     print(
         "\nPaste the 'Model Line (Home)' (Dub Gamma's live pick) and 'Model Total' columns into "
         "the Weekly Slate tab's matching columns (fill in Market Line/Market Total by hand from "
-        "your sportsbook). 'Ridge Line (Home)' and 'XGBoost Line (Home)' are informational only -- "
-        "run excel/update_model_comparison_tab.py to see them alongside Gamma's line in the Model "
-        "Comparison tab's upcoming-games section."
+        "your sportsbook). 'Ridge Line (Home)', 'XGBoost Line (Home)', and 'Massey Line (Home)' are "
+        "informational only -- run excel/update_model_comparison_tab.py to see them alongside "
+        "Gamma's line in the Model Comparison tab's upcoming-games section."
     )
 
     con.close()

@@ -54,7 +54,16 @@ from config import FIREBASE_SERVICE_ACCOUNT_PATH  # noqa: E402
 
 TRACKER_PATH = Path(__file__).resolve().parent / "MW_Handicapping_Tracker.xlsx"
 IMPORTED_IDS_PATH = Path(__file__).resolve().parent / ".bet_log_imported_ids.json"
-BET_LOG_ROWS = range(2, 43)  # matches build_tracker.py's Bet Log layout (row 1 = headers)
+# Bet Log's template rows were extended by hand well past build_tracker.py's
+# original row 42 (J/L/M formulas now go all the way to row 500 -- see the
+# "CLV note" cell, relocated to A503 to get out of the way), but this
+# constant was never updated to match, so the script kept stopping at row 42
+# even though rows 44-500 already had working formulas sitting right there
+# unused. 500 rows is a lot of headroom (the sheet had ~40 real bets in its
+# first month) -- if this ever fills up again, the fix is the same: extend
+# the template rows' J/L/M formulas further AND bump this constant to match,
+# not just one or the other.
+BET_LOG_ROWS = range(2, 501)
 
 _firestore_client = None  # module-level cache so repeated calls in one run don't re-init the SDK
 
@@ -146,9 +155,11 @@ def main():
     for sub in new_subs:
         row_num = first_empty_row(ws)
         if row_num is None:
-            print(f"  Bet Log is full (rows {BET_LOG_ROWS.start}-{BET_LOG_ROWS.stop - 1}) -- "
+            last_row = BET_LOG_ROWS.stop - 1
+            print(f"  Bet Log is full (rows {BET_LOG_ROWS.start}-{last_row}) -- "
                   f"stopping with {len(new_subs) - written} submission(s) still unimported. "
-                  "Add more template rows (copy row 42's J/L/M formulas down) and re-run.")
+                  f"Add more template rows (copy row {last_row}'s J/L/M formulas down as far as you "
+                  f"want, then bump this file's own BET_LOG_ROWS to match) and re-run.")
             break
         write_row(ws, row_num, sub)
         imported_ids.add(sub["id"])
