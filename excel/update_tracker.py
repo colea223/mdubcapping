@@ -27,6 +27,19 @@ your Bet Log and any notes you've typed, is left untouched):
     grid, the HFA constant display, and the spread formula itself are
     rewritten each time (same "script owns some cells, you own others"
     contract as the Weekly Slate's Market Line column).
+  - MW Team ATS (new tab, created automatically the first time this script
+    runs if it doesn't already exist): every 2026 Mountain West team's
+    against-the-spread record for the CURRENT SEASON ONLY, graded against
+    the real market line (data/clean via the `lines` table's own
+    AVG(spread) per game -- same source Weekly Slate's Market Line auto-fill
+    already uses), NOT any model's pick -- this is purely "did the team
+    itself beat the number," independent of Ridge/Dub Beta/Dub Gamma
+    entirely. A season-record summary (Cover-Loss-Push, cover %) sits at the
+    top, and a full game-by-game log (week, opponent, home/away, that team's
+    own spread, result, cover margin) sits below it. A game with no market
+    line on file yet is left out of the log rather than guessed at. Fully
+    regenerated every run, same as Power Ratings -- there's nothing here
+    for you to type in, so nothing needs to be preserved across re-runs.
 
 A game already on the Weekly Slate (matched by Home + Away team) gets its
 Model Line/Model Total updated in place rather than duplicated; a new game
@@ -58,6 +71,7 @@ sys.path.insert(0, str(Path(__file__).resolve().parent.parent / "src"))
 from config import DB_PATH, CLEAN_DIR  # noqa: E402
 from power_rating import current_ratings  # noqa: E402
 import gamma_model  # noqa: E402
+from teams import MW_TEAMS_2026, normalize_team_name  # noqa: E402
 
 TRACKER_PATH = Path(__file__).resolve().parent / "MW_Handicapping_Tracker.xlsx"
 WEEKLY_SLATE_ROWS = range(2, 43)   # matches build_tracker.py's layout
@@ -87,6 +101,13 @@ POWER_RATINGS_SHEET = "Power Ratings"
 # are YOUR input cells and must stay put across every re-run.
 CALC_LABEL_COL = 22   # V
 CALC_VALUE_COL = 23   # W
+
+# MW Team ATS tab
+MW_ATS_SHEET = "MW Team ATS"
+CURRENT_SEASON = gamma_model.SEED_SEASON   # 2026 -- same season constant every other tab uses
+COVER_FILL = PatternFill("solid", fgColor="C6EFCE")     # light green
+NO_COVER_FILL = PatternFill("solid", fgColor="FFC7CE")  # light red
+PUSH_FILL = PatternFill("solid", fgColor="E7E6E6")      # light gray
 
 
 def latest_predictions_file():
@@ -372,6 +393,132 @@ def update_power_ratings(ws, con, just_created):
           f"(through week {num_weeks}){' -- tab created' if just_created else ''}")
 
 
+def ensure_mw_ats_tab(wb):
+    """Creates the MW Team ATS tab the first time this script runs against a
+    workbook that doesn't have one yet. Unlike Power Ratings, nothing on this
+    tab is ever typed in by hand -- it's fully regenerated from the database
+    every run -- so on a later run this just wipes the sheet clean first
+    rather than needing any "preserve the user's cells" logic."""
+    if MW_ATS_SHEET not in wb.sheetnames:
+        ws = wb.create_sheet(MW_ATS_SHEET)
+        ws.sheet_view.showGridLines = False
+    else:
+        ws = wb[MW_ATS_SHEET]
+        ws.delete_rows(1, ws.max_row)
+    return ws
+
+
+def update_mw_ats(ws, con):
+    """Every 2026 MW team's against-the-spread record, CURRENT SEASON ONLY,
+    graded against the real market line (the `lines` table -- same source
+    Weekly Slate's Market Line auto-fill already uses), independent of any
+    model's own pick. A season-record summary sits at the top; a full
+    game-by-game log sits below it. See this file's own module docstring.
+    """
+    games = con.execute("""
+        SELECT game_id, week, start_date, home_team, away_team, home_points, away_points
+        FROM games
+        WHERE season = ? AND completed = TRUE
+        ORDER BY week, start_date
+    """, [CURRENT_SEASON]).fetchall()
+
+    market = dict(con.execute("SELECT game_id, AVG(spread) FROM lines GROUP BY game_id").fetchall())
+
+    # One row per (team, game) actually played, from that team's own
+    # perspective -- team_spread negative = that team favored, team_margin =
+    # that team's own points minus the opponent's. A game with no market
+    # line yet is left out entirely rather than guessed at (same convention
+    # Weekly Slate's own Market Line auto-fill already uses).
+    per_team_games = {team: [] for team in MW_TEAMS_2026}
+    for game_id, week, start_date, home_team, away_team, home_pts, away_pts in games:
+        if home_pts is None or away_pts is None:
+            continue
+        market_spread_home = market.get(game_id)
+        if market_spread_home is None:
+            continue
+        home_team = normalize_team_name(home_team)
+        away_team = normalize_team_name(away_team)
+        home_margin = home_pts - away_pts
+
+        if home_team in per_team_games:
+            per_team_games[home_team].append({
+                "week": week, "date": str(start_date)[:10], "opponent": away_team,
+                "site": "Home", "team_spread": market_spread_home, "team_margin": home_margin,
+            })
+        if away_team in per_team_games:
+            per_team_games[away_team].append({
+                "week": week, "date": str(start_date)[:10], "opponent": home_team,
+                "site": "Away", "team_spread": -market_spread_home, "team_margin": -home_margin,
+            })
+
+    def grade(g):
+        cover_margin = g["team_margin"] + g["team_spread"]
+        if abs(cover_margin) < 1e-6:
+            return "Push", cover_margin
+        return ("Cover" if cover_margin > 0 else "No Cover"), cover_margin
+
+    team_order = sorted(MW_TEAMS_2026)
+
+    # --- summary block: Team | ATS Record (Cover-Loss-Push) | Cover % ---
+    ws["A1"] = f"MW Team ATS -- {CURRENT_SEASON} Season (graded vs. the real market line, not any model)"
+    ws["A1"].font = SUBTITLE_FONT
+
+    summary_header_row = 3
+    for c, h in enumerate(["Team", "ATS Record (C-L-P)", "Cover %"], start=1):
+        cell = ws.cell(row=summary_header_row, column=c, value=h)
+        cell.font = HEADER_FONT
+        cell.fill = HEADER_FILL
+        cell.alignment = Alignment(horizontal="center")
+
+    for i, team in enumerate(team_order):
+        covers = sum(1 for g in per_team_games[team] if grade(g)[0] == "Cover")
+        losses = sum(1 for g in per_team_games[team] if grade(g)[0] == "No Cover")
+        pushes = sum(1 for g in per_team_games[team] if grade(g)[0] == "Push")
+        graded = covers + losses
+
+        r = summary_header_row + 1 + i
+        ws.cell(row=r, column=1, value=team).font = FORMULA_FONT
+        ws.cell(row=r, column=2, value=f"{covers}-{losses}-{pushes}").font = FORMULA_FONT
+        pct_cell = ws.cell(row=r, column=3, value=(round(covers / graded, 3) if graded else None))
+        pct_cell.font = FORMULA_FONT
+        if graded:
+            pct_cell.number_format = "0.0%"
+
+    ws.column_dimensions["A"].width = 18
+    ws.column_dimensions["B"].width = 20
+    ws.column_dimensions["C"].width = 10
+
+    # --- full game-by-game log, grouped by team (alphabetical), then week ---
+    log_header_row = summary_header_row + len(team_order) + 3
+    log_headers = ["Team", "Week", "Date", "Opponent", "Site", "Team's Spread",
+                   "Result (Margin)", "ATS Result", "Cover Margin"]
+    for c, h in enumerate(log_headers, start=1):
+        cell = ws.cell(row=log_header_row, column=c, value=h)
+        cell.font = HEADER_FONT
+        cell.fill = HEADER_FILL
+        cell.alignment = Alignment(horizontal="center", wrap_text=True)
+
+    fill_by_result = {"Cover": COVER_FILL, "No Cover": NO_COVER_FILL, "Push": PUSH_FILL}
+    r = log_header_row + 1
+    total_graded = 0
+    for team in team_order:
+        for g in sorted(per_team_games[team], key=lambda g: g["week"]):
+            result, cover_margin = grade(g)
+            values = [team, g["week"], g["date"], g["opponent"], g["site"],
+                      round(g["team_spread"], 1), int(g["team_margin"]), result, round(cover_margin, 1)]
+            for c, val in enumerate(values, start=1):
+                ws.cell(row=r, column=c, value=val).font = FORMULA_FONT
+            ws.cell(row=r, column=8).fill = fill_by_result[result]
+            r += 1
+            total_graded += 1
+
+    for col, width in zip("ABCDEFGHI", [16, 6, 12, 16, 7, 13, 15, 11, 13]):
+        ws.column_dimensions[col].width = width
+    ws.freeze_panes = f"A{log_header_row + 1}"
+
+    print(f"MW Team ATS: {len(team_order)} team(s), {total_graded} graded team-game(s) this season")
+
+
 def main():
     if not TRACKER_PATH.exists():
         print(f"Tracker workbook not found at {TRACKER_PATH}. Run excel/build_tracker.py first, "
@@ -391,6 +538,8 @@ def main():
     update_team_profiles(wb["Team Profiles"], con)
     pr_ws, pr_just_created = ensure_power_ratings_tab(wb)
     update_power_ratings(pr_ws, con, pr_just_created)
+    ats_ws = ensure_mw_ats_tab(wb)
+    update_mw_ats(ats_ws, con)
     con.close()
 
     wb.save(TRACKER_PATH)
