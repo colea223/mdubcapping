@@ -1,6 +1,6 @@
 {
   "meta": {
-    "generated_at": "2026-09-26T23:07:15Z",
+    "generated_at": "2026-09-26T23:26:25Z",
     "current_week": {
       "season": 2026,
       "week": 4
@@ -29,23 +29,13 @@
     },
     {
       "team": "New Mexico",
-      "rating": 1575.5,
-      "wins": 2,
+      "rating": 1597.5,
+      "wins": 3,
       "losses": 1,
       "conf_wins": 0,
       "conf_losses": 0,
-      "trend": -14.2,
+      "trend": 22.1,
       "rank": 3
-    },
-    {
-      "team": "Hawai'i",
-      "rating": 1506.1,
-      "wins": 1,
-      "losses": 2,
-      "conf_wins": 0,
-      "conf_losses": 1,
-      "trend": 14.3,
-      "rank": 4
     },
     {
       "team": "Air Force",
@@ -55,7 +45,27 @@
       "conf_wins": 0,
       "conf_losses": 1,
       "trend": -9.7,
+      "rank": 4
+    },
+    {
+      "team": "Hawai'i",
+      "rating": 1474.3,
+      "wins": 1,
+      "losses": 3,
+      "conf_wins": 0,
+      "conf_losses": 2,
+      "trend": -31.8,
       "rank": 5
+    },
+    {
+      "team": "Wyoming",
+      "rating": 1431.0,
+      "wins": 2,
+      "losses": 2,
+      "conf_wins": 1,
+      "conf_losses": 0,
+      "trend": 31.8,
+      "rank": 6
     },
     {
       "team": "San Jos\u00e9 State",
@@ -65,16 +75,6 @@
       "conf_wins": 0,
       "conf_losses": 0,
       "trend": -22.9,
-      "rank": 6
-    },
-    {
-      "team": "Wyoming",
-      "rating": 1399.2,
-      "wins": 1,
-      "losses": 2,
-      "conf_wins": 0,
-      "conf_losses": 0,
-      "trend": -18.5,
       "rank": 7
     },
     {
@@ -88,16 +88,6 @@
       "rank": 8
     },
     {
-      "team": "Northern Illinois",
-      "rating": 1385.2,
-      "wins": 0,
-      "losses": 3,
-      "conf_wins": 0,
-      "conf_losses": 0,
-      "trend": -9.4,
-      "rank": 9
-    },
-    {
       "team": "UTEP",
       "rating": 1375.4,
       "wins": 1,
@@ -105,6 +95,16 @@
       "conf_wins": 0,
       "conf_losses": 0,
       "trend": -7.2,
+      "rank": 9
+    },
+    {
+      "team": "Northern Illinois",
+      "rating": 1363.9,
+      "wins": 0,
+      "losses": 4,
+      "conf_wins": 0,
+      "conf_losses": 0,
+      "trend": -21.4,
       "rank": 10
     }
   ]

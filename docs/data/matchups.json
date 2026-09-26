@@ -1,6 +1,6 @@
 {
   "meta": {
-    "generated_at": "2026-09-26T23:07:15Z",
+    "generated_at": "2026-09-26T23:26:25Z",
     "current_week": {
       "season": 2026,
       "week": 4
@@ -33,9 +33,9 @@
       "home_moneyline": -362,
       "away_moneyline": 282,
       "manual_line_used": false,
-      "completed": false,
-      "home_points": null,
-      "away_points": null
+      "completed": true,
+      "home_points": 35,
+      "away_points": 14
     },
     {
       "game_id": 401864510,
@@ -48,9 +48,9 @@
       "home_moneyline": 120,
       "away_moneyline": -142,
       "manual_line_used": false,
-      "completed": false,
-      "home_points": null,
-      "away_points": null
+      "completed": true,
+      "home_points": 27,
+      "away_points": 10
     },
     {
       "game_id": 401864579,
@@ -63,9 +63,9 @@
       "home_moneyline": 360,
       "away_moneyline": -482,
       "manual_line_used": false,
-      "completed": false,
-      "home_points": null,
-      "away_points": null
+      "completed": true,
+      "home_points": 18,
+      "away_points": 42
     },
     {
       "game_id": 401860895,

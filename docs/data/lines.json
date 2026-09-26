@@ -1,6 +1,6 @@
 {
   "meta": {
-    "generated_at": "2026-09-26T23:07:15Z",
+    "generated_at": "2026-09-26T23:26:25Z",
     "current_week": {
       "season": 2026,
       "week": 4
@@ -194,12 +194,12 @@
           "away_ml": -490
         },
         "FanDuel": {
-          "spread": 11.5,
+          "spread": 10.5,
           "spread_open": null,
           "total": 56.5,
           "total_open": null,
-          "home_ml": 350,
-          "away_ml": -465
+          "home_ml": 330,
+          "away_ml": -430
         }
       },
       "book_order": [
