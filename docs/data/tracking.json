@@ -1,6 +1,6 @@
 {
   "meta": {
-    "generated_at": "2026-09-26T21:12:40Z",
+    "generated_at": "2026-09-26T22:24:04Z",
     "current_week": {
       "season": 2026,
       "week": 4
@@ -45,26 +45,26 @@
       "note": "Hypothetical flat 1-unit-per-bet tracking of the live model's own picks (spread/total at -110, moneyline at the real posted odds) -- not your personal bets. Week 1's spread record includes the seed week -- it uses the Moore seed exactly as pasted, which already reflects that week's own results, so it's informational only, not a genuine out-of-sample prediction (see moore_seed_2026.py)."
     },
     "yours": {
-      "n_bets": 41,
-      "wins": 21,
-      "losses": 20,
+      "n_bets": 46,
+      "wins": 23,
+      "losses": 23,
       "pushes": 0,
-      "win_rate": 0.5122,
-      "units": 169.63,
+      "win_rate": 0.5,
+      "units": 168.86,
       "by_type": {
         "Spread": {
-          "wins": 14,
-          "losses": 10,
+          "wins": 15,
+          "losses": 11,
           "pushes": 0,
-          "win_rate": 0.5833,
-          "units": 7.16
+          "win_rate": 0.5769,
+          "units": 7.44
         },
         "Moneyline": {
-          "wins": 7,
-          "losses": 6,
+          "wins": 8,
+          "losses": 8,
           "pushes": 0,
-          "win_rate": 0.5385,
-          "units": 174.97
+          "win_rate": 0.5,
+          "units": 173.92
         },
         "ML Parlay": {
           "wins": 0,
@@ -81,7 +81,26 @@
           "units": -7.5
         }
       },
-      "pending": [],
+      "pending": [
+        {
+          "date": "2026-09-26",
+          "week": 4,
+          "matchup": "New Mexico @ New Mexico State",
+          "bet_type": "Spread",
+          "side": "New Mexico",
+          "odds": -110.0,
+          "stake": 1.5
+        },
+        {
+          "date": "2026-09-26",
+          "week": 4,
+          "matchup": "Iowa @ Michigan",
+          "bet_type": "Spread",
+          "side": "Iowa",
+          "odds": -112.0,
+          "stake": 1.0
+        }
+      ],
       "graded": [
         {
           "date": "2026-08-29",
@@ -533,6 +552,61 @@
           "stake": 1.5,
           "result": "L",
           "units": -1.5
+        },
+        {
+          "date": "2026-09-19",
+          "week": 3,
+          "matchup": "Miami @ Wake Forest",
+          "bet_type": "Spread",
+          "side": "Wake Forest",
+          "odds": -140.0,
+          "stake": 2.5,
+          "result": "W",
+          "units": 1.79
+        },
+        {
+          "date": "2026-09-26",
+          "week": 4,
+          "matchup": "Clemson @ California",
+          "bet_type": "Moneyline",
+          "side": "Clemson",
+          "odds": -138.0,
+          "stake": 2.0,
+          "result": "W",
+          "units": 1.45
+        },
+        {
+          "date": "2026-09-26",
+          "week": 4,
+          "matchup": "UNLV @ Akron",
+          "bet_type": "Spread",
+          "side": "Akron",
+          "odds": -110.0,
+          "stake": 1.5,
+          "result": "L",
+          "units": -1.5
+        },
+        {
+          "date": "2026-09-26",
+          "week": 4,
+          "matchup": "Wake Forest @ Louisville",
+          "bet_type": "Moneyline",
+          "side": "Louisville",
+          "odds": -130.0,
+          "stake": 1.5,
+          "result": "L",
+          "units": -1.5
+        },
+        {
+          "date": "2026-09-26",
+          "week": 4,
+          "matchup": "Wake Forest @ Louisville",
+          "bet_type": "Moneyline",
+          "side": "Louisville",
+          "odds": 100.0,
+          "stake": 1.0,
+          "result": "L",
+          "units": -1.0
         }
       ],
       "note": "Your actual bets from the Bet Log tab, graded at the real odds you entered."

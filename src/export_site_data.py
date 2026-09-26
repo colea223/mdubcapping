@@ -93,7 +93,17 @@ DOCS_DATA = ROOT / "docs" / "data"
 NOTES_PATH = ROOT / "site_notes.json"
 MANUAL_LINES_PATH = ROOT / "manual_lines.json"
 TRACKER_PATH = ROOT / "excel" / "MW_Handicapping_Tracker.xlsx"
-BET_LOG_ROWS = range(2, 43)   # matches excel/build_tracker.py's layout
+
+# NOTE: this used to match excel/build_tracker.py's original 41-row template
+# (range(2, 43)) -- but the Bet Log tab's J/L/M formula rows were manually
+# extended out to row 500 (see excel/import_bet_log.py's own BET_LOG_ROWS,
+# already bumped to match), and this constant was never updated to follow.
+# Result: any bet that landed in row 43+ was silently invisible to the
+# website -- neither counted as "pending" nor graded on the Tracking page,
+# even though excel/import_bet_log.py itself was happily writing rows past
+# 42. If the Bet Log tab is ever extended further than row 500, bump this
+# (and import_bet_log.py's own BET_LOG_ROWS) together, not just one of them.
+BET_LOG_ROWS = range(2, 501)
 CURRENT_SEASON = 2026
 
 # Dub Beta Model (XGBoost) data sources -- see module docstring above.
