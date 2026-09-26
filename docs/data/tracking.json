@@ -1,6 +1,6 @@
 {
   "meta": {
-    "generated_at": "2026-09-26T22:24:04Z",
+    "generated_at": "2026-09-26T22:41:15Z",
     "current_week": {
       "season": 2026,
       "week": 4
@@ -99,6 +99,24 @@
           "side": "Iowa",
           "odds": -112.0,
           "stake": 1.0
+        },
+        {
+          "date": "2026-09-26",
+          "week": 4,
+          "matchup": "Oklahoma State @ West Virginia",
+          "bet_type": "Spread",
+          "side": "West Virginia",
+          "odds": -115.0,
+          "stake": 1.15
+        },
+        {
+          "date": "2026-09-26",
+          "week": 4,
+          "matchup": "Oregon @ USC",
+          "bet_type": "Spread",
+          "side": "Oregon",
+          "odds": -110.0,
+          "stake": 1.1
         }
       ],
       "graded": [
