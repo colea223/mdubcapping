@@ -1,6 +1,6 @@
 {
   "meta": {
-    "generated_at": "2026-09-26T23:07:15Z",
+    "generated_at": "2026-09-27T03:46:23Z",
     "current_week": {
       "season": 2026,
       "week": 4
@@ -45,19 +45,19 @@
       "note": "Hypothetical flat 1-unit-per-bet tracking of the live model's own picks (spread/total at -110, moneyline at the real posted odds) -- not your personal bets. Week 1's spread record includes the seed week -- it uses the Moore seed exactly as pasted, which already reflects that week's own results, so it's informational only, not a genuine out-of-sample prediction (see moore_seed_2026.py)."
     },
     "yours": {
-      "n_bets": 48,
-      "wins": 25,
-      "losses": 23,
+      "n_bets": 51,
+      "wins": 27,
+      "losses": 24,
       "pushes": 0,
-      "win_rate": 0.5208,
-      "units": 171.12,
+      "win_rate": 0.5294,
+      "units": 172.15,
       "by_type": {
         "Spread": {
-          "wins": 17,
-          "losses": 11,
+          "wins": 19,
+          "losses": 12,
           "pushes": 0,
-          "win_rate": 0.6071,
-          "units": 9.7
+          "win_rate": 0.6129,
+          "units": 10.73
         },
         "Moneyline": {
           "wins": 8,
@@ -85,20 +85,29 @@
         {
           "date": "2026-09-26",
           "week": 4,
-          "matchup": "Oklahoma State @ West Virginia",
-          "bet_type": "Spread",
-          "side": "West Virginia",
-          "odds": -115.0,
-          "stake": 1.15
+          "matchup": "Georgia Tech @ Stanford",
+          "bet_type": "Moneyline",
+          "side": "Georgia Tech",
+          "odds": -150.0,
+          "stake": 1.5
         },
         {
           "date": "2026-09-26",
           "week": 4,
-          "matchup": "Oregon @ USC",
+          "matchup": "Minnesota @ Washington",
           "bet_type": "Spread",
-          "side": "Oregon",
-          "odds": -110.0,
+          "side": "Washington",
+          "odds": -114.0,
           "stake": 1.1
+        },
+        {
+          "date": "2026-09-26",
+          "week": 4,
+          "matchup": "Minnesota @ Washington",
+          "bet_type": "Spread",
+          "side": "Washington",
+          "odds": -108.0,
+          "stake": 1.0
         }
       ],
       "graded": [
@@ -629,6 +638,39 @@
           "stake": 1.0,
           "result": "W",
           "units": 0.89
+        },
+        {
+          "date": "2026-09-26",
+          "week": 4,
+          "matchup": "Oklahoma State @ West Virginia",
+          "bet_type": "Spread",
+          "side": "West Virginia",
+          "odds": -115.0,
+          "stake": 1.15,
+          "result": "L",
+          "units": -1.15
+        },
+        {
+          "date": "2026-09-26",
+          "week": 4,
+          "matchup": "Oregon @ USC",
+          "bet_type": "Spread",
+          "side": "Oregon",
+          "odds": -110.0,
+          "stake": 1.1,
+          "result": "W",
+          "units": 1.0
+        },
+        {
+          "date": "2026-09-26",
+          "week": 4,
+          "matchup": "Missouri @ Mississippi State",
+          "bet_type": "Spread",
+          "side": "Mississippi State",
+          "odds": 118.0,
+          "stake": 1.0,
+          "result": "W",
+          "units": 1.18
         }
       ],
       "note": "Your actual bets from the Bet Log tab, graded at the real odds you entered."
