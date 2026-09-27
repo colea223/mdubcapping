@@ -1,6 +1,6 @@
 {
   "meta": {
-    "generated_at": "2026-09-27T01:46:19Z",
+    "generated_at": "2026-09-27T03:40:00Z",
     "current_week": {
       "season": 2026,
       "week": 4
@@ -194,12 +194,12 @@
           "away_ml": -490
         },
         "FanDuel": {
-          "spread": 20.5,
+          "spread": 26.5,
           "spread_open": null,
-          "total": 57.5,
+          "total": 50.5,
           "total_open": null,
-          "home_ml": 1060,
-          "away_ml": -3500
+          "home_ml": null,
+          "away_ml": null
         }
       },
       "book_order": [
@@ -215,9 +215,9 @@
       "home_team": "Nevada",
       "open_spread_home": 4.2,
       "open_total": 48.8,
-      "kicked_off": false,
-      "close_spread_home": null,
-      "close_total": null,
+      "kicked_off": true,
+      "close_spread_home": 5.5,
+      "close_total": 50.5,
       "books": {
         "DraftKings": {
           "spread": 5.5,
@@ -236,12 +236,12 @@
           "away_ml": -185
         },
         "FanDuel": {
-          "spread": 4.5,
+          "spread": -2.5,
           "spread_open": null,
-          "total": 50.5,
+          "total": 48.5,
           "total_open": null,
-          "home_ml": 172,
-          "away_ml": -210
+          "home_ml": -140,
+          "away_ml": 110
         }
       },
       "book_order": [
