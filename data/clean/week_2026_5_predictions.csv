@@ -1,0 +1,6 @@
+Game ID,Week,Date,Away Team,Home Team,Model Line (Home),Model Total,Home Win Prob,Ridge Line (Home),Ridge Win Prob,XGBoost Line (Home),Massey Line (Home)
+401864515,5,2026-10-03,Wyoming,North Dakota State,-28.1,44.7,0.954,-22.0,0.892,-18.6,-20.8
+401862791,5,2026-10-03,Navy,Air Force,5.0,56.1,0.381,-8.5,0.684,-1.5,-7.7
+401858247,5,2026-10-03,California,UNLV,-2.2,46.1,0.553,-15.5,0.808,-6.9,-3.1
+401864514,5,2026-10-03,UTEP,New Mexico,-31.2,41.3,0.97,-22.1,0.892,-21.3,-28.2
+401864513,5,2026-10-04,San José State,Hawai'i,-4.6,47.1,0.609,-6.7,0.647,-6.6,2.1
