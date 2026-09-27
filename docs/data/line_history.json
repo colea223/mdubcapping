@@ -1,6 +1,6 @@
 {
   "meta": {
-    "generated_at": "2026-09-27T17:03:43Z",
+    "generated_at": "2026-09-27T18:24:25Z",
     "current_week": {
       "season": 2026,
       "week": 5
@@ -37,8 +37,8 @@
         ]
       },
       "DraftKings": {
-        "open_spread": null,
-        "open_total": null,
+        "open_spread": -1.5,
+        "open_total": 52.5,
         "points": [
           {
             "t": "2026-09-27T16:51:43Z",
@@ -47,6 +47,14 @@
             "home_ml": -115,
             "away_ml": -105,
             "source": "odds_api"
+          },
+          {
+            "t": "2026-09-27T17:36:29Z",
+            "spread": -1.5,
+            "total": 52.5,
+            "home_ml": -115,
+            "away_ml": -105,
+            "source": "cfbd"
           }
         ]
       },
@@ -109,8 +117,8 @@
         ]
       },
       "DraftKings": {
-        "open_spread": null,
-        "open_total": null,
+        "open_spread": -1.5,
+        "open_total": 49.5,
         "points": [
           {
             "t": "2026-09-27T16:51:43Z",
@@ -119,6 +127,14 @@
             "home_ml": -120,
             "away_ml": 100,
             "source": "odds_api"
+          },
+          {
+            "t": "2026-09-27T17:36:29Z",
+            "spread": -1.5,
+            "total": 46.5,
+            "home_ml": -120,
+            "away_ml": 100,
+            "source": "cfbd"
           }
         ]
       },
@@ -147,6 +163,54 @@
             "home_ml": null,
             "away_ml": null,
             "source": "odds_api"
+          }
+        ]
+      }
+    },
+    "401864513": {
+      "DraftKings": {
+        "open_spread": -5.5,
+        "open_total": 52.5,
+        "points": [
+          {
+            "t": "2026-09-27T17:36:29Z",
+            "spread": -4.5,
+            "total": 52.5,
+            "home_ml": -180,
+            "away_ml": 150,
+            "source": "cfbd"
+          }
+        ]
+      }
+    },
+    "401864514": {
+      "DraftKings": {
+        "open_spread": -21.0,
+        "open_total": 53.5,
+        "points": [
+          {
+            "t": "2026-09-27T17:36:29Z",
+            "spread": -21.0,
+            "total": 50.5,
+            "home_ml": -1800,
+            "away_ml": 1000,
+            "source": "cfbd"
+          }
+        ]
+      }
+    },
+    "401864515": {
+      "DraftKings": {
+        "open_spread": -21.0,
+        "open_total": 47.5,
+        "points": [
+          {
+            "t": "2026-09-27T17:36:29Z",
+            "spread": -20.5,
+            "total": 47.5,
+            "home_ml": -1800,
+            "away_ml": 1000,
+            "source": "cfbd"
           }
         ]
       }

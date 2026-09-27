@@ -1,6 +1,6 @@
 {
   "meta": {
-    "generated_at": "2026-09-27T17:03:43Z",
+    "generated_at": "2026-09-27T18:24:25Z",
     "current_week": {
       "season": 2026,
       "week": 5
@@ -12,12 +12,20 @@
       "date": "2026-10-03T16:00:00Z",
       "away_team": "Navy",
       "home_team": "Air Force",
-      "open_spread_home": null,
-      "open_total": null,
+      "open_spread_home": -1.5,
+      "open_total": 49.5,
       "kicked_off": false,
       "close_spread_home": null,
       "close_total": null,
       "books": {
+        "DraftKings": {
+          "spread": -1.5,
+          "spread_open": -1.5,
+          "total": 46.5,
+          "total_open": 49.5,
+          "home_ml": -120,
+          "away_ml": 100
+        },
         "FanDuel": {
           "spread": -1.5,
           "spread_open": null,
@@ -25,14 +33,6 @@
           "total_open": null,
           "home_ml": -132,
           "away_ml": 110
-        },
-        "DraftKings": {
-          "spread": -1.5,
-          "spread_open": null,
-          "total": 46.5,
-          "total_open": null,
-          "home_ml": -120,
-          "away_ml": 100
         }
       },
       "book_order": [
@@ -45,25 +45,44 @@
       "date": "2026-10-03T19:30:00Z",
       "away_team": "Wyoming",
       "home_team": "North Dakota State",
-      "open_spread_home": null,
-      "open_total": null,
+      "open_spread_home": -21.0,
+      "open_total": 47.5,
       "kicked_off": false,
       "close_spread_home": null,
       "close_total": null,
-      "books": {},
-      "book_order": []
+      "books": {
+        "DraftKings": {
+          "spread": -20.5,
+          "spread_open": -21.0,
+          "total": 47.5,
+          "total_open": 47.5,
+          "home_ml": -1800,
+          "away_ml": 1000
+        }
+      },
+      "book_order": [
+        "DraftKings"
+      ]
     },
     {
       "game_id": 401858247,
       "date": "2026-10-03T19:30:00Z",
       "away_team": "California",
       "home_team": "UNLV",
-      "open_spread_home": null,
-      "open_total": null,
+      "open_spread_home": -1.5,
+      "open_total": 52.5,
       "kicked_off": false,
       "close_spread_home": null,
       "close_total": null,
       "books": {
+        "DraftKings": {
+          "spread": -1.5,
+          "spread_open": -1.5,
+          "total": 52.5,
+          "total_open": 52.5,
+          "home_ml": -115,
+          "away_ml": -105
+        },
         "FanDuel": {
           "spread": -2.5,
           "spread_open": null,
@@ -71,14 +90,6 @@
           "total_open": null,
           "home_ml": -128,
           "away_ml": 106
-        },
-        "DraftKings": {
-          "spread": -1.5,
-          "spread_open": null,
-          "total": 52.5,
-          "total_open": null,
-          "home_ml": -115,
-          "away_ml": -105
         }
       },
       "book_order": [
@@ -91,26 +102,48 @@
       "date": "2026-10-03T20:00:00Z",
       "away_team": "UTEP",
       "home_team": "New Mexico",
-      "open_spread_home": null,
-      "open_total": null,
+      "open_spread_home": -21.0,
+      "open_total": 53.5,
       "kicked_off": false,
       "close_spread_home": null,
       "close_total": null,
-      "books": {},
-      "book_order": []
+      "books": {
+        "DraftKings": {
+          "spread": -21.0,
+          "spread_open": -21.0,
+          "total": 50.5,
+          "total_open": 53.5,
+          "home_ml": -1800,
+          "away_ml": 1000
+        }
+      },
+      "book_order": [
+        "DraftKings"
+      ]
     },
     {
       "game_id": 401864513,
       "date": "2026-10-04T03:59:00Z",
       "away_team": "San Jos\u00e9 State",
       "home_team": "Hawai'i",
-      "open_spread_home": null,
-      "open_total": null,
+      "open_spread_home": -5.5,
+      "open_total": 52.5,
       "kicked_off": false,
       "close_spread_home": null,
       "close_total": null,
-      "books": {},
-      "book_order": []
+      "books": {
+        "DraftKings": {
+          "spread": -4.5,
+          "spread_open": -5.5,
+          "total": 52.5,
+          "total_open": 52.5,
+          "home_ml": -180,
+          "away_ml": 150
+        }
+      },
+      "book_order": [
+        "DraftKings"
+      ]
     }
   ]
 }
