@@ -75,7 +75,7 @@ import duckdb
 from config import DB_PATH
 from moore_seed_2026 import SEED_SEASON, SEED_ENTERING_WEEK, SEED_RATINGS, DEFAULT_SEED_RATING
 from pull_injuries import status_weight
-from teams import normalize_team_name
+from teams import normalize_team_name, FBS_CONFERENCES
 
 HFA = 4.0
 CARRY_FORWARD = 0.9
@@ -339,23 +339,47 @@ def replay_ratings(con, season=SEED_SEASON, entering_week=SEED_ENTERING_WEEK, th
     `through_week` inclusive, or the rest of the season if None). Returns
     (ratings, warned) -- ratings is {team: current_rating} as of the last
     game processed; warned is a sorted list of teams encountered with no
-    Moore seed rating (fell back to DEFAULT_SEED_RATING -- see this file's
-    and moore_seed_2026.py's own comments on why that's surfaced loudly
-    rather than silently absorbed).
+    Moore seed rating AND that played in an FBS conference that game (a real
+    mapping gap -- see this file's and moore_seed_2026.py's own comments on
+    why that's surfaced loudly rather than silently absorbed).
+
+    get_rating()'s fallback is conference-aware, fixing a real bug found
+    while investigating why a team with a genuine FCS buy game (e.g. a team
+    beating an FCS opponent like Wagner or Fordham 80+ to nothing) got an
+    inflated rating bump: previously, ANY team missing from `ratings` fell
+    back to DEFAULT_SEED_RATING (the flat AVERAGE FBS rating, ~64) --
+    correct for a real FBS team with a name-mapping gap (the case this
+    fallback was built for), but wrong for a genuine FCS opponent, which
+    Moore never rates at all and which isn't remotely an average FBS team.
+    That's the EXACT problem UNRATED_OPPONENT_RATING (a deliberately low
+    placeholder, ~25) already exists to solve -- it was just never wired
+    into this function, only into predict_spread_home()'s live-prediction
+    fallback (see that constant's own comment). Now: a team missing from
+    `ratings` that played in an FBS conference that game still warns and
+    gets DEFAULT_SEED_RATING (unchanged, still a real mapping gap); a team
+    missing from `ratings` that did NOT (a genuine FCS opponent) gets
+    UNRATED_OPPONENT_RATING instead, silently -- expected, not actionable,
+    same actionable-vs-fcs_noise split
+    examples/offseason_health_check.py's check_gamma_seed_coverage() already
+    applies to this exact distinction.
     """
     ratings = dict(SEED_RATINGS)
     warned = set()
 
-    def get_rating(team):
+    def get_rating(team, conference):
         if team not in ratings:
-            warned.add(team)
-            ratings[team] = DEFAULT_SEED_RATING
+            if conference in FBS_CONFERENCES:
+                warned.add(team)
+                ratings[team] = DEFAULT_SEED_RATING
+            else:
+                ratings[team] = UNRATED_OPPONENT_RATING
         return ratings[team]
 
     injury_weights = load_injury_weights_by_week(con, season)
 
     query = """
-        SELECT week, home_team, away_team, home_points, away_points
+        SELECT week, home_team, away_team, home_points, away_points,
+               home_conference, away_conference
         FROM games
         WHERE season = ? AND week >= ? AND completed = TRUE
     """
@@ -365,12 +389,14 @@ def replay_ratings(con, season=SEED_SEASON, entering_week=SEED_ENTERING_WEEK, th
         params.append(through_week)
     query += " ORDER BY week, start_date"
 
-    for week, home_team, away_team, home_points, away_points in con.execute(query, params).fetchall():
+    for (week, home_team, away_team, home_points, away_points,
+         home_conference, away_conference) in con.execute(query, params).fetchall():
         if home_points is None or away_points is None:
             continue
         home_team = normalize_team_name(home_team)
         away_team = normalize_team_name(away_team)
-        old_home, old_away = get_rating(home_team), get_rating(away_team)
+        old_home = get_rating(home_team, home_conference)
+        old_away = get_rating(away_team, away_conference)
         net_home = home_points - away_points
         net_away = -net_home
         home_inj = injury_weights.get((home_team, week), 0.0)

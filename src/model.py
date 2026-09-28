@@ -130,6 +130,23 @@ FEATURE_COLS = [
     # this feature's own MW-specific gain, since the other two's negative MW
     # effects partially cancel it.
     "returning_production_diff",
+    # sor_diff (Strength of Record, see sor_baseline's own comment in
+    # schema.sql) was tested the same way (src/diagnose_sor_feature.py) and
+    # deliberately left OUT: a full walk-forward backtest produced a
+    # BIT-FOR-BIT identical result with or without it -- same 327 real-edge
+    # bets, same 55.05% overall ATS win rate, same +5.09% ROI, same 0.112
+    # Brier, on both the overall and MW-involved slices. RidgeCV's own
+    # cross-validated regularization is shrinking its coefficient to
+    # nothing, which makes sense mechanically: SOR is derived FROM the same
+    # Elo ratings rating_diff already uses (it's built from each game's
+    # actual result vs. an Elo-implied expectation), so it's carrying no
+    # information rating_diff doesn't already carry -- the same redundancy
+    # reason sos_diff got rejected for above. SOR still earns its keep as a
+    # DISPLAY metric (see excel/update_tracker.py's Strength of Record tab)
+    # -- a resume-based cross-check on the Elo rating shown right next to
+    # it -- just not as a model feature. Re-test if a future change makes
+    # SOR less collinear with rating_diff (e.g. a margin cap or a different
+    # opponent-strength adjustment).
 ]
 ALPHAS = np.logspace(-2, 3, 25)
 

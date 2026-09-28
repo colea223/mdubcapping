@@ -69,9 +69,9 @@ from openpyxl.worksheet.datavalidation import DataValidation
 
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent / "src"))
 from config import DB_PATH, CLEAN_DIR  # noqa: E402
-from power_rating import current_ratings  # noqa: E402
+from power_rating import current_ratings, current_sor  # noqa: E402
 import gamma_model  # noqa: E402
-from teams import MW_TEAMS_2026, normalize_team_name  # noqa: E402
+from teams import MW_TEAMS_2026, FBS_CONFERENCES, normalize_team_name  # noqa: E402
 
 TRACKER_PATH = Path(__file__).resolve().parent / "MW_Handicapping_Tracker.xlsx"
 WEEKLY_SLATE_ROWS = range(2, 43)   # matches build_tracker.py's layout
@@ -108,6 +108,10 @@ CURRENT_SEASON = gamma_model.SEED_SEASON   # 2026 -- same season constant every 
 COVER_FILL = PatternFill("solid", fgColor="C6EFCE")     # light green
 NO_COVER_FILL = PatternFill("solid", fgColor="FFC7CE")  # light red
 PUSH_FILL = PatternFill("solid", fgColor="E7E6E6")      # light gray
+
+# Strength of Record tab
+SOR_SHEET = "Strength of Record"
+RANK_GAP_FILL = PatternFill("solid", fgColor="FFEB9C")  # light amber -- flags a big Elo/SOR disagreement
 
 
 def latest_predictions_file():
@@ -519,6 +523,108 @@ def update_mw_ats(ws, con):
     print(f"MW Team ATS: {len(team_order)} team(s), {total_graded} graded team-game(s) this season")
 
 
+def ensure_sor_tab(wb):
+    """Creates the Strength of Record tab the first time this script runs
+    against a workbook that doesn't have one yet. Same fully-regenerated,
+    nothing-typed-in-by-hand pattern as MW Team ATS -- see that function's
+    own docstring."""
+    if SOR_SHEET not in wb.sheetnames:
+        ws = wb.create_sheet(SOR_SHEET)
+        ws.sheet_view.showGridLines = False
+        ws.freeze_panes = "B5"
+    else:
+        ws = wb[SOR_SHEET]
+        ws.delete_rows(1, ws.max_row)
+    return ws
+
+
+def update_sor_tab(ws, con):
+    """
+    Strength of Record, current season only (see sor_baseline's own comment
+    in schema.sql: SOR resets to 0.0 every season, so a cross-season table
+    wouldn't mean anything). SOR answers "how many wins above what an
+    exactly-average FBS team would've earned against this same schedule" --
+    a resume metric, separate from the Elo rating's own "how good is this
+    team" process estimate (see power_rating.py's run_ratings() docstring).
+
+    The whole point of putting this next to the Elo rating here, rather
+    than as its own siloed tab, is the Rank Gap column: Elo Rank minus SOR
+    Rank. A big POSITIVE gap means a team's raw Elo number (no preseason
+    prior, so it leans entirely on this season's results) is running well
+    ahead of what its actual resume supports -- exactly the "is this
+    team's power rating too high" question this tab exists to answer at a
+    glance, for every team, every week, instead of investigating one team
+    at a time by hand.
+    """
+    season = CURRENT_SEASON
+    ratings = current_ratings(con)
+    sor = current_sor(con)
+
+    # This season's W-L, FBS opponents only (same scope as SOR itself) --
+    # for context alongside the SOR number, not used in any calculation.
+    games = con.execute("""
+        SELECT home_team, away_team, home_points, away_points, home_conference, away_conference
+        FROM games
+        WHERE season = ? AND completed = TRUE AND home_points IS NOT NULL AND away_points IS NOT NULL
+    """, [season]).fetchall()
+    record = {}
+    for home, away, hp, ap, home_conf, away_conf in games:
+        if hp == ap:
+            continue
+        home_win = hp > ap
+        if away_conf in FBS_CONFERENCES:
+            w, l = record.get(home, (0, 0))
+            record[home] = (w + 1, l) if home_win else (w, l + 1)
+        if home_conf in FBS_CONFERENCES:
+            w, l = record.get(away, (0, 0))
+            record[away] = (w + 1, l) if not home_win else (w, l + 1)
+
+    # Every team that's played an FBS game this season -- SOR/record scope,
+    # not gamma_model.SEED_RATINGS' full offseason roster (a team with no
+    # games yet has nothing to rank here).
+    team_list = sorted(sor.keys(), key=lambda t: -sor.get(t, 0.0))
+    elo_rank = {t: i + 1 for i, (t, _) in enumerate(sorted(ratings.items(), key=lambda kv: -kv[1]))}
+    sor_rank = {t: i + 1 for i, t in enumerate(team_list)}
+
+    ws["A1"] = f"Strength of Record -- {season} Season (resets every season -- see column notes below)"
+    ws["A1"].font = SUBTITLE_FONT
+    ws["A3"] = ("SOR = wins above what an exactly-average FBS team would've earned against this exact "
+                "schedule. Rank Gap = Elo Rank minus SOR Rank -- a big positive number means the Elo "
+                "rating (no preseason blend, so it's all this season's results) is running ahead of "
+                "what the resume actually supports.")
+    ws["A3"].font = NOTE_FONT
+
+    header_row = 5
+    headers = ["Team", "W-L (FBS)", "SOR", "SOR Rank", "Elo Rating", "Elo Rank", "Rank Gap (Elo - SOR)"]
+    for c, h in enumerate(headers, start=1):
+        cell = ws.cell(row=header_row, column=c, value=h)
+        cell.font = HEADER_FONT
+        cell.fill = HEADER_FILL
+        cell.alignment = Alignment(horizontal="center", wrap_text=True)
+
+    for i, team in enumerate(team_list):
+        r = header_row + 1 + i
+        w, l = record.get(team, (0, 0))
+        gap = elo_rank.get(team, 0) - sor_rank.get(team, 0)
+
+        ws.cell(row=r, column=1, value=team).font = FORMULA_FONT
+        ws.cell(row=r, column=2, value=f"{w}-{l}").font = FORMULA_FONT
+        ws.cell(row=r, column=3, value=round(sor.get(team, 0.0), 2)).font = FORMULA_FONT
+        ws.cell(row=r, column=4, value=sor_rank.get(team)).font = FORMULA_FONT
+        rating_cell = ws.cell(row=r, column=5, value=round(ratings[team], 1) if team in ratings else None)
+        rating_cell.font = FORMULA_FONT
+        ws.cell(row=r, column=6, value=elo_rank.get(team)).font = FORMULA_FONT
+        gap_cell = ws.cell(row=r, column=7, value=gap)
+        gap_cell.font = FORMULA_FONT
+        if gap >= 15:   # arbitrary but generous -- flags only a real, sizable disagreement
+            gap_cell.fill = RANK_GAP_FILL
+
+    for col, width in zip("ABCDEFG", [22, 10, 8, 10, 11, 10, 18]):
+        ws.column_dimensions[col].width = width
+
+    print(f"Strength of Record: {len(team_list)} team(s) ranked for {season}")
+
+
 def main():
     if not TRACKER_PATH.exists():
         print(f"Tracker workbook not found at {TRACKER_PATH}. Run excel/build_tracker.py first, "
@@ -540,6 +646,8 @@ def main():
     update_power_ratings(pr_ws, con, pr_just_created)
     ats_ws = ensure_mw_ats_tab(wb)
     update_mw_ats(ats_ws, con)
+    sor_ws = ensure_sor_tab(wb)
+    update_sor_tab(sor_ws, con)
     con.close()
 
     wb.save(TRACKER_PATH)

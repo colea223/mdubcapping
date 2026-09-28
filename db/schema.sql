@@ -251,6 +251,36 @@ CREATE TABLE IF NOT EXISTS sos_ratings (
     PRIMARY KEY (season, team)
 );
 
+-- Strength of Record: how many wins above what an exactly-average FBS team
+-- (rating == power_rating.BASE_RATING) would have been expected to earn
+-- against this SAME schedule, accumulated incrementally in
+-- power_rating.py's run_ratings() -- same loop, same walk-forward-safe
+-- rating_before values ratings_baseline already uses, so this costs nothing
+-- extra to compute.
+--
+-- Deliberately a DIFFERENT convention from sos_ratings above: SOR resets to
+-- 0.0 at every season boundary (a resume metric should start blank each
+-- year, not carry a fraction of last year's forward the way the Elo rating
+-- itself regresses 75%), and it's a SAME-season, incremental, game-by-game
+-- value, not a prior-season snapshot. sor_before is what the team's resume
+-- looked like walking into this game (safe to use as a feature for that
+-- game, same convention as rating_before); sor_after includes this game's
+-- own result. FBS opponents only -- a game against a non-FBS opponent still
+-- gets a row (so every game a team played has one, matching
+-- ratings_baseline's own convention) but sor_after == sor_before, i.e. no
+-- credit or debit for a game outside the pool this metric describes. See
+-- power_rating.py's run_ratings() docstring for the full reasoning,
+-- including why the "average team" benchmark gets the same home-field
+-- treatment the real team got for that game.
+CREATE TABLE IF NOT EXISTS sor_baseline (
+    game_id      BIGINT,
+    team         VARCHAR,
+    is_home      BOOLEAN,
+    sor_before   DOUBLE,
+    sor_after    DOUBLE,
+    PRIMARY KEY (game_id, team)
+);
+
 -- Phase 2: one row per game of leakage-safe pre-game features. See src/features.py.
 -- sp_diff/ppa_diff/talent_diff added Phase 3.5 (backtest revealed the model
 -- was ignoring SP+/PPA/recruiting data that pull_stats.py already collects).
@@ -296,7 +326,8 @@ CREATE OR REPLACE TABLE game_features (
     -- discipline already applied to std_down_ppa_diff etc.
     sos_diff                    DOUBLE,  -- prior-season strength of schedule (avg FBS opponent rating), home minus away
     returning_production_diff   DOUBLE,  -- THIS season's overall returning production (PPA-weighted), home minus away
-    qb_continuity_diff          DOUBLE   -- THIS season's passing-game returning production (PPA-weighted) -- QB continuity proxy, home minus away
+    qb_continuity_diff          DOUBLE,  -- THIS season's passing-game returning production (PPA-weighted) -- QB continuity proxy, home minus away
+    sor_diff                    DOUBLE   -- THIS season's Strength of Record so far (see sor_baseline above), home minus away -- 0.0 for a team with no games yet this season, same convention as a fresh season's sor_before
 );
 
 -- Raw drive-level data (one row per offensive possession) -- see

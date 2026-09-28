@@ -50,17 +50,22 @@ Every feature here is computable from information available BEFORE kickoff:
     def_X -- the same off_ppa-minus-def_ppa framing ppa_map already uses
     for the overall, non-situational PPA diff), THEN the diff is that net
     rating, home minus away.
-  - sos_diff / returning_production_diff / qb_continuity_diff: CANDIDATE
-    features, computed here and stored in game_features but NOT yet in
-    model.FEATURE_COLS (see that list's own comment in model.py) -- these
-    need the same A/B-tested validation the situational splits got before
-    being trusted. sos_diff is prior-season strength of schedule (see
+  - sos_diff / returning_production_diff / qb_continuity_diff / sor_diff:
+    CANDIDATE features, computed here and stored in game_features but NOT
+    yet in model.FEATURE_COLS (see that list's own comment in model.py) --
+    these need the same A/B-tested validation the situational splits got
+    before being trusted. sos_diff is prior-season strength of schedule (see
     sos_ratings' own comment in schema.sql) -- same prior-season-only
     lookup as sp_diff/ppa_diff, for the same leakage reason.
     returning_production_diff/qb_continuity_diff are THIS season's overall/
     passing-game returning-production percentage (see returning_production's
     own comment in schema.sql) -- same SAME-season treatment as talent_diff,
-    since CFBD computes these before the season starts.
+    since CFBD computes these before the season starts. sor_diff is THIS
+    season's Strength of Record so far (see sor_baseline's own comment in
+    schema.sql) -- a SAME-season, walk-forward-safe, game-by-game lookup,
+    same convention as rating_diff, NOT the prior-season pattern sos_diff
+    uses -- SOR resets to 0.0 every season, so a prior season's SOR isn't a
+    meaningful prior for this one.
 
 Usage:
     source .venv/bin/activate
@@ -74,7 +79,7 @@ import pandas as pd
 import time
 
 from config import DB_PATH
-from power_rating import current_ratings
+from power_rating import current_ratings, current_sor
 from teams import FBS_CONFERENCES
 
 EARTH_RADIUS_KM = 6371.0
@@ -127,6 +132,21 @@ def build_features(con) -> pd.DataFrame:
     ratings_hist = con.execute("SELECT game_id, team, rating_before FROM ratings_baseline").fetchdf()
     ratings_hist_map = {(r.game_id, r.team): r.rating_before for r in ratings_hist.itertuples()}
     ratings_now = current_ratings(con)
+
+    # Strength of Record -- same walk-forward-safe, same-season convention
+    # as rating_diff just above (NOT the prior-season sos_map pattern below),
+    # since SOR is computed incrementally, same-season, in power_rating.py's
+    # run_ratings() loop. Wrapped defensively like drive_map/situational_map:
+    # an older database without sor_baseline yet just runs with sor_diff
+    # all-NULL instead of crashing.
+    try:
+        sor_hist = con.execute("SELECT game_id, team, sor_before FROM sor_baseline").fetchdf()
+        sor_hist_map = {(r.game_id, r.team): r.sor_before for r in sor_hist.itertuples()}
+    except duckdb.Error:
+        print("features: sor_baseline table not found -- sor_diff will be all-NULL. "
+              "Rerun src/power_rating.py to fix this.")
+        sor_hist_map = {}
+    sor_now = current_sor(con)
 
     # Season-by-season FBS/FCS check, keyed (season, team) -- see teams.py's
     # own FBS_CONFERENCES comment for the full North Dakota State/FCS-
@@ -270,6 +290,16 @@ def build_features(con) -> pd.DataFrame:
             return ratings_hist_map[(game_id, team)]
         return ratings_now.get(team)  # upcoming game -> latest known rating
 
+    def sor_for(game_id, team):
+        if (game_id, team) in sor_hist_map:
+            return sor_hist_map[(game_id, team)]
+        # Upcoming game, or a team with no sor_baseline row for this
+        # game_id at all -- default to 0.0 (a team with no games yet this
+        # season, same convention as a fresh season's sor_before), not None,
+        # so sor_diff doesn't go all-NULL just because one side hasn't
+        # played yet this season while the other has.
+        return sor_now.get(team, 0.0)
+
     rows = []
     for g in games.itertuples():
         lat, lon, elev = venue_row(g.venue_id)
@@ -350,6 +380,9 @@ def build_features(con) -> pd.DataFrame:
         returning_production_diff = _returning_prod_diff("percent_ppa")
         qb_continuity_diff = _returning_prod_diff("percent_passing_ppa")
 
+        home_sor, away_sor = sor_for(g.game_id, g.home_team), sor_for(g.game_id, g.away_team)
+        sor_diff = (home_sor - away_sor) if (home_sor is not None and away_sor is not None) else None
+
         rows.append((
             g.game_id, g.season, g.week, g.home_team, g.away_team,
             g.neutral_site, g.conference_game,
@@ -361,7 +394,7 @@ def build_features(con) -> pd.DataFrame:
             drive_yards_diff, drive_points_diff, drive_turnovers_diff,
             pass_ypd_diff, rush_ypd_diff, ypa_diff, ypc_diff,
             std_down_ppa_diff, passing_down_ppa_diff, red_zone_ppa_diff, explosive_rate_diff,
-            sos_diff, returning_production_diff, qb_continuity_diff,
+            sos_diff, returning_production_diff, qb_continuity_diff, sor_diff,
         ))
 
     return pd.DataFrame(rows, columns=[
@@ -374,7 +407,7 @@ def build_features(con) -> pd.DataFrame:
         "drive_yards_diff", "drive_points_diff", "drive_turnovers_diff",
         "pass_ypd_diff", "rush_ypd_diff", "ypa_diff", "ypc_diff",
         "std_down_ppa_diff", "passing_down_ppa_diff", "red_zone_ppa_diff", "explosive_rate_diff",
-        "sos_diff", "returning_production_diff", "qb_continuity_diff",
+        "sos_diff", "returning_production_diff", "qb_continuity_diff", "sor_diff",
     ])
 
 

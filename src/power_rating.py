@@ -50,7 +50,8 @@ def mov_multiplier(margin: int, elo_diff: float) -> float:
 def load_games(con):
     df = con.execute("""
         SELECT game_id, season, week, start_date, neutral_site,
-               home_team, home_points, away_team, away_points
+               home_team, home_points, away_team, away_points,
+               home_conference, away_conference
         FROM games
         WHERE completed = TRUE AND home_points IS NOT NULL AND away_points IS NOT NULL
         ORDER BY start_date, game_id
@@ -59,14 +60,47 @@ def load_games(con):
 
 
 def run_ratings(con):
+    """
+    Returns (rating_rows, sor_rows). rating_rows feeds ratings_baseline
+    exactly as before; sor_rows is Strength of Record, computed in the SAME
+    pass over the SAME walk-forward-safe home_before/away_before values, so
+    it's free (no extra query, no extra pass over games).
+
+    SOR answers a different question than the Elo rating: not "how good is
+    this team," but "how many wins above what an exactly-average team
+    (rating == BASE_RATING) would have been expected to earn against this
+    exact schedule" -- a resume metric, not a process rating (see PRIME
+    CFB's own SOR definition, which this mirrors). Two deliberate design
+    choices follow directly from that:
+      - It resets to a clean 0.0 at every season boundary, NOT regressed
+        75% toward the mean like the Elo rating itself (SEASON_REGRESSION)
+        -- a resume should start blank each year, not carry a fraction of
+        last year's forward.
+      - The "average team" benchmark gets the SAME home-field treatment the
+        real team got for that game (home_eff = BASE_RATING + HOME_FIELD_ADV
+        when the real team was the home team and the game wasn't at a
+        neutral site) -- otherwise a team that played mostly at home would
+        look artificially impressive against a benchmark that never got a
+        home boost at all.
+      - FBS opponents ONLY, same filter (and same reasoning) as
+        build_sos_ratings_table()'s own FBS_CONFERENCES check just below --
+        crediting/debiting a team's resume for beating an FCS team isn't a
+        real answer to "how good is this resume against FBS competition."
+        A game against a non-FBS opponent still gets a row (so every
+        (game_id, team) a team played has a row to look up, matching
+        ratings_baseline's own convention) but sor_after == sor_before,
+        i.e. no credit or debit.
+    """
     games = load_games(con)
     if games.empty:
         print("power_rating: no completed games in the DB yet (run the pull scripts + build_db.py first)")
-        return []
+        return [], []
 
     rating = {}          # team -> current rating
-    last_season = {}      # team -> season they last played, for the between-season regression
+    sor = {}             # team -> current Strength of Record (resets to 0.0 each season)
+    last_season = {}      # team -> season they last played, for the between-season regression/reset
     rows = []
+    sor_rows = []
 
     for _, g in games.iterrows():
         home, away, season = g["home_team"], g["away_team"], g["season"]
@@ -74,9 +108,11 @@ def run_ratings(con):
         for team in (home, away):
             if team not in rating:
                 rating[team] = BASE_RATING
+                sor[team] = 0.0
                 last_season[team] = season
             elif last_season[team] < season:
                 rating[team] = BASE_RATING + SEASON_REGRESSION * (rating[team] - BASE_RATING)
+                sor[team] = 0.0  # clean slate every season -- see docstring above
                 last_season[team] = season
 
         home_before, away_before = rating[home], rating[away]
@@ -90,6 +126,7 @@ def run_ratings(con):
             actual_home = 0.0
         else:
             actual_home = 0.5
+        actual_away = 1.0 - actual_home
 
         mult = mov_multiplier(margin, home_eff - away_before)
         delta = K_FACTOR * mult * (actual_home - expected_home)
@@ -102,7 +139,25 @@ def run_ratings(con):
         rows.append((g["game_id"], home, True, home_before, home_after))
         rows.append((g["game_id"], away, False, away_before, away_after))
 
-    return rows
+        # --- SOR: an exactly-average team (BASE_RATING) in each real team's
+        # shoes, facing the SAME opponent at the SAME rating_before this real
+        # game used, with the SAME home-field treatment the real team got.
+        home_sor_before, away_sor_before = sor[home], sor[away]
+        avg_home_eff = BASE_RATING + (0.0 if g["neutral_site"] else HOME_FIELD_ADV)
+        expected_avg_home = expected_score(avg_home_eff, away_before)
+        expected_avg_away = expected_score(BASE_RATING, home_before + (0.0 if g["neutral_site"] else HOME_FIELD_ADV))
+
+        home_opp_is_fbs = g["away_conference"] in FBS_CONFERENCES
+        away_opp_is_fbs = g["home_conference"] in FBS_CONFERENCES
+
+        home_sor_after = home_sor_before + (actual_home - expected_avg_home) if home_opp_is_fbs else home_sor_before
+        away_sor_after = away_sor_before + (actual_away - expected_avg_away) if away_opp_is_fbs else away_sor_before
+
+        sor[home], sor[away] = home_sor_after, away_sor_after
+        sor_rows.append((g["game_id"], home, True, home_sor_before, home_sor_after))
+        sor_rows.append((g["game_id"], away, False, away_sor_before, away_sor_after))
+
+    return rows, sor_rows
 
 
 def write_ratings(con, rows):
@@ -111,12 +166,36 @@ def write_ratings(con, rows):
     print(f"ratings_baseline: {len(rows)} rows ({len(rows) // 2} games)")
 
 
+def write_sor(con, rows):
+    con.execute("DELETE FROM sor_baseline")
+    con.executemany("INSERT OR REPLACE INTO sor_baseline VALUES (?,?,?,?,?)", rows)
+    print(f"sor_baseline: {len(rows)} rows ({len(rows) // 2} games)")
+
+
 def current_ratings(con):
     """Latest rating_after per team -- for projecting games that haven't been played yet."""
     return dict(con.execute("""
         SELECT team, rating_after
         FROM ratings_baseline r
         JOIN games g ON g.game_id = r.game_id
+        QUALIFY ROW_NUMBER() OVER (PARTITION BY team ORDER BY g.start_date DESC) = 1
+    """).fetchall())
+
+
+def current_sor(con):
+    """
+    Latest sor_after per team, for projecting games that haven't been played
+    yet -- restricted to the DB's most recent season only (unlike
+    current_ratings(), SOR resets every season, so a prior season's final
+    value is never a meaningful stand-in for "this team's SOR so far this
+    year"; a team with no games yet this season correctly gets no entry
+    here, and callers should treat that as 0.0).
+    """
+    return dict(con.execute("""
+        SELECT team, sor_after
+        FROM sor_baseline r
+        JOIN games g ON g.game_id = r.game_id
+        WHERE g.season = (SELECT MAX(season) FROM games)
         QUALIFY ROW_NUMBER() OVER (PARTITION BY team ORDER BY g.start_date DESC) = 1
     """).fetchall())
 
@@ -171,14 +250,19 @@ def build_sos_ratings_table(con):
 
 def main():
     con = duckdb.connect(str(DB_PATH))
-    rows = run_ratings(con)
+    rows, sor_rows = run_ratings(con)
     if rows:
         write_ratings(con, rows)
+        write_sor(con, sor_rows)
         build_sos_ratings_table(con)
         ranked = sorted(current_ratings(con).items(), key=lambda kv: -kv[1])
         print("\nTop 10 current ratings:")
         for team, r in ranked[:10]:
             print(f"  {r:7.1f}  {team}")
+        sor_ranked = sorted(current_sor(con).items(), key=lambda kv: -kv[1])
+        print("\nTop 10 current Strength of Record (this season):")
+        for team, s in sor_ranked[:10]:
+            print(f"  {s:+6.2f}  {team}")
     con.close()
 
 
