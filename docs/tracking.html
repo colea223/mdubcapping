@@ -252,12 +252,16 @@ function renderPending(pending) {
 
   const rows = pending.map(b => {
     const oddsLabel = b.odds > 0 ? `+${b.odds}` : `${b.odds}`;
+    // Blank for a Moneyline bet -- there's no spread/total line to show,
+    // see docs/log-bet.html's own conditional requirement for this field.
+    const lineLabel = (b.line === null || b.line === undefined) ? "—" : (b.line > 0 ? `+${b.line}` : `${b.line}`);
     return `
       <tr>
         <td>${formatDate(b.date) || b.date || ""}</td>
         <td class="team-name">${b.matchup || ""}</td>
         <td>${b.bet_type}</td>
         <td>${b.side || ""}</td>
+        <td class="num">${lineLabel}</td>
         <td class="num">${oddsLabel}</td>
         <td class="num">${b.stake}u</td>
       </tr>`;
@@ -265,7 +269,7 @@ function renderPending(pending) {
 
   container.innerHTML = `
     <table class="rankings">
-      <thead><tr><th>Date</th><th>Matchup</th><th>Type</th><th>Side</th><th class="num">Odds</th><th class="num">Stake</th></tr></thead>
+      <thead><tr><th>Date</th><th>Matchup</th><th>Type</th><th>Side</th><th class="num">Line</th><th class="num">Odds</th><th class="num">Stake</th></tr></thead>
       <tbody>${rows}</tbody>
     </table>`;
 }

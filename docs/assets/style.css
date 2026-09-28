@@ -550,6 +550,11 @@ table.lines-table td.no-data { color: var(--text-muted); }
   outline: none;
   border-color: var(--brand-purple-light);
 }
+.picker-field .field-hint {
+  font-size: 11px;
+  color: var(--text-muted);
+  font-weight: 400;
+}
 .swap-btn {
   background: var(--bg-card-alt);
   border: 1px solid var(--border);

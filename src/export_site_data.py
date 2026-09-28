@@ -1612,6 +1612,10 @@ def read_bet_log(tracker_path: Path = TRACKER_PATH):
         odds = ws[f"G{r}"].value
         stake = ws[f"H{r}"].value
         result = ws[f"K{r}"].value
+        # Blank for a Moneyline bet (no spread/total line to show) -- see
+        # docs/log-bet.html's own conditional requirement for this field,
+        # and excel/import_bet_log.py's matching write-side handling.
+        line_taken = ws[f"F{r}"].value
         if not bet_type or odds is None or stake is None:
             continue
 
@@ -1622,6 +1626,7 @@ def read_bet_log(tracker_path: Path = TRACKER_PATH):
                 "matchup": ws[f"C{r}"].value,
                 "bet_type": str(bet_type).strip(),
                 "side": ws[f"E{r}"].value,
+                "line": float(line_taken) if line_taken is not None else None,
                 "odds": float(odds),
                 "stake": float(stake),
             })
@@ -1647,6 +1652,7 @@ def read_bet_log(tracker_path: Path = TRACKER_PATH):
             "matchup": ws[f"C{r}"].value,
             "bet_type": str(bet_type).strip(),
             "side": ws[f"E{r}"].value,
+            "line": float(line_taken) if line_taken is not None else None,
             "odds": float(odds), "stake": float(stake),
             "result": result, "units": round(units, 2),
         })

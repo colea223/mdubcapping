@@ -118,7 +118,16 @@ def write_row(ws, row_num, sub):
     ws[f"C{row_num}"] = sub["matchup"]
     ws[f"D{row_num}"] = sub["bet_type"]
     ws[f"E{row_num}"] = sub["side"]
-    ws[f"F{row_num}"] = float(sub["line"])
+    # A Moneyline bet has no line -- docs/log-bet.html now only sends this
+    # field at all when you actually typed one in (see that page's own
+    # updateLineRequirement()), so a Moneyline submission simply won't have
+    # a "line" key here. Leave F blank in that case, same as a hand-typed
+    # moneyline row always would -- writing a bogus 0.0 would silently
+    # corrupt the CLV formula in column J the next time Closing Line got
+    # filled in.
+    line = sub.get("line")
+    if line is not None:
+        ws[f"F{row_num}"] = float(line)
     ws[f"G{row_num}"] = int(sub["odds"])
     ws[f"H{row_num}"] = float(sub["stake"])
     # I (Closing Line) and K (Result) intentionally left blank. J/L/M are
