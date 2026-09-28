@@ -1,70 +1,70 @@
 {
   "meta": {
-    "generated_at": "2026-09-27T03:51:49Z",
+    "generated_at": "2026-09-28T01:09:59Z",
     "current_week": {
       "season": 2026,
-      "week": 4
+      "week": 5
     }
   },
   "tracking": {
     "model": {
       "season": 2026,
-      "n_games": 30,
+      "n_games": 35,
       "spread": {
-        "n_bets": 30,
-        "wins": 20,
-        "losses": 10,
+        "n_bets": 35,
+        "wins": 23,
+        "losses": 12,
         "pushes": 0,
-        "win_rate": 0.6667,
-        "units": 8.18,
-        "n_real_edge_bets": 27,
-        "real_edge_win_rate": 0.6296
+        "win_rate": 0.6571,
+        "units": 8.91,
+        "n_real_edge_bets": 29,
+        "real_edge_win_rate": 0.6552
       },
       "total": {
-        "n_bets": 30,
-        "wins": 14,
-        "losses": 16,
+        "n_bets": 35,
+        "wins": 16,
+        "losses": 19,
         "pushes": 0,
-        "win_rate": 0.4667,
-        "units": -3.27,
-        "n_real_edge_bets": 20,
-        "real_edge_win_rate": 0.45
+        "win_rate": 0.4571,
+        "units": -4.46,
+        "n_real_edge_bets": 23,
+        "real_edge_win_rate": 0.4783
       },
       "moneyline": {
-        "n_bets": 18,
-        "wins": 9,
-        "losses": 9,
+        "n_bets": 21,
+        "wins": 10,
+        "losses": 11,
         "pushes": 0,
-        "win_rate": 0.5,
-        "units": 8.97,
+        "win_rate": 0.4762,
+        "units": 7.17,
         "n_real_edge_bets": null,
         "real_edge_win_rate": null
       },
-      "upset_calls": 14,
-      "upset_wins": 8,
+      "upset_calls": 15,
+      "upset_wins": 9,
       "note": "Hypothetical flat 1-unit-per-bet tracking of the live model's own picks (spread/total at -110, moneyline at the real posted odds) -- not your personal bets. Week 1's spread record includes the seed week -- it uses the Moore seed exactly as pasted, which already reflects that week's own results, so it's informational only, not a genuine out-of-sample prediction (see moore_seed_2026.py)."
     },
     "yours": {
-      "n_bets": 51,
+      "n_bets": 54,
       "wins": 27,
-      "losses": 24,
+      "losses": 27,
       "pushes": 0,
-      "win_rate": 0.5294,
-      "units": 172.15,
+      "win_rate": 0.5,
+      "units": 168.55,
       "by_type": {
         "Spread": {
           "wins": 19,
-          "losses": 12,
+          "losses": 14,
           "pushes": 0,
-          "win_rate": 0.6129,
-          "units": 10.73
+          "win_rate": 0.5758,
+          "units": 8.63
         },
         "Moneyline": {
           "wins": 8,
-          "losses": 8,
+          "losses": 9,
           "pushes": 0,
-          "win_rate": 0.5,
-          "units": 173.92
+          "win_rate": 0.4706,
+          "units": 172.42
         },
         "ML Parlay": {
           "wins": 0,
@@ -81,35 +81,7 @@
           "units": -7.5
         }
       },
-      "pending": [
-        {
-          "date": "2026-09-26",
-          "week": 4,
-          "matchup": "Georgia Tech @ Stanford",
-          "bet_type": "Moneyline",
-          "side": "Georgia Tech",
-          "odds": -150.0,
-          "stake": 1.5
-        },
-        {
-          "date": "2026-09-26",
-          "week": 4,
-          "matchup": "Minnesota @ Washington",
-          "bet_type": "Spread",
-          "side": "Washington",
-          "odds": -114.0,
-          "stake": 1.1
-        },
-        {
-          "date": "2026-09-26",
-          "week": 4,
-          "matchup": "Minnesota @ Washington",
-          "bet_type": "Spread",
-          "side": "Washington",
-          "odds": -108.0,
-          "stake": 1.0
-        }
-      ],
+      "pending": [],
       "graded": [
         {
           "date": "2026-08-29",
@@ -671,6 +643,39 @@
           "stake": 1.0,
           "result": "W",
           "units": 1.18
+        },
+        {
+          "date": "2026-09-26",
+          "week": 4,
+          "matchup": "Georgia Tech @ Stanford",
+          "bet_type": "Moneyline",
+          "side": "Georgia Tech",
+          "odds": -150.0,
+          "stake": 1.5,
+          "result": "L",
+          "units": -1.5
+        },
+        {
+          "date": "2026-09-26",
+          "week": 4,
+          "matchup": "Minnesota @ Washington",
+          "bet_type": "Spread",
+          "side": "Washington",
+          "odds": -114.0,
+          "stake": 1.1,
+          "result": "L",
+          "units": -1.1
+        },
+        {
+          "date": "2026-09-26",
+          "week": 4,
+          "matchup": "Minnesota @ Washington",
+          "bet_type": "Spread",
+          "side": "Washington",
+          "odds": -108.0,
+          "stake": 1.0,
+          "result": "L",
+          "units": -1.0
         }
       ],
       "note": "Your actual bets from the Bet Log tab, graded at the real odds you entered."
