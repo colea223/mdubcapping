@@ -1,6 +1,6 @@
 {
   "meta": {
-    "generated_at": "2026-09-28T20:55:07Z",
+    "generated_at": "2026-09-29T20:10:23Z",
     "current_week": {
       "season": 2026,
       "week": 5
@@ -23,21 +23,6 @@
       "away_points": null
     },
     {
-      "game_id": 401864515,
-      "week": 5,
-      "date": "2026-10-03",
-      "away_team": "Wyoming",
-      "home_team": "North Dakota State",
-      "market_spread_home": -18.5,
-      "market_total": 45.5,
-      "home_moneyline": -1375,
-      "away_moneyline": 775,
-      "manual_line_used": false,
-      "completed": false,
-      "home_points": null,
-      "away_points": null
-    },
-    {
       "game_id": 401858247,
       "week": 5,
       "date": "2026-10-03",
@@ -47,6 +32,21 @@
       "market_total": 53.5,
       "home_moneyline": -130,
       "away_moneyline": 110,
+      "manual_line_used": false,
+      "completed": false,
+      "home_points": null,
+      "away_points": null
+    },
+    {
+      "game_id": 401864515,
+      "week": 5,
+      "date": "2026-10-03",
+      "away_team": "Wyoming",
+      "home_team": "North Dakota State",
+      "market_spread_home": -18.5,
+      "market_total": 45.5,
+      "home_moneyline": -1375,
+      "away_moneyline": 775,
       "manual_line_used": false,
       "completed": false,
       "home_points": null,
