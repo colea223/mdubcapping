@@ -52,8 +52,16 @@ your Bet Log and any notes you've typed, is left untouched):
     lean -- same green/backtest.EDGE_THRESHOLD as MW Team ATS's Cover fill),
     and a straight-up Win/Loss grade once a game's final. Sorted by
     conference with AutoFilter on, so you can drop it down to one
-    conference at a time. See update_national_slate()'s own docstring for
-    why XGBoost isn't on this one. Fully regenerated every run.
+    conference at a time. See _compute_national_slate_rows()'s own
+    docstring for why XGBoost isn't on this one. Fully regenerated every run.
+  - One "<Conference> Slate" tab per FBS conference (ACC Slate, Big Ten
+    Slate, ... Mountain West Slate, 11 tabs total, in addition to keeping
+    National Slate): a standings block (each team's conference and overall
+    win-loss record, sorted by conference record) on top, then that
+    conference's own slice of the exact same National Slate rows below it
+    (a non-conference game involving two different conferences' teams shows
+    up on both conferences' tabs). See update_conference_slate()'s own
+    docstring. Fully regenerated every run, same as National Slate.
 
 A game already on the Weekly Slate (matched by Home + Away team) gets its
 Model Line/Model Total updated in place rather than duplicated; a new game
@@ -674,13 +682,22 @@ def ensure_national_slate_tab(wb):
     return ws
 
 
-def update_national_slate(ws, con):
+def _compute_national_slate_rows(con):
     """
     Every FBS game in the current auto-detected week -- not just Mountain
     West (that's still Weekly Slate's own job, unchanged) -- with the live
     model's (Gamma's) spread, two cheap informational candidates (Ridge,
     Massey -- same "never the live pick" treatment they get everywhere else
     in this project), the real market line, and the edge between them.
+
+    Returns (season, week, rows) -- rows is the list of dicts _write_slate_
+    table() renders. Returns (None, None, []) if no upcoming week is found
+    at all, or (season, week, []) if one was found but had no FBS games.
+    Factored out from update_national_slate() (now just a thin writer, see
+    below) so the ~55-65 non-MW games' worth of model refitting (Ridge,
+    totals) this does happens exactly ONCE per pipeline run and gets reused
+    by every one of the 11 per-conference tabs (see update_conference_slate())
+    rather than being recomputed -- and re-paid for -- 11 more times.
 
     XGBoost is deliberately left OUT of this tab. predict_week.py only pays
     for its hyperparameter search once, for the ~6-8 MW games on Weekly
@@ -689,32 +706,23 @@ def update_national_slate(ws, con):
     that's informational-only everywhere it already appears. Say the word
     if you want it here too and I'll wire it in, accepting that cost.
 
-    Sorted by Home Conference then kickoff time -- grouped by conference at
-    a glance -- with AutoFilter turned on on the header row so you can drop
-    it down to one conference at a time natively in Excel, rather than this
-    needing a separate tab per conference (11+ near-duplicate tabs to keep
-    in sync every week is its own maintenance problem; one tab plus a
-    filter is the same "conference-by-conference" view without it).
-
-    Spread Edge/Total Edge are green-filled (EDGE_FILL, the same green
-    MW Team ATS uses for a Cover) whenever they clear backtest.EDGE_THRESHOLD
-    -- a real, threshold-clearing lean, not just noise, same definition
-    the site/backtest.py's own grading uses (imported, not re-typed, so the
-    two can't silently drift apart). Once a game is final, Model Result
-    shows whether Gamma's own favored side actually won straight-up --
-    green for a win, red (INCORRECT_FILL) for a loss, blank for a push/
-    pick'em with no favorite to grade. This is a straight-up grade (did the
-    favored side win outright), not an against-the-spread grade -- Weekly
-    Slate/MW Team ATS already own the ATS side of this for Mountain West
-    specifically; this tab's job is the national spread-prediction picture,
-    not a second copy of the ATS tracker.
+    Spread Edge/Total Edge are meant to be green-filled (EDGE_FILL, the same
+    green MW Team ATS uses for a Cover) whenever they clear
+    backtest.EDGE_THRESHOLD -- a real, threshold-clearing lean, not just
+    noise, same definition the site/backtest.py's own grading uses (imported,
+    not re-typed, so the two can't silently drift apart) -- see
+    _write_slate_table() for where that fill actually gets applied. Once a
+    game is final, Model Result shows whether Gamma's own favored side
+    actually won straight-up -- green for a win, red for a loss, blank for a
+    push/pick'em with no favorite to grade. This is a straight-up grade (did
+    the favored side win outright), not an against-the-spread grade --
+    Weekly Slate/MW Team ATS already own the ATS side of this for Mountain
+    West specifically; this data's job is the national spread-prediction
+    picture, not a second copy of the ATS tracker.
     """
     detected = auto_detect_week(con)
     if detected is None:
-        ws["A1"] = "No upcoming (incomplete) games found in the DB -- run the pull scripts first."
-        ws["A1"].font = NOTE_FONT
-        print("National Slate: no upcoming week detected -- left a placeholder note.")
-        return
+        return None, None, []
     season, week = detected[0], detected[1]
 
     # This week's games nationally, with each side's real CFBD conference --
@@ -743,10 +751,7 @@ def update_national_slate(ws, con):
         or game_conf[r["game_id"]][1] in FBS_CONFERENCES, axis=1,
     )].reset_index(drop=True)
     if upcoming.empty:
-        ws["A1"] = f"No FBS games found for season {season}, week {week}."
-        ws["A1"].font = NOTE_FONT
-        print(f"National Slate: no FBS games for season {season} week {week}.")
-        return
+        return season, week, []
 
     market = {
         game_id: (spread, total)
@@ -828,21 +833,35 @@ def update_national_slate(ws, con):
         })
 
     rows.sort(key=lambda r: (r["home_conf"], r["date"], r["home_team"]))
+    return season, week, rows
 
-    headers = [
-        "Week", "Date", "Home Conf", "Away Conf", "Away Team", "Home Team",
-        "Model Line (Home)", "Market Line (Home)", "Spread Edge (pts)",
-        "Ridge Line (Home)", "Massey Line (Home)",
-        "Model Total", "Market Total", "Total Edge (pts)",
-        "Away Pts", "Home Pts", "Model Result",
-    ]
-    for c, h in enumerate(headers, start=1):
-        cell = ws.cell(row=1, column=c, value=h)
+
+_SLATE_HEADERS = [
+    "Week", "Date", "Home Conf", "Away Conf", "Away Team", "Home Team",
+    "Model Line (Home)", "Market Line (Home)", "Spread Edge (pts)",
+    "Ridge Line (Home)", "Massey Line (Home)",
+    "Model Total", "Market Total", "Total Edge (pts)",
+    "Away Pts", "Home Pts", "Model Result",
+]
+_SLATE_COL_WIDTHS = [6, 11, 12, 12, 15, 15, 16, 16, 14, 15, 15, 11, 11, 12, 9, 9, 12]
+
+
+def _write_slate_table(ws, rows, start_row=1):
+    """
+    Writes the 17-column slate table (same columns/fills National Slate has
+    always used) starting at `start_row` -- start_row > 1 is what lets a
+    per-conference tab (see update_conference_slate()) put a standings block
+    above this same table on one sheet. Returns the last row written
+    (the header row if `rows` is empty).
+    """
+    header_row = start_row
+    for c, h in enumerate(_SLATE_HEADERS, start=1):
+        cell = ws.cell(row=header_row, column=c, value=h)
         cell.font = HEADER_FONT
         cell.fill = HEADER_FILL
         cell.alignment = Alignment(horizontal="center", wrap_text=True)
 
-    for i, r in enumerate(rows, start=2):
+    for i, r in enumerate(rows, start=header_row + 1):
         values = [
             r["week"], r["date"], r["home_conf"], r["away_conf"], r["away_team"], r["home_team"],
             r["gamma_spread"], r["market_spread"], r["spread_edge"],
@@ -866,15 +885,170 @@ def update_national_slate(ws, con):
         elif r["model_result"] == "Loss":
             result_cell.fill = INCORRECT_FILL
 
-    ws.auto_filter.ref = f"A1:Q{len(rows) + 1}"
-    for col, width in zip("ABCDEFGHIJKLMNOPQ",
-                           [6, 11, 12, 12, 15, 15, 16, 16, 14, 15, 15, 11, 11, 12, 9, 9, 12]):
+    last_row = header_row + len(rows)
+    ws.auto_filter.ref = f"A{header_row}:Q{last_row}"
+    for col, width in zip("ABCDEFGHIJKLMNOPQ", _SLATE_COL_WIDTHS):
         ws.column_dimensions[col].width = width
-    ws.freeze_panes = "A2"
+    ws.freeze_panes = f"A{header_row + 1}"
+    return last_row
 
+
+def render_national_slate(ws, season, week, rows):
+    """Thin writer -- all the computing already happened in
+    _compute_national_slate_rows(), this just renders it onto the tab."""
+    if season is None:
+        ws["A1"] = "No upcoming (incomplete) games found in the DB -- run the pull scripts first."
+        ws["A1"].font = NOTE_FONT
+        print("National Slate: no upcoming week detected -- left a placeholder note.")
+        return
+    if not rows:
+        ws["A1"] = f"No FBS games found for season {season}, week {week}."
+        ws["A1"].font = NOTE_FONT
+        print(f"National Slate: no FBS games for season {season} week {week}.")
+        return
+
+    _write_slate_table(ws, rows, start_row=1)
     n_edges = sum(1 for r in rows if r["spread_edge"] is not None and abs(r["spread_edge"]) >= backtest.EDGE_THRESHOLD)
     print(f"National Slate: {len(rows)} FBS game(s) for season {season} week {week} "
           f"({n_edges} with a real spread edge >= {backtest.EDGE_THRESHOLD} pts)")
+
+
+STANDINGS_HEADER_FILL = PatternFill("solid", fgColor="2F5233")  # dark green -- visually distinct from the slate's navy header
+STANDINGS_HEADER_FONT = Font(name=FONT_NAME, bold=True, color="FFFFFF", size=10)
+
+
+def _conference_standings(con, conference, season):
+    """
+    Win-loss standings for every team that lined up as `conference` (home or
+    away) at least once this season, per CFBD's own home_conference/
+    away_conference columns on `games` -- same source of truth
+    export_site_data.py's team_conference_record()/build_matchup_grid() use,
+    so a team's conference membership here can never drift from what the
+    site itself shows. Both conference-only (games.conference_game = TRUE,
+    same definition team_conference_record() uses) and overall records are
+    computed, current season only. Sorted by conference win percentage (ties
+    broken by conference wins, then overall win percentage) -- the standard
+    "who's actually leading the conference" order.
+    """
+    teams = sorted({
+        t for (t,) in con.execute("""
+            SELECT home_team FROM games WHERE season = ? AND home_conference = ?
+            UNION
+            SELECT away_team FROM games WHERE season = ? AND away_conference = ?
+        """, [season, conference, season, conference]).fetchall()
+    })
+
+    rows = []
+    for team in teams:
+        overall = con.execute("""
+            SELECT
+                SUM(CASE WHEN home_team = ? AND home_points > away_points THEN 1
+                         WHEN away_team = ? AND away_points > home_points THEN 1 ELSE 0 END),
+                SUM(CASE WHEN (home_team = ? AND home_points < away_points)
+                           OR (away_team = ? AND away_points < home_points) THEN 1 ELSE 0 END)
+            FROM games
+            WHERE completed = TRUE AND (home_team = ? OR away_team = ?) AND season = ?
+        """, [team, team, team, team, team, team, season]).fetchone()
+        conf = con.execute("""
+            SELECT
+                SUM(CASE WHEN home_team = ? AND home_points > away_points THEN 1
+                         WHEN away_team = ? AND away_points > home_points THEN 1 ELSE 0 END),
+                SUM(CASE WHEN (home_team = ? AND home_points < away_points)
+                           OR (away_team = ? AND away_points < home_points) THEN 1 ELSE 0 END)
+            FROM games
+            WHERE completed = TRUE AND conference_game = TRUE
+              AND (home_team = ? OR away_team = ?) AND season = ?
+        """, [team, team, team, team, team, team, season]).fetchone()
+        ow, ol = overall[0] or 0, overall[1] or 0
+        cw, cl = conf[0] or 0, conf[1] or 0
+        rows.append({"team": team, "conf_wins": cw, "conf_losses": cl,
+                      "overall_wins": ow, "overall_losses": ol})
+
+    def _pct(w, l):
+        return w / (w + l) if (w + l) else 0.0
+
+    rows.sort(key=lambda r: (-_pct(r["conf_wins"], r["conf_losses"]), -r["conf_wins"],
+                              -_pct(r["overall_wins"], r["overall_losses"])))
+    return rows
+
+
+def _write_standings_block(ws, conference, standings, start_row=1):
+    """
+    Small W-L table: Team, Conf W, Conf L, Conf Pct, Overall W, Overall L.
+    Returns the row number the caller should start the slate table at (one
+    blank row below the last standings row)."""
+    ws.cell(row=start_row, column=1, value=f"{conference} Standings").font = SUBTITLE_FONT
+    header_row = start_row + 1
+    headers = ["Team", "Conf W", "Conf L", "Conf Pct", "Overall W", "Overall L"]
+    for c, h in enumerate(headers, start=1):
+        cell = ws.cell(row=header_row, column=c, value=h)
+        cell.font = STANDINGS_HEADER_FONT
+        cell.fill = STANDINGS_HEADER_FILL
+        cell.alignment = Alignment(horizontal="center")
+
+    r = header_row + 1
+    for s in standings:
+        cw, cl = s["conf_wins"], s["conf_losses"]
+        pct = round(cw / (cw + cl), 3) if (cw + cl) else None
+        values = [s["team"], cw, cl, pct, s["overall_wins"], s["overall_losses"]]
+        for c, val in enumerate(values, start=1):
+            ws.cell(row=r, column=c, value=val).font = FORMULA_FONT
+        r += 1
+
+    return r + 1  # one blank row, then the slate table starts here
+
+
+def ensure_conference_slate_tab(wb, conference):
+    """Create-or-clear pattern, same as National Slate/MW Team ATS/SOR --
+    one tab per FBS conference (e.g. "Mountain West Slate")."""
+    sheet_name = f"{conference} Slate"
+    if sheet_name not in wb.sheetnames:
+        ws = wb.create_sheet(sheet_name)
+        ws.sheet_view.showGridLines = False
+    else:
+        ws = wb[sheet_name]
+        ws.delete_rows(1, ws.max_row)
+    return ws
+
+
+def update_conference_slate(ws, con, conference, season, week, all_rows):
+    """
+    Standings block on top (see _conference_standings()), then this
+    conference's own slice of the already-computed National Slate rows
+    below it -- a non-conference game (e.g. a Mountain West team @ a Big Ten
+    team) shows up on BOTH conferences' tabs, same as it would on either
+    conference's real schedule. Reuses `all_rows` as computed once in
+    main() rather than recomputing anything per conference, so a game here
+    can never show different numbers than the same game on National Slate.
+    """
+    # Standings reflect completed games for CURRENT_SEASON regardless of
+    # whether an upcoming week was detected -- a None `season` here would
+    # just mean "no upcoming week to build a slate for," not "no season."
+    standings = _conference_standings(con, conference, CURRENT_SEASON)
+    next_row = _write_standings_block(ws, conference, standings, start_row=1)
+
+    if season is None:
+        ws.cell(row=next_row, column=1,
+                value="No upcoming (incomplete) games found in the DB -- run the pull scripts first.").font = NOTE_FONT
+        print(f"{conference} Slate: no upcoming week detected, {len(standings)} team(s) in standings.")
+    else:
+        conf_rows = [r for r in all_rows if r["home_conf"] == conference or r["away_conf"] == conference]
+        if not conf_rows:
+            ws.cell(row=next_row, column=1, value=f"No FBS games this week involve {conference}.").font = NOTE_FONT
+            print(f"{conference} Slate: 0 games this week, {len(standings)} team(s) in standings.")
+        else:
+            _write_slate_table(ws, conf_rows, start_row=next_row)
+            n_edges = sum(1 for r in conf_rows
+                          if r["spread_edge"] is not None and abs(r["spread_edge"]) >= backtest.EDGE_THRESHOLD)
+            print(f"{conference} Slate: {len(conf_rows)} game(s) ({n_edges} real edge), "
+                  f"{len(standings)} team(s) in standings.")
+
+    # Column A needs to fit both a team name (standings) and "Week" (slate) --
+    # _write_slate_table() above just set every column's width for its own
+    # needs, so re-widen A-F to whichever of the two blocks needs more,
+    # rather than letting the slate table's narrower widths win.
+    for col, width in zip("ABCDEF", [22, 11, 12, 12, 15, 15]):
+        ws.column_dimensions[col].width = max(ws.column_dimensions[col].width or 0, width)
 
 
 def main():
@@ -900,8 +1074,19 @@ def main():
     update_mw_ats(ats_ws, con)
     sor_ws = ensure_sor_tab(wb)
     update_sor_tab(sor_ws, con)
+
+    # Computed ONCE here and reused by both National Slate and every
+    # per-conference tab below -- see _compute_national_slate_rows()'s own
+    # docstring for why (Ridge/totals refitting is not free).
+    season, week, all_rows = _compute_national_slate_rows(con)
+
     national_ws = ensure_national_slate_tab(wb)
-    update_national_slate(national_ws, con)
+    render_national_slate(national_ws, season, week, all_rows)
+
+    for conference in sorted(FBS_CONFERENCES):
+        conf_ws = ensure_conference_slate_tab(wb, conference)
+        update_conference_slate(conf_ws, con, conference, season, week, all_rows)
+
     con.close()
 
     wb.save(TRACKER_PATH)

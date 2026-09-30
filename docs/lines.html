@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Live Lines - Mountain Dub Handicapping</title>
+<title>Live Lines - One High Coverage</title>
 <link rel="stylesheet" href="assets/style.css">
 </head>
 <body>
@@ -104,8 +104,8 @@ function renderChart(points, openValue, valueFmt) {
   const markers = valid.map((p, i) => {
     const cx = x(i).toFixed(1), cy = y(p.v).toFixed(1);
     return p.source === "odds_api"
-      ? `<circle cx="${cx}" cy="${cy}" r="4.5" fill="var(--bg-card)" stroke="var(--brand-purple-light)" stroke-width="2" />`
-      : `<circle cx="${cx}" cy="${cy}" r="4.5" fill="var(--brand-purple-light)" />`;
+      ? `<circle cx="${cx}" cy="${cy}" r="4.5" fill="var(--bg-card)" stroke="var(--brand-blue-light)" stroke-width="2" />`
+      : `<circle cx="${cx}" cy="${cy}" r="4.5" fill="var(--brand-blue-light)" />`;
   }).join("");
 
   const dateTicks = [0, n - 1].filter((v, idx, arr) => arr.indexOf(v) === idx).map(i => {
@@ -131,7 +131,7 @@ function renderChart(points, openValue, valueFmt) {
     <svg viewBox="0 0 ${W} ${H}" xmlns="http://www.w3.org/2000/svg">
       ${gridLines}
       ${openLine}
-      <path d="${pathD}" fill="none" stroke="var(--brand-purple-light)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+      <path d="${pathD}" fill="none" stroke="var(--brand-blue-light)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
       ${markers}
       ${labels}
       ${dateTicks}

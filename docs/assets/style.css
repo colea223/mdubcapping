@@ -1,4 +1,4 @@
-/* Mountain Dub Handicapping -- shared site theme.
+/* One High Coverage (formerly Mountain Dub Handicapping) -- shared site theme.
    Deliberately dark-only (matches the sportsbook/odds-site aesthetic this
    site is modeled on). Black/blue/gold/white brand (Cole's pick, replacing
    the earlier purple/grey scheme) -- blue (--brand-blue/--brand-blue-light)
@@ -108,6 +108,14 @@ a:hover { text-decoration: underline; }
   font-size: 16px;
   max-width: 640px;
   margin: 0;
+}
+.hero-tagline {
+  color: var(--brand-gold) !important;
+  font-size: 15px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  margin: 0 0 10px !important;
 }
 
 .page-header {

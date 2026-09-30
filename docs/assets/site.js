@@ -1,4 +1,4 @@
-// Mountain Dub Handicapping -- shared helpers used by every page.
+// One High Coverage (formerly Mountain Dub Handicapping) -- shared helpers used by every page.
 
 const NAV_LINKS = [
   { href: "index.html", label: "Home" },
@@ -18,7 +18,7 @@ function renderNav(activeHref) {
   return `
     <nav class="site-nav">
       <div class="site-nav-inner">
-        <div class="site-brand">Mountain <span>Dub</span> Handicapping</div>
+        <div class="site-brand">One <span>High</span> Coverage</div>
         <div class="site-nav-links">${links}</div>
       </div>
     </nav>`;
