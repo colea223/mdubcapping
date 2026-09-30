@@ -19,7 +19,7 @@
     <div class="card">
       <div class="section-title-row">
         <div class="section-title">MW Ratings</div>
-        <a class="section-link" href="#full-rankings">Full Rankings &rarr;</a>
+        <a class="section-link" href="ratings-mountain-west.html">Full Rankings &rarr;</a>
       </div>
       <div id="mw-ratings-panel"></div>
     </div>
@@ -35,16 +35,10 @@
     <div class="card">
       <div class="section-title-row">
         <div class="section-title">FBS Ratings</div>
-        <a class="section-link" href="#full-rankings">Full Rankings &rarr;</a>
+        <a class="section-link" href="ratings.html">Full Rankings &rarr;</a>
       </div>
       <div id="fbs-ratings-panel"></div>
     </div>
-  </div>
-
-  <div class="card" id="full-rankings">
-    <div class="section-title">Full Power Rankings</div>
-    <div id="conf-filter-container"></div>
-    <div id="rankings-table"></div>
   </div>
 
   <div class="footer-note" id="updated"></div>
@@ -151,7 +145,7 @@ function renderMarqueeCard(index) {
         <div class="away-fill" style="width:${awayPct}%"></div>
         <div class="home-fill" style="width:${homePct}%"></div>
       </div>
-      <a class="marquee-view-link" href="predictions.html?conf=${encodeURIComponent(p.home_conf || ALL_CONFERENCES)}">View in Predictions &rarr;</a>
+      <a class="marquee-view-link" href="${p.home_conf ? `predictions-${confSlug(p.home_conf)}.html` : "predictions.html"}">View in Predictions &rarr;</a>
     </div>
     <div class="marquee-nav">
       <button class="marquee-nav-btn" id="marquee-prev" ${MARQUEE_GAMES.length < 2 ? "disabled" : ""}>&larr;</button>
@@ -172,65 +166,12 @@ function renderMarqueeCard(index) {
 
 let RANK_MAP = {};
 
-function renderRankingsTable(selectedConf) {
-  const container = document.getElementById("rankings-table");
-  if (!RANKINGS_DATA || !RANKINGS_DATA.rankings || !RANKINGS_DATA.rankings.length) {
-    container.innerHTML = emptyState("No rankings yet -- run the pipeline to generate this week's data.");
-    return;
-  }
-
-  const filtered = RANKINGS_DATA.rankings.filter(r => matchesConference(selectedConf, r.conference));
-  if (!filtered.length) {
-    container.innerHTML = emptyState(`No ${selectedConf} teams found in this week's rankings.`);
-    return;
-  }
-
-  const rows = filtered.map((r, i) => {
-    const trendClass = r.trend > 0.5 ? "trend-up" : (r.trend < -0.5 ? "trend-down" : "trend-flat");
-    const trendSymbol = r.trend > 0.5 ? "&#9650;" : (r.trend < -0.5 ? "&#9660;" : "&#9679;");
-    // Re-numbered 1..N within the current filter (national rank when "All
-    // Conferences" is selected, rank-within-conference otherwise) rather
-    // than always showing the team's national rank, which would jump
-    // around (e.g. 4, 11, 23...) once filtered to one conference.
-    const displayRank = i + 1;
-    const badgeClass = displayRank <= 3 ? "rank-badge top" : "rank-badge";
-    const confRecord = (r.conf_wins !== undefined && r.conf_losses !== undefined)
-      ? `${r.conf_wins}-${r.conf_losses}` : "&ndash;";
-    const confTag = selectedConf === ALL_CONFERENCES && r.conference
-      ? `<div class="conf-tag">${r.conference}</div>` : "";
-    return `
-      <tr>
-        <td><span class="${badgeClass}">${displayRank}</span></td>
-        <td class="team-name">${r.team}${confTag}</td>
-        <td class="num">${r.rating !== null ? r.rating.toFixed(1) : "&ndash;"}</td>
-        <td class="num">${r.wins}-${r.losses}</td>
-        <td class="num">${confRecord}</td>
-        <td class="num ${trendClass}">${trendSymbol} ${Math.abs(r.trend).toFixed(1)}</td>
-      </tr>`;
-  }).join("");
-
-  container.innerHTML = `
-    <table class="rankings">
-      <thead>
-        <tr>
-          <th>Rank</th><th>Team</th><th class="num">Rating</th><th class="num">Record</th><th class="num">Conf Record</th><th class="num">Trend</th>
-        </tr>
-      </thead>
-      <tbody>${rows}</tbody>
-    </table>`;
-}
-
 (async function () {
   const [rankingsData, predictionsData] = await Promise.all([
     fetchJSON("data/rankings.json"),
     fetchJSON("data/predictions.json"),
   ]);
   RANKINGS_DATA = rankingsData;
-  const selected = getSelectedConference();
-
-  document.getElementById("conf-filter-container").innerHTML = renderConferenceFilter(selected);
-  wireConferenceFilter(renderRankingsTable);
-  renderRankingsTable(selected);
 
   if (RANKINGS_DATA && RANKINGS_DATA.rankings && RANKINGS_DATA.rankings.length) {
     RANK_MAP = Object.fromEntries(RANKINGS_DATA.rankings.map(r => [r.team, r.rank]));

@@ -948,4 +948,89 @@ table.lines-table td.no-data { color: var(--text-muted); }
 }
 .form-banner.success { background: rgba(12,163,12,0.16); color: #4ee14e; }
 .form-banner.error { background: rgba(208,59,59,0.18); color: #ff6b6b; }
+
+/* -------------------------------------------------- conference link strip
+   Replaces the old <select> dropdown (conf-filter-bar/conf-select above,
+   left in place but unused) -- Cole wants real, separate, bookmarkable
+   pages per conference (see generate_pages.py), not a JS filter, so this is
+   a plain row of <a> tags styled like tabs. */
+.conf-link-strip {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin: 4px 0 18px;
+}
+.conf-link {
+  display: inline-block;
+  padding: 6px 12px;
+  border-radius: 999px;
+  border: 1px solid var(--border);
+  background: var(--bg-card-alt);
+  color: var(--text-secondary);
+  font-size: 13px;
+  font-weight: 600;
+  text-decoration: none;
+  white-space: nowrap;
+}
+.conf-link:hover { border-color: var(--brand-blue-light); color: var(--text-primary); }
+.conf-link.active {
+  background: var(--brand-gold);
+  border-color: var(--brand-gold);
+  color: #241a00;
+}
+
+/* -------------------------------------------------------- Ratings page */
+.tier-note {
+  color: var(--text-muted);
+  font-size: 13px;
+  font-style: italic;
+  margin: 0 0 16px;
+}
+.team-logo {
+  width: 20px;
+  height: 20px;
+  object-fit: contain;
+  vertical-align: middle;
+  margin-right: 6px;
+}
+table.ratings-full th, table.ratings-full td { white-space: nowrap; }
+
+.summary-boxes {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 14px;
+  margin: 20px 0;
+}
+.summary-box {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 14px 16px;
+}
+.summary-title {
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: 0.07em;
+  color: var(--text-muted);
+  font-weight: 700;
+  margin-bottom: 10px;
+}
+.summary-list { list-style: none; margin: 0; padding: 0; }
+.summary-list li {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 4px 0;
+  font-size: 13px;
+  border-top: 1px solid var(--border);
+}
+.summary-list li:first-child { border-top: none; }
+.summary-rank { color: var(--text-muted); font-weight: 700; width: 16px; }
+.summary-team { flex: 1; font-weight: 600; }
+.summary-value { color: var(--brand-gold); font-weight: 700; }
+
+.glossary-card { margin-top: 20px; }
+.glossary dt { color: var(--brand-gold); font-weight: 700; margin-top: 10px; font-size: 13px; }
+.glossary dt:first-child { margin-top: 0; }
+.glossary dd { color: var(--text-secondary); margin: 2px 0 0; font-size: 13px; line-height: 1.5; }
 .form-banner.hidden { display: none; }

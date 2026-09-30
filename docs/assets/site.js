@@ -2,6 +2,7 @@
 
 const NAV_LINKS = [
   { href: "index.html", label: "Home" },
+  { href: "ratings.html", label: "Ratings" },
   { href: "matchups.html", label: "Matchups" },
   { href: "lines.html", label: "Live Lines" },
   { href: "predictions.html", label: "Predictions" },
@@ -21,49 +22,46 @@ const FBS_CONFERENCES = [
   "FBS Independents", "Mid-American", "Mountain West", "Pac-12", "SEC", "Sun Belt",
 ];
 const ALL_CONFERENCES = "All Conferences";
-const DEFAULT_CONFERENCE = "Mountain West"; // this year's focus, per the site's own tagline
 
-// Reads ?conf= off the current URL, defaulting to Mountain West -- every
-// conference-scoped page (Rankings, Matchups, Predictions, Live Lines)
-// shares this same convention so a link/bookmark to ?conf=SEC works the
-// same way on any of them.
-function getSelectedConference() {
-  const params = new URLSearchParams(window.location.search);
-  const conf = params.get("conf");
-  if (conf === ALL_CONFERENCES) return ALL_CONFERENCES;
-  if (conf && FBS_CONFERENCES.includes(conf)) return conf;
-  return DEFAULT_CONFERENCE;
+// Real URL slug per conference, e.g. "Mountain West" -> "mountain-west" --
+// used to build the static per-conference page filenames
+// (ratings-mountain-west.html, matchups-mountain-west.html, ...) that
+// generate_pages.py actually writes to disk. Cole was explicit that he
+// wants each conference view to be its own real, bookmarkable page, not a
+// dropdown/query-string filter -- this replaces the old ?conf= convention
+// everywhere on the site.
+const CONFERENCE_SLUGS = {
+  "ACC": "acc", "American Athletic": "american-athletic", "Big 12": "big-12",
+  "Big Ten": "big-ten", "Conference USA": "conference-usa",
+  "FBS Independents": "fbs-independents", "Mid-American": "mid-american",
+  "Mountain West": "mountain-west", "Pac-12": "pac-12", "SEC": "sec", "Sun Belt": "sun-belt",
+};
+
+function confSlug(conference) {
+  return CONFERENCE_SLUGS[conference] || conference.toLowerCase().replace(/[^a-z0-9]+/g, "-");
 }
 
-// Builds the "All conferences" / "Mountain West" / ... dropdown (styled
-// like PRIME CFB Analytics' own ratings-page conference filter) and wires
-// its onchange to push the new value into the URL and reload the page --
-// simplest way to keep the selection bookmarkable/shareable without a
-// front-end router. Pass includeAll=false for a page that should only ever
-// show one conference at a time (none currently do, but the option's here).
-function renderConferenceFilter(selected, includeAll = true) {
-  const options = includeAll ? [ALL_CONFERENCES, ...FBS_CONFERENCES] : FBS_CONFERENCES;
-  const optionsHtml = options.map(c =>
-    `<option value="${c}" ${c === selected ? "selected" : ""}>${c}</option>`
-  ).join("");
-  return `
-    <div class="conf-filter-bar">
-      <label for="conf-select">Conference</label>
-      <select id="conf-select" class="conf-select">${optionsHtml}</select>
-    </div>`;
+// Which conference THIS page is scoped to. generate_pages.py stamps
+// `window.FIXED_CONFERENCE = "Mountain West";` (etc.) into every
+// <kind>-<slug>.html file it writes, before site.js loads; the un-suffixed
+// page (ratings.html, matchups.html, ...) leaves it null, meaning "All FBS".
+function getPageConference() {
+  return (typeof window.FIXED_CONFERENCE !== "undefined" && window.FIXED_CONFERENCE) || ALL_CONFERENCES;
 }
 
-// Call once after inserting renderConferenceFilter()'s HTML -- wires the
-// dropdown to reload the page with the new ?conf= value.
-function wireConferenceFilter(onChange) {
-  const select = document.getElementById("conf-select");
-  if (!select) return;
-  select.addEventListener("change", () => {
-    const params = new URLSearchParams(window.location.search);
-    params.set("conf", select.value);
-    window.history.replaceState(null, "", `${window.location.pathname}?${params.toString()}`);
-    onChange(select.value);
+// Plain link strip across the top of every Ratings/Matchups/Predictions/
+// Live Lines page -- "All FBS" plus one real link per conference, styled
+// like tabs -- replacing the old <select> dropdown entirely. `kind` is the
+// page family ("ratings" | "matchups" | "predictions" | "lines"); `active`
+// is this page's own conference (ALL_CONFERENCES for the un-suffixed page).
+function renderConferenceLinkStrip(kind, active) {
+  const allClass = active === ALL_CONFERENCES ? "conf-link active" : "conf-link";
+  const links = [`<a class="${allClass}" href="${kind}.html">All FBS</a>`];
+  FBS_CONFERENCES.forEach(c => {
+    const cls = c === active ? "conf-link active" : "conf-link";
+    links.push(`<a class="${cls}" href="${kind}-${confSlug(c)}.html">${c}</a>`);
   });
+  return `<div class="conf-link-strip">${links.join("")}</div>`;
 }
 
 // True if a game/team's conference matches the current filter -- "All

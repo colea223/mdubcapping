@@ -1,0 +1,167 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>American Athletic Ratings - One High Coverage</title>
+<link rel="stylesheet" href="assets/style.css">
+</head>
+<body>
+<div id="nav"></div>
+<div class="page-wrap">
+  <div class="page-header">
+    <div class="page-header-text">
+      <h1 id="page-title">College Football Ratings</h1>
+      <p>Dub Gamma's live Net Rating for every FBS team, plus SP+'s Offense/Defense/Special Teams split, schedule-strength ranks, and a rest-of-season win projection.</p>
+    </div>
+    <div class="week-badge" id="week-badge" style="display:none;"></div>
+  </div>
+
+  <div id="conf-filter-container"></div>
+
+  <p class="tier-note">Read these as tiers, not exact positions -- especially early in the season, the top of the order can still move a lot week to week.</p>
+
+  <div class="card">
+    <div id="ratings-table"></div>
+  </div>
+
+  <div class="summary-boxes" id="summary-boxes"></div>
+
+  <div class="card glossary-card">
+    <div class="section-title">Glossary</div>
+    <dl class="glossary">
+      <dt>Net Rating</dt>
+      <dd>Dub Gamma's own live power rating (the same number used for every spread/win-probability pick on this site) -- higher is better, and the scale isn't points-per-game or wins, just a relative power scale.</dd>
+      <dt>Off / Def / ST</dt>
+      <dd>CFBD's SP+ offensive, defensive, and special-teams ratings. Higher is better for Off and ST; LOWER is better for Def (it's scaled like points allowed).</dd>
+      <dt>SOS Rank</dt>
+      <dd>Strength Of Schedule rank -- #1 is the toughest schedule played so far, based on the average rating of every FBS opponent faced.</dd>
+      <dt>SOR Rank</dt>
+      <dd>Strength Of Record rank -- #1 means the best resume: how many results a team has earned above what an exactly-average team would have gotten against that exact schedule.</dd>
+      <dt>Projection</dt>
+      <dd>Current wins plus Dub Gamma's own win probability summed across every remaining game left on the schedule -- a projected final win total, not a playoff/seeding projection.</dd>
+    </dl>
+  </div>
+
+  <div class="footer-note" id="updated"></div>
+</div>
+
+<script>window.FIXED_CONFERENCE = "American Athletic";</script>
+<script src="assets/site.js"></script>
+<script>
+document.getElementById("nav").innerHTML = renderNav("ratings.html");
+
+let RANKINGS_DATA = null;
+
+function trendArrow(trend) {
+  if (trend > 0.5) return `<span class="trend-up">&#9650;</span>`;
+  if (trend < -0.5) return `<span class="trend-down">&#9660;</span>`;
+  return `<span class="trend-flat">&#9679;</span>`;
+}
+
+function logoImg(r) {
+  return r.logo ? `<img class="team-logo" src="${r.logo}" alt="" loading="lazy">` : "";
+}
+
+function fmtNum(v, digits = 1) {
+  return (v === null || v === undefined) ? "&ndash;" : Number(v).toFixed(digits);
+}
+
+function fmtRank(v) {
+  return (v === null || v === undefined) ? "&ndash;" : `#${v}`;
+}
+
+function renderRatingsTable(selectedConf) {
+  const container = document.getElementById("ratings-table");
+  if (!RANKINGS_DATA || !RANKINGS_DATA.rankings || !RANKINGS_DATA.rankings.length) {
+    container.innerHTML = emptyState("No ratings yet -- run the pipeline to generate this week's data.");
+    return;
+  }
+
+  const filtered = RANKINGS_DATA.rankings.filter(r => matchesConference(selectedConf, r.conference));
+  if (!filtered.length) {
+    container.innerHTML = emptyState(`No ${selectedConf} teams found in this week's ratings.`);
+    return;
+  }
+
+  const rows = filtered.map((r, i) => {
+    const displayRank = i + 1;
+    const badgeClass = displayRank <= 3 ? "rank-badge top" : "rank-badge";
+    const confRecord = (r.conf_wins !== undefined && r.conf_losses !== undefined)
+      ? `${r.conf_wins}-${r.conf_losses}` : "&ndash;";
+    const confTag = selectedConf === ALL_CONFERENCES && r.conference
+      ? `<div class="conf-tag">${r.conference}</div>` : "";
+    return `
+      <tr>
+        <td><span class="${badgeClass}">${displayRank}</span> ${trendArrow(r.trend)}</td>
+        <td class="team-name">${logoImg(r)}${r.team}${confTag}</td>
+        <td class="num">${fmtNum(r.rating)}</td>
+        <td class="num">${fmtNum(r.offense_rating)}</td>
+        <td class="num">${fmtNum(r.defense_rating)}</td>
+        <td class="num">${fmtNum(r.special_teams_rating)}</td>
+        <td class="num">${r.wins}-${r.losses}</td>
+        <td class="num">${confRecord}</td>
+        <td class="num">${fmtRank(r.sos_rank)}</td>
+        <td class="num">${fmtRank(r.sor_rank)}</td>
+        <td class="num">${fmtNum(r.projected_wins)}</td>
+        <td class="num">${fmtNum(r.trend)}</td>
+      </tr>`;
+  }).join("");
+
+  container.innerHTML = `
+    <table class="rankings ratings-full">
+      <thead>
+        <tr>
+          <th>Rank</th><th>Team</th><th class="num">Net</th><th class="num">Off</th>
+          <th class="num">Def</th><th class="num">ST</th><th class="num">Record</th>
+          <th class="num">Conf</th><th class="num">SOS</th><th class="num">SOR</th>
+          <th class="num">Proj.</th><th class="num">Trend</th>
+        </tr>
+      </thead>
+      <tbody>${rows}</tbody>
+    </table>`;
+}
+
+function renderSummaryBox(title, teams, valueFn, opts = {}) {
+  const rows = teams.map((r, i) => `
+    <li><span class="summary-rank">${i + 1}</span> <span class="summary-team">${r.team}</span>
+      <span class="summary-value">${opts.formatter ? opts.formatter(valueFn(r)) : valueFn(r)}</span></li>`
+  ).join("");
+  return `<div class="summary-box"><div class="summary-title">${title}</div><ol class="summary-list">${rows}</ol></div>`;
+}
+
+function renderSummaryBoxes() {
+  const container = document.getElementById("summary-boxes");
+  const all = (RANKINGS_DATA && RANKINGS_DATA.rankings) || [];
+  if (!all.length) { container.innerHTML = ""; return; }
+
+  const byRank = [...all].sort((a, b) => a.rank - b.rank);
+  const byOffense = all.filter(r => r.offense_rating !== null).sort((a, b) => b.offense_rating - a.offense_rating);
+  const byDefense = all.filter(r => r.defense_rating !== null).sort((a, b) => a.defense_rating - b.defense_rating);
+  const bySos = all.filter(r => r.sos_rank !== null).sort((a, b) => a.sos_rank - b.sos_rank);
+  const bySor = all.filter(r => r.sor_rank !== null).sort((a, b) => a.sor_rank - b.sor_rank);
+
+  container.innerHTML = [
+    renderSummaryBox("Best Overall", byRank.slice(0, 10), r => r.rating, { formatter: v => fmtNum(v) }),
+    renderSummaryBox("Best Offenses", byOffense.slice(0, 5), r => r.offense_rating, { formatter: v => fmtNum(v) }),
+    renderSummaryBox("Best Defenses", byDefense.slice(0, 5), r => r.defense_rating, { formatter: v => fmtNum(v) }),
+    renderSummaryBox("Best Strength of Record", bySor.slice(0, 5), r => r.sor_rank, { formatter: v => fmtRank(v) }),
+    renderSummaryBox("Toughest Schedules", bySos.slice(0, 5), r => r.sos_rank, { formatter: v => fmtRank(v) }),
+  ].join("");
+}
+
+(async function () {
+  RANKINGS_DATA = await fetchJSON("data/rankings.json");
+  const selected = getPageConference();
+
+  document.getElementById("conf-filter-container").innerHTML = renderConferenceLinkStrip("ratings", selected);
+  renderRatingsTable(selected);
+  renderSummaryBoxes();
+
+  if (RANKINGS_DATA) {
+    document.getElementById("updated").textContent = lastUpdatedLabel(RANKINGS_DATA.meta && RANKINGS_DATA.meta.generated_at);
+  }
+})();
+</script>
+</body>
+</html>

@@ -804,6 +804,36 @@ def build_sp_ratings_table(con, snapshots):
     print(f"sp_ratings: {len(rows)} rows")
 
 
+def build_team_logos_table(con, snapshots):
+    """
+    Latest team_logos_<year>_<stamp> snapshot only (see pull_team_logos.py --
+    "latest wins" like teams itself, not a per-season history). Picks
+    whichever year's snapshot is newest by (prefix, year) key the same way
+    every other table here does, then just keeps the newest ONE overall
+    (logos aren't season-scoped in the table itself) since a team's logo
+    doesn't change year to year.
+    """
+    candidates = [(year, path) for (prefix, year), path in snapshots.items() if prefix == "team_logos"]
+    if not candidates:
+        print("team_logos: no raw snapshots found yet (run src/pull_team_logos.py first)")
+        return
+    _, path = max(candidates, key=lambda t: t[0])
+
+    rows = []
+    for t in load_json(path):
+        school = t.get("school")
+        logo_url = t.get("logo_url")
+        if not school or not logo_url:
+            continue
+        rows.append((normalize_team_name(school), logo_url))
+    if not rows:
+        print("team_logos: snapshot had no usable rows")
+        return
+    con.execute("DELETE FROM team_logos")
+    con.executemany("INSERT OR REPLACE INTO team_logos VALUES (?, ?)", rows)
+    print(f"team_logos: {len(rows)} rows")
+
+
 def build_elo_ratings_table(con, snapshots):
     rows = []
     for (prefix, year), path in snapshots.items():
@@ -1206,6 +1236,7 @@ def main():
     build_advanced_stats_table(con, snapshots)
     build_ppa_snapshots_table(con, snapshots)
     build_sp_ratings_table(con, snapshots)
+    build_team_logos_table(con, snapshots)
     build_elo_ratings_table(con, snapshots)
     build_recruiting_table(con, snapshots)
     build_returning_production_table(con, snapshots)

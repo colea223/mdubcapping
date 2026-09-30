@@ -39,11 +39,13 @@ import pull_venues
 import pull_drives
 import pull_plays
 import pull_injuries
+import pull_team_logos
 import build_db
 import power_rating
 import features
 import predict_week
 import export_site_data
+import generate_pages
 
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent / "excel"))
 import update_tracker  # noqa: E402
@@ -59,12 +61,23 @@ STEPS = [
     # other pulls above, before build_db.py has loaded anything this run --
     # see pull_injuries.py's own _detect_current_week() comment for why.
     ("Injury report (Dub Gamma Model input)", pull_injuries.main),
+    # Logos barely ever change -- cheap (one CFBD call), so it just rides
+    # along on every run rather than needing its own separate reminder to
+    # re-run it occasionally. See pull_team_logos.py's own docstring.
+    ("Team logos", pull_team_logos.main),
     ("Build DB", build_db.main),
     ("Baseline power ratings", power_rating.main),
     ("Pre-game features", features.main),
     ("Predict next upcoming week", predict_week.main),
     ("Update Excel tracker", update_tracker.main),
     ("Update website data (docs/data/*.json)", export_site_data.main),
+    # Regenerates every per-conference static page (Ratings/Matchups/
+    # Predictions/Live Lines) from the templates in generate_pages.py --
+    # must run AFTER export_site_data.py since it reads rankings.json to
+    # know the current FBS conference list. See that module's own docstring
+    # for why these are real separate .html files, not one page with a
+    # conference dropdown.
+    ("Generate per-conference pages", generate_pages.main),
 ]
 
 # Not included above -- run these on their own when you want them, not on

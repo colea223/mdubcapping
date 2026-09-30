@@ -82,7 +82,7 @@ import backtest
 import xgboost_model
 import time
 from odds import payout_profit
-from power_rating import current_ratings
+from power_rating import current_ratings, current_sor
 from teams import MW_TEAMS_2026, FBS_CONFERENCES
 from predict_week import auto_detect_week
 from features import team_home_venues, haversine_km
@@ -275,18 +275,31 @@ def all_team_records(con, season):
     return {r.team: (int(r.wins), int(r.losses)) for r in df.itertuples()}
 
 
-def team_rating_trend(con, team):
-    rows = con.execute("""
-        SELECT r.rating_after, g.start_date
-        FROM ratings_baseline r
-        JOIN games g ON g.game_id = r.game_id
-        WHERE r.team = ?
-        ORDER BY g.start_date DESC
-        LIMIT 2
-    """, [team]).fetchall()
-    if len(rows) < 2:
-        return 0.0
-    return round(rows[0][0] - rows[1][0], 1)
+def gamma_rating_trends(con, current_ratings_map):
+    """
+    {team: trend} -- this week's Dub Gamma rating minus the rating as of
+    entering this week (i.e. replayed through last week only), for every
+    team in `current_ratings_map`. Replaces the old Elo-only
+    team_rating_trend(), which read ratings_baseline (power_rating.py's own
+    per-game Elo history table) -- there's no Gamma equivalent of that table
+    (replay_ratings() only ever returns a final snapshot, not a per-game
+    series), so the walk-forward-safe way to get "how much did this week
+    move you" for Gamma is a second, cheap replay stopped one week earlier
+    (gamma_model.ratings_entering_week(), the same helper
+    model_comparison.py's own grading loop uses) and diff the two snapshots.
+    Week 1 (or no detected week at all) has no "entering this week" replay
+    to diff against, so every team's trend is 0.0 then.
+    """
+    detected = auto_detect_week(con)
+    if detected is None or detected[1] <= 1:
+        return {team: 0.0 for team in current_ratings_map}
+    season, week = detected[0], detected[1]
+    prior_ratings = gamma_model.ratings_entering_week(con, season, week)
+    trends = {}
+    for team, rating in current_ratings_map.items():
+        prior = prior_ratings.get(team)
+        trends[team] = round(rating - prior, 1) if (rating is not None and prior is not None) else 0.0
+    return trends
 
 
 def fbs_conference_map(con, season):
@@ -307,6 +320,116 @@ def fbs_conference_map(con, season):
     return {t: c for t, c in conf_map.items() if c in FBS_CONFERENCES}
 
 
+def team_logo_map(con):
+    """{team: logo_url} from team_logos (see pull_team_logos.py/
+    build_db.py's build_team_logos_table()) -- empty dict, not an error, if
+    that pull step hasn't been run yet, so every caller just shows no logo
+    rather than breaking."""
+    try:
+        return dict(con.execute("SELECT team, logo_url FROM team_logos").fetchall())
+    except duckdb.CatalogException:
+        # team_logos is a brand new table (this update) -- a DB that hasn't
+        # had build_db.py re-run since won't have it yet. Degrade to no
+        # logos rather than crashing the whole export.
+        return {}
+
+
+def team_off_def_st_ratings(con, season):
+    """
+    {team: (offense_rating, defense_rating, special_teams_rating)} straight
+    from CFBD's own SP+ ratings (sp_ratings table, already pulled by
+    pull_stats.py -- no local modeling of our own for this split). Dub Gamma
+    only ever produces ONE overall number, so rather than inventing an
+    offense/defense/special-teams decomposition of it, the Ratings page's
+    Net Rating column stays Gamma (per Cole's live-model rule) while these
+    three side-by-side columns borrow SP+'s own established split, same as
+    PRIME's ratings page does. Purely a display add-on -- never read by any
+    grading/backtest/prediction code path.
+    """
+    df = con.execute("""
+        SELECT team, offense_rating, defense_rating, special_teams_rating
+        FROM sp_ratings WHERE season = ?
+    """, [season]).fetchdf()
+    return {
+        r.team: (r.offense_rating, r.defense_rating, r.special_teams_rating)
+        for r in df.itertuples()
+    }
+
+
+def team_sos_sor_ranks(con, season):
+    """
+    {team: (sos_rank, sor_rank)}, both 1 = toughest schedule / best resume.
+    Reuses the existing schedule-strength engine (power_rating.py's
+    sos_ratings/sor_baseline tables) rather than re-deriving an entire
+    second walk-forward rating engine in Gamma's own probability space just
+    for two supporting columns -- these are RESUME/schedule metrics, not a
+    team's power rating (the thing Cole's Gamma-not-Elo rule was actually
+    about), and they're surfaced here as ranks, never as raw point values,
+    so the underlying Elo-based scale never shows up as a number on the
+    page.
+    """
+    try:
+        sos = dict(con.execute(
+            "SELECT team, avg_opponent_rating FROM sos_ratings WHERE season = ?", [season]
+        ).fetchall())
+    except duckdb.CatalogException:
+        print("  [rankings] sos_ratings table not found -- SOS rank left blank (run power_rating.py)")
+        sos = {}
+    try:
+        sor = current_sor(con)  # already restricted to the DB's latest season
+    except duckdb.CatalogException:
+        print("  [rankings] sor_baseline table not found -- SOR rank left blank (run power_rating.py)")
+        sor = {}
+
+    sos_order = sorted(sos, key=lambda t: -sos[t])
+    sor_order = sorted(sor, key=lambda t: -sor[t])
+    sos_rank = {team: i + 1 for i, team in enumerate(sos_order)}
+    sor_rank = {team: i + 1 for i, team in enumerate(sor_order)}
+    all_teams = set(sos) | set(sor)
+    return {team: (sos_rank.get(team), sor_rank.get(team)) for team in all_teams}
+
+
+def team_projected_wins(con, ratings, season):
+    """
+    {team: projected_final_wins} -- current wins plus the Dub Gamma win
+    probability (gamma_model.predict_home_win_prob(), the same call every
+    other live win prob on the site uses) summed across each team's
+    remaining (not yet completed) games this season. A team with no games
+    left just gets its current win total back. This is the Ratings page's
+    "Projection" column -- PRIME's own equivalent column, reinterpreted here
+    as a projected final win total since that's the one projection Gamma can
+    actually produce today (no playoff/seeding model exists in this
+    project).
+    """
+    remaining = con.execute("""
+        SELECT home_team, away_team, neutral_site
+        FROM games WHERE season = ? AND completed = FALSE
+    """, [season]).fetchdf()
+    std = gamma_model.gamma_residual_std(con)
+    added_wins = {}
+    for row in remaining.itertuples():
+        home_p = gamma_model.predict_home_win_prob(
+            ratings, row.home_team, row.away_team,
+            neutral_site=bool(row.neutral_site), std=std,
+        )
+        added_wins[row.home_team] = added_wins.get(row.home_team, 0.0) + home_p
+        added_wins[row.away_team] = added_wins.get(row.away_team, 0.0) + (1.0 - home_p)
+
+    wins_by_team = con.execute("""
+        SELECT team, SUM(win) AS wins FROM (
+            SELECT home_team AS team, (home_points > away_points)::INT AS win
+            FROM games WHERE completed = TRUE AND season = ?
+            UNION ALL
+            SELECT away_team AS team, (away_points > home_points)::INT AS win
+            FROM games WHERE completed = TRUE AND season = ?
+        ) GROUP BY team
+    """, [season, season]).fetchdf()
+    wins_now = dict(zip(wins_by_team["team"], wins_by_team["wins"]))
+
+    all_teams = set(wins_now) | set(added_wins)
+    return {team: round(wins_now.get(team, 0) + added_wins.get(team, 0.0), 1) for team in all_teams}
+
+
 def build_rankings(con):
     """
     Every FBS team this season (not just Mountain West -- see Cole's site-
@@ -316,19 +439,50 @@ def build_rankings(con):
     Conf Record (conf_wins/conf_losses) is still computed the same way for
     every team, not just Mountain West's -- team_conference_record() already
     reads real per-team conference_game games, nothing MW-specific about it.
+
+    Ratings are Dub Gamma (gamma_model.replay_ratings()), the live model --
+    NOT power_rating.py's baseline Elo (current_ratings()), per Cole's
+    explicit call-out that every rating shown on the site should be Gamma's,
+    matching what Matchups/Predictions/the Excel National Slate already use
+    for spreads. See gamma_rating_trends() for why "Trend" needs its own
+    Gamma-based computation rather than reusing the old Elo-only
+    ratings_baseline history.
+
+    Also carries the Ratings page's extra columns (logo, Off/Def/ST, SOS/SOR
+    rank, Projection) -- see each helper's own docstring above for why each
+    one is sourced the way it is. Every home-page/rankings-table consumer
+    that only cares about team/conference/rating/wins/losses/trend/rank
+    keeps working unchanged; these are additive fields.
     """
-    ratings = current_ratings(con)
+    ratings, gamma_warned = gamma_model.replay_ratings(con)
+    if gamma_warned:
+        print(f"  [rankings] Dub Gamma: {len(gamma_warned)} team(s) had no Moore seed rating, "
+              f"defaulted to {gamma_model.DEFAULT_SEED_RATING:.2f}: {gamma_warned}")
+    trends = gamma_rating_trends(con, ratings)
     conf_map = fbs_conference_map(con, CURRENT_SEASON)
+    logos = team_logo_map(con)
+    off_def_st = team_off_def_st_ratings(con, CURRENT_SEASON)
+    sos_sor = team_sos_sor_ranks(con, CURRENT_SEASON)
+    projections = team_projected_wins(con, ratings, CURRENT_SEASON)
     rows = []
     for team, conference in conf_map.items():
         rating = ratings.get(team)
         wins, losses = team_record(con, team, CURRENT_SEASON)
         conf_wins, conf_losses = team_conference_record(con, team, CURRENT_SEASON)
-        trend = team_rating_trend(con, team)
+        trend = trends.get(team, 0.0)
+        off_rating, def_rating, st_rating = off_def_st.get(team, (None, None, None))
+        sos_rank, sor_rank = sos_sor.get(team, (None, None))
         rows.append({
             "team": team,
             "conference": conference,
+            "logo": logos.get(team),
             "rating": round(rating, 1) if rating is not None else None,
+            "offense_rating": round(off_rating, 1) if off_rating is not None else None,
+            "defense_rating": round(def_rating, 1) if def_rating is not None else None,
+            "special_teams_rating": round(st_rating, 1) if st_rating is not None else None,
+            "sos_rank": sos_rank,
+            "sor_rank": sor_rank,
+            "projected_wins": projections.get(team),
             "wins": wins, "losses": losses,
             "conf_wins": conf_wins, "conf_losses": conf_losses,
             "trend": trend,
