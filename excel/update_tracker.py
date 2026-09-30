@@ -40,6 +40,20 @@ your Bet Log and any notes you've typed, is left untouched):
     line on file yet is left out of the log rather than guessed at. Fully
     regenerated every run, same as Power Ratings -- there's nothing here
     for you to type in, so nothing needs to be preserved across re-runs.
+  - Strength of Record (new tab): every FBS team's SOR (wins above an
+    exactly-average team's expected record against that same schedule),
+    current season only, next to its Elo rating and a Rank Gap column
+    flagging a big Elo-vs-SOR disagreement. See update_sor_tab()'s own
+    docstring. Fully regenerated every run, same as MW Team ATS.
+  - National Slate (new tab): the all-FBS counterpart to Weekly Slate --
+    every FBS game this week (not just Mountain West), Gamma's live spread,
+    Ridge/Massey as informational candidates, the real market line, the
+    edge between them (green-filled when it's a real, threshold-clearing
+    lean -- same green/backtest.EDGE_THRESHOLD as MW Team ATS's Cover fill),
+    and a straight-up Win/Loss grade once a game's final. Sorted by
+    conference with AutoFilter on, so you can drop it down to one
+    conference at a time. See update_national_slate()'s own docstring for
+    why XGBoost isn't on this one. Fully regenerated every run.
 
 A game already on the Weekly Slate (matched by Home + Away team) gets its
 Model Line/Model Total updated in place rather than duplicated; a new game
@@ -71,6 +85,11 @@ sys.path.insert(0, str(Path(__file__).resolve().parent.parent / "src"))
 from config import DB_PATH, CLEAN_DIR  # noqa: E402
 from power_rating import current_ratings, current_sor  # noqa: E402
 import gamma_model  # noqa: E402
+import model  # noqa: E402
+import massey_model  # noqa: E402
+import totals_model  # noqa: E402
+import backtest  # noqa: E402
+from predict_week import auto_detect_week  # noqa: E402
 from teams import MW_TEAMS_2026, FBS_CONFERENCES, normalize_team_name  # noqa: E402
 
 TRACKER_PATH = Path(__file__).resolve().parent / "MW_Handicapping_Tracker.xlsx"
@@ -112,6 +131,21 @@ PUSH_FILL = PatternFill("solid", fgColor="E7E6E6")      # light gray
 # Strength of Record tab
 SOR_SHEET = "Strength of Record"
 RANK_GAP_FILL = PatternFill("solid", fgColor="FFEB9C")  # light amber -- flags a big Elo/SOR disagreement
+
+# National Slate tab -- the Excel-side counterpart to the site's planned
+# conference-by-conference Matchups/Predictions expansion (see this
+# project's own site conversation): every FBS game this week, not just
+# Mountain West, with the live model's (Gamma's) line, two cheap
+# informational candidate lines (Ridge, Massey), the real market line, and
+# the edge between them -- green-filled exactly like MW Team ATS's Cover
+# fill above when a game clears EDGE_THRESHOLD, i.e. a real recommended
+# lean, not just noise. Reuses backtest.EDGE_THRESHOLD (2.0 pts) rather
+# than a second copy of that number, so "what counts as an edge" never
+# drifts between this tab and the site/backtest's own grading.
+NATIONAL_SLATE_SHEET = "National Slate"
+EDGE_FILL = COVER_FILL          # same light green -- "real edge" reuses the same visual language as "covered"
+CORRECT_FILL = COVER_FILL       # Model Result: Win -- reuses the same green rather than inventing a third color
+INCORRECT_FILL = NO_COVER_FILL  # Model Result: Loss
 
 
 def latest_predictions_file():
@@ -625,6 +659,224 @@ def update_sor_tab(ws, con):
     print(f"Strength of Record: {len(team_list)} team(s) ranked for {season}")
 
 
+def ensure_national_slate_tab(wb):
+    """Creates the National Slate tab the first time this script runs against
+    a workbook that doesn't have one yet. Same fully-regenerated,
+    nothing-typed-in-by-hand pattern as MW Team ATS/Strength of Record above
+    -- there's nothing here for you to type in, so a re-run just wipes the
+    sheet and rebuilds it from the database."""
+    if NATIONAL_SLATE_SHEET not in wb.sheetnames:
+        ws = wb.create_sheet(NATIONAL_SLATE_SHEET)
+        ws.sheet_view.showGridLines = False
+    else:
+        ws = wb[NATIONAL_SLATE_SHEET]
+        ws.delete_rows(1, ws.max_row)
+    return ws
+
+
+def update_national_slate(ws, con):
+    """
+    Every FBS game in the current auto-detected week -- not just Mountain
+    West (that's still Weekly Slate's own job, unchanged) -- with the live
+    model's (Gamma's) spread, two cheap informational candidates (Ridge,
+    Massey -- same "never the live pick" treatment they get everywhere else
+    in this project), the real market line, and the edge between them.
+
+    XGBoost is deliberately left OUT of this tab. predict_week.py only pays
+    for its hyperparameter search once, for the ~6-8 MW games on Weekly
+    Slate; refitting it again here for the ~55-65 additional national games
+    every week would meaningfully slow down every pipeline run for a line
+    that's informational-only everywhere it already appears. Say the word
+    if you want it here too and I'll wire it in, accepting that cost.
+
+    Sorted by Home Conference then kickoff time -- grouped by conference at
+    a glance -- with AutoFilter turned on on the header row so you can drop
+    it down to one conference at a time natively in Excel, rather than this
+    needing a separate tab per conference (11+ near-duplicate tabs to keep
+    in sync every week is its own maintenance problem; one tab plus a
+    filter is the same "conference-by-conference" view without it).
+
+    Spread Edge/Total Edge are green-filled (EDGE_FILL, the same green
+    MW Team ATS uses for a Cover) whenever they clear backtest.EDGE_THRESHOLD
+    -- a real, threshold-clearing lean, not just noise, same definition
+    the site/backtest.py's own grading uses (imported, not re-typed, so the
+    two can't silently drift apart). Once a game is final, Model Result
+    shows whether Gamma's own favored side actually won straight-up --
+    green for a win, red (INCORRECT_FILL) for a loss, blank for a push/
+    pick'em with no favorite to grade. This is a straight-up grade (did the
+    favored side win outright), not an against-the-spread grade -- Weekly
+    Slate/MW Team ATS already own the ATS side of this for Mountain West
+    specifically; this tab's job is the national spread-prediction picture,
+    not a second copy of the ATS tracker.
+    """
+    detected = auto_detect_week(con)
+    if detected is None:
+        ws["A1"] = "No upcoming (incomplete) games found in the DB -- run the pull scripts first."
+        ws["A1"].font = NOTE_FONT
+        print("National Slate: no upcoming week detected -- left a placeholder note.")
+        return
+    season, week = detected[0], detected[1]
+
+    # This week's games nationally, with each side's real CFBD conference --
+    # same FBS_CONFERENCES allowlist used everywhere else in this project
+    # (see teams.py's own comment) so a stray FCS game never sneaks onto a
+    # tab meant to be "every FBS game."
+    game_conf = {
+        game_id: (home_conf, away_conf)
+        for game_id, home_conf, away_conf in con.execute("""
+            SELECT game_id, home_conference, away_conference
+            FROM games WHERE season = ? AND week = ?
+        """, [season, week]).fetchall()
+    }
+    game_result = {
+        game_id: (completed, home_pts, away_pts)
+        for game_id, completed, home_pts, away_pts in con.execute("""
+            SELECT game_id, completed, home_points, away_points
+            FROM games WHERE season = ? AND week = ?
+        """, [season, week]).fetchall()
+    }
+
+    upcoming = model.load_upcoming_frame(con, season, week)
+    upcoming = upcoming[upcoming["game_id"].isin(game_conf.keys())].copy()
+    upcoming = upcoming[upcoming.apply(
+        lambda r: game_conf[r["game_id"]][0] in FBS_CONFERENCES
+        or game_conf[r["game_id"]][1] in FBS_CONFERENCES, axis=1,
+    )].reset_index(drop=True)
+    if upcoming.empty:
+        ws["A1"] = f"No FBS games found for season {season}, week {week}."
+        ws["A1"].font = NOTE_FONT
+        print(f"National Slate: no FBS games for season {season} week {week}.")
+        return
+
+    market = {
+        game_id: (spread, total)
+        for game_id, spread, total in con.execute(
+            "SELECT game_id, AVG(spread), AVG(over_under) FROM lines GROUP BY game_id"
+        ).fetchall()
+    }
+
+    # Gamma (live model -- see gamma_model.py) and Ridge (cheap, no search --
+    # see model.py) are refit/replayed fresh here rather than read from
+    # predict_week.py's CSV, same reasoning export_site_data.py already
+    # documents for its own predictions: it decouples this tab from that
+    # CSV's own MW-only scope and staleness, at negligible extra cost for
+    # these two specifically (unlike XGBoost -- see this function's own
+    # docstring on why that one stays out).
+    train_df = model.load_training_frame(con)
+    gamma_ratings, gamma_warned = gamma_model.replay_ratings(con)
+    if gamma_warned:
+        print(f"  [National Slate] Dub Gamma: {len(gamma_warned)} team(s) had no Moore seed rating, "
+              f"defaulted to {gamma_model.DEFAULT_SEED_RATING:.2f}: {gamma_warned}")
+    massey_ratings = massey_model.ratings_entering_week(con, season, week)
+
+    ridge_spread_home = {}
+    if len(train_df) >= 10:
+        pipe, _ = model.fit_margin_model(train_df)
+        ridge_margin = model.predict_margin(pipe, upcoming)
+        ridge_spread_home = dict(zip(upcoming["game_id"].astype(int), -ridge_margin))
+
+    totals_train = totals_model.load_totals_training_frame(con)
+    total_pipe, _ = totals_model.fit_total_model(totals_train)
+    wk_totals_features = totals_model.load_upcoming_totals_frame(con, season, week)
+    total_map = {}
+    if not wk_totals_features.empty:
+        total_preds = totals_model.predict_total(total_pipe, wk_totals_features)
+        total_map = dict(zip(wk_totals_features["game_id"].astype(int), total_preds))
+
+    rows = []
+    for row in upcoming.itertuples():
+        gid = int(row.game_id)
+        home_conf, away_conf = game_conf.get(gid, (None, None))
+        market_spread_home, market_total = market.get(gid, (None, None))
+
+        gamma_spread = gamma_model.predict_spread_home(
+            gamma_ratings, row.home_team, row.away_team, neutral_site=bool(row.neutral_site))
+        ridge_spread = ridge_spread_home.get(gid)
+        massey_spread = (
+            massey_model.predict_spread_home(massey_ratings, row.home_team, row.away_team,
+                                              neutral_site=bool(row.neutral_site))
+            if massey_ratings else None
+        )
+        model_total = total_map.get(gid)
+
+        spread_edge = (market_spread_home - gamma_spread) if market_spread_home is not None else None
+        total_edge = (model_total - market_total) if (model_total is not None and market_total is not None) else None
+
+        completed, home_pts, away_pts = game_result.get(gid, (False, None, None))
+        model_result = None
+        if completed and home_pts is not None and away_pts is not None:
+            actual_margin = home_pts - away_pts
+            gamma_margin = -gamma_spread
+            if gamma_margin != 0 and actual_margin != 0:
+                model_result = "Win" if (actual_margin > 0) == (gamma_margin > 0) else "Loss"
+
+        rows.append({
+            "week": int(row.week), "date": str(row.start_date)[:10],
+            "home_conf": home_conf or "", "away_conf": away_conf or "",
+            "away_team": row.away_team, "home_team": row.home_team,
+            "gamma_spread": round(gamma_spread, 1),
+            "market_spread": round(market_spread_home, 1) if market_spread_home is not None else None,
+            "spread_edge": round(spread_edge, 1) if spread_edge is not None else None,
+            "ridge_spread": round(ridge_spread, 1) if ridge_spread is not None else None,
+            "massey_spread": round(massey_spread, 1) if massey_spread is not None else None,
+            "model_total": round(model_total, 1) if model_total is not None else None,
+            "market_total": round(market_total, 1) if market_total is not None else None,
+            "total_edge": round(total_edge, 1) if total_edge is not None else None,
+            "away_pts": away_pts if completed else None,
+            "home_pts": home_pts if completed else None,
+            "model_result": model_result,
+        })
+
+    rows.sort(key=lambda r: (r["home_conf"], r["date"], r["home_team"]))
+
+    headers = [
+        "Week", "Date", "Home Conf", "Away Conf", "Away Team", "Home Team",
+        "Model Line (Home)", "Market Line (Home)", "Spread Edge (pts)",
+        "Ridge Line (Home)", "Massey Line (Home)",
+        "Model Total", "Market Total", "Total Edge (pts)",
+        "Away Pts", "Home Pts", "Model Result",
+    ]
+    for c, h in enumerate(headers, start=1):
+        cell = ws.cell(row=1, column=c, value=h)
+        cell.font = HEADER_FONT
+        cell.fill = HEADER_FILL
+        cell.alignment = Alignment(horizontal="center", wrap_text=True)
+
+    for i, r in enumerate(rows, start=2):
+        values = [
+            r["week"], r["date"], r["home_conf"], r["away_conf"], r["away_team"], r["home_team"],
+            r["gamma_spread"], r["market_spread"], r["spread_edge"],
+            r["ridge_spread"], r["massey_spread"],
+            r["model_total"], r["market_total"], r["total_edge"],
+            r["away_pts"], r["home_pts"], r["model_result"],
+        ]
+        for c, val in enumerate(values, start=1):
+            ws.cell(row=i, column=c, value=val).font = FORMULA_FONT
+
+        edge_cell = ws.cell(row=i, column=9)
+        if r["spread_edge"] is not None and abs(r["spread_edge"]) >= backtest.EDGE_THRESHOLD:
+            edge_cell.fill = EDGE_FILL
+        total_edge_cell = ws.cell(row=i, column=14)
+        if r["total_edge"] is not None and abs(r["total_edge"]) >= backtest.EDGE_THRESHOLD:
+            total_edge_cell.fill = EDGE_FILL
+
+        result_cell = ws.cell(row=i, column=17)
+        if r["model_result"] == "Win":
+            result_cell.fill = CORRECT_FILL
+        elif r["model_result"] == "Loss":
+            result_cell.fill = INCORRECT_FILL
+
+    ws.auto_filter.ref = f"A1:Q{len(rows) + 1}"
+    for col, width in zip("ABCDEFGHIJKLMNOPQ",
+                           [6, 11, 12, 12, 15, 15, 16, 16, 14, 15, 15, 11, 11, 12, 9, 9, 12]):
+        ws.column_dimensions[col].width = width
+    ws.freeze_panes = "A2"
+
+    n_edges = sum(1 for r in rows if r["spread_edge"] is not None and abs(r["spread_edge"]) >= backtest.EDGE_THRESHOLD)
+    print(f"National Slate: {len(rows)} FBS game(s) for season {season} week {week} "
+          f"({n_edges} with a real spread edge >= {backtest.EDGE_THRESHOLD} pts)")
+
+
 def main():
     if not TRACKER_PATH.exists():
         print(f"Tracker workbook not found at {TRACKER_PATH}. Run excel/build_tracker.py first, "
@@ -648,6 +900,8 @@ def main():
     update_mw_ats(ats_ws, con)
     sor_ws = ensure_sor_tab(wb)
     update_sor_tab(sor_ws, con)
+    national_ws = ensure_national_slate_tab(wb)
+    update_national_slate(national_ws, con)
     con.close()
 
     wb.save(TRACKER_PATH)
