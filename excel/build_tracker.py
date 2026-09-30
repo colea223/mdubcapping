@@ -180,7 +180,7 @@ for r in range(3, 43):
         ws[f"{col}{r}"].font = FORMULA_FONT
 
 autosize(ws, [6, 11, 15, 15, 16, 16, 14, 11, 11, 11, 12, 10, 17, 16, 30, 16])
-ws.freeze_panes = "A2"
+# No frozen panes anywhere in this workbook (Cole's own call).
 
 # ---------------------------------------------------------------- Bet Log
 ws = wb.create_sheet("Bet Log")
@@ -219,7 +219,7 @@ for r in range(3, 43):
         ws[f"{col}{r}"].font = FORMULA_FONT
 
 autosize(ws, [11, 6, 26, 10, 18, 11, 14, 12, 12, 10, 9, 14, 15])
-ws.freeze_panes = "A2"
+# No frozen panes anywhere in this workbook (Cole's own call).
 ws["A45"] = "CLV note: Closing Line - Line Taken. For a favorite (negative number), a less-negative closing line than what you bet means the market moved toward you -- positive CLV. Read each row in context of which side you took."
 ws["A45"].font = NOTE_FONT
 
@@ -243,7 +243,7 @@ for i, (team, meta) in enumerate(sorted(MW_TEAMS_2026.items()), start=2):
     ws.cell(row=i, column=9, value=meta["notes"]).font = NOTE_FONT
 
 autosize(ws, [16, 26, 11, 17, 12, 10, 10, 11, 60])
-ws.freeze_panes = "A2"
+# No frozen panes anywhere in this workbook (Cole's own call).
 
 for sheet in wb.worksheets:
     sheet.sheet_view.showGridLines = False

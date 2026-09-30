@@ -10,6 +10,7 @@ const NAV_LINKS = [
   { href: "tracking.html", label: "Tracking" },
   { href: "matchup.html", label: "Matchup Creator" },
   { href: "log-bet.html", label: "Log Bet" },
+  { href: "about-model.html", label: "About the Model" },
 ];
 
 // Every FBS conference this site covers -- mirrors teams.py's own

@@ -175,6 +175,11 @@ def main():
         print(f"  row {row_num}: {sub['side']} ({sub['bet_type']}), {sub['matchup']}")
         written += 1
 
+    # No frozen panes anywhere in this workbook (Cole's own call) -- this
+    # tab is never recreated after build_tracker.py's one-time setup, so
+    # clear it here too on every import run.
+    ws.freeze_panes = None
+
     if written:
         wb.save(TRACKER_PATH)
         _save_imported_ids(imported_ids)

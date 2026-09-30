@@ -1,0 +1,118 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>About the Model - One High Coverage</title>
+<link rel="stylesheet" href="assets/style.css">
+</head>
+<body>
+<div id="nav"></div>
+<div class="page-wrap">
+  <div class="page-header">
+    <div class="page-header-text">
+      <h1>About the Model</h1>
+      <p>What actually goes into every rating, spread, and total on this site -- no black boxes.</p>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="section-title">Overview</div>
+    <p>This site runs four separate statistical models side by side, plus one published third-party rating used for reference. Only ONE of them is ever the live, actionable pick -- the rest are tracked purely for comparison, so their track record stays honest instead of getting blended into a single number after the fact.</p>
+    <dl class="glossary">
+      <dt>Dub Gamma</dt>
+      <dd>The live model. Every spread, win probability, and "Model Edge" shown on Matchups/Predictions/the Ratings page is Dub Gamma's.</dd>
+      <dt>Ridge Model</dt>
+      <dd>A regularized linear-regression candidate, tracked alongside Gamma for comparison. Informational only.</dd>
+      <dt>Dub Beta Model</dt>
+      <dd>A gradient-boosted-trees candidate on the same inputs as Ridge. Informational only.</dd>
+      <dt>Totals Model</dt>
+      <dd>A separate regression that predicts the combined Over/Under total -- spread and total are different prediction problems, so this runs independently of the three margin models above.</dd>
+      <dt>SP+ (Off / Def / ST)</dt>
+      <dd>CFBD's own published efficiency ratings, shown on the Ratings page as a reference split -- not something this project models itself.</dd>
+    </dl>
+  </div>
+
+  <div class="card">
+    <div class="section-title">Dub Gamma Model -- the live model</div>
+    <p>Gamma is deliberately simple: every FBS team gets one rating, and that rating updates itself after every completed game using nothing but that game's own result. There's no black-box fitting step and no hidden weights -- the entire update is one formula, applied the same way to every team, every week.</p>
+
+    <p><strong>The starting point.</strong> Every team enters the season with a one-time preseason strength estimate (a published industry power-rating number) -- used only as the very first Week 1 anchor. From that point forward, the season's own results are what actually move each team's number; the preseason estimate is never touched or re-referenced again once real games start.</p>
+
+    <p><strong>The update, after every completed game.</strong> Each of the two teams in a game gets its rating updated independently using:</p>
+    <ul>
+      <li><strong>Net score</strong> -- that team's own scoring margin in the game (positive for a win, negative for a loss).</li>
+      <li><strong>The opponent's rating</strong> heading into that specific game (not their current, most up-to-date rating -- the number they actually carried in at kickoff).</li>
+      <li><strong>An injury differential</strong> -- that week's reported-out players' game-status weight (Out / Doubtful / Questionable / Probable) multiplied by each player's own season-long efficiency, summed per team, home minus away. A best-effort adjustment: a team with no injury report that week simply gets a neutral 0.</li>
+    </ul>
+    <p>Those three combine into one number -- call it that game's "performance level": net score, plus the opponent's rating, plus the injury differential. The team's new rating is then <strong>90% its old rating, blended with 10% of that game's performance level</strong>. In plain terms: one game never swings a team's rating very far, but a whole season of results gradually pulls a team's number toward wherever its actual play has been.</p>
+
+    <p><strong>Turning ratings into a spread.</strong> The predicted spread for any matchup is simply the away team's rating minus the home team's rating, adjusted by a fixed home-field edge (worth a few points, favoring the home team). The favorite is whichever side has the lower number once that adjustment is applied.</p>
+
+    <p><strong>Turning ratings into a win probability.</strong> The predicted margin is run through a normal probability curve to get a win percentage for each side. The "spread" of that curve (how much real games actually tend to miss the model's own predicted margin by) is re-measured from this season's own completed, graded games every time the model runs -- not a fixed assumption, so it gets more accurate to itself as the season goes on.</p>
+
+    <p><strong>How updating actually works.</strong> Nothing about a team's rating is saved between pipeline runs. Every single time the pipeline runs, Gamma <em>replays the entire season from scratch</em> -- starting from every team's Week 1 anchor and walking forward through every completed FBS game, in the order it was actually played, applying the update above one game at a time -- until it reaches today. That's what "the live rating" means: the full, deterministic result of every game that's happened so far this season, recomputed fresh every time, never a stored running number that could drift or get out of sync.</p>
+
+    <p><strong>What data it uses:</strong> final scores of every completed FBS game (with home/away/neutral site noted), and weekly injury reports. Nothing from Vegas lines, recruiting rankings, or advanced per-play stats feeds into Gamma at all -- that's deliberate, so it stays an independent, transparent second opinion rather than something indirectly re-deriving the market's own number.</p>
+  </div>
+
+  <div class="card">
+    <div class="section-title">Ridge Model -- informational</div>
+    <p>A regularized linear regression (specifically RidgeCV, meaning its one tuning knob is picked automatically via cross-validation, never by hand) that predicts the home team's margin of victory from a couple dozen pre-game features, including:</p>
+    <ul>
+      <li>An internal baseline power-rating gap between the two teams (an Elo-style rating, recomputed the same way every week from completed games -- this is a separate, simpler system from Dub Gamma above, used here only as one input feature among many).</li>
+      <li>Rest days, the road team's travel distance, and elevation change (a real factor for teams like Air Force and Wyoming).</li>
+      <li>Whether the game is at a neutral site, and whether it's a conference game.</li>
+      <li>Gaps in SP+ team strength, play-by-play efficiency (PPA), and recruiting talent between the two teams.</li>
+      <li>A Mountain West involvement flag -- added after a real backtest showed the model was giving too much home-field credit specifically whenever an MW team was on the field, in either direction. This flag corrects that bias.</li>
+      <li>Prior-season drive-based stats and situational splits (down-and-distance, red zone, explosive plays), plus a measure of each team's returning production from last season.</li>
+    </ul>
+    <p>Ridge used to be the live pick before Gamma took over that role. It's still fit and tracked every week -- its line shows up informationally on the Results/Tracking pages -- purely so its real track record stays visible for comparison, never blended into Gamma's own number.</p>
+  </div>
+
+  <div class="card">
+    <div class="section-title">Dub Beta Model -- informational</div>
+    <p>Beta uses the exact same inputs as Ridge (see the list above), but runs them through gradient-boosted decision trees instead of a straight-line regression -- a model architecture that can pick up on non-linear interactions between features (e.g. "travel distance only matters when rest days are also short") that a linear model can't represent. Its own tuning knobs (tree depth, learning rate, number of trees, and more) are picked automatically via a randomized cross-validated search, the same "never hand-tuned" discipline Ridge's alpha gets.</p>
+    <p>Beta is an architecture experiment, not a replacement -- it exists to answer "does a more flexible model actually predict better than a simple one, on the same information?" It's tracked side by side with Ridge and Gamma, never the live pick.</p>
+  </div>
+
+  <div class="card">
+    <div class="section-title">Totals Model -- Over/Under</div>
+    <p>A separate Ridge regression (same cross-validated approach as above) that predicts the combined total points in a game, not who wins by how much -- spreads and totals are different questions, so this doesn't share Ridge's margin model at all. It's built from both teams':</p>
+    <ul>
+      <li>Prior-season SP+ offensive and defensive ratings.</li>
+      <li>Prior-season play-by-play efficiency (PPA), offense and defense.</li>
+      <li>This season's own in-progress play-by-play efficiency, using only games through the week before the one being predicted -- so a totals prediction never has access to information from the future.</li>
+    </ul>
+    <p>Unlike the margin models (which look at the <em>gap</em> between two teams), the totals model adds the two teams' own numbers together -- two elite offenses playing each other should project a high total even though the gap between them is small, and summing rather than differencing is what lets the model see that.</p>
+  </div>
+
+  <div class="card">
+    <div class="section-title">Ratings Page: Off / Def / Special Teams, SOS, SOR</div>
+    <p>The Net Rating column on the Ratings page is always Dub Gamma's -- the same live number used everywhere else on the site. Three other columns come from elsewhere:</p>
+    <ul>
+      <li><strong>Off / Def / ST</strong> are CFBD's own published SP+ efficiency ratings -- a well-established third-party measure, shown here as a reference split since Gamma itself only ever produces one overall number, not separate offense/defense/special-teams components.</li>
+      <li><strong>SOS (Strength of Schedule) and SOR (Strength of Record)</strong> come from this project's own internal baseline rating system (the same Elo-style model mentioned under Ridge above) -- shown only as a rank, never a raw number, since they answer a resume/schedule-strength question rather than "how good is this team," which is what Net Rating is for.</li>
+      <li><strong>Projection</strong> is Dub Gamma's own current win probability, summed across each team's remaining games this season, added to their current win total -- a projected final win count, not a playoff or seeding projection.</li>
+    </ul>
+  </div>
+
+  <div class="card">
+    <div class="section-title">Data Sources</div>
+    <ul>
+      <li><strong>College Football Data (CFBD)</strong> -- final scores, schedules, play-by-play, drive-level stats, SP+ ratings, recruiting talent, and returning-production data for every FBS team.</li>
+      <li><strong>Sportsbook lines</strong> -- opening and current spread, total, and moneyline, pulled from tracked sportsbooks for every game with a posted market.</li>
+      <li><strong>Weekly injury reports</strong> -- best-effort, since there's no single reliable automated feed for this; a week with no report for a team is treated as no injury impact rather than an error.</li>
+      <li><strong>One-time preseason strength estimate</strong> -- used only as Dub Gamma's Week 1 starting point for every team; never referenced again once the season's own results take over.</li>
+    </ul>
+  </div>
+
+  <div class="footer-note">Every model here is recomputed from scratch on every pipeline run -- nothing is hand-adjusted after the fact.</div>
+</div>
+
+<script src="assets/site.js"></script>
+<script>
+document.getElementById("nav").innerHTML = renderNav("about-model.html");
+</script>
+</body>
+</html>

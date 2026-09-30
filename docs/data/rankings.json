@@ -1,6 +1,6 @@
 {
   "meta": {
-    "generated_at": "2026-09-30T21:00:35Z",
+    "generated_at": "2026-09-30T23:04:21Z",
     "current_week": {
       "season": 2026,
       "week": 5
@@ -494,24 +494,6 @@
       "rank": 27
     },
     {
-      "team": "North Dakota State",
-      "conference": "Mountain West",
-      "logo": null,
-      "rating": 76.0,
-      "offense_rating": 28.6,
-      "defense_rating": 20.9,
-      "special_teams_rating": 0.2,
-      "sos_rank": 161,
-      "sor_rank": 12,
-      "projected_wins": 11.1,
-      "wins": 4,
-      "losses": 0,
-      "conf_wins": 1,
-      "conf_losses": 0,
-      "trend": 0.0,
-      "rank": 28
-    },
-    {
       "team": "Louisville",
       "conference": "ACC",
       "logo": null,
@@ -526,6 +508,24 @@
       "losses": 2,
       "conf_wins": 1,
       "conf_losses": 1,
+      "trend": 0.0,
+      "rank": 28
+    },
+    {
+      "team": "North Dakota State",
+      "conference": "Mountain West",
+      "logo": null,
+      "rating": 76.0,
+      "offense_rating": 28.6,
+      "defense_rating": 20.9,
+      "special_teams_rating": 0.2,
+      "sos_rank": 161,
+      "sor_rank": 12,
+      "projected_wins": 11.1,
+      "wins": 4,
+      "losses": 0,
+      "conf_wins": 1,
+      "conf_losses": 0,
       "trend": 0.0,
       "rank": 29
     },
@@ -656,24 +656,6 @@
       "rank": 36
     },
     {
-      "team": "Missouri",
-      "conference": "SEC",
-      "logo": null,
-      "rating": 72.7,
-      "offense_rating": 31.2,
-      "defense_rating": 17.3,
-      "special_teams_rating": -0.2,
-      "sos_rank": 111,
-      "sor_rank": 40,
-      "projected_wins": 6.2,
-      "wins": 3,
-      "losses": 1,
-      "conf_wins": 0,
-      "conf_losses": 1,
-      "trend": 0.0,
-      "rank": 37
-    },
-    {
       "team": "Kansas State",
       "conference": "Big 12",
       "logo": null,
@@ -684,6 +666,24 @@
       "sos_rank": 71,
       "sor_rank": 43,
       "projected_wins": 7.9,
+      "wins": 3,
+      "losses": 1,
+      "conf_wins": 0,
+      "conf_losses": 1,
+      "trend": 0.0,
+      "rank": 37
+    },
+    {
+      "team": "Missouri",
+      "conference": "SEC",
+      "logo": null,
+      "rating": 72.7,
+      "offense_rating": 31.2,
+      "defense_rating": 17.3,
+      "special_teams_rating": -0.2,
+      "sos_rank": 111,
+      "sor_rank": 40,
+      "projected_wins": 6.2,
       "wins": 3,
       "losses": 1,
       "conf_wins": 0,
@@ -854,24 +854,6 @@
       "rank": 47
     },
     {
-      "team": "Minnesota",
-      "conference": "Big Ten",
-      "logo": null,
-      "rating": 70.2,
-      "offense_rating": 27.7,
-      "defense_rating": 21.2,
-      "special_teams_rating": -0.1,
-      "sos_rank": 134,
-      "sor_rank": 54,
-      "projected_wins": 6.3,
-      "wins": 3,
-      "losses": 1,
-      "conf_wins": 1,
-      "conf_losses": 0,
-      "trend": -0.0,
-      "rank": 48
-    },
-    {
       "team": "New Mexico",
       "conference": "Mountain West",
       "logo": null,
@@ -887,6 +869,24 @@
       "conf_wins": 0,
       "conf_losses": 0,
       "trend": -0.3,
+      "rank": 48
+    },
+    {
+      "team": "Minnesota",
+      "conference": "Big Ten",
+      "logo": null,
+      "rating": 70.2,
+      "offense_rating": 27.7,
+      "defense_rating": 21.2,
+      "special_teams_rating": -0.1,
+      "sos_rank": 134,
+      "sor_rank": 54,
+      "projected_wins": 6.3,
+      "wins": 3,
+      "losses": 1,
+      "conf_wins": 1,
+      "conf_losses": 0,
+      "trend": -0.0,
       "rank": 49
     },
     {
@@ -1106,24 +1106,6 @@
       "rank": 61
     },
     {
-      "team": "Old Dominion",
-      "conference": "Sun Belt",
-      "logo": null,
-      "rating": 66.3,
-      "offense_rating": 18.8,
-      "defense_rating": 26.4,
-      "special_teams_rating": -0.3,
-      "sos_rank": 61,
-      "sor_rank": 224,
-      "projected_wins": 7.2,
-      "wins": 1,
-      "losses": 3,
-      "conf_wins": 0,
-      "conf_losses": 1,
-      "trend": 0.0,
-      "rank": 62
-    },
-    {
       "team": "Toledo",
       "conference": "Mid-American",
       "logo": null,
@@ -1138,6 +1120,24 @@
       "losses": 1,
       "conf_wins": 0,
       "conf_losses": 0,
+      "trend": 0.0,
+      "rank": 62
+    },
+    {
+      "team": "Old Dominion",
+      "conference": "Sun Belt",
+      "logo": null,
+      "rating": 66.3,
+      "offense_rating": 18.8,
+      "defense_rating": 26.4,
+      "special_teams_rating": -0.3,
+      "sos_rank": 61,
+      "sor_rank": 224,
+      "projected_wins": 7.2,
+      "wins": 1,
+      "losses": 3,
+      "conf_wins": 0,
+      "conf_losses": 1,
       "trend": 0.0,
       "rank": 63
     },
@@ -2258,24 +2258,6 @@
       "rank": 125
     },
     {
-      "team": "Akron",
-      "conference": "Mid-American",
-      "logo": null,
-      "rating": 47.3,
-      "offense_rating": 14.0,
-      "defense_rating": 36.6,
-      "special_teams_rating": -0.5,
-      "sos_rank": 94,
-      "sor_rank": 219,
-      "projected_wins": 3.9,
-      "wins": 1,
-      "losses": 3,
-      "conf_wins": 0,
-      "conf_losses": 0,
-      "trend": -0.1,
-      "rank": 126
-    },
-    {
       "team": "Rice",
       "conference": "American Athletic",
       "logo": null,
@@ -2291,6 +2273,24 @@
       "conf_wins": 0,
       "conf_losses": 0,
       "trend": 0.0,
+      "rank": 126
+    },
+    {
+      "team": "Akron",
+      "conference": "Mid-American",
+      "logo": null,
+      "rating": 47.3,
+      "offense_rating": 14.0,
+      "defense_rating": 36.6,
+      "special_teams_rating": -0.5,
+      "sos_rank": 94,
+      "sor_rank": 219,
+      "projected_wins": 3.9,
+      "wins": 1,
+      "losses": 3,
+      "conf_wins": 0,
+      "conf_losses": 0,
+      "trend": -0.1,
       "rank": 127
     },
     {

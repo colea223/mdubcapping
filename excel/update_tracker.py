@@ -254,6 +254,13 @@ def update_weekly_slate(ws, predictions_path: Path, con):
             if total is not None:
                 ws[f"J{r}"] = round(total, 1)
 
+    # No frozen panes anywhere in this workbook (Cole's own call) -- this
+    # tab is never recreated by this script (only build_tracker.py's
+    # one-time setup makes it), so a workbook built before this change keeps
+    # whatever build_tracker.py set unless it's explicitly cleared here on
+    # every run.
+    ws.freeze_panes = None
+
     print(f"Weekly Slate: wrote/updated {written} matchup(s)")
     if filled_market:
         print(f"  -> auto-filled Market Line/Total for {filled_market} game(s) with a CFBD line already posted")
@@ -292,6 +299,10 @@ def update_team_profiles(ws, con):
             ws[f"H{r}"] = rec[team]
         updated += 1
 
+    # No frozen panes anywhere in this workbook (Cole's own call) -- same
+    # "reset on every run, not just at creation" fix as Weekly Slate above.
+    ws.freeze_panes = None
+
     print(f"Team Profiles: updated {updated} team row(s)")
 
 
@@ -306,7 +317,10 @@ def ensure_power_ratings_tab(wb):
     ws = wb[POWER_RATINGS_SHEET] if not just_created else wb.create_sheet(POWER_RATINGS_SHEET)
     if just_created:
         ws.sheet_view.showGridLines = False
-        ws.freeze_panes = "B2"
+    # No frozen panes anywhere in this workbook (Cole's own call) -- reset
+    # unconditionally, not just on creation, so a workbook that already has
+    # one frozen from before this change gets it cleared on the next run too.
+    ws.freeze_panes = None
     return ws, just_created
 
 
@@ -560,7 +574,7 @@ def update_mw_ats(ws, con):
 
     for col, width in zip("ABCDEFGHI", [16, 6, 12, 16, 7, 13, 15, 11, 13]):
         ws.column_dimensions[col].width = width
-    ws.freeze_panes = f"A{log_header_row + 1}"
+    ws.freeze_panes = None  # no frozen panes anywhere in this workbook -- Cole's own call
 
     print(f"MW Team ATS: {len(team_order)} team(s), {total_graded} graded team-game(s) this season")
 
@@ -573,10 +587,10 @@ def ensure_sor_tab(wb):
     if SOR_SHEET not in wb.sheetnames:
         ws = wb.create_sheet(SOR_SHEET)
         ws.sheet_view.showGridLines = False
-        ws.freeze_panes = "B5"
     else:
         ws = wb[SOR_SHEET]
         ws.delete_rows(1, ws.max_row)
+    ws.freeze_panes = None  # no frozen panes anywhere in this workbook -- Cole's own call
     return ws
 
 
@@ -846,13 +860,21 @@ _SLATE_HEADERS = [
 _SLATE_COL_WIDTHS = [6, 11, 12, 12, 15, 15, 16, 16, 14, 15, 15, 11, 11, 12, 9, 9, 12]
 
 
-def _write_slate_table(ws, rows, start_row=1):
+def _write_slate_table(ws, rows, start_row=1, freeze=True):
     """
     Writes the 17-column slate table (same columns/fills National Slate has
     always used) starting at `start_row` -- start_row > 1 is what lets a
     per-conference tab (see update_conference_slate()) put a standings block
     above this same table on one sheet. Returns the last row written
     (the header row if `rows` is empty).
+
+    `freeze` is accepted for backward compatibility with every call site but
+    no longer does anything -- Cole asked for NO frozen panes anywhere in
+    this workbook at all (freezing the per-conference tabs' standings+header
+    block used to eat most of a normal Excel window on a small conference,
+    which read as "I can't scroll" -- see git history for that first fix;
+    rather than re-tuning where freezing helps vs. hurts per tab, every tab
+    now just scrolls normally, full stop).
     """
     header_row = start_row
     for c, h in enumerate(_SLATE_HEADERS, start=1):
@@ -889,7 +911,12 @@ def _write_slate_table(ws, rows, start_row=1):
     ws.auto_filter.ref = f"A{header_row}:Q{last_row}"
     for col, width in zip("ABCDEFGHIJKLMNOPQ", _SLATE_COL_WIDTHS):
         ws.column_dimensions[col].width = width
-    ws.freeze_panes = f"A{header_row + 1}"
+    # Always cleared, never set -- see this function's own docstring.
+    # Explicit (not just "never assigned") so a workbook that already has a
+    # frozen pane from before this change gets it cleared on the next run,
+    # the same "reset stale state" fix update_conference_slate() already
+    # does for freeze_panes elsewhere.
+    ws.freeze_panes = None
     return last_row
 
 
@@ -1027,6 +1054,15 @@ def update_conference_slate(ws, con, conference, season, week, all_rows):
     standings = _conference_standings(con, conference, CURRENT_SEASON)
     next_row = _write_standings_block(ws, conference, standings, start_row=1)
 
+    # ensure_conference_slate_tab() clears cell CONTENT on a re-run
+    # (delete_rows) but a sheet-level setting like freeze_panes isn't a
+    # cell -- it survives untouched from a previous run unless explicitly
+    # reset here, so an old run's freeze (or Excel's own manual "Freeze
+    # Panes" if you ever toggled it by hand) can't linger and cause the
+    # exact "can't scroll" symptom _write_slate_table()'s freeze=False is
+    # meant to prevent going forward.
+    ws.freeze_panes = None
+
     if season is None:
         ws.cell(row=next_row, column=1,
                 value="No upcoming (incomplete) games found in the DB -- run the pull scripts first.").font = NOTE_FONT
@@ -1037,7 +1073,7 @@ def update_conference_slate(ws, con, conference, season, week, all_rows):
             ws.cell(row=next_row, column=1, value=f"No FBS games this week involve {conference}.").font = NOTE_FONT
             print(f"{conference} Slate: 0 games this week, {len(standings)} team(s) in standings.")
         else:
-            _write_slate_table(ws, conf_rows, start_row=next_row)
+            _write_slate_table(ws, conf_rows, start_row=next_row, freeze=False)
             n_edges = sum(1 for r in conf_rows
                           if r["spread_edge"] is not None and abs(r["spread_edge"]) >= backtest.EDGE_THRESHOLD)
             print(f"{conference} Slate: {len(conf_rows)} game(s) ({n_edges} real edge), "
