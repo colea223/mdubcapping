@@ -1,6 +1,6 @@
 {
   "meta": {
-    "generated_at": "2026-09-28T02:08:31Z",
+    "generated_at": "2026-09-29T20:10:23Z",
     "current_week": {
       "season": 2026,
       "week": 5
@@ -19,25 +19,34 @@
       "close_total": null,
       "books": {
         "Bovada": {
-          "spread": -3.0,
+          "spread": -3.5,
           "spread_open": -2.5,
-          "total": 47.0,
+          "total": 46.0,
           "total_open": 47.0,
           "home_ml": -145,
           "away_ml": 125
         },
         "DraftKings": {
-          "spread": -2.5,
+          "spread": -3.5,
           "spread_open": -1.5,
-          "total": 47.5,
+          "total": 46.5,
           "total_open": 49.5,
-          "home_ml": -148,
-          "away_ml": 124
+          "home_ml": -170,
+          "away_ml": 142
+        },
+        "FanDuel": {
+          "spread": -3.5,
+          "spread_open": null,
+          "total": 46.5,
+          "total_open": null,
+          "home_ml": -152,
+          "away_ml": 126
         }
       },
       "book_order": [
         "Bovada",
-        "DraftKings"
+        "DraftKings",
+        "FanDuel"
       ]
     },
     {
@@ -56,21 +65,30 @@
           "spread_open": -1.5,
           "total": 53.5,
           "total_open": 52.5,
-          "home_ml": -122,
-          "away_ml": 102
+          "home_ml": -135,
+          "away_ml": 114
         },
         "Bovada": {
-          "spread": -2.0,
+          "spread": -3.0,
           "spread_open": -2.0,
-          "total": 53.0,
+          "total": 53.5,
           "total_open": 53.5,
           "home_ml": -125,
           "away_ml": 105
+        },
+        "FanDuel": {
+          "spread": -2.5,
+          "spread_open": null,
+          "total": 52.5,
+          "total_open": null,
+          "home_ml": -134,
+          "away_ml": 112
         }
       },
       "book_order": [
         "Bovada",
-        "DraftKings"
+        "DraftKings",
+        "FanDuel"
       ]
     },
     {
@@ -85,25 +103,34 @@
       "close_total": null,
       "books": {
         "DraftKings": {
-          "spread": -20.5,
+          "spread": -18.5,
           "spread_open": -21.0,
           "total": 45.5,
           "total_open": 47.5,
-          "home_ml": -1450,
-          "away_ml": 850
+          "home_ml": -1350,
+          "away_ml": 800
         },
         "Bovada": {
-          "spread": -20.0,
+          "spread": -18.5,
           "spread_open": -20.0,
-          "total": 46.0,
+          "total": 45.5,
           "total_open": 46.0,
           "home_ml": -1400,
           "away_ml": 750
+        },
+        "FanDuel": {
+          "spread": -18.5,
+          "spread_open": null,
+          "total": 45.5,
+          "total_open": null,
+          "home_ml": -1300,
+          "away_ml": 760
         }
       },
       "book_order": [
         "Bovada",
-        "DraftKings"
+        "DraftKings",
+        "FanDuel"
       ]
     },
     {
@@ -117,6 +144,14 @@
       "close_spread_home": null,
       "close_total": null,
       "books": {
+        "Bovada": {
+          "spread": -22.5,
+          "spread_open": -22.5,
+          "total": 48.0,
+          "total_open": 48.5,
+          "home_ml": -2000,
+          "away_ml": 950
+        },
         "DraftKings": {
           "spread": -22.5,
           "spread_open": -21.0,
@@ -125,18 +160,19 @@
           "home_ml": -2100,
           "away_ml": 1100
         },
-        "Bovada": {
+        "FanDuel": {
           "spread": -22.5,
-          "spread_open": -22.5,
+          "spread_open": null,
           "total": 48.5,
-          "total_open": 48.5,
-          "home_ml": -2000,
-          "away_ml": 950
+          "total_open": null,
+          "home_ml": -2800,
+          "away_ml": 1160
         }
       },
       "book_order": [
         "Bovada",
-        "DraftKings"
+        "DraftKings",
+        "FanDuel"
       ]
     },
     {
@@ -153,18 +189,18 @@
         "Bovada": {
           "spread": -3.0,
           "spread_open": -3.0,
-          "total": 52.0,
+          "total": 51.5,
           "total_open": 52.0,
           "home_ml": -145,
           "away_ml": 125
         },
         "DraftKings": {
-          "spread": -3.0,
+          "spread": -2.5,
           "spread_open": -5.5,
           "total": 51.5,
           "total_open": 52.5,
-          "home_ml": -155,
-          "away_ml": 130
+          "home_ml": -142,
+          "away_ml": 120
         }
       },
       "book_order": [
