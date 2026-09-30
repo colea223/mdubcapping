@@ -120,9 +120,66 @@ a:hover { text-decoration: underline; }
 
 .page-header {
   padding: 40px 0 20px;
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 20px;
+  flex-wrap: wrap;
+  border-bottom: 2px solid var(--brand-gold);
 }
 .page-header h1 { font-size: 26px; margin: 0 0 6px; font-weight: 800; }
 .page-header p { color: var(--text-muted); margin: 0; font-size: 14px; }
+.page-header-text { flex: 1 1 320px; }
+.week-badge {
+  background: var(--bg-card-alt);
+  border: 1px solid var(--brand-gold);
+  color: var(--brand-gold);
+  font-weight: 800;
+  font-size: 13px;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  padding: 6px 14px;
+  border-radius: 6px;
+  white-space: nowrap;
+  margin-bottom: 8px;
+}
+
+/* -------------------------------------------------------- conference filter */
+.conf-filter-bar {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin: 18px 0;
+  flex-wrap: wrap;
+}
+.conf-filter-bar label {
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--text-muted);
+  font-weight: 700;
+}
+.conf-select {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  color: var(--text-primary);
+  font-family: var(--font);
+  font-size: 14px;
+  font-weight: 600;
+  padding: 8px 12px;
+  border-radius: 8px;
+  cursor: pointer;
+}
+.conf-select:focus { outline: 2px solid var(--brand-blue-light); }
+.conf-tag {
+  display: inline-block;
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+  margin-top: 2px;
+}
 
 /* ---------------------------------------------------------------- cards */
 .card {
@@ -158,6 +215,7 @@ table.rankings td {
   font-size: 15px;
 }
 table.rankings tr:last-child td { border-bottom: none; }
+table.rankings tbody tr:nth-child(even) { background: var(--bg-card-alt); }
 table.rankings td.num, table.rankings th.num { text-align: right; font-variant-numeric: tabular-nums; }
 .rank-badge {
   display: inline-flex;
@@ -217,6 +275,35 @@ table.rankings td.num, table.rankings th.num { text-align: right; font-variant-n
 .week-section.open .week-cards { display: grid; }
 .week-section.open .chevron { transform: rotate(180deg); }
 
+/* -------------------------------------------------------- day-group header
+   "THU, OCT 1 -- 2 games" -- groups Matchups/Predictions cards by Eastern
+   calendar day (see site.js's groupByDay()/dayHeaderLabel()), styled after
+   a reference layout Cole liked: a big bold uppercase date, gold rule
+   underneath, small muted game count at the right. */
+.day-group { margin: 28px 0 14px; }
+.day-group:first-child { margin-top: 0; }
+.day-group-header {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  border-bottom: 2px solid var(--brand-gold);
+  padding-bottom: 8px;
+  margin-bottom: 14px;
+}
+.day-group-header h2 {
+  font-size: 22px;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.02em;
+  margin: 0;
+}
+.day-group-count {
+  font-size: 13px;
+  color: var(--text-muted);
+  font-weight: 600;
+  white-space: nowrap;
+}
+
 /* ---------------------------------------------------------------- matchup / prediction cards */
 .matchup-grid { display: grid; gap: 14px; }
 .matchup-card {
@@ -232,10 +319,28 @@ table.rankings td.num, table.rankings th.num { text-align: right; font-variant-n
   text-transform: uppercase;
   letter-spacing: 0.05em;
 }
+.card-meta-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  font-size: 12px;
+  color: var(--text-muted);
+  margin-bottom: 10px;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+.card-meta-row .kickoff-time { text-transform: uppercase; letter-spacing: 0.05em; }
+.card-meta-row .market-summary { font-weight: 700; color: var(--text-secondary); }
 .matchup-teams { display: flex; flex-direction: column; gap: 8px; margin-bottom: 12px; }
 .team-row { display: flex; justify-content: space-between; align-items: baseline; }
 .team-row .name { font-size: 17px; font-weight: 700; }
 .team-row .at { color: var(--text-muted); font-weight: 400; font-size: 13px; margin-right: 6px; }
+.team-record {
+  font-size: 12px;
+  color: var(--text-muted);
+  font-weight: 600;
+  margin-left: 6px;
+}
 .odds-row {
   display: flex;
   gap: 24px;
@@ -319,6 +424,29 @@ table.rankings td.num, table.rankings th.num { text-align: right; font-variant-n
   margin-top: 6px;
 }
 .win-prob-fill { height: 100%; background: var(--brand-blue-light); }
+
+/* Two-tone split bar (away % | home %) -- styled after a reference layout
+   Cole liked: full-width bar split at the win-prob boundary rather than a
+   single fill against an empty track, with each team's % labeled above its
+   own half. */
+.win-prob-labels {
+  display: flex;
+  justify-content: space-between;
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--text-secondary);
+  margin-top: 10px;
+}
+.win-prob-bar-split {
+  width: 100%;
+  height: 8px;
+  border-radius: 999px;
+  overflow: hidden;
+  display: flex;
+  margin-top: 4px;
+}
+.win-prob-bar-split .away-fill { height: 100%; background: var(--text-muted); }
+.win-prob-bar-split .home-fill { height: 100%; background: var(--brand-gold); }
 
 .notes-box {
   margin-top: 12px;

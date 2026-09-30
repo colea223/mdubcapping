@@ -10,10 +10,14 @@
 <div id="nav"></div>
 <div class="page-wrap">
   <div class="page-header">
-    <h1 id="page-title">Live Line Tracker</h1>
-    <p>Opening number vs. every real sportsbook's current price, per Mountain West game -- gold/purple tags show how far a book has moved off its own open. Once a game's own kickoff passes, its "Close" column locks in and a "Closed" tag appears next to the date, even while the rest of that week's games are still live. Click "View Line History" on any game for the full chart.</p>
+    <div class="page-header-text">
+      <h1 id="page-title">Live Line Tracker</h1>
+      <p>Opening number vs. every real sportsbook's current price, per FBS game -- gold/blue tags show how far a book has moved off its own open. Once a game's own kickoff passes, its "Close" column locks in and a "Closed" tag appears next to the date, even while the rest of that week's games are still live. Click "View Line History" on any game for the full chart. Filterable by conference.</p>
+    </div>
+    <div class="week-badge" id="week-badge" style="display:none;"></div>
   </div>
 
+  <div id="conf-filter-container"></div>
   <div id="lines-container"></div>
 
   <div class="footer-note" id="updated"></div>
@@ -229,32 +233,29 @@ document.getElementById("history-modal").addEventListener("click", (e) => {
 document.getElementById("history-market").addEventListener("change", updateModal);
 document.getElementById("history-book").addEventListener("change", updateModal);
 
-(async function () {
-  const [data, historyData] = await Promise.all([
-    fetchJSON("data/lines.json"),
-    fetchJSON("data/line_history.json"),
-  ]);
-  HISTORY = (historyData && historyData.history) || {};
-  const container = document.getElementById("lines-container");
+let LINES_DATA = null;
 
-  if (!data || !data.games || !data.games.length) {
+function renderLines(selectedConf) {
+  const container = document.getElementById("lines-container");
+  if (!LINES_DATA || !LINES_DATA.games || !LINES_DATA.games.length) {
     container.innerHTML = emptyState("No live line data yet -- check back once this week's lines are pulled from at least one real sportsbook.");
     return;
   }
 
-  if (data.meta && data.meta.current_week) {
-    document.getElementById("page-title").textContent = `Week ${data.meta.current_week.week} Live Lines`;
+  const filteredGames = LINES_DATA.games.filter(g => matchesConference(selectedConf, g.home_conf, g.away_conf));
+  if (!filteredGames.length) {
+    container.innerHTML = emptyState(`No ${selectedConf} games found this week.`);
+    return;
   }
 
-  data.games.forEach(g => { GAMES_BY_ID[g.game_id] = g; });
-
-  // Union of every book that appears on ANY game this week, Consensus first.
+  // Union of every book that appears on ANY game in the current filter,
+  // Consensus first.
   const bookSet = new Set();
-  data.games.forEach(g => g.book_order.forEach(b => bookSet.add(b)));
+  filteredGames.forEach(g => g.book_order.forEach(b => bookSet.add(b)));
   const books = Array.from(bookSet).sort((a, b) => (a === "Consensus" ? -1 : b === "Consensus" ? 1 : a.localeCompare(b)));
   const bookHeaders = books.map(b => `<th>${b}</th>`).join("");
 
-  const cards = data.games.map(g => {
+  const cards = filteredGames.map(g => {
     const rows = [
       {
         label: "Total", open: fmtTotal(g.open_total), close: fmtTotal(g.close_total),
@@ -291,6 +292,8 @@ document.getElementById("history-book").addEventListener("change", updateModal);
     }).join("");
 
     const closedBadge = g.kicked_off ? '<span class="closed-badge">Closed</span>' : "";
+    const confTag = selectedConf === ALL_CONFERENCES
+      ? `<div class="conf-tag">${g.away_conf || ""} @ ${g.home_conf || ""}</div>` : "";
 
     return `
       <div class="matchup-card lines-card">
@@ -299,6 +302,7 @@ document.getElementById("history-book").addEventListener("change", updateModal);
           <div class="team-row"><span class="name"><span class="at">@</span>${g.away_team}</span></div>
           <div class="team-row"><span class="name">${g.home_team}</span></div>
         </div>
+        ${confTag}
         <div class="lines-table-wrap">
           <table class="lines-table">
             <thead><tr><th>Market</th><th>Open</th><th>Close</th>${bookHeaders}</tr></thead>
@@ -313,8 +317,34 @@ document.getElementById("history-book").addEventListener("change", updateModal);
   container.querySelectorAll(".history-btn").forEach(btn => {
     btn.addEventListener("click", () => openHistoryModal(Number(btn.dataset.gameId)));
   });
+}
 
-  document.getElementById("updated").textContent = lastUpdatedLabel(data.meta && data.meta.generated_at);
+(async function () {
+  const [data, historyData] = await Promise.all([
+    fetchJSON("data/lines.json"),
+    fetchJSON("data/line_history.json"),
+  ]);
+  HISTORY = (historyData && historyData.history) || {};
+  LINES_DATA = data;
+
+  if (data && data.games) {
+    data.games.forEach(g => { GAMES_BY_ID[g.game_id] = g; });
+  }
+
+  const selected = getSelectedConference();
+  document.getElementById("conf-filter-container").innerHTML = renderConferenceFilter(selected);
+  wireConferenceFilter(renderLines);
+  renderLines(selected);
+
+  if (data && data.meta && data.meta.current_week) {
+    const badge = document.getElementById("week-badge");
+    badge.textContent = `Week ${data.meta.current_week.week}`;
+    badge.style.display = "";
+    document.getElementById("page-title").textContent = `Week ${data.meta.current_week.week} Live Lines`;
+  }
+  if (data) {
+    document.getElementById("updated").textContent = lastUpdatedLabel(data.meta && data.meta.generated_at);
+  }
 })();
 </script>
 </body>

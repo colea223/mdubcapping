@@ -1,6 +1,6 @@
 {
   "meta": {
-    "generated_at": "2026-09-29T20:10:23Z",
+    "generated_at": "2026-09-30T19:51:28Z",
     "current_week": {
       "season": 2026,
       "week": 5
@@ -12,13 +12,13 @@
       "n_games": 35,
       "spread": {
         "n_bets": 35,
-        "wins": 22,
-        "losses": 13,
+        "wins": 24,
+        "losses": 11,
         "pushes": 0,
-        "win_rate": 0.6286,
-        "units": 7.0,
-        "n_real_edge_bets": 28,
-        "real_edge_win_rate": 0.6786
+        "win_rate": 0.6857,
+        "units": 10.82,
+        "n_real_edge_bets": 27,
+        "real_edge_win_rate": 0.6667
       },
       "total": {
         "n_bets": 35,
@@ -40,7 +40,7 @@
         "n_real_edge_bets": null,
         "real_edge_win_rate": null
       },
-      "upset_calls": 12,
+      "upset_calls": 13,
       "upset_wins": 8,
       "note": "Hypothetical flat 1-unit-per-bet tracking of the live model's own picks (spread/total at -110, moneyline at the real posted odds) -- not your personal bets. Week 1's spread record includes the seed week -- it uses the Moore seed exactly as pasted, which already reflects that week's own results, so it's informational only, not a genuine out-of-sample prediction (see moore_seed_2026.py)."
     },

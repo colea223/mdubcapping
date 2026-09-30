@@ -10,10 +10,14 @@
 <div id="nav"></div>
 <div class="page-wrap">
   <div class="page-header">
-    <h1 id="page-title">This Week's Matchups</h1>
-    <p>Market lines for every Mountain West game on the slate.</p>
+    <div class="page-header-text">
+      <h1 id="page-title">This Week's Matchups</h1>
+      <p>Market lines for every FBS game on the slate, filterable by conference.</p>
+    </div>
+    <div class="week-badge" id="week-badge" style="display:none;"></div>
   </div>
 
+  <div id="conf-filter-container"></div>
   <div id="matchups-container"></div>
 
   <div class="footer-note" id="updated"></div>
@@ -23,21 +27,22 @@
 <script>
 document.getElementById("nav").innerHTML = renderNav("matchups.html");
 
-(async function () {
-  const data = await fetchJSON("data/matchups.json");
-  const container = document.getElementById("matchups-container");
+let MATCHUPS_DATA = null;
 
-  if (!data || !data.matchups || !data.matchups.length) {
+function renderMatchups(selectedConf) {
+  const container = document.getElementById("matchups-container");
+  if (!MATCHUPS_DATA || !MATCHUPS_DATA.matchups || !MATCHUPS_DATA.matchups.length) {
     container.innerHTML = emptyState("No matchups posted yet -- check back once this week's slate and lines are pulled.");
     return;
   }
 
-  if (data.meta && data.meta.current_week) {
-    document.getElementById("page-title").textContent =
-      `Week ${data.meta.current_week.week} Matchups`;
+  const filtered = MATCHUPS_DATA.matchups.filter(m => matchesConference(selectedConf, m.home_conf, m.away_conf));
+  if (!filtered.length) {
+    container.innerHTML = emptyState(`No ${selectedConf} games found this week.`);
+    return;
   }
 
-  const cards = data.matchups.map(m => {
+  function renderCard(m) {
     const spreads = formatSpreadPair(m.market_spread_home);
     const total = (m.market_total !== null && m.market_total !== undefined) ? m.market_total : "TBD";
     const homeMl = formatMoneyline(m.home_moneyline);
@@ -54,19 +59,36 @@ document.getElementById("nav").innerHTML = renderNav("matchups.html");
         </div>`;
     })() : "";
 
+    const confTag = selectedConf === ALL_CONFERENCES
+      ? `<div class="conf-tag">${m.away_conf || ""} @ ${m.home_conf || ""}</div>` : "";
+
+    // Favorite's own spread + the total, one line -- e.g. "New Mexico -2.5 | O/U 57".
+    const favTeam = m.market_spread_home !== null && m.market_spread_home < 0 ? m.home_team
+      : m.market_spread_home !== null ? m.away_team : null;
+    const favSpread = favTeam === m.home_team ? spreads.home : spreads.away;
+    const marketSummary = favTeam
+      ? `${favTeam} ${favSpread} | O/U ${total}`
+      : `O/U ${total}`;
+
+    const recordTag = (r) => (r && (r[0] || r[1])) ? `<span class="team-record">${r[0]}-${r[1]}</span>` : "";
+
     return `
       <div class="matchup-card">
-        <div class="matchup-date">${formatDate(m.date)}</div>
+        <div class="card-meta-row">
+          <span class="kickoff-time">${formatKickoffTime(m.start_time)}</span>
+          <span class="market-summary">${marketSummary}</span>
+        </div>
         <div class="matchup-teams">
           <div class="team-row">
-            <span class="name"><span class="at">@</span>${m.away_team}</span>
+            <span class="name"><span class="at">@</span>${m.away_team}${recordTag(m.away_record)}</span>
             <span class="odds-value">${spreads.away}</span>
           </div>
           <div class="team-row">
-            <span class="name">${m.home_team}</span>
+            <span class="name">${m.home_team}${recordTag(m.home_record)}</span>
             <span class="odds-value">${spreads.home}</span>
           </div>
         </div>
+        ${confTag}
         <div class="odds-row">
           <div class="odds-item">
             <span class="odds-label">Spread</span>
@@ -83,10 +105,37 @@ document.getElementById("nav").innerHTML = renderNav("matchups.html");
         </div>
         ${finalHtml}
       </div>`;
-  }).join("");
+  }
 
-  container.innerHTML = `<div class="matchup-grid">${cards}</div>`;
-  document.getElementById("updated").textContent = lastUpdatedLabel(data.meta && data.meta.generated_at);
+  const groups = groupByDay(filtered, "start_time");
+  container.innerHTML = groups.map(g => `
+    <div class="day-group">
+      <div class="day-group-header">
+        <h2>${g.label}</h2>
+        <span class="day-group-count">${g.items.length} game${g.items.length === 1 ? "" : "s"}</span>
+      </div>
+      <div class="matchup-grid">${g.items.map(renderCard).join("")}</div>
+    </div>`).join("");
+}
+
+(async function () {
+  MATCHUPS_DATA = await fetchJSON("data/matchups.json");
+  const selected = getSelectedConference();
+
+  document.getElementById("conf-filter-container").innerHTML = renderConferenceFilter(selected);
+  wireConferenceFilter(renderMatchups);
+  renderMatchups(selected);
+
+  if (MATCHUPS_DATA && MATCHUPS_DATA.meta && MATCHUPS_DATA.meta.current_week) {
+    const badge = document.getElementById("week-badge");
+    badge.textContent = `Week ${MATCHUPS_DATA.meta.current_week.week}`;
+    badge.style.display = "";
+    document.getElementById("page-title").textContent =
+      `Week ${MATCHUPS_DATA.meta.current_week.week} Matchups`;
+  }
+  if (MATCHUPS_DATA) {
+    document.getElementById("updated").textContent = lastUpdatedLabel(MATCHUPS_DATA.meta && MATCHUPS_DATA.meta.generated_at);
+  }
 })();
 </script>
 </body>

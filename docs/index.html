@@ -16,7 +16,8 @@
   </div>
 
   <div class="card">
-    <div class="section-title">Current Power Rankings</div>
+    <div class="section-title">Power Rankings</div>
+    <div id="conf-filter-container"></div>
     <div id="rankings-table"></div>
   </div>
 
@@ -27,24 +28,38 @@
 <script>
 document.getElementById("nav").innerHTML = renderNav("index.html");
 
-(async function () {
-  const data = await fetchJSON("data/rankings.json");
+let RANKINGS_DATA = null;
+
+function renderRankingsTable(selectedConf) {
   const container = document.getElementById("rankings-table");
-  if (!data || !data.rankings || !data.rankings.length) {
+  if (!RANKINGS_DATA || !RANKINGS_DATA.rankings || !RANKINGS_DATA.rankings.length) {
     container.innerHTML = emptyState("No rankings yet -- run the pipeline to generate this week's data.");
     return;
   }
 
-  const rows = data.rankings.map(r => {
+  const filtered = RANKINGS_DATA.rankings.filter(r => matchesConference(selectedConf, r.conference));
+  if (!filtered.length) {
+    container.innerHTML = emptyState(`No ${selectedConf} teams found in this week's rankings.`);
+    return;
+  }
+
+  const rows = filtered.map((r, i) => {
     const trendClass = r.trend > 0.5 ? "trend-up" : (r.trend < -0.5 ? "trend-down" : "trend-flat");
     const trendSymbol = r.trend > 0.5 ? "&#9650;" : (r.trend < -0.5 ? "&#9660;" : "&#9679;");
-    const badgeClass = r.rank <= 3 ? "rank-badge top" : "rank-badge";
+    // Re-numbered 1..N within the current filter (national rank when "All
+    // Conferences" is selected, rank-within-conference otherwise) rather
+    // than always showing the team's national rank, which would jump
+    // around (e.g. 4, 11, 23...) once filtered to one conference.
+    const displayRank = i + 1;
+    const badgeClass = displayRank <= 3 ? "rank-badge top" : "rank-badge";
     const confRecord = (r.conf_wins !== undefined && r.conf_losses !== undefined)
       ? `${r.conf_wins}-${r.conf_losses}` : "&ndash;";
+    const confTag = selectedConf === ALL_CONFERENCES && r.conference
+      ? `<div class="conf-tag">${r.conference}</div>` : "";
     return `
       <tr>
-        <td><span class="${badgeClass}">${r.rank}</span></td>
-        <td class="team-name">${r.team}</td>
+        <td><span class="${badgeClass}">${displayRank}</span></td>
+        <td class="team-name">${r.team}${confTag}</td>
         <td class="num">${r.rating !== null ? r.rating.toFixed(1) : "&ndash;"}</td>
         <td class="num">${r.wins}-${r.losses}</td>
         <td class="num">${confRecord}</td>
@@ -56,13 +71,24 @@ document.getElementById("nav").innerHTML = renderNav("index.html");
     <table class="rankings">
       <thead>
         <tr>
-          <th>Rank</th><th>Team</th><th class="num">Rating</th><th class="num">Record</th><th class="num">MW Record</th><th class="num">Trend</th>
+          <th>Rank</th><th>Team</th><th class="num">Rating</th><th class="num">Record</th><th class="num">Conf Record</th><th class="num">Trend</th>
         </tr>
       </thead>
       <tbody>${rows}</tbody>
     </table>`;
+}
 
-  document.getElementById("updated").textContent = lastUpdatedLabel(data.meta && data.meta.generated_at);
+(async function () {
+  RANKINGS_DATA = await fetchJSON("data/rankings.json");
+  const selected = getSelectedConference();
+
+  document.getElementById("conf-filter-container").innerHTML = renderConferenceFilter(selected);
+  wireConferenceFilter(renderRankingsTable);
+  renderRankingsTable(selected);
+
+  if (RANKINGS_DATA) {
+    document.getElementById("updated").textContent = lastUpdatedLabel(RANKINGS_DATA.meta && RANKINGS_DATA.meta.generated_at);
+  }
 })();
 </script>
 </body>

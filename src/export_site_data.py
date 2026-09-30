@@ -250,6 +250,31 @@ def team_conference_record(con, team, season):
     return wins, losses
 
 
+def all_team_records(con, season):
+    """
+    Every team's overall W-L for `season` in ONE query, rather than
+    team_record()'s one-query-per-team -- used by build_matchups_and_
+    predictions() to put a "1-3" style record next to both teams on every
+    Matchups/Predictions card without an N+1 query per game (up to ~120
+    team-lookups nationally in a single week). Same win/loss definition as
+    team_record(), just computed for every team at once.
+    """
+    df = con.execute("""
+        SELECT team,
+               SUM(CASE WHEN win THEN 1 ELSE 0 END) AS wins,
+               SUM(CASE WHEN NOT win THEN 1 ELSE 0 END) AS losses
+        FROM (
+            SELECT home_team AS team, (home_points > away_points) AS win
+            FROM games WHERE completed = TRUE AND season = ?
+            UNION ALL
+            SELECT away_team AS team, (away_points > home_points) AS win
+            FROM games WHERE completed = TRUE AND season = ?
+        )
+        GROUP BY team
+    """, [season, season]).fetchdf()
+    return {r.team: (int(r.wins), int(r.losses)) for r in df.itertuples()}
+
+
 def team_rating_trend(con, team):
     rows = con.execute("""
         SELECT r.rating_after, g.start_date
@@ -264,16 +289,45 @@ def team_rating_trend(con, team):
     return round(rows[0][0] - rows[1][0], 1)
 
 
+def fbs_conference_map(con, season):
+    """
+    Every team's real CFBD conference for `season` (home_conference/
+    away_conference off `games`), restricted to FBS_CONFERENCES -- same
+    source of truth and allowlist build_matchup_grid() already uses (see its
+    own comment on conf_map), pulled out here so build_rankings()/
+    build_matchups_and_predictions()/build_live_lines() can all share one
+    all-FBS team list instead of the old MW_TEAMS_2026-only roster.
+    """
+    conf_df = con.execute("""
+        SELECT home_team AS team, home_conference AS conf FROM games WHERE season = ?
+        UNION
+        SELECT away_team AS team, away_conference AS conf FROM games WHERE season = ?
+    """, [season, season]).fetchdf()
+    conf_map = dict(zip(conf_df["team"], conf_df["conf"]))
+    return {t: c for t, c in conf_map.items() if c in FBS_CONFERENCES}
+
+
 def build_rankings(con):
+    """
+    Every FBS team this season (not just Mountain West -- see Cole's site-
+    wide conference expansion), each tagged with its real CFBD conference
+    (via fbs_conference_map()) so the front end can filter to one conference
+    at a time, plus an "All Conferences" view of the same data. MW-only
+    Conf Record (conf_wins/conf_losses) is still computed the same way for
+    every team, not just Mountain West's -- team_conference_record() already
+    reads real per-team conference_game games, nothing MW-specific about it.
+    """
     ratings = current_ratings(con)
+    conf_map = fbs_conference_map(con, CURRENT_SEASON)
     rows = []
-    for team in MW_TEAMS_2026:
+    for team, conference in conf_map.items():
         rating = ratings.get(team)
         wins, losses = team_record(con, team, CURRENT_SEASON)
         conf_wins, conf_losses = team_conference_record(con, team, CURRENT_SEASON)
         trend = team_rating_trend(con, team)
         rows.append({
             "team": team,
+            "conference": conference,
             "rating": round(rating, 1) if rating is not None else None,
             "wins": wins, "losses": losses,
             "conf_wins": conf_wins, "conf_losses": conf_losses,
@@ -285,8 +339,18 @@ def build_rankings(con):
     return rows
 
 
-def mw_game(row_home, row_away):
-    return row_home in MW_TEAMS_2026 or row_away in MW_TEAMS_2026
+def fbs_game(home_conf, away_conf):
+    """
+    Used by build_matchups_and_predictions()/build_live_lines() to scope
+    those pages to all of FBS rather than the old MW-only mw_game() check
+    (removed -- no longer called anywhere in this file; build_matchup_grid()
+    still uses MW_TEAMS_2026 directly for its own unrelated
+    mw_involved_flag). A game counts if EITHER side is a real FBS team this
+    season (an FBS-vs-FCS buy game still shows up, same as it always did for
+    an MW team's own FCS buy games; a game between two FCS teams never
+    would, since neither conference is in FBS_CONFERENCES).
+    """
+    return home_conf in FBS_CONFERENCES or away_conf in FBS_CONFERENCES
 
 
 # Providers in CFBD's lines table that are NOT real sportsbooks -- analytics
@@ -341,11 +405,12 @@ def build_live_lines(con, manual_lines=None):
     season, week = detected[0], detected[1]
 
     games = con.execute("""
-        SELECT game_id, season, week, start_date, home_team, away_team
+        SELECT game_id, season, week, start_date, home_team, away_team,
+               home_conference, away_conference
         FROM games WHERE season = ? AND week = ?
         ORDER BY start_date
     """, [season, week]).fetchdf()
-    games = games[games.apply(lambda r: mw_game(r["home_team"], r["away_team"]), axis=1)]
+    games = games[games.apply(lambda r: fbs_game(r["home_conference"], r["away_conference"]), axis=1)]
     if games.empty:
         return [], {"season": season, "week": week}
 
@@ -456,6 +521,8 @@ def build_live_lines(con, manual_lines=None):
             "date": pd.to_datetime(g.start_date).strftime("%Y-%m-%dT%H:%M:%SZ"),
             "away_team": g.away_team,
             "home_team": g.home_team,
+            "home_conf": g.home_conference,
+            "away_conf": g.away_conference,
             "open_spread_home": _avg("spread_open"),
             "open_total": _avg("over_under_open"),
             "kicked_off": kicked_off,
@@ -525,17 +592,28 @@ def build_matchups_and_predictions(con, notes: dict, manual_lines=None):
 
     games = con.execute("""
         SELECT game_id, season, week, start_date, home_team, away_team,
-               completed, home_points, away_points
+               completed, home_points, away_points, home_conference, away_conference
         FROM games WHERE season = ? AND week = ?
         ORDER BY start_date
     """, [season, week]).fetchdf()
-    games = games[games.apply(lambda r: mw_game(r["home_team"], r["away_team"]), axis=1)]
+    games = games[games.apply(lambda r: fbs_game(r["home_conference"], r["away_conference"]), axis=1)]
+    game_conf = {
+        int(gid): (hc, ac) for gid, hc, ac in
+        zip(games["game_id"], games["home_conference"], games["away_conference"])
+    }
 
     lines = con.execute("""
         SELECT game_id, AVG(spread) AS spread, AVG(over_under) AS total,
                AVG(home_moneyline) AS home_ml, AVG(away_moneyline) AS away_ml
         FROM lines GROUP BY game_id
     """).fetchdf().set_index("game_id")
+
+    # Overall W-L for every team, one query (see all_team_records()'s own
+    # docstring) -- shown on each Matchups/Predictions card next to the team
+    # name, same "record + conference" treatment as a reference layout Cole
+    # liked (a PRIME CFB Analytics-style card). (0, 0) for a team with no
+    # completed games yet (week 1, or a brand-new FBS team).
+    team_records = all_team_records(con, season)
 
     matchups = []
     for g in games.itertuples():
@@ -563,7 +641,16 @@ def build_matchups_and_predictions(con, notes: dict, manual_lines=None):
         matchups.append({
             "game_id": int(g.game_id), "week": int(g.week),
             "date": pd.to_datetime(g.start_date).strftime("%Y-%m-%d"),
+            # Full kickoff timestamp (unlike "date" above, which is day-only
+            # and stays that way -- other code/callers already rely on its
+            # shape) -- lets the front end show a time and group games by
+            # calendar day, same "THU, OCT 1 -- 2 games" header treatment
+            # the reference layout Cole liked uses.
+            "start_time": pd.to_datetime(g.start_date).strftime("%Y-%m-%dT%H:%M:%SZ"),
             "away_team": g.away_team, "home_team": g.home_team,
+            "home_conf": g.home_conference, "away_conf": g.away_conference,
+            "home_record": list(team_records.get(g.home_team, (0, 0))),
+            "away_record": list(team_records.get(g.away_team, (0, 0))),
             "market_spread_home": pick(line["spread"] if line is not None else None, "spread_home", 1),
             "market_total": pick(line["total"] if line is not None else None, "total", 1),
             "home_moneyline": pick(line["home_ml"] if line is not None else None, "home_ml"),
@@ -577,7 +664,7 @@ def build_matchups_and_predictions(con, notes: dict, manual_lines=None):
     predictions = []
     train_df = model.load_training_frame(con)
     print(f"  [predictions diag] train_df: {len(train_df)} completed games w/ a market line "
-          f"(need >= 10) -- games this week (MW-involved): {len(games)}")
+          f"(need >= 10) -- FBS games this week: {len(games)}")
     if len(train_df) >= 10 and not games.empty:
         # Ridge -- still fit here, but now ONLY for its own now-informational
         # candidate spread line and candidate win prob (ridge_home_win_prob
@@ -588,7 +675,7 @@ def build_matchups_and_predictions(con, notes: dict, manual_lines=None):
         upcoming_before = len(upcoming)
         upcoming = upcoming[upcoming["game_id"].isin(games["game_id"])]
         print(f"  [predictions diag] game_features rows for week {week}: {upcoming_before} "
-              f"-- matching this week's MW games: {len(upcoming)}")
+              f"-- matching this week's FBS games: {len(upcoming)}")
         if not upcoming.empty:
             pred_margin = model.predict_margin(pipe, upcoming)
             ridge_spread_home = -pred_margin
@@ -800,9 +887,18 @@ def build_matchups_and_predictions(con, notes: dict, manual_lines=None):
                     # own comment above for exactly why.
                     ridge_agrees = bool((model_spread_home[i] < 0) == (ridge_spread_home_i < 0))
 
+                home_conf, away_conf = game_conf.get(int(row.game_id), (None, None))
                 predictions.append({
                     "game_id": int(row.game_id), "week": int(row.week),
                     "away_team": row.away_team, "home_team": row.home_team,
+                    "home_conf": home_conf, "away_conf": away_conf,
+                    # Pulled straight from this same game's already-built
+                    # matchups entry (m_by_id/mkt above) rather than
+                    # recomputed -- start_time/records are identical either
+                    # way, see matchups.append()'s own comment on start_time.
+                    "start_time": mkt.get("start_time"),
+                    "home_record": mkt.get("home_record"),
+                    "away_record": mkt.get("away_record"),
                     "model_spread_home": round(model_spread_home[i], 1),
                     "model_total": round(model_total, 1) if model_total is not None else None,
                     # Market/Vegas line, shown directly on the Predictions
