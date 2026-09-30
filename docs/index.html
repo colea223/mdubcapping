@@ -15,8 +15,34 @@
     <p>This year's focus: The Mountain West Conference.</p>
   </div>
 
-  <div class="card">
-    <div class="section-title">Power Rankings</div>
+  <div class="home-grid">
+    <div class="card">
+      <div class="section-title-row">
+        <div class="section-title">MW Ratings</div>
+        <a class="section-link" href="#full-rankings">Full Rankings &rarr;</a>
+      </div>
+      <div id="mw-ratings-panel"></div>
+    </div>
+
+    <div class="card">
+      <div class="section-title-row">
+        <div class="section-title">Marquee Matchups</div>
+        <span class="marquee-counter" id="marquee-counter"></span>
+      </div>
+      <div id="marquee-panel"></div>
+    </div>
+
+    <div class="card">
+      <div class="section-title-row">
+        <div class="section-title">FBS Ratings</div>
+        <a class="section-link" href="#full-rankings">Full Rankings &rarr;</a>
+      </div>
+      <div id="fbs-ratings-panel"></div>
+    </div>
+  </div>
+
+  <div class="card" id="full-rankings">
+    <div class="section-title">Full Power Rankings</div>
     <div id="conf-filter-container"></div>
     <div id="rankings-table"></div>
   </div>
@@ -29,6 +55,122 @@
 document.getElementById("nav").innerHTML = renderNav("index.html");
 
 let RANKINGS_DATA = null;
+let MARQUEE_GAMES = [];
+let marqueeIndex = 0;
+
+// Compact MW-only / FBS-only ratings list for the two side panels -- top N
+// by national power rank, same rank/rating/trend shape as the full table
+// below but without the conference filter (MW panel is always Mountain
+// West, FBS panel is always the national list; the full table under
+// "Full Rankings" is still where every conference lives).
+function renderCompactRatings(containerId, teams, opts = {}) {
+  const container = document.getElementById(containerId);
+  if (!teams.length) {
+    container.innerHTML = emptyState("No ratings yet.");
+    return;
+  }
+  const rows = teams.map(r => {
+    const trendClass = r.trend > 0.5 ? "trend-up" : (r.trend < -0.5 ? "trend-down" : "trend-flat");
+    const trendSymbol = r.trend > 0.5 ? "&#9650;" : (r.trend < -0.5 ? "&#9660;" : "&#9679;");
+    const badgeClass = r.rank <= 3 ? "rank-badge top" : "rank-badge";
+    const confTag = opts.showConference && r.conference ? `<div class="conf-tag">${r.conference}</div>` : "";
+    return `
+      <tr>
+        <td><span class="${badgeClass}">${r.rank}</span></td>
+        <td class="team-name">${r.team}${confTag}</td>
+        <td class="num">${r.rating !== null ? r.rating.toFixed(1) : "&ndash;"}</td>
+        <td class="num ${trendClass}">${trendSymbol} ${Math.abs(r.trend).toFixed(1)}</td>
+      </tr>`;
+  }).join("");
+  container.innerHTML = `
+    <table class="ratings-panel-compact">
+      <thead><tr><th>Rk</th><th>Team</th><th class="num">Rating</th><th class="num">Trend</th></tr></thead>
+      <tbody>${rows}</tbody>
+    </table>`;
+}
+
+function renderMarqueeCard(index) {
+  const panel = document.getElementById("marquee-panel");
+  const counter = document.getElementById("marquee-counter");
+  if (!MARQUEE_GAMES.length) {
+    counter.textContent = "";
+    panel.innerHTML = emptyState("No Top 25 vs Top 25 games on this week's slate.");
+    return;
+  }
+
+  const p = MARQUEE_GAMES[index];
+  counter.textContent = `${index + 1} / ${MARQUEE_GAMES.length}`;
+
+  const proj = projectedScore(p.model_spread_home, p.model_total);
+  const homeWon = proj && proj.home > proj.away;
+  const scoreRow = proj
+    ? `<div class="marquee-score-row">
+         <span>${p.away_team} ${proj.away}</span><span class="dash">&ndash;</span><span>${p.home_team} ${proj.home}</span>
+       </div>
+       <div class="marquee-score-label">Projected Score</div>`
+    : `<div class="marquee-score-label" style="margin-top:8px;">Projected score not available yet</div>`;
+
+  const favTeam = p.lean_side === "Home" ? p.home_team : p.lean_side === "Away" ? p.away_team : null;
+  const edgeTile = (favTeam && p.edge !== null && p.edge !== undefined)
+    ? `<div class="marquee-edge-tile">
+         <div class="label">Model Edge</div>
+         <div class="value">${favTeam} ${p.is_real_edge ? Math.abs(p.edge).toFixed(1) : ""} ${p.is_real_edge ? "pt" : "(no real edge)"}</div>
+       </div>`
+    : "";
+
+  const homeProb = p.home_win_prob !== null && p.home_win_prob !== undefined ? p.home_win_prob : 0.5;
+  const homePct = Math.round(homeProb * 100);
+  const awayPct = 100 - homePct;
+
+  const recordTag = (r) => (r && (r[0] || r[1])) ? `<span class="team-record">${r[0]}-${r[1]}</span>` : "";
+  const rank = (team) => (RANK_MAP[team] !== undefined ? RANK_MAP[team] : "&ndash;");
+
+  panel.innerHTML = `
+    <div class="marquee-card">
+      <div class="marquee-meta">${formatKickoffTime(p.start_time)} &middot; ${p.away_conf || ""} @ ${p.home_conf || ""}</div>
+      <div class="marquee-teams-row">
+        <div class="marquee-team">
+          <span class="rank-badge top">${rank(p.away_team)}</span>
+          <span class="team-name">${p.away_team}</span>
+          ${recordTag(p.away_record)}
+        </div>
+        <div class="marquee-at">@</div>
+        <div class="marquee-team">
+          <span class="rank-badge top">${rank(p.home_team)}</span>
+          <span class="team-name">${p.home_team}</span>
+          ${recordTag(p.home_record)}
+        </div>
+      </div>
+      ${scoreRow}
+      ${edgeTile}
+      <div class="win-prob-labels">
+        <span>${p.away_team} ${awayPct}%</span>
+        <span>${p.home_team} ${homePct}%</span>
+      </div>
+      <div class="win-prob-bar-split">
+        <div class="away-fill" style="width:${awayPct}%"></div>
+        <div class="home-fill" style="width:${homePct}%"></div>
+      </div>
+      <a class="marquee-view-link" href="predictions.html?conf=${encodeURIComponent(p.home_conf || ALL_CONFERENCES)}">View in Predictions &rarr;</a>
+    </div>
+    <div class="marquee-nav">
+      <button class="marquee-nav-btn" id="marquee-prev" ${MARQUEE_GAMES.length < 2 ? "disabled" : ""}>&larr;</button>
+      <button class="marquee-nav-btn" id="marquee-next" ${MARQUEE_GAMES.length < 2 ? "disabled" : ""}>&rarr;</button>
+    </div>`;
+
+  const prevBtn = document.getElementById("marquee-prev");
+  const nextBtn = document.getElementById("marquee-next");
+  if (prevBtn) prevBtn.addEventListener("click", () => {
+    marqueeIndex = (marqueeIndex - 1 + MARQUEE_GAMES.length) % MARQUEE_GAMES.length;
+    renderMarqueeCard(marqueeIndex);
+  });
+  if (nextBtn) nextBtn.addEventListener("click", () => {
+    marqueeIndex = (marqueeIndex + 1) % MARQUEE_GAMES.length;
+    renderMarqueeCard(marqueeIndex);
+  });
+}
+
+let RANK_MAP = {};
 
 function renderRankingsTable(selectedConf) {
   const container = document.getElementById("rankings-table");
@@ -79,12 +221,41 @@ function renderRankingsTable(selectedConf) {
 }
 
 (async function () {
-  RANKINGS_DATA = await fetchJSON("data/rankings.json");
+  const [rankingsData, predictionsData] = await Promise.all([
+    fetchJSON("data/rankings.json"),
+    fetchJSON("data/predictions.json"),
+  ]);
+  RANKINGS_DATA = rankingsData;
   const selected = getSelectedConference();
 
   document.getElementById("conf-filter-container").innerHTML = renderConferenceFilter(selected);
   wireConferenceFilter(renderRankingsTable);
   renderRankingsTable(selected);
+
+  if (RANKINGS_DATA && RANKINGS_DATA.rankings && RANKINGS_DATA.rankings.length) {
+    RANK_MAP = Object.fromEntries(RANKINGS_DATA.rankings.map(r => [r.team, r.rank]));
+
+    const mwTeams = RANKINGS_DATA.rankings.filter(r => r.conference === "Mountain West");
+    renderCompactRatings("mw-ratings-panel", mwTeams);
+
+    const fbsTop = RANKINGS_DATA.rankings.slice(0, 15);
+    renderCompactRatings("fbs-ratings-panel", fbsTop, { showConference: true });
+
+    // Marquee = any game this week where BOTH teams are Top 25 by this
+    // site's own power rating (there's no AP/Coaches poll feed here, so
+    // this is the best "ranked matchup" signal available) -- sorted by
+    // combined rank so the biggest game leads the carousel.
+    if (predictionsData && predictionsData.predictions) {
+      MARQUEE_GAMES = predictionsData.predictions
+        .filter(p => (RANK_MAP[p.home_team] || 999) <= 25 && (RANK_MAP[p.away_team] || 999) <= 25)
+        .sort((a, b) => (RANK_MAP[a.home_team] + RANK_MAP[a.away_team]) - (RANK_MAP[b.home_team] + RANK_MAP[b.away_team]));
+    }
+    renderMarqueeCard(0);
+  } else {
+    renderCompactRatings("mw-ratings-panel", []);
+    renderCompactRatings("fbs-ratings-panel", []);
+    renderMarqueeCard(0);
+  }
 
   if (RANKINGS_DATA) {
     document.getElementById("updated").textContent = lastUpdatedLabel(RANKINGS_DATA.meta && RANKINGS_DATA.meta.generated_at);

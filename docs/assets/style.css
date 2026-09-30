@@ -196,6 +196,142 @@ a:hover { text-decoration: underline; }
   font-weight: 700;
   margin: 0 0 14px;
 }
+.section-title-row {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  margin-bottom: 14px;
+}
+.section-title-row .section-title { margin-bottom: 0; }
+.section-link {
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--brand-blue-light);
+  white-space: nowrap;
+}
+
+/* -------------------------------------------------------- home page layout
+   Three-column layout styled after a PRIME CFB Analytics-style home page
+   Cole liked: MW ratings on one side, the marquee-matchup carousel in the
+   middle, all-FBS ratings on the other side. Stacks to one column on a
+   narrow viewport (see the max-width rule at the bottom of this block). */
+.home-grid {
+  display: grid;
+  grid-template-columns: 1fr 1.4fr 1fr;
+  gap: 16px;
+  align-items: start;
+  margin: 20px 0;
+}
+.ratings-panel-compact { width: 100%; border-collapse: collapse; }
+.ratings-panel-compact th {
+  text-align: left;
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--text-muted);
+  font-weight: 700;
+  padding: 0 6px 8px;
+  border-bottom: 1px solid var(--border);
+}
+.ratings-panel-compact td {
+  padding: 8px 6px;
+  border-bottom: 1px solid var(--border);
+  font-size: 13px;
+}
+.ratings-panel-compact tr:last-child td { border-bottom: none; }
+.ratings-panel-compact td.num, .ratings-panel-compact th.num { text-align: right; font-variant-numeric: tabular-nums; }
+.ratings-panel-compact .rank-badge { width: 22px; height: 22px; font-size: 11px; }
+
+/* --------------------------------------------------------- marquee carousel */
+.marquee-nav {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.marquee-nav-btn {
+  background: var(--bg-card-alt);
+  border: 1px solid var(--border);
+  color: var(--text-primary);
+  width: 30px; height: 30px;
+  border-radius: 50%;
+  font-size: 16px;
+  line-height: 1;
+  cursor: pointer;
+}
+.marquee-nav-btn:hover { background: var(--brand-blue); border-color: var(--brand-blue); }
+.marquee-nav-btn:disabled { opacity: 0.35; cursor: default; }
+.marquee-nav-btn:disabled:hover { background: var(--bg-card-alt); border-color: var(--border); }
+.marquee-counter { font-size: 12px; color: var(--text-muted); font-weight: 600; }
+
+.marquee-card { margin-top: 12px; }
+.marquee-teams-row {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 18px;
+  text-align: center;
+  padding: 10px 0 16px;
+}
+.marquee-team { flex: 1; }
+.marquee-team .rank-badge { width: 30px; height: 30px; font-size: 13px; margin-bottom: 6px; }
+.marquee-team .team-name { display: block; font-size: 16px; font-weight: 800; }
+.marquee-team .team-record { display: block; margin: 2px 0 0; font-size: 12px; }
+.marquee-at { color: var(--text-muted); font-size: 13px; font-weight: 700; padding: 0 4px; }
+.marquee-meta {
+  text-align: center;
+  font-size: 12px;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  margin-bottom: 10px;
+}
+.marquee-score-row {
+  display: flex;
+  justify-content: center;
+  align-items: baseline;
+  gap: 10px;
+  font-size: 22px;
+  font-weight: 800;
+  font-variant-numeric: tabular-nums;
+  margin-bottom: 4px;
+}
+.marquee-score-row .dash { color: var(--text-muted); font-weight: 400; font-size: 16px; }
+.marquee-score-label {
+  text-align: center;
+  font-size: 11px;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  margin-bottom: 14px;
+}
+.marquee-edge-tile {
+  background: var(--bg-card-alt);
+  border: 1px solid var(--brand-gold);
+  border-radius: 8px;
+  text-align: center;
+  padding: 8px 10px;
+  margin-bottom: 14px;
+}
+.marquee-edge-tile .label {
+  font-size: 10px;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--text-muted);
+  margin-bottom: 2px;
+}
+.marquee-edge-tile .value { font-size: 15px; font-weight: 800; color: var(--brand-gold); }
+.marquee-view-link {
+  display: block;
+  text-align: right;
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--brand-blue-light);
+  margin-top: 4px;
+}
+
+@media (max-width: 900px) {
+  .home-grid { grid-template-columns: 1fr; }
+}
 
 /* ---------------------------------------------------------------- rankings table */
 table.rankings { width: 100%; border-collapse: collapse; }

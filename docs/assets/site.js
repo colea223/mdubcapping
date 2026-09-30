@@ -194,6 +194,23 @@ function lastUpdatedLabel(generatedAt) {
   return `Last updated ${d.toLocaleDateString(undefined, { month: "short", day: "numeric" })} at ${d.toLocaleTimeString(undefined, { hour: "numeric", minute: "2-digit" })}`;
 }
 
+// Derives a projected final score from the model's own spread + total --
+// there's no separate "projected score" model output, so this just solves
+// the two-equation system every odds site uses for the same purpose:
+// margin = homeScore - awayScore, total = homeScore + awayScore. Rounded to
+// whole points for display (a score is never fractional); the +/-0.5 from
+// rounding both sides independently is an acceptable display-only fudge,
+// same tradeoff any site showing a "projected score" next to a half-point
+// spread makes.
+function projectedScore(modelSpreadHome, modelTotal) {
+  if (modelSpreadHome === null || modelSpreadHome === undefined
+    || modelTotal === null || modelTotal === undefined) return null;
+  const margin = -modelSpreadHome; // homeSpread negative = home favored = positive home margin
+  const home = Math.round((modelTotal + margin) / 2);
+  const away = Math.round((modelTotal - margin) / 2);
+  return { home, away };
+}
+
 function emptyState(message) {
   return `<div class="empty-state">${message}</div>`;
 }
