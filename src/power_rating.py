@@ -182,6 +182,31 @@ def current_ratings(con):
     """).fetchall())
 
 
+def elo_ratings_through(con, season, through_week):
+    """
+    Same latest-rating_after-per-team lookup as current_ratings(), but
+    walk-forward-scoped: only games strictly before `through_week` of
+    `season` (plus every earlier season) count, so a caller doing
+    historical walk-forward grading never pulls in a rating move from a
+    week that, in real time, hadn't happened yet. Built specifically for
+    gamma_model.py's replay_ratings() -- its Elo-calibration step used to
+    call current_ratings() unconditionally, which silently leaked future
+    weeks (and other teams' later games) into a historical `through_week`
+    replay's own placeholder ratings. `through_week` here is exclusive
+    (matches "the week whose games haven't been processed yet"), the same
+    sense replay_ratings() uses when it computes ratings walking INTO a
+    game -- so pass the SAME through_week you'd pass a rating_before
+    lookup for that week's own games, not through_week - 1 again.
+    """
+    return dict(con.execute("""
+        SELECT team, rating_after
+        FROM ratings_baseline r
+        JOIN games g ON g.game_id = r.game_id
+        WHERE g.season < ? OR (g.season = ? AND g.week < ?)
+        QUALIFY ROW_NUMBER() OVER (PARTITION BY team ORDER BY g.start_date DESC) = 1
+    """, [season, season, through_week]).fetchall())
+
+
 def current_sor(con):
     """
     Latest sor_after per team, for projecting games that haven't been played

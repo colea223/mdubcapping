@@ -1,9 +1,18 @@
 /* Mountain Dub Handicapping -- shared site theme.
    Deliberately dark-only (matches the sportsbook/odds-site aesthetic this
-   site is modeled on), built off the Mountain West Conference's official
-   brand colors (purple #4F2D7F, grey #AFAFAF), with a warm gold accent for
-   emphasis and the standard validated status colors for win/loss/push states
-   (see the dataviz skill's palette -- these are fixed, never re-themed). */
+   site is modeled on). Black/blue/gold/white brand (Cole's pick, replacing
+   the earlier purple/grey scheme) -- blue (--brand-blue/--brand-blue-light)
+   is the primary accent (nav, links, buttons, edge/lean tags), gold
+   (--brand-gold) is the secondary highlight accent, unchanged from before.
+   Red (--critical) is DELIBERATELY excluded from the brand palette above --
+   it's reserved, on purpose, for incorrect picks/no-cover/loss states only
+   (same "status colors are reserved, never reused for identity" rule the
+   dataviz skill's palette follows), so a viewer never has to wonder whether
+   something red means "the brand" or "you were wrong." Contrast-checked
+   against every dark surface this theme uses (bg-page/bg-card/bg-card-alt)
+   via the dataviz skill's validate_palette.js contrast() helper before
+   picking these exact values -- see this project's own session notes if
+   the values ever need re-deriving. */
 
 :root {
   color-scheme: dark;
@@ -17,9 +26,8 @@
   --text-secondary: #c9c6d1;
   --text-muted:     #8b879a;
 
-  --brand-purple:       #4F2D7F;
-  --brand-purple-light: #9d7bd8;
-  --brand-grey:         #afafaf;
+  --brand-blue:         #2b5fd9;
+  --brand-blue-light:   #8ab4f8;
   --brand-gold:         #f0b429;
 
   --good:     #0ca30c;
@@ -40,7 +48,7 @@ body {
   line-height: 1.5;
 }
 
-a { color: var(--brand-purple-light); text-decoration: none; }
+a { color: var(--brand-blue-light); text-decoration: none; }
 a:hover { text-decoration: underline; }
 
 .page-wrap {
@@ -51,7 +59,7 @@ a:hover { text-decoration: underline; }
 
 /* ---------------------------------------------------------------- nav */
 .site-nav {
-  background: linear-gradient(180deg, #241a38 0%, #180f26 100%);
+  background: linear-gradient(180deg, #16223f 0%, #0a0e18 100%);
   border-bottom: 1px solid var(--border);
   position: sticky;
   top: 0;
@@ -84,7 +92,7 @@ a:hover { text-decoration: underline; }
   transition: background 0.15s, color 0.15s;
 }
 .site-nav-links a:hover { background: rgba(255,255,255,0.06); text-decoration: none; color: var(--text-primary); }
-.site-nav-links a.active { background: var(--brand-purple); color: #fff; }
+.site-nav-links a.active { background: var(--brand-blue); color: #fff; }
 
 /* ---------------------------------------------------------------- hero */
 .hero {
@@ -239,7 +247,7 @@ table.rankings td.num, table.rankings th.num { text-align: right; font-variant-n
   font-weight: 700;
 }
 .edge-tag.lean-home { background: rgba(12,163,12,0.16); color: #4ee14e; }
-.edge-tag.lean-away { background: rgba(157,123,216,0.18); color: var(--brand-purple-light); }
+.edge-tag.lean-away { background: rgba(138,180,248,0.18); color: var(--brand-blue-light); }
 .edge-tag.none { background: rgba(255,255,255,0.06); color: var(--text-muted); }
 
 /* Final score + grading badges -- shown once a game is complete, on both
@@ -302,7 +310,7 @@ table.rankings td.num, table.rankings th.num { text-align: right; font-variant-n
   overflow: hidden;
   margin-top: 6px;
 }
-.win-prob-fill { height: 100%; background: var(--brand-purple-light); }
+.win-prob-fill { height: 100%; background: var(--brand-blue-light); }
 
 .notes-box {
   margin-top: 12px;
@@ -391,7 +399,7 @@ table.lines-table td.no-data { color: var(--text-muted); }
 }
 .move-tag { font-size: 12px; font-weight: 700; white-space: nowrap; }
 .move-tag.move-up { color: var(--brand-gold); }
-.move-tag.move-down { color: var(--brand-purple-light); }
+.move-tag.move-down { color: var(--brand-blue-light); }
 
 .history-btn {
   display: block;
@@ -400,7 +408,7 @@ table.lines-table td.no-data { color: var(--text-muted); }
   background: none;
   border: none;
   border-top: 1px solid var(--border);
-  color: var(--brand-purple-light);
+  color: var(--brand-blue-light);
   font-size: 13px;
   font-weight: 700;
   font-family: var(--font);
@@ -471,8 +479,8 @@ table.lines-table td.no-data { color: var(--text-muted); }
 .chart-legend { display: flex; gap: 16px; justify-content: center; margin-top: 6px; }
 .chart-legend .legend-item { display: flex; align-items: center; gap: 6px; font-size: 11px; color: var(--text-muted); }
 .chart-legend .dot { width: 9px; height: 9px; border-radius: 50%; display: inline-block; }
-.chart-legend .dot-filled { background: var(--brand-purple-light); }
-.chart-legend .dot-hollow { background: var(--bg-card); border: 2px solid var(--brand-purple-light); }
+.chart-legend .dot-filled { background: var(--brand-blue-light); }
+.chart-legend .dot-hollow { background: var(--bg-card); border: 2px solid var(--brand-blue-light); }
 .best-tiles { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
 .best-tiles .stat-tile { padding: 12px 14px; }
 .best-tiles .label { font-size: 11px; }
@@ -480,7 +488,7 @@ table.lines-table td.no-data { color: var(--text-muted); }
 
 /* Dub Beta Model (XGBoost) -- a candidate model shown alongside the live
    model everywhere on the site, never with equal visual weight. Dashed
-   border + the same purple-light used for "away" leans elsewhere marks it
+   border + the same blue-light used for "away" leans elsewhere marks it
    as experimental/secondary at a glance, without borrowing the win/loss/
    push status colors (those stay reserved for actual grading). */
 .beta-tag {
@@ -491,9 +499,9 @@ table.lines-table td.no-data { color: var(--text-muted); }
   font-weight: 700;
   text-transform: uppercase;
   letter-spacing: 0.05em;
-  background: rgba(157,123,216,0.14);
-  color: var(--brand-purple-light);
-  border: 1px dashed var(--brand-purple-light);
+  background: rgba(138,180,248,0.14);
+  color: var(--brand-blue-light);
+  border: 1px dashed var(--brand-blue-light);
   vertical-align: middle;
 }
 .beta-block {
@@ -501,7 +509,7 @@ table.lines-table td.no-data { color: var(--text-muted); }
   padding: 10px 12px;
   background: var(--bg-card-alt);
   border-radius: 8px;
-  border-left: 3px solid var(--brand-purple-light);
+  border-left: 3px solid var(--brand-blue-light);
   font-size: 13px;
 }
 .beta-block .beta-line {
@@ -548,7 +556,7 @@ table.lines-table td.no-data { color: var(--text-muted); }
 }
 .picker-field input:focus {
   outline: none;
-  border-color: var(--brand-purple-light);
+  border-color: var(--brand-blue-light);
 }
 .picker-field .field-hint {
   font-size: 11px;
@@ -558,7 +566,7 @@ table.lines-table td.no-data { color: var(--text-muted); }
 .swap-btn {
   background: var(--bg-card-alt);
   border: 1px solid var(--border);
-  color: var(--brand-purple-light);
+  color: var(--brand-blue-light);
   font-size: 18px;
   font-weight: 700;
   width: 40px;
@@ -567,7 +575,7 @@ table.lines-table td.no-data { color: var(--text-muted); }
   cursor: pointer;
   flex-shrink: 0;
 }
-.swap-btn:hover { background: var(--brand-purple); color: #fff; }
+.swap-btn:hover { background: var(--brand-blue); color: #fff; }
 
 /* Ridge vs. Dub Beta (XGBoost) toggle -- Matchup Creator is the one page
    where both models are fit for every hypothetical pair and the viewer
@@ -597,11 +605,11 @@ table.lines-table td.no-data { color: var(--text-muted); }
   cursor: pointer;
 }
 .model-toggle label:has(input:checked) {
-  border-color: var(--brand-purple-light);
-  background: rgba(157,123,216,0.14);
+  border-color: var(--brand-blue-light);
+  background: rgba(138,180,248,0.14);
 }
 .model-toggle input[type="radio"] {
-  accent-color: var(--brand-purple-light);
+  accent-color: var(--brand-blue-light);
 }
 .model-toggle-sub {
   font-weight: 400;
@@ -645,8 +653,8 @@ table.lines-table td.no-data { color: var(--text-muted); }
   box-sizing: border-box;
 }
 .submit-btn {
-  background: var(--brand-purple);
-  border: 1px solid var(--brand-purple);
+  background: var(--brand-blue);
+  border: 1px solid var(--brand-blue);
   color: #fff;
   font-family: var(--font);
   font-size: 15px;
@@ -657,7 +665,7 @@ table.lines-table td.no-data { color: var(--text-muted); }
   width: 100%;
   margin-top: 18px;
 }
-.submit-btn:hover { background: #5f3894; }
+.submit-btn:hover { background: #3f72f0; }
 .submit-btn:disabled { opacity: 0.5; cursor: not-allowed; }
 .form-banner {
   margin-top: 14px;

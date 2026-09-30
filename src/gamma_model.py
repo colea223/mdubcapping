@@ -71,9 +71,11 @@ Usage:
     python src/gamma_model.py                # self-test, then current ratings + this week's predictions
 """
 import duckdb
+import numpy as np
 
 from config import DB_PATH
 from moore_seed_2026 import SEED_SEASON, SEED_ENTERING_WEEK, SEED_RATINGS, DEFAULT_SEED_RATING
+from power_rating import current_ratings, elo_ratings_through
 from pull_injuries import status_weight
 from teams import normalize_team_name, FBS_CONFERENCES
 
@@ -332,36 +334,61 @@ def load_injury_weights_by_week(con, season):
     return weights
 
 
-def replay_ratings(con, season=SEED_SEASON, entering_week=SEED_ENTERING_WEEK, through_week=None):
-    """
-    Full chronological replay from the fixed Moore seed through every
-    completed FBS game in `season` from `entering_week` on (through
-    `through_week` inclusive, or the rest of the season if None). Returns
-    (ratings, warned) -- ratings is {team: current_rating} as of the last
-    game processed; warned is a sorted list of teams encountered with no
-    Moore seed rating AND that played in an FBS conference that game (a real
-    mapping gap -- see this file's and moore_seed_2026.py's own comments on
-    why that's surfaced loudly rather than silently absorbed).
+MIN_CALIBRATION_OVERLAP = 20  # below this many teams with both a Gamma and Elo rating, don't trust a fit
 
-    get_rating()'s fallback is conference-aware, fixing a real bug found
-    while investigating why a team with a genuine FCS buy game (e.g. a team
-    beating an FCS opponent like Wagner or Fordham 80+ to nothing) got an
-    inflated rating bump: previously, ANY team missing from `ratings` fell
-    back to DEFAULT_SEED_RATING (the flat AVERAGE FBS rating, ~64) --
-    correct for a real FBS team with a name-mapping gap (the case this
-    fallback was built for), but wrong for a genuine FCS opponent, which
-    Moore never rates at all and which isn't remotely an average FBS team.
-    That's the EXACT problem UNRATED_OPPONENT_RATING (a deliberately low
-    placeholder, ~25) already exists to solve -- it was just never wired
-    into this function, only into predict_spread_home()'s live-prediction
-    fallback (see that constant's own comment). Now: a team missing from
-    `ratings` that played in an FBS conference that game still warns and
-    gets DEFAULT_SEED_RATING (unchanged, still a real mapping gap); a team
-    missing from `ratings` that did NOT (a genuine FCS opponent) gets
-    UNRATED_OPPONENT_RATING instead, silently -- expected, not actionable,
-    same actionable-vs-fcs_noise split
-    examples/offseason_health_check.py's check_gamma_seed_coverage() already
-    applies to this exact distinction.
+
+def _fit_elo_to_gamma(gamma_ratings, elo_ratings, min_overlap=MIN_CALIBRATION_OVERLAP):
+    """
+    Fits gamma_rating ~= a + b * elo_rating across every team with both a
+    Gamma rating (from a completed replay) and an Elo rating this season
+    (power_rating.current_ratings() -- that model rates every team in ANY
+    completed game, FBS or FCS, with no filter at all, so a genuine FCS buy-
+    game opponent always has a real, non-arbitrary Elo number even though
+    Moore never rated it). Returns (a, b), or None if fewer than
+    `min_overlap` teams overlap -- too early in a season, or too little
+    data, to trust a 2-point-derived line. See _calibrated_unrated_rating()
+    for how this gets used, and replay_ratings()'s own docstring for why
+    this needs a two-pass replay to compute without circularity.
+    """
+    common = [t for t in gamma_ratings if t in elo_ratings]
+    if len(common) < min_overlap:
+        return None
+    evals = np.array([elo_ratings[t] for t in common], dtype=float)
+    gvals = np.array([gamma_ratings[t] for t in common], dtype=float)
+    b, a = np.polyfit(evals, gvals, 1)
+    return a, b
+
+
+def _calibrated_unrated_rating(team, elo_ratings, calibration):
+    """
+    A non-FBS opponent's placeholder rating, mapped from its OWN real Elo
+    rating via `calibration` (see _fit_elo_to_gamma()) instead of one flat
+    guess for every such team -- Wagner and Villanova are not equally bad,
+    and this lets the placeholder actually reflect that. Falls back to the
+    flat UNRATED_OPPONENT_RATING when the team has no Elo rating at all
+    (essentially never -- see _fit_elo_to_gamma()'s own comment) or no
+    calibration could be fit yet. Clipped to [5.0, DEFAULT_SEED_RATING]: never
+    below a nominal floor, and never back up at or above "average FBS team"
+    -- that ceiling is deliberate, since letting a bad extrapolation
+    reproduce the ORIGINAL bug this whole mechanism exists to fix would be
+    a real regression, not just an unlikely edge case.
+    """
+    if calibration is not None and team in elo_ratings:
+        a, b = calibration
+        est = a + b * elo_ratings[team]
+        return max(5.0, min(est, DEFAULT_SEED_RATING))
+    return UNRATED_OPPONENT_RATING
+
+
+def _replay_ratings_once(con, season, entering_week, through_week, unrated_fn):
+    """
+    One chronological pass from the fixed Moore seed through every
+    completed FBS game in `season` from `entering_week` on (through
+    `through_week` inclusive, or the rest of the season if None) --
+    factored out of replay_ratings() so it can be run TWICE (see that
+    function's own docstring for why). `unrated_fn(team)` decides what
+    rating a genuine non-FBS opponent gets on first encounter -- the only
+    thing that differs between the two passes.
     """
     ratings = dict(SEED_RATINGS)
     warned = set()
@@ -372,7 +399,7 @@ def replay_ratings(con, season=SEED_SEASON, entering_week=SEED_ENTERING_WEEK, th
                 warned.add(team)
                 ratings[team] = DEFAULT_SEED_RATING
             else:
-                ratings[team] = UNRATED_OPPONENT_RATING
+                ratings[team] = unrated_fn(team)
         return ratings[team]
 
     injury_weights = load_injury_weights_by_week(con, season)
@@ -405,6 +432,75 @@ def replay_ratings(con, season=SEED_SEASON, entering_week=SEED_ENTERING_WEEK, th
         ratings[away_team] = update_rating(old_away, net_away, old_home, away_inj, home_inj)
 
     return ratings, sorted(warned)
+
+
+def replay_ratings(con, season=SEED_SEASON, entering_week=SEED_ENTERING_WEEK, through_week=None):
+    """
+    Full chronological replay from the fixed Moore seed through every
+    completed FBS game in `season` from `entering_week` on (through
+    `through_week` inclusive, or the rest of the season if None). Returns
+    (ratings, warned) -- ratings is {team: current_rating} as of the last
+    game processed; warned is a sorted list of teams encountered with no
+    Moore seed rating AND that played in an FBS conference that game (a real
+    mapping gap -- see this file's and moore_seed_2026.py's own comments on
+    why that's surfaced loudly rather than silently absorbed).
+
+    A genuine non-FBS opponent (Moore never rates FCS teams, and a name
+    missing from `ratings` that also didn't play in an FBS conference that
+    game is exactly that case, not a mapping gap) used to get a single flat
+    placeholder (UNRATED_OPPONENT_RATING, ~25) for every such team,
+    regardless of whether it was a decent FCS program or a bottom-of-the-
+    barrel one. TWO PASSES fix that:
+      PASS 1 runs the replay with the flat placeholder (exactly the
+      original fix), giving a real, complete set of this-season Gamma
+      ratings to calibrate against.
+      PASS 2 fits gamma_rating ~= a + b * elo_rating across every team that
+      has both (power_rating.py's Elo baseline rates every team in ANY
+      completed game, FBS or FCS, with no filter -- so a real FCS opponent
+      that got blown out already has a real, differentiated, non-arbitrary
+      Elo number reflecting exactly that), then re-runs the SAME replay
+      using each non-FBS opponent's OWN mapped Elo rating instead of one
+      flat guess.
+    Two full passes over "a few hundred games" is still cheap (see this
+    module's own "WHY THIS IS A FULL REPLAY" note on why a single pass
+    already has to be fast) -- this doubles that cost, not multiplies it.
+
+    WALK-FORWARD SAFETY of the calibration itself: an earlier version of
+    this fetched power_rating.current_ratings() unconditionally -- correct
+    for live use (through_week=None, where "current" genuinely means "every
+    game known as of right now," not a leak), but a real leak for a
+    historical `through_week` call, since "current" would pull in Elo
+    movement from weeks after the one being graded -- exactly the kind of
+    future-information leak this project's walk-forward discipline exists
+    to prevent everywhere else. Fixed: when `through_week` is given, the
+    calibration uses power_rating.elo_ratings_through(season, through_week)
+    instead -- Elo evidence strictly before `through_week`, the same cutoff
+    this replay's own games query uses, so the fit only ever sees what
+    would genuinely have been known at that point in real time. Only
+    through_week=None (live/current use) still calls current_ratings().
+    Falls back to PASS 1's flat-placeholder result untouched if fewer than
+    MIN_CALIBRATION_OVERLAP teams overlap (too early in a season to trust a
+    fit at all -- most likely early on, since a stricter, walk-forward-safe
+    cutoff naturally has less to work with than "current" did).
+    """
+    ratings, warned = _replay_ratings_once(
+        con, season, entering_week, through_week,
+        unrated_fn=lambda team: UNRATED_OPPONENT_RATING,
+    )
+
+    elo_ratings = (
+        elo_ratings_through(con, season, through_week) if through_week is not None
+        else current_ratings(con)
+    )
+    calibration = _fit_elo_to_gamma(ratings, elo_ratings)
+    if calibration is None:
+        return ratings, warned
+
+    ratings2, warned2 = _replay_ratings_once(
+        con, season, entering_week, through_week,
+        unrated_fn=lambda team: _calibrated_unrated_rating(team, elo_ratings, calibration),
+    )
+    return ratings2, warned2
 
 
 def ratings_entering_week(con, season, week):
