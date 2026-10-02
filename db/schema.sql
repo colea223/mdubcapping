@@ -306,7 +306,8 @@ CREATE OR REPLACE TABLE game_features (
     -- discipline already applied to std_down_ppa_diff etc.
     sos_diff                    DOUBLE,  -- prior-season strength of schedule (avg FBS opponent rating), home minus away
     returning_production_diff   DOUBLE,  -- THIS season's overall returning production (PPA-weighted), home minus away
-    qb_continuity_diff          DOUBLE   -- THIS season's passing-game returning production (PPA-weighted) -- QB continuity proxy, home minus away
+    qb_continuity_diff          DOUBLE,  -- THIS season's passing-game returning production (PPA-weighted) -- QB continuity proxy, home minus away
+    sor_diff                    DOUBLE   -- current-season Strength of Record (see sor_baseline/power_rating.current_sor()), home minus away
 );
 
 -- Raw drive-level data (one row per offensive possession) -- see
