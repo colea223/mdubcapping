@@ -1,6 +1,6 @@
 {
   "meta": {
-    "generated_at": "2026-10-03T22:00:22Z",
+    "generated_at": "2026-10-03T21:19:58Z",
     "current_week": {
       "season": 2026,
       "week": 5
@@ -45,26 +45,26 @@
       "note": "Hypothetical flat 1-unit-per-bet tracking of the live model's own picks (spread/total at -110, moneyline at the real posted odds) -- not your personal bets. Week 1's spread record includes the seed week -- it uses the Moore seed exactly as pasted, which already reflects that week's own results, so it's informational only, not a genuine out-of-sample prediction (see moore_seed_2026.py)."
     },
     "yours": {
-      "n_bets": 60,
-      "wins": 30,
-      "losses": 30,
+      "n_bets": 54,
+      "wins": 27,
+      "losses": 27,
       "pushes": 0,
       "win_rate": 0.5,
-      "units": 169.76,
+      "units": 168.55,
       "by_type": {
         "Spread": {
-          "wins": 20,
-          "losses": 16,
+          "wins": 19,
+          "losses": 14,
           "pushes": 0,
-          "win_rate": 0.5556,
-          "units": 7.54
+          "win_rate": 0.5758,
+          "units": 8.63
         },
         "Moneyline": {
-          "wins": 10,
-          "losses": 10,
+          "wins": 8,
+          "losses": 9,
           "pushes": 0,
-          "win_rate": 0.5,
-          "units": 174.72
+          "win_rate": 0.4706,
+          "units": 172.42
         },
         "ML Parlay": {
           "wins": 0,
@@ -82,6 +82,36 @@
         }
       },
       "pending": [
+        {
+          "date": "2026-10-02",
+          "week": 5,
+          "matchup": "Pittsburgh @ Virginia Tech",
+          "bet_type": "Moneyline",
+          "side": "Pittsburgh",
+          "line": null,
+          "odds": 116.0,
+          "stake": 2.0
+        },
+        {
+          "date": "2026-10-03",
+          "week": 5,
+          "matchup": "Navy @ Air Force",
+          "bet_type": "Spread",
+          "side": "Navy",
+          "line": 2.5,
+          "odds": -104.0,
+          "stake": 1.0
+        },
+        {
+          "date": "2026-10-03",
+          "week": 5,
+          "matchup": "Navy @ Air Force",
+          "bet_type": "Moneyline",
+          "side": "Navy",
+          "line": null,
+          "odds": 116.0,
+          "stake": 1.0
+        },
         {
           "date": "2026-10-03",
           "week": 5,
@@ -105,21 +135,31 @@
         {
           "date": "2026-10-03",
           "week": 5,
-          "matchup": "Marshall @ James Madison",
+          "matchup": "Liberty @ Delaware",
           "bet_type": "Spread",
-          "side": "James Madison",
-          "line": -18.5,
-          "odds": -115.0,
+          "side": "Delaware",
+          "line": 6.5,
+          "odds": -110.0,
           "stake": 1.0
         },
         {
           "date": "2026-10-03",
           "week": 5,
-          "matchup": "Auburn @ Tennessee",
+          "matchup": "Alabama @ Mississippi State",
           "bet_type": "Spread",
-          "side": "Tennessee",
-          "line": -2.5,
-          "odds": 125.0,
+          "side": "Alabama",
+          "line": -5.5,
+          "odds": -110.0,
+          "stake": 1.0
+        },
+        {
+          "date": "2026-10-03",
+          "week": 5,
+          "matchup": "Marshall @ James Madison",
+          "bet_type": "Spread",
+          "side": "James Madison",
+          "line": -18.5,
+          "odds": -115.0,
           "stake": 1.0
         }
       ],
@@ -771,78 +811,6 @@
           "stake": 1.0,
           "result": "L",
           "units": -1.0
-        },
-        {
-          "date": "2026-10-03",
-          "week": 5,
-          "matchup": "Navy @ Air Force",
-          "bet_type": "Spread",
-          "side": "Navy",
-          "line": 2.5,
-          "odds": -104.0,
-          "stake": 1.0,
-          "result": "L",
-          "units": -1.0
-        },
-        {
-          "date": "2026-10-03",
-          "week": 5,
-          "matchup": "Navy @ Air Force",
-          "bet_type": "Moneyline",
-          "side": "Navy",
-          "line": null,
-          "odds": 116.0,
-          "stake": 1.0,
-          "result": "L",
-          "units": -1.0
-        },
-        {
-          "date": "2026-10-03",
-          "week": 5,
-          "matchup": "Liberty @ Delaware",
-          "bet_type": "Spread",
-          "side": "Delaware",
-          "line": 6.5,
-          "odds": -110.0,
-          "stake": 1.0,
-          "result": "L",
-          "units": -1.0
-        },
-        {
-          "date": "2026-10-03",
-          "week": 5,
-          "matchup": "Alabama @ Mississippi State",
-          "bet_type": "Spread",
-          "side": "Alabama",
-          "line": -5.5,
-          "odds": -110.0,
-          "stake": 1.0,
-          "result": "W",
-          "units": 0.91
-        },
-        {
-          "date": "2026-10-02",
-          "week": 5,
-          "matchup": "Pittsburgh @ Virginia Tech",
-          "bet_type": "Moneyline",
-          "side": "Pittsburgh",
-          "line": null,
-          "odds": 116.0,
-          "stake": 2.0,
-          "result": "W",
-          "units": 2.32
-        },
-        {
-          "date": "2026-10-03",
-          "week": 5,
-          "matchup": "West Virginia @ Iowa State",
-          "bet_type": "Moneyline",
-          "side": "Iowa",
-          "line": null,
-          "odds": -102.0,
-          "stake": 1.0,
-          "result": "W",
-          "units": 0.98
         }
       ],
       "note": "Your actual bets from the Bet Log tab, graded at the real odds you entered."
