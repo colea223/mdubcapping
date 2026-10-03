@@ -1,6 +1,6 @@
 {
   "meta": {
-    "generated_at": "2026-10-02T17:39:45Z",
+    "generated_at": "2026-10-02T23:52:53Z",
     "current_week": {
       "season": 2026,
       "week": 5
@@ -86,9 +86,9 @@
       "away_conf": "ACC",
       "open_spread_home": -4.8,
       "open_total": 54.5,
-      "kicked_off": false,
-      "close_spread_home": null,
-      "close_total": null,
+      "kicked_off": true,
+      "close_spread_home": -2.5,
+      "close_total": 54.5,
       "books": {
         "DraftKings": {
           "spread": -2.5,
@@ -121,9 +121,9 @@
       "away_conf": "Conference USA",
       "open_spread_home": 7.0,
       "open_total": 50.2,
-      "kicked_off": false,
-      "close_spread_home": null,
-      "close_total": null,
+      "kicked_off": true,
+      "close_spread_home": 6.8,
+      "close_total": 49.8,
       "books": {
         "Bovada": {
           "spread": 7.0,
