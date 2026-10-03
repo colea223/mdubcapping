@@ -213,3 +213,34 @@ function projectedScore(modelSpreadHome, modelTotal) {
 function emptyState(message) {
   return `<div class="empty-state">${message}</div>`;
 }
+
+// {team: logo_url} built from rankings.json's own `logo` field (CFBD's own
+// hosted team logos -- see src/pull_team_logos.py/export_site_data.py's
+// team_logo_map()). The Ratings page gets `logo` on every row for free
+// already (build_rankings() puts it there directly); every other page
+// (Home, Matchups, Predictions, Live Lines, Results) has no per-team logo
+// field of its own, so it fetches data/rankings.json purely as a lookup
+// table and builds this map client-side -- the exact same "team -> extra
+// info" pattern index.html's own RANK_MAP already established for ranks.
+// Missing entirely (fetch failed, or rankings.json not generated yet) just
+// yields an empty map, not an error -- every caller already treats "no
+// logo for this team" as a normal, silent no-op (see teamLogoImg() below).
+function teamLogoMap(rankingsData) {
+  if (!rankingsData || !rankingsData.rankings) return {};
+  return Object.fromEntries(
+    rankingsData.rankings.filter(r => r.logo).map(r => [r.team, r.logo])
+  );
+}
+
+// <img> tag for one team's logo, or "" if this team has none on file yet
+// (a new team logos hasn't been pulled for, an FCS buy-game opponent that
+// never appears in rankings.json at all, etc.) -- always safe to splice
+// into a template literal, never leaves a broken <img> in the markup.
+// `extraClass` layers on a size/position variant (e.g. the marquee card's
+// bigger centered logo) on top of the shared `.team-logo` base rule.
+function teamLogoImg(team, logoMap, extraClass = "") {
+  const src = logoMap && logoMap[team];
+  if (!src) return "";
+  const cls = extraClass ? `team-logo ${extraClass}` : "team-logo";
+  return `<img class="${cls}" src="${src}" alt="" loading="lazy">`;
+}

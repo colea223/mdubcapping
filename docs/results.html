@@ -159,8 +159,8 @@ function resultCard(r) {
     <div class="matchup-card">
       <div class="matchup-date">${formatDate(r.date)} &ndash; Week ${r.week} <span class="final-badge">Final</span></div>
       <div class="matchup-teams">
-        <div class="team-row"><span class="name"><span class="at">@</span>${awaySpan}</span></div>
-        <div class="team-row"><span class="name">${homeSpan}</span></div>
+        <div class="team-row"><span class="name"><span class="at">@</span>${teamLogoImg(r.away_team, LOGO_MAP)}${awaySpan}</span></div>
+        <div class="team-row"><span class="name">${teamLogoImg(r.home_team, LOGO_MAP)}${homeSpan}</span></div>
       </div>
       <div class="odds-row">
         ${modelRow("Spread", fmtSpread(m.spread_pick), fmtSpread(m.market_spread_close), m.spread_lean, m.spread_was_bet, m.spread_result)}
@@ -194,8 +194,14 @@ function toggleWeekSection(header) {
   header.setAttribute("aria-expanded", String(isOpen));
 }
 
+let LOGO_MAP = {};
+
 (async function () {
-  const data = await fetchJSON("data/results.json");
+  const [data, rankingsData] = await Promise.all([
+    fetchJSON("data/results.json"),
+    fetchJSON("data/rankings.json"),
+  ]);
+  LOGO_MAP = teamLogoMap(rankingsData);
   const container = document.getElementById("results-container");
 
   if (!data || !data.results || !data.results.length) {

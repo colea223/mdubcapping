@@ -26,7 +26,7 @@
 
     <div class="card">
       <div class="section-title-row">
-        <div class="section-title">Marquee Matchups</div>
+        <div class="section-title">Biggest Model Edges</div>
         <span class="marquee-counter" id="marquee-counter"></span>
       </div>
       <div id="marquee-panel"></div>
@@ -68,10 +68,15 @@ function renderCompactRatings(containerId, teams, opts = {}) {
     const trendSymbol = r.trend > 0.5 ? "&#9650;" : (r.trend < -0.5 ? "&#9660;" : "&#9679;");
     const badgeClass = r.rank <= 3 ? "rank-badge top" : "rank-badge";
     const confTag = opts.showConference && r.conference ? `<div class="conf-tag">${r.conference}</div>` : "";
+    // r.logo comes straight off this same rankings row (build_rankings()
+    // already puts it there for every team) -- no separate lookup needed
+    // here, unlike the marquee card below whose rows come from
+    // predictions.json, which carries no logo field of its own.
+    const logoTag = r.logo ? `<img class="team-logo" src="${r.logo}" alt="" loading="lazy">` : "";
     return `
       <tr>
         <td><span class="${badgeClass}">${r.rank}</span></td>
-        <td class="team-name">${r.team}${confTag}</td>
+        <td class="team-name">${logoTag}${r.team}${confTag}</td>
         <td class="num">${r.rating !== null ? r.rating.toFixed(1) : "&ndash;"}</td>
         <td class="num ${trendClass}">${trendSymbol} ${Math.abs(r.trend).toFixed(1)}</td>
       </tr>`;
@@ -88,7 +93,7 @@ function renderMarqueeCard(index) {
   const counter = document.getElementById("marquee-counter");
   if (!MARQUEE_GAMES.length) {
     counter.textContent = "";
-    panel.innerHTML = emptyState("No Top 25 vs Top 25 games on this week's slate.");
+    panel.innerHTML = emptyState("No market lines posted yet this week -- check back once this week's slate has lines.");
     return;
   }
 
@@ -124,12 +129,14 @@ function renderMarqueeCard(index) {
       <div class="marquee-meta">${formatKickoffTime(p.start_time)} &middot; ${p.away_conf || ""} @ ${p.home_conf || ""}</div>
       <div class="marquee-teams-row">
         <div class="marquee-team">
+          ${teamLogoImg(p.away_team, LOGO_MAP, "marquee-team-logo")}
           <span class="rank-badge top">${rank(p.away_team)}</span>
           <span class="team-name">${p.away_team}</span>
           ${recordTag(p.away_record)}
         </div>
         <div class="marquee-at">@</div>
         <div class="marquee-team">
+          ${teamLogoImg(p.home_team, LOGO_MAP, "marquee-team-logo")}
           <span class="rank-badge top">${rank(p.home_team)}</span>
           <span class="team-name">${p.home_team}</span>
           ${recordTag(p.home_record)}
@@ -165,6 +172,7 @@ function renderMarqueeCard(index) {
 }
 
 let RANK_MAP = {};
+let LOGO_MAP = {};
 
 (async function () {
   const [rankingsData, predictionsData] = await Promise.all([
@@ -175,6 +183,7 @@ let RANK_MAP = {};
 
   if (RANKINGS_DATA && RANKINGS_DATA.rankings && RANKINGS_DATA.rankings.length) {
     RANK_MAP = Object.fromEntries(RANKINGS_DATA.rankings.map(r => [r.team, r.rank]));
+    LOGO_MAP = teamLogoMap(RANKINGS_DATA);
 
     const mwTeams = RANKINGS_DATA.rankings.filter(r => r.conference === "Mountain West");
     renderCompactRatings("mw-ratings-panel", mwTeams);
@@ -182,14 +191,23 @@ let RANK_MAP = {};
     const fbsTop = RANKINGS_DATA.rankings.slice(0, 15);
     renderCompactRatings("fbs-ratings-panel", fbsTop, { showConference: true });
 
-    // Marquee = any game this week where BOTH teams are Top 25 by this
-    // site's own power rating (there's no AP/Coaches poll feed here, so
-    // this is the best "ranked matchup" signal available) -- sorted by
-    // combined rank so the biggest game leads the carousel.
+    // Biggest Model Edges = the 5 games this week where Dub Gamma's own
+    // spread disagrees most with the market close (predictions.json's own
+    // "edge" field -- market_spread_home minus the model's spread, same
+    // value build_matchups_and_predictions() already computes for every
+    // FBS game, not just Mountain West). Sorted by |edge| descending so the
+    // single biggest disagreement leads the carousel; a game with no market
+    // line yet (edge is null) has nothing to rank, so it's left out, same
+    // as this card already treated a missing projected score as "not
+    // available yet" rather than guessing. Replaces the old Top 25 vs Top
+    // 25 "ranked matchup" selection -- Cole's own call: the home page
+    // should lead with where the model sees the most value, not who's
+    // ranked.
     if (predictionsData && predictionsData.predictions) {
       MARQUEE_GAMES = predictionsData.predictions
-        .filter(p => (RANK_MAP[p.home_team] || 999) <= 25 && (RANK_MAP[p.away_team] || 999) <= 25)
-        .sort((a, b) => (RANK_MAP[a.home_team] + RANK_MAP[a.away_team]) - (RANK_MAP[b.home_team] + RANK_MAP[b.away_team]));
+        .filter(p => p.edge !== null && p.edge !== undefined)
+        .sort((a, b) => Math.abs(b.edge) - Math.abs(a.edge))
+        .slice(0, 5);
     }
     renderMarqueeCard(0);
   } else {

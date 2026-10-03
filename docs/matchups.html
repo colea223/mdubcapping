@@ -29,6 +29,7 @@
 document.getElementById("nav").innerHTML = renderNav("matchups.html");
 
 let MATCHUPS_DATA = null;
+let LOGO_MAP = {};
 
 function renderMatchups(selectedConf) {
   const container = document.getElementById("matchups-container");
@@ -81,11 +82,11 @@ function renderMatchups(selectedConf) {
         </div>
         <div class="matchup-teams">
           <div class="team-row">
-            <span class="name"><span class="at">@</span>${m.away_team}${recordTag(m.away_record)}</span>
+            <span class="name"><span class="at">@</span>${teamLogoImg(m.away_team, LOGO_MAP)}${m.away_team}${recordTag(m.away_record)}</span>
             <span class="odds-value">${spreads.away}</span>
           </div>
           <div class="team-row">
-            <span class="name">${m.home_team}${recordTag(m.home_record)}</span>
+            <span class="name">${teamLogoImg(m.home_team, LOGO_MAP)}${m.home_team}${recordTag(m.home_record)}</span>
             <span class="odds-value">${spreads.home}</span>
           </div>
         </div>
@@ -120,7 +121,12 @@ function renderMatchups(selectedConf) {
 }
 
 (async function () {
-  MATCHUPS_DATA = await fetchJSON("data/matchups.json");
+  const [matchupsData, rankingsData] = await Promise.all([
+    fetchJSON("data/matchups.json"),
+    fetchJSON("data/rankings.json"),
+  ]);
+  MATCHUPS_DATA = matchupsData;
+  LOGO_MAP = teamLogoMap(rankingsData);
   const selected = getPageConference();
 
   document.getElementById("conf-filter-container").innerHTML = renderConferenceLinkStrip("matchups", selected);

@@ -993,6 +993,14 @@ table.lines-table td.no-data { color: var(--text-muted); }
   vertical-align: middle;
   margin-right: 6px;
 }
+/* Bigger, stacked-above-the-name variant for the marquee card and any other
+   centered team block -- see site.js's teamLogoImg()'s extraClass param. */
+.marquee-team-logo {
+  display: block;
+  width: 36px;
+  height: 36px;
+  margin: 0 auto 6px;
+}
 table.ratings-full th, table.ratings-full td { white-space: nowrap; }
 
 .summary-boxes {
