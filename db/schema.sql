@@ -261,6 +261,32 @@ CREATE TABLE IF NOT EXISTS sos_ratings (
     PRIMARY KEY (season, team)
 );
 
+-- Strength of Record, one row per (game_id, team) -- same shape as
+-- ratings_baseline above (sor_before/sor_after bracket the game, never uses
+-- its own result for the "before" side), computed by power_rating.py's
+-- write_sor()/the SOR-tracking loop right alongside ratings_baseline in the
+-- same pass. sor_after = sor_before + (actual result - the expected result
+-- an exactly-average team would get against that same opponent), i.e. wins
+-- "above average" relative to the schedule actually played; unchanged
+-- (sor_after == sor_before) on a game against a non-FBS opponent, same
+-- opponent-must-be-FBS discipline sos_ratings uses above. current_sor()
+-- reads the latest sor_after per team (current season only) for the
+-- Ratings page's SOR column/rank and Excel's Strength of Record tab.
+-- This table was missing from schema.sql entirely until now -- power_rating.py
+-- and excel/update_tracker.py's update_sor_tab() both already assumed it
+-- existed, so a fresh/rebuilt DB (a new clone, or the GitHub Actions
+-- runner's always-from-scratch DB) hit "Catalog Error: Table with name
+-- sor_baseline does not exist!" the moment write_sor()'s own DELETE FROM
+-- sor_baseline ran -- this CREATE TABLE IF NOT EXISTS is the fix.
+CREATE TABLE IF NOT EXISTS sor_baseline (
+    game_id     BIGINT,
+    team        VARCHAR,
+    is_home     BOOLEAN,
+    sor_before  DOUBLE,
+    sor_after   DOUBLE,
+    PRIMARY KEY (game_id, team)
+);
+
 -- Phase 2: one row per game of leakage-safe pre-game features. See src/features.py.
 -- sp_diff/ppa_diff/talent_diff added Phase 3.5 (backtest revealed the model
 -- was ignoring SP+/PPA/recruiting data that pull_stats.py already collects).
