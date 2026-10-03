@@ -1,6 +1,6 @@
 {
   "meta": {
-    "generated_at": "2026-10-03T23:06:20Z",
+    "generated_at": "2026-10-03T23:36:19Z",
     "current_week": {
       "season": 2026,
       "week": 5
@@ -314,24 +314,6 @@
       "rank": 17
     },
     {
-      "team": "Duke",
-      "conference": "ACC",
-      "logo": "https://cdn.collegefootballdata.com/logos/500/150.png",
-      "rating": 78.2,
-      "offense_rating": 32.4,
-      "defense_rating": 22.4,
-      "special_teams_rating": 0.2,
-      "sos_rank": 92,
-      "sor_rank": 12,
-      "projected_wins": 8.8,
-      "wins": 4,
-      "losses": 0,
-      "conf_wins": 1,
-      "conf_losses": 0,
-      "trend": 0.1,
-      "rank": 18
-    },
-    {
       "team": "BYU",
       "conference": "Big 12",
       "logo": "https://cdn.collegefootballdata.com/logos/500/252.png",
@@ -347,6 +329,24 @@
       "conf_wins": 1,
       "conf_losses": 0,
       "trend": 0.0,
+      "rank": 18
+    },
+    {
+      "team": "Duke",
+      "conference": "ACC",
+      "logo": "https://cdn.collegefootballdata.com/logos/500/150.png",
+      "rating": 78.2,
+      "offense_rating": 32.4,
+      "defense_rating": 22.4,
+      "special_teams_rating": 0.2,
+      "sos_rank": 92,
+      "sor_rank": 12,
+      "projected_wins": 8.8,
+      "wins": 4,
+      "losses": 0,
+      "conf_wins": 1,
+      "conf_losses": 0,
+      "trend": 0.1,
       "rank": 19
     },
     {

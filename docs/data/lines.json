@@ -1,6 +1,6 @@
 {
   "meta": {
-    "generated_at": "2026-10-03T23:06:20Z",
+    "generated_at": "2026-10-03T23:36:19Z",
     "current_week": {
       "season": 2026,
       "week": 5
@@ -1627,9 +1627,9 @@
       "away_conf": "American Athletic",
       "open_spread_home": -6.0,
       "open_total": 52.0,
-      "kicked_off": false,
-      "close_spread_home": null,
-      "close_total": null,
+      "kicked_off": true,
+      "close_spread_home": -6.0,
+      "close_total": 48.5,
       "books": {
         "DraftKings": {
           "spread": -6.0,
@@ -1662,9 +1662,9 @@
       "away_conf": "ACC",
       "open_spread_home": 12.0,
       "open_total": 52.2,
-      "kicked_off": false,
-      "close_spread_home": null,
-      "close_total": null,
+      "kicked_off": true,
+      "close_spread_home": 16.5,
+      "close_total": 47.5,
       "books": {
         "DraftKings": {
           "spread": 16.5,
@@ -1697,9 +1697,9 @@
       "away_conf": "Pac-12",
       "open_spread_home": -20.2,
       "open_total": 49.8,
-      "kicked_off": false,
-      "close_spread_home": null,
-      "close_total": null,
+      "kicked_off": true,
+      "close_spread_home": -18.5,
+      "close_total": 51.5,
       "books": {
         "Bovada": {
           "spread": -18.5,
@@ -1732,9 +1732,9 @@
       "away_conf": "American Athletic",
       "open_spread_home": 3.2,
       "open_total": 45.5,
-      "kicked_off": false,
-      "close_spread_home": null,
-      "close_total": null,
+      "kicked_off": true,
+      "close_spread_home": 1.5,
+      "close_total": 47.5,
       "books": {
         "DraftKings": {
           "spread": 1.5,
@@ -1767,9 +1767,9 @@
       "away_conf": "Big 12",
       "open_spread_home": 14.0,
       "open_total": 50.2,
-      "kicked_off": false,
-      "close_spread_home": null,
-      "close_total": null,
+      "kicked_off": true,
+      "close_spread_home": 13.5,
+      "close_total": 50.5,
       "books": {
         "DraftKings": {
           "spread": 13.5,
@@ -1802,9 +1802,9 @@
       "away_conf": "Big Ten",
       "open_spread_home": -10.0,
       "open_total": 56.5,
-      "kicked_off": false,
-      "close_spread_home": null,
-      "close_total": null,
+      "kicked_off": true,
+      "close_spread_home": -8.8,
+      "close_total": 58.2,
       "books": {
         "DraftKings": {
           "spread": -8.5,

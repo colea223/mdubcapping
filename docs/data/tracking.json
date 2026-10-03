@@ -1,6 +1,6 @@
 {
   "meta": {
-    "generated_at": "2026-10-03T23:06:20Z",
+    "generated_at": "2026-10-03T23:36:19Z",
     "current_week": {
       "season": 2026,
       "week": 5
@@ -45,19 +45,19 @@
       "note": "Hypothetical flat 1-unit-per-bet tracking of the live model's own picks (spread/total at -110, moneyline at the real posted odds) -- not your personal bets. Week 1's spread record includes the seed week -- it uses the Moore seed exactly as pasted, which already reflects that week's own results, so it's informational only, not a genuine out-of-sample prediction (see moore_seed_2026.py)."
     },
     "yours": {
-      "n_bets": 64,
-      "wins": 33,
+      "n_bets": 65,
+      "wins": 34,
       "losses": 31,
       "pushes": 0,
-      "win_rate": 0.5156,
-      "units": 171.64,
+      "win_rate": 0.5231,
+      "units": 172.51,
       "by_type": {
         "Spread": {
-          "wins": 23,
+          "wins": 24,
           "losses": 17,
           "pushes": 0,
-          "win_rate": 0.575,
-          "units": 9.57
+          "win_rate": 0.5854,
+          "units": 10.44
         },
         "Moneyline": {
           "wins": 10,
@@ -85,11 +85,11 @@
         {
           "date": "2026-10-03",
           "week": 5,
-          "matchup": "Marshall @ James Madison",
+          "matchup": "BYU @ TCU",
           "bet_type": "Spread",
-          "side": "James Madison",
-          "line": -18.5,
-          "odds": -115.0,
+          "side": "TCU",
+          "line": 5.5,
+          "odds": -114.0,
           "stake": 1.0
         }
       ],
@@ -813,6 +813,18 @@
           "stake": 1.0,
           "result": "W",
           "units": 0.91
+        },
+        {
+          "date": "2026-10-03",
+          "week": 5,
+          "matchup": "Marshall @ James Madison",
+          "bet_type": "Spread",
+          "side": "James Madison",
+          "line": -18.5,
+          "odds": -115.0,
+          "stake": 1.0,
+          "result": "W",
+          "units": 0.87
         },
         {
           "date": "2026-10-02",
