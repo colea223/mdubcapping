@@ -1,6 +1,6 @@
 {
   "meta": {
-    "generated_at": "2026-10-03T23:36:19Z",
+    "generated_at": "2026-10-03T23:25:17Z",
     "current_week": {
       "season": 2026,
       "week": 5
@@ -9,34 +9,34 @@
   "tracking": {
     "model": {
       "season": 2026,
-      "n_games": 36,
+      "n_games": 38,
       "spread": {
-        "n_bets": 36,
-        "wins": 24,
+        "n_bets": 38,
+        "wins": 26,
         "losses": 12,
         "pushes": 0,
-        "win_rate": 0.6667,
-        "units": 9.82,
-        "n_real_edge_bets": 28,
-        "real_edge_win_rate": 0.6429
+        "win_rate": 0.6842,
+        "units": 11.64,
+        "n_real_edge_bets": 30,
+        "real_edge_win_rate": 0.6667
       },
       "total": {
-        "n_bets": 36,
+        "n_bets": 38,
         "wins": 16,
-        "losses": 20,
+        "losses": 22,
         "pushes": 0,
-        "win_rate": 0.4444,
-        "units": -5.45,
-        "n_real_edge_bets": 24,
-        "real_edge_win_rate": 0.4583
+        "win_rate": 0.4211,
+        "units": -7.46,
+        "n_real_edge_bets": 26,
+        "real_edge_win_rate": 0.4231
       },
       "moneyline": {
-        "n_bets": 21,
-        "wins": 10,
+        "n_bets": 23,
+        "wins": 12,
         "losses": 11,
         "pushes": 0,
-        "win_rate": 0.4762,
-        "units": 7.17,
+        "win_rate": 0.5217,
+        "units": 7.3,
         "n_real_edge_bets": null,
         "real_edge_win_rate": null
       },
@@ -45,19 +45,19 @@
       "note": "Hypothetical flat 1-unit-per-bet tracking of the live model's own picks (spread/total at -110, moneyline at the real posted odds) -- not your personal bets. Week 1's spread record includes the seed week -- it uses the Moore seed exactly as pasted, which already reflects that week's own results, so it's informational only, not a genuine out-of-sample prediction (see moore_seed_2026.py)."
     },
     "yours": {
-      "n_bets": 65,
-      "wins": 34,
+      "n_bets": 64,
+      "wins": 33,
       "losses": 31,
       "pushes": 0,
-      "win_rate": 0.5231,
-      "units": 172.51,
+      "win_rate": 0.5156,
+      "units": 171.64,
       "by_type": {
         "Spread": {
-          "wins": 24,
+          "wins": 23,
           "losses": 17,
           "pushes": 0,
-          "win_rate": 0.5854,
-          "units": 10.44
+          "win_rate": 0.575,
+          "units": 9.57
         },
         "Moneyline": {
           "wins": 10,
@@ -85,11 +85,11 @@
         {
           "date": "2026-10-03",
           "week": 5,
-          "matchup": "BYU @ TCU",
+          "matchup": "Marshall @ James Madison",
           "bet_type": "Spread",
-          "side": "TCU",
-          "line": 5.5,
-          "odds": -114.0,
+          "side": "James Madison",
+          "line": -18.5,
+          "odds": -115.0,
           "stake": 1.0
         }
       ],
@@ -813,18 +813,6 @@
           "stake": 1.0,
           "result": "W",
           "units": 0.91
-        },
-        {
-          "date": "2026-10-03",
-          "week": 5,
-          "matchup": "Marshall @ James Madison",
-          "bet_type": "Spread",
-          "side": "James Madison",
-          "line": -18.5,
-          "odds": -115.0,
-          "stake": 1.0,
-          "result": "W",
-          "units": 0.87
         },
         {
           "date": "2026-10-02",
