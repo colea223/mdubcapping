@@ -46,20 +46,25 @@ your Bet Log and any notes you've typed, is left untouched):
     flagging a big Elo-vs-SOR disagreement. See update_sor_tab()'s own
     docstring. Fully regenerated every run, same as MW Team ATS.
   - National Slate (new tab): the all-FBS counterpart to Weekly Slate --
-    every FBS game this week (not just Mountain West), Gamma's live spread,
-    Ridge/Massey as informational candidates, the real market line, the
-    edge between them (green-filled when it's a real, threshold-clearing
-    lean -- same green/backtest.EDGE_THRESHOLD as MW Team ATS's Cover fill),
-    and a straight-up Win/Loss grade once a game's final. Sorted by
-    conference with AutoFilter on, so you can drop it down to one
-    conference at a time. See _compute_national_slate_rows()'s own
+    a Model ATS Record block (the live model's own against-the-spread
+    record: "Rolling ATS" is season-to-date, "Weekly ATS" is its own most
+    recently graded week -- see _compute_ats_tracking()'s own docstring)
+    on top, then every FBS game this week (not just Mountain West), Gamma's
+    live spread, Ridge/Massey as informational candidates, the real market
+    line, the edge between them (green-filled when it's a real,
+    threshold-clearing lean -- same green/backtest.EDGE_THRESHOLD as MW
+    Team ATS's Cover fill), and a straight-up Win/Loss grade once a game's
+    final. Sorted by conference with AutoFilter on, so you can drop it down
+    to one conference at a time. See _compute_national_slate_rows()'s own
     docstring for why XGBoost isn't on this one. Fully regenerated every run.
   - One "<Conference> Slate" tab per FBS conference (ACC Slate, Big Ten
     Slate, ... Mountain West Slate, 11 tabs total, in addition to keeping
-    National Slate): a standings block (each team's conference and overall
-    win-loss record, sorted by conference record) on top, then that
-    conference's own slice of the exact same National Slate rows below it
-    (a non-conference game involving two different conferences' teams shows
+    National Slate): that conference's own Model ATS Record block (same
+    Rolling/Weekly shape as National Slate's, scoped to games involving this
+    conference), then a standings block (each team's conference and overall
+    win-loss record, sorted by conference record), then that conference's
+    own slice of the exact same National Slate rows below it (a
+    non-conference game involving two different conferences' teams shows
     up on both conferences' tabs). See update_conference_slate()'s own
     docstring. Fully regenerated every run, same as National Slate.
 
@@ -850,6 +855,83 @@ def _compute_national_slate_rows(con):
     return season, week, rows
 
 
+def _compute_ats_tracking(con, season):
+    """
+    The live model's (Dub Gamma's) own against-the-spread record, scoped two
+    ways for National Slate (all FBS) and each "<Conference> Slate" tab:
+    "rolling" = every graded game this season to date, "weekly" = just that
+    scope's own most recently graded week (not necessarily the upcoming
+    week _compute_national_slate_rows() found -- a conference on a bye, or
+    a week still in progress with nothing final yet, still gets a
+    meaningful "last week" number this way instead of an empty one).
+
+    Reuses backtest.run_backtest()'s walk-forward grading -- the EXACT same
+    game-by-game ATS result (bet_result: Win/Loss/Push, from
+    backtest.grade_spread_pick()) the website's Tracking page/live model
+    record is built from -- rather than re-deriving a second copy of "did
+    the model's pick cover" logic here. Computed ONCE in main() and reused
+    by every tab, same "expensive, pay for it once" discipline
+    _compute_national_slate_rows() already follows for its own Ridge/totals
+    refitting -- run_backtest() replays a walk-forward fit per test week
+    across the whole DB, so calling it again per conference (12x) would
+    meaningfully slow down an already multi-minute pipeline run.
+
+    A push counts in the W-L-P record shown but, same convention as MW Team
+    ATS's own Cover %, is excluded from the percentage itself (graded = wins
+    + losses). A pick'em with no bet_result at all (no favorite to grade
+    against) is skipped entirely -- there's no side to have covered. Rows
+    outside `season` (e.g. synthetic/prior-season training data
+    run_backtest() also grades) are excluded, same "current season only"
+    scope every other Excel ATS tab uses.
+
+    Returns {"National": {"rolling": stat, "weekly": stat}, "<conference>":
+    {...}, ...} where `stat` is {"w", "l", "p", "pct", "week"} -- `week` is
+    the week number "weekly" actually reflects (None if nothing's graded in
+    that scope yet this season), `pct` is None whenever graded == 0.
+    """
+    bt = backtest.run_backtest(con)
+    bt = bt[bt["season"] == season]
+
+    conf_by_game = {
+        gid: (hc, ac) for gid, hc, ac in con.execute(
+            "SELECT game_id, home_conference, away_conference FROM games WHERE season = ?", [season]
+        ).fetchall()
+    }
+
+    graded_rows = []
+    for row in bt.itertuples():
+        if row.bet_result is None:
+            continue
+        gid = int(row.game_id)
+        hc, ac = conf_by_game.get(gid, (None, None))
+        graded_rows.append({"bet_result": row.bet_result, "week": int(row.week), "home_conf": hc, "away_conf": ac})
+
+    def _stat(rows, week=None):
+        w = sum(1 for r in rows if r["bet_result"] == "Win")
+        l = sum(1 for r in rows if r["bet_result"] == "Loss")
+        p = sum(1 for r in rows if r["bet_result"] == "Push")
+        graded = w + l
+        return {"w": w, "l": l, "p": p, "pct": (round(w / graded, 3) if graded else None), "week": week}
+
+    def _scope_tracking(rows):
+        rolling = _stat(rows)
+        weeks = {r["week"] for r in rows}
+        if not weeks:
+            return {"rolling": rolling, "weekly": _stat([], week=None)}
+        latest_week = max(weeks)
+        weekly = _stat([r for r in rows if r["week"] == latest_week], week=latest_week)
+        return {"rolling": rolling, "weekly": weekly}
+
+    out = {"National": _scope_tracking(
+        [r for r in graded_rows if r["home_conf"] in FBS_CONFERENCES or r["away_conf"] in FBS_CONFERENCES]
+    )}
+    for conference in FBS_CONFERENCES:
+        out[conference] = _scope_tracking(
+            [r for r in graded_rows if r["home_conf"] == conference or r["away_conf"] == conference]
+        )
+    return out
+
+
 _SLATE_HEADERS = [
     "Week", "Date", "Home Conf", "Away Conf", "Away Team", "Home Team",
     "Model Line (Home)", "Market Line (Home)", "Spread Edge (pts)",
@@ -920,21 +1002,71 @@ def _write_slate_table(ws, rows, start_row=1, freeze=True):
     return last_row
 
 
-def render_national_slate(ws, season, week, rows):
+ATS_SUMMARY_HEADER_FILL = PatternFill("solid", fgColor="7B3F00")  # dark brown -- distinct from both the slate's navy and standings' green headers
+ATS_SUMMARY_HEADER_FONT = Font(name=FONT_NAME, bold=True, color="FFFFFF", size=10)
+
+
+def _write_ats_summary_block(ws, label, tracking, start_row=1):
+    """
+    Small 2-row stat block: the live model's (Dub Gamma's) own
+    against-the-spread record for this scope (`label` -- "National" or a
+    conference name), season-to-date ("Rolling ATS") and for its own most
+    recently graded week ("Weekly ATS") -- see _compute_ats_tracking()'s own
+    docstring for exactly what counts as graded and how the percentage is
+    computed. Returns the row number the caller should continue writing at
+    (one blank row below this block).
+
+    `tracking` may be None/empty (e.g. _compute_ats_tracking() found nothing
+    graded yet this season in this scope) -- the block still renders with
+    blank W-L-P/no week rather than being skipped, so every tab's layout
+    starts at the same row regardless of how much history exists yet.
+    """
+    ws.cell(row=start_row, column=1, value=f"{label} Model ATS Record").font = SUBTITLE_FONT
+    header_row = start_row + 1
+    headers = ["Metric", "Record (W-L-P)", "ATS %"]
+    for c, h in enumerate(headers, start=1):
+        cell = ws.cell(row=header_row, column=c, value=h)
+        cell.font = ATS_SUMMARY_HEADER_FONT
+        cell.fill = ATS_SUMMARY_HEADER_FILL
+        cell.alignment = Alignment(horizontal="center")
+
+    empty_stat = {"w": 0, "l": 0, "p": 0, "pct": None, "week": None}
+    rolling = (tracking or {}).get("rolling") or empty_stat
+    weekly = (tracking or {}).get("weekly") or empty_stat
+    weekly_label = f"Weekly ATS (Wk {weekly['week']})" if weekly.get("week") else "Weekly ATS (no graded games yet)"
+
+    r = header_row + 1
+    for metric_label, stat in [("Rolling ATS (Season)", rolling), (weekly_label, weekly)]:
+        ws.cell(row=r, column=1, value=metric_label).font = FORMULA_FONT
+        ws.cell(row=r, column=2, value=f"{stat['w']}-{stat['l']}-{stat['p']}").font = FORMULA_FONT
+        pct_cell = ws.cell(row=r, column=3, value=stat["pct"])
+        pct_cell.font = FORMULA_FONT
+        if stat["pct"] is not None:
+            pct_cell.number_format = "0.0%"
+        r += 1
+    return r + 1  # one blank row, then the caller's own block starts here
+
+
+def render_national_slate(ws, season, week, rows, ats_tracking):
     """Thin writer -- all the computing already happened in
-    _compute_national_slate_rows(), this just renders it onto the tab."""
+    _compute_national_slate_rows()/_compute_ats_tracking(), this just
+    renders it onto the tab. The ATS summary block renders first and always
+    -- it doesn't depend on there being an upcoming week to show a slate
+    for, so a bye week (season/rows still show their own placeholder note)
+    doesn't hide the season's ATS record."""
+    next_row = _write_ats_summary_block(ws, "National", ats_tracking, start_row=1)
+
     if season is None:
-        ws["A1"] = "No upcoming (incomplete) games found in the DB -- run the pull scripts first."
-        ws["A1"].font = NOTE_FONT
+        ws.cell(row=next_row, column=1,
+                value="No upcoming (incomplete) games found in the DB -- run the pull scripts first.").font = NOTE_FONT
         print("National Slate: no upcoming week detected -- left a placeholder note.")
         return
     if not rows:
-        ws["A1"] = f"No FBS games found for season {season}, week {week}."
-        ws["A1"].font = NOTE_FONT
+        ws.cell(row=next_row, column=1, value=f"No FBS games found for season {season}, week {week}.").font = NOTE_FONT
         print(f"National Slate: no FBS games for season {season} week {week}.")
         return
 
-    _write_slate_table(ws, rows, start_row=1)
+    _write_slate_table(ws, rows, start_row=next_row)
     n_edges = sum(1 for r in rows if r["spread_edge"] is not None and abs(r["spread_edge"]) >= backtest.EDGE_THRESHOLD)
     print(f"National Slate: {len(rows)} FBS game(s) for season {season} week {week} "
           f"({n_edges} with a real spread edge >= {backtest.EDGE_THRESHOLD} pts)")
@@ -1038,21 +1170,26 @@ def ensure_conference_slate_tab(wb, conference):
     return ws
 
 
-def update_conference_slate(ws, con, conference, season, week, all_rows):
+def update_conference_slate(ws, con, conference, season, week, all_rows, ats_tracking):
     """
-    Standings block on top (see _conference_standings()), then this
-    conference's own slice of the already-computed National Slate rows
-    below it -- a non-conference game (e.g. a Mountain West team @ a Big Ten
-    team) shows up on BOTH conferences' tabs, same as it would on either
-    conference's real schedule. Reuses `all_rows` as computed once in
-    main() rather than recomputing anything per conference, so a game here
-    can never show different numbers than the same game on National Slate.
+    Model ATS summary block, then standings block (see
+    _conference_standings()), then this conference's own slice of the
+    already-computed National Slate rows below it -- a non-conference game
+    (e.g. a Mountain West team @ a Big Ten team) shows up on BOTH
+    conferences' tabs, same as it would on either conference's real
+    schedule. Reuses `all_rows` as computed once in main() rather than
+    recomputing anything per conference, so a game here can never show
+    different numbers than the same game on National Slate. `ats_tracking`
+    is this one conference's own entry from _compute_ats_tracking()'s
+    return dict (already computed once in main() too).
     """
+    ats_next_row = _write_ats_summary_block(ws, conference, ats_tracking, start_row=1)
+
     # Standings reflect completed games for CURRENT_SEASON regardless of
     # whether an upcoming week was detected -- a None `season` here would
     # just mean "no upcoming week to build a slate for," not "no season."
     standings = _conference_standings(con, conference, CURRENT_SEASON)
-    next_row = _write_standings_block(ws, conference, standings, start_row=1)
+    next_row = _write_standings_block(ws, conference, standings, start_row=ats_next_row)
 
     # ensure_conference_slate_tab() clears cell CONTENT on a re-run
     # (delete_rows) but a sheet-level setting like freeze_panes isn't a
@@ -1116,12 +1253,19 @@ def main():
     # docstring for why (Ridge/totals refitting is not free).
     season, week, all_rows = _compute_national_slate_rows(con)
 
+    # Also computed ONCE here and reused the same way -- see
+    # _compute_ats_tracking()'s own docstring for why (it replays
+    # backtest.run_backtest()'s full walk-forward grading, which is not
+    # cheap either).
+    print("Computing model ATS tracking (this replays the full walk-forward backtest, may take a while)...")
+    ats_tracking = _compute_ats_tracking(con, CURRENT_SEASON)
+
     national_ws = ensure_national_slate_tab(wb)
-    render_national_slate(national_ws, season, week, all_rows)
+    render_national_slate(national_ws, season, week, all_rows, ats_tracking.get("National"))
 
     for conference in sorted(FBS_CONFERENCES):
         conf_ws = ensure_conference_slate_tab(wb, conference)
-        update_conference_slate(conf_ws, con, conference, season, week, all_rows)
+        update_conference_slate(conf_ws, con, conference, season, week, all_rows, ats_tracking.get(conference))
 
     con.close()
 
