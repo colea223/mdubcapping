@@ -1,6 +1,6 @@
 {
   "meta": {
-    "generated_at": "2026-10-04T17:02:00Z",
+    "generated_at": "2026-10-04T17:54:05Z",
     "current_week": {
       "season": 2026,
       "week": 6
@@ -299,6 +299,14 @@
             "home_ml": 105,
             "away_ml": -125,
             "source": "cfbd"
+          },
+          {
+            "t": "2026-10-04T17:21:15Z",
+            "spread": 2.5,
+            "total": 56.5,
+            "home_ml": 105,
+            "away_ml": -125,
+            "source": "cfbd"
           }
         ]
       }
@@ -350,6 +358,14 @@
           },
           {
             "t": "2026-10-04T05:38:31Z",
+            "spread": -14.5,
+            "total": 57.5,
+            "home_ml": -675,
+            "away_ml": 490,
+            "source": "cfbd"
+          },
+          {
+            "t": "2026-10-04T17:21:15Z",
             "spread": -14.5,
             "total": 57.5,
             "home_ml": -675,
@@ -411,6 +427,14 @@
             "home_ml": 280,
             "away_ml": -355,
             "source": "cfbd"
+          },
+          {
+            "t": "2026-10-04T17:21:15Z",
+            "spread": 10.0,
+            "total": 50.5,
+            "home_ml": 280,
+            "away_ml": -355,
+            "source": "cfbd"
           }
         ]
       }
@@ -462,6 +486,14 @@
           },
           {
             "t": "2026-10-04T05:38:31Z",
+            "spread": -1.5,
+            "total": 50.5,
+            "home_ml": -118,
+            "away_ml": -102,
+            "source": "cfbd"
+          },
+          {
+            "t": "2026-10-04T17:21:15Z",
             "spread": -1.5,
             "total": 50.5,
             "home_ml": -118,
@@ -763,6 +795,14 @@
             "home_ml": 300,
             "away_ml": -380,
             "source": "cfbd"
+          },
+          {
+            "t": "2026-10-04T17:21:15Z",
+            "spread": 9.5,
+            "total": 41.5,
+            "home_ml": 300,
+            "away_ml": -380,
+            "source": "cfbd"
           }
         ]
       }
@@ -814,6 +854,14 @@
           },
           {
             "t": "2026-10-04T05:38:31Z",
+            "spread": -14.5,
+            "total": 50.5,
+            "home_ml": -625,
+            "away_ml": 455,
+            "source": "cfbd"
+          },
+          {
+            "t": "2026-10-04T17:21:15Z",
             "spread": -14.5,
             "total": 50.5,
             "home_ml": -625,
@@ -875,6 +923,14 @@
             "home_ml": 285,
             "away_ml": -360,
             "source": "cfbd"
+          },
+          {
+            "t": "2026-10-04T17:21:15Z",
+            "spread": 8.5,
+            "total": 50.5,
+            "home_ml": 285,
+            "away_ml": -360,
+            "source": "cfbd"
           }
         ]
       }
@@ -926,6 +982,14 @@
           },
           {
             "t": "2026-10-04T05:38:31Z",
+            "spread": -12.5,
+            "total": 60.5,
+            "home_ml": -485,
+            "away_ml": 370,
+            "source": "cfbd"
+          },
+          {
+            "t": "2026-10-04T17:21:15Z",
             "spread": -12.5,
             "total": 60.5,
             "home_ml": -485,
@@ -1227,6 +1291,14 @@
             "home_ml": -115,
             "away_ml": -105,
             "source": "cfbd"
+          },
+          {
+            "t": "2026-10-04T17:21:15Z",
+            "spread": -1.5,
+            "total": 58.5,
+            "home_ml": -115,
+            "away_ml": -105,
+            "source": "cfbd"
           }
         ]
       }
@@ -1278,6 +1350,14 @@
           },
           {
             "t": "2026-10-04T05:38:31Z",
+            "spread": -1.5,
+            "total": 41.5,
+            "home_ml": -112,
+            "away_ml": -108,
+            "source": "cfbd"
+          },
+          {
+            "t": "2026-10-04T17:21:15Z",
             "spread": -1.5,
             "total": 41.5,
             "home_ml": -112,
@@ -1463,6 +1543,14 @@
             "home_ml": 120,
             "away_ml": -142,
             "source": "cfbd"
+          },
+          {
+            "t": "2026-10-04T17:21:15Z",
+            "spread": 2.5,
+            "total": 48.5,
+            "home_ml": 120,
+            "away_ml": -142,
+            "source": "cfbd"
           }
         ]
       }
@@ -1482,6 +1570,14 @@
           },
           {
             "t": "2026-10-04T05:38:31Z",
+            "spread": -3.5,
+            "total": 47.5,
+            "home_ml": -162,
+            "away_ml": 136,
+            "source": "cfbd"
+          },
+          {
+            "t": "2026-10-04T17:21:15Z",
             "spread": -3.5,
             "total": 47.5,
             "home_ml": -162,
@@ -1538,6 +1634,14 @@
           },
           {
             "t": "2026-10-04T05:38:31Z",
+            "spread": -9.5,
+            "total": 48.5,
+            "home_ml": -355,
+            "away_ml": 280,
+            "source": "cfbd"
+          },
+          {
+            "t": "2026-10-04T17:21:15Z",
             "spread": -9.5,
             "total": 48.5,
             "home_ml": -355,

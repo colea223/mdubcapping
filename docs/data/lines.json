@@ -1,6 +1,6 @@
 {
   "meta": {
-    "generated_at": "2026-10-04T17:02:00Z",
+    "generated_at": "2026-10-04T17:54:05Z",
     "current_week": {
       "season": 2026,
       "week": 6
@@ -86,21 +86,6 @@
       ]
     },
     {
-      "game_id": 401871052,
-      "date": "2026-10-08T23:00:00Z",
-      "away_team": "Missouri State",
-      "home_team": "Western Kentucky",
-      "home_conf": "Conference USA",
-      "away_conf": "Conference USA",
-      "open_spread_home": null,
-      "open_total": null,
-      "kicked_off": false,
-      "close_spread_home": null,
-      "close_total": null,
-      "books": {},
-      "book_order": []
-    },
-    {
       "game_id": 401870766,
       "date": "2026-10-08T23:00:00Z",
       "away_team": "Sam Houston",
@@ -116,12 +101,12 @@
       "book_order": []
     },
     {
-      "game_id": 401862794,
-      "date": "2026-10-08T23:30:00Z",
-      "away_team": "South Florida",
-      "home_team": "UTSA",
-      "home_conf": "American Athletic",
-      "away_conf": "American Athletic",
+      "game_id": 401871052,
+      "date": "2026-10-08T23:00:00Z",
+      "away_team": "Missouri State",
+      "home_team": "Western Kentucky",
+      "home_conf": "Conference USA",
+      "away_conf": "Conference USA",
       "open_spread_home": null,
       "open_total": null,
       "kicked_off": false,
@@ -146,6 +131,21 @@
       "book_order": []
     },
     {
+      "game_id": 401862794,
+      "date": "2026-10-08T23:30:00Z",
+      "away_team": "South Florida",
+      "home_team": "UTSA",
+      "home_conf": "American Athletic",
+      "away_conf": "American Athletic",
+      "open_spread_home": null,
+      "open_total": null,
+      "kicked_off": false,
+      "close_spread_home": null,
+      "close_total": null,
+      "books": {},
+      "book_order": []
+    },
+    {
       "game_id": 401858254,
       "date": "2026-10-09T23:00:00Z",
       "away_team": "Florida State",
@@ -159,32 +159,6 @@
       "close_total": null,
       "books": {},
       "book_order": []
-    },
-    {
-      "game_id": 401858487,
-      "date": "2026-10-10T01:00:00Z",
-      "away_team": "Iowa",
-      "home_team": "Washington",
-      "home_conf": "Big Ten",
-      "away_conf": "Big Ten",
-      "open_spread_home": -1.5,
-      "open_total": 41.5,
-      "kicked_off": false,
-      "close_spread_home": null,
-      "close_total": null,
-      "books": {
-        "DraftKings": {
-          "spread": -1.5,
-          "spread_open": -1.5,
-          "total": 41.5,
-          "total_open": 41.5,
-          "home_ml": -112,
-          "away_ml": -108
-        }
-      },
-      "book_order": [
-        "DraftKings"
-      ]
     },
     {
       "game_id": 401860922,
@@ -237,6 +211,32 @@
       ]
     },
     {
+      "game_id": 401858487,
+      "date": "2026-10-10T01:00:00Z",
+      "away_team": "Iowa",
+      "home_team": "Washington",
+      "home_conf": "Big Ten",
+      "away_conf": "Big Ten",
+      "open_spread_home": -1.5,
+      "open_total": 41.5,
+      "kicked_off": false,
+      "close_spread_home": null,
+      "close_total": null,
+      "books": {
+        "DraftKings": {
+          "spread": -1.5,
+          "spread_open": -1.5,
+          "total": 41.5,
+          "total_open": 41.5,
+          "home_ml": -112,
+          "away_ml": -108
+        }
+      },
+      "book_order": [
+        "DraftKings"
+      ]
+    },
+    {
       "game_id": 401856826,
       "date": "2026-10-10T02:15:00Z",
       "away_team": "Iowa State",
@@ -263,12 +263,42 @@
       ]
     },
     {
-      "game_id": 401856824,
+      "game_id": 401856823,
       "date": "2026-10-10T16:00:00Z",
-      "away_team": "UCF",
-      "home_team": "Oklahoma State",
+      "away_team": "Arizona",
+      "home_team": "West Virginia",
       "home_conf": "Big 12",
       "away_conf": "Big 12",
+      "open_spread_home": null,
+      "open_total": null,
+      "kicked_off": false,
+      "close_spread_home": null,
+      "close_total": null,
+      "books": {},
+      "book_order": []
+    },
+    {
+      "game_id": 401862795,
+      "date": "2026-10-10T16:00:00Z",
+      "away_team": "Tulane",
+      "home_team": "Army",
+      "home_conf": "American Athletic",
+      "away_conf": "American Athletic",
+      "open_spread_home": null,
+      "open_total": null,
+      "kicked_off": false,
+      "close_spread_home": null,
+      "close_total": null,
+      "books": {},
+      "book_order": []
+    },
+    {
+      "game_id": 401866436,
+      "date": "2026-10-10T16:00:00Z",
+      "away_team": "Sacramento State",
+      "home_team": "Bowling Green",
+      "home_conf": "Mid-American",
+      "away_conf": "Mid-American",
       "open_spread_home": null,
       "open_total": null,
       "kicked_off": false,
@@ -304,6 +334,36 @@
       ]
     },
     {
+      "game_id": 401856824,
+      "date": "2026-10-10T16:00:00Z",
+      "away_team": "UCF",
+      "home_team": "Oklahoma State",
+      "home_conf": "Big 12",
+      "away_conf": "Big 12",
+      "open_spread_home": null,
+      "open_total": null,
+      "kicked_off": false,
+      "close_spread_home": null,
+      "close_total": null,
+      "books": {},
+      "book_order": []
+    },
+    {
+      "game_id": 401858256,
+      "date": "2026-10-10T16:00:00Z",
+      "away_team": "North Carolina",
+      "home_team": "Pittsburgh",
+      "home_conf": "ACC",
+      "away_conf": "ACC",
+      "open_spread_home": null,
+      "open_total": null,
+      "kicked_off": false,
+      "close_spread_home": null,
+      "close_total": null,
+      "books": {},
+      "book_order": []
+    },
+    {
       "game_id": 401858481,
       "date": "2026-10-10T16:00:00Z",
       "away_team": "Indiana",
@@ -330,72 +390,12 @@
       ]
     },
     {
-      "game_id": 401866436,
-      "date": "2026-10-10T16:00:00Z",
-      "away_team": "Sacramento State",
-      "home_team": "Bowling Green",
-      "home_conf": "Mid-American",
-      "away_conf": "Mid-American",
-      "open_spread_home": null,
-      "open_total": null,
-      "kicked_off": false,
-      "close_spread_home": null,
-      "close_total": null,
-      "books": {},
-      "book_order": []
-    },
-    {
-      "game_id": 401862795,
-      "date": "2026-10-10T16:00:00Z",
-      "away_team": "Tulane",
-      "home_team": "Army",
-      "home_conf": "American Athletic",
-      "away_conf": "American Athletic",
-      "open_spread_home": null,
-      "open_total": null,
-      "kicked_off": false,
-      "close_spread_home": null,
-      "close_total": null,
-      "books": {},
-      "book_order": []
-    },
-    {
-      "game_id": 401858256,
-      "date": "2026-10-10T16:00:00Z",
-      "away_team": "North Carolina",
-      "home_team": "Pittsburgh",
-      "home_conf": "ACC",
-      "away_conf": "ACC",
-      "open_spread_home": null,
-      "open_total": null,
-      "kicked_off": false,
-      "close_spread_home": null,
-      "close_total": null,
-      "books": {},
-      "book_order": []
-    },
-    {
       "game_id": 401858260,
       "date": "2026-10-10T16:00:00Z",
       "away_team": "Wake Forest",
       "home_team": "NC State",
       "home_conf": "ACC",
       "away_conf": "ACC",
-      "open_spread_home": null,
-      "open_total": null,
-      "kicked_off": false,
-      "close_spread_home": null,
-      "close_total": null,
-      "books": {},
-      "book_order": []
-    },
-    {
-      "game_id": 401856823,
-      "date": "2026-10-10T16:00:00Z",
-      "away_team": "Arizona",
-      "home_team": "West Virginia",
-      "home_conf": "Big 12",
-      "away_conf": "Big 12",
       "open_spread_home": null,
       "open_total": null,
       "kicked_off": false,
@@ -476,12 +476,57 @@
       "book_order": []
     },
     {
-      "game_id": 401858480,
+      "game_id": 401856718,
       "date": "2026-10-10T19:30:00Z",
-      "away_team": "Illinois",
-      "home_team": "Michigan State",
-      "home_conf": "Big Ten",
-      "away_conf": "Big Ten",
+      "away_team": "Ole Miss",
+      "home_team": "Vanderbilt",
+      "home_conf": "SEC",
+      "away_conf": "SEC",
+      "open_spread_home": null,
+      "open_total": null,
+      "kicked_off": false,
+      "close_spread_home": null,
+      "close_total": null,
+      "books": {},
+      "book_order": []
+    },
+    {
+      "game_id": 401866435,
+      "date": "2026-10-10T19:30:00Z",
+      "away_team": "Eastern Michigan",
+      "home_team": "Akron",
+      "home_conf": "Mid-American",
+      "away_conf": "Mid-American",
+      "open_spread_home": null,
+      "open_total": null,
+      "kicked_off": false,
+      "close_spread_home": null,
+      "close_total": null,
+      "books": {},
+      "book_order": []
+    },
+    {
+      "game_id": 401866439,
+      "date": "2026-10-10T19:30:00Z",
+      "away_team": "Kent State",
+      "home_team": "Western Michigan",
+      "home_conf": "Mid-American",
+      "away_conf": "Mid-American",
+      "open_spread_home": null,
+      "open_total": null,
+      "kicked_off": false,
+      "close_spread_home": null,
+      "close_total": null,
+      "books": {},
+      "book_order": []
+    },
+    {
+      "game_id": 401862796,
+      "date": "2026-10-10T19:30:00Z",
+      "away_team": "Charlotte",
+      "home_team": "North Texas",
+      "home_conf": "American Athletic",
+      "away_conf": "American Athletic",
       "open_spread_home": null,
       "open_total": null,
       "kicked_off": false,
@@ -517,12 +562,12 @@
       ]
     },
     {
-      "game_id": 401856718,
+      "game_id": 401862799,
       "date": "2026-10-10T19:30:00Z",
-      "away_team": "Ole Miss",
-      "home_team": "Vanderbilt",
-      "home_conf": "SEC",
-      "away_conf": "SEC",
+      "away_team": "Tulsa",
+      "home_team": "Navy",
+      "home_conf": "American Athletic",
+      "away_conf": "American Athletic",
       "open_spread_home": null,
       "open_total": null,
       "kicked_off": false,
@@ -562,26 +607,11 @@
       "book_order": []
     },
     {
-      "game_id": 401862799,
+      "game_id": 401858259,
       "date": "2026-10-10T19:30:00Z",
-      "away_team": "Tulsa",
-      "home_team": "Navy",
-      "home_conf": "American Athletic",
-      "away_conf": "American Athletic",
-      "open_spread_home": null,
-      "open_total": null,
-      "kicked_off": false,
-      "close_spread_home": null,
-      "close_total": null,
-      "books": {},
-      "book_order": []
-    },
-    {
-      "game_id": 401858257,
-      "date": "2026-10-10T19:30:00Z",
-      "away_team": "Stanford",
-      "home_team": "Notre Dame",
-      "home_conf": "FBS Independents",
+      "away_team": "Virginia Tech",
+      "home_team": "California",
+      "home_conf": "ACC",
       "away_conf": "ACC",
       "open_spread_home": null,
       "open_total": null,
@@ -607,12 +637,27 @@
       "book_order": []
     },
     {
-      "game_id": 401866435,
+      "game_id": 401858257,
       "date": "2026-10-10T19:30:00Z",
-      "away_team": "Eastern Michigan",
-      "home_team": "Akron",
-      "home_conf": "Mid-American",
-      "away_conf": "Mid-American",
+      "away_team": "Stanford",
+      "home_team": "Notre Dame",
+      "home_conf": "FBS Independents",
+      "away_conf": "ACC",
+      "open_spread_home": null,
+      "open_total": null,
+      "kicked_off": false,
+      "close_spread_home": null,
+      "close_total": null,
+      "books": {},
+      "book_order": []
+    },
+    {
+      "game_id": 401858480,
+      "date": "2026-10-10T19:30:00Z",
+      "away_team": "Illinois",
+      "home_team": "Michigan State",
+      "home_conf": "Big Ten",
+      "away_conf": "Big Ten",
       "open_spread_home": null,
       "open_total": null,
       "kicked_off": false,
@@ -626,36 +671,6 @@
       "date": "2026-10-10T19:30:00Z",
       "away_team": "Buffalo",
       "home_team": "Toledo",
-      "home_conf": "Mid-American",
-      "away_conf": "Mid-American",
-      "open_spread_home": null,
-      "open_total": null,
-      "kicked_off": false,
-      "close_spread_home": null,
-      "close_total": null,
-      "books": {},
-      "book_order": []
-    },
-    {
-      "game_id": 401858259,
-      "date": "2026-10-10T19:30:00Z",
-      "away_team": "Virginia Tech",
-      "home_team": "California",
-      "home_conf": "ACC",
-      "away_conf": "ACC",
-      "open_spread_home": null,
-      "open_total": null,
-      "kicked_off": false,
-      "close_spread_home": null,
-      "close_total": null,
-      "books": {},
-      "book_order": []
-    },
-    {
-      "game_id": 401866439,
-      "date": "2026-10-10T19:30:00Z",
-      "away_team": "Kent State",
-      "home_team": "Western Michigan",
       "home_conf": "Mid-American",
       "away_conf": "Mid-American",
       "open_spread_home": null,
@@ -693,21 +708,6 @@
       ]
     },
     {
-      "game_id": 401862796,
-      "date": "2026-10-10T19:30:00Z",
-      "away_team": "Charlotte",
-      "home_team": "North Texas",
-      "home_conf": "American Athletic",
-      "away_conf": "American Athletic",
-      "open_spread_home": null,
-      "open_total": null,
-      "kicked_off": false,
-      "close_spread_home": null,
-      "close_total": null,
-      "books": {},
-      "book_order": []
-    },
-    {
       "game_id": 401861964,
       "date": "2026-10-10T19:45:00Z",
       "away_team": "UConn",
@@ -738,21 +738,6 @@
       "book_order": []
     },
     {
-      "game_id": 401856713,
-      "date": "2026-10-10T20:15:00Z",
-      "away_team": "Tennessee",
-      "home_team": "Arkansas",
-      "home_conf": "SEC",
-      "away_conf": "SEC",
-      "open_spread_home": null,
-      "open_total": null,
-      "kicked_off": false,
-      "close_spread_home": null,
-      "close_total": null,
-      "books": {},
-      "book_order": []
-    },
-    {
       "game_id": 401858483,
       "date": "2026-10-10T20:15:00Z",
       "away_team": "Maryland",
@@ -768,83 +753,27 @@
       "book_order": []
     },
     {
+      "game_id": 401856713,
+      "date": "2026-10-10T20:15:00Z",
+      "away_team": "Tennessee",
+      "home_team": "Arkansas",
+      "home_conf": "SEC",
+      "away_conf": "SEC",
+      "open_spread_home": null,
+      "open_total": null,
+      "kicked_off": false,
+      "close_spread_home": null,
+      "close_total": null,
+      "books": {},
+      "book_order": []
+    },
+    {
       "game_id": 401860902,
       "date": "2026-10-10T22:00:00Z",
       "away_team": "San Diego State",
       "home_team": "Oregon State",
       "home_conf": "Pac-12",
       "away_conf": "Pac-12",
-      "open_spread_home": null,
-      "open_total": null,
-      "kicked_off": false,
-      "close_spread_home": null,
-      "close_total": null,
-      "books": {},
-      "book_order": []
-    },
-    {
-      "game_id": 401864518,
-      "date": "2026-10-10T23:00:00Z",
-      "away_team": "North Dakota State",
-      "home_team": "UNLV",
-      "home_conf": "Mountain West",
-      "away_conf": "Mountain West",
-      "open_spread_home": null,
-      "open_total": null,
-      "kicked_off": false,
-      "close_spread_home": null,
-      "close_total": null,
-      "books": {
-        "FanDuel": {
-          "spread": 3.5,
-          "spread_open": null,
-          "total": 50.5,
-          "total_open": null,
-          "home_ml": 140,
-          "away_ml": -170
-        }
-      },
-      "book_order": [
-        "FanDuel"
-      ]
-    },
-    {
-      "game_id": 401869943,
-      "date": "2026-10-10T23:00:00Z",
-      "away_team": "Coastal Carolina",
-      "home_team": "Marshall",
-      "home_conf": "Sun Belt",
-      "away_conf": "Sun Belt",
-      "open_spread_home": null,
-      "open_total": null,
-      "kicked_off": false,
-      "close_spread_home": null,
-      "close_total": null,
-      "books": {},
-      "book_order": []
-    },
-    {
-      "game_id": 401862798,
-      "date": "2026-10-10T23:00:00Z",
-      "away_team": "UAB",
-      "home_team": "Memphis",
-      "home_conf": "American Athletic",
-      "away_conf": "American Athletic",
-      "open_spread_home": null,
-      "open_total": null,
-      "kicked_off": false,
-      "close_spread_home": null,
-      "close_total": null,
-      "books": {},
-      "book_order": []
-    },
-    {
-      "game_id": 401864517,
-      "date": "2026-10-10T23:00:00Z",
-      "away_team": "Nevada",
-      "home_team": "UTEP",
-      "home_conf": "Mountain West",
-      "away_conf": "Mountain West",
       "open_spread_home": null,
       "open_total": null,
       "kicked_off": false,
@@ -880,12 +809,109 @@
       ]
     },
     {
-      "game_id": 401869949,
-      "date": "2026-10-10T23:30:00Z",
-      "away_team": "James Madison",
-      "home_team": "Georgia Southern",
+      "game_id": 401862798,
+      "date": "2026-10-10T23:00:00Z",
+      "away_team": "UAB",
+      "home_team": "Memphis",
+      "home_conf": "American Athletic",
+      "away_conf": "American Athletic",
+      "open_spread_home": null,
+      "open_total": null,
+      "kicked_off": false,
+      "close_spread_home": null,
+      "close_total": null,
+      "books": {},
+      "book_order": []
+    },
+    {
+      "game_id": 401864517,
+      "date": "2026-10-10T23:00:00Z",
+      "away_team": "Nevada",
+      "home_team": "UTEP",
+      "home_conf": "Mountain West",
+      "away_conf": "Mountain West",
+      "open_spread_home": null,
+      "open_total": null,
+      "kicked_off": false,
+      "close_spread_home": null,
+      "close_total": null,
+      "books": {},
+      "book_order": []
+    },
+    {
+      "game_id": 401869943,
+      "date": "2026-10-10T23:00:00Z",
+      "away_team": "Coastal Carolina",
+      "home_team": "Marshall",
       "home_conf": "Sun Belt",
       "away_conf": "Sun Belt",
+      "open_spread_home": null,
+      "open_total": null,
+      "kicked_off": false,
+      "close_spread_home": null,
+      "close_total": null,
+      "books": {},
+      "book_order": []
+    },
+    {
+      "game_id": 401864518,
+      "date": "2026-10-10T23:00:00Z",
+      "away_team": "North Dakota State",
+      "home_team": "UNLV",
+      "home_conf": "Mountain West",
+      "away_conf": "Mountain West",
+      "open_spread_home": null,
+      "open_total": null,
+      "kicked_off": false,
+      "close_spread_home": null,
+      "close_total": null,
+      "books": {
+        "FanDuel": {
+          "spread": 3.5,
+          "spread_open": null,
+          "total": 50.5,
+          "total_open": null,
+          "home_ml": 140,
+          "away_ml": -170
+        }
+      },
+      "book_order": [
+        "FanDuel"
+      ]
+    },
+    {
+      "game_id": 401858485,
+      "date": "2026-10-10T23:30:00Z",
+      "away_team": "USC",
+      "home_team": "Penn State",
+      "home_conf": "Big Ten",
+      "away_conf": "Big Ten",
+      "open_spread_home": -1.5,
+      "open_total": 56.5,
+      "kicked_off": false,
+      "close_spread_home": null,
+      "close_total": null,
+      "books": {
+        "DraftKings": {
+          "spread": -1.5,
+          "spread_open": -1.5,
+          "total": 58.5,
+          "total_open": 56.5,
+          "home_ml": -115,
+          "away_ml": -105
+        }
+      },
+      "book_order": [
+        "DraftKings"
+      ]
+    },
+    {
+      "game_id": 401858258,
+      "date": "2026-10-10T23:30:00Z",
+      "away_team": "Syracuse",
+      "home_team": "Virginia",
+      "home_conf": "ACC",
+      "away_conf": "ACC",
       "open_spread_home": null,
       "open_total": null,
       "kicked_off": false,
@@ -914,32 +940,6 @@
           "total_open": 50.5,
           "home_ml": 105,
           "away_ml": -125
-        }
-      },
-      "book_order": [
-        "DraftKings"
-      ]
-    },
-    {
-      "game_id": 401858485,
-      "date": "2026-10-10T23:30:00Z",
-      "away_team": "USC",
-      "home_team": "Penn State",
-      "home_conf": "Big Ten",
-      "away_conf": "Big Ten",
-      "open_spread_home": -1.5,
-      "open_total": 56.5,
-      "kicked_off": false,
-      "close_spread_home": null,
-      "close_total": null,
-      "books": {
-        "DraftKings": {
-          "spread": -1.5,
-          "spread_open": -1.5,
-          "total": 58.5,
-          "total_open": 56.5,
-          "home_ml": -115,
-          "away_ml": -105
         }
       },
       "book_order": [
@@ -977,12 +977,12 @@
       "book_order": []
     },
     {
-      "game_id": 401858258,
+      "game_id": 401869949,
       "date": "2026-10-10T23:30:00Z",
-      "away_team": "Syracuse",
-      "home_team": "Virginia",
-      "home_conf": "ACC",
-      "away_conf": "ACC",
+      "away_team": "James Madison",
+      "home_team": "Georgia Southern",
+      "home_conf": "Sun Belt",
+      "away_conf": "Sun Belt",
       "open_spread_home": null,
       "open_total": null,
       "kicked_off": false,
@@ -1022,12 +1022,12 @@
       "book_order": []
     },
     {
-      "game_id": 401860901,
+      "game_id": 401856808,
       "date": "2026-10-11T02:30:00Z",
-      "away_team": "Boise State",
-      "home_team": "Fresno State",
-      "home_conf": "Pac-12",
-      "away_conf": "Pac-12",
+      "away_team": "Hawai'i",
+      "home_team": "Arizona State",
+      "home_conf": "Big 12",
+      "away_conf": "Mountain West",
       "open_spread_home": null,
       "open_total": null,
       "kicked_off": false,
@@ -1037,12 +1037,12 @@
       "book_order": []
     },
     {
-      "game_id": 401856808,
+      "game_id": 401860901,
       "date": "2026-10-11T02:30:00Z",
-      "away_team": "Hawai'i",
-      "home_team": "Arizona State",
-      "home_conf": "Big 12",
-      "away_conf": "Mountain West",
+      "away_team": "Boise State",
+      "home_team": "Fresno State",
+      "home_conf": "Pac-12",
+      "away_conf": "Pac-12",
       "open_spread_home": null,
       "open_total": null,
       "kicked_off": false,
