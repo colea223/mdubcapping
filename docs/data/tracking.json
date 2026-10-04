@@ -1,6 +1,6 @@
 {
   "meta": {
-    "generated_at": "2026-10-04T05:05:44Z",
+    "generated_at": "2026-10-04T02:08:28Z",
     "current_week": {
       "season": 2026,
       "week": 5
@@ -45,26 +45,26 @@
       "note": "Hypothetical flat 1-unit-per-bet tracking of the live model's own picks (spread/total at -110, moneyline at the real posted odds) -- not your personal bets. Week 1's spread record includes the seed week -- it uses the Moore seed exactly as pasted, which already reflects that week's own results, so it's informational only, not a genuine out-of-sample prediction (see moore_seed_2026.py)."
     },
     "yours": {
-      "n_bets": 67,
-      "wins": 35,
-      "losses": 32,
+      "n_bets": 65,
+      "wins": 34,
+      "losses": 31,
       "pushes": 0,
-      "win_rate": 0.5224,
-      "units": 173.77,
+      "win_rate": 0.5231,
+      "units": 172.51,
       "by_type": {
         "Spread": {
           "wins": 24,
-          "losses": 18,
+          "losses": 17,
           "pushes": 0,
-          "win_rate": 0.5714,
-          "units": 9.44
+          "win_rate": 0.5854,
+          "units": 10.44
         },
         "Moneyline": {
-          "wins": 11,
+          "wins": 10,
           "losses": 10,
           "pushes": 0,
-          "win_rate": 0.5238,
-          "units": 176.83
+          "win_rate": 0.5,
+          "units": 174.57
         },
         "ML Parlay": {
           "wins": 0,
@@ -81,7 +81,18 @@
           "units": -7.5
         }
       },
-      "pending": [],
+      "pending": [
+        {
+          "date": "",
+          "week": null,
+          "matchup": "BYU @ TCU",
+          "bet_type": "Spread",
+          "side": "TCU",
+          "line": 5.5,
+          "odds": -112.0,
+          "stake": 1.0
+        }
+      ],
       "graded": [
         {
           "date": "2026-08-29",
@@ -862,68 +873,44 @@
           "stake": 1.0,
           "result": "L",
           "units": -1.0
-        },
-        {
-          "date": "",
-          "week": null,
-          "matchup": "BYU @ TCU",
-          "bet_type": "Spread",
-          "side": "TCU",
-          "line": 5.5,
-          "odds": -112.0,
-          "stake": 1.0,
-          "result": "L",
-          "units": -1.0
-        },
-        {
-          "date": "",
-          "week": null,
-          "matchup": "Washington @ USC",
-          "bet_type": "Moneyline",
-          "side": "USC",
-          "line": null,
-          "odds": 126.0,
-          "stake": 1.79,
-          "result": "W",
-          "units": 2.26
         }
       ],
       "note": "Your actual bets from the Bet Log tab, graded at the real odds you entered."
     },
     "beta_model": {
       "season": 2026,
-      "n_games": 35,
+      "n_games": 39,
       "spread": {
-        "n_bets": 35,
-        "wins": 15,
-        "losses": 20,
+        "n_bets": 39,
+        "wins": 20,
+        "losses": 19,
         "pushes": 0,
-        "win_rate": 0.4286,
-        "units": -6.36,
-        "n_real_edge_bets": 24,
-        "real_edge_wins": 10,
-        "real_edge_losses": 14,
-        "real_edge_win_rate": 0.4167
+        "win_rate": 0.5128,
+        "units": -0.82,
+        "n_real_edge_bets": 28,
+        "real_edge_wins": 12,
+        "real_edge_losses": 16,
+        "real_edge_win_rate": 0.4286
       },
-      "agree_rate": 0.4571,
+      "agree_rate": 0.5641,
       "note": null
     },
     "ridge_model": {
       "season": 2026,
-      "n_games": 35,
+      "n_games": 39,
       "spread": {
-        "n_bets": 35,
-        "wins": 19,
-        "losses": 16,
+        "n_bets": 39,
+        "wins": 22,
+        "losses": 17,
         "pushes": 0,
-        "win_rate": 0.5429,
-        "units": 1.27,
-        "n_real_edge_bets": 29,
-        "real_edge_wins": 14,
+        "win_rate": 0.5641,
+        "units": 3.0,
+        "n_real_edge_bets": 32,
+        "real_edge_wins": 17,
         "real_edge_losses": 15,
-        "real_edge_win_rate": 0.4828
+        "real_edge_win_rate": 0.5312
       },
-      "agree_rate": 0.5143,
+      "agree_rate": 0.5641,
       "note": null
     }
   }
