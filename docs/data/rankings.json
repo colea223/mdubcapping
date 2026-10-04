@@ -1,6 +1,6 @@
 {
   "meta": {
-    "generated_at": "2026-10-04T15:48:20Z",
+    "generated_at": "2026-10-04T17:02:00Z",
     "current_week": {
       "season": 2026,
       "week": 6
@@ -1052,24 +1052,6 @@
       "rank": 58
     },
     {
-      "team": "Navy",
-      "conference": "American Athletic",
-      "logo": "https://cdn.collegefootballdata.com/logos/500/2426.png",
-      "rating": 66.4,
-      "offense_rating": 25.9,
-      "defense_rating": 29.8,
-      "special_teams_rating": 0.1,
-      "sos_rank": 216,
-      "sor_rank": 225,
-      "projected_wins": 5.8,
-      "wins": 1,
-      "losses": 3,
-      "conf_wins": 0,
-      "conf_losses": 2,
-      "trend": -0.0,
-      "rank": 59
-    },
-    {
       "team": "South Florida",
       "conference": "American Athletic",
       "logo": "https://cdn.collegefootballdata.com/logos/500/58.png",
@@ -1085,6 +1067,24 @@
       "conf_wins": 1,
       "conf_losses": 1,
       "trend": 0.0,
+      "rank": 59
+    },
+    {
+      "team": "Navy",
+      "conference": "American Athletic",
+      "logo": "https://cdn.collegefootballdata.com/logos/500/2426.png",
+      "rating": 66.4,
+      "offense_rating": 25.9,
+      "defense_rating": 29.8,
+      "special_teams_rating": 0.1,
+      "sos_rank": 216,
+      "sor_rank": 225,
+      "projected_wins": 5.8,
+      "wins": 1,
+      "losses": 3,
+      "conf_wins": 0,
+      "conf_losses": 2,
+      "trend": -0.0,
       "rank": 60
     },
     {
@@ -1376,24 +1376,6 @@
       "rank": 76
     },
     {
-      "team": "Tulane",
-      "conference": "American Athletic",
-      "logo": "https://cdn.collegefootballdata.com/logos/500/2655.png",
-      "rating": 61.7,
-      "offense_rating": 20.0,
-      "defense_rating": 27.6,
-      "special_teams_rating": 0.3,
-      "sos_rank": 122,
-      "sor_rank": 77,
-      "projected_wins": 6.4,
-      "wins": 2,
-      "losses": 2,
-      "conf_wins": 0,
-      "conf_losses": 0,
-      "trend": 0.0,
-      "rank": 77
-    },
-    {
       "team": "Oregon State",
       "conference": "Pac-12",
       "logo": "https://cdn.collegefootballdata.com/logos/500/204.png",
@@ -1409,7 +1391,7 @@
       "conf_wins": 1,
       "conf_losses": 0,
       "trend": -0.0,
-      "rank": 78
+      "rank": 77
     },
     {
       "team": "West Virginia",
@@ -1426,6 +1408,24 @@
       "losses": 2,
       "conf_wins": 0,
       "conf_losses": 2,
+      "trend": 0.0,
+      "rank": 78
+    },
+    {
+      "team": "Tulane",
+      "conference": "American Athletic",
+      "logo": "https://cdn.collegefootballdata.com/logos/500/2655.png",
+      "rating": 61.7,
+      "offense_rating": 20.0,
+      "defense_rating": 27.6,
+      "special_teams_rating": 0.3,
+      "sos_rank": 122,
+      "sor_rank": 77,
+      "projected_wins": 6.4,
+      "wins": 2,
+      "losses": 2,
+      "conf_wins": 0,
+      "conf_losses": 0,
       "trend": 0.0,
       "rank": 79
     },
@@ -1484,24 +1484,6 @@
       "rank": 82
     },
     {
-      "team": "San Diego State",
-      "conference": "Pac-12",
-      "logo": "https://cdn.collegefootballdata.com/logos/500/21.png",
-      "rating": 60.6,
-      "offense_rating": 19.9,
-      "defense_rating": 28.1,
-      "special_teams_rating": 0.4,
-      "sos_rank": 54,
-      "sor_rank": 158,
-      "projected_wins": 4.9,
-      "wins": 2,
-      "losses": 3,
-      "conf_wins": 1,
-      "conf_losses": 0,
-      "trend": 0.0,
-      "rank": 83
-    },
-    {
       "team": "Utah State",
       "conference": "Pac-12",
       "logo": "https://cdn.collegefootballdata.com/logos/500/328.png",
@@ -1516,6 +1498,24 @@
       "losses": 4,
       "conf_wins": 0,
       "conf_losses": 1,
+      "trend": 0.0,
+      "rank": 83
+    },
+    {
+      "team": "San Diego State",
+      "conference": "Pac-12",
+      "logo": "https://cdn.collegefootballdata.com/logos/500/21.png",
+      "rating": 60.6,
+      "offense_rating": 19.9,
+      "defense_rating": 28.1,
+      "special_teams_rating": 0.4,
+      "sos_rank": 54,
+      "sor_rank": 158,
+      "projected_wins": 4.9,
+      "wins": 2,
+      "losses": 3,
+      "conf_wins": 1,
+      "conf_losses": 0,
       "trend": 0.0,
       "rank": 84
     },
