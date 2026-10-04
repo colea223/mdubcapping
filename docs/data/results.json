@@ -1,6 +1,6 @@
 {
   "meta": {
-    "generated_at": "2026-10-04T02:08:28Z",
+    "generated_at": "2026-10-04T05:25:50Z",
     "current_week": {
       "season": 2026,
       "week": 5
@@ -62,6 +62,47 @@
       ]
     },
     {
+      "game_id": 401858247,
+      "season": 2026,
+      "week": 5,
+      "date": "2026-10-03",
+      "away_team": "California",
+      "home_team": "UNLV",
+      "home_points": 39,
+      "away_points": 31,
+      "model": {
+        "spread_pick": -5.9,
+        "market_spread_close": -1.8,
+        "spread_lean": "Home",
+        "spread_was_bet": true,
+        "spread_result": "Win",
+        "spread_is_seed_week": false,
+        "total_pick": 45.6,
+        "market_total_close": 52.2,
+        "total_lean": "Under",
+        "total_was_bet": true,
+        "total_result": "Loss",
+        "ml_lean": "Home",
+        "ml_was_bet": true,
+        "ml_result": "Win"
+      },
+      "beta_model": {
+        "spread_pick": -6.8,
+        "spread_lean": "Home",
+        "spread_was_bet": true,
+        "spread_result": "Win",
+        "agrees_with_model": true
+      },
+      "ridge_model": {
+        "spread_pick": -15.4,
+        "spread_lean": "Home",
+        "spread_was_bet": true,
+        "spread_result": "Win",
+        "agrees_with_model": true
+      },
+      "your_bets": []
+    },
+    {
       "game_id": 401864514,
       "season": 2026,
       "week": 5,
@@ -114,47 +155,6 @@
           "units": 0.91
         }
       ]
-    },
-    {
-      "game_id": 401858247,
-      "season": 2026,
-      "week": 5,
-      "date": "2026-10-03",
-      "away_team": "California",
-      "home_team": "UNLV",
-      "home_points": 39,
-      "away_points": 31,
-      "model": {
-        "spread_pick": -5.9,
-        "market_spread_close": -1.8,
-        "spread_lean": "Home",
-        "spread_was_bet": true,
-        "spread_result": "Win",
-        "spread_is_seed_week": false,
-        "total_pick": 45.6,
-        "market_total_close": 52.2,
-        "total_lean": "Under",
-        "total_was_bet": true,
-        "total_result": "Loss",
-        "ml_lean": "Home",
-        "ml_was_bet": true,
-        "ml_result": "Win"
-      },
-      "beta_model": {
-        "spread_pick": -6.8,
-        "spread_lean": "Home",
-        "spread_was_bet": true,
-        "spread_result": "Win",
-        "agrees_with_model": true
-      },
-      "ridge_model": {
-        "spread_pick": -15.4,
-        "spread_lean": "Home",
-        "spread_was_bet": true,
-        "spread_result": "Win",
-        "agrees_with_model": true
-      },
-      "your_bets": []
     },
     {
       "game_id": 401862791,
@@ -400,47 +400,6 @@
       "your_bets": []
     },
     {
-      "game_id": 401864511,
-      "season": 2026,
-      "week": 4,
-      "date": "2026-09-26",
-      "away_team": "Northern Illinois",
-      "home_team": "Georgia State",
-      "home_points": 35,
-      "away_points": 14,
-      "model": {
-        "spread_pick": -9.4,
-        "market_spread_close": -8.8,
-        "spread_lean": "Home",
-        "spread_was_bet": false,
-        "spread_result": "Win",
-        "spread_is_seed_week": false,
-        "total_pick": 46.1,
-        "market_total_close": 56.5,
-        "total_lean": "Under",
-        "total_was_bet": true,
-        "total_result": "Win",
-        "ml_lean": "Away",
-        "ml_was_bet": false,
-        "ml_result": null
-      },
-      "beta_model": {
-        "spread_pick": -2.4,
-        "spread_lean": "Away",
-        "spread_was_bet": true,
-        "spread_result": "Loss",
-        "agrees_with_model": false
-      },
-      "ridge_model": {
-        "spread_pick": -11.6,
-        "spread_lean": "Home",
-        "spread_was_bet": true,
-        "spread_result": "Win",
-        "agrees_with_model": true
-      },
-      "your_bets": []
-    },
-    {
       "game_id": 401864579,
       "season": 2026,
       "week": 4,
@@ -493,6 +452,47 @@
           "units": 1.36
         }
       ]
+    },
+    {
+      "game_id": 401864511,
+      "season": 2026,
+      "week": 4,
+      "date": "2026-09-26",
+      "away_team": "Northern Illinois",
+      "home_team": "Georgia State",
+      "home_points": 35,
+      "away_points": 14,
+      "model": {
+        "spread_pick": -9.4,
+        "market_spread_close": -8.8,
+        "spread_lean": "Home",
+        "spread_was_bet": false,
+        "spread_result": "Win",
+        "spread_is_seed_week": false,
+        "total_pick": 46.1,
+        "market_total_close": 56.5,
+        "total_lean": "Under",
+        "total_was_bet": true,
+        "total_result": "Win",
+        "ml_lean": "Away",
+        "ml_was_bet": false,
+        "ml_result": null
+      },
+      "beta_model": {
+        "spread_pick": -2.4,
+        "spread_lean": "Away",
+        "spread_was_bet": true,
+        "spread_result": "Loss",
+        "agrees_with_model": false
+      },
+      "ridge_model": {
+        "spread_pick": -11.6,
+        "spread_lean": "Home",
+        "spread_was_bet": true,
+        "spread_result": "Win",
+        "agrees_with_model": true
+      },
+      "your_bets": []
     },
     {
       "game_id": 401860888,
@@ -901,6 +901,47 @@
       "your_bets": []
     },
     {
+      "game_id": 401864500,
+      "season": 2026,
+      "week": 2,
+      "date": "2026-09-13",
+      "away_team": "Montana State",
+      "home_team": "Nevada",
+      "home_points": 7,
+      "away_points": 20,
+      "model": {
+        "spread_pick": -33.6,
+        "market_spread_close": 5.0,
+        "spread_lean": "Home",
+        "spread_was_bet": true,
+        "spread_result": "Loss",
+        "spread_is_seed_week": false,
+        "total_pick": 55.3,
+        "market_total_close": 51.5,
+        "total_lean": "Over",
+        "total_was_bet": true,
+        "total_result": "Loss",
+        "ml_lean": "Home",
+        "ml_was_bet": true,
+        "ml_result": "Loss"
+      },
+      "beta_model": {
+        "spread_pick": -12.4,
+        "spread_lean": "Home",
+        "spread_was_bet": true,
+        "spread_result": "Loss",
+        "agrees_with_model": true
+      },
+      "ridge_model": {
+        "spread_pick": -17.2,
+        "spread_lean": "Home",
+        "spread_was_bet": true,
+        "spread_result": "Loss",
+        "agrees_with_model": true
+      },
+      "your_bets": []
+    },
+    {
       "game_id": 401864578,
       "season": 2026,
       "week": 2,
@@ -976,47 +1017,6 @@
       "ridge_model": {
         "spread_pick": -14.6,
         "spread_lean": "Away",
-        "spread_was_bet": true,
-        "spread_result": "Loss",
-        "agrees_with_model": true
-      },
-      "your_bets": []
-    },
-    {
-      "game_id": 401864500,
-      "season": 2026,
-      "week": 2,
-      "date": "2026-09-13",
-      "away_team": "Montana State",
-      "home_team": "Nevada",
-      "home_points": 7,
-      "away_points": 20,
-      "model": {
-        "spread_pick": -33.6,
-        "market_spread_close": 5.0,
-        "spread_lean": "Home",
-        "spread_was_bet": true,
-        "spread_result": "Loss",
-        "spread_is_seed_week": false,
-        "total_pick": 55.3,
-        "market_total_close": 51.5,
-        "total_lean": "Over",
-        "total_was_bet": true,
-        "total_result": "Loss",
-        "ml_lean": "Home",
-        "ml_was_bet": true,
-        "ml_result": "Loss"
-      },
-      "beta_model": {
-        "spread_pick": -12.4,
-        "spread_lean": "Home",
-        "spread_was_bet": true,
-        "spread_result": "Loss",
-        "agrees_with_model": true
-      },
-      "ridge_model": {
-        "spread_pick": -17.2,
-        "spread_lean": "Home",
         "spread_was_bet": true,
         "spread_result": "Loss",
         "agrees_with_model": true
@@ -1378,6 +1378,47 @@
       "your_bets": []
     },
     {
+      "game_id": 401864499,
+      "season": 2026,
+      "week": 1,
+      "date": "2026-09-05",
+      "away_team": "Fordham",
+      "home_team": "North Dakota State",
+      "home_points": 38,
+      "away_points": 0,
+      "model": {
+        "spread_pick": -58.5,
+        "market_spread_close": -41.5,
+        "spread_lean": "Home",
+        "spread_was_bet": true,
+        "spread_result": "Loss",
+        "spread_is_seed_week": true,
+        "total_pick": 55.4,
+        "market_total_close": 54.2,
+        "total_lean": "Over",
+        "total_was_bet": false,
+        "total_result": "Loss",
+        "ml_lean": null,
+        "ml_was_bet": null,
+        "ml_result": null
+      },
+      "beta_model": {
+        "spread_pick": -35.2,
+        "spread_lean": "Away",
+        "spread_was_bet": true,
+        "spread_result": "Win",
+        "agrees_with_model": false
+      },
+      "ridge_model": {
+        "spread_pick": -40.9,
+        "spread_lean": "Away",
+        "spread_was_bet": false,
+        "spread_result": "Win",
+        "agrees_with_model": false
+      },
+      "your_bets": []
+    },
+    {
       "game_id": 401864496,
       "season": 2026,
       "week": 1,
@@ -1471,47 +1512,6 @@
           "units": -2.5
         }
       ]
-    },
-    {
-      "game_id": 401864499,
-      "season": 2026,
-      "week": 1,
-      "date": "2026-09-05",
-      "away_team": "Fordham",
-      "home_team": "North Dakota State",
-      "home_points": 38,
-      "away_points": 0,
-      "model": {
-        "spread_pick": -58.5,
-        "market_spread_close": -41.5,
-        "spread_lean": "Home",
-        "spread_was_bet": true,
-        "spread_result": "Loss",
-        "spread_is_seed_week": true,
-        "total_pick": 55.4,
-        "market_total_close": 54.2,
-        "total_lean": "Over",
-        "total_was_bet": false,
-        "total_result": "Loss",
-        "ml_lean": null,
-        "ml_was_bet": null,
-        "ml_result": null
-      },
-      "beta_model": {
-        "spread_pick": -35.2,
-        "spread_lean": "Away",
-        "spread_was_bet": true,
-        "spread_result": "Win",
-        "agrees_with_model": false
-      },
-      "ridge_model": {
-        "spread_pick": -40.9,
-        "spread_lean": "Away",
-        "spread_was_bet": false,
-        "spread_result": "Win",
-        "agrees_with_model": false
-      },
-      "your_bets": []
     },
     {
       "game_id": 401860878,
