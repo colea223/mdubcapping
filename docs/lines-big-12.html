@@ -235,6 +235,7 @@ document.getElementById("history-market").addEventListener("change", updateModal
 document.getElementById("history-book").addEventListener("change", updateModal);
 
 let LINES_DATA = null;
+let LOGO_MAP = {};
 
 function renderLines(selectedConf) {
   const container = document.getElementById("lines-container");
@@ -300,8 +301,8 @@ function renderLines(selectedConf) {
       <div class="matchup-card lines-card">
         <div class="matchup-date">${formatTimeET(g.date)} ${closedBadge}</div>
         <div class="matchup-teams">
-          <div class="team-row"><span class="name"><span class="at">@</span>${g.away_team}</span></div>
-          <div class="team-row"><span class="name">${g.home_team}</span></div>
+          <div class="team-row"><span class="name"><span class="at">@</span>${teamLogoImg(g.away_team, LOGO_MAP)}${g.away_team}</span></div>
+          <div class="team-row"><span class="name">${teamLogoImg(g.home_team, LOGO_MAP)}${g.home_team}</span></div>
         </div>
         ${confTag}
         <div class="lines-table-wrap">
@@ -321,12 +322,14 @@ function renderLines(selectedConf) {
 }
 
 (async function () {
-  const [data, historyData] = await Promise.all([
+  const [data, historyData, rankingsData] = await Promise.all([
     fetchJSON("data/lines.json"),
     fetchJSON("data/line_history.json"),
+    fetchJSON("data/rankings.json"),
   ]);
   HISTORY = (historyData && historyData.history) || {};
   LINES_DATA = data;
+  LOGO_MAP = teamLogoMap(rankingsData);
 
   if (data && data.games) {
     data.games.forEach(g => { GAMES_BY_ID[g.game_id] = g; });

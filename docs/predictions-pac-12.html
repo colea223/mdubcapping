@@ -29,6 +29,7 @@
 document.getElementById("nav").innerHTML = renderNav("predictions.html");
 
 let PREDICTIONS_DATA = null;
+let LOGO_MAP = {};
 
 function renderPredictions(selectedConf) {
   const container = document.getElementById("predictions-container");
@@ -210,10 +211,10 @@ function renderPredictions(selectedConf) {
         </div>
         <div class="matchup-teams">
           <div class="team-row">
-            <span class="name"><span class="at">@</span>${p.away_team}${recordTag(p.away_record)}</span>
+            <span class="name"><span class="at">@</span>${teamLogoImg(p.away_team, LOGO_MAP)}${p.away_team}${recordTag(p.away_record)}</span>
           </div>
           <div class="team-row">
-            <span class="name">${p.home_team}${recordTag(p.home_record)}</span>
+            <span class="name">${teamLogoImg(p.home_team, LOGO_MAP)}${p.home_team}${recordTag(p.home_record)}</span>
           </div>
         </div>
         ${selectedConf === ALL_CONFERENCES ? `<div class="conf-tag">${p.away_conf || ""} @ ${p.home_conf || ""}</div>` : ""}
@@ -258,7 +259,12 @@ function renderPredictions(selectedConf) {
 }
 
 (async function () {
-  PREDICTIONS_DATA = await fetchJSON("data/predictions.json");
+  const [predictionsData, rankingsData] = await Promise.all([
+    fetchJSON("data/predictions.json"),
+    fetchJSON("data/rankings.json"),
+  ]);
+  PREDICTIONS_DATA = predictionsData;
+  LOGO_MAP = teamLogoMap(rankingsData);
   const selected = getPageConference();
 
   document.getElementById("conf-filter-container").innerHTML = renderConferenceLinkStrip("predictions", selected);
