@@ -161,20 +161,29 @@ def main():
         con.close()
         return
 
-    # This project is specifically about Mountain West handicapping -- the
-    # model trains on every FBS game for data quality, but the weekly output
-    # only needs MW-involved matchups. Narrowing here (rather than in Excel)
-    # is what keeps the Weekly Slate tab (41 rows) from silently dropping real
-    # MW games behind a flood of national FBS matchups on a busy week.
+    # NOT narrowed to Mountain West games anymore. It used to be (this
+    # project started as Mountain West-only handicapping), but that meant
+    # Dub Beta (XGBoost)/Ridge/Massey predictions for this upcoming week
+    # only ever existed for the ~5-10 MW-involved games -- every other
+    # downstream reader of this CSV that wants a live, not-yet-graded line
+    # for a non-MW game (export_site_data.py's Predictions page, in
+    # particular) had no number to show. Predicting on the FULL FBS slate
+    # here is cheap regardless -- the models are already fully fit above
+    # (that's the one real cost, paid once either way); this only changes
+    # how many rows get predict()'d with that already-fit model, which is
+    # plain inference and doesn't meaningfully add to this script's runtime.
+    # The Weekly Slate tab in Excel genuinely IS MW-only by design (41 rows,
+    # would overflow on a full national slate) -- that narrowing now happens
+    # in excel/update_tracker.py's update_weekly_slate() instead, which
+    # filters this same full-FBS CSV down to MW games right before writing
+    # it into that tab. Every other reader of this CSV (export_site_data.py,
+    # update_model_comparison_tab.py's "Upcoming Games" section) gets the
+    # full national slate unfiltered.
     total_fbs_games = len(upcoming)
-    upcoming = upcoming[
-        upcoming["home_team"].apply(is_2026_mw_team) | upcoming["away_team"].apply(is_2026_mw_team)
-    ].reset_index(drop=True)
-    print(f"{total_fbs_games} FBS games this week nationally -- {len(upcoming)} involve a 2026 Mountain West team.")
-    if upcoming.empty:
-        print(f"No Mountain West games found for season {season}, week {week}.")
-        con.close()
-        return
+    n_mw = int((upcoming["home_team"].apply(is_2026_mw_team) | upcoming["away_team"].apply(is_2026_mw_team)).sum())
+    print(f"{total_fbs_games} FBS games this week nationally -- {n_mw} involve a 2026 Mountain West team "
+          f"(all {total_fbs_games} are predicted and written out; Excel's Weekly Slate tab filters to the "
+          f"MW subset itself).")
 
     pred_margin = model.predict_margin(pipe, upcoming)
     model_spread_home = -pred_margin

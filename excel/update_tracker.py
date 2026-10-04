@@ -103,7 +103,7 @@ import massey_model  # noqa: E402
 import totals_model  # noqa: E402
 import backtest  # noqa: E402
 from predict_week import auto_detect_week  # noqa: E402
-from teams import MW_TEAMS_2026, FBS_CONFERENCES, normalize_team_name  # noqa: E402
+from teams import MW_TEAMS_2026, FBS_CONFERENCES, normalize_team_name, is_2026_mw_team  # noqa: E402
 
 TRACKER_PATH = Path(__file__).resolve().parent / "MW_Handicapping_Tracker.xlsx"
 WEEKLY_SLATE_ROWS = range(2, 43)   # matches build_tracker.py's layout
@@ -177,6 +177,22 @@ def update_weekly_slate(ws, predictions_path: Path, con):
     import csv
     with open(predictions_path, newline="", encoding="utf-8") as fh:
         rows = list(csv.DictReader(fh))
+
+    # predict_week.py's CSV now covers the FULL national FBS slate (it used
+    # to be narrowed to MW-involved games at the source -- see that script's
+    # own comment on why that changed: other readers of this same CSV, like
+    # export_site_data.py's Predictions page, need a live line for non-MW
+    # games too). This tab is still MW-only by design though -- 41 rows,
+    # would silently overflow/drop real MW games behind a flood of national
+    # matchups on a busy week -- so the filtering that used to happen in
+    # predict_week.py happens here instead, right before anything gets
+    # written.
+    total_rows = len(rows)
+    rows = [r for r in rows if is_2026_mw_team(r["Home Team"]) or is_2026_mw_team(r["Away Team"])]
+    if total_rows != len(rows):
+        print(f"Weekly Slate: {total_rows} game(s) in predictions file, {len(rows)} involve a "
+              f"2026 Mountain West team -- only those are written to this MW-only tab.")
+
     if not rows:
         print("Weekly Slate: predictions file is empty -- nothing to write.")
         return

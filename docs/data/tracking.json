@@ -1,6 +1,6 @@
 {
   "meta": {
-    "generated_at": "2026-10-04T02:08:28Z",
+    "generated_at": "2026-10-04T06:20:08Z",
     "current_week": {
       "season": 2026,
       "week": 5
@@ -45,26 +45,26 @@
       "note": "Hypothetical flat 1-unit-per-bet tracking of the live model's own picks (spread/total at -110, moneyline at the real posted odds) -- not your personal bets. Week 1's spread record includes the seed week -- it uses the Moore seed exactly as pasted, which already reflects that week's own results, so it's informational only, not a genuine out-of-sample prediction (see moore_seed_2026.py)."
     },
     "yours": {
-      "n_bets": 65,
-      "wins": 34,
-      "losses": 31,
+      "n_bets": 67,
+      "wins": 35,
+      "losses": 32,
       "pushes": 0,
-      "win_rate": 0.5231,
-      "units": 172.51,
+      "win_rate": 0.5224,
+      "units": 173.77,
       "by_type": {
         "Spread": {
           "wins": 24,
-          "losses": 17,
+          "losses": 18,
           "pushes": 0,
-          "win_rate": 0.5854,
-          "units": 10.44
+          "win_rate": 0.5714,
+          "units": 9.44
         },
         "Moneyline": {
-          "wins": 10,
+          "wins": 11,
           "losses": 10,
           "pushes": 0,
-          "win_rate": 0.5,
-          "units": 174.57
+          "win_rate": 0.5238,
+          "units": 176.83
         },
         "ML Parlay": {
           "wins": 0,
@@ -81,18 +81,7 @@
           "units": -7.5
         }
       },
-      "pending": [
-        {
-          "date": "",
-          "week": null,
-          "matchup": "BYU @ TCU",
-          "bet_type": "Spread",
-          "side": "TCU",
-          "line": 5.5,
-          "odds": -112.0,
-          "stake": 1.0
-        }
-      ],
+      "pending": [],
       "graded": [
         {
           "date": "2026-08-29",
@@ -873,6 +862,30 @@
           "stake": 1.0,
           "result": "L",
           "units": -1.0
+        },
+        {
+          "date": "2026-10-03",
+          "week": 5,
+          "matchup": "BYU @ TCU",
+          "bet_type": "Spread",
+          "side": "TCU",
+          "line": 5.5,
+          "odds": -112.0,
+          "stake": 1.0,
+          "result": "L",
+          "units": -1.0
+        },
+        {
+          "date": "2026-10-03",
+          "week": 5,
+          "matchup": "Washington @ USC",
+          "bet_type": "Moneyline",
+          "side": "USC",
+          "line": null,
+          "odds": 126.0,
+          "stake": 1.79,
+          "result": "W",
+          "units": 2.26
         }
       ],
       "note": "Your actual bets from the Bet Log tab, graded at the real odds you entered."
