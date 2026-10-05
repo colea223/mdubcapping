@@ -803,7 +803,15 @@ def _compute_national_slate_rows(con):
     # these two specifically (unlike XGBoost -- see this function's own
     # docstring on why that one stays out).
     train_df = model.load_training_frame(con)
-    gamma_ratings, gamma_warned = gamma_model.replay_ratings(con)
+    # Ratings as they stood ENTERING this week (through_week=week - 1), not
+    # replay_ratings(con)'s "every completed game to date." Once some of this
+    # week's games are final but the week is still "current" (the usual
+    # Sat-night/Sun state), the no-cutoff version already contains those
+    # games' own results, so the line shown for them was hindsight -- and
+    # disagreed with the walk-forward line the backtest/ATS record grades
+    # (gamma_model.ratings_entering_week()). For a genuinely upcoming week
+    # nothing in `week` is complete yet, so this is identical to before.
+    gamma_ratings, gamma_warned = gamma_model.replay_ratings(con, season=season, through_week=week - 1)
     if gamma_warned:
         print(f"  [National Slate] Dub Gamma: {len(gamma_warned)} team(s) had no Moore seed rating, "
               f"defaulted to {gamma_model.DEFAULT_SEED_RATING:.2f}: {gamma_warned}")

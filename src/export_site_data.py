@@ -845,7 +845,16 @@ def build_matchups_and_predictions(con, notes: dict, manual_lines=None):
             # is now the PRIMARY line -- if that CSV is stale or missing,
             # Gamma's own line here is unaffected (only the XGBoost
             # candidate below degrades gracefully in that case).
-            gamma_ratings, gamma_warned = gamma_model.replay_ratings(con)
+            # through_week=week - 1: ratings as they stood ENTERING this week,
+            # not "every completed game to date." Once some of this week's
+            # games are final (the normal Sat-night/Sun state, since the week
+            # stays "current" until ALL its games finish), the no-cutoff
+            # replay already contains those games' own results -- so their
+            # line here was hindsight, their covered_market_line inflated, and
+            # both disagreed with the walk-forward line backtest.py/Excel's
+            # ATS record grade. Identical to before for a genuinely upcoming
+            # week (nothing in it is complete yet).
+            gamma_ratings, gamma_warned = gamma_model.replay_ratings(con, season=season, through_week=week - 1)
             if gamma_warned:
                 print(f"  [predictions diag] Dub Gamma: {len(gamma_warned)} team(s) had no Moore seed "
                       f"rating, defaulted to {gamma_model.DEFAULT_SEED_RATING:.2f}: {gamma_warned}")
@@ -858,7 +867,7 @@ def build_matchups_and_predictions(con, notes: dict, manual_lines=None):
             # THE live win prob now too -- Gamma's own, via an empirically-
             # fit std (Cole's own request, quoting Massey's ratings theory
             # page -- see gamma_model.gamma_residual_std()'s own docstring).
-            gamma_win_prob_std = gamma_model.gamma_residual_std(con)
+            gamma_win_prob_std = gamma_model.gamma_residual_std(con, season=season, through_week=week - 1)
             home_win_prob = [
                 gamma_model.predict_home_win_prob(
                     gamma_ratings, row.home_team, row.away_team,
@@ -873,11 +882,17 @@ def build_matchups_and_predictions(con, notes: dict, manual_lines=None):
             # already paid for the XGBoost hyperparameter search once for
             # this exact upcoming week; refitting again here would pay for
             # the same search a second time on every pipeline run for no
-            # benefit. If that CSV is missing, stale (a different week), or
-            # predates the "XGBoost Line (Home)" column, beta_by_game just
-            # stays empty and every game below shows no Dub Beta line --
-            # same graceful-degradation as a missing market line elsewhere
-            # in this file, never a crash.
+            # benefit. That CSV now covers the full national FBS slate, not
+            # just Mountain West games (predict_week.py used to narrow to MW
+            # before predicting at all -- it now predicts every FBS game with
+            # the same already-fit model and only Excel's Weekly Slate tab
+            # filters down to MW, see that script's own comment), so
+            # beta_by_game below naturally covers every FBS game this week
+            # too, with no change needed here. If that CSV is missing, stale
+            # (a different week), or predates the "XGBoost Line (Home)"
+            # column, beta_by_game just stays empty and every game below
+            # shows no Dub Beta line -- same graceful-degradation as a
+            # missing market line elsewhere in this file, never a crash.
             beta_by_game = {}
             pred_path = latest_predictions_file()
             if pred_path is not None:

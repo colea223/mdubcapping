@@ -125,7 +125,12 @@ def main():
     # Dub Gamma Model -- no fitting involved (see gamma_model.py's own
     # docstring), just a full replay of this season's completed games from
     # the fixed Moore seed. Same "informational only" rule as XGBoost above.
-    gamma_ratings, gamma_warned = gamma_model.replay_ratings(con)
+    # through_week=week - 1: ratings ENTERING the target week (see
+    # export_site_data.py's matching comment). Without it, rerunning after
+    # some of this week's games are final feeds their own results back into
+    # the line shown for them (hindsight). No difference for a genuinely
+    # upcoming week.
+    gamma_ratings, gamma_warned = gamma_model.replay_ratings(con, season=season, through_week=week - 1)
     if gamma_warned:
         print(f"Dub Gamma: {len(gamma_warned)} team(s) had no Moore seed rating this run, defaulted to "
               f"{gamma_model.DEFAULT_SEED_RATING:.2f} -- see moore_seed_2026.py's MOORE_NAME_ALIASES: "
@@ -136,7 +141,7 @@ def main():
     # Cole's own request), not the old fixed-17.0 constant. See
     # gamma_model.gamma_residual_std()'s own docstring for the walk-forward
     # methodology and the early-season fallback.
-    gamma_win_prob_std = gamma_model.gamma_residual_std(con)
+    gamma_win_prob_std = gamma_model.gamma_residual_std(con, season=season, through_week=week - 1)
     print(f"Dub Gamma win-prob std: {gamma_win_prob_std:.1f} pts "
           f"({'empirically fit' if gamma_win_prob_std != gamma_model.GAMMA_WIN_PROB_STD_FALLBACK else 'fallback -- not enough graded games yet'}).")
 
