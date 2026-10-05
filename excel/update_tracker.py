@@ -173,7 +173,7 @@ def latest_predictions_file():
     return candidates[-1][1]
 
 
-def update_weekly_slate(ws, predictions_path: Path, con):
+def update_weekly_slate(ws, predictions_path: Path, con, backfill_rows=None):
     import csv
     with open(predictions_path, newline="", encoding="utf-8") as fh:
         rows = list(csv.DictReader(fh))
@@ -210,59 +210,25 @@ def update_weekly_slate(ws, predictions_path: Path, con):
     }
     filled_market = 0
 
-    # Clear any row for a matchup that ISN'T in this run's predictions --
-    # otherwise a game that drops off the list (last week's games once a new
-    # week is predicted, or -- what actually happened here -- games that
-    # never should've been on this MW-focused sheet in the first place) just
-    # sits there forever, since the loop below only ever adds/updates rows,
-    # never removes them. A row for a matchup that IS still in the current
-    # predictions is left alone here (and updated in place below), so manual
-    # Market Line/Total/Notes/Final Dec entries survive a same-week rerun.
-    current_keys = {(pred["Home Team"], pred["Away Team"]) for pred in rows}
-    cleared = 0
-    for r in WEEKLY_SLATE_ROWS:
-        home, away = ws[f"D{r}"].value, ws[f"C{r}"].value
-        if home and away and (home, away) not in current_keys:
-            for col in ("A", "B", "C", "D", "E", "F", "I", "J", "O", "P"):
-                ws[f"{col}{r}"] = None
-            cleared += 1
-    if cleared:
-        print(f"Weekly Slate: cleared {cleared} row(s) no longer in this week's predictions")
-
-    # index existing rows by (home, away) so a re-run updates in place
+    # Past weeks STAY on this tab (newest week on top, older below). Rows are
+    # keyed by (week, home, away); a re-run updates the model lines in place
+    # and never touches Market/Notes/Final Decision you typed (the market
+    # columns are only overwritten when a CFBD line is actually posted).
+    from copy import copy
+    MAXR = 400
     existing = {}
-    first_empty = None
-    for r in WEEKLY_SLATE_ROWS:
-        home = ws[f"D{r}"].value
-        away = ws[f"C{r}"].value
+    for r in range(2, max(ws.max_row, 43) + 1):
+        home, away, wk = ws[f"D{r}"].value, ws[f"C{r}"].value, ws[f"A{r}"].value
         if home and away:
-            existing[(home, away)] = r
-        elif first_empty is None:
-            first_empty = r
+            existing[(wk, home, away)] = {c: ws[f"{c}{r}"].value for c in "ABCDEFIJOP"}
 
     written = 0
     for pred in rows:
-        key = (pred["Home Team"], pred["Away Team"])
-        if key in existing:
-            r = existing[key]
-        elif first_empty is not None:
-            r = first_empty
-            first_empty = next((row for row in WEEKLY_SLATE_ROWS if row > r and not ws[f"D{row}"].value), None)
-        else:
-            print(f"  Weekly Slate is full (rows 2-42 all used) -- skipping {key}")
-            continue
-
-        ws[f"A{r}"] = int(pred["Week"])
-        ws[f"B{r}"] = pred["Date"]
-        ws[f"C{r}"] = pred["Away Team"]
-        ws[f"D{r}"] = pred["Home Team"]
-        ws[f"E{r}"] = float(pred["Model Line (Home)"])
-        ws[f"I{r}"] = float(pred["Model Total"])
+        key = (int(pred["Week"]), pred["Home Team"], pred["Away Team"])
+        rec = existing.setdefault(key, {c: None for c in "ABCDEFIJOP"})
+        rec.update({"A": int(pred["Week"]), "B": pred["Date"], "C": pred["Away Team"], "D": pred["Home Team"],
+                    "E": float(pred["Model Line (Home)"]), "I": float(pred["Model Total"])})
         written += 1
-
-        # .get() -- older predictions CSVs (from before Game ID was added)
-        # simply won't have this column, and that's fine: skip the auto-fill
-        # for those rather than erroring.
         game_id = pred.get("Game ID")
         if game_id is not None:
             try:
@@ -270,10 +236,46 @@ def update_weekly_slate(ws, predictions_path: Path, con):
             except ValueError:
                 spread, total = None, None
             if spread is not None:
-                ws[f"F{r}"] = round(spread, 1)
+                rec["F"] = round(spread, 1)
                 filled_market += 1
             if total is not None:
-                ws[f"J{r}"] = round(total, 1)
+                rec["J"] = round(total, 1)
+
+    # Backfilled earlier-week MW games (only when that week isn't on the tab).
+    weeks_present = {k[0] for k in existing}
+    for b in (backfill_rows or []):
+        if not (is_2026_mw_team(b["home_team"]) or is_2026_mw_team(b["away_team"])):
+            continue
+        if b["week"] in weeks_present:
+            continue
+        existing[(b["week"], b["home_team"], b["away_team"])] = {
+            "A": b["week"], "B": b["date"], "C": b["away_team"], "D": b["home_team"],
+            "E": b["gamma_spread"], "F": b["market_spread"], "I": b["model_total"], "J": b["market_total"],
+            "O": None, "P": None}
+
+    ordered = sorted(existing.values(), key=lambda d: (-(d["A"] or 0), str(d["B"] or ""), str(d["D"])))
+    if len(ordered) > MAXR - 1:
+        ordered = ordered[:MAXR - 1]
+    last_template = max(ws.max_row, 2)
+    for i, rec in enumerate(ordered):
+        r = 2 + i
+        if r > 42:   # beyond the prefilled rows: copy row 2's look
+            for ci in range(1, 17):
+                ws.cell(row=r, column=ci)._style = copy(ws.cell(row=2, column=ci)._style)
+        for c in "ABCDEFIJOP":
+            ws[f"{c}{r}"] = rec[c]
+        ws[f"G{r}"] = f"=F{r}-E{r}"
+        ws[f"H{r}"] = f'=IF(G{r}=0,"Pick\'em",IF(G{r}>0,"Home","Away"))'
+        ws[f"K{r}"] = f"=I{r}-J{r}"
+        ws[f"L{r}"] = f'=IF(K{r}=0,"Push",IF(K{r}>0,"Over","Under"))'
+        ws[f"M{r}"] = (f'=IF(ABS(G{r})>=Settings!$B$5,H{r},'
+                       f'IF(F{r}=0,"Pick\'em",IF(F{r}<0,"Home (auto)","Away (auto)")))')
+        ws[f"N{r}"] = f'=IF(ABS(K{r})>=Settings!$B$6,L{r},IF(K{r}=0,"Push",L{r}&" (auto)"))'
+    # Leftover rows below the written block (prefilled range only): blank the
+    # inputs, keep the formulas.
+    for r in range(2 + len(ordered), max(last_template, 42) + 1):
+        for c in "ABCDEFIJOP":
+            ws[f"{c}{r}"] = None
 
     # No frozen panes anywhere in this workbook (Cole's own call) -- this
     # tab is never recreated by this script (only build_tracker.py's
@@ -282,7 +284,7 @@ def update_weekly_slate(ws, predictions_path: Path, con):
     # every run.
     ws.freeze_panes = None
 
-    print(f"Weekly Slate: wrote/updated {written} matchup(s)")
+    print(f"Weekly Slate: wrote/updated {written} current-week matchup(s); {len(ordered)} row(s) total across weeks")
     if filled_market:
         print(f"  -> auto-filled Market Line/Total for {filled_market} game(s) with a CFBD line already posted")
 
@@ -717,7 +719,7 @@ def ensure_national_slate_tab(wb):
     return ws
 
 
-def _compute_national_slate_rows(con):
+def _compute_national_slate_rows(con, season=None, week=None):
     """
     Every FBS game in the current auto-detected week -- not just Mountain
     West (that's still Weekly Slate's own job, unchanged) -- with the live
@@ -755,10 +757,14 @@ def _compute_national_slate_rows(con):
     West specifically; this data's job is the national spread-prediction
     picture, not a second copy of the ATS tracker.
     """
-    detected = auto_detect_week(con)
-    if detected is None:
-        return None, None, []
-    season, week = detected[0], detected[1]
+    # `season`/`week` default to the auto-detected upcoming week; passing both
+    # explicitly is how main() backfills the most recent COMPLETED week so its
+    # results stay on the tab (see _carry_forward_history()).
+    if season is None or week is None:
+        detected = auto_detect_week(con)
+        if detected is None:
+            return None, None, []
+        season, week = detected[0], detected[1]
 
     # This week's games nationally, with each side's real CFBD conference --
     # same FBS_CONFERENCES allowlist used everywhere else in this project
@@ -802,7 +808,13 @@ def _compute_national_slate_rows(con):
     # CSV's own MW-only scope and staleness, at negligible extra cost for
     # these two specifically (unlike XGBoost -- see this function's own
     # docstring on why that one stays out).
-    train_df = model.load_training_frame(con)
+    # Walk-forward cutoff: only games that started before this week's first
+    # kickoff (same before_date backtest.py uses), so a week that is already
+    # (partly) final is never fit on its own results.
+    week_start = con.execute(
+        "SELECT MIN(start_date) FROM games WHERE season = ? AND week = ?", [season, week]
+    ).fetchone()[0]
+    train_df = model.load_training_frame(con, before_date=week_start)
     # Ratings as they stood ENTERING this week (through_week=week - 1), not
     # replay_ratings(con)'s "every completed game to date." Once some of this
     # week's games are final but the week is still "current" (the usual
@@ -823,7 +835,7 @@ def _compute_national_slate_rows(con):
         ridge_margin = model.predict_margin(pipe, upcoming)
         ridge_spread_home = dict(zip(upcoming["game_id"].astype(int), -ridge_margin))
 
-    totals_train = totals_model.load_totals_training_frame(con)
+    totals_train = totals_model.load_totals_training_frame(con, before_date=week_start)
     total_pipe, _ = totals_model.fit_total_model(totals_train)
     wk_totals_features = totals_model.load_upcoming_totals_frame(con, season, week)
     total_map = {}
@@ -966,7 +978,7 @@ _SLATE_HEADERS = [
 _SLATE_COL_WIDTHS = [6, 11, 12, 12, 15, 15, 16, 16, 14, 15, 15, 11, 11, 12, 9, 9, 12]
 
 
-def _write_slate_table(ws, rows, start_row=1, freeze=True):
+def _write_slate_table(ws, rows, start_row=1, freeze=True, autofilter=True):
     """
     Writes the 17-column slate table (same columns/fills National Slate has
     always used) starting at `start_row` -- start_row > 1 is what lets a
@@ -1014,7 +1026,10 @@ def _write_slate_table(ws, rows, start_row=1, freeze=True):
             result_cell.fill = INCORRECT_FILL
 
     last_row = header_row + len(rows)
-    ws.auto_filter.ref = f"A{header_row}:Q{last_row}"
+    # Stacked multi-week tabs can't carry one filter range across several
+    # separate tables, so they pass autofilter=False.
+    if autofilter:
+        ws.auto_filter.ref = f"A{header_row}:Q{last_row}"
     for col, width in zip("ABCDEFGHIJKLMNOPQ", _SLATE_COL_WIDTHS):
         ws.column_dimensions[col].width = width
     # Always cleared, never set -- see this function's own docstring.
@@ -1071,6 +1086,87 @@ def _write_ats_summary_block(ws, label, tracking, start_row=1):
     return r + 1  # one blank row, then the caller's own block starts here
 
 
+
+def _read_slate_history(ws):
+    """Parses every stacked week block already on the National Slate sheet
+    (header row = "Week"/"Date" in A/B) back into row dicts, BEFORE the sheet
+    is wiped, so earlier weeks' lines survive each regeneration."""
+    out = []
+    in_table = False
+    for row in ws.iter_rows(values_only=True):
+        a = row[0] if row else None
+        if a == "Week" and len(row) > 1 and row[1] == "Date":
+            in_table = True
+            continue
+        if not in_table:
+            continue
+        if not isinstance(a, (int, float)):
+            in_table = False
+            continue
+        v = list(row[:17]) + [None] * (17 - len(row[:17]))
+        out.append({
+            "week": int(v[0]), "date": str(v[1]) if v[1] is not None else "",
+            "home_conf": v[2] or "", "away_conf": v[3] or "",
+            "away_team": v[4], "home_team": v[5],
+            "gamma_spread": v[6], "market_spread": v[7], "spread_edge": v[8],
+            "ridge_spread": v[9], "massey_spread": v[10],
+            "model_total": v[11], "market_total": v[12], "total_edge": v[13],
+            "away_pts": v[14], "home_pts": v[15], "model_result": v[16],
+        })
+    return out
+
+
+def _carry_forward_history(con, season, week, current_rows, history):
+    """
+    Current-week rows + every earlier week's rows, so past results are never
+    erased: carried-forward rows get their final score/Model Result refreshed
+    from `games` (a game that was unplayed last run may be final now), and the
+    most recent completed week is backfilled from the DB (walk-forward lines)
+    if the sheet doesn't hold it yet -- that's how week 5 comes back the first
+    time this runs. Returns a flat list; each row carries its own "week".
+    """
+    if season is None:
+        return current_rows
+    history = [h for h in history if h["week"] < week]          # a higher week = stale prior season
+    have_weeks = {h["week"] for h in history}
+    backfill_week = week - 1
+    if backfill_week >= 1 and backfill_week not in have_weeks:
+        print(f"  Backfilling week {backfill_week} (not on the sheet yet)...")
+        _, _, back_rows = _compute_national_slate_rows(con, season, backfill_week)
+        history.extend(back_rows)
+
+    results = {}
+    for home, away, wk, completed, hp, ap in con.execute(
+        "SELECT home_team, away_team, week, completed, home_points, away_points FROM games WHERE season = ?",
+        [season],
+    ).fetchall():
+        results[(wk, home, away)] = (completed, hp, ap)
+    for h in history:
+        completed, hp, ap = results.get((h["week"], h["home_team"], h["away_team"]), (False, None, None))
+        if completed and hp is not None and ap is not None:
+            h["home_pts"], h["away_pts"] = hp, ap
+            margin = hp - ap
+            gm = -h["gamma_spread"] if h["gamma_spread"] is not None else 0
+            h["model_result"] = (None if (gm == 0 or margin == 0)
+                                 else ("Win" if (margin > 0) == (gm > 0) else "Loss"))
+    return list(current_rows) + history
+
+
+def _write_stacked_slates(ws, rows, start_row):
+    """One block per week -- 'Week N' subtitle, header, rows, blank line --
+    newest week on top, older weeks below. Returns rows written (all weeks)."""
+    by_week = {}
+    for r in rows:
+        by_week.setdefault(r["week"], []).append(r)
+    r0 = start_row
+    ws.auto_filter.ref = None
+    for wk in sorted(by_week, reverse=True):
+        ws.cell(row=r0, column=1, value=f"Week {wk}").font = SUBTITLE_FONT
+        last = _write_slate_table(ws, by_week[wk], start_row=r0 + 1, freeze=False, autofilter=False)
+        r0 = last + 2
+    return len(rows)
+
+
 def render_national_slate(ws, season, week, rows, ats_tracking):
     """Thin writer -- all the computing already happened in
     _compute_national_slate_rows()/_compute_ats_tracking(), this just
@@ -1090,10 +1186,11 @@ def render_national_slate(ws, season, week, rows, ats_tracking):
         print(f"National Slate: no FBS games for season {season} week {week}.")
         return
 
-    _write_slate_table(ws, rows, start_row=next_row)
-    n_edges = sum(1 for r in rows if r["spread_edge"] is not None and abs(r["spread_edge"]) >= backtest.EDGE_THRESHOLD)
-    print(f"National Slate: {len(rows)} FBS game(s) for season {season} week {week} "
-          f"({n_edges} with a real spread edge >= {backtest.EDGE_THRESHOLD} pts)")
+    _write_stacked_slates(ws, rows, next_row)
+    cur = [r for r in rows if r["week"] == week]
+    n_edges = sum(1 for r in cur if r["spread_edge"] is not None and abs(r["spread_edge"]) >= backtest.EDGE_THRESHOLD)
+    print(f"National Slate: {len(rows)} FBS game(s) across {len({r['week'] for r in rows})} week(s); "
+          f"week {week}: {len(cur)} game(s), {n_edges} with a real spread edge >= {backtest.EDGE_THRESHOLD} pts")
 
 
 STANDINGS_HEADER_FILL = PatternFill("solid", fgColor="2F5233")  # dark green -- visually distinct from the slate's navy header
@@ -1234,9 +1331,9 @@ def update_conference_slate(ws, con, conference, season, week, all_rows, ats_tra
             ws.cell(row=next_row, column=1, value=f"No FBS games this week involve {conference}.").font = NOTE_FONT
             print(f"{conference} Slate: 0 games this week, {len(standings)} team(s) in standings.")
         else:
-            _write_slate_table(ws, conf_rows, start_row=next_row, freeze=False)
-            n_edges = sum(1 for r in conf_rows
-                          if r["spread_edge"] is not None and abs(r["spread_edge"]) >= backtest.EDGE_THRESHOLD)
+            _write_stacked_slates(ws, conf_rows, next_row)
+            n_edges = sum(1 for r in conf_rows if r["week"] == week
+                          and r["spread_edge"] is not None and abs(r["spread_edge"]) >= backtest.EDGE_THRESHOLD)
             print(f"{conference} Slate: {len(conf_rows)} game(s) ({n_edges} real edge), "
                   f"{len(standings)} team(s) in standings.")
 
@@ -1263,7 +1360,6 @@ def main():
     wb = openpyxl.load_workbook(TRACKER_PATH)  # formulas preserved as formulas, not evaluated
 
     con = duckdb.connect(str(DB_PATH))
-    update_weekly_slate(wb["Weekly Slate"], pred_file, con)
     update_team_profiles(wb["Team Profiles"], con)
     pr_ws, pr_just_created = ensure_power_ratings_tab(wb)
     update_power_ratings(pr_ws, con, pr_just_created)
@@ -1276,6 +1372,13 @@ def main():
     # per-conference tab below -- see _compute_national_slate_rows()'s own
     # docstring for why (Ridge/totals refitting is not free).
     season, week, all_rows = _compute_national_slate_rows(con)
+
+    # Earlier weeks stay on the tabs: read what's already on National Slate
+    # BEFORE it gets wiped below, carry it forward (results refreshed), and
+    # backfill the latest completed week if it isn't there yet.
+    history = _read_slate_history(wb[NATIONAL_SLATE_SHEET]) if NATIONAL_SLATE_SHEET in wb.sheetnames else []
+    all_rows = _carry_forward_history(con, season, week, all_rows, history)
+    update_weekly_slate(wb["Weekly Slate"], pred_file, con, backfill_rows=all_rows)
 
     # Also computed ONCE here and reused the same way -- see
     # _compute_ats_tracking()'s own docstring for why (it replays
