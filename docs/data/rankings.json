@@ -1,6 +1,6 @@
 {
   "meta": {
-    "generated_at": "2026-10-05T00:15:29Z",
+    "generated_at": "2026-10-05T01:43:19Z",
     "current_week": {
       "season": 2026,
       "week": 6
@@ -1052,24 +1052,6 @@
       "rank": 58
     },
     {
-      "team": "South Florida",
-      "conference": "American Athletic",
-      "logo": "https://cdn.collegefootballdata.com/logos/500/58.png",
-      "rating": 66.4,
-      "offense_rating": 29.3,
-      "defense_rating": 25.4,
-      "special_teams_rating": 0.0,
-      "sos_rank": 192,
-      "sor_rank": 45,
-      "projected_wins": 8.6,
-      "wins": 4,
-      "losses": 1,
-      "conf_wins": 1,
-      "conf_losses": 1,
-      "trend": 0.0,
-      "rank": 59
-    },
-    {
       "team": "Navy",
       "conference": "American Athletic",
       "logo": "https://cdn.collegefootballdata.com/logos/500/2426.png",
@@ -1085,6 +1067,24 @@
       "conf_wins": 0,
       "conf_losses": 2,
       "trend": -0.0,
+      "rank": 59
+    },
+    {
+      "team": "South Florida",
+      "conference": "American Athletic",
+      "logo": "https://cdn.collegefootballdata.com/logos/500/58.png",
+      "rating": 66.4,
+      "offense_rating": 29.3,
+      "defense_rating": 25.4,
+      "special_teams_rating": 0.0,
+      "sos_rank": 192,
+      "sor_rank": 45,
+      "projected_wins": 8.6,
+      "wins": 4,
+      "losses": 1,
+      "conf_wins": 1,
+      "conf_losses": 1,
+      "trend": 0.0,
       "rank": 60
     },
     {
@@ -1124,24 +1124,6 @@
       "rank": 62
     },
     {
-      "team": "Toledo",
-      "conference": "Mid-American",
-      "logo": "https://cdn.collegefootballdata.com/logos/500/2649.png",
-      "rating": 65.1,
-      "offense_rating": 26.5,
-      "defense_rating": 25.9,
-      "special_teams_rating": -0.3,
-      "sos_rank": 211,
-      "sor_rank": 54,
-      "projected_wins": 9.6,
-      "wins": 4,
-      "losses": 1,
-      "conf_wins": 1,
-      "conf_losses": 0,
-      "trend": 0.0,
-      "rank": 63
-    },
-    {
       "team": "East Carolina",
       "conference": "American Athletic",
       "logo": "https://cdn.collegefootballdata.com/logos/500/151.png",
@@ -1155,6 +1137,24 @@
       "wins": 2,
       "losses": 2,
       "conf_wins": 0,
+      "conf_losses": 0,
+      "trend": 0.0,
+      "rank": 63
+    },
+    {
+      "team": "Toledo",
+      "conference": "Mid-American",
+      "logo": "https://cdn.collegefootballdata.com/logos/500/2649.png",
+      "rating": 65.1,
+      "offense_rating": 26.5,
+      "defense_rating": 25.9,
+      "special_teams_rating": -0.3,
+      "sos_rank": 211,
+      "sor_rank": 54,
+      "projected_wins": 9.6,
+      "wins": 4,
+      "losses": 1,
+      "conf_wins": 1,
       "conf_losses": 0,
       "trend": 0.0,
       "rank": 64
@@ -1394,24 +1394,6 @@
       "rank": 77
     },
     {
-      "team": "Oregon State",
-      "conference": "Pac-12",
-      "logo": "https://cdn.collegefootballdata.com/logos/500/204.png",
-      "rating": 61.7,
-      "offense_rating": 26.5,
-      "defense_rating": 24.8,
-      "special_teams_rating": -0.5,
-      "sos_rank": 147,
-      "sor_rank": 73,
-      "projected_wins": 5.9,
-      "wins": 3,
-      "losses": 2,
-      "conf_wins": 1,
-      "conf_losses": 0,
-      "trend": -0.0,
-      "rank": 78
-    },
-    {
       "team": "Tulane",
       "conference": "American Athletic",
       "logo": "https://cdn.collegefootballdata.com/logos/500/2655.png",
@@ -1427,6 +1409,24 @@
       "conf_wins": 0,
       "conf_losses": 0,
       "trend": 0.0,
+      "rank": 78
+    },
+    {
+      "team": "Oregon State",
+      "conference": "Pac-12",
+      "logo": "https://cdn.collegefootballdata.com/logos/500/204.png",
+      "rating": 61.7,
+      "offense_rating": 26.5,
+      "defense_rating": 24.8,
+      "special_teams_rating": -0.5,
+      "sos_rank": 147,
+      "sor_rank": 73,
+      "projected_wins": 5.9,
+      "wins": 3,
+      "losses": 2,
+      "conf_wins": 1,
+      "conf_losses": 0,
+      "trend": -0.0,
       "rank": 79
     },
     {
@@ -1646,24 +1646,6 @@
       "rank": 91
     },
     {
-      "team": "Florida Atlantic",
-      "conference": "American Athletic",
-      "logo": "https://cdn.collegefootballdata.com/logos/500/2226.png",
-      "rating": 58.4,
-      "offense_rating": 27.2,
-      "defense_rating": 31.7,
-      "special_teams_rating": 0.3,
-      "sos_rank": 169,
-      "sor_rank": 40,
-      "projected_wins": 6.9,
-      "wins": 4,
-      "losses": 1,
-      "conf_wins": 1,
-      "conf_losses": 0,
-      "trend": -0.2,
-      "rank": 92
-    },
-    {
       "team": "California",
       "conference": "ACC",
       "logo": "https://cdn.collegefootballdata.com/logos/500/25.png",
@@ -1679,6 +1661,24 @@
       "conf_wins": 1,
       "conf_losses": 1,
       "trend": 0.0,
+      "rank": 92
+    },
+    {
+      "team": "Florida Atlantic",
+      "conference": "American Athletic",
+      "logo": "https://cdn.collegefootballdata.com/logos/500/2226.png",
+      "rating": 58.4,
+      "offense_rating": 27.2,
+      "defense_rating": 31.7,
+      "special_teams_rating": 0.3,
+      "sos_rank": 169,
+      "sor_rank": 40,
+      "projected_wins": 6.9,
+      "wins": 4,
+      "losses": 1,
+      "conf_wins": 1,
+      "conf_losses": 0,
+      "trend": -0.2,
       "rank": 93
     },
     {
@@ -1808,24 +1808,6 @@
       "rank": 100
     },
     {
-      "team": "Boston College",
-      "conference": "ACC",
-      "logo": "https://cdn.collegefootballdata.com/logos/500/103.png",
-      "rating": 56.1,
-      "offense_rating": 20.9,
-      "defense_rating": 25.6,
-      "special_teams_rating": 0.1,
-      "sos_rank": 105,
-      "sor_rank": 191,
-      "projected_wins": 3.2,
-      "wins": 2,
-      "losses": 3,
-      "conf_wins": 0,
-      "conf_losses": 2,
-      "trend": 0.0,
-      "rank": 101
-    },
-    {
       "team": "Georgia Southern",
       "conference": "Sun Belt",
       "logo": "https://cdn.collegefootballdata.com/logos/500/290.png",
@@ -1840,6 +1822,24 @@
       "losses": 3,
       "conf_wins": 1,
       "conf_losses": 0,
+      "trend": 0.0,
+      "rank": 101
+    },
+    {
+      "team": "Boston College",
+      "conference": "ACC",
+      "logo": "https://cdn.collegefootballdata.com/logos/500/103.png",
+      "rating": 56.1,
+      "offense_rating": 20.9,
+      "defense_rating": 25.6,
+      "special_teams_rating": 0.1,
+      "sos_rank": 105,
+      "sor_rank": 191,
+      "projected_wins": 3.2,
+      "wins": 2,
+      "losses": 3,
+      "conf_wins": 0,
+      "conf_losses": 2,
       "trend": 0.0,
       "rank": 102
     },
@@ -2006,24 +2006,6 @@
       "rank": 111
     },
     {
-      "team": "Hawai'i",
-      "conference": "Mountain West",
-      "logo": "https://cdn.collegefootballdata.com/logos/500/62.png",
-      "rating": 52.9,
-      "offense_rating": 19.8,
-      "defense_rating": 32.2,
-      "special_teams_rating": 0.2,
-      "sos_rank": 205,
-      "sor_rank": 233,
-      "projected_wins": 4.1,
-      "wins": 1,
-      "losses": 4,
-      "conf_wins": 0,
-      "conf_losses": 3,
-      "trend": 0.0,
-      "rank": 112
-    },
-    {
       "team": "South Alabama",
       "conference": "Sun Belt",
       "logo": "https://cdn.collegefootballdata.com/logos/500/6.png",
@@ -2038,6 +2020,24 @@
       "losses": 2,
       "conf_wins": 1,
       "conf_losses": 0,
+      "trend": 0.0,
+      "rank": 112
+    },
+    {
+      "team": "Hawai'i",
+      "conference": "Mountain West",
+      "logo": "https://cdn.collegefootballdata.com/logos/500/62.png",
+      "rating": 52.9,
+      "offense_rating": 19.8,
+      "defense_rating": 32.2,
+      "special_teams_rating": 0.2,
+      "sos_rank": 205,
+      "sor_rank": 233,
+      "projected_wins": 4.1,
+      "wins": 1,
+      "losses": 4,
+      "conf_wins": 0,
+      "conf_losses": 3,
       "trend": 0.0,
       "rank": 113
     },
