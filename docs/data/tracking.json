@@ -1,6 +1,6 @@
 {
   "meta": {
-    "generated_at": "2026-10-08T19:37:03Z",
+    "generated_at": "2026-10-08T19:52:32Z",
     "current_week": {
       "season": 2026,
       "week": 6
@@ -81,7 +81,88 @@
           "units": -7.5
         }
       },
-      "pending": [],
+      "pending": [
+        {
+          "date": "2026-10-08",
+          "week": 6,
+          "matchup": "Sam Houston @ Liberty",
+          "bet_type": "Spread",
+          "side": "Liberty",
+          "line": -13.5,
+          "odds": -110.0,
+          "stake": 1.0
+        },
+        {
+          "date": "2026-10-10",
+          "week": 6,
+          "matchup": "Virginia Tech @ California",
+          "bet_type": "Spread",
+          "side": "California",
+          "line": 9.5,
+          "odds": -105.0,
+          "stake": 1.0
+        },
+        {
+          "date": "2026-10-10",
+          "week": 6,
+          "matchup": "UCLA @ Oregon",
+          "bet_type": "Spread",
+          "side": "Oregon",
+          "line": -11.5,
+          "odds": -110.0,
+          "stake": 1.0
+        },
+        {
+          "date": "2026-10-10",
+          "week": 6,
+          "matchup": "North Dakota State @ UNLV",
+          "bet_type": "Spread",
+          "side": "North Dakota State",
+          "line": -3.5,
+          "odds": -102.0,
+          "stake": 1.0
+        },
+        {
+          "date": "2026-10-10",
+          "week": 6,
+          "matchup": "Syracuse @ Virginia",
+          "bet_type": "Spread",
+          "side": "Virginia",
+          "line": -8.5,
+          "odds": -110.0,
+          "stake": 1.0
+        },
+        {
+          "date": "2026-10-10",
+          "week": 6,
+          "matchup": "Air Force @ Northern Illinois",
+          "bet_type": "Spread",
+          "side": "Air Force",
+          "line": -8.5,
+          "odds": -105.0,
+          "stake": 1.0
+        },
+        {
+          "date": "2026-10-10",
+          "week": 6,
+          "matchup": "James Madison @ Georgia Southern",
+          "bet_type": "Spread",
+          "side": "James Madison",
+          "line": -7.5,
+          "odds": -105.0,
+          "stake": 1.0
+        },
+        {
+          "date": "2026-10-10",
+          "week": 6,
+          "matchup": "Sam Houston @ Liberty",
+          "bet_type": "Other",
+          "side": "Liberty, California, Oregon, NDSU, UVA, Airforce, JMU Spreads",
+          "line": null,
+          "odds": 10154.0,
+          "stake": 1.0
+        }
+      ],
       "graded": [
         {
           "date": "2026-08-29",
