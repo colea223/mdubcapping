@@ -32,16 +32,7 @@ name: Update Mountain Dub Handicapping data
 # schedule entirely.
 
 on:
-  schedule:
-    # Minute deliberately NOT :00 -- GitHub's own docs warn that schedules
-    # landing on the exact hour are the most congested slot on their
-    # scheduler and are the ones most likely to be delayed or silently
-    # dropped entirely (this bit us: the Sep 13 9am Sunday run never fired
-    # at all, no failed run, nothing -- just never started). Off-the-hour
-    # minutes see much less contention.
-    - cron: "6 13 * * 0"  # Sunday, 13:06 UTC (~9am Eastern right now) -- morning pass
-    - cron: "6 13 * * 1"  # Monday, 13:06 UTC (~9am Eastern right now) -- catches anything that finished Sunday night
-    - cron: "6 14 * * 3"  # Wednesday, 14:06 UTC (~10am Eastern right now) -- unchanged
+  # Scheduled runs are OFF -- run manually from the Actions tab (Run workflow) or locally.
   workflow_dispatch: {}
 
 permissions:

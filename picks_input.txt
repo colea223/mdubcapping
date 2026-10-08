@@ -1,0 +1,15 @@
+# One matchup per line: Away @ Home  (12 total: 2 SEC, 2 Big Ten, 2 ACC, 2 Big 12, 2 Mountain West, 2 other G6)
+# Lines starting with # are ignored.
+Texas A&M @ Missouri
+Ole Miss @ Vanderbilt
+UCLA @ Oregon
+USC @ Penn State
+Virginia Tech @ California
+Syracuse @ Virginia
+UCF @ Oklahoma State
+Kansas @ UTAH
+North Dakota State @ UNLV
+Air Force @ Northern Illinois
+Sam Houston @ Liberty
+James Madison @ Georgia Southern
+

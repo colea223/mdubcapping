@@ -48,9 +48,7 @@ name: Update live odds and game results
 # less contention.
 
 on:
-  schedule:
-    - cron: "6 15 * * 2-6"  # Tuesday-Saturday, 15:06 UTC (1hr clear of weekly_pipeline.yml's Wed 14:06 UTC run)
-    - cron: "6 12 * * 0"    # Sunday, 12:06 UTC (~8am Eastern right now) -- live odds/scores ahead of weekly_pipeline.yml's own 13:06 UTC Sunday run (1hr clear, same stagger logic as Wednesday above)
+  # Scheduled runs are OFF -- run manually from the Actions tab (Run workflow) or locally.
   workflow_dispatch: {}
 
 permissions:
