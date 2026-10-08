@@ -79,7 +79,9 @@ from power_rating import current_ratings, elo_ratings_through
 from pull_injuries import status_weight
 from teams import normalize_team_name, FBS_CONFERENCES
 
-HFA = 4.0
+# Lowered from 4.0 to 2.7 (Oct 2026): closer to the market's own home-field value; only affects the
+# spread prediction (HFA never enters Gamma's rating update). Massey imports this constant too.
+HFA = 2.7
 CARRY_FORWARD = 0.9
 PERFORMANCE_WEIGHT = 0.1
 

@@ -37,16 +37,19 @@ import time
 from pathlib import Path
 
 import duckdb
+import numpy as np
+import pandas as pd
 import openpyxl
 from openpyxl.styles import Alignment, Font, PatternFill, Border, Side
 from openpyxl.utils import get_column_letter
+from openpyxl.formatting.rule import FormulaRule
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 from config import DB_PATH, CLEAN_DIR, ROOT  # noqa: E402
 import backtest  # noqa: E402
 import gamma_model  # noqa: E402
 from predict_week import auto_detect_week  # noqa: E402
-from teams import normalize_team_name  # noqa: E402
+from teams import normalize_team_name, FBS_CONFERENCES  # noqa: E402
 
 P4 = ["SEC", "Big Ten", "ACC", "Big 12"]
 OTHER_G6 = {"American Athletic", "Conference USA", "Mid-American", "Sun Belt", "Pac-12", "FBS Independents"}
@@ -56,6 +59,17 @@ SLOT_ORDER = ["SEC", "Big Ten", "ACC", "Big 12", "Mountain West", "Other G6"]
 NAVY = PatternFill("solid", fgColor="1F3864")
 GREEN = PatternFill("solid", fgColor="C6EFCE")
 GRAY = PatternFill("solid", fgColor="F2F2F2")
+CF_GREEN = PatternFill(start_color="C6EFCE", end_color="C6EFCE", fill_type="solid")
+
+
+def highlight_better_side(ws, first_row, last_row):
+    """Conditional format: in rows first_row..last_row (value|rank in B:C, value|rank in D:E), shade
+    the side with the better (lower) rank green. Live formulas, so it follows any edits."""
+    r = first_row
+    ws.conditional_formatting.add(f"B{first_row}:C{last_row}", FormulaRule(
+        formula=[f"AND(ISNUMBER($C{r}),ISNUMBER($E{r}),$C{r}<$E{r})"], fill=CF_GREEN))
+    ws.conditional_formatting.add(f"D{first_row}:E{last_row}", FormulaRule(
+        formula=[f"AND(ISNUMBER($C{r}),ISNUMBER($E{r}),$E{r}<$C{r})"], fill=CF_GREEN))
 NOTE_FILL = PatternFill("solid", fgColor="FFF9E5")
 WHITE_BOLD = Font(name="Arial", bold=True, color="FFFFFF", size=10)
 BOLD = Font(name="Arial", bold=True, size=10)
@@ -243,7 +257,126 @@ def load_team_stats(con, season, week):
                 "spread": round(sp, 1) if sp is not None else None,   # this team's market line (negative = favored)
             })
     stats["recent"] = {t: g[-3:][::-1] for t, g in recent.items()}   # most recent first
+    stats["units"] = load_unit_stats(con, season, week)
     return stats
+
+
+
+# ---------------------------------------------------------------------------
+# Unit ratings (run game / pass game / pass block / pass rush / run D / pass D)
+# built from CFBD play-by-play (plays table), FBS-vs-FBS games this season
+# before this week, ADJUSTED FOR OPPONENT: every game's number is shifted by how
+# much that opponent normally gives up (or produces) against everyone else
+# (opponent's average over their OTHER games minus the FBS average), so a big
+# game against a stout defense counts for more than the same game against a bad
+# one. Garbage time is not filtered (the plays table has no score state), so
+# these are rougher than a PFF-style grade -- treat them as team-level proxies.
+# ---------------------------------------------------------------------------
+DROPBACK_TYPES = {"Pass Reception", "Pass Incompletion", "Passing Touchdown", "Sack",
+                  "Pass Interception Return", "Interception", "Interception Return Touchdown"}
+RUSH_TYPES = {"Rush", "Rushing Touchdown"}
+INT_TYPES = {"Pass Interception Return", "Interception", "Interception Return Touchdown"}
+MIN_PLAYS_FOR_RANK = {"rush": 30, "db": 40}
+
+# unit -> (side, rating stat, effectiveness stat, rating higher-is-better, eff higher-is-better, labels)
+UNITS = {
+    "Run Game":     ("off", "rush_ppa", "rush_succ", True, True,
+                     "Run Game rating (rush PPA/play)", "Run Game effectiveness (rush success %)"),
+    "Pass Game":    ("off", "db_ppa", "db_succ", True, True,
+                     "Pass Game rating (dropback PPA)", "Pass Game effectiveness (dropback success %)"),
+    "Pass Block":   ("off", "sack_rate", "pd_succ", False, True,
+                     "Pass Block rating (sack % allowed)", "Pass Block effectiveness (passing-down success %)"),
+    "Run Defense":  ("def", "rush_ppa", "rush_succ", False, False,
+                     "Run Defense rating (rush PPA allowed)", "Run Defense effectiveness (rush success % allowed)"),
+    "Pass Defense": ("def", "db_ppa", "db_succ", False, False,
+                     "Pass Defense rating (dropback PPA allowed)", "Pass Defense effectiveness (dropback success % allowed)"),
+    "Pass Rush":    ("def", "sack_rate", "pd_succ", True, False,
+                     "Pass Rush rating (sack %)", "Pass Rush effectiveness (passing-down success % allowed)"),
+}
+UNIT_ORDER = ["Run Game", "Run Defense", "Pass Game", "Pass Defense", "Pass Block", "Pass Rush"]
+
+
+def _opp_adjusted(tg, side, min_den):
+    """tg: one row per (game, off, def) with num/den for ONE stat. Returns
+    {team: (adjusted_value, total_den)} for the requested side."""
+    tg = tg[tg["den"] > 0]
+    if tg.empty:
+        return {}
+    league = tg["num"].sum() / tg["den"].sum()
+    tot_off = tg.groupby("off")[["num", "den"]].sum()
+    tot_def = tg.groupby("def")[["num", "den"]].sum()
+    out = {}
+    key, opp_key, opp_tot = ("off", "def", tot_def) if side == "off" else ("def", "off", tot_off)
+    tg = tg.rename(columns={"off": "off_t", "def": "def_t"})
+    key, opp_key = key + "_t", opp_key + "_t"
+    for team, grp in tg.groupby(key):
+        raw = grp["num"].sum() / grp["den"].sum()
+        shift_num = 0.0
+        shift_den = 0.0
+        for r in grp.itertuples():
+            opp = getattr(r, opp_key)
+            on = opp_tot.loc[opp, "num"] - r.num
+            od = opp_tot.loc[opp, "den"] - r.den
+            if od <= 0:
+                continue
+            shift_num += r.den * (on / od - league)
+            shift_den += r.den
+        adj = raw - (shift_num / shift_den if shift_den else 0.0)
+        out[team] = (adj, float(grp["den"].sum()))
+    return out
+
+
+def load_unit_stats(con, season, week):
+    fbs = ",".join(f"'{c}'" for c in FBS_CONFERENCES)
+    try:
+        df = con.execute(f"""
+            SELECT p.game_id, p.offense, p.defense, p.down, p.distance, p.yards_gained, p.play_type, p.ppa
+            FROM plays p JOIN games g ON g.game_id = p.game_id
+            WHERE g.season = ? AND g.week < ? AND g.home_conference IN ({fbs}) AND g.away_conference IN ({fbs})
+        """, [season, week]).fetchdf()
+    except Exception as e:
+        print(f"  [warn] unit ratings unavailable ({str(e).splitlines()[0]})")
+        return {}
+    if df.empty:
+        print("  [warn] no play-by-play for this season yet -- unit ratings blank")
+        return {}
+    df["offense"] = df["offense"].map(normalize_team_name)
+    df["defense"] = df["defense"].map(normalize_team_name)
+    df["is_rush"] = df["play_type"].isin(RUSH_TYPES)
+    df["is_db"] = df["play_type"].isin(DROPBACK_TYPES)
+    df = df[df["is_rush"] | df["is_db"]].copy()
+    need = np.where(df["down"] == 1, 0.5 * df["distance"],
+            np.where(df["down"] == 2, 0.7 * df["distance"], df["distance"]))
+    df["success"] = ((df["yards_gained"] >= need) & ~df["play_type"].isin(INT_TYPES)
+                     & (df["play_type"] != "Sack")).astype(float)
+    pd_mask = ((df["down"] == 2) & (df["distance"] >= 8)) | ((df["down"].isin([3, 4])) & (df["distance"] >= 5))
+    ppa_ok = df["ppa"].notna()
+    z = lambda m: m.astype(float)
+    cols = {
+        "rush_ppa": (df["ppa"].where(df["is_rush"] & ppa_ok, 0), z(df["is_rush"] & ppa_ok)),
+        "rush_succ": (df["success"].where(df["is_rush"], 0), z(df["is_rush"])),
+        "db_ppa": (df["ppa"].where(df["is_db"] & ppa_ok, 0), z(df["is_db"] & ppa_ok)),
+        "db_succ": (df["success"].where(df["is_db"], 0), z(df["is_db"])),
+        "sack_rate": (z(df["play_type"] == "Sack"), z(df["is_db"])),
+        "pd_succ": (df["success"].where(df["is_db"] & pd_mask, 0), z(df["is_db"] & pd_mask)),
+    }
+    base = df[["game_id", "offense", "defense"]].rename(columns={"offense": "off", "defense": "def"})
+    stat_adj = {}
+    for name, (num, den) in cols.items():
+        t = base.assign(num=num.values, den=den.values).groupby(["game_id", "off", "def"], as_index=False)[["num", "den"]].sum()
+        stat_adj[("off", name)] = _opp_adjusted(t, "off", 0)
+        stat_adj[("def", name)] = _opp_adjusted(t, "def", 0)
+
+    result = {}
+    for unit, (side, rs, es, r_hi, e_hi, rl, el) in UNITS.items():
+        for kind, stat, hi in (("rating", rs, r_hi), ("eff", es, e_hi)):
+            vals = stat_adj[(side, stat)]
+            min_den = MIN_PLAYS_FOR_RANK["rush" if stat.startswith("rush") else "db"]
+            ranked = sorted(((v, t) for t, (v, d) in vals.items() if d >= min_den), reverse=hi)
+            rank = {t: i + 1 for i, (_, t) in enumerate(ranked)}
+            for t, (v, d) in vals.items():
+                result.setdefault(t, {}).setdefault(unit, {})[kind] = (v, rank.get(t))
+    return result
 
 
 def team_block(stats, team):
@@ -258,6 +391,7 @@ def team_block(stats, team):
         "sos": stats["sos"].get(t), "sos_rank": rank_of(stats["sos"], t),
         "ats": f"{rec[0]}-{rec[1]}-{rec[2]}" if rec else "n/a",
         "recent": stats["recent"].get(t, []),
+        "units": stats["units"].get(t, {}),
         "ats_pct": (rec[0] / (rec[0] + rec[1])) if rec and (rec[0] + rec[1]) else None,
     }
     return out
@@ -332,7 +466,7 @@ def build_workbook(season, week, picks, warnings, out_path):
     # --- Breakdowns sheet: one stacked block per pick ---
     bs = wb.create_sheet("Breakdowns")
     bs.sheet_view.showGridLines = False
-    for col, w in zip("ABCDEFG", [30, 22, 10, 22, 10, 10, 12]):
+    for col, w in zip("ABCDEFG", [52, 26, 10, 26, 10, 14, 12]):
         bs.column_dimensions[col].width = w
     r = 1
     for i, p in enumerate(picks, start=1):
@@ -406,6 +540,65 @@ def build_workbook(season, week, picks, warnings, out_path):
                     bs.cell(row=r, column=7).fill = GREEN if ats_txt == "Cover" else PatternFill("solid", fgColor="FFC7CE")
                 r += 1
             r += 1
+
+
+        # opponent-adjusted unit ratings
+        for c, hd in enumerate(["Unit ratings (opponent-adjusted, FBS games)", p["away"], "Rank", p["home"], "Rank"], start=1):
+            cell = bs.cell(row=r, column=c, value=hd)
+            cell.font = WHITE_BOLD
+            cell.fill = NAVY
+            cell.alignment = Alignment(horizontal="center", wrap_text=True)
+        r += 1
+        unit_first = r
+        for unit in UNIT_ORDER:
+            _, _, _, _, _, rl, el = UNITS[unit]
+            for kind, lbl in (("rating", rl), ("eff", el)):
+                av, hv = a["units"].get(unit, {}).get(kind), h["units"].get(unit, {}).get(kind)
+                pct = "success" in lbl or "sack %" in lbl or "success %" in lbl
+                def f(x):
+                    if x is None:
+                        return None
+                    return round(x[0] * 100, 1) if pct else round(x[0], 3)
+                vals = [lbl, f(av), av[1] if av else None, f(hv), hv[1] if hv else None]
+                for c, v in enumerate(vals, start=1):
+                    cell = bs.cell(row=r, column=c, value=v)
+                    cell.font = BOLD if c == 1 else BASE
+                    cell.border = BOX
+                    if c > 1:
+                        cell.alignment = Alignment(horizontal="center")
+                r += 1
+        highlight_better_side(bs, unit_first, r - 1)
+        bs.cell(row=r, column=1, value="Rank = among FBS teams (1 = best; green = better side). Values adjusted for opponent; % stats shown as percent.").font = ITAL
+        r += 2
+
+        # head-to-head unit matchups (rank vs rank)
+        for c, hd in enumerate(["Key unit matchups", "Attacking unit", "Rk", "Opposing unit", "Rk", "Edge"], start=1):
+            cell = bs.cell(row=r, column=c, value=hd)
+            cell.font = WHITE_BOLD
+            cell.fill = NAVY
+            cell.alignment = Alignment(horizontal="center", wrap_text=True)
+        r += 1
+        pair_first = r
+        pairs = [(p["away"], a, "Run Game", p["home"], h, "Run Defense"),
+                 (p["away"], a, "Pass Game", p["home"], h, "Pass Defense"),
+                 (p["away"], a, "Pass Block", p["home"], h, "Pass Rush"),
+                 (p["home"], h, "Run Game", p["away"], a, "Run Defense"),
+                 (p["home"], h, "Pass Game", p["away"], a, "Pass Defense"),
+                 (p["home"], h, "Pass Block", p["away"], a, "Pass Rush")]
+        for t1, s1, u1, t2, s2, u2 in pairs:
+            r1 = (s1["units"].get(u1, {}).get("rating") or (None, None))[1]
+            r2 = (s2["units"].get(u2, {}).get("rating") or (None, None))[1]
+            edge = None if (r1 is None or r2 is None) else (t1 if r1 < r2 else (t2 if r2 < r1 else "Even"))
+            vals = [f"{t1} {u1} vs {t2} {u2}", f"{t1} {u1}", r1, f"{t2} {u2}", r2, edge]
+            for c, v in enumerate(vals, start=1):
+                cell = bs.cell(row=r, column=c, value=v)
+                cell.font = BOLD if c == 1 else BASE
+                cell.border = BOX
+                if c > 1:
+                    cell.alignment = Alignment(horizontal="center", wrap_text=True)
+            r += 1
+        highlight_better_side(bs, pair_first, r - 1)
+        r += 1
 
         # lines table
         for c, hd in enumerate(["Lines (home perspective)", "Spread (Home)", "", "Favors", ""], start=1):
@@ -551,6 +744,12 @@ def main():
             "away_stats": team_block(stats, g["away_team"]), "home_stats": team_block(stats, g["home_team"]),
         })
     con.close()
+
+    if not picks:
+        for w in warnings:
+            print(f"  [warn] {w}")
+        sys.exit("None of the matchups in your input file were found for this week -- nothing written. "
+                 "Check the week (--week N) and the team spelling / Away @ Home order.")
 
     slots, slot_warn = assign_slots(picks)
     warnings += slot_warn
