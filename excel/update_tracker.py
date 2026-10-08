@@ -719,6 +719,54 @@ def ensure_national_slate_tab(wb):
     return ws
 
 
+def _xgb_lookup():
+    """{(week, home_team, away_team): Dub Beta (XGBoost) home spread} from the two places that hold it:
+    model_comparison_results.csv (walk-forward line for every completed game) and the latest predictions
+    CSV (current week, fresher -- overrides). Missing/unreadable files just mean fewer entries."""
+    import csv
+    out = {}
+    cmp_path = CLEAN_DIR / "model_comparison_results.csv"
+    try:
+        with open(cmp_path, newline="", encoding="utf-8") as fh:
+            for r in csv.DictReader(fh):
+                if r.get("season") == str(CURRENT_SEASON) and r.get("xgb_spread_home") not in (None, ""):
+                    out[(int(r["week"]), r["home_team"], r["away_team"])] = round(float(r["xgb_spread_home"]), 1)
+    except (OSError, ValueError, KeyError):
+        pass
+    pred = latest_predictions_file()
+    if pred is not None:
+        try:
+            with open(pred, newline="", encoding="utf-8") as fh:
+                for r in csv.DictReader(fh):
+                    if r.get("XGBoost Line (Home)") not in (None, ""):
+                        out[(int(r["Week"]), r["Home Team"], r["Away Team"])] = round(float(r["XGBoost Line (Home)"]), 1)
+        except (OSError, ValueError, KeyError):
+            pass
+    return out
+
+
+def _spread_ats(model_line, market, away_pts, home_pts):
+    """Against-the-spread result for ONE model's line: the model leans Home when Market - Model > 0 (same rule
+    as backtest.grade_spread_pick), and the pick covers when (home - away) + market line says so. Win/Loss/Push,
+    or None while the game is unplayed / no market line / no lean (model equals the market)."""
+    if None in (model_line, market, away_pts, home_pts):
+        return None
+    edge = market - model_line
+    if edge == 0:
+        return None
+    cover = (home_pts - away_pts) + market
+    if cover == 0:
+        return "Push"
+    return "Win" if (cover > 0) == (edge > 0) else "Loss"
+
+
+def _apply_model_ats(rows):
+    for r in rows:
+        for key, line in (("gamma_ats", r.get("gamma_spread")), ("ridge_ats", r.get("ridge_spread")),
+                          ("xgb_ats", r.get("xgb_spread")), ("massey_ats", r.get("massey_spread"))):
+            r[key] = _spread_ats(line, r.get("market_spread"), r.get("away_pts"), r.get("home_pts"))
+
+
 def _compute_national_slate_rows(con, season=None, week=None):
     """
     Every FBS game in the current auto-detected week -- not just Mountain
@@ -843,6 +891,7 @@ def _compute_national_slate_rows(con, season=None, week=None):
         total_preds = totals_model.predict_total(total_pipe, wk_totals_features)
         total_map = dict(zip(wk_totals_features["game_id"].astype(int), total_preds))
 
+    xgb_map = _xgb_lookup()
     rows = []
     for row in upcoming.itertuples():
         gid = int(row.game_id)
@@ -879,6 +928,7 @@ def _compute_national_slate_rows(con, season=None, week=None):
             "spread_edge": round(spread_edge, 1) if spread_edge is not None else None,
             "ridge_spread": round(ridge_spread, 1) if ridge_spread is not None else None,
             "massey_spread": round(massey_spread, 1) if massey_spread is not None else None,
+            "xgb_spread": xgb_map.get((int(row.week), row.home_team, row.away_team)),
             "model_total": round(model_total, 1) if model_total is not None else None,
             "market_total": round(market_total, 1) if market_total is not None else None,
             "total_edge": round(total_edge, 1) if total_edge is not None else None,
@@ -891,7 +941,7 @@ def _compute_national_slate_rows(con, season=None, week=None):
     return season, week, rows
 
 
-def _compute_ats_tracking(con, season):
+def _compute_ats_tracking(con, season, current_week=None):
     """
     The live model's (Dub Gamma's) own against-the-spread record, scoped two
     ways for National Slate (all FBS) and each "<Conference> Slate" tab:
@@ -954,7 +1004,10 @@ def _compute_ats_tracking(con, season):
         weeks = {r["week"] for r in rows}
         if not weeks:
             return {"rolling": rolling, "weekly": _stat([], week=None)}
-        latest_week = max(weeks)
+        # "Weekly" = the most recent week BEFORE the current/upcoming one (a week that is still being
+        # played -- e.g. its Wed/Thu games are final but the Saturday slate isn't -- is not "last week").
+        done = [w for w in weeks if current_week is None or w < current_week]
+        latest_week = max(done) if done else max(weeks)
         weekly = _stat([r for r in rows if r["week"] == latest_week], week=latest_week)
         return {"rolling": rolling, "weekly": weekly}
 
@@ -973,9 +1026,10 @@ _SLATE_HEADERS = [
     "Model Line (Home)", "Market Line (Home)", "Spread Edge (pts)",
     "Ridge Line (Home)", "Massey Line (Home)",
     "Model Total", "Market Total", "Total Edge (pts)",
-    "Away Pts", "Home Pts", "Model Result",
+    "Away Pts", "Home Pts", "Model Result (SU)",
+    "XGBoost Line (Home)", "Gamma ATS", "Ridge ATS", "XGBoost ATS", "Massey ATS",
 ]
-_SLATE_COL_WIDTHS = [6, 11, 12, 12, 15, 15, 16, 16, 14, 15, 15, 11, 11, 12, 9, 9, 12]
+_SLATE_COL_WIDTHS = [6, 11, 12, 12, 15, 15, 16, 16, 14, 15, 15, 11, 11, 12, 9, 9, 12, 15, 11, 11, 12, 12]
 
 
 def _write_slate_table(ws, rows, start_row=1, freeze=True, autofilter=True):
@@ -1008,6 +1062,7 @@ def _write_slate_table(ws, rows, start_row=1, freeze=True, autofilter=True):
             r["ridge_spread"], r["massey_spread"],
             r["model_total"], r["market_total"], r["total_edge"],
             r["away_pts"], r["home_pts"], r["model_result"],
+            r.get("xgb_spread"), r.get("gamma_ats"), r.get("ridge_ats"), r.get("xgb_ats"), r.get("massey_ats"),
         ]
         for c, val in enumerate(values, start=1):
             ws.cell(row=i, column=c, value=val).font = FORMULA_FONT
@@ -1024,13 +1079,23 @@ def _write_slate_table(ws, rows, start_row=1, freeze=True, autofilter=True):
             result_cell.fill = CORRECT_FILL
         elif r["model_result"] == "Loss":
             result_cell.fill = INCORRECT_FILL
+        for col_idx, key in ((19, "gamma_ats"), (20, "ridge_ats"), (21, "xgb_ats"), (22, "massey_ats")):
+            v = r.get(key)
+            cell = ws.cell(row=i, column=col_idx)
+            cell.alignment = Alignment(horizontal="center")
+            if v == "Win":
+                cell.fill = CORRECT_FILL
+            elif v == "Loss":
+                cell.fill = INCORRECT_FILL
+            elif v == "Push":
+                cell.fill = PUSH_FILL
 
     last_row = header_row + len(rows)
     # Stacked multi-week tabs can't carry one filter range across several
     # separate tables, so they pass autofilter=False.
     if autofilter:
-        ws.auto_filter.ref = f"A{header_row}:Q{last_row}"
-    for col, width in zip("ABCDEFGHIJKLMNOPQ", _SLATE_COL_WIDTHS):
+        ws.auto_filter.ref = f"A{header_row}:V{last_row}"
+    for col, width in zip("ABCDEFGHIJKLMNOPQRSTUV", _SLATE_COL_WIDTHS):
         ws.column_dimensions[col].width = width
     # Always cleared, never set -- see this function's own docstring.
     # Explicit (not just "never assigned") so a workbook that already has a
@@ -1043,6 +1108,23 @@ def _write_slate_table(ws, rows, start_row=1, freeze=True, autofilter=True):
 
 ATS_SUMMARY_HEADER_FILL = PatternFill("solid", fgColor="7B3F00")  # dark brown -- distinct from both the slate's navy and standings' green headers
 ATS_SUMMARY_HEADER_FONT = Font(name=FONT_NAME, bold=True, color="FFFFFF", size=10)
+
+
+def _add_su_tracking(ats_tracking, rows, season_rows_week=None):
+    """Adds "su_weekly" to every scope's tracking dict: the Model Result column's own record
+    (did Dub Gamma's favorite win the game straight up) for the SAME week that scope's weekly
+    ATS shows. Different from ATS (the market line decides ATS) -- both are shown side by side."""
+    def su(scope_rows, wk):
+        w = sum(1 for r in scope_rows if r["week"] == wk and r["model_result"] == "Win")
+        l = sum(1 for r in scope_rows if r["week"] == wk and r["model_result"] == "Loss")
+        return {"w": w, "l": l, "pct": (round(w / (w + l), 3) if (w + l) else None), "week": wk}
+    scopes = {"National": rows}
+    for conf in FBS_CONFERENCES:
+        scopes[conf] = [r for r in rows if r["home_conf"] == conf or r["away_conf"] == conf]
+    for name, sr in scopes.items():
+        t = ats_tracking.get(name)
+        if t and t["weekly"].get("week"):
+            t["su_weekly"] = su(sr, t["weekly"]["week"])
 
 
 def _write_ats_summary_block(ws, label, tracking, start_row=1):
@@ -1075,9 +1157,14 @@ def _write_ats_summary_block(ws, label, tracking, start_row=1):
     weekly_label = f"Weekly ATS (Wk {weekly['week']})" if weekly.get("week") else "Weekly ATS (no graded games yet)"
 
     r = header_row + 1
-    for metric_label, stat in [("Rolling ATS (Season)", rolling), (weekly_label, weekly)]:
+    su = (tracking or {}).get("su_weekly")
+    metric_rows = [("Rolling ATS (Season)", rolling), (weekly_label, weekly)]
+    if su:
+        metric_rows.append((f"Model pick W-L, straight-up (Wk {su['week']})", {**su, "p": None}))
+    for metric_label, stat in metric_rows:
         ws.cell(row=r, column=1, value=metric_label).font = FORMULA_FONT
-        ws.cell(row=r, column=2, value=f"{stat['w']}-{stat['l']}-{stat['p']}").font = FORMULA_FONT
+        rec = f"{stat['w']}-{stat['l']}" + ("" if stat.get("p") is None else f"-{stat['p']}")
+        ws.cell(row=r, column=2, value=rec).font = FORMULA_FONT
         pct_cell = ws.cell(row=r, column=3, value=stat["pct"])
         pct_cell.font = FORMULA_FONT
         if stat["pct"] is not None:
@@ -1103,7 +1190,7 @@ def _read_slate_history(ws):
         if not isinstance(a, (int, float)):
             in_table = False
             continue
-        v = list(row[:17]) + [None] * (17 - len(row[:17]))
+        v = list(row[:22]) + [None] * (22 - len(row[:22]))
         out.append({
             "week": int(v[0]), "date": str(v[1]) if v[1] is not None else "",
             "home_conf": v[2] or "", "away_conf": v[3] or "",
@@ -1112,6 +1199,7 @@ def _read_slate_history(ws):
             "ridge_spread": v[9], "massey_spread": v[10],
             "model_total": v[11], "market_total": v[12], "total_edge": v[13],
             "away_pts": v[14], "home_pts": v[15], "model_result": v[16],
+            "xgb_spread": v[17],
         })
     return out
 
@@ -1136,11 +1224,42 @@ def _carry_forward_history(con, season, week, current_rows, history):
         history.extend(back_rows)
 
     results = {}
-    for home, away, wk, completed, hp, ap in con.execute(
-        "SELECT home_team, away_team, week, completed, home_points, away_points FROM games WHERE season = ?",
+    neutral = {}
+    for home, away, wk, completed, hp, ap, neu in con.execute(
+        "SELECT home_team, away_team, week, completed, home_points, away_points, neutral_site "
+        "FROM games WHERE season = ?",
         [season],
     ).fetchall():
         results[(wk, home, away)] = (completed, hp, ap)
+        neutral[(wk, home, away)] = bool(neu)
+
+    # Re-derive each carried-forward row's Dub Gamma line (and the edge/result that follow from it)
+    # from walk-forward ratings every run, so a model change (e.g. a new HFA) can't leave old weeks
+    # showing stale lines that disagree with the ATS box (which is regraded every run).
+    ratings_by_week = {}
+    for h in history:
+        wk = h["week"]
+        if wk not in ratings_by_week:
+            ratings_by_week[wk] = gamma_model.replay_ratings(con, season=season, through_week=max(wk - 1, 1))[0]
+        key = (wk, h["home_team"], h["away_team"])
+        if key in neutral:
+            gs = gamma_model.predict_spread_home(ratings_by_week[wk], h["home_team"], h["away_team"],
+                                                 neutral_site=neutral[key])
+            h["gamma_spread"] = round(gs, 1)
+            if h.get("market_spread") is not None:
+                h["spread_edge"] = round(h["market_spread"] - gs, 1)
+    xgb_map = _xgb_lookup()
+    massey_by_week = {}
+    for h in history:
+        wk = h["week"]
+        key = (wk, h["home_team"], h["away_team"])
+        if wk not in massey_by_week:
+            massey_by_week[wk] = massey_model.ratings_entering_week(con, season, wk)
+        if massey_by_week[wk] and key in neutral:
+            h["massey_spread"] = round(massey_model.predict_spread_home(
+                massey_by_week[wk], h["home_team"], h["away_team"], neutral_site=neutral[key]), 1)
+        if key in xgb_map:
+            h["xgb_spread"] = xgb_map[key]      # else keep whatever the sheet already had
     for h in history:
         completed, hp, ap = results.get((h["week"], h["home_team"], h["away_team"]), (False, None, None))
         if completed and hp is not None and ap is not None:
@@ -1378,6 +1497,7 @@ def main():
     # backfill the latest completed week if it isn't there yet.
     history = _read_slate_history(wb[NATIONAL_SLATE_SHEET]) if NATIONAL_SLATE_SHEET in wb.sheetnames else []
     all_rows = _carry_forward_history(con, season, week, all_rows, history)
+    _apply_model_ats(all_rows)
     update_weekly_slate(wb["Weekly Slate"], pred_file, con, backfill_rows=all_rows)
 
     # Also computed ONCE here and reused the same way -- see
@@ -1385,7 +1505,8 @@ def main():
     # backtest.run_backtest()'s full walk-forward grading, which is not
     # cheap either).
     print("Computing model ATS tracking (this replays the full walk-forward backtest, may take a while)...")
-    ats_tracking = _compute_ats_tracking(con, CURRENT_SEASON)
+    ats_tracking = _compute_ats_tracking(con, CURRENT_SEASON, current_week=week)
+    _add_su_tracking(ats_tracking, all_rows)
 
     national_ws = ensure_national_slate_tab(wb)
     render_national_slate(national_ws, season, week, all_rows, ats_tracking.get("National"))
