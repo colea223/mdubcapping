@@ -1042,3 +1042,7 @@ table.ratings-full th, table.ratings-full td { white-space: nowrap; }
 .glossary dt:first-child { margin-top: 0; }
 .glossary dd { color: var(--text-secondary); margin: 2px 0 0; font-size: 13px; line-height: 1.5; }
 .form-banner.hidden { display: none; }
+
+/* Team-labeled spread pairs (see formatSpreadLabeled() in site.js) */
+.spread-pair { display: flex; flex-direction: column; gap: 2px; font-size: 14px; line-height: 1.25; }
+.beta-line .spread-pair { flex-direction: row; flex-wrap: wrap; gap: 4px 12px; }

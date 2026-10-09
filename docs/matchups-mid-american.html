@@ -94,7 +94,7 @@ function renderMatchups(selectedConf) {
         <div class="odds-row">
           <div class="odds-item">
             <span class="odds-label">Spread</span>
-            <span class="odds-value">${spreads.home} / ${spreads.away}</span>
+            <span class="odds-value">${formatSpreadLabeled(m.market_spread_home, m.home_team, m.away_team)}</span>
           </div>
           <div class="odds-item">
             <span class="odds-label">Total</span>

@@ -107,6 +107,14 @@ function formatSpreadPair(homeSpread) {
   return { home: fmt(h), away: fmt(a) };
 }
 
+// Two-line, team-labeled spread: "South Alabama +3" over "Arkansas State -3" (away first, same order as the
+// team rows on each card) so a bare "-3 / +3" never leaves it unclear whose number is whose.
+function formatSpreadLabeled(homeSpread, homeTeam, awayTeam) {
+  if (homeSpread === null || homeSpread === undefined) return "TBD";
+  const p = formatSpreadPair(homeSpread);
+  return `<span class="spread-pair"><span>${awayTeam} ${p.away}</span><span>${homeTeam} ${p.home}</span></span>`;
+}
+
 function formatMoneyline(v) {
   if (v === null || v === undefined) return "--";
   return v > 0 ? `+${v}` : `${v}`;

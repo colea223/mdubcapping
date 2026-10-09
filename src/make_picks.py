@@ -419,7 +419,7 @@ def build_workbook(season, week, picks, warnings, out_path):
     ws.sheet_view.showGridLines = False
     ws["A1"] = f"Dub Handicapping -- Week {week} Picks ({season})"
     ws["A1"].font = TITLE
-    ws["A2"] = ("Pick = Dub Gamma's lean vs the market. Edge = Market - Gamma line (home perspective, "
+    ws["A2"] = ("Pick = Dub Gamma's lean vs the market (inside a 1-pt edge: the Vegas favorite). Edge = Market - Gamma line (home perspective, "
                 f"negative line = home favored); green = edge >= {backtest.EDGE_THRESHOLD:g} pts.")
     ws["A2"].font = ITAL
 
@@ -728,8 +728,9 @@ def main():
         conf_order = [g["home_conf"], g["away_conf"]]
         if m_spread is not None and gamma is not None:
             edge = round(m_spread - gamma, 1)
-            if edge != 0:
-                lean_home = edge > 0
+            if edge != 0 or m_spread != 0:
+                # Within 1 pt of the market -> default to the Vegas favorite.
+                lean_home = (m_spread < 0) if (abs(edge) < 1.0 and m_spread != 0) else (edge > 0)
                 pick_team = g["home_team"] if lean_home else g["away_team"]
                 pick_line = m_spread if lean_home else -m_spread
                 conf_order = [g["home_conf"], g["away_conf"]] if lean_home else [g["away_conf"], g["home_conf"]]

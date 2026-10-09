@@ -1,6 +1,6 @@
 {
   "meta": {
-    "generated_at": "2026-10-09T04:28:09Z",
+    "generated_at": "2026-10-09T20:48:18Z",
     "current_week": {
       "season": 2026,
       "week": 6
@@ -113,6 +113,41 @@
       ]
     },
     {
+      "game_id": 401871052,
+      "date": "2026-10-08T23:00:00Z",
+      "away_team": "Missouri State",
+      "home_team": "Western Kentucky",
+      "home_conf": "Conference USA",
+      "away_conf": "Conference USA",
+      "open_spread_home": -2.5,
+      "open_total": 56.0,
+      "kicked_off": true,
+      "close_spread_home": 1.8,
+      "close_total": 56.8,
+      "books": {
+        "DraftKings": {
+          "spread": 1.5,
+          "spread_open": -2.5,
+          "total": 56.5,
+          "total_open": 56.5,
+          "home_ml": 102,
+          "away_ml": -122
+        },
+        "Bovada": {
+          "spread": 2.0,
+          "spread_open": -2.5,
+          "total": 57.0,
+          "total_open": 55.5,
+          "home_ml": -130,
+          "away_ml": 110
+        }
+      },
+      "book_order": [
+        "Bovada",
+        "DraftKings"
+      ]
+    },
+    {
       "game_id": 401870766,
       "date": "2026-10-08T23:00:00Z",
       "away_team": "Sam Houston",
@@ -123,15 +158,15 @@
       "open_total": 52.5,
       "kicked_off": true,
       "close_spread_home": -13.5,
-      "close_total": 53.2,
+      "close_total": 52.8,
       "books": {
         "DraftKings": {
           "spread": -13.5,
           "spread_open": -13.5,
-          "total": 53.5,
+          "total": 52.5,
           "total_open": 52.5,
-          "home_ml": -575,
-          "away_ml": 425
+          "home_ml": -550,
+          "away_ml": 410
         },
         "Bovada": {
           "spread": -13.5,
@@ -148,33 +183,33 @@
       ]
     },
     {
-      "game_id": 401871052,
-      "date": "2026-10-08T23:00:00Z",
-      "away_team": "Missouri State",
-      "home_team": "Western Kentucky",
-      "home_conf": "Conference USA",
-      "away_conf": "Conference USA",
-      "open_spread_home": -2.5,
-      "open_total": 56.0,
+      "game_id": 401862794,
+      "date": "2026-10-08T23:30:00Z",
+      "away_team": "South Florida",
+      "home_team": "UTSA",
+      "home_conf": "American Athletic",
+      "away_conf": "American Athletic",
+      "open_spread_home": -6.8,
+      "open_total": 51.0,
       "kicked_off": true,
-      "close_spread_home": 1.2,
-      "close_total": 55.8,
+      "close_spread_home": -5.5,
+      "close_total": 49.5,
       "books": {
         "DraftKings": {
-          "spread": 1.5,
-          "spread_open": -2.5,
-          "total": 55.5,
-          "total_open": 56.5,
-          "home_ml": -102,
-          "away_ml": -118
+          "spread": -5.5,
+          "spread_open": -7.0,
+          "total": 49.5,
+          "total_open": 49.5,
+          "home_ml": -230,
+          "away_ml": 190
         },
         "Bovada": {
-          "spread": 1.0,
-          "spread_open": -2.5,
-          "total": 56.0,
-          "total_open": 55.5,
-          "home_ml": -130,
-          "away_ml": 110
+          "spread": -5.5,
+          "spread_open": -6.5,
+          "total": 49.5,
+          "total_open": 52.5,
+          "home_ml": -260,
+          "away_ml": 215
         }
       },
       "book_order": [
@@ -193,58 +228,23 @@
       "open_total": 58.2,
       "kicked_off": true,
       "close_spread_home": -3.0,
-      "close_total": 59.5,
+      "close_total": 60.2,
       "books": {
         "DraftKings": {
           "spread": -3.0,
           "spread_open": -1.5,
-          "total": 59.5,
+          "total": 60.5,
           "total_open": 58.5,
-          "home_ml": -148,
-          "away_ml": 124
+          "home_ml": -162,
+          "away_ml": 136
         },
         "Bovada": {
           "spread": -3.0,
           "spread_open": -1.0,
-          "total": 59.5,
+          "total": 60.0,
           "total_open": 58.0,
           "home_ml": -115,
           "away_ml": -105
-        }
-      },
-      "book_order": [
-        "Bovada",
-        "DraftKings"
-      ]
-    },
-    {
-      "game_id": 401862794,
-      "date": "2026-10-08T23:30:00Z",
-      "away_team": "South Florida",
-      "home_team": "UTSA",
-      "home_conf": "American Athletic",
-      "away_conf": "American Athletic",
-      "open_spread_home": -6.8,
-      "open_total": 51.0,
-      "kicked_off": true,
-      "close_spread_home": -6.5,
-      "close_total": 49.8,
-      "books": {
-        "DraftKings": {
-          "spread": -6.5,
-          "spread_open": -7.0,
-          "total": 49.5,
-          "total_open": 49.5,
-          "home_ml": -250,
-          "away_ml": 205
-        },
-        "Bovada": {
-          "spread": -6.5,
-          "spread_open": -6.5,
-          "total": 50.0,
-          "total_open": 52.5,
-          "home_ml": -260,
-          "away_ml": 215
         }
       },
       "book_order": [
@@ -344,12 +344,12 @@
           "away_ml": 110
         },
         "DraftKings": {
-          "spread": -3.0,
+          "spread": -2.5,
           "spread_open": -1.5,
           "total": 41.5,
           "total_open": 41.5,
-          "home_ml": -155,
-          "away_ml": 130
+          "home_ml": -148,
+          "away_ml": 124
         }
       },
       "book_order": [
@@ -428,208 +428,33 @@
       ]
     },
     {
-      "game_id": 401856824,
+      "game_id": 401856716,
       "date": "2026-10-10T16:00:00Z",
-      "away_team": "UCF",
-      "home_team": "Oklahoma State",
-      "home_conf": "Big 12",
-      "away_conf": "Big 12",
-      "open_spread_home": -10.0,
-      "open_total": 53.2,
+      "away_team": "Texas A&M",
+      "home_team": "Missouri",
+      "home_conf": "SEC",
+      "away_conf": "SEC",
+      "open_spread_home": -3.2,
+      "open_total": 49.2,
       "kicked_off": false,
       "close_spread_home": null,
       "close_total": null,
       "books": {
         "Bovada": {
-          "spread": -10.5,
-          "spread_open": -10.5,
-          "total": 53.5,
-          "total_open": 54.0,
-          "home_ml": -430,
-          "away_ml": 320
-        },
-        "DraftKings": {
-          "spread": -10.5,
-          "spread_open": -9.5,
-          "total": 53.5,
-          "total_open": 52.5,
-          "home_ml": -455,
-          "away_ml": 350
-        }
-      },
-      "book_order": [
-        "Bovada",
-        "DraftKings"
-      ]
-    },
-    {
-      "game_id": 401858256,
-      "date": "2026-10-10T16:00:00Z",
-      "away_team": "North Carolina",
-      "home_team": "Pittsburgh",
-      "home_conf": "ACC",
-      "away_conf": "ACC",
-      "open_spread_home": -3.8,
-      "open_total": 47.2,
-      "kicked_off": false,
-      "close_spread_home": null,
-      "close_total": null,
-      "books": {
-        "Bovada": {
-          "spread": -4.0,
-          "spread_open": -4.0,
-          "total": 47.0,
-          "total_open": 47.0,
-          "home_ml": -185,
-          "away_ml": 160
+          "spread": -3.5,
+          "spread_open": -5.0,
+          "total": 48.5,
+          "total_open": 48.0,
+          "home_ml": -200,
+          "away_ml": 170
         },
         "DraftKings": {
           "spread": -3.5,
-          "spread_open": -3.5,
-          "total": 46.5,
-          "total_open": 47.5,
-          "home_ml": -185,
-          "away_ml": 154
-        }
-      },
-      "book_order": [
-        "Bovada",
-        "DraftKings"
-      ]
-    },
-    {
-      "game_id": 401858481,
-      "date": "2026-10-10T16:00:00Z",
-      "away_team": "Indiana",
-      "home_team": "Nebraska",
-      "home_conf": "Big Ten",
-      "away_conf": "Big Ten",
-      "open_spread_home": 9.0,
-      "open_total": 51.0,
-      "kicked_off": false,
-      "close_spread_home": null,
-      "close_total": null,
-      "books": {
-        "DraftKings": {
-          "spread": 7.5,
-          "spread_open": 9.5,
-          "total": 47.5,
+          "spread_open": -1.5,
+          "total": 48.5,
           "total_open": 50.5,
-          "home_ml": 245,
-          "away_ml": -305
-        },
-        "Bovada": {
-          "spread": 7.5,
-          "spread_open": 8.5,
-          "total": 48.0,
-          "total_open": 51.5,
-          "home_ml": 270,
-          "away_ml": -340
-        }
-      },
-      "book_order": [
-        "Bovada",
-        "DraftKings"
-      ]
-    },
-    {
-      "game_id": 401856823,
-      "date": "2026-10-10T16:00:00Z",
-      "away_team": "Arizona",
-      "home_team": "West Virginia",
-      "home_conf": "Big 12",
-      "away_conf": "Big 12",
-      "open_spread_home": 3.0,
-      "open_total": 60.8,
-      "kicked_off": false,
-      "close_spread_home": null,
-      "close_total": null,
-      "books": {
-        "Bovada": {
-          "spread": 3.0,
-          "spread_open": 3.0,
-          "total": 61.0,
-          "total_open": 60.0,
-          "home_ml": 125,
-          "away_ml": -145
-        },
-        "DraftKings": {
-          "spread": 3.0,
-          "spread_open": 3.0,
-          "total": 60.5,
-          "total_open": 61.5,
-          "home_ml": 140,
-          "away_ml": -166
-        }
-      },
-      "book_order": [
-        "Bovada",
-        "DraftKings"
-      ]
-    },
-    {
-      "game_id": 401858260,
-      "date": "2026-10-10T16:00:00Z",
-      "away_team": "Wake Forest",
-      "home_team": "NC State",
-      "home_conf": "ACC",
-      "away_conf": "ACC",
-      "open_spread_home": 3.8,
-      "open_total": 59.8,
-      "kicked_off": false,
-      "close_spread_home": null,
-      "close_total": null,
-      "books": {
-        "Bovada": {
-          "spread": 3.5,
-          "spread_open": 3.5,
-          "total": 59.5,
-          "total_open": 60.0,
-          "home_ml": 150,
-          "away_ml": -175
-        },
-        "DraftKings": {
-          "spread": 3.5,
-          "spread_open": 4.0,
-          "total": 59.5,
-          "total_open": 59.5,
-          "home_ml": 145,
-          "away_ml": -175
-        }
-      },
-      "book_order": [
-        "Bovada",
-        "DraftKings"
-      ]
-    },
-    {
-      "game_id": 401862795,
-      "date": "2026-10-10T16:00:00Z",
-      "away_team": "Tulane",
-      "home_team": "Army",
-      "home_conf": "American Athletic",
-      "away_conf": "American Athletic",
-      "open_spread_home": -3.0,
-      "open_total": 47.0,
-      "kicked_off": false,
-      "close_spread_home": null,
-      "close_total": null,
-      "books": {
-        "Bovada": {
-          "spread": -3.0,
-          "spread_open": -3.0,
-          "total": 48.5,
-          "total_open": 45.5,
-          "home_ml": -160,
-          "away_ml": 135
-        },
-        "DraftKings": {
-          "spread": -3.0,
-          "spread_open": -3.0,
-          "total": 48.5,
-          "total_open": 48.5,
-          "home_ml": -166,
-          "away_ml": 140
+          "home_ml": -175,
+          "away_ml": 145
         }
       },
       "book_order": [
@@ -673,33 +498,208 @@
       ]
     },
     {
-      "game_id": 401856716,
+      "game_id": 401856823,
       "date": "2026-10-10T16:00:00Z",
-      "away_team": "Texas A&M",
-      "home_team": "Missouri",
-      "home_conf": "SEC",
-      "away_conf": "SEC",
-      "open_spread_home": -3.2,
-      "open_total": 49.2,
+      "away_team": "Arizona",
+      "home_team": "West Virginia",
+      "home_conf": "Big 12",
+      "away_conf": "Big 12",
+      "open_spread_home": 3.0,
+      "open_total": 60.8,
       "kicked_off": false,
       "close_spread_home": null,
       "close_total": null,
       "books": {
         "Bovada": {
-          "spread": -3.5,
-          "spread_open": -5.0,
+          "spread": 3.0,
+          "spread_open": 3.0,
+          "total": 61.0,
+          "total_open": 60.0,
+          "home_ml": 125,
+          "away_ml": -145
+        },
+        "DraftKings": {
+          "spread": 3.0,
+          "spread_open": 3.0,
+          "total": 60.5,
+          "total_open": 61.5,
+          "home_ml": 136,
+          "away_ml": -162
+        }
+      },
+      "book_order": [
+        "Bovada",
+        "DraftKings"
+      ]
+    },
+    {
+      "game_id": 401856824,
+      "date": "2026-10-10T16:00:00Z",
+      "away_team": "UCF",
+      "home_team": "Oklahoma State",
+      "home_conf": "Big 12",
+      "away_conf": "Big 12",
+      "open_spread_home": -10.0,
+      "open_total": 53.2,
+      "kicked_off": false,
+      "close_spread_home": null,
+      "close_total": null,
+      "books": {
+        "Bovada": {
+          "spread": -10.5,
+          "spread_open": -10.5,
+          "total": 53.5,
+          "total_open": 54.0,
+          "home_ml": -430,
+          "away_ml": 320
+        },
+        "DraftKings": {
+          "spread": -10.5,
+          "spread_open": -9.5,
+          "total": 53.5,
+          "total_open": 52.5,
+          "home_ml": -455,
+          "away_ml": 350
+        }
+      },
+      "book_order": [
+        "Bovada",
+        "DraftKings"
+      ]
+    },
+    {
+      "game_id": 401858260,
+      "date": "2026-10-10T16:00:00Z",
+      "away_team": "Wake Forest",
+      "home_team": "NC State",
+      "home_conf": "ACC",
+      "away_conf": "ACC",
+      "open_spread_home": 3.8,
+      "open_total": 59.8,
+      "kicked_off": false,
+      "close_spread_home": null,
+      "close_total": null,
+      "books": {
+        "Bovada": {
+          "spread": 3.5,
+          "spread_open": 3.5,
+          "total": 59.5,
+          "total_open": 60.0,
+          "home_ml": 150,
+          "away_ml": -175
+        },
+        "DraftKings": {
+          "spread": 3.5,
+          "spread_open": 4.0,
+          "total": 59.5,
+          "total_open": 59.5,
+          "home_ml": 145,
+          "away_ml": -175
+        }
+      },
+      "book_order": [
+        "Bovada",
+        "DraftKings"
+      ]
+    },
+    {
+      "game_id": 401858481,
+      "date": "2026-10-10T16:00:00Z",
+      "away_team": "Indiana",
+      "home_team": "Nebraska",
+      "home_conf": "Big Ten",
+      "away_conf": "Big Ten",
+      "open_spread_home": 9.0,
+      "open_total": 51.0,
+      "kicked_off": false,
+      "close_spread_home": null,
+      "close_total": null,
+      "books": {
+        "DraftKings": {
+          "spread": 7.5,
+          "spread_open": 9.5,
+          "total": 47.5,
+          "total_open": 50.5,
+          "home_ml": 245,
+          "away_ml": -305
+        },
+        "Bovada": {
+          "spread": 7.5,
+          "spread_open": 8.5,
+          "total": 48.0,
+          "total_open": 51.5,
+          "home_ml": 270,
+          "away_ml": -340
+        }
+      },
+      "book_order": [
+        "Bovada",
+        "DraftKings"
+      ]
+    },
+    {
+      "game_id": 401862795,
+      "date": "2026-10-10T16:00:00Z",
+      "away_team": "Tulane",
+      "home_team": "Army",
+      "home_conf": "American Athletic",
+      "away_conf": "American Athletic",
+      "open_spread_home": -3.0,
+      "open_total": 47.0,
+      "kicked_off": false,
+      "close_spread_home": null,
+      "close_total": null,
+      "books": {
+        "Bovada": {
+          "spread": -3.0,
+          "spread_open": -3.0,
           "total": 48.5,
-          "total_open": 48.0,
-          "home_ml": -200,
-          "away_ml": 170
+          "total_open": 45.5,
+          "home_ml": -160,
+          "away_ml": 135
+        },
+        "DraftKings": {
+          "spread": -3.0,
+          "spread_open": -3.0,
+          "total": 48.5,
+          "total_open": 48.5,
+          "home_ml": -166,
+          "away_ml": 140
+        }
+      },
+      "book_order": [
+        "Bovada",
+        "DraftKings"
+      ]
+    },
+    {
+      "game_id": 401858256,
+      "date": "2026-10-10T16:00:00Z",
+      "away_team": "North Carolina",
+      "home_team": "Pittsburgh",
+      "home_conf": "ACC",
+      "away_conf": "ACC",
+      "open_spread_home": -3.8,
+      "open_total": 47.2,
+      "kicked_off": false,
+      "close_spread_home": null,
+      "close_total": null,
+      "books": {
+        "Bovada": {
+          "spread": -4.0,
+          "spread_open": -4.0,
+          "total": 47.0,
+          "total_open": 47.0,
+          "home_ml": -185,
+          "away_ml": 160
         },
         "DraftKings": {
           "spread": -3.5,
-          "spread_open": -1.5,
-          "total": 48.5,
-          "total_open": 50.5,
-          "home_ml": -175,
-          "away_ml": 145
+          "spread_open": -3.5,
+          "total": 47.5,
+          "total_open": 47.5,
+          "home_ml": -185,
+          "away_ml": 154
         }
       },
       "book_order": [
@@ -791,7 +791,7 @@
       "close_total": null,
       "books": {
         "Bovada": {
-          "spread": -9.0,
+          "spread": -9.5,
           "spread_open": -10.0,
           "total": 48.0,
           "total_open": 51.0,
@@ -801,7 +801,7 @@
         "DraftKings": {
           "spread": -9.5,
           "spread_open": -9.5,
-          "total": 48.5,
+          "total": 47.5,
           "total_open": 49.5,
           "home_ml": -375,
           "away_ml": 295
@@ -848,33 +848,33 @@
       ]
     },
     {
-      "game_id": 401858259,
+      "game_id": 401866439,
       "date": "2026-10-10T19:30:00Z",
-      "away_team": "Virginia Tech",
-      "home_team": "California",
-      "home_conf": "ACC",
-      "away_conf": "ACC",
-      "open_spread_home": 9.5,
-      "open_total": 53.2,
+      "away_team": "Kent State",
+      "home_team": "Western Michigan",
+      "home_conf": "Mid-American",
+      "away_conf": "Mid-American",
+      "open_spread_home": -13.8,
+      "open_total": 44.5,
       "kicked_off": false,
       "close_spread_home": null,
       "close_total": null,
       "books": {
         "Bovada": {
-          "spread": 10.0,
-          "spread_open": 9.5,
-          "total": 53.5,
-          "total_open": 53.0,
-          "home_ml": 285,
-          "away_ml": -370
+          "spread": -13.5,
+          "spread_open": -14.0,
+          "total": 43.5,
+          "total_open": 45.5,
+          "home_ml": -650,
+          "away_ml": 450
         },
         "DraftKings": {
-          "spread": 10.0,
-          "spread_open": 9.5,
-          "total": 53.5,
-          "total_open": 53.5,
-          "home_ml": 295,
-          "away_ml": -375
+          "spread": -13.5,
+          "spread_open": -13.5,
+          "total": 43.5,
+          "total_open": 43.5,
+          "home_ml": -575,
+          "away_ml": 425
         }
       },
       "book_order": [
@@ -883,33 +883,33 @@
       ]
     },
     {
-      "game_id": 401856825,
+      "game_id": 401858257,
       "date": "2026-10-10T19:30:00Z",
-      "away_team": "Houston",
-      "home_team": "Kansas State",
-      "home_conf": "Big 12",
-      "away_conf": "Big 12",
-      "open_spread_home": -2.5,
-      "open_total": 55.8,
+      "away_team": "Stanford",
+      "home_team": "Notre Dame",
+      "home_conf": "FBS Independents",
+      "away_conf": "ACC",
+      "open_spread_home": -38.2,
+      "open_total": 54.0,
       "kicked_off": false,
       "close_spread_home": null,
       "close_total": null,
       "books": {
         "Bovada": {
-          "spread": -2.5,
-          "spread_open": -2.5,
-          "total": 55.0,
-          "total_open": 56.0,
-          "home_ml": -140,
-          "away_ml": 120
+          "spread": -38.5,
+          "spread_open": -38.0,
+          "total": 54.5,
+          "total_open": 54.5,
+          "home_ml": null,
+          "away_ml": null
         },
         "DraftKings": {
-          "spread": -2.5,
-          "spread_open": -2.5,
-          "total": 55.5,
-          "total_open": 55.5,
-          "home_ml": -142,
-          "away_ml": 120
+          "spread": -38.5,
+          "spread_open": -38.5,
+          "total": 54.5,
+          "total_open": 53.5,
+          "home_ml": null,
+          "away_ml": null
         }
       },
       "book_order": [
@@ -941,45 +941,10 @@
         "DraftKings": {
           "spread": 9.5,
           "spread_open": 10.0,
-          "total": 55.5,
+          "total": 54.5,
           "total_open": 58.5,
           "home_ml": 280,
           "away_ml": -355
-        }
-      },
-      "book_order": [
-        "Bovada",
-        "DraftKings"
-      ]
-    },
-    {
-      "game_id": 401866435,
-      "date": "2026-10-10T19:30:00Z",
-      "away_team": "Eastern Michigan",
-      "home_team": "Akron",
-      "home_conf": "Mid-American",
-      "away_conf": "Mid-American",
-      "open_spread_home": 6.5,
-      "open_total": 51.2,
-      "kicked_off": false,
-      "close_spread_home": null,
-      "close_total": null,
-      "books": {
-        "Bovada": {
-          "spread": 6.5,
-          "spread_open": 6.0,
-          "total": 51.5,
-          "total_open": 51.0,
-          "home_ml": 190,
-          "away_ml": -230
-        },
-        "DraftKings": {
-          "spread": 6.5,
-          "spread_open": 7.0,
-          "total": 51.5,
-          "total_open": 51.5,
-          "home_ml": 210,
-          "away_ml": -258
         }
       },
       "book_order": [
@@ -1023,6 +988,76 @@
       ]
     },
     {
+      "game_id": 401858259,
+      "date": "2026-10-10T19:30:00Z",
+      "away_team": "Virginia Tech",
+      "home_team": "California",
+      "home_conf": "ACC",
+      "away_conf": "ACC",
+      "open_spread_home": 9.5,
+      "open_total": 53.2,
+      "kicked_off": false,
+      "close_spread_home": null,
+      "close_total": null,
+      "books": {
+        "Bovada": {
+          "spread": 10.0,
+          "spread_open": 9.5,
+          "total": 53.5,
+          "total_open": 53.0,
+          "home_ml": 285,
+          "away_ml": -370
+        },
+        "DraftKings": {
+          "spread": 10.0,
+          "spread_open": 9.5,
+          "total": 53.5,
+          "total_open": 53.5,
+          "home_ml": 295,
+          "away_ml": -375
+        }
+      },
+      "book_order": [
+        "Bovada",
+        "DraftKings"
+      ]
+    },
+    {
+      "game_id": 401858484,
+      "date": "2026-10-10T19:30:00Z",
+      "away_team": "UCLA",
+      "home_team": "Oregon",
+      "home_conf": "Big Ten",
+      "away_conf": "Big Ten",
+      "open_spread_home": -12.0,
+      "open_total": 60.0,
+      "kicked_off": false,
+      "close_spread_home": null,
+      "close_total": null,
+      "books": {
+        "DraftKings": {
+          "spread": -11.5,
+          "spread_open": -12.5,
+          "total": 59.5,
+          "total_open": 60.5,
+          "home_ml": -455,
+          "away_ml": 350
+        },
+        "Bovada": {
+          "spread": -11.5,
+          "spread_open": -11.5,
+          "total": 59.0,
+          "total_open": 59.5,
+          "home_ml": -470,
+          "away_ml": 345
+        }
+      },
+      "book_order": [
+        "Bovada",
+        "DraftKings"
+      ]
+    },
+    {
       "game_id": 401862799,
       "date": "2026-10-10T19:30:00Z",
       "away_team": "Tulsa",
@@ -1036,7 +1071,7 @@
       "close_total": null,
       "books": {
         "Bovada": {
-          "spread": -2.5,
+          "spread": -2.0,
           "spread_open": -2.5,
           "total": 49.0,
           "total_open": 49.5,
@@ -1044,82 +1079,12 @@
           "away_ml": 110
         },
         "DraftKings": {
-          "spread": -2.5,
+          "spread": -1.5,
           "spread_open": -2.5,
           "total": 48.5,
           "total_open": 48.5,
-          "home_ml": -130,
-          "away_ml": 110
-        }
-      },
-      "book_order": [
-        "Bovada",
-        "DraftKings"
-      ]
-    },
-    {
-      "game_id": 401866439,
-      "date": "2026-10-10T19:30:00Z",
-      "away_team": "Kent State",
-      "home_team": "Western Michigan",
-      "home_conf": "Mid-American",
-      "away_conf": "Mid-American",
-      "open_spread_home": -13.8,
-      "open_total": 44.5,
-      "kicked_off": false,
-      "close_spread_home": null,
-      "close_total": null,
-      "books": {
-        "Bovada": {
-          "spread": -13.5,
-          "spread_open": -14.0,
-          "total": 43.5,
-          "total_open": 45.5,
-          "home_ml": -650,
-          "away_ml": 450
-        },
-        "DraftKings": {
-          "spread": -14.0,
-          "spread_open": -13.5,
-          "total": 43.5,
-          "total_open": 43.5,
-          "home_ml": -575,
-          "away_ml": 425
-        }
-      },
-      "book_order": [
-        "Bovada",
-        "DraftKings"
-      ]
-    },
-    {
-      "game_id": 401866438,
-      "date": "2026-10-10T19:30:00Z",
-      "away_team": "Central Michigan",
-      "home_team": "Ohio",
-      "home_conf": "Mid-American",
-      "away_conf": "Mid-American",
-      "open_spread_home": -3.2,
-      "open_total": 46.8,
-      "kicked_off": false,
-      "close_spread_home": null,
-      "close_total": null,
-      "books": {
-        "Bovada": {
-          "spread": -3.0,
-          "spread_open": -3.5,
-          "total": 46.0,
-          "total_open": 47.0,
-          "home_ml": -175,
-          "away_ml": 150
-        },
-        "DraftKings": {
-          "spread": -3.0,
-          "spread_open": -3.0,
-          "total": 46.5,
-          "total_open": 46.5,
-          "home_ml": -148,
-          "away_ml": 124
+          "home_ml": -125,
+          "away_ml": 105
         }
       },
       "book_order": [
@@ -1143,18 +1108,158 @@
         "Bovada": {
           "spread": -21.0,
           "spread_open": -19.5,
-          "total": 55.0,
+          "total": 55.5,
           "total_open": 55.0,
           "home_ml": -1200,
           "away_ml": 700
         },
         "DraftKings": {
-          "spread": -21.0,
+          "spread": -20.5,
           "spread_open": -20.5,
-          "total": 54.5,
+          "total": 55.5,
           "total_open": 54.5,
           "home_ml": -1600,
           "away_ml": 900
+        }
+      },
+      "book_order": [
+        "Bovada",
+        "DraftKings"
+      ]
+    },
+    {
+      "game_id": 401866435,
+      "date": "2026-10-10T19:30:00Z",
+      "away_team": "Eastern Michigan",
+      "home_team": "Akron",
+      "home_conf": "Mid-American",
+      "away_conf": "Mid-American",
+      "open_spread_home": 6.5,
+      "open_total": 51.2,
+      "kicked_off": false,
+      "close_spread_home": null,
+      "close_total": null,
+      "books": {
+        "Bovada": {
+          "spread": 6.5,
+          "spread_open": 6.0,
+          "total": 51.5,
+          "total_open": 51.0,
+          "home_ml": 190,
+          "away_ml": -230
+        },
+        "DraftKings": {
+          "spread": 6.5,
+          "spread_open": 7.0,
+          "total": 51.5,
+          "total_open": 51.5,
+          "home_ml": 210,
+          "away_ml": -258
+        }
+      },
+      "book_order": [
+        "Bovada",
+        "DraftKings"
+      ]
+    },
+    {
+      "game_id": 401856717,
+      "date": "2026-10-10T19:30:00Z",
+      "away_team": "Texas",
+      "home_team": "Oklahoma",
+      "home_conf": "SEC",
+      "away_conf": "SEC",
+      "open_spread_home": 7.0,
+      "open_total": 44.2,
+      "kicked_off": false,
+      "close_spread_home": null,
+      "close_total": null,
+      "books": {
+        "DraftKings": {
+          "spread": 7.5,
+          "spread_open": 6.0,
+          "total": 39.5,
+          "total_open": 48.5,
+          "home_ml": 260,
+          "away_ml": -325
+        },
+        "Bovada": {
+          "spread": 7.5,
+          "spread_open": 8.0,
+          "total": 39.0,
+          "total_open": 40.0,
+          "home_ml": 260,
+          "away_ml": -320
+        }
+      },
+      "book_order": [
+        "Bovada",
+        "DraftKings"
+      ]
+    },
+    {
+      "game_id": 401856825,
+      "date": "2026-10-10T19:30:00Z",
+      "away_team": "Houston",
+      "home_team": "Kansas State",
+      "home_conf": "Big 12",
+      "away_conf": "Big 12",
+      "open_spread_home": -2.5,
+      "open_total": 55.8,
+      "kicked_off": false,
+      "close_spread_home": null,
+      "close_total": null,
+      "books": {
+        "Bovada": {
+          "spread": -2.5,
+          "spread_open": -2.5,
+          "total": 55.0,
+          "total_open": 56.0,
+          "home_ml": -140,
+          "away_ml": 120
+        },
+        "DraftKings": {
+          "spread": -2.5,
+          "spread_open": -2.5,
+          "total": 55.5,
+          "total_open": 55.5,
+          "home_ml": -142,
+          "away_ml": 120
+        }
+      },
+      "book_order": [
+        "Bovada",
+        "DraftKings"
+      ]
+    },
+    {
+      "game_id": 401858255,
+      "date": "2026-10-10T19:30:00Z",
+      "away_team": "Duke",
+      "home_team": "Georgia Tech",
+      "home_conf": "ACC",
+      "away_conf": "ACC",
+      "open_spread_home": 7.0,
+      "open_total": 48.8,
+      "kicked_off": false,
+      "close_spread_home": null,
+      "close_total": null,
+      "books": {
+        "Bovada": {
+          "spread": 6.5,
+          "spread_open": 7.0,
+          "total": 43.5,
+          "total_open": 49.0,
+          "home_ml": 225,
+          "away_ml": -275
+        },
+        "DraftKings": {
+          "spread": 6.5,
+          "spread_open": 7.0,
+          "total": 43.5,
+          "total_open": 48.5,
+          "home_ml": 200,
+          "away_ml": -245
         }
       },
       "book_order": [
@@ -1198,138 +1303,33 @@
       ]
     },
     {
-      "game_id": 401858255,
+      "game_id": 401866438,
       "date": "2026-10-10T19:30:00Z",
-      "away_team": "Duke",
-      "home_team": "Georgia Tech",
-      "home_conf": "ACC",
-      "away_conf": "ACC",
-      "open_spread_home": 7.0,
-      "open_total": 48.8,
+      "away_team": "Central Michigan",
+      "home_team": "Ohio",
+      "home_conf": "Mid-American",
+      "away_conf": "Mid-American",
+      "open_spread_home": -3.2,
+      "open_total": 46.8,
       "kicked_off": false,
       "close_spread_home": null,
       "close_total": null,
       "books": {
         "Bovada": {
-          "spread": 6.5,
-          "spread_open": 7.0,
-          "total": 43.5,
-          "total_open": 49.0,
-          "home_ml": 225,
-          "away_ml": -275
+          "spread": -3.0,
+          "spread_open": -3.5,
+          "total": 46.0,
+          "total_open": 47.0,
+          "home_ml": -175,
+          "away_ml": 150
         },
         "DraftKings": {
-          "spread": 6.5,
-          "spread_open": 7.0,
-          "total": 43.5,
-          "total_open": 48.5,
-          "home_ml": 210,
-          "away_ml": -258
-        }
-      },
-      "book_order": [
-        "Bovada",
-        "DraftKings"
-      ]
-    },
-    {
-      "game_id": 401858257,
-      "date": "2026-10-10T19:30:00Z",
-      "away_team": "Stanford",
-      "home_team": "Notre Dame",
-      "home_conf": "FBS Independents",
-      "away_conf": "ACC",
-      "open_spread_home": -38.2,
-      "open_total": 54.0,
-      "kicked_off": false,
-      "close_spread_home": null,
-      "close_total": null,
-      "books": {
-        "Bovada": {
-          "spread": -38.0,
-          "spread_open": -38.0,
-          "total": 54.5,
-          "total_open": 54.5,
-          "home_ml": null,
-          "away_ml": null
-        },
-        "DraftKings": {
-          "spread": -38.5,
-          "spread_open": -38.5,
-          "total": 54.5,
-          "total_open": 53.5,
-          "home_ml": null,
-          "away_ml": null
-        }
-      },
-      "book_order": [
-        "Bovada",
-        "DraftKings"
-      ]
-    },
-    {
-      "game_id": 401858484,
-      "date": "2026-10-10T19:30:00Z",
-      "away_team": "UCLA",
-      "home_team": "Oregon",
-      "home_conf": "Big Ten",
-      "away_conf": "Big Ten",
-      "open_spread_home": -12.0,
-      "open_total": 60.0,
-      "kicked_off": false,
-      "close_spread_home": null,
-      "close_total": null,
-      "books": {
-        "DraftKings": {
-          "spread": -11.5,
-          "spread_open": -12.5,
-          "total": 58.5,
-          "total_open": 60.5,
-          "home_ml": -455,
-          "away_ml": 350
-        },
-        "Bovada": {
-          "spread": -11.5,
-          "spread_open": -11.5,
-          "total": 59.0,
-          "total_open": 59.5,
-          "home_ml": -470,
-          "away_ml": 345
-        }
-      },
-      "book_order": [
-        "Bovada",
-        "DraftKings"
-      ]
-    },
-    {
-      "game_id": 401856717,
-      "date": "2026-10-10T19:30:00Z",
-      "away_team": "Texas",
-      "home_team": "Oklahoma",
-      "home_conf": "SEC",
-      "away_conf": "SEC",
-      "open_spread_home": 7.0,
-      "open_total": 44.2,
-      "kicked_off": false,
-      "close_spread_home": null,
-      "close_total": null,
-      "books": {
-        "DraftKings": {
-          "spread": 7.5,
-          "spread_open": 6.0,
-          "total": 39.5,
-          "total_open": 48.5,
-          "home_ml": 260,
-          "away_ml": -325
-        },
-        "Bovada": {
-          "spread": 7.5,
-          "spread_open": 8.0,
-          "total": 39.0,
-          "total_open": 40.0,
-          "home_ml": 260,
-          "away_ml": -320
+          "spread": -3.0,
+          "spread_open": -3.0,
+          "total": 46.5,
+          "total_open": 46.5,
+          "home_ml": -148,
+          "away_ml": 124
         }
       },
       "book_order": [
@@ -1493,7 +1493,7 @@
         "Bovada": {
           "spread": -15.5,
           "spread_open": -14.0,
-          "total": 53.5,
+          "total": 53.0,
           "total_open": 56.0,
           "home_ml": -625,
           "away_ml": 430
@@ -1503,8 +1503,43 @@
           "spread_open": -14.5,
           "total": 53.5,
           "total_open": 53.5,
-          "home_ml": -700,
-          "away_ml": 500
+          "home_ml": -750,
+          "away_ml": 525
+        }
+      },
+      "book_order": [
+        "Bovada",
+        "DraftKings"
+      ]
+    },
+    {
+      "game_id": 401862798,
+      "date": "2026-10-10T23:00:00Z",
+      "away_team": "UAB",
+      "home_team": "Memphis",
+      "home_conf": "American Athletic",
+      "away_conf": "American Athletic",
+      "open_spread_home": -14.2,
+      "open_total": 58.0,
+      "kicked_off": false,
+      "close_spread_home": null,
+      "close_total": null,
+      "books": {
+        "DraftKings": {
+          "spread": -14.0,
+          "spread_open": -14.0,
+          "total": 53.5,
+          "total_open": 57.5,
+          "home_ml": -600,
+          "away_ml": 440
+        },
+        "Bovada": {
+          "spread": -14.0,
+          "spread_open": -14.5,
+          "total": 52.5,
+          "total_open": 58.5,
+          "home_ml": -675,
+          "away_ml": 460
         }
       },
       "book_order": [
@@ -1526,7 +1561,7 @@
       "close_total": null,
       "books": {
         "Bovada": {
-          "spread": -3.5,
+          "spread": -4.0,
           "spread_open": -3.0,
           "total": 59.0,
           "total_open": 58.5,
@@ -1569,82 +1604,12 @@
           "away_ml": -390
         },
         "DraftKings": {
-          "spread": 8.5,
+          "spread": 9.5,
           "spread_open": 10.5,
           "total": 51.5,
           "total_open": 49.5,
           "home_ml": 275,
           "away_ml": -345
-        }
-      },
-      "book_order": [
-        "Bovada",
-        "DraftKings"
-      ]
-    },
-    {
-      "game_id": 401862798,
-      "date": "2026-10-10T23:00:00Z",
-      "away_team": "UAB",
-      "home_team": "Memphis",
-      "home_conf": "American Athletic",
-      "away_conf": "American Athletic",
-      "open_spread_home": -14.2,
-      "open_total": 58.0,
-      "kicked_off": false,
-      "close_spread_home": null,
-      "close_total": null,
-      "books": {
-        "DraftKings": {
-          "spread": -14.0,
-          "spread_open": -14.0,
-          "total": 52.5,
-          "total_open": 57.5,
-          "home_ml": -600,
-          "away_ml": 440
-        },
-        "Bovada": {
-          "spread": -14.0,
-          "spread_open": -14.5,
-          "total": 52.5,
-          "total_open": 58.5,
-          "home_ml": -675,
-          "away_ml": 460
-        }
-      },
-      "book_order": [
-        "Bovada",
-        "DraftKings"
-      ]
-    },
-    {
-      "game_id": 401864517,
-      "date": "2026-10-10T23:00:00Z",
-      "away_team": "Nevada",
-      "home_team": "UTEP",
-      "home_conf": "Mountain West",
-      "away_conf": "Mountain West",
-      "open_spread_home": 9.2,
-      "open_total": 49.5,
-      "kicked_off": false,
-      "close_spread_home": null,
-      "close_total": null,
-      "books": {
-        "Bovada": {
-          "spread": 10.0,
-          "spread_open": 9.0,
-          "total": 49.5,
-          "total_open": 49.5,
-          "home_ml": 280,
-          "away_ml": -360
-        },
-        "DraftKings": {
-          "spread": 10.0,
-          "spread_open": 9.5,
-          "total": 49.5,
-          "total_open": 49.5,
-          "home_ml": 295,
-          "away_ml": -375
         }
       },
       "book_order": [
@@ -1688,33 +1653,33 @@
       ]
     },
     {
-      "game_id": 401864516,
-      "date": "2026-10-10T23:30:00Z",
-      "away_team": "Air Force",
-      "home_team": "Northern Illinois",
+      "game_id": 401864517,
+      "date": "2026-10-10T23:00:00Z",
+      "away_team": "Nevada",
+      "home_team": "UTEP",
       "home_conf": "Mountain West",
       "away_conf": "Mountain West",
-      "open_spread_home": 9.5,
-      "open_total": 47.0,
+      "open_spread_home": 9.2,
+      "open_total": 49.5,
       "kicked_off": false,
       "close_spread_home": null,
       "close_total": null,
       "books": {
         "Bovada": {
-          "spread": 7.5,
-          "spread_open": 11.5,
-          "total": 47.0,
-          "total_open": 47.5,
-          "home_ml": 350,
-          "away_ml": -480
+          "spread": 9.5,
+          "spread_open": 9.0,
+          "total": 49.5,
+          "total_open": 49.5,
+          "home_ml": 280,
+          "away_ml": -360
         },
         "DraftKings": {
-          "spread": 7.5,
-          "spread_open": 7.5,
-          "total": 46.5,
-          "total_open": 46.5,
-          "home_ml": 250,
-          "away_ml": -310
+          "spread": 10.0,
+          "spread_open": 9.5,
+          "total": 49.5,
+          "total_open": 49.5,
+          "home_ml": 295,
+          "away_ml": -375
         }
       },
       "book_order": [
@@ -1750,41 +1715,6 @@
           "total_open": 56.0,
           "home_ml": -105,
           "away_ml": -115
-        }
-      },
-      "book_order": [
-        "Bovada",
-        "DraftKings"
-      ]
-    },
-    {
-      "game_id": 401869965,
-      "date": "2026-10-10T23:30:00Z",
-      "away_team": "Louisiana",
-      "home_team": "Louisiana Tech",
-      "home_conf": "Sun Belt",
-      "away_conf": "Sun Belt",
-      "open_spread_home": -2.8,
-      "open_total": 49.0,
-      "kicked_off": false,
-      "close_spread_home": null,
-      "close_total": null,
-      "books": {
-        "Bovada": {
-          "spread": -3.0,
-          "spread_open": -2.5,
-          "total": 47.5,
-          "total_open": 49.5,
-          "home_ml": -140,
-          "away_ml": 120
-        },
-        "DraftKings": {
-          "spread": -3.0,
-          "spread_open": -3.0,
-          "total": 47.5,
-          "total_open": 48.5,
-          "home_ml": -148,
-          "away_ml": 124
         }
       },
       "book_order": [
@@ -1863,6 +1793,41 @@
       ]
     },
     {
+      "game_id": 401864516,
+      "date": "2026-10-10T23:30:00Z",
+      "away_team": "Air Force",
+      "home_team": "Northern Illinois",
+      "home_conf": "Mountain West",
+      "away_conf": "Mountain West",
+      "open_spread_home": 9.5,
+      "open_total": 47.0,
+      "kicked_off": false,
+      "close_spread_home": null,
+      "close_total": null,
+      "books": {
+        "Bovada": {
+          "spread": 7.5,
+          "spread_open": 11.5,
+          "total": 47.0,
+          "total_open": 47.5,
+          "home_ml": 350,
+          "away_ml": -480
+        },
+        "DraftKings": {
+          "spread": 7.5,
+          "spread_open": 7.5,
+          "total": 46.5,
+          "total_open": 46.5,
+          "home_ml": 250,
+          "away_ml": -310
+        }
+      },
+      "book_order": [
+        "Bovada",
+        "DraftKings"
+      ]
+    },
+    {
       "game_id": 401858258,
       "date": "2026-10-10T23:30:00Z",
       "away_team": "Syracuse",
@@ -1884,12 +1849,47 @@
           "away_ml": 285
         },
         "DraftKings": {
-          "spread": -9.5,
+          "spread": -10.0,
           "spread_open": -9.5,
           "total": 50.5,
           "total_open": 50.5,
-          "home_ml": -360,
-          "away_ml": 285
+          "home_ml": -375,
+          "away_ml": 295
+        }
+      },
+      "book_order": [
+        "Bovada",
+        "DraftKings"
+      ]
+    },
+    {
+      "game_id": 401869965,
+      "date": "2026-10-10T23:30:00Z",
+      "away_team": "Louisiana",
+      "home_team": "Louisiana Tech",
+      "home_conf": "Sun Belt",
+      "away_conf": "Sun Belt",
+      "open_spread_home": -2.8,
+      "open_total": 49.0,
+      "kicked_off": false,
+      "close_spread_home": null,
+      "close_total": null,
+      "books": {
+        "Bovada": {
+          "spread": -3.0,
+          "spread_open": -2.5,
+          "total": 47.0,
+          "total_open": 49.5,
+          "home_ml": -140,
+          "away_ml": 120
+        },
+        "DraftKings": {
+          "spread": -3.0,
+          "spread_open": -3.0,
+          "total": 46.5,
+          "total_open": 48.5,
+          "home_ml": -148,
+          "away_ml": 124
         }
       },
       "book_order": [
@@ -1923,43 +1923,8 @@
           "spread_open": 2.5,
           "total": 50.5,
           "total_open": 50.5,
-          "home_ml": 114,
-          "away_ml": -135
-        }
-      },
-      "book_order": [
-        "Bovada",
-        "DraftKings"
-      ]
-    },
-    {
-      "game_id": 401856808,
-      "date": "2026-10-11T01:30:00Z",
-      "away_team": "Hawai'i",
-      "home_team": "Arizona State",
-      "home_conf": "Big 12",
-      "away_conf": "Mountain West",
-      "open_spread_home": -21.2,
-      "open_total": 50.8,
-      "kicked_off": false,
-      "close_spread_home": null,
-      "close_total": null,
-      "books": {
-        "DraftKings": {
-          "spread": -20.5,
-          "spread_open": -20.5,
-          "total": 50.5,
-          "total_open": 50.5,
-          "home_ml": -1600,
-          "away_ml": 900
-        },
-        "Bovada": {
-          "spread": -21.0,
-          "spread_open": -22.0,
-          "total": 50.5,
-          "total_open": 51.0,
-          "home_ml": -1900,
-          "away_ml": 900
+          "home_ml": 110,
+          "away_ml": -130
         }
       },
       "book_order": [
@@ -2030,6 +1995,41 @@
           "total_open": 48.5,
           "home_ml": 205,
           "away_ml": -250
+        }
+      },
+      "book_order": [
+        "Bovada",
+        "DraftKings"
+      ]
+    },
+    {
+      "game_id": 401856808,
+      "date": "2026-10-11T02:30:00Z",
+      "away_team": "Hawai'i",
+      "home_team": "Arizona State",
+      "home_conf": "Big 12",
+      "away_conf": "Mountain West",
+      "open_spread_home": -21.2,
+      "open_total": 50.8,
+      "kicked_off": false,
+      "close_spread_home": null,
+      "close_total": null,
+      "books": {
+        "DraftKings": {
+          "spread": -20.5,
+          "spread_open": -20.5,
+          "total": 50.5,
+          "total_open": 50.5,
+          "home_ml": -1600,
+          "away_ml": 900
+        },
+        "Bovada": {
+          "spread": -21.0,
+          "spread_open": -22.0,
+          "total": 50.5,
+          "total_open": 51.0,
+          "home_ml": -1900,
+          "away_ml": 900
         }
       },
       "book_order": [

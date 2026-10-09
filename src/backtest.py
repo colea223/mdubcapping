@@ -124,6 +124,7 @@ from odds import no_vig_prob, payout_profit
 from teams import MW_TEAMS_2026
 
 EDGE_THRESHOLD = 2.0        # points -- matches the Excel tracker's Settings default (spread AND total)
+FAVORITE_DEFAULT_EDGE = 1.0 # points -- inside this |market - model| gap the tracked pick defaults to the market favorite
 ML_EDGE_THRESHOLD = 0.05    # model win prob vs. no-vig market prob, in probability points
 MIN_TRAIN_GAMES = 100    # roughly two synthetic/actual seasons before grading starts
 
@@ -182,7 +183,14 @@ def grade_spread_pick(model_spread_home, market_close, market_open, actual_margi
     # `favorite` is likewise kept in the return value for anything downstream
     # that still wants to know which side the market favored, but nothing
     # here uses it to pick a side anymore.
+    # Per Cole's later request: when the model and market are within
+    # FAVORITE_DEFAULT_EDGE points of each other the model has no real
+    # opinion, so the tracked pick defaults to the market (Vegas) favorite.
+    # Edges of 1.0+ still use the model's raw lean; is_bet (>= edge_threshold)
+    # is unchanged. A true pick'em market (0) has no favorite -> raw lean.
     lean = raw_lean
+    if abs(edge) < FAVORITE_DEFAULT_EDGE and favorite is not None:
+        lean = favorite
 
     cover_value = actual_margin + market_close
     if cover_value > 0:

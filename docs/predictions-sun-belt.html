@@ -69,6 +69,8 @@ function renderPredictions(selectedConf) {
       if (p.is_real_edge) {
         edgeClass = p.lean_side === "Home" ? "lean-home" : "lean-away";
         edgeLabel = `Lean ${leanTeam} (${Math.abs(p.edge).toFixed(1)} pt edge)`;
+      } else if (p.edge !== null && p.edge !== undefined && Math.abs(p.edge) >= 1) {
+        edgeLabel = `Slight lean ${leanTeam} (${Math.abs(p.edge).toFixed(1)} pt edge)`;
       } else {
         edgeLabel = `No real edge – favorite: ${leanTeam}`;
       }
@@ -100,7 +102,7 @@ function renderPredictions(selectedConf) {
             ? `<span class="grade-tag push">Agrees with live model</span>`
             : `<span class="grade-tag incorrect">Disagrees with live model</span>`);
       const betaNoRealEdgeNote = (p.beta_is_real_edge === false && p.beta_lean_side && p.beta_lean_side !== "Pick'em")
-        ? `<span class="odds-label" style="margin-left:6px;">(no real edge -- favorite default)</span>`
+        ? `<span class="odds-label" style="margin-left:6px;">(small edge)</span>`
         : "";
       const betaGradeHtml = (p.completed && p.home_points !== null && p.away_points !== null)
         ? `<div class="beta-line">${gradeTag("Straight up", p.beta_straight_up_correct)}${gradeTag("Vs. market line", p.beta_covered_market_line)}${betaNoRealEdgeNote}</div>`
@@ -109,7 +111,7 @@ function renderPredictions(selectedConf) {
         <div class="beta-block">
           <span class="beta-tag">Dub Beta Model</span>
           <div class="beta-line">
-            <span class="odds-value">${betaSpreads.home} / ${betaSpreads.away}</span>
+            <span class="odds-value">${formatSpreadLabeled(p.beta_model_spread_home, p.home_team, p.away_team)}</span>
             ${agreeTag}
           </div>
           ${betaGradeHtml}
@@ -133,7 +135,7 @@ function renderPredictions(selectedConf) {
             ? `<span class="grade-tag push">Agrees with live model</span>`
             : `<span class="grade-tag incorrect">Disagrees with live model</span>`);
       const ridgeNoRealEdgeNote = (p.ridge_is_real_edge === false && p.ridge_lean_side && p.ridge_lean_side !== "Pick'em")
-        ? `<span class="odds-label" style="margin-left:6px;">(no real edge -- favorite default)</span>`
+        ? `<span class="odds-label" style="margin-left:6px;">(small edge)</span>`
         : "";
       const ridgeGradeHtml = (p.completed && p.home_points !== null && p.away_points !== null)
         ? `<div class="beta-line">${gradeTag("Straight up", p.ridge_straight_up_correct)}${gradeTag("Vs. market line", p.ridge_covered_market_line)}${ridgeNoRealEdgeNote}</div>`
@@ -142,7 +144,7 @@ function renderPredictions(selectedConf) {
         <div class="beta-block">
           <span class="beta-tag">Ridge Model</span>
           <div class="beta-line">
-            <span class="odds-value">${ridgeSpreads.home} / ${ridgeSpreads.away}</span>
+            <span class="odds-value">${formatSpreadLabeled(p.ridge_model_spread_home, p.home_team, p.away_team)}</span>
             ${ridgeAgreeTag}
           </div>
           ${ridgeGradeHtml}
@@ -171,7 +173,7 @@ function renderPredictions(selectedConf) {
       // favorite. This note flags the latter case so a win/loss here isn't
       // mistaken for a genuine value call.
       const noRealEdgeNote = (p.is_real_edge === false && p.lean_side && p.lean_side !== "Pick'em")
-        ? `<span class="odds-label" style="margin-left:6px;">(no real edge -- favorite default)</span>`
+        ? `<span class="odds-label" style="margin-left:6px;">(small edge)</span>`
         : "";
       resultHtml = `
         <div class="final-score">
@@ -221,7 +223,7 @@ function renderPredictions(selectedConf) {
         <div class="odds-row">
           <div class="odds-item">
             <span class="odds-label">Vegas Spread</span>
-            <span class="odds-value">${marketSpreads.home} / ${marketSpreads.away}</span>
+            <span class="odds-value">${formatSpreadLabeled(p.market_spread_home, p.home_team, p.away_team)}</span>
           </div>
           <div class="odds-item">
             <span class="odds-label">Vegas Total</span>
@@ -229,7 +231,7 @@ function renderPredictions(selectedConf) {
           </div>
           <div class="odds-item">
             <span class="odds-label">Model Spread</span>
-            <span class="odds-value">${spreads.home} / ${spreads.away}</span>
+            <span class="odds-value">${formatSpreadLabeled(p.model_spread_home, p.home_team, p.away_team)}</span>
           </div>
           <div class="odds-item">
             <span class="odds-label">Model Total</span>

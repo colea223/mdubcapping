@@ -752,12 +752,18 @@ def _spread_ats(model_line, market, away_pts, home_pts):
     if None in (model_line, market, away_pts, home_pts):
         return None
     edge = market - model_line
-    if edge == 0:
+    # Within 1 point of the market the pick defaults to the Vegas favorite
+    # (same rule as backtest.grade_spread_pick / FAVORITE_DEFAULT_EDGE).
+    if abs(edge) < 1.0 and market != 0:
+        lean_home = market < 0
+    elif edge == 0:
         return None
+    else:
+        lean_home = edge > 0
     cover = (home_pts - away_pts) + market
     if cover == 0:
         return "Push"
-    return "Win" if (cover > 0) == (edge > 0) else "Loss"
+    return "Win" if (cover > 0) == lean_home else "Loss"
 
 
 def _apply_model_ats(rows):
