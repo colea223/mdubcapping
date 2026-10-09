@@ -1,6 +1,6 @@
 {
   "meta": {
-    "generated_at": "2026-10-08T21:05:04Z",
+    "generated_at": "2026-10-09T04:28:09Z",
     "current_week": {
       "season": 2026,
       "week": 6
@@ -1628,24 +1628,6 @@
       "rank": 90
     },
     {
-      "team": "Florida Atlantic",
-      "conference": "American Athletic",
-      "logo": "https://cdn.collegefootballdata.com/logos/500/2226.png",
-      "rating": 58.4,
-      "offense_rating": 27.2,
-      "defense_rating": 31.7,
-      "special_teams_rating": 0.3,
-      "sos_rank": 169,
-      "sor_rank": 40,
-      "projected_wins": 7.0,
-      "wins": 4,
-      "losses": 1,
-      "conf_wins": 1,
-      "conf_losses": 0,
-      "trend": -0.2,
-      "rank": 91
-    },
-    {
       "team": "Ohio",
       "conference": "Mid-American",
       "logo": "https://cdn.collegefootballdata.com/logos/500/195.png",
@@ -1661,6 +1643,24 @@
       "conf_wins": 1,
       "conf_losses": 0,
       "trend": 0.0,
+      "rank": 91
+    },
+    {
+      "team": "Florida Atlantic",
+      "conference": "American Athletic",
+      "logo": "https://cdn.collegefootballdata.com/logos/500/2226.png",
+      "rating": 58.4,
+      "offense_rating": 27.2,
+      "defense_rating": 31.7,
+      "special_teams_rating": 0.3,
+      "sos_rank": 169,
+      "sor_rank": 40,
+      "projected_wins": 7.0,
+      "wins": 4,
+      "losses": 1,
+      "conf_wins": 1,
+      "conf_losses": 0,
+      "trend": -0.2,
       "rank": 92
     },
     {
@@ -1916,24 +1916,6 @@
       "rank": 106
     },
     {
-      "team": "Central Michigan",
-      "conference": "Mid-American",
-      "logo": "https://cdn.collegefootballdata.com/logos/500/2117.png",
-      "rating": 54.5,
-      "offense_rating": 12.7,
-      "defense_rating": 31.1,
-      "special_teams_rating": -0.3,
-      "sos_rank": 140,
-      "sor_rank": 84,
-      "projected_wins": 6.8,
-      "wins": 3,
-      "losses": 2,
-      "conf_wins": 1,
-      "conf_losses": 0,
-      "trend": 0.0,
-      "rank": 107
-    },
-    {
       "team": "UConn",
       "conference": "FBS Independents",
       "logo": "https://cdn.collegefootballdata.com/logos/500/41.png",
@@ -1947,6 +1929,24 @@
       "wins": 2,
       "losses": 3,
       "conf_wins": 0,
+      "conf_losses": 0,
+      "trend": 0.0,
+      "rank": 107
+    },
+    {
+      "team": "Central Michigan",
+      "conference": "Mid-American",
+      "logo": "https://cdn.collegefootballdata.com/logos/500/2117.png",
+      "rating": 54.5,
+      "offense_rating": 12.7,
+      "defense_rating": 31.1,
+      "special_teams_rating": -0.3,
+      "sos_rank": 140,
+      "sor_rank": 84,
+      "projected_wins": 6.8,
+      "wins": 3,
+      "losses": 2,
+      "conf_wins": 1,
       "conf_losses": 0,
       "trend": 0.0,
       "rank": 108
