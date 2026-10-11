@@ -1,12 +1,217 @@
 {
   "meta": {
-    "generated_at": "2026-10-09T20:48:18Z",
+    "generated_at": "2026-10-11T14:36:24Z",
     "current_week": {
       "season": 2026,
-      "week": 6
+      "week": 7
     }
   },
   "results": [
+    {
+      "game_id": 401856808,
+      "season": 2026,
+      "week": 6,
+      "date": "2026-10-11",
+      "away_team": "Hawai'i",
+      "home_team": "Arizona State",
+      "home_points": 30,
+      "away_points": 12,
+      "model": {
+        "spread_pick": -14.6,
+        "market_spread_close": -20.8,
+        "spread_lean": "Away",
+        "spread_was_bet": true,
+        "spread_result": "Win",
+        "spread_is_seed_week": false,
+        "total_pick": 47.9,
+        "market_total_close": 51.2,
+        "total_lean": "Under",
+        "total_was_bet": true,
+        "total_result": "Win",
+        "ml_lean": "Away",
+        "ml_was_bet": true,
+        "ml_result": "Loss"
+      },
+      "beta_model": {
+        "spread_pick": -14.5,
+        "spread_lean": "Away",
+        "spread_was_bet": true,
+        "spread_result": "Win",
+        "agrees_with_model": true
+      },
+      "ridge_model": {
+        "spread_pick": -17.3,
+        "spread_lean": "Away",
+        "spread_was_bet": true,
+        "spread_result": "Win",
+        "agrees_with_model": true
+      },
+      "your_bets": []
+    },
+    {
+      "game_id": 401864517,
+      "season": 2026,
+      "week": 6,
+      "date": "2026-10-10",
+      "away_team": "Nevada",
+      "home_team": "UTEP",
+      "home_points": 13,
+      "away_points": 30,
+      "model": {
+        "spread_pick": 9.8,
+        "market_spread_close": 10.0,
+        "spread_lean": "Away",
+        "spread_was_bet": false,
+        "spread_result": "Win",
+        "spread_is_seed_week": false,
+        "total_pick": 45.0,
+        "market_total_close": 48.5,
+        "total_lean": "Under",
+        "total_was_bet": true,
+        "total_result": "Win",
+        "ml_lean": "Home",
+        "ml_was_bet": false,
+        "ml_result": null
+      },
+      "beta_model": {
+        "spread_pick": 5.3,
+        "spread_lean": "Home",
+        "spread_was_bet": true,
+        "spread_result": "Loss",
+        "agrees_with_model": false
+      },
+      "ridge_model": {
+        "spread_pick": 4.9,
+        "spread_lean": "Home",
+        "spread_was_bet": true,
+        "spread_result": "Loss",
+        "agrees_with_model": false
+      },
+      "your_bets": []
+    },
+    {
+      "game_id": 401864518,
+      "season": 2026,
+      "week": 6,
+      "date": "2026-10-10",
+      "away_team": "North Dakota State",
+      "home_team": "UNLV",
+      "home_points": 13,
+      "away_points": 7,
+      "model": {
+        "spread_pick": 11.5,
+        "market_spread_close": 2.8,
+        "spread_lean": "Away",
+        "spread_was_bet": true,
+        "spread_result": "Loss",
+        "spread_is_seed_week": false,
+        "total_pick": 43.9,
+        "market_total_close": 47.5,
+        "total_lean": "Under",
+        "total_was_bet": true,
+        "total_result": "Win",
+        "ml_lean": "Away",
+        "ml_was_bet": true,
+        "ml_result": "Loss"
+      },
+      "beta_model": {
+        "spread_pick": 4.6,
+        "spread_lean": "Away",
+        "spread_was_bet": false,
+        "spread_result": "Loss",
+        "agrees_with_model": true
+      },
+      "ridge_model": {
+        "spread_pick": 8.1,
+        "spread_lean": "Away",
+        "spread_was_bet": true,
+        "spread_result": "Loss",
+        "agrees_with_model": true
+      },
+      "your_bets": []
+    },
+    {
+      "game_id": 401864516,
+      "season": 2026,
+      "week": 6,
+      "date": "2026-10-10",
+      "away_team": "Air Force",
+      "home_team": "Northern Illinois",
+      "home_points": 7,
+      "away_points": 28,
+      "model": {
+        "spread_pick": 14.9,
+        "market_spread_close": 7.0,
+        "spread_lean": "Away",
+        "spread_was_bet": true,
+        "spread_result": "Win",
+        "spread_is_seed_week": false,
+        "total_pick": 41.3,
+        "market_total_close": 48.5,
+        "total_lean": "Under",
+        "total_was_bet": true,
+        "total_result": "Win",
+        "ml_lean": "Away",
+        "ml_was_bet": true,
+        "ml_result": "Win"
+      },
+      "beta_model": {
+        "spread_pick": 2.6,
+        "spread_lean": "Home",
+        "spread_was_bet": true,
+        "spread_result": "Loss",
+        "agrees_with_model": false
+      },
+      "ridge_model": {
+        "spread_pick": 9.3,
+        "spread_lean": "Away",
+        "spread_was_bet": true,
+        "spread_result": "Win",
+        "agrees_with_model": true
+      },
+      "your_bets": []
+    },
+    {
+      "game_id": 401864519,
+      "season": 2026,
+      "week": 6,
+      "date": "2026-10-10",
+      "away_team": "Wyoming",
+      "home_team": "San Jos\u00e9 State",
+      "home_points": 13,
+      "away_points": 16,
+      "model": {
+        "spread_pick": -4.3,
+        "market_spread_close": -4.2,
+        "spread_lean": "Home",
+        "spread_was_bet": false,
+        "spread_result": "Loss",
+        "spread_is_seed_week": false,
+        "total_pick": 45.6,
+        "market_total_close": 42.8,
+        "total_lean": "Over",
+        "total_was_bet": true,
+        "total_result": "Loss",
+        "ml_lean": "Away",
+        "ml_was_bet": true,
+        "ml_result": "Win"
+      },
+      "beta_model": {
+        "spread_pick": 0.2,
+        "spread_lean": "Away",
+        "spread_was_bet": true,
+        "spread_result": "Win",
+        "agrees_with_model": false
+      },
+      "ridge_model": {
+        "spread_pick": 1.2,
+        "spread_lean": "Away",
+        "spread_was_bet": true,
+        "spread_result": "Win",
+        "agrees_with_model": false
+      },
+      "your_bets": []
+    },
     {
       "game_id": 401864513,
       "season": 2026,
@@ -17,7 +222,7 @@
       "home_points": 16,
       "away_points": 20,
       "model": {
-        "spread_pick": -5.6,
+        "spread_pick": -5.3,
         "market_spread_close": -2.8,
         "spread_lean": "Home",
         "spread_was_bet": true,
@@ -32,9 +237,75 @@
         "ml_was_bet": true,
         "ml_result": "Loss"
       },
-      "beta_model": null,
-      "ridge_model": null,
+      "beta_model": {
+        "spread_pick": -7.3,
+        "spread_lean": "Home",
+        "spread_was_bet": true,
+        "spread_result": "Loss",
+        "agrees_with_model": true
+      },
+      "ridge_model": {
+        "spread_pick": -6.8,
+        "spread_lean": "Home",
+        "spread_was_bet": true,
+        "spread_result": "Loss",
+        "agrees_with_model": true
+      },
       "your_bets": []
+    },
+    {
+      "game_id": 401864515,
+      "season": 2026,
+      "week": 5,
+      "date": "2026-10-03",
+      "away_team": "Wyoming",
+      "home_team": "North Dakota State",
+      "home_points": 28,
+      "away_points": 0,
+      "model": {
+        "spread_pick": -29.0,
+        "market_spread_close": -17.2,
+        "spread_lean": "Home",
+        "spread_was_bet": true,
+        "spread_result": "Win",
+        "spread_is_seed_week": false,
+        "total_pick": 46.7,
+        "market_total_close": 44.5,
+        "total_lean": "Over",
+        "total_was_bet": true,
+        "total_result": "Loss",
+        "ml_lean": "Home",
+        "ml_was_bet": true,
+        "ml_result": "Win"
+      },
+      "beta_model": {
+        "spread_pick": -21.8,
+        "spread_lean": "Home",
+        "spread_was_bet": true,
+        "spread_result": "Win",
+        "agrees_with_model": true
+      },
+      "ridge_model": {
+        "spread_pick": -22.5,
+        "spread_lean": "Home",
+        "spread_was_bet": true,
+        "spread_result": "Win",
+        "agrees_with_model": true
+      },
+      "your_bets": [
+        {
+          "date": "2026-10-03",
+          "week": 5,
+          "matchup": "Wyoming @ North Dakota State",
+          "bet_type": "Spread",
+          "side": "North Dakota State",
+          "line": -19.5,
+          "odds": -115.0,
+          "stake": 1.0,
+          "result": "W",
+          "units": 0.87
+        }
+      ]
     },
     {
       "game_id": 401862791,
@@ -62,7 +333,7 @@
         "ml_result": "Loss"
       },
       "beta_model": {
-        "spread_pick": -2.1,
+        "spread_pick": -1.5,
         "spread_lean": "Away",
         "spread_was_bet": false,
         "spread_result": "Loss",
@@ -103,101 +374,6 @@
       ]
     },
     {
-      "game_id": 401858247,
-      "season": 2026,
-      "week": 5,
-      "date": "2026-10-03",
-      "away_team": "California",
-      "home_team": "UNLV",
-      "home_points": 39,
-      "away_points": 31,
-      "model": {
-        "spread_pick": -4.6,
-        "market_spread_close": -1.8,
-        "spread_lean": "Home",
-        "spread_was_bet": true,
-        "spread_result": "Win",
-        "spread_is_seed_week": false,
-        "total_pick": 45.6,
-        "market_total_close": 52.2,
-        "total_lean": "Under",
-        "total_was_bet": true,
-        "total_result": "Loss",
-        "ml_lean": "Home",
-        "ml_was_bet": true,
-        "ml_result": "Win"
-      },
-      "beta_model": {
-        "spread_pick": -6.8,
-        "spread_lean": "Home",
-        "spread_was_bet": true,
-        "spread_result": "Win",
-        "agrees_with_model": true
-      },
-      "ridge_model": {
-        "spread_pick": -15.4,
-        "spread_lean": "Home",
-        "spread_was_bet": true,
-        "spread_result": "Win",
-        "agrees_with_model": true
-      },
-      "your_bets": []
-    },
-    {
-      "game_id": 401864515,
-      "season": 2026,
-      "week": 5,
-      "date": "2026-10-03",
-      "away_team": "Wyoming",
-      "home_team": "North Dakota State",
-      "home_points": 28,
-      "away_points": 0,
-      "model": {
-        "spread_pick": -29.1,
-        "market_spread_close": -17.2,
-        "spread_lean": "Home",
-        "spread_was_bet": true,
-        "spread_result": "Win",
-        "spread_is_seed_week": false,
-        "total_pick": 46.7,
-        "market_total_close": 44.5,
-        "total_lean": "Over",
-        "total_was_bet": true,
-        "total_result": "Loss",
-        "ml_lean": "Home",
-        "ml_was_bet": true,
-        "ml_result": "Win"
-      },
-      "beta_model": {
-        "spread_pick": -21.1,
-        "spread_lean": "Home",
-        "spread_was_bet": true,
-        "spread_result": "Win",
-        "agrees_with_model": true
-      },
-      "ridge_model": {
-        "spread_pick": -22.5,
-        "spread_lean": "Home",
-        "spread_was_bet": true,
-        "spread_result": "Win",
-        "agrees_with_model": true
-      },
-      "your_bets": [
-        {
-          "date": "2026-10-03",
-          "week": 5,
-          "matchup": "Wyoming @ North Dakota State",
-          "bet_type": "Spread",
-          "side": "North Dakota State",
-          "line": -19.5,
-          "odds": -115.0,
-          "stake": 1.0,
-          "result": "W",
-          "units": 0.87
-        }
-      ]
-    },
-    {
       "game_id": 401864514,
       "season": 2026,
       "week": 5,
@@ -223,18 +399,18 @@
         "ml_result": "Win"
       },
       "beta_model": {
-        "spread_pick": -20.7,
+        "spread_pick": -22.0,
         "spread_lean": "Away",
-        "spread_was_bet": true,
+        "spread_was_bet": false,
         "spread_result": "Loss",
         "agrees_with_model": false
       },
       "ridge_model": {
         "spread_pick": -22.3,
-        "spread_lean": "Away",
+        "spread_lean": "Home",
         "spread_was_bet": false,
-        "spread_result": "Loss",
-        "agrees_with_model": false
+        "spread_result": "Win",
+        "agrees_with_model": true
       },
       "your_bets": [
         {
@@ -250,6 +426,47 @@
           "units": 0.91
         }
       ]
+    },
+    {
+      "game_id": 401858247,
+      "season": 2026,
+      "week": 5,
+      "date": "2026-10-03",
+      "away_team": "California",
+      "home_team": "UNLV",
+      "home_points": 39,
+      "away_points": 31,
+      "model": {
+        "spread_pick": -4.9,
+        "market_spread_close": -1.8,
+        "spread_lean": "Home",
+        "spread_was_bet": true,
+        "spread_result": "Win",
+        "spread_is_seed_week": false,
+        "total_pick": 45.6,
+        "market_total_close": 52.2,
+        "total_lean": "Under",
+        "total_was_bet": true,
+        "total_result": "Loss",
+        "ml_lean": "Home",
+        "ml_was_bet": true,
+        "ml_result": "Win"
+      },
+      "beta_model": {
+        "spread_pick": -7.0,
+        "spread_lean": "Home",
+        "spread_was_bet": true,
+        "spread_result": "Win",
+        "agrees_with_model": true
+      },
+      "ridge_model": {
+        "spread_pick": -15.4,
+        "spread_lean": "Home",
+        "spread_was_bet": true,
+        "spread_result": "Win",
+        "agrees_with_model": true
+      },
+      "your_bets": []
     },
     {
       "game_id": 401860895,
@@ -277,7 +494,7 @@
         "ml_result": null
       },
       "beta_model": {
-        "spread_pick": 1.1,
+        "spread_pick": 1.6,
         "spread_lean": "Home",
         "spread_was_bet": true,
         "spread_result": "Loss",
@@ -318,18 +535,18 @@
         "ml_result": null
       },
       "beta_model": {
-        "spread_pick": 0.7,
+        "spread_pick": 0.4,
         "spread_lean": "Home",
         "spread_was_bet": true,
         "spread_result": "Win",
-        "agrees_with_model": true
+        "agrees_with_model": false
       },
       "ridge_model": {
         "spread_pick": 3.3,
         "spread_lean": "Home",
         "spread_was_bet": false,
         "spread_result": "Win",
-        "agrees_with_model": true
+        "agrees_with_model": false
       },
       "your_bets": []
     },
@@ -343,7 +560,7 @@
       "home_points": 10,
       "away_points": 38,
       "model": {
-        "spread_pick": 7.2,
+        "spread_pick": 7.3,
         "market_spread_close": 13.5,
         "spread_lean": "Home",
         "spread_was_bet": true,
@@ -359,7 +576,7 @@
         "ml_result": "Loss"
       },
       "beta_model": {
-        "spread_pick": 8.4,
+        "spread_pick": 7.5,
         "spread_lean": "Home",
         "spread_was_bet": true,
         "spread_result": "Loss",
@@ -388,6 +605,47 @@
       ]
     },
     {
+      "game_id": 401864510,
+      "season": 2026,
+      "week": 4,
+      "date": "2026-09-26",
+      "away_team": "Hawai'i",
+      "home_team": "Wyoming",
+      "home_points": 27,
+      "away_points": 10,
+      "model": {
+        "spread_pick": 5.0,
+        "market_spread_close": 2.2,
+        "spread_lean": "Away",
+        "spread_was_bet": true,
+        "spread_result": "Loss",
+        "spread_is_seed_week": false,
+        "total_pick": 44.9,
+        "market_total_close": 44.5,
+        "total_lean": "Over",
+        "total_was_bet": false,
+        "total_result": "Loss",
+        "ml_lean": "Away",
+        "ml_was_bet": true,
+        "ml_result": "Loss"
+      },
+      "beta_model": {
+        "spread_pick": 1.2,
+        "spread_lean": "Home",
+        "spread_was_bet": false,
+        "spread_result": "Win",
+        "agrees_with_model": false
+      },
+      "ridge_model": {
+        "spread_pick": 6.0,
+        "spread_lean": "Away",
+        "spread_was_bet": true,
+        "spread_result": "Loss",
+        "agrees_with_model": true
+      },
+      "your_bets": []
+    },
+    {
       "game_id": 401864511,
       "season": 2026,
       "week": 4,
@@ -413,7 +671,7 @@
         "ml_result": null
       },
       "beta_model": {
-        "spread_pick": -2.4,
+        "spread_pick": -2.6,
         "spread_lean": "Away",
         "spread_was_bet": true,
         "spread_result": "Loss",
@@ -429,47 +687,6 @@
       "your_bets": []
     },
     {
-      "game_id": 401864510,
-      "season": 2026,
-      "week": 4,
-      "date": "2026-09-26",
-      "away_team": "Hawai'i",
-      "home_team": "Wyoming",
-      "home_points": 27,
-      "away_points": 10,
-      "model": {
-        "spread_pick": 5.2,
-        "market_spread_close": 2.2,
-        "spread_lean": "Away",
-        "spread_was_bet": true,
-        "spread_result": "Loss",
-        "spread_is_seed_week": false,
-        "total_pick": 44.9,
-        "market_total_close": 44.5,
-        "total_lean": "Over",
-        "total_was_bet": false,
-        "total_result": "Loss",
-        "ml_lean": "Away",
-        "ml_was_bet": true,
-        "ml_result": "Loss"
-      },
-      "beta_model": {
-        "spread_pick": 1.0,
-        "spread_lean": "Home",
-        "spread_was_bet": false,
-        "spread_result": "Win",
-        "agrees_with_model": false
-      },
-      "ridge_model": {
-        "spread_pick": 6.0,
-        "spread_lean": "Away",
-        "spread_was_bet": true,
-        "spread_result": "Loss",
-        "agrees_with_model": true
-      },
-      "your_bets": []
-    },
-    {
       "game_id": 401864579,
       "season": 2026,
       "week": 4,
@@ -479,7 +696,7 @@
       "home_points": 18,
       "away_points": 42,
       "model": {
-        "spread_pick": 18.1,
+        "spread_pick": 18.0,
         "market_spread_close": 11.5,
         "spread_lean": "Away",
         "spread_was_bet": true,
@@ -495,7 +712,7 @@
         "ml_result": "Win"
       },
       "beta_model": {
-        "spread_pick": 12.1,
+        "spread_pick": 11.1,
         "spread_lean": "Away",
         "spread_was_bet": false,
         "spread_result": "Win",
@@ -524,43 +741,43 @@
       ]
     },
     {
-      "game_id": 401864507,
+      "game_id": 401860888,
       "season": 2026,
       "week": 3,
       "date": "2026-09-20",
-      "away_team": "North Dakota State",
-      "home_team": "Sacramento State",
+      "away_team": "Fresno State",
+      "home_team": "San Jos\u00e9 State",
       "home_points": 10,
-      "away_points": 31,
+      "away_points": 26,
       "model": {
-        "spread_pick": 37.2,
-        "market_spread_close": 25.5,
+        "spread_pick": 4.9,
+        "market_spread_close": 4.0,
         "spread_lean": "Away",
-        "spread_was_bet": true,
-        "spread_result": "Loss",
+        "spread_was_bet": false,
+        "spread_result": "Win",
         "spread_is_seed_week": false,
-        "total_pick": 44.0,
-        "market_total_close": 50.5,
+        "total_pick": 46.5,
+        "market_total_close": 47.5,
         "total_lean": "Under",
-        "total_was_bet": true,
+        "total_was_bet": false,
         "total_result": "Win",
-        "ml_lean": "Away",
-        "ml_was_bet": false,
-        "ml_result": null
+        "ml_lean": "Home",
+        "ml_was_bet": true,
+        "ml_result": "Loss"
       },
       "beta_model": {
-        "spread_pick": 17.9,
-        "spread_lean": "Home",
+        "spread_pick": 11.6,
+        "spread_lean": "Away",
         "spread_was_bet": true,
         "spread_result": "Win",
-        "agrees_with_model": false
+        "agrees_with_model": true
       },
       "ridge_model": {
-        "spread_pick": 13.0,
-        "spread_lean": "Home",
-        "spread_was_bet": true,
+        "spread_pick": 3.1,
+        "spread_lean": "Away",
+        "spread_was_bet": false,
         "spread_result": "Win",
-        "agrees_with_model": false
+        "agrees_with_model": true
       },
       "your_bets": []
     },
@@ -590,7 +807,7 @@
         "ml_result": null
       },
       "beta_model": {
-        "spread_pick": -20.9,
+        "spread_pick": -20.8,
         "spread_lean": "Away",
         "spread_was_bet": true,
         "spread_result": "Win",
@@ -606,43 +823,43 @@
       "your_bets": []
     },
     {
-      "game_id": 401860888,
+      "game_id": 401864507,
       "season": 2026,
       "week": 3,
       "date": "2026-09-20",
-      "away_team": "Fresno State",
-      "home_team": "San Jos\u00e9 State",
+      "away_team": "North Dakota State",
+      "home_team": "Sacramento State",
       "home_points": 10,
-      "away_points": 26,
+      "away_points": 31,
       "model": {
-        "spread_pick": 4.9,
-        "market_spread_close": 4.0,
+        "spread_pick": 37.2,
+        "market_spread_close": 25.5,
         "spread_lean": "Away",
-        "spread_was_bet": false,
-        "spread_result": "Win",
+        "spread_was_bet": true,
+        "spread_result": "Loss",
         "spread_is_seed_week": false,
-        "total_pick": 46.5,
-        "market_total_close": 47.5,
+        "total_pick": 44.0,
+        "market_total_close": 50.5,
         "total_lean": "Under",
-        "total_was_bet": false,
+        "total_was_bet": true,
         "total_result": "Win",
-        "ml_lean": "Home",
-        "ml_was_bet": true,
-        "ml_result": "Loss"
+        "ml_lean": "Away",
+        "ml_was_bet": false,
+        "ml_result": null
       },
       "beta_model": {
-        "spread_pick": 10.1,
-        "spread_lean": "Away",
+        "spread_pick": 17.5,
+        "spread_lean": "Home",
         "spread_was_bet": true,
         "spread_result": "Win",
         "agrees_with_model": false
       },
       "ridge_model": {
-        "spread_pick": 3.1,
+        "spread_pick": 13.0,
         "spread_lean": "Home",
-        "spread_was_bet": false,
-        "spread_result": "Loss",
-        "agrees_with_model": true
+        "spread_was_bet": true,
+        "spread_result": "Win",
+        "agrees_with_model": false
       },
       "your_bets": []
     },
@@ -672,7 +889,7 @@
         "ml_result": "Win"
       },
       "beta_model": {
-        "spread_pick": -8.3,
+        "spread_pick": -9.9,
         "spread_lean": "Home",
         "spread_was_bet": true,
         "spread_result": "Win",
@@ -725,47 +942,6 @@
       ]
     },
     {
-      "game_id": 401858450,
-      "season": 2026,
-      "week": 3,
-      "date": "2026-09-19",
-      "away_team": "UTEP",
-      "home_team": "Michigan",
-      "home_points": 52,
-      "away_points": 17,
-      "model": {
-        "spread_pick": -31.1,
-        "market_spread_close": -34.5,
-        "spread_lean": "Away",
-        "spread_was_bet": true,
-        "spread_result": "Loss",
-        "spread_is_seed_week": false,
-        "total_pick": 41.8,
-        "market_total_close": 48.5,
-        "total_lean": "Under",
-        "total_was_bet": true,
-        "total_result": "Loss",
-        "ml_lean": null,
-        "ml_was_bet": null,
-        "ml_result": null
-      },
-      "beta_model": {
-        "spread_pick": -31.8,
-        "spread_lean": "Away",
-        "spread_was_bet": true,
-        "spread_result": "Loss",
-        "agrees_with_model": true
-      },
-      "ridge_model": {
-        "spread_pick": -35.0,
-        "spread_lean": "Home",
-        "spread_was_bet": false,
-        "spread_result": "Win",
-        "agrees_with_model": false
-      },
-      "your_bets": []
-    },
-    {
       "game_id": 401864443,
       "season": 2026,
       "week": 3,
@@ -807,6 +983,47 @@
       "your_bets": []
     },
     {
+      "game_id": 401858450,
+      "season": 2026,
+      "week": 3,
+      "date": "2026-09-19",
+      "away_team": "UTEP",
+      "home_team": "Michigan",
+      "home_points": 52,
+      "away_points": 17,
+      "model": {
+        "spread_pick": -31.1,
+        "market_spread_close": -34.5,
+        "spread_lean": "Away",
+        "spread_was_bet": true,
+        "spread_result": "Loss",
+        "spread_is_seed_week": false,
+        "total_pick": 41.8,
+        "market_total_close": 48.5,
+        "total_lean": "Under",
+        "total_was_bet": true,
+        "total_result": "Loss",
+        "ml_lean": null,
+        "ml_was_bet": null,
+        "ml_result": null
+      },
+      "beta_model": {
+        "spread_pick": -32.2,
+        "spread_lean": "Away",
+        "spread_was_bet": true,
+        "spread_result": "Loss",
+        "agrees_with_model": true
+      },
+      "ridge_model": {
+        "spread_pick": -35.0,
+        "spread_lean": "Home",
+        "spread_was_bet": false,
+        "spread_result": "Win",
+        "agrees_with_model": false
+      },
+      "your_bets": []
+    },
+    {
       "game_id": 401856690,
       "season": 2026,
       "week": 3,
@@ -832,7 +1049,7 @@
         "ml_result": "Loss"
       },
       "beta_model": {
-        "spread_pick": -14.8,
+        "spread_pick": -15.2,
         "spread_lean": "Away",
         "spread_was_bet": true,
         "spread_result": "Win",
@@ -843,88 +1060,6 @@
         "spread_lean": "Away",
         "spread_was_bet": true,
         "spread_result": "Win",
-        "agrees_with_model": true
-      },
-      "your_bets": []
-    },
-    {
-      "game_id": 401864504,
-      "season": 2026,
-      "week": 2,
-      "date": "2026-09-13",
-      "away_team": "Cal Poly",
-      "home_team": "San Jos\u00e9 State",
-      "home_points": 30,
-      "away_points": 20,
-      "model": {
-        "spread_pick": -29.4,
-        "market_spread_close": -21.5,
-        "spread_lean": "Home",
-        "spread_was_bet": true,
-        "spread_result": "Loss",
-        "spread_is_seed_week": false,
-        "total_pick": 55.2,
-        "market_total_close": 58.5,
-        "total_lean": "Under",
-        "total_was_bet": true,
-        "total_result": "Win",
-        "ml_lean": "Home",
-        "ml_was_bet": true,
-        "ml_result": "Win"
-      },
-      "beta_model": {
-        "spread_pick": -27.5,
-        "spread_lean": "Home",
-        "spread_was_bet": true,
-        "spread_result": "Loss",
-        "agrees_with_model": true
-      },
-      "ridge_model": {
-        "spread_pick": -19.9,
-        "spread_lean": "Away",
-        "spread_was_bet": false,
-        "spread_result": "Win",
-        "agrees_with_model": false
-      },
-      "your_bets": []
-    },
-    {
-      "game_id": 401864505,
-      "season": 2026,
-      "week": 2,
-      "date": "2026-09-13",
-      "away_team": "Texas Southern",
-      "home_team": "UTEP",
-      "home_points": 51,
-      "away_points": 10,
-      "model": {
-        "spread_pick": -18.5,
-        "market_spread_close": -27.2,
-        "spread_lean": "Away",
-        "spread_was_bet": true,
-        "spread_result": "Loss",
-        "spread_is_seed_week": false,
-        "total_pick": 55.2,
-        "market_total_close": 53.5,
-        "total_lean": "Over",
-        "total_was_bet": false,
-        "total_result": "Win",
-        "ml_lean": "Away",
-        "ml_was_bet": true,
-        "ml_result": "Loss"
-      },
-      "beta_model": {
-        "spread_pick": -20.4,
-        "spread_lean": "Away",
-        "spread_was_bet": true,
-        "spread_result": "Loss",
-        "agrees_with_model": true
-      },
-      "ridge_model": {
-        "spread_pick": -14.6,
-        "spread_lean": "Away",
-        "spread_was_bet": true,
-        "spread_result": "Loss",
         "agrees_with_model": true
       },
       "your_bets": []
@@ -971,43 +1106,43 @@
       "your_bets": []
     },
     {
-      "game_id": 401864500,
+      "game_id": 401864504,
       "season": 2026,
       "week": 2,
       "date": "2026-09-13",
-      "away_team": "Montana State",
-      "home_team": "Nevada",
-      "home_points": 7,
+      "away_team": "Cal Poly",
+      "home_team": "San Jos\u00e9 State",
+      "home_points": 30,
       "away_points": 20,
       "model": {
-        "spread_pick": -32.3,
-        "market_spread_close": 5.0,
+        "spread_pick": -29.4,
+        "market_spread_close": -21.5,
         "spread_lean": "Home",
         "spread_was_bet": true,
         "spread_result": "Loss",
         "spread_is_seed_week": false,
-        "total_pick": 55.3,
-        "market_total_close": 51.5,
-        "total_lean": "Over",
+        "total_pick": 55.2,
+        "market_total_close": 58.5,
+        "total_lean": "Under",
         "total_was_bet": true,
-        "total_result": "Loss",
+        "total_result": "Win",
         "ml_lean": "Home",
         "ml_was_bet": true,
-        "ml_result": "Loss"
+        "ml_result": "Win"
       },
       "beta_model": {
-        "spread_pick": -12.4,
+        "spread_pick": -27.9,
         "spread_lean": "Home",
         "spread_was_bet": true,
         "spread_result": "Loss",
         "agrees_with_model": true
       },
       "ridge_model": {
-        "spread_pick": -17.2,
-        "spread_lean": "Home",
-        "spread_was_bet": true,
-        "spread_result": "Loss",
-        "agrees_with_model": true
+        "spread_pick": -19.9,
+        "spread_lean": "Away",
+        "spread_was_bet": false,
+        "spread_result": "Win",
+        "agrees_with_model": false
       },
       "your_bets": []
     },
@@ -1037,17 +1172,99 @@
         "ml_result": "Loss"
       },
       "beta_model": {
-        "spread_pick": -13.8,
+        "spread_pick": -13.0,
         "spread_lean": "Home",
         "spread_was_bet": true,
         "spread_result": "Win",
-        "agrees_with_model": true
+        "agrees_with_model": false
       },
       "ridge_model": {
         "spread_pick": -14.1,
         "spread_lean": "Home",
         "spread_was_bet": true,
         "spread_result": "Win",
+        "agrees_with_model": false
+      },
+      "your_bets": []
+    },
+    {
+      "game_id": 401864505,
+      "season": 2026,
+      "week": 2,
+      "date": "2026-09-13",
+      "away_team": "Texas Southern",
+      "home_team": "UTEP",
+      "home_points": 51,
+      "away_points": 10,
+      "model": {
+        "spread_pick": -18.5,
+        "market_spread_close": -27.2,
+        "spread_lean": "Away",
+        "spread_was_bet": true,
+        "spread_result": "Loss",
+        "spread_is_seed_week": false,
+        "total_pick": 55.2,
+        "market_total_close": 53.5,
+        "total_lean": "Over",
+        "total_was_bet": false,
+        "total_result": "Win",
+        "ml_lean": "Away",
+        "ml_was_bet": true,
+        "ml_result": "Loss"
+      },
+      "beta_model": {
+        "spread_pick": -20.2,
+        "spread_lean": "Away",
+        "spread_was_bet": true,
+        "spread_result": "Loss",
+        "agrees_with_model": true
+      },
+      "ridge_model": {
+        "spread_pick": -14.6,
+        "spread_lean": "Away",
+        "spread_was_bet": true,
+        "spread_result": "Loss",
+        "agrees_with_model": true
+      },
+      "your_bets": []
+    },
+    {
+      "game_id": 401864500,
+      "season": 2026,
+      "week": 2,
+      "date": "2026-09-13",
+      "away_team": "Montana State",
+      "home_team": "Nevada",
+      "home_points": 7,
+      "away_points": 20,
+      "model": {
+        "spread_pick": -32.3,
+        "market_spread_close": 5.0,
+        "spread_lean": "Home",
+        "spread_was_bet": true,
+        "spread_result": "Loss",
+        "spread_is_seed_week": false,
+        "total_pick": 55.3,
+        "market_total_close": 51.5,
+        "total_lean": "Over",
+        "total_was_bet": true,
+        "total_result": "Loss",
+        "ml_lean": "Home",
+        "ml_was_bet": true,
+        "ml_result": "Loss"
+      },
+      "beta_model": {
+        "spread_pick": -12.3,
+        "spread_lean": "Home",
+        "spread_was_bet": true,
+        "spread_result": "Loss",
+        "agrees_with_model": true
+      },
+      "ridge_model": {
+        "spread_pick": -17.2,
+        "spread_lean": "Home",
+        "spread_was_bet": true,
+        "spread_result": "Loss",
         "agrees_with_model": true
       },
       "your_bets": []
@@ -1078,11 +1295,11 @@
         "ml_result": "Win"
       },
       "beta_model": {
-        "spread_pick": 1.9,
-        "spread_lean": "Home",
+        "spread_pick": 2.2,
+        "spread_lean": "Away",
         "spread_was_bet": false,
-        "spread_result": "Win",
-        "agrees_with_model": true
+        "spread_result": "Loss",
+        "agrees_with_model": false
       },
       "ridge_model": {
         "spread_pick": -3.6,
@@ -1105,47 +1322,6 @@
           "units": 0.88
         }
       ]
-    },
-    {
-      "game_id": 401864506,
-      "season": 2026,
-      "week": 2,
-      "date": "2026-09-12",
-      "away_team": "Northern Colorado",
-      "home_team": "Wyoming",
-      "home_points": 21,
-      "away_points": 13,
-      "model": {
-        "spread_pick": -26.3,
-        "market_spread_close": -23.5,
-        "spread_lean": "Home",
-        "spread_was_bet": true,
-        "spread_result": "Loss",
-        "spread_is_seed_week": false,
-        "total_pick": 55.2,
-        "market_total_close": 44.2,
-        "total_lean": "Over",
-        "total_was_bet": true,
-        "total_result": "Loss",
-        "ml_lean": "Home",
-        "ml_was_bet": false,
-        "ml_result": null
-      },
-      "beta_model": {
-        "spread_pick": -21.8,
-        "spread_lean": "Away",
-        "spread_was_bet": false,
-        "spread_result": "Win",
-        "agrees_with_model": false
-      },
-      "ridge_model": {
-        "spread_pick": -16.3,
-        "spread_lean": "Away",
-        "spread_was_bet": true,
-        "spread_result": "Win",
-        "agrees_with_model": false
-      },
-      "your_bets": []
     },
     {
       "game_id": 401865252,
@@ -1173,7 +1349,7 @@
         "ml_result": null
       },
       "beta_model": {
-        "spread_pick": -27.5,
+        "spread_pick": -27.4,
         "spread_lean": "Away",
         "spread_was_bet": true,
         "spread_result": "Loss",
@@ -1184,6 +1360,47 @@
         "spread_lean": "Away",
         "spread_was_bet": true,
         "spread_result": "Loss",
+        "agrees_with_model": false
+      },
+      "your_bets": []
+    },
+    {
+      "game_id": 401864506,
+      "season": 2026,
+      "week": 2,
+      "date": "2026-09-12",
+      "away_team": "Northern Colorado",
+      "home_team": "Wyoming",
+      "home_points": 21,
+      "away_points": 13,
+      "model": {
+        "spread_pick": -26.3,
+        "market_spread_close": -23.5,
+        "spread_lean": "Home",
+        "spread_was_bet": true,
+        "spread_result": "Loss",
+        "spread_is_seed_week": false,
+        "total_pick": 55.2,
+        "market_total_close": 44.2,
+        "total_lean": "Over",
+        "total_was_bet": true,
+        "total_result": "Loss",
+        "ml_lean": "Home",
+        "ml_was_bet": false,
+        "ml_result": null
+      },
+      "beta_model": {
+        "spread_pick": -22.0,
+        "spread_lean": "Away",
+        "spread_was_bet": false,
+        "spread_result": "Win",
+        "agrees_with_model": false
+      },
+      "ridge_model": {
+        "spread_pick": -16.3,
+        "spread_lean": "Away",
+        "spread_was_bet": true,
+        "spread_result": "Win",
         "agrees_with_model": false
       },
       "your_bets": []
@@ -1214,7 +1431,7 @@
         "ml_result": "Loss"
       },
       "beta_model": {
-        "spread_pick": -16.1,
+        "spread_pick": -16.0,
         "spread_lean": "Home",
         "spread_was_bet": true,
         "spread_result": "Loss",
@@ -1226,6 +1443,47 @@
         "spread_was_bet": true,
         "spread_result": "Loss",
         "agrees_with_model": true
+      },
+      "your_bets": []
+    },
+    {
+      "game_id": 401864432,
+      "season": 2026,
+      "week": 1,
+      "date": "2026-09-06",
+      "away_team": "Western Kentucky",
+      "home_team": "Nevada",
+      "home_points": 49,
+      "away_points": 14,
+      "model": {
+        "spread_pick": -1.2,
+        "market_spread_close": 0.2,
+        "spread_lean": "Home",
+        "spread_was_bet": false,
+        "spread_result": "Win",
+        "spread_is_seed_week": true,
+        "total_pick": 51.8,
+        "market_total_close": 51.5,
+        "total_lean": "Over",
+        "total_was_bet": false,
+        "total_result": "Win",
+        "ml_lean": "Away",
+        "ml_was_bet": true,
+        "ml_result": "Loss"
+      },
+      "beta_model": {
+        "spread_pick": 8.0,
+        "spread_lean": "Away",
+        "spread_was_bet": true,
+        "spread_result": "Loss",
+        "agrees_with_model": false
+      },
+      "ridge_model": {
+        "spread_pick": 3.3,
+        "spread_lean": "Away",
+        "spread_was_bet": true,
+        "spread_result": "Loss",
+        "agrees_with_model": false
       },
       "your_bets": []
     },
@@ -1255,7 +1513,7 @@
         "ml_result": null
       },
       "beta_model": {
-        "spread_pick": -11.6,
+        "spread_pick": -11.1,
         "spread_lean": "Home",
         "spread_was_bet": false,
         "spread_result": "Win",
@@ -1309,7 +1567,7 @@
         "ml_result": "Win"
       },
       "beta_model": {
-        "spread_pick": -2.1,
+        "spread_pick": -2.2,
         "spread_lean": "Home",
         "spread_was_bet": true,
         "spread_result": "Loss",
@@ -1321,183 +1579,6 @@
         "spread_was_bet": false,
         "spread_result": "Win",
         "agrees_with_model": true
-      },
-      "your_bets": []
-    },
-    {
-      "game_id": 401864432,
-      "season": 2026,
-      "week": 1,
-      "date": "2026-09-06",
-      "away_team": "Western Kentucky",
-      "home_team": "Nevada",
-      "home_points": 49,
-      "away_points": 14,
-      "model": {
-        "spread_pick": -1.2,
-        "market_spread_close": 0.2,
-        "spread_lean": "Home",
-        "spread_was_bet": false,
-        "spread_result": "Win",
-        "spread_is_seed_week": true,
-        "total_pick": 51.8,
-        "market_total_close": 51.5,
-        "total_lean": "Over",
-        "total_was_bet": false,
-        "total_result": "Win",
-        "ml_lean": "Away",
-        "ml_was_bet": true,
-        "ml_result": "Loss"
-      },
-      "beta_model": {
-        "spread_pick": 6.8,
-        "spread_lean": "Away",
-        "spread_was_bet": true,
-        "spread_result": "Loss",
-        "agrees_with_model": false
-      },
-      "ridge_model": {
-        "spread_pick": 3.3,
-        "spread_lean": "Away",
-        "spread_was_bet": true,
-        "spread_result": "Loss",
-        "agrees_with_model": false
-      },
-      "your_bets": []
-    },
-    {
-      "game_id": 401856664,
-      "season": 2026,
-      "week": 1,
-      "date": "2026-09-05",
-      "away_team": "UTEP",
-      "home_team": "Oklahoma",
-      "home_points": 51,
-      "away_points": 0,
-      "model": {
-        "spread_pick": -43.1,
-        "market_spread_close": -40.8,
-        "spread_lean": "Home",
-        "spread_was_bet": true,
-        "spread_result": "Win",
-        "spread_is_seed_week": true,
-        "total_pick": 52.5,
-        "market_total_close": 51.2,
-        "total_lean": "Over",
-        "total_was_bet": false,
-        "total_result": "Loss",
-        "ml_lean": null,
-        "ml_was_bet": null,
-        "ml_result": null
-      },
-      "beta_model": {
-        "spread_pick": -31.3,
-        "spread_lean": "Away",
-        "spread_was_bet": true,
-        "spread_result": "Loss",
-        "agrees_with_model": false
-      },
-      "ridge_model": {
-        "spread_pick": -34.8,
-        "spread_lean": "Away",
-        "spread_was_bet": true,
-        "spread_result": "Loss",
-        "agrees_with_model": false
-      },
-      "your_bets": [
-        {
-          "date": "2026-09-04",
-          "week": 1,
-          "matchup": "UTEP @ Oklahoma",
-          "bet_type": "Total",
-          "side": null,
-          "line": 51.5,
-          "odds": -128.0,
-          "stake": 2.5,
-          "result": "L",
-          "units": -2.5
-        }
-      ]
-    },
-    {
-      "game_id": 401864496,
-      "season": 2026,
-      "week": 1,
-      "date": "2026-09-05",
-      "away_team": "Duquesne",
-      "home_team": "Air Force",
-      "home_points": 34,
-      "away_points": 0,
-      "model": {
-        "spread_pick": -35.2,
-        "market_spread_close": -30.0,
-        "spread_lean": "Home",
-        "spread_was_bet": true,
-        "spread_result": "Win",
-        "spread_is_seed_week": true,
-        "total_pick": 53.0,
-        "market_total_close": 56.5,
-        "total_lean": "Under",
-        "total_was_bet": true,
-        "total_result": "Win",
-        "ml_lean": "Home",
-        "ml_was_bet": false,
-        "ml_result": null
-      },
-      "beta_model": {
-        "spread_pick": -28.4,
-        "spread_lean": "Away",
-        "spread_was_bet": false,
-        "spread_result": "Loss",
-        "agrees_with_model": false
-      },
-      "ridge_model": {
-        "spread_pick": -17.0,
-        "spread_lean": "Away",
-        "spread_was_bet": true,
-        "spread_result": "Loss",
-        "agrees_with_model": false
-      },
-      "your_bets": []
-    },
-    {
-      "game_id": 401864499,
-      "season": 2026,
-      "week": 1,
-      "date": "2026-09-05",
-      "away_team": "Fordham",
-      "home_team": "North Dakota State",
-      "home_points": 38,
-      "away_points": 0,
-      "model": {
-        "spread_pick": -57.2,
-        "market_spread_close": -41.5,
-        "spread_lean": "Home",
-        "spread_was_bet": true,
-        "spread_result": "Loss",
-        "spread_is_seed_week": true,
-        "total_pick": 55.4,
-        "market_total_close": 54.2,
-        "total_lean": "Over",
-        "total_was_bet": false,
-        "total_result": "Loss",
-        "ml_lean": null,
-        "ml_was_bet": null,
-        "ml_result": null
-      },
-      "beta_model": {
-        "spread_pick": -35.2,
-        "spread_lean": "Away",
-        "spread_was_bet": true,
-        "spread_result": "Win",
-        "agrees_with_model": false
-      },
-      "ridge_model": {
-        "spread_pick": -40.9,
-        "spread_lean": "Away",
-        "spread_was_bet": false,
-        "spread_result": "Win",
-        "agrees_with_model": false
       },
       "your_bets": []
     },
@@ -1527,7 +1608,7 @@
         "ml_result": null
       },
       "beta_model": {
-        "spread_pick": -25.3,
+        "spread_pick": -24.7,
         "spread_lean": "Away",
         "spread_was_bet": true,
         "spread_result": "Loss",
@@ -1568,7 +1649,7 @@
         "ml_result": null
       },
       "beta_model": {
-        "spread_pick": -3.1,
+        "spread_pick": -2.8,
         "spread_lean": "Home",
         "spread_was_bet": false,
         "spread_result": "Win",
@@ -1579,6 +1660,142 @@
         "spread_lean": "Home",
         "spread_was_bet": true,
         "spread_result": "Win",
+        "agrees_with_model": true
+      },
+      "your_bets": []
+    },
+    {
+      "game_id": 401864496,
+      "season": 2026,
+      "week": 1,
+      "date": "2026-09-05",
+      "away_team": "Duquesne",
+      "home_team": "Air Force",
+      "home_points": 34,
+      "away_points": 0,
+      "model": {
+        "spread_pick": -35.2,
+        "market_spread_close": -30.0,
+        "spread_lean": "Home",
+        "spread_was_bet": true,
+        "spread_result": "Win",
+        "spread_is_seed_week": true,
+        "total_pick": 53.0,
+        "market_total_close": 56.5,
+        "total_lean": "Under",
+        "total_was_bet": true,
+        "total_result": "Win",
+        "ml_lean": "Home",
+        "ml_was_bet": false,
+        "ml_result": null
+      },
+      "beta_model": {
+        "spread_pick": -28.0,
+        "spread_lean": "Away",
+        "spread_was_bet": true,
+        "spread_result": "Loss",
+        "agrees_with_model": false
+      },
+      "ridge_model": {
+        "spread_pick": -17.0,
+        "spread_lean": "Away",
+        "spread_was_bet": true,
+        "spread_result": "Loss",
+        "agrees_with_model": false
+      },
+      "your_bets": []
+    },
+    {
+      "game_id": 401856664,
+      "season": 2026,
+      "week": 1,
+      "date": "2026-09-05",
+      "away_team": "UTEP",
+      "home_team": "Oklahoma",
+      "home_points": 51,
+      "away_points": 0,
+      "model": {
+        "spread_pick": -43.1,
+        "market_spread_close": -40.8,
+        "spread_lean": "Home",
+        "spread_was_bet": true,
+        "spread_result": "Win",
+        "spread_is_seed_week": true,
+        "total_pick": 52.5,
+        "market_total_close": 51.2,
+        "total_lean": "Over",
+        "total_was_bet": false,
+        "total_result": "Loss",
+        "ml_lean": null,
+        "ml_was_bet": null,
+        "ml_result": null
+      },
+      "beta_model": {
+        "spread_pick": -31.5,
+        "spread_lean": "Away",
+        "spread_was_bet": true,
+        "spread_result": "Loss",
+        "agrees_with_model": false
+      },
+      "ridge_model": {
+        "spread_pick": -34.8,
+        "spread_lean": "Away",
+        "spread_was_bet": true,
+        "spread_result": "Loss",
+        "agrees_with_model": false
+      },
+      "your_bets": [
+        {
+          "date": "2026-09-04",
+          "week": 1,
+          "matchup": "UTEP @ Oklahoma",
+          "bet_type": "Total",
+          "side": null,
+          "line": 51.5,
+          "odds": -128.0,
+          "stake": 2.5,
+          "result": "L",
+          "units": -2.5
+        }
+      ]
+    },
+    {
+      "game_id": 401864499,
+      "season": 2026,
+      "week": 1,
+      "date": "2026-09-05",
+      "away_team": "Fordham",
+      "home_team": "North Dakota State",
+      "home_points": 38,
+      "away_points": 0,
+      "model": {
+        "spread_pick": -57.2,
+        "market_spread_close": -41.5,
+        "spread_lean": "Home",
+        "spread_was_bet": true,
+        "spread_result": "Loss",
+        "spread_is_seed_week": true,
+        "total_pick": 55.4,
+        "market_total_close": 54.2,
+        "total_lean": "Over",
+        "total_was_bet": false,
+        "total_result": "Loss",
+        "ml_lean": null,
+        "ml_was_bet": null,
+        "ml_result": null
+      },
+      "beta_model": {
+        "spread_pick": -35.7,
+        "spread_lean": "Away",
+        "spread_was_bet": true,
+        "spread_result": "Win",
+        "agrees_with_model": false
+      },
+      "ridge_model": {
+        "spread_pick": -40.9,
+        "spread_lean": "Home",
+        "spread_was_bet": false,
+        "spread_result": "Loss",
         "agrees_with_model": true
       },
       "your_bets": []
@@ -1609,7 +1826,7 @@
         "ml_result": null
       },
       "beta_model": {
-        "spread_pick": -10.8,
+        "spread_pick": -10.5,
         "spread_lean": "Home",
         "spread_was_bet": true,
         "spread_result": "Loss",
@@ -1663,9 +1880,9 @@
         "ml_result": "Win"
       },
       "beta_model": {
-        "spread_pick": -6.5,
+        "spread_pick": -7.2,
         "spread_lean": "Home",
-        "spread_was_bet": false,
+        "spread_was_bet": true,
         "spread_result": "Loss",
         "agrees_with_model": false
       },
@@ -1690,6 +1907,47 @@
           "units": -5.0
         }
       ]
+    },
+    {
+      "game_id": 401858201,
+      "season": 2026,
+      "week": 1,
+      "date": "2026-08-29",
+      "away_team": "Hawai'i",
+      "home_team": "Stanford",
+      "home_points": 37,
+      "away_points": 27,
+      "model": {
+        "spread_pick": -9.9,
+        "market_spread_close": -4.8,
+        "spread_lean": "Home",
+        "spread_was_bet": true,
+        "spread_result": "Win",
+        "spread_is_seed_week": true,
+        "total_pick": 51.5,
+        "market_total_close": 48.5,
+        "total_lean": "Over",
+        "total_was_bet": true,
+        "total_result": "Win",
+        "ml_lean": "Home",
+        "ml_was_bet": true,
+        "ml_result": "Win"
+      },
+      "beta_model": {
+        "spread_pick": 0.9,
+        "spread_lean": "Away",
+        "spread_was_bet": true,
+        "spread_result": "Loss",
+        "agrees_with_model": false
+      },
+      "ridge_model": {
+        "spread_pick": -1.5,
+        "spread_lean": "Away",
+        "spread_was_bet": true,
+        "spread_result": "Loss",
+        "agrees_with_model": false
+      },
+      "your_bets": []
     },
     {
       "game_id": 401864494,
@@ -1717,11 +1975,11 @@
         "ml_result": null
       },
       "beta_model": {
-        "spread_pick": -36.6,
-        "spread_lean": "Away",
+        "spread_pick": -36.4,
+        "spread_lean": "Home",
         "spread_was_bet": false,
-        "spread_result": "Win",
-        "agrees_with_model": true
+        "spread_result": "Loss",
+        "agrees_with_model": false
       },
       "ridge_model": {
         "spread_pick": -34.6,
@@ -1758,7 +2016,7 @@
         "ml_result": "Win"
       },
       "beta_model": {
-        "spread_pick": -15.2,
+        "spread_pick": -14.6,
         "spread_lean": "Home",
         "spread_was_bet": true,
         "spread_result": "Win",
@@ -1797,47 +2055,6 @@
           "units": 1.75
         }
       ]
-    },
-    {
-      "game_id": 401858201,
-      "season": 2026,
-      "week": 1,
-      "date": "2026-08-29",
-      "away_team": "Hawai'i",
-      "home_team": "Stanford",
-      "home_points": 37,
-      "away_points": 27,
-      "model": {
-        "spread_pick": -9.9,
-        "market_spread_close": -4.8,
-        "spread_lean": "Home",
-        "spread_was_bet": true,
-        "spread_result": "Win",
-        "spread_is_seed_week": true,
-        "total_pick": 51.5,
-        "market_total_close": 48.5,
-        "total_lean": "Over",
-        "total_was_bet": true,
-        "total_result": "Win",
-        "ml_lean": "Home",
-        "ml_was_bet": true,
-        "ml_result": "Win"
-      },
-      "beta_model": {
-        "spread_pick": 0.6,
-        "spread_lean": "Away",
-        "spread_was_bet": true,
-        "spread_result": "Loss",
-        "agrees_with_model": false
-      },
-      "ridge_model": {
-        "spread_pick": -1.5,
-        "spread_lean": "Away",
-        "spread_was_bet": true,
-        "spread_result": "Loss",
-        "agrees_with_model": false
-      },
-      "your_bets": []
     }
   ]
 }

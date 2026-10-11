@@ -1,47 +1,47 @@
 {
   "meta": {
-    "generated_at": "2026-10-09T20:48:18Z",
+    "generated_at": "2026-10-11T14:36:24Z",
     "current_week": {
       "season": 2026,
-      "week": 6
+      "week": 7
     }
   },
   "tracking": {
     "model": {
       "season": 2026,
-      "n_games": 40,
+      "n_games": 45,
       "spread": {
-        "n_bets": 40,
-        "wins": 26,
-        "losses": 14,
+        "n_bets": 45,
+        "wins": 29,
+        "losses": 16,
         "pushes": 0,
-        "win_rate": 0.65,
-        "units": 9.64,
-        "n_real_edge_bets": 34,
-        "real_edge_win_rate": 0.6471
+        "win_rate": 0.6444,
+        "units": 10.36,
+        "n_real_edge_bets": 37,
+        "real_edge_win_rate": 0.6486
       },
       "total": {
-        "n_bets": 40,
-        "wins": 17,
-        "losses": 23,
+        "n_bets": 45,
+        "wins": 21,
+        "losses": 24,
         "pushes": 0,
-        "win_rate": 0.425,
-        "units": -7.54,
-        "n_real_edge_bets": 28,
-        "real_edge_win_rate": 0.4286
+        "win_rate": 0.4667,
+        "units": -4.91,
+        "n_real_edge_bets": 33,
+        "real_edge_win_rate": 0.4848
       },
       "moneyline": {
-        "n_bets": 24,
-        "wins": 13,
-        "losses": 11,
+        "n_bets": 28,
+        "wins": 15,
+        "losses": 13,
         "pushes": 0,
-        "win_rate": 0.5417,
-        "units": 8.2,
+        "win_rate": 0.5357,
+        "units": 8.25,
         "n_real_edge_bets": null,
         "real_edge_win_rate": null
       },
-      "upset_calls": 13,
-      "upset_wins": 7,
+      "upset_calls": 14,
+      "upset_wins": 8,
       "note": "Hypothetical flat 1-unit-per-bet tracking of the live model's own picks (spread/total at -110, moneyline at the real posted odds) -- not your personal bets. Week 1's spread record includes the seed week -- it uses the Moore seed exactly as pasted, which already reflects that week's own results, so it's informational only, not a genuine out-of-sample prediction (see moore_seed_2026.py)."
     },
     "yours": {
@@ -975,38 +975,38 @@
     },
     "beta_model": {
       "season": 2026,
-      "n_games": 39,
+      "n_games": 45,
       "spread": {
-        "n_bets": 39,
+        "n_bets": 45,
         "wins": 20,
-        "losses": 19,
+        "losses": 25,
         "pushes": 0,
-        "win_rate": 0.5128,
-        "units": -0.82,
-        "n_real_edge_bets": 28,
-        "real_edge_wins": 12,
-        "real_edge_losses": 16,
-        "real_edge_win_rate": 0.4286
+        "win_rate": 0.4444,
+        "units": -6.82,
+        "n_real_edge_bets": 34,
+        "real_edge_wins": 14,
+        "real_edge_losses": 20,
+        "real_edge_win_rate": 0.4118
       },
-      "agree_rate": 0.5641,
+      "agree_rate": 0.4889,
       "note": null
     },
     "ridge_model": {
       "season": 2026,
-      "n_games": 39,
+      "n_games": 45,
       "spread": {
-        "n_bets": 39,
-        "wins": 22,
-        "losses": 17,
+        "n_bets": 45,
+        "wins": 26,
+        "losses": 19,
         "pushes": 0,
-        "win_rate": 0.5641,
-        "units": 3.0,
-        "n_real_edge_bets": 32,
-        "real_edge_wins": 17,
-        "real_edge_losses": 15,
-        "real_edge_win_rate": 0.5312
+        "win_rate": 0.5778,
+        "units": 4.64,
+        "n_real_edge_bets": 38,
+        "real_edge_wins": 20,
+        "real_edge_losses": 18,
+        "real_edge_win_rate": 0.5263
       },
-      "agree_rate": 0.5641,
+      "agree_rate": 0.5778,
       "note": null
     }
   }
