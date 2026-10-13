@@ -1,6 +1,6 @@
 {
   "meta": {
-    "generated_at": "2026-10-11T14:36:24Z",
+    "generated_at": "2026-10-13T19:23:02Z",
     "current_week": {
       "season": 2026,
       "week": 7
@@ -3475,6 +3475,518 @@
             "home_ml": -455,
             "away_ml": 350,
             "source": "cfbd"
+          }
+        ]
+      }
+    },
+    "401864520": {
+      "BetMGM": {
+        "open_spread": null,
+        "open_total": null,
+        "points": [
+          {
+            "t": "2026-10-13T19:07:57Z",
+            "spread": -14.5,
+            "total": 42.5,
+            "home_ml": -700,
+            "away_ml": 525,
+            "source": "odds_api"
+          }
+        ]
+      },
+      "BetOnline.ag": {
+        "open_spread": null,
+        "open_total": null,
+        "points": [
+          {
+            "t": "2026-10-13T19:07:57Z",
+            "spread": -14.5,
+            "total": 42.5,
+            "home_ml": -700,
+            "away_ml": 505,
+            "source": "odds_api"
+          }
+        ]
+      },
+      "BetRivers": {
+        "open_spread": null,
+        "open_total": null,
+        "points": [
+          {
+            "t": "2026-10-13T19:07:57Z",
+            "spread": -15.0,
+            "total": 42.5,
+            "home_ml": -910,
+            "away_ml": 550,
+            "source": "odds_api"
+          }
+        ]
+      },
+      "BetUS": {
+        "open_spread": null,
+        "open_total": null,
+        "points": [
+          {
+            "t": "2026-10-13T19:07:57Z",
+            "spread": -14.5,
+            "total": 42.5,
+            "home_ml": -700,
+            "away_ml": 500,
+            "source": "odds_api"
+          }
+        ]
+      },
+      "Bovada": {
+        "open_spread": null,
+        "open_total": null,
+        "points": [
+          {
+            "t": "2026-10-13T19:07:57Z",
+            "spread": -14.5,
+            "total": 43.0,
+            "home_ml": -700,
+            "away_ml": 475,
+            "source": "odds_api"
+          }
+        ]
+      },
+      "DraftKings": {
+        "open_spread": null,
+        "open_total": null,
+        "points": [
+          {
+            "t": "2026-10-13T19:07:57Z",
+            "spread": -15.5,
+            "total": 42.5,
+            "home_ml": -700,
+            "away_ml": 500,
+            "source": "odds_api"
+          }
+        ]
+      },
+      "FanDuel": {
+        "open_spread": null,
+        "open_total": null,
+        "points": [
+          {
+            "t": "2026-10-13T19:07:57Z",
+            "spread": -14.5,
+            "total": 42.5,
+            "home_ml": -850,
+            "away_ml": 570,
+            "source": "odds_api"
+          }
+        ]
+      },
+      "LowVig.ag": {
+        "open_spread": null,
+        "open_total": null,
+        "points": [
+          {
+            "t": "2026-10-13T19:07:57Z",
+            "spread": -14.5,
+            "total": 42.5,
+            "home_ml": -700,
+            "away_ml": 505,
+            "source": "odds_api"
+          }
+        ]
+      },
+      "MyBookie.ag": {
+        "open_spread": null,
+        "open_total": null,
+        "points": [
+          {
+            "t": "2026-10-13T19:07:57Z",
+            "spread": -15.0,
+            "total": 42.5,
+            "home_ml": -847,
+            "away_ml": 550,
+            "source": "odds_api"
+          }
+        ]
+      }
+    },
+    "401864522": {
+      "BetMGM": {
+        "open_spread": null,
+        "open_total": null,
+        "points": [
+          {
+            "t": "2026-10-13T19:07:57Z",
+            "spread": -8.0,
+            "total": 40.5,
+            "home_ml": -325,
+            "away_ml": 260,
+            "source": "odds_api"
+          }
+        ]
+      },
+      "BetOnline.ag": {
+        "open_spread": null,
+        "open_total": null,
+        "points": [
+          {
+            "t": "2026-10-13T19:07:57Z",
+            "spread": -7.5,
+            "total": 40.5,
+            "home_ml": -315,
+            "away_ml": 256,
+            "source": "odds_api"
+          }
+        ]
+      },
+      "BetRivers": {
+        "open_spread": null,
+        "open_total": null,
+        "points": [
+          {
+            "t": "2026-10-13T19:07:57Z",
+            "spread": -8.0,
+            "total": 40.5,
+            "home_ml": -335,
+            "away_ml": 250,
+            "source": "odds_api"
+          }
+        ]
+      },
+      "BetUS": {
+        "open_spread": null,
+        "open_total": null,
+        "points": [
+          {
+            "t": "2026-10-13T19:07:57Z",
+            "spread": -8.0,
+            "total": 40.5,
+            "home_ml": -315,
+            "away_ml": 258,
+            "source": "odds_api"
+          }
+        ]
+      },
+      "Bovada": {
+        "open_spread": null,
+        "open_total": null,
+        "points": [
+          {
+            "t": "2026-10-13T19:07:57Z",
+            "spread": -8.0,
+            "total": 41.0,
+            "home_ml": -320,
+            "away_ml": 260,
+            "source": "odds_api"
+          }
+        ]
+      },
+      "DraftKings": {
+        "open_spread": null,
+        "open_total": null,
+        "points": [
+          {
+            "t": "2026-10-13T19:07:57Z",
+            "spread": -7.5,
+            "total": 40.5,
+            "home_ml": -305,
+            "away_ml": 245,
+            "source": "odds_api"
+          }
+        ]
+      },
+      "FanDuel": {
+        "open_spread": null,
+        "open_total": null,
+        "points": [
+          {
+            "t": "2026-10-13T19:07:57Z",
+            "spread": -8.5,
+            "total": 40.5,
+            "home_ml": -330,
+            "away_ml": 260,
+            "source": "odds_api"
+          }
+        ]
+      },
+      "LowVig.ag": {
+        "open_spread": null,
+        "open_total": null,
+        "points": [
+          {
+            "t": "2026-10-13T19:07:57Z",
+            "spread": -7.5,
+            "total": 40.5,
+            "home_ml": -315,
+            "away_ml": 256,
+            "source": "odds_api"
+          }
+        ]
+      },
+      "MyBookie.ag": {
+        "open_spread": null,
+        "open_total": null,
+        "points": [
+          {
+            "t": "2026-10-13T19:07:57Z",
+            "spread": -8.0,
+            "total": 40.5,
+            "home_ml": -345,
+            "away_ml": 264,
+            "source": "odds_api"
+          }
+        ]
+      }
+    },
+    "401864523": {
+      "BetMGM": {
+        "open_spread": null,
+        "open_total": null,
+        "points": [
+          {
+            "t": "2026-10-13T19:07:57Z",
+            "spread": 7.5,
+            "total": 46.5,
+            "home_ml": 240,
+            "away_ml": -295,
+            "source": "odds_api"
+          }
+        ]
+      },
+      "BetOnline.ag": {
+        "open_spread": null,
+        "open_total": null,
+        "points": [
+          {
+            "t": "2026-10-13T19:07:57Z",
+            "spread": 7.5,
+            "total": 46.0,
+            "home_ml": 249,
+            "away_ml": -305,
+            "source": "odds_api"
+          }
+        ]
+      },
+      "BetRivers": {
+        "open_spread": null,
+        "open_total": null,
+        "points": [
+          {
+            "t": "2026-10-13T19:07:57Z",
+            "spread": 7.5,
+            "total": 47.0,
+            "home_ml": 245,
+            "away_ml": -315,
+            "source": "odds_api"
+          }
+        ]
+      },
+      "BetUS": {
+        "open_spread": null,
+        "open_total": null,
+        "points": [
+          {
+            "t": "2026-10-13T19:07:57Z",
+            "spread": 7.5,
+            "total": 46.0,
+            "home_ml": 253,
+            "away_ml": -305,
+            "source": "odds_api"
+          }
+        ]
+      },
+      "Bovada": {
+        "open_spread": null,
+        "open_total": null,
+        "points": [
+          {
+            "t": "2026-10-13T19:07:57Z",
+            "spread": 7.5,
+            "total": 47.0,
+            "home_ml": 255,
+            "away_ml": -310,
+            "source": "odds_api"
+          }
+        ]
+      },
+      "DraftKings": {
+        "open_spread": null,
+        "open_total": null,
+        "points": [
+          {
+            "t": "2026-10-13T19:07:57Z",
+            "spread": 7.5,
+            "total": 46.5,
+            "home_ml": 250,
+            "away_ml": -310,
+            "source": "odds_api"
+          }
+        ]
+      },
+      "FanDuel": {
+        "open_spread": null,
+        "open_total": null,
+        "points": [
+          {
+            "t": "2026-10-13T19:07:57Z",
+            "spread": 7.5,
+            "total": 46.5,
+            "home_ml": 240,
+            "away_ml": -300,
+            "source": "odds_api"
+          }
+        ]
+      },
+      "LowVig.ag": {
+        "open_spread": null,
+        "open_total": null,
+        "points": [
+          {
+            "t": "2026-10-13T19:07:57Z",
+            "spread": 7.5,
+            "total": 46.0,
+            "home_ml": 249,
+            "away_ml": -305,
+            "source": "odds_api"
+          }
+        ]
+      },
+      "MyBookie.ag": {
+        "open_spread": null,
+        "open_total": null,
+        "points": [
+          {
+            "t": "2026-10-13T19:07:57Z",
+            "spread": 7.5,
+            "total": 46.0,
+            "home_ml": 248,
+            "away_ml": -319,
+            "source": "odds_api"
+          }
+        ]
+      }
+    },
+    "401864524": {
+      "BetMGM": {
+        "open_spread": null,
+        "open_total": null,
+        "points": [
+          {
+            "t": "2026-10-13T19:07:57Z",
+            "spread": 1.0,
+            "total": 48.5,
+            "home_ml": -105,
+            "away_ml": -112,
+            "source": "odds_api"
+          }
+        ]
+      },
+      "BetOnline.ag": {
+        "open_spread": null,
+        "open_total": null,
+        "points": [
+          {
+            "t": "2026-10-13T19:07:57Z",
+            "spread": 0.0,
+            "total": 48.5,
+            "home_ml": null,
+            "away_ml": null,
+            "source": "odds_api"
+          }
+        ]
+      },
+      "BetRivers": {
+        "open_spread": null,
+        "open_total": null,
+        "points": [
+          {
+            "t": "2026-10-13T19:07:57Z",
+            "spread": -0.5,
+            "total": 48.5,
+            "home_ml": -113,
+            "away_ml": -109,
+            "source": "odds_api"
+          }
+        ]
+      },
+      "BetUS": {
+        "open_spread": null,
+        "open_total": null,
+        "points": [
+          {
+            "t": "2026-10-13T19:07:57Z",
+            "spread": 0.0,
+            "total": 48.5,
+            "home_ml": null,
+            "away_ml": null,
+            "source": "odds_api"
+          }
+        ]
+      },
+      "Bovada": {
+        "open_spread": null,
+        "open_total": null,
+        "points": [
+          {
+            "t": "2026-10-13T19:07:57Z",
+            "spread": 1.0,
+            "total": 48.5,
+            "home_ml": -105,
+            "away_ml": -115,
+            "source": "odds_api"
+          }
+        ]
+      },
+      "DraftKings": {
+        "open_spread": null,
+        "open_total": null,
+        "points": [
+          {
+            "t": "2026-10-13T19:07:57Z",
+            "spread": 1.5,
+            "total": 48.5,
+            "home_ml": -108,
+            "away_ml": -112,
+            "source": "odds_api"
+          }
+        ]
+      },
+      "FanDuel": {
+        "open_spread": null,
+        "open_total": null,
+        "points": [
+          {
+            "t": "2026-10-13T19:07:57Z",
+            "spread": 1.5,
+            "total": 48.5,
+            "home_ml": -110,
+            "away_ml": -110,
+            "source": "odds_api"
+          }
+        ]
+      },
+      "LowVig.ag": {
+        "open_spread": null,
+        "open_total": null,
+        "points": [
+          {
+            "t": "2026-10-13T19:07:57Z",
+            "spread": 0.0,
+            "total": 48.5,
+            "home_ml": null,
+            "away_ml": null,
+            "source": "odds_api"
+          }
+        ]
+      },
+      "MyBookie.ag": {
+        "open_spread": null,
+        "open_total": null,
+        "points": [
+          {
+            "t": "2026-10-13T19:07:57Z",
+            "spread": 1.0,
+            "total": 48.5,
+            "home_ml": -103,
+            "away_ml": -119,
+            "source": "odds_api"
           }
         ]
       }
