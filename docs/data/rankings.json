@@ -1,6 +1,6 @@
 {
   "meta": {
-    "generated_at": "2026-10-15T11:16:04Z",
+    "generated_at": "2026-10-15T14:42:27Z",
     "current_week": {
       "season": 2026,
       "week": 7
@@ -602,24 +602,6 @@
       "rank": 33
     },
     {
-      "team": "Florida",
-      "conference": "SEC",
-      "logo": "https://cdn.collegefootballdata.com/logos/500/57.png",
-      "rating": 73.9,
-      "offense_rating": 35.1,
-      "defense_rating": 24.6,
-      "special_teams_rating": 0.5,
-      "sos_rank": 69,
-      "sor_rank": 47,
-      "projected_wins": 6.4,
-      "wins": 4,
-      "losses": 2,
-      "conf_wins": 2,
-      "conf_losses": 2,
-      "trend": 0.0,
-      "rank": 34
-    },
-    {
       "team": "Washington",
       "conference": "Big Ten",
       "logo": "https://cdn.collegefootballdata.com/logos/500/264.png",
@@ -634,6 +616,24 @@
       "losses": 3,
       "conf_wins": 0,
       "conf_losses": 3,
+      "trend": 0.0,
+      "rank": 34
+    },
+    {
+      "team": "Florida",
+      "conference": "SEC",
+      "logo": "https://cdn.collegefootballdata.com/logos/500/57.png",
+      "rating": 73.9,
+      "offense_rating": 35.1,
+      "defense_rating": 24.6,
+      "special_teams_rating": 0.5,
+      "sos_rank": 69,
+      "sor_rank": 47,
+      "projected_wins": 6.4,
+      "wins": 4,
+      "losses": 2,
+      "conf_wins": 2,
+      "conf_losses": 2,
       "trend": 0.0,
       "rank": 35
     },
@@ -2024,24 +2024,6 @@
       "rank": 112
     },
     {
-      "team": "Nevada",
-      "conference": "Mountain West",
-      "logo": "https://cdn.collegefootballdata.com/logos/500/2440.png",
-      "rating": 52.5,
-      "offense_rating": 21.4,
-      "defense_rating": 26.1,
-      "special_teams_rating": 0.3,
-      "sos_rank": 212,
-      "sor_rank": 135,
-      "projected_wins": 4.3,
-      "wins": 2,
-      "losses": 3,
-      "conf_wins": 1,
-      "conf_losses": 1,
-      "trend": 0.0,
-      "rank": 113
-    },
-    {
       "team": "Kennesaw State",
       "conference": "Conference USA",
       "logo": "https://cdn.collegefootballdata.com/logos/500/338.png",
@@ -2057,6 +2039,24 @@
       "conf_wins": 0,
       "conf_losses": 2,
       "trend": -0.4,
+      "rank": 113
+    },
+    {
+      "team": "Nevada",
+      "conference": "Mountain West",
+      "logo": "https://cdn.collegefootballdata.com/logos/500/2440.png",
+      "rating": 52.5,
+      "offense_rating": 21.4,
+      "defense_rating": 26.1,
+      "special_teams_rating": 0.3,
+      "sos_rank": 212,
+      "sor_rank": 135,
+      "projected_wins": 4.3,
+      "wins": 2,
+      "losses": 3,
+      "conf_wins": 1,
+      "conf_losses": 1,
+      "trend": 0.0,
       "rank": 114
     },
     {
