@@ -1,70 +1,70 @@
 {
   "meta": {
-    "generated_at": "2026-10-09T20:48:18Z",
+    "generated_at": "2026-10-15T17:04:50Z",
     "current_week": {
       "season": 2026,
-      "week": 6
+      "week": 7
     }
   },
   "tracking": {
     "model": {
       "season": 2026,
-      "n_games": 40,
+      "n_games": 45,
       "spread": {
-        "n_bets": 40,
-        "wins": 26,
-        "losses": 14,
+        "n_bets": 45,
+        "wins": 29,
+        "losses": 16,
         "pushes": 0,
-        "win_rate": 0.65,
-        "units": 9.64,
-        "n_real_edge_bets": 34,
-        "real_edge_win_rate": 0.6471
+        "win_rate": 0.6444,
+        "units": 10.36,
+        "n_real_edge_bets": 37,
+        "real_edge_win_rate": 0.6486
       },
       "total": {
-        "n_bets": 40,
-        "wins": 17,
-        "losses": 23,
+        "n_bets": 45,
+        "wins": 21,
+        "losses": 24,
         "pushes": 0,
-        "win_rate": 0.425,
-        "units": -7.54,
-        "n_real_edge_bets": 28,
-        "real_edge_win_rate": 0.4286
+        "win_rate": 0.4667,
+        "units": -4.91,
+        "n_real_edge_bets": 33,
+        "real_edge_win_rate": 0.4848
       },
       "moneyline": {
-        "n_bets": 24,
-        "wins": 13,
-        "losses": 11,
+        "n_bets": 28,
+        "wins": 15,
+        "losses": 13,
         "pushes": 0,
-        "win_rate": 0.5417,
-        "units": 8.2,
+        "win_rate": 0.5357,
+        "units": 8.25,
         "n_real_edge_bets": null,
         "real_edge_win_rate": null
       },
-      "upset_calls": 13,
-      "upset_wins": 7,
+      "upset_calls": 14,
+      "upset_wins": 8,
       "note": "Hypothetical flat 1-unit-per-bet tracking of the live model's own picks (spread/total at -110, moneyline at the real posted odds) -- not your personal bets. Week 1's spread record includes the seed week -- it uses the Moore seed exactly as pasted, which already reflects that week's own results, so it's informational only, not a genuine out-of-sample prediction (see moore_seed_2026.py)."
     },
     "yours": {
-      "n_bets": 68,
-      "wins": 36,
-      "losses": 32,
+      "n_bets": 76,
+      "wins": 38,
+      "losses": 38,
       "pushes": 0,
-      "win_rate": 0.5294,
-      "units": 174.67,
+      "win_rate": 0.5,
+      "units": 161.58,
       "by_type": {
         "Spread": {
-          "wins": 25,
-          "losses": 18,
+          "wins": 27,
+          "losses": 22,
           "pushes": 0,
-          "win_rate": 0.5814,
-          "units": 10.35
+          "win_rate": 0.551,
+          "units": 8.25
         },
         "Moneyline": {
           "wins": 11,
-          "losses": 10,
+          "losses": 11,
           "pushes": 0,
-          "win_rate": 0.5238,
-          "units": 176.83
+          "win_rate": 0.5,
+          "units": 166.83
         },
         "ML Parlay": {
           "wins": 0,
@@ -79,80 +79,16 @@
           "pushes": 0,
           "win_rate": 0.0,
           "units": -7.5
+        },
+        "Other": {
+          "wins": 0,
+          "losses": 1,
+          "pushes": 0,
+          "win_rate": 0.0,
+          "units": -1.0
         }
       },
-      "pending": [
-        {
-          "date": "2026-10-10",
-          "week": 6,
-          "matchup": "Virginia Tech @ California",
-          "bet_type": "Spread",
-          "side": "California",
-          "line": 9.5,
-          "odds": -105.0,
-          "stake": 1.0
-        },
-        {
-          "date": "2026-10-10",
-          "week": 6,
-          "matchup": "UCLA @ Oregon",
-          "bet_type": "Spread",
-          "side": "Oregon",
-          "line": -11.5,
-          "odds": -110.0,
-          "stake": 1.0
-        },
-        {
-          "date": "2026-10-10",
-          "week": 6,
-          "matchup": "North Dakota State @ UNLV",
-          "bet_type": "Spread",
-          "side": "North Dakota State",
-          "line": -3.5,
-          "odds": -102.0,
-          "stake": 1.0
-        },
-        {
-          "date": "2026-10-10",
-          "week": 6,
-          "matchup": "Syracuse @ Virginia",
-          "bet_type": "Spread",
-          "side": "Virginia",
-          "line": -8.5,
-          "odds": -110.0,
-          "stake": 1.0
-        },
-        {
-          "date": "2026-10-10",
-          "week": 6,
-          "matchup": "Air Force @ Northern Illinois",
-          "bet_type": "Spread",
-          "side": "Air Force",
-          "line": -8.5,
-          "odds": -105.0,
-          "stake": 1.0
-        },
-        {
-          "date": "2026-10-10",
-          "week": 6,
-          "matchup": "James Madison @ Georgia Southern",
-          "bet_type": "Spread",
-          "side": "James Madison",
-          "line": -7.5,
-          "odds": -105.0,
-          "stake": 1.0
-        },
-        {
-          "date": "2026-10-10",
-          "week": 6,
-          "matchup": "Sam Houston @ Liberty",
-          "bet_type": "Other",
-          "side": "Liberty, California, Oregon, NDSU, UVA, Airforce, JMU Spreads",
-          "line": null,
-          "odds": 10154.0,
-          "stake": 1.0
-        }
-      ],
+      "pending": [],
       "graded": [
         {
           "date": "2026-08-29",
@@ -969,44 +905,140 @@
           "stake": 1.0,
           "result": "W",
           "units": 0.91
+        },
+        {
+          "date": "2026-10-10",
+          "week": 6,
+          "matchup": "Virginia Tech @ California",
+          "bet_type": "Spread",
+          "side": "California",
+          "line": 9.5,
+          "odds": -105.0,
+          "stake": 1.0,
+          "result": "W",
+          "units": 0.95
+        },
+        {
+          "date": "2026-10-10",
+          "week": 6,
+          "matchup": "UCLA @ Oregon",
+          "bet_type": "Spread",
+          "side": "Oregon",
+          "line": -11.5,
+          "odds": -110.0,
+          "stake": 1.0,
+          "result": "L",
+          "units": -1.0
+        },
+        {
+          "date": "2026-10-10",
+          "week": 6,
+          "matchup": "North Dakota State @ UNLV",
+          "bet_type": "Spread",
+          "side": "North Dakota State",
+          "line": -3.5,
+          "odds": -102.0,
+          "stake": 1.0,
+          "result": "L",
+          "units": -1.0
+        },
+        {
+          "date": "2026-10-10",
+          "week": 6,
+          "matchup": "Syracuse @ Virginia",
+          "bet_type": "Spread",
+          "side": "Virginia",
+          "line": -8.5,
+          "odds": -110.0,
+          "stake": 1.0,
+          "result": "L",
+          "units": -1.0
+        },
+        {
+          "date": "2026-10-10",
+          "week": 6,
+          "matchup": "Air Force @ Northern Illinois",
+          "bet_type": "Spread",
+          "side": "Air Force",
+          "line": -8.5,
+          "odds": -105.0,
+          "stake": 1.0,
+          "result": "W",
+          "units": 0.95
+        },
+        {
+          "date": "2026-10-10",
+          "week": 6,
+          "matchup": "James Madison @ Georgia Southern",
+          "bet_type": "Spread",
+          "side": "James Madison",
+          "line": -7.5,
+          "odds": -105.0,
+          "stake": 1.0,
+          "result": "L",
+          "units": -1.0
+        },
+        {
+          "date": "2026-10-10",
+          "week": 6,
+          "matchup": "Sam Houston @ Liberty",
+          "bet_type": "Other",
+          "side": "Liberty, California, Oregon, NDSU, UVA, Airforce, JMU Spreads",
+          "line": null,
+          "odds": 10154.0,
+          "stake": 1.0,
+          "result": "L",
+          "units": -1.0
+        },
+        {
+          "date": "2026-10-10",
+          "week": 6,
+          "matchup": "Georgia @ Alabama",
+          "bet_type": "Moneyline",
+          "side": "Alabama",
+          "line": null,
+          "odds": 118.0,
+          "stake": 10.0,
+          "result": "L",
+          "units": -10.0
         }
       ],
       "note": "Your actual bets from the Bet Log tab, graded at the real odds you entered."
     },
     "beta_model": {
       "season": 2026,
-      "n_games": 39,
+      "n_games": 40,
       "spread": {
-        "n_bets": 39,
+        "n_bets": 40,
         "wins": 20,
-        "losses": 19,
+        "losses": 20,
         "pushes": 0,
-        "win_rate": 0.5128,
-        "units": -0.82,
-        "n_real_edge_bets": 28,
-        "real_edge_wins": 12,
+        "win_rate": 0.5,
+        "units": -1.82,
+        "n_real_edge_bets": 29,
+        "real_edge_wins": 13,
         "real_edge_losses": 16,
-        "real_edge_win_rate": 0.4286
+        "real_edge_win_rate": 0.4483
       },
-      "agree_rate": 0.5641,
+      "agree_rate": 0.55,
       "note": null
     },
     "ridge_model": {
       "season": 2026,
-      "n_games": 39,
+      "n_games": 40,
       "spread": {
-        "n_bets": 39,
-        "wins": 22,
+        "n_bets": 40,
+        "wins": 23,
         "losses": 17,
         "pushes": 0,
-        "win_rate": 0.5641,
-        "units": 3.0,
-        "n_real_edge_bets": 32,
+        "win_rate": 0.575,
+        "units": 3.91,
+        "n_real_edge_bets": 33,
         "real_edge_wins": 17,
-        "real_edge_losses": 15,
-        "real_edge_win_rate": 0.5312
+        "real_edge_losses": 16,
+        "real_edge_win_rate": 0.5152
       },
-      "agree_rate": 0.5641,
+      "agree_rate": 0.575,
       "note": null
     }
   }
