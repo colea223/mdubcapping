@@ -1,6 +1,6 @@
 {
   "meta": {
-    "generated_at": "2026-10-15T17:04:50Z",
+    "generated_at": "2026-10-16T11:52:02Z",
     "current_week": {
       "season": 2026,
       "week": 7
@@ -156,9 +156,9 @@
       "away_conf": "Sun Belt",
       "open_spread_home": 3.0,
       "open_total": 48.2,
-      "kicked_off": false,
-      "close_spread_home": null,
-      "close_total": null,
+      "kicked_off": true,
+      "close_spread_home": 3.5,
+      "close_total": 46.8,
       "books": {
         "DraftKings": {
           "spread": 3.5,
@@ -191,9 +191,9 @@
       "away_conf": "American Athletic",
       "open_spread_home": 5.5,
       "open_total": 51.2,
-      "kicked_off": false,
-      "close_spread_home": null,
-      "close_total": null,
+      "kicked_off": true,
+      "close_spread_home": 5.5,
+      "close_total": 48.2,
       "books": {
         "DraftKings": {
           "spread": 5.5,
@@ -226,9 +226,9 @@
       "away_conf": "Pac-12",
       "open_spread_home": -12.8,
       "open_total": 67.5,
-      "kicked_off": false,
-      "close_spread_home": null,
-      "close_total": null,
+      "kicked_off": true,
+      "close_spread_home": -14.8,
+      "close_total": 70.5,
       "books": {
         "DraftKings": {
           "spread": -14.5,
