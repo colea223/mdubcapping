@@ -1,6 +1,6 @@
 {
   "meta": {
-    "generated_at": "2026-10-16T11:52:02Z",
+    "generated_at": "2026-10-17T21:03:02Z",
     "current_week": {
       "season": 2026,
       "week": 7
@@ -45,19 +45,19 @@
       "note": "Hypothetical flat 1-unit-per-bet tracking of the live model's own picks (spread/total at -110, moneyline at the real posted odds) -- not your personal bets. Week 1's spread record includes the seed week -- it uses the Moore seed exactly as pasted, which already reflects that week's own results, so it's informational only, not a genuine out-of-sample prediction (see moore_seed_2026.py)."
     },
     "yours": {
-      "n_bets": 76,
-      "wins": 38,
-      "losses": 38,
+      "n_bets": 79,
+      "wins": 40,
+      "losses": 39,
       "pushes": 0,
-      "win_rate": 0.5,
-      "units": 161.58,
+      "win_rate": 0.5063,
+      "units": 162.37,
       "by_type": {
         "Spread": {
-          "wins": 27,
-          "losses": 22,
+          "wins": 29,
+          "losses": 23,
           "pushes": 0,
-          "win_rate": 0.551,
-          "units": 8.25
+          "win_rate": 0.5577,
+          "units": 9.04
         },
         "Moneyline": {
           "wins": 11,
@@ -92,16 +92,6 @@
         {
           "date": "2026-10-17",
           "week": 7,
-          "matchup": "Pittsburgh @ Boston College",
-          "bet_type": "Spread",
-          "side": "Pittsburgh",
-          "line": -6.5,
-          "odds": -105.0,
-          "stake": 1.0
-        },
-        {
-          "date": "2026-10-17",
-          "week": 7,
           "matchup": "North Carolina @ Duke",
           "bet_type": "Spread",
           "side": "Duke",
@@ -132,31 +122,21 @@
         {
           "date": "2026-10-17",
           "week": 7,
-          "matchup": "Washington @ Purdue",
-          "bet_type": "Spread",
-          "side": "Washington",
-          "line": 3.5,
-          "odds": -114.0,
-          "stake": 1.0
-        },
-        {
-          "date": "2026-10-17",
-          "week": 7,
-          "matchup": "Georgia State @ James Madison",
-          "bet_type": "Spread",
-          "side": "James Madison",
-          "line": -10.5,
-          "odds": -110.0,
-          "stake": 1.0
-        },
-        {
-          "date": "2026-10-17",
-          "week": 7,
           "matchup": "Wisconsin @ UCLA",
           "bet_type": "Spread",
           "side": "UCLA",
           "line": -2.5,
           "odds": -120.0,
+          "stake": 1.0
+        },
+        {
+          "date": "2026-10-17",
+          "week": 7,
+          "matchup": "Louisville @ Syracuse",
+          "bet_type": "Spread",
+          "side": "Louisville",
+          "line": -14.5,
+          "odds": -110.0,
           "stake": 1.0
         }
       ],
@@ -1072,6 +1052,42 @@
           "stake": 10.0,
           "result": "L",
           "units": -10.0
+        },
+        {
+          "date": "2026-10-17",
+          "week": 7,
+          "matchup": "Pittsburgh @ Boston College",
+          "bet_type": "Spread",
+          "side": "Pittsburgh",
+          "line": -6.5,
+          "odds": -105.0,
+          "stake": 1.0,
+          "result": "L",
+          "units": -1.0
+        },
+        {
+          "date": "2026-10-17",
+          "week": 7,
+          "matchup": "Washington @ Purdue",
+          "bet_type": "Spread",
+          "side": "Washington",
+          "line": 3.5,
+          "odds": -114.0,
+          "stake": 1.0,
+          "result": "W",
+          "units": 0.88
+        },
+        {
+          "date": "2026-10-17",
+          "week": 7,
+          "matchup": "Georgia State @ James Madison",
+          "bet_type": "Spread",
+          "side": "James Madison",
+          "line": -10.5,
+          "odds": -110.0,
+          "stake": 1.0,
+          "result": "W",
+          "units": 0.91
         }
       ],
       "note": "Your actual bets from the Bet Log tab, graded at the real odds you entered."

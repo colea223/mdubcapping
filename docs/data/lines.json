@@ -1,6 +1,6 @@
 {
   "meta": {
-    "generated_at": "2026-10-16T11:52:02Z",
+    "generated_at": "2026-10-17T21:03:02Z",
     "current_week": {
       "season": 2026,
       "week": 7
@@ -261,9 +261,9 @@
       "away_conf": "American Athletic",
       "open_spread_home": 7.0,
       "open_total": 53.5,
-      "kicked_off": false,
-      "close_spread_home": null,
-      "close_total": null,
+      "kicked_off": true,
+      "close_spread_home": 7.0,
+      "close_total": 55.5,
       "books": {
         "DraftKings": {
           "spread": 7.0,
@@ -296,9 +296,9 @@
       "away_conf": "Sun Belt",
       "open_spread_home": 1.2,
       "open_total": 51.8,
-      "kicked_off": false,
-      "close_spread_home": null,
-      "close_total": null,
+      "kicked_off": true,
+      "close_spread_home": 1.2,
+      "close_total": 49.2,
       "books": {
         "DraftKings": {
           "spread": 1.5,
@@ -331,9 +331,9 @@
       "away_conf": "Big Ten",
       "open_spread_home": -2.8,
       "open_total": 52.0,
-      "kicked_off": false,
-      "close_spread_home": null,
-      "close_total": null,
+      "kicked_off": true,
+      "close_spread_home": -3.5,
+      "close_total": 50.5,
       "books": {
         "DraftKings": {
           "spread": -3.5,
@@ -366,9 +366,9 @@
       "away_conf": "ACC",
       "open_spread_home": -8.2,
       "open_total": 53.2,
-      "kicked_off": false,
-      "close_spread_home": null,
-      "close_total": null,
+      "kicked_off": true,
+      "close_spread_home": -9.5,
+      "close_total": 51.8,
       "books": {
         "DraftKings": {
           "spread": -9.5,
@@ -401,9 +401,9 @@
       "away_conf": "Big 12",
       "open_spread_home": -1.5,
       "open_total": 61.8,
-      "kicked_off": false,
-      "close_spread_home": null,
-      "close_total": null,
+      "kicked_off": true,
+      "close_spread_home": -1.8,
+      "close_total": 63.5,
       "books": {
         "DraftKings": {
           "spread": -1.5,
@@ -436,9 +436,9 @@
       "away_conf": "ACC",
       "open_spread_home": 6.5,
       "open_total": 45.2,
-      "kicked_off": false,
-      "close_spread_home": null,
-      "close_total": null,
+      "kicked_off": true,
+      "close_spread_home": 6.2,
+      "close_total": 42.5,
       "books": {
         "DraftKings": {
           "spread": 6.5,
@@ -471,9 +471,9 @@
       "away_conf": "American Athletic",
       "open_spread_home": -3.0,
       "open_total": 58.0,
-      "kicked_off": false,
-      "close_spread_home": null,
-      "close_total": null,
+      "kicked_off": true,
+      "close_spread_home": -2.8,
+      "close_total": 54.8,
       "books": {
         "DraftKings": {
           "spread": -2.5,
@@ -506,9 +506,9 @@
       "away_conf": "Big Ten",
       "open_spread_home": 2.8,
       "open_total": 49.5,
-      "kicked_off": false,
-      "close_spread_home": null,
-      "close_total": null,
+      "kicked_off": true,
+      "close_spread_home": 3.5,
+      "close_total": 50.2,
       "books": {
         "DraftKings": {
           "spread": 3.5,
@@ -541,9 +541,9 @@
       "away_conf": "Mid-American",
       "open_spread_home": -7.8,
       "open_total": 44.8,
-      "kicked_off": false,
-      "close_spread_home": null,
-      "close_total": null,
+      "kicked_off": true,
+      "close_spread_home": -6.5,
+      "close_total": 47.5,
       "books": {
         "DraftKings": {
           "spread": -6.5,
@@ -576,9 +576,9 @@
       "away_conf": "Big Ten",
       "open_spread_home": 8.5,
       "open_total": 48.0,
-      "kicked_off": false,
-      "close_spread_home": null,
-      "close_total": null,
+      "kicked_off": true,
+      "close_spread_home": 7.2,
+      "close_total": 49.2,
       "books": {
         "DraftKings": {
           "spread": 7.5,
@@ -611,9 +611,9 @@
       "away_conf": "Big 12",
       "open_spread_home": -7.0,
       "open_total": 55.0,
-      "kicked_off": false,
-      "close_spread_home": null,
-      "close_total": null,
+      "kicked_off": true,
+      "close_spread_home": -4.5,
+      "close_total": 55.5,
       "books": {
         "DraftKings": {
           "spread": -4.5,
@@ -646,9 +646,9 @@
       "away_conf": "SEC",
       "open_spread_home": -11.5,
       "open_total": 59.2,
-      "kicked_off": false,
-      "close_spread_home": null,
-      "close_total": null,
+      "kicked_off": true,
+      "close_spread_home": -14.5,
+      "close_total": 57.8,
       "books": {
         "DraftKings": {
           "spread": -14.5,
@@ -681,9 +681,9 @@
       "away_conf": "SEC",
       "open_spread_home": -9.8,
       "open_total": 53.0,
-      "kicked_off": false,
-      "close_spread_home": null,
-      "close_total": null,
+      "kicked_off": true,
+      "close_spread_home": -11.2,
+      "close_total": 51.5,
       "books": {
         "DraftKings": {
           "spread": -11.5,
@@ -716,7 +716,7 @@
       "away_conf": "OVC",
       "open_spread_home": null,
       "open_total": null,
-      "kicked_off": false,
+      "kicked_off": true,
       "close_spread_home": null,
       "close_total": null,
       "books": {},
@@ -731,9 +731,9 @@
       "away_conf": "Sun Belt",
       "open_spread_home": -12.2,
       "open_total": 56.2,
-      "kicked_off": false,
-      "close_spread_home": null,
-      "close_total": null,
+      "kicked_off": true,
+      "close_spread_home": -12.0,
+      "close_total": 57.8,
       "books": {
         "DraftKings": {
           "spread": -11.5,
@@ -766,9 +766,9 @@
       "away_conf": "Big Ten",
       "open_spread_home": -4.5,
       "open_total": 58.8,
-      "kicked_off": false,
-      "close_spread_home": null,
-      "close_total": null,
+      "kicked_off": true,
+      "close_spread_home": -4.5,
+      "close_total": 56.8,
       "books": {
         "DraftKings": {
           "spread": -4.5,
@@ -801,9 +801,9 @@
       "away_conf": "American Athletic",
       "open_spread_home": -23.2,
       "open_total": 50.0,
-      "kicked_off": false,
-      "close_spread_home": null,
-      "close_total": null,
+      "kicked_off": true,
+      "close_spread_home": -20.8,
+      "close_total": 46.8,
       "books": {
         "DraftKings": {
           "spread": -21.0,
@@ -836,7 +836,7 @@
       "away_conf": "Southern",
       "open_spread_home": null,
       "open_total": null,
-      "kicked_off": false,
+      "kicked_off": true,
       "close_spread_home": null,
       "close_total": null,
       "books": {},
@@ -851,9 +851,9 @@
       "away_conf": "Mid-American",
       "open_spread_home": -3.2,
       "open_total": 46.2,
-      "kicked_off": false,
-      "close_spread_home": null,
-      "close_total": null,
+      "kicked_off": true,
+      "close_spread_home": -6.2,
+      "close_total": 41.5,
       "books": {
         "DraftKings": {
           "spread": -6.5,
@@ -886,9 +886,9 @@
       "away_conf": "Mid-American",
       "open_spread_home": 7.0,
       "open_total": 42.8,
-      "kicked_off": false,
-      "close_spread_home": null,
-      "close_total": null,
+      "kicked_off": true,
+      "close_spread_home": 6.5,
+      "close_total": 43.2,
       "books": {
         "DraftKings": {
           "spread": 6.5,
@@ -921,9 +921,9 @@
       "away_conf": "ACC",
       "open_spread_home": -9.8,
       "open_total": 55.5,
-      "kicked_off": false,
-      "close_spread_home": null,
-      "close_total": null,
+      "kicked_off": true,
+      "close_spread_home": -10.0,
+      "close_total": 55.8,
       "books": {
         "DraftKings": {
           "spread": -10.0,
@@ -956,9 +956,9 @@
       "away_conf": "Big 12",
       "open_spread_home": -13.2,
       "open_total": 50.5,
-      "kicked_off": false,
-      "close_spread_home": null,
-      "close_total": null,
+      "kicked_off": true,
+      "close_spread_home": -15.5,
+      "close_total": 48.8,
       "books": {
         "DraftKings": {
           "spread": -15.5,
@@ -991,9 +991,9 @@
       "away_conf": "Mid-American",
       "open_spread_home": 5.8,
       "open_total": 52.8,
-      "kicked_off": false,
-      "close_spread_home": null,
-      "close_total": null,
+      "kicked_off": true,
+      "close_spread_home": 6.5,
+      "close_total": 53.5,
       "books": {
         "DraftKings": {
           "spread": 6.5,
@@ -1026,9 +1026,9 @@
       "away_conf": "Big Ten",
       "open_spread_home": -6.2,
       "open_total": 47.0,
-      "kicked_off": false,
-      "close_spread_home": null,
-      "close_total": null,
+      "kicked_off": true,
+      "close_spread_home": -7.0,
+      "close_total": 42.8,
       "books": {
         "DraftKings": {
           "spread": -7.0,
@@ -1061,9 +1061,9 @@
       "away_conf": "ACC",
       "open_spread_home": -4.0,
       "open_total": 51.0,
-      "kicked_off": false,
-      "close_spread_home": null,
-      "close_total": null,
+      "kicked_off": true,
+      "close_spread_home": -3.0,
+      "close_total": 47.5,
       "books": {
         "DraftKings": {
           "spread": -3.0,
@@ -1096,9 +1096,9 @@
       "away_conf": "Mountain West",
       "open_spread_home": -7.2,
       "open_total": 39.2,
-      "kicked_off": false,
-      "close_spread_home": null,
-      "close_total": null,
+      "kicked_off": true,
+      "close_spread_home": -7.8,
+      "close_total": 40.5,
       "books": {
         "DraftKings": {
           "spread": -7.5,
@@ -1131,9 +1131,9 @@
       "away_conf": "SEC",
       "open_spread_home": 4.2,
       "open_total": 55.0,
-      "kicked_off": false,
-      "close_spread_home": null,
-      "close_total": null,
+      "kicked_off": true,
+      "close_spread_home": 7.5,
+      "close_total": 50.8,
       "books": {
         "DraftKings": {
           "spread": 7.5,
@@ -1166,9 +1166,9 @@
       "away_conf": "Mountain West",
       "open_spread_home": 2.0,
       "open_total": 47.8,
-      "kicked_off": false,
-      "close_spread_home": null,
-      "close_total": null,
+      "kicked_off": true,
+      "close_spread_home": 1.2,
+      "close_total": 48.5,
       "books": {
         "DraftKings": {
           "spread": 1.5,
@@ -1201,9 +1201,9 @@
       "away_conf": "SEC",
       "open_spread_home": -17.5,
       "open_total": 51.5,
-      "kicked_off": false,
-      "close_spread_home": null,
-      "close_total": null,
+      "kicked_off": true,
+      "close_spread_home": -21.0,
+      "close_total": 49.5,
       "books": {
         "DraftKings": {
           "spread": -21.0,
@@ -1236,9 +1236,9 @@
       "away_conf": "SEC",
       "open_spread_home": -6.0,
       "open_total": 58.5,
-      "kicked_off": false,
-      "close_spread_home": null,
-      "close_total": null,
+      "kicked_off": true,
+      "close_spread_home": -5.2,
+      "close_total": 58.8,
       "books": {
         "DraftKings": {
           "spread": -5.5,
@@ -1271,9 +1271,9 @@
       "away_conf": "Mid-American",
       "open_spread_home": -9.8,
       "open_total": 46.8,
-      "kicked_off": false,
-      "close_spread_home": null,
-      "close_total": null,
+      "kicked_off": true,
+      "close_spread_home": -9.8,
+      "close_total": 46.5,
       "books": {
         "DraftKings": {
           "spread": -10.0,
@@ -1306,9 +1306,9 @@
       "away_conf": "American Athletic",
       "open_spread_home": 3.5,
       "open_total": 46.2,
-      "kicked_off": false,
-      "close_spread_home": null,
-      "close_total": null,
+      "kicked_off": true,
+      "close_spread_home": 4.0,
+      "close_total": 46.5,
       "books": {
         "DraftKings": {
           "spread": 4.0,
