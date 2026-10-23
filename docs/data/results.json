@@ -1,6 +1,6 @@
 {
   "meta": {
-    "generated_at": "2026-10-19T16:35:14Z",
+    "generated_at": "2026-10-23T22:10:16Z",
     "current_week": {
       "season": 2026,
       "week": 8
@@ -17,11 +17,11 @@
       "home_points": 11,
       "away_points": 24,
       "model": {
-        "spread_pick": 8.8,
+        "spread_pick": 4.8,
         "market_spread_close": 6.8,
-        "spread_lean": "Away",
-        "spread_was_bet": true,
-        "spread_result": "Win",
+        "spread_lean": "Home",
+        "spread_was_bet": false,
+        "spread_result": "Loss",
         "spread_is_seed_week": false,
         "total_pick": 46.6,
         "market_total_close": 46.0,
@@ -29,11 +29,23 @@
         "total_was_bet": false,
         "total_result": "Loss",
         "ml_lean": "Home",
-        "ml_was_bet": false,
-        "ml_result": null
+        "ml_was_bet": true,
+        "ml_result": "Loss"
       },
-      "beta_model": null,
-      "ridge_model": null,
+      "beta_model": {
+        "spread_pick": 3.2,
+        "spread_lean": "Home",
+        "spread_was_bet": true,
+        "spread_result": "Loss",
+        "agrees_with_model": true
+      },
+      "ridge_model": {
+        "spread_pick": 5.5,
+        "spread_lean": "Home",
+        "spread_was_bet": false,
+        "spread_result": "Loss",
+        "agrees_with_model": true
+      },
       "your_bets": []
     },
     {
@@ -46,10 +58,10 @@
       "home_points": 10,
       "away_points": 21,
       "model": {
-        "spread_pick": 18.9,
+        "spread_pick": 15.9,
         "market_spread_close": 14.5,
         "spread_lean": "Away",
-        "spread_was_bet": true,
+        "spread_was_bet": false,
         "spread_result": "Loss",
         "spread_is_seed_week": false,
         "total_pick": 45.4,
@@ -61,8 +73,20 @@
         "ml_was_bet": false,
         "ml_result": null
       },
-      "beta_model": null,
-      "ridge_model": null,
+      "beta_model": {
+        "spread_pick": 8.1,
+        "spread_lean": "Home",
+        "spread_was_bet": true,
+        "spread_result": "Win",
+        "agrees_with_model": false
+      },
+      "ridge_model": {
+        "spread_pick": 14.3,
+        "spread_lean": "Away",
+        "spread_was_bet": false,
+        "spread_result": "Loss",
+        "agrees_with_model": true
+      },
       "your_bets": []
     },
     {
@@ -75,7 +99,7 @@
       "home_points": 41,
       "away_points": 23,
       "model": {
-        "spread_pick": -11.4,
+        "spread_pick": -12.0,
         "market_spread_close": -7.5,
         "spread_lean": "Home",
         "spread_was_bet": true,
@@ -87,11 +111,23 @@
         "total_was_bet": false,
         "total_result": "Loss",
         "ml_lean": "Home",
-        "ml_was_bet": false,
-        "ml_result": null
+        "ml_was_bet": true,
+        "ml_result": "Win"
       },
-      "beta_model": null,
-      "ridge_model": null,
+      "beta_model": {
+        "spread_pick": -6.6,
+        "spread_lean": "Home",
+        "spread_was_bet": false,
+        "spread_result": "Win",
+        "agrees_with_model": true
+      },
+      "ridge_model": {
+        "spread_pick": -7.8,
+        "spread_lean": "Home",
+        "spread_was_bet": false,
+        "spread_result": "Win",
+        "agrees_with_model": true
+      },
       "your_bets": []
     },
     {
@@ -104,10 +140,10 @@
       "home_points": 41,
       "away_points": 31,
       "model": {
-        "spread_pick": 0.8,
+        "spread_pick": 2.6,
         "market_spread_close": -0.2,
         "spread_lean": "Away",
-        "spread_was_bet": false,
+        "spread_was_bet": true,
         "spread_result": "Loss",
         "spread_is_seed_week": false,
         "total_pick": 47.2,
@@ -116,11 +152,23 @@
         "total_was_bet": false,
         "total_result": "Loss",
         "ml_lean": "Away",
-        "ml_was_bet": false,
-        "ml_result": null
+        "ml_was_bet": true,
+        "ml_result": "Loss"
       },
-      "beta_model": null,
-      "ridge_model": null,
+      "beta_model": {
+        "spread_pick": 0.7,
+        "spread_lean": "Home",
+        "spread_was_bet": false,
+        "spread_result": "Win",
+        "agrees_with_model": false
+      },
+      "ridge_model": {
+        "spread_pick": 4.7,
+        "spread_lean": "Away",
+        "spread_was_bet": true,
+        "spread_result": "Loss",
+        "agrees_with_model": true
+      },
       "your_bets": []
     },
     {
@@ -133,7 +181,7 @@
       "home_points": 31,
       "away_points": 17,
       "model": {
-        "spread_pick": -24.5,
+        "spread_pick": -24.7,
         "market_spread_close": -14.2,
         "spread_lean": "Home",
         "spread_was_bet": true,
@@ -148,9 +196,34 @@
         "ml_was_bet": true,
         "ml_result": "Win"
       },
-      "beta_model": null,
-      "ridge_model": null,
-      "your_bets": []
+      "beta_model": {
+        "spread_pick": -22.6,
+        "spread_lean": "Home",
+        "spread_was_bet": true,
+        "spread_result": "Loss",
+        "agrees_with_model": true
+      },
+      "ridge_model": {
+        "spread_pick": -23.3,
+        "spread_lean": "Home",
+        "spread_was_bet": true,
+        "spread_result": "Loss",
+        "agrees_with_model": true
+      },
+      "your_bets": [
+        {
+          "date": "2026-10-17",
+          "week": 7,
+          "matchup": "Nevada @ North Dakota State",
+          "bet_type": "Spread",
+          "side": "North Dakota State",
+          "line": -14.5,
+          "odds": -114.0,
+          "stake": 1.0,
+          "result": "L",
+          "units": -1.0
+        }
+      ]
     },
     {
       "game_id": 401856808,
@@ -162,7 +235,7 @@
       "home_points": 30,
       "away_points": 12,
       "model": {
-        "spread_pick": -15.0,
+        "spread_pick": -16.7,
         "market_spread_close": -20.8,
         "spread_lean": "Away",
         "spread_was_bet": true,
@@ -177,8 +250,20 @@
         "ml_was_bet": true,
         "ml_result": "Loss"
       },
-      "beta_model": null,
-      "ridge_model": null,
+      "beta_model": {
+        "spread_pick": -18.4,
+        "spread_lean": "Away",
+        "spread_was_bet": true,
+        "spread_result": "Win",
+        "agrees_with_model": true
+      },
+      "ridge_model": {
+        "spread_pick": -17.3,
+        "spread_lean": "Away",
+        "spread_was_bet": true,
+        "spread_result": "Win",
+        "agrees_with_model": true
+      },
       "your_bets": []
     },
     {
@@ -191,7 +276,7 @@
       "home_points": 13,
       "away_points": 16,
       "model": {
-        "spread_pick": -4.2,
+        "spread_pick": -5.3,
         "market_spread_close": -4.2,
         "spread_lean": "Home",
         "spread_was_bet": false,
@@ -203,11 +288,64 @@
         "total_was_bet": true,
         "total_result": "Loss",
         "ml_lean": "Away",
-        "ml_was_bet": true,
-        "ml_result": "Win"
+        "ml_was_bet": false,
+        "ml_result": null
       },
-      "beta_model": null,
-      "ridge_model": null,
+      "beta_model": {
+        "spread_pick": -0.9,
+        "spread_lean": "Away",
+        "spread_was_bet": true,
+        "spread_result": "Win",
+        "agrees_with_model": false
+      },
+      "ridge_model": {
+        "spread_pick": 1.2,
+        "spread_lean": "Away",
+        "spread_was_bet": true,
+        "spread_result": "Win",
+        "agrees_with_model": false
+      },
+      "your_bets": []
+    },
+    {
+      "game_id": 401864517,
+      "season": 2026,
+      "week": 6,
+      "date": "2026-10-10",
+      "away_team": "Nevada",
+      "home_team": "UTEP",
+      "home_points": 13,
+      "away_points": 30,
+      "model": {
+        "spread_pick": 9.3,
+        "market_spread_close": 10.0,
+        "spread_lean": "Away",
+        "spread_was_bet": false,
+        "spread_result": "Win",
+        "spread_is_seed_week": false,
+        "total_pick": 45.0,
+        "market_total_close": 48.5,
+        "total_lean": "Under",
+        "total_was_bet": true,
+        "total_result": "Win",
+        "ml_lean": "Home",
+        "ml_was_bet": false,
+        "ml_result": null
+      },
+      "beta_model": {
+        "spread_pick": 5.0,
+        "spread_lean": "Home",
+        "spread_was_bet": true,
+        "spread_result": "Loss",
+        "agrees_with_model": false
+      },
+      "ridge_model": {
+        "spread_pick": 4.9,
+        "spread_lean": "Home",
+        "spread_was_bet": true,
+        "spread_result": "Loss",
+        "agrees_with_model": false
+      },
       "your_bets": []
     },
     {
@@ -220,7 +358,7 @@
       "home_points": 13,
       "away_points": 7,
       "model": {
-        "spread_pick": 10.9,
+        "spread_pick": 10.8,
         "market_spread_close": 2.8,
         "spread_lean": "Away",
         "spread_was_bet": true,
@@ -235,8 +373,20 @@
         "ml_was_bet": true,
         "ml_result": "Loss"
       },
-      "beta_model": null,
-      "ridge_model": null,
+      "beta_model": {
+        "spread_pick": 3.1,
+        "spread_lean": "Away",
+        "spread_was_bet": false,
+        "spread_result": "Loss",
+        "agrees_with_model": true
+      },
+      "ridge_model": {
+        "spread_pick": 8.1,
+        "spread_lean": "Away",
+        "spread_was_bet": true,
+        "spread_result": "Loss",
+        "agrees_with_model": true
+      },
       "your_bets": [
         {
           "date": "2026-10-10",
@@ -253,35 +403,6 @@
       ]
     },
     {
-      "game_id": 401864517,
-      "season": 2026,
-      "week": 6,
-      "date": "2026-10-10",
-      "away_team": "Nevada",
-      "home_team": "UTEP",
-      "home_points": 13,
-      "away_points": 30,
-      "model": {
-        "spread_pick": 9.9,
-        "market_spread_close": 10.0,
-        "spread_lean": "Away",
-        "spread_was_bet": false,
-        "spread_result": "Win",
-        "spread_is_seed_week": false,
-        "total_pick": 45.0,
-        "market_total_close": 48.5,
-        "total_lean": "Under",
-        "total_was_bet": true,
-        "total_result": "Win",
-        "ml_lean": "Home",
-        "ml_was_bet": false,
-        "ml_result": null
-      },
-      "beta_model": null,
-      "ridge_model": null,
-      "your_bets": []
-    },
-    {
       "game_id": 401864516,
       "season": 2026,
       "week": 6,
@@ -291,7 +412,7 @@
       "home_points": 7,
       "away_points": 28,
       "model": {
-        "spread_pick": 14.9,
+        "spread_pick": 10.1,
         "market_spread_close": 7.0,
         "spread_lean": "Away",
         "spread_was_bet": true,
@@ -302,12 +423,24 @@
         "total_lean": "Under",
         "total_was_bet": true,
         "total_result": "Win",
-        "ml_lean": "Away",
-        "ml_was_bet": true,
-        "ml_result": "Win"
+        "ml_lean": "Home",
+        "ml_was_bet": false,
+        "ml_result": null
       },
-      "beta_model": null,
-      "ridge_model": null,
+      "beta_model": {
+        "spread_pick": 5.3,
+        "spread_lean": "Home",
+        "spread_was_bet": false,
+        "spread_result": "Loss",
+        "agrees_with_model": false
+      },
+      "ridge_model": {
+        "spread_pick": 9.3,
+        "spread_lean": "Away",
+        "spread_was_bet": true,
+        "spread_result": "Win",
+        "agrees_with_model": true
+      },
       "your_bets": [
         {
           "date": "2026-10-10",
@@ -333,7 +466,7 @@
       "home_points": 16,
       "away_points": 20,
       "model": {
-        "spread_pick": -5.1,
+        "spread_pick": -6.4,
         "market_spread_close": -2.8,
         "spread_lean": "Home",
         "spread_was_bet": true,
@@ -349,7 +482,7 @@
         "ml_result": "Loss"
       },
       "beta_model": {
-        "spread_pick": -6.5,
+        "spread_pick": -6.0,
         "spread_lean": "Home",
         "spread_was_bet": true,
         "spread_result": "Loss",
@@ -374,7 +507,7 @@
       "home_points": 14,
       "away_points": 9,
       "model": {
-        "spread_pick": 6.6,
+        "spread_pick": 5.1,
         "market_spread_close": -2.8,
         "spread_lean": "Away",
         "spread_was_bet": true,
@@ -390,7 +523,7 @@
         "ml_result": "Loss"
       },
       "beta_model": {
-        "spread_pick": -2.9,
+        "spread_pick": -3.1,
         "spread_lean": "Home",
         "spread_was_bet": false,
         "spread_result": "Win",
@@ -431,47 +564,6 @@
       ]
     },
     {
-      "game_id": 401858247,
-      "season": 2026,
-      "week": 5,
-      "date": "2026-10-03",
-      "away_team": "California",
-      "home_team": "UNLV",
-      "home_points": 39,
-      "away_points": 31,
-      "model": {
-        "spread_pick": -5.3,
-        "market_spread_close": -1.8,
-        "spread_lean": "Home",
-        "spread_was_bet": true,
-        "spread_result": "Win",
-        "spread_is_seed_week": false,
-        "total_pick": 45.6,
-        "market_total_close": 52.2,
-        "total_lean": "Under",
-        "total_was_bet": true,
-        "total_result": "Loss",
-        "ml_lean": "Home",
-        "ml_was_bet": true,
-        "ml_result": "Win"
-      },
-      "beta_model": {
-        "spread_pick": -6.1,
-        "spread_lean": "Home",
-        "spread_was_bet": true,
-        "spread_result": "Win",
-        "agrees_with_model": true
-      },
-      "ridge_model": {
-        "spread_pick": -15.4,
-        "spread_lean": "Home",
-        "spread_was_bet": true,
-        "spread_result": "Win",
-        "agrees_with_model": true
-      },
-      "your_bets": []
-    },
-    {
       "game_id": 401864515,
       "season": 2026,
       "week": 5,
@@ -481,7 +573,7 @@
       "home_points": 28,
       "away_points": 0,
       "model": {
-        "spread_pick": -28.9,
+        "spread_pick": -28.3,
         "market_spread_close": -17.2,
         "spread_lean": "Home",
         "spread_was_bet": true,
@@ -497,7 +589,7 @@
         "ml_result": "Win"
       },
       "beta_model": {
-        "spread_pick": -22.8,
+        "spread_pick": -22.9,
         "spread_lean": "Home",
         "spread_was_bet": true,
         "spread_result": "Win",
@@ -526,6 +618,47 @@
       ]
     },
     {
+      "game_id": 401858247,
+      "season": 2026,
+      "week": 5,
+      "date": "2026-10-03",
+      "away_team": "California",
+      "home_team": "UNLV",
+      "home_points": 39,
+      "away_points": 31,
+      "model": {
+        "spread_pick": -3.5,
+        "market_spread_close": -1.8,
+        "spread_lean": "Home",
+        "spread_was_bet": false,
+        "spread_result": "Win",
+        "spread_is_seed_week": false,
+        "total_pick": 45.6,
+        "market_total_close": 52.2,
+        "total_lean": "Under",
+        "total_was_bet": true,
+        "total_result": "Loss",
+        "ml_lean": "Home",
+        "ml_was_bet": true,
+        "ml_result": "Win"
+      },
+      "beta_model": {
+        "spread_pick": -5.4,
+        "spread_lean": "Home",
+        "spread_was_bet": true,
+        "spread_result": "Win",
+        "agrees_with_model": true
+      },
+      "ridge_model": {
+        "spread_pick": -15.4,
+        "spread_lean": "Home",
+        "spread_was_bet": true,
+        "spread_result": "Win",
+        "agrees_with_model": true
+      },
+      "your_bets": []
+    },
+    {
       "game_id": 401864514,
       "season": 2026,
       "week": 5,
@@ -535,7 +668,7 @@
       "home_points": 61,
       "away_points": 7,
       "model": {
-        "spread_pick": -31.3,
+        "spread_pick": -30.3,
         "market_spread_close": -23.2,
         "spread_lean": "Home",
         "spread_was_bet": true,
@@ -551,7 +684,7 @@
         "ml_result": "Win"
       },
       "beta_model": {
-        "spread_pick": -22.3,
+        "spread_pick": -22.7,
         "spread_lean": "Home",
         "spread_was_bet": false,
         "spread_result": "Win",
@@ -589,10 +722,10 @@
       "home_points": 7,
       "away_points": 33,
       "model": {
-        "spread_pick": 13.6,
+        "spread_pick": 12.6,
         "market_spread_close": 11.5,
         "spread_lean": "Away",
-        "spread_was_bet": true,
+        "spread_was_bet": false,
         "spread_result": "Win",
         "spread_is_seed_week": false,
         "total_pick": 50.9,
@@ -605,7 +738,7 @@
         "ml_result": null
       },
       "beta_model": {
-        "spread_pick": 1.4,
+        "spread_pick": 2.4,
         "spread_lean": "Home",
         "spread_was_bet": true,
         "spread_result": "Loss",
@@ -630,11 +763,11 @@
       "home_points": 33,
       "away_points": 36,
       "model": {
-        "spread_pick": 4.7,
+        "spread_pick": 3.8,
         "market_spread_close": 5.2,
-        "spread_lean": "Away",
+        "spread_lean": "Home",
         "spread_was_bet": false,
-        "spread_result": "Loss",
+        "spread_result": "Win",
         "spread_is_seed_week": false,
         "total_pick": 46.6,
         "market_total_close": 50.5,
@@ -646,18 +779,18 @@
         "ml_result": null
       },
       "beta_model": {
-        "spread_pick": 0.6,
+        "spread_pick": 2.6,
         "spread_lean": "Home",
         "spread_was_bet": true,
         "spread_result": "Win",
-        "agrees_with_model": false
+        "agrees_with_model": true
       },
       "ridge_model": {
         "spread_pick": 3.3,
         "spread_lean": "Home",
         "spread_was_bet": false,
         "spread_result": "Win",
-        "agrees_with_model": false
+        "agrees_with_model": true
       },
       "your_bets": []
     },
@@ -671,7 +804,7 @@
       "home_points": 10,
       "away_points": 38,
       "model": {
-        "spread_pick": 7.6,
+        "spread_pick": 4.2,
         "market_spread_close": 13.5,
         "spread_lean": "Home",
         "spread_was_bet": true,
@@ -687,7 +820,7 @@
         "ml_result": "Loss"
       },
       "beta_model": {
-        "spread_pick": 7.6,
+        "spread_pick": 9.2,
         "spread_lean": "Home",
         "spread_was_bet": true,
         "spread_result": "Loss",
@@ -725,7 +858,7 @@
       "home_points": 35,
       "away_points": 14,
       "model": {
-        "spread_pick": -8.2,
+        "spread_pick": -8.7,
         "market_spread_close": -8.8,
         "spread_lean": "Home",
         "spread_was_bet": false,
@@ -741,7 +874,7 @@
         "ml_result": null
       },
       "beta_model": {
-        "spread_pick": -3.0,
+        "spread_pick": -2.6,
         "spread_lean": "Away",
         "spread_was_bet": true,
         "spread_result": "Loss",
@@ -766,10 +899,10 @@
       "home_points": 27,
       "away_points": 10,
       "model": {
-        "spread_pick": 4.9,
+        "spread_pick": 1.5,
         "market_spread_close": 2.2,
         "spread_lean": "Away",
-        "spread_was_bet": true,
+        "spread_was_bet": false,
         "spread_result": "Loss",
         "spread_is_seed_week": false,
         "total_pick": 44.9,
@@ -777,16 +910,16 @@
         "total_lean": "Over",
         "total_was_bet": false,
         "total_result": "Loss",
-        "ml_lean": "Away",
-        "ml_was_bet": true,
-        "ml_result": "Loss"
+        "ml_lean": "Home",
+        "ml_was_bet": false,
+        "ml_result": null
       },
       "beta_model": {
-        "spread_pick": 0.5,
-        "spread_lean": "Home",
+        "spread_pick": 1.7,
+        "spread_lean": "Away",
         "spread_was_bet": false,
-        "spread_result": "Win",
-        "agrees_with_model": false
+        "spread_result": "Loss",
+        "agrees_with_model": true
       },
       "ridge_model": {
         "spread_pick": 6.0,
@@ -807,7 +940,7 @@
       "home_points": 18,
       "away_points": 42,
       "model": {
-        "spread_pick": 18.0,
+        "spread_pick": 16.9,
         "market_spread_close": 11.5,
         "spread_lean": "Away",
         "spread_was_bet": true,
@@ -823,7 +956,7 @@
         "ml_result": "Win"
       },
       "beta_model": {
-        "spread_pick": 11.0,
+        "spread_pick": 12.4,
         "spread_lean": "Away",
         "spread_was_bet": false,
         "spread_result": "Win",
@@ -861,7 +994,7 @@
       "home_points": 10,
       "away_points": 31,
       "model": {
-        "spread_pick": 37.2,
+        "spread_pick": 36.2,
         "market_spread_close": 25.5,
         "spread_lean": "Away",
         "spread_was_bet": true,
@@ -877,7 +1010,7 @@
         "ml_result": null
       },
       "beta_model": {
-        "spread_pick": 20.1,
+        "spread_pick": 19.0,
         "spread_lean": "Home",
         "spread_was_bet": true,
         "spread_result": "Win",
@@ -902,7 +1035,7 @@
       "home_points": 42,
       "away_points": 17,
       "model": {
-        "spread_pick": -31.8,
+        "spread_pick": -32.0,
         "market_spread_close": -34.5,
         "spread_lean": "Away",
         "spread_was_bet": true,
@@ -918,7 +1051,7 @@
         "ml_result": null
       },
       "beta_model": {
-        "spread_pick": -20.1,
+        "spread_pick": -21.6,
         "spread_lean": "Away",
         "spread_was_bet": true,
         "spread_result": "Win",
@@ -943,7 +1076,7 @@
       "home_points": 10,
       "away_points": 26,
       "model": {
-        "spread_pick": 4.9,
+        "spread_pick": 4.8,
         "market_spread_close": 4.0,
         "spread_lean": "Away",
         "spread_was_bet": false,
@@ -959,7 +1092,7 @@
         "ml_result": "Loss"
       },
       "beta_model": {
-        "spread_pick": 9.7,
+        "spread_pick": 13.2,
         "spread_lean": "Away",
         "spread_was_bet": true,
         "spread_result": "Win",
@@ -984,7 +1117,7 @@
       "home_points": 24,
       "away_points": 10,
       "model": {
-        "spread_pick": -7.7,
+        "spread_pick": -8.6,
         "market_spread_close": 1.8,
         "spread_lean": "Home",
         "spread_was_bet": true,
@@ -1062,7 +1195,7 @@
       "home_points": 52,
       "away_points": 17,
       "model": {
-        "spread_pick": -31.3,
+        "spread_pick": -31.9,
         "market_spread_close": -34.5,
         "spread_lean": "Away",
         "spread_was_bet": true,
@@ -1078,9 +1211,9 @@
         "ml_result": null
       },
       "beta_model": {
-        "spread_pick": -33.1,
+        "spread_pick": -31.3,
         "spread_lean": "Away",
-        "spread_was_bet": false,
+        "spread_was_bet": true,
         "spread_result": "Loss",
         "agrees_with_model": true
       },
@@ -1103,10 +1236,10 @@
       "home_points": 27,
       "away_points": 20,
       "model": {
-        "spread_pick": 2.6,
+        "spread_pick": 1.2,
         "market_spread_close": 3.8,
         "spread_lean": "Home",
-        "spread_was_bet": false,
+        "spread_was_bet": true,
         "spread_result": "Win",
         "spread_is_seed_week": false,
         "total_pick": 51.6,
@@ -1119,11 +1252,11 @@
         "ml_result": "Win"
       },
       "beta_model": {
-        "spread_pick": 1.7,
-        "spread_lean": "Home",
-        "spread_was_bet": true,
-        "spread_result": "Win",
-        "agrees_with_model": true
+        "spread_pick": 4.2,
+        "spread_lean": "Away",
+        "spread_was_bet": false,
+        "spread_result": "Loss",
+        "agrees_with_model": false
       },
       "ridge_model": {
         "spread_pick": -3.6,
@@ -1144,7 +1277,7 @@
       "home_points": 14,
       "away_points": 6,
       "model": {
-        "spread_pick": -10.8,
+        "spread_pick": -9.8,
         "market_spread_close": -21.2,
         "spread_lean": "Away",
         "spread_was_bet": true,
@@ -1160,7 +1293,7 @@
         "ml_result": "Loss"
       },
       "beta_model": {
-        "spread_pick": -15.2,
+        "spread_pick": -12.5,
         "spread_lean": "Away",
         "spread_was_bet": true,
         "spread_result": "Win",
@@ -1171,47 +1304,6 @@
         "spread_lean": "Away",
         "spread_was_bet": true,
         "spread_result": "Win",
-        "agrees_with_model": true
-      },
-      "your_bets": []
-    },
-    {
-      "game_id": 401864505,
-      "season": 2026,
-      "week": 2,
-      "date": "2026-09-13",
-      "away_team": "Texas Southern",
-      "home_team": "UTEP",
-      "home_points": 51,
-      "away_points": 10,
-      "model": {
-        "spread_pick": -18.5,
-        "market_spread_close": -27.2,
-        "spread_lean": "Away",
-        "spread_was_bet": true,
-        "spread_result": "Loss",
-        "spread_is_seed_week": false,
-        "total_pick": 55.2,
-        "market_total_close": 53.5,
-        "total_lean": "Over",
-        "total_was_bet": false,
-        "total_result": "Win",
-        "ml_lean": "Away",
-        "ml_was_bet": true,
-        "ml_result": "Loss"
-      },
-      "beta_model": {
-        "spread_pick": -20.4,
-        "spread_lean": "Away",
-        "spread_was_bet": true,
-        "spread_result": "Loss",
-        "agrees_with_model": true
-      },
-      "ridge_model": {
-        "spread_pick": -14.6,
-        "spread_lean": "Away",
-        "spread_was_bet": true,
-        "spread_result": "Loss",
         "agrees_with_model": true
       },
       "your_bets": []
@@ -1242,7 +1334,7 @@
         "ml_result": "Win"
       },
       "beta_model": {
-        "spread_pick": -29.8,
+        "spread_pick": -27.5,
         "spread_lean": "Home",
         "spread_was_bet": true,
         "spread_result": "Loss",
@@ -1258,6 +1350,47 @@
       "your_bets": []
     },
     {
+      "game_id": 401864505,
+      "season": 2026,
+      "week": 2,
+      "date": "2026-09-13",
+      "away_team": "Texas Southern",
+      "home_team": "UTEP",
+      "home_points": 51,
+      "away_points": 10,
+      "model": {
+        "spread_pick": -18.5,
+        "market_spread_close": -27.2,
+        "spread_lean": "Away",
+        "spread_was_bet": true,
+        "spread_result": "Loss",
+        "spread_is_seed_week": false,
+        "total_pick": 55.2,
+        "market_total_close": 53.5,
+        "total_lean": "Over",
+        "total_was_bet": false,
+        "total_result": "Win",
+        "ml_lean": "Away",
+        "ml_was_bet": true,
+        "ml_result": "Loss"
+      },
+      "beta_model": {
+        "spread_pick": -20.1,
+        "spread_lean": "Away",
+        "spread_was_bet": true,
+        "spread_result": "Loss",
+        "agrees_with_model": true
+      },
+      "ridge_model": {
+        "spread_pick": -14.6,
+        "spread_lean": "Away",
+        "spread_was_bet": true,
+        "spread_result": "Loss",
+        "agrees_with_model": true
+      },
+      "your_bets": []
+    },
+    {
       "game_id": 401864502,
       "season": 2026,
       "week": 2,
@@ -1267,7 +1400,7 @@
       "home_points": 32,
       "away_points": 38,
       "model": {
-        "spread_pick": 19.2,
+        "spread_pick": 18.7,
         "market_spread_close": 1.8,
         "spread_lean": "Away",
         "spread_was_bet": true,
@@ -1283,7 +1416,7 @@
         "ml_result": "Win"
       },
       "beta_model": {
-        "spread_pick": 17.7,
+        "spread_pick": 14.2,
         "spread_lean": "Away",
         "spread_was_bet": true,
         "spread_result": "Win",
@@ -1308,7 +1441,7 @@
       "home_points": 7,
       "away_points": 20,
       "model": {
-        "spread_pick": -32.3,
+        "spread_pick": -32.8,
         "market_spread_close": 5.0,
         "spread_lean": "Home",
         "spread_was_bet": true,
@@ -1324,7 +1457,7 @@
         "ml_result": "Loss"
       },
       "beta_model": {
-        "spread_pick": -16.7,
+        "spread_pick": -11.5,
         "spread_lean": "Home",
         "spread_was_bet": true,
         "spread_result": "Loss",
@@ -1349,11 +1482,11 @@
       "home_points": 29,
       "away_points": 19,
       "model": {
-        "spread_pick": -6.3,
+        "spread_pick": -7.6,
         "market_spread_close": -7.5,
-        "spread_lean": "Away",
+        "spread_lean": "Home",
         "spread_was_bet": false,
-        "spread_result": "Loss",
+        "spread_result": "Win",
         "spread_is_seed_week": false,
         "total_pick": 55.2,
         "market_total_close": 50.2,
@@ -1365,18 +1498,18 @@
         "ml_result": "Loss"
       },
       "beta_model": {
-        "spread_pick": -14.0,
+        "spread_pick": -13.6,
         "spread_lean": "Home",
         "spread_was_bet": true,
         "spread_result": "Win",
-        "agrees_with_model": false
+        "agrees_with_model": true
       },
       "ridge_model": {
         "spread_pick": -14.1,
         "spread_lean": "Home",
         "spread_was_bet": true,
         "spread_result": "Win",
-        "agrees_with_model": false
+        "agrees_with_model": true
       },
       "your_bets": []
     },
@@ -1390,7 +1523,7 @@
       "home_points": 44,
       "away_points": 6,
       "model": {
-        "spread_pick": -4.0,
+        "spread_pick": -8.2,
         "market_spread_close": 2.8,
         "spread_lean": "Home",
         "spread_was_bet": true,
@@ -1406,11 +1539,11 @@
         "ml_result": "Win"
       },
       "beta_model": {
-        "spread_pick": 1.9,
-        "spread_lean": "Away",
+        "spread_pick": 1.7,
+        "spread_lean": "Home",
         "spread_was_bet": false,
-        "spread_result": "Loss",
-        "agrees_with_model": false
+        "spread_result": "Win",
+        "agrees_with_model": true
       },
       "ridge_model": {
         "spread_pick": -3.6,
@@ -1460,11 +1593,11 @@
         "ml_result": null
       },
       "beta_model": {
-        "spread_pick": -23.3,
-        "spread_lean": "Home",
+        "spread_pick": -22.1,
+        "spread_lean": "Away",
         "spread_was_bet": false,
-        "spread_result": "Loss",
-        "agrees_with_model": true
+        "spread_result": "Win",
+        "agrees_with_model": false
       },
       "ridge_model": {
         "spread_pick": -16.3,
@@ -1485,10 +1618,10 @@
       "home_points": 70,
       "away_points": 7,
       "model": {
-        "spread_pick": -44.3,
+        "spread_pick": -43.1,
         "market_spread_close": -42.2,
         "spread_lean": "Home",
-        "spread_was_bet": true,
+        "spread_was_bet": false,
         "spread_result": "Win",
         "spread_is_seed_week": false,
         "total_pick": 54.1,
@@ -1501,7 +1634,7 @@
         "ml_result": null
       },
       "beta_model": {
-        "spread_pick": -25.3,
+        "spread_pick": -28.0,
         "spread_lean": "Away",
         "spread_was_bet": true,
         "spread_result": "Loss",
@@ -1542,7 +1675,7 @@
         "ml_result": "Loss"
       },
       "beta_model": {
-        "spread_pick": -17.9,
+        "spread_pick": -16.8,
         "spread_lean": "Home",
         "spread_was_bet": true,
         "spread_result": "Loss",
@@ -1558,6 +1691,47 @@
       "your_bets": []
     },
     {
+      "game_id": 401864497,
+      "season": 2026,
+      "week": 1,
+      "date": "2026-09-06",
+      "away_team": "UNLV",
+      "home_team": "Hawai'i",
+      "home_points": 6,
+      "away_points": 21,
+      "model": {
+        "spread_pick": 3.3,
+        "market_spread_close": 2.8,
+        "spread_lean": "Away",
+        "spread_was_bet": false,
+        "spread_result": "Win",
+        "spread_is_seed_week": true,
+        "total_pick": 54.6,
+        "market_total_close": 55.5,
+        "total_lean": "Under",
+        "total_was_bet": false,
+        "total_result": "Win",
+        "ml_lean": "Away",
+        "ml_was_bet": false,
+        "ml_result": null
+      },
+      "beta_model": {
+        "spread_pick": -1.8,
+        "spread_lean": "Home",
+        "spread_was_bet": true,
+        "spread_result": "Loss",
+        "agrees_with_model": false
+      },
+      "ridge_model": {
+        "spread_pick": 2.9,
+        "spread_lean": "Away",
+        "spread_was_bet": false,
+        "spread_result": "Win",
+        "agrees_with_model": true
+      },
+      "your_bets": []
+    },
+    {
       "game_id": 401864498,
       "season": 2026,
       "week": 1,
@@ -1567,7 +1741,7 @@
       "home_points": 38,
       "away_points": 7,
       "model": {
-        "spread_pick": -14.3,
+        "spread_pick": -13.4,
         "market_spread_close": -11.2,
         "spread_lean": "Home",
         "spread_was_bet": true,
@@ -1578,7 +1752,7 @@
         "total_lean": "Over",
         "total_was_bet": true,
         "total_result": "Loss",
-        "ml_lean": "Home",
+        "ml_lean": "Away",
         "ml_was_bet": false,
         "ml_result": null
       },
@@ -1612,47 +1786,6 @@
       ]
     },
     {
-      "game_id": 401864497,
-      "season": 2026,
-      "week": 1,
-      "date": "2026-09-06",
-      "away_team": "UNLV",
-      "home_team": "Hawai'i",
-      "home_points": 6,
-      "away_points": 21,
-      "model": {
-        "spread_pick": 5.7,
-        "market_spread_close": 2.8,
-        "spread_lean": "Away",
-        "spread_was_bet": true,
-        "spread_result": "Win",
-        "spread_is_seed_week": true,
-        "total_pick": 54.6,
-        "market_total_close": 55.5,
-        "total_lean": "Under",
-        "total_was_bet": false,
-        "total_result": "Win",
-        "ml_lean": "Away",
-        "ml_was_bet": true,
-        "ml_result": "Win"
-      },
-      "beta_model": {
-        "spread_pick": -1.8,
-        "spread_lean": "Home",
-        "spread_was_bet": true,
-        "spread_result": "Loss",
-        "agrees_with_model": false
-      },
-      "ridge_model": {
-        "spread_pick": 2.9,
-        "spread_lean": "Away",
-        "spread_was_bet": false,
-        "spread_result": "Win",
-        "agrees_with_model": true
-      },
-      "your_bets": []
-    },
-    {
       "game_id": 401864432,
       "season": 2026,
       "week": 1,
@@ -1662,10 +1795,10 @@
       "home_points": 49,
       "away_points": 14,
       "model": {
-        "spread_pick": -1.2,
+        "spread_pick": -9.6,
         "market_spread_close": 0.2,
         "spread_lean": "Home",
-        "spread_was_bet": false,
+        "spread_was_bet": true,
         "spread_result": "Win",
         "spread_is_seed_week": true,
         "total_pick": 51.8,
@@ -1673,9 +1806,9 @@
         "total_lean": "Over",
         "total_was_bet": false,
         "total_result": "Win",
-        "ml_lean": "Away",
+        "ml_lean": "Home",
         "ml_was_bet": true,
-        "ml_result": "Loss"
+        "ml_result": "Win"
       },
       "beta_model": {
         "spread_pick": 7.3,
@@ -1703,7 +1836,7 @@
       "home_points": 51,
       "away_points": 0,
       "model": {
-        "spread_pick": -43.1,
+        "spread_pick": -43.4,
         "market_spread_close": -40.8,
         "spread_lean": "Home",
         "spread_was_bet": true,
@@ -1839,7 +1972,7 @@
       "home_points": 40,
       "away_points": 0,
       "model": {
-        "spread_pick": -39.7,
+        "spread_pick": -39.8,
         "market_spread_close": -31.8,
         "spread_lean": "Home",
         "spread_was_bet": true,
@@ -1880,7 +2013,7 @@
       "home_points": 35,
       "away_points": 13,
       "model": {
-        "spread_pick": -5.1,
+        "spread_pick": -5.2,
         "market_spread_close": -2.8,
         "spread_lean": "Home",
         "spread_was_bet": true,
@@ -1921,7 +2054,7 @@
       "home_points": 21,
       "away_points": 27,
       "model": {
-        "spread_pick": 1.8,
+        "spread_pick": 1.0,
         "market_spread_close": -1.5,
         "spread_lean": "Away",
         "spread_was_bet": true,
@@ -1933,8 +2066,8 @@
         "total_was_bet": false,
         "total_result": "Win",
         "ml_lean": "Home",
-        "ml_was_bet": false,
-        "ml_result": null
+        "ml_was_bet": true,
+        "ml_result": "Loss"
       },
       "beta_model": {
         "spread_pick": -10.5,
@@ -1975,7 +2108,7 @@
       "home_points": 21,
       "away_points": 27,
       "model": {
-        "spread_pick": 2.9,
+        "spread_pick": 1.9,
         "market_spread_close": -4.8,
         "spread_lean": "Away",
         "spread_was_bet": true,
@@ -2029,7 +2162,7 @@
       "home_points": 42,
       "away_points": 26,
       "model": {
-        "spread_pick": -29.0,
+        "spread_pick": -27.2,
         "market_spread_close": -37.2,
         "spread_lean": "Away",
         "spread_was_bet": true,
@@ -2070,7 +2203,7 @@
       "home_points": 33,
       "away_points": 7,
       "model": {
-        "spread_pick": -24.2,
+        "spread_pick": -25.0,
         "market_spread_close": -6.8,
         "spread_lean": "Home",
         "spread_was_bet": true,
@@ -2136,7 +2269,7 @@
       "home_points": 37,
       "away_points": 27,
       "model": {
-        "spread_pick": -9.9,
+        "spread_pick": -9.0,
         "market_spread_close": -4.8,
         "spread_lean": "Home",
         "spread_was_bet": true,
