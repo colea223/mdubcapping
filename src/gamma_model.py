@@ -70,6 +70,8 @@ Usage:
     source .venv/bin/activate
     python src/gamma_model.py                # self-test, then current ratings + this week's predictions
 """
+from datetime import date
+
 import duckdb
 import numpy as np
 
@@ -84,6 +86,17 @@ from teams import normalize_team_name, FBS_CONFERENCES
 HFA = 2.7
 CARRY_FORWARD = 0.9
 PERFORMANCE_WEIGHT = 0.1
+
+# PRE-GAME ADJUSTMENTS (added Oct 2026, from src/diagnose_travel_injury.py). These shift the SPREAD
+# PREDICTION only -- the rating update after a game is unchanged. Set a constant to 0 to switch
+# that adjustment off completely.
+#   TRAVEL: points the home team gains per 1,000 km the away team travels (non-neutral games only).
+#     History 2016-2025 (7,000+ games) estimated about 0.5 pt per 1,000 km after controlling for team strength.
+#   INJURY: points per unit of injury-burden difference (the same burden the rating update already uses:
+#     status multiplier x the player's per-game PPA). The total injury adjustment is capped at +/-INJURY_ADJ_CAP.
+TRAVEL_PTS_PER_1000KM = 0.5
+INJURY_PTS_PER_UNIT = 0.5
+INJURY_ADJ_CAP = 7.0
 
 # A team with ZERO completed games tracked in `games` this season at all --
 # NOT the same case DEFAULT_SEED_RATING handles (a real FBS team that's
@@ -115,6 +128,80 @@ def update_rating(old_rating, net_score, opponent_old_rating, own_injury_weight=
     return CARRY_FORWARD * old_rating + PERFORMANCE_WEIGHT * tgpl
 
 
+class GammaRatings(dict):
+    """{team: rating} that also remembers which season/week it is predicting
+    (adj_ctx = (con, season, week)), so predict_spread_home() can apply the
+    travel/injury adjustments without every caller having to pass them in.
+    A plain dict (or one with adj_ctx None) gets no adjustment."""
+    adj_ctx = None
+
+
+_ADJ_CACHE = {}
+
+
+def _adjustment_tables(con, season):
+    """({(team, week): injury burden}, {(home, away, week): away travel km}), cached per (con, season)."""
+    key = (id(con), season)
+    hit = _ADJ_CACHE.get(key)
+    if hit is not None and hit[0] is con:
+        return hit[1]
+    try:
+        raw_inj = load_injury_weights_by_week(con, season)
+    except Exception:
+        raw_inj = {}
+    inj = {(normalize_team_name(t), w): v for (t, w), v in raw_inj.items()}
+    travel = {}
+    try:
+        rows = con.execute(
+            "SELECT home_team, away_team, week, travel_km_away FROM game_features WHERE season = ?", [season]
+        ).fetchall()
+    except Exception:
+        rows = []
+    for h, a, w, km in rows:
+        if km is not None:
+            travel[(normalize_team_name(h), normalize_team_name(a), w)] = float(km)
+    tables = (inj, travel)
+    _ADJ_CACHE[key] = (con, tables)
+    return tables
+
+
+def matchup_adjustment(ratings, home_team, away_team, neutral_site=False):
+    """Points added to the spread (negative = more home-favored) for away-team travel and the pre-game
+    injury-burden difference. 0.0 whenever the ratings carry no season/week context or anything fails --
+    this must never be able to break a pipeline run."""
+    ctx = getattr(ratings, "adj_ctx", None)
+    if not ctx:
+        return 0.0
+    try:
+        con, season, week = ctx
+        inj, travel = _adjustment_tables(con, season)
+        h, a = normalize_team_name(home_team), normalize_team_name(away_team)
+        adj = 0.0
+        if TRAVEL_PTS_PER_1000KM and not neutral_site:
+            km = travel.get((h, a, week))
+            if km:
+                adj -= TRAVEL_PTS_PER_1000KM * km / 1000.0
+        if INJURY_PTS_PER_UNIT:
+            diff = inj.get((h, week), 0.0) - inj.get((a, week), 0.0)
+            adj += max(-INJURY_ADJ_CAP, min(INJURY_ADJ_CAP, INJURY_PTS_PER_UNIT * diff))
+        return adj
+    except Exception:
+        return 0.0
+
+
+def _next_upcoming_week(con, season):
+    """Same rule as predict_week.auto_detect_week(): the earliest week with an unplayed game starting today or later."""
+    try:
+        row = con.execute("""
+            SELECT week FROM games
+            WHERE season = ? AND completed = FALSE AND start_date >= ?
+            GROUP BY week ORDER BY MIN(start_date) LIMIT 1
+        """, [season, date.today().isoformat()]).fetchone()
+    except Exception:
+        return None
+    return row[0] if row else None
+
+
 def predict_spread_home(ratings, home_team, away_team, neutral_site=False):
     """
     home_rating/away_rating fall back to UNRATED_OPPONENT_RATING (NOT
@@ -127,7 +214,7 @@ def predict_spread_home(ratings, home_team, away_team, neutral_site=False):
     home_rating = ratings.get(home_team, UNRATED_OPPONENT_RATING)
     away_rating = ratings.get(away_team, UNRATED_OPPONENT_RATING)
     hfa = 0.0 if neutral_site else HFA
-    return away_rating - home_rating - hfa
+    return away_rating - home_rating - hfa + matchup_adjustment(ratings, home_team, away_team, neutral_site)
 
 
 # Fallback standard deviation, used ONLY when there isn't enough graded
@@ -437,6 +524,17 @@ def _replay_ratings_once(con, season, entering_week, through_week, unrated_fn):
 
 
 def replay_ratings(con, season=SEED_SEASON, entering_week=SEED_ENTERING_WEEK, through_week=None):
+    """Chronological replay; the returned ratings also carry the season/week they predict (see GammaRatings) --
+    through_week + 1, or the next upcoming week when through_week is None -- so predict_spread_home() applies
+    the pre-game travel/injury adjustment. Details in _replay_ratings_with_calibration()."""
+    ratings, warned = _replay_ratings_with_calibration(con, season, entering_week, through_week)
+    out = GammaRatings(ratings)
+    wk = (through_week + 1) if through_week is not None else _next_upcoming_week(con, season)
+    out.adj_ctx = (con, season, wk) if wk is not None else None
+    return out, warned
+
+
+def _replay_ratings_with_calibration(con, season=SEED_SEASON, entering_week=SEED_ENTERING_WEEK, through_week=None):
     """
     Full chronological replay from the fixed Moore seed through every
     completed FBS game in `season` from `entering_week` on (through
