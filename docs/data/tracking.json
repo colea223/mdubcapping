@@ -1,6 +1,6 @@
 {
   "meta": {
-    "generated_at": "2026-10-24T19:48:50Z",
+    "generated_at": "2026-10-24T20:19:30Z",
     "current_week": {
       "season": 2026,
       "week": 8
@@ -9,24 +9,24 @@
   "tracking": {
     "model": {
       "season": 2026,
-      "n_games": 50,
+      "n_games": 51,
       "spread": {
-        "n_bets": 50,
+        "n_bets": 51,
         "wins": 32,
-        "losses": 18,
+        "losses": 19,
         "pushes": 0,
-        "win_rate": 0.64,
-        "units": 11.09,
+        "win_rate": 0.6275,
+        "units": 10.09,
         "n_real_edge_bets": 37,
         "real_edge_win_rate": 0.6216
       },
       "total": {
-        "n_bets": 50,
+        "n_bets": 51,
         "wins": 23,
-        "losses": 27,
+        "losses": 28,
         "pushes": 0,
-        "win_rate": 0.46,
-        "units": -6.09,
+        "win_rate": 0.451,
+        "units": -7.09,
         "n_real_edge_bets": 34,
         "real_edge_win_rate": 0.5
       },
