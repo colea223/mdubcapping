@@ -1,6 +1,6 @@
 {
   "meta": {
-    "generated_at": "2026-10-23T22:10:16Z",
+    "generated_at": "2026-10-24T19:48:50Z",
     "current_week": {
       "season": 2026,
       "week": 8
@@ -45,12 +45,12 @@
       "note": "Hypothetical flat 1-unit-per-bet tracking of the live model's own picks (spread/total at -110, moneyline at the real posted odds) -- not your personal bets. Week 1's spread record includes the seed week -- it uses the Moore seed exactly as pasted, which already reflects that week's own results, so it's informational only, not a genuine out-of-sample prediction (see moore_seed_2026.py)."
     },
     "yours": {
-      "n_bets": 85,
-      "wins": 42,
-      "losses": 43,
+      "n_bets": 87,
+      "wins": 43,
+      "losses": 44,
       "pushes": 0,
-      "win_rate": 0.4941,
-      "units": 249.2,
+      "win_rate": 0.4943,
+      "units": 249.34,
       "by_type": {
         "Spread": {
           "wins": 30,
@@ -60,11 +60,11 @@
           "units": 5.87
         },
         "Moneyline": {
-          "wins": 12,
-          "losses": 11,
+          "wins": 13,
+          "losses": 12,
           "pushes": 0,
-          "win_rate": 0.5217,
-          "units": 256.83
+          "win_rate": 0.52,
+          "units": 256.97
         },
         "ML Parlay": {
           "wins": 0,
@@ -88,7 +88,38 @@
           "units": -1.0
         }
       },
-      "pending": [],
+      "pending": [
+        {
+          "date": "2026-10-24",
+          "week": 8,
+          "matchup": "BYU @ UCF",
+          "bet_type": "Spread",
+          "side": "BYU",
+          "line": -6.5,
+          "odds": -124.0,
+          "stake": 1.0
+        },
+        {
+          "date": "2026-10-24",
+          "week": 8,
+          "matchup": "UL Monroe @ Troy",
+          "bet_type": "Spread",
+          "side": "Troy",
+          "line": -13.5,
+          "odds": -110.0,
+          "stake": 1.0
+        },
+        {
+          "date": "2026-10-24",
+          "week": 8,
+          "matchup": "Vanderbilt @ Kentucky",
+          "bet_type": "Spread",
+          "side": "Vanderbilt",
+          "line": 10.5,
+          "odds": -105.0,
+          "stake": 1.0
+        }
+      ],
       "graded": [
         {
           "date": "2026-08-29",
@@ -1109,6 +1140,30 @@
           "stake": 50.0,
           "result": "W",
           "units": 90.0
+        },
+        {
+          "date": "2026-10-23",
+          "week": 8,
+          "matchup": "Duke @ Virginia",
+          "bet_type": "Moneyline",
+          "side": "Duke",
+          "line": null,
+          "odds": 114.0,
+          "stake": 1.0,
+          "result": "W",
+          "units": 1.14
+        },
+        {
+          "date": "2026-10-24",
+          "week": 8,
+          "matchup": "Air Force @ Wyoming",
+          "bet_type": "Moneyline",
+          "side": "Air Force",
+          "line": null,
+          "odds": -225.0,
+          "stake": 1.0,
+          "result": "L",
+          "units": -1.0
         }
       ],
       "note": "Your actual bets from the Bet Log tab, graded at the real odds you entered."

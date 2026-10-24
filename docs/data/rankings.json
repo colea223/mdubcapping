@@ -1,6 +1,6 @@
 {
   "meta": {
-    "generated_at": "2026-10-23T22:10:16Z",
+    "generated_at": "2026-10-24T19:48:50Z",
     "current_week": {
       "season": 2026,
       "week": 8
@@ -656,24 +656,6 @@
       "rank": 36
     },
     {
-      "team": "Michigan",
-      "conference": "Big Ten",
-      "logo": "https://cdn.collegefootballdata.com/logos/500/130.png",
-      "rating": 73.6,
-      "offense_rating": 26.2,
-      "defense_rating": 13.2,
-      "special_teams_rating": 0.0,
-      "sos_rank": 59,
-      "sor_rank": 36,
-      "projected_wins": 6.5,
-      "wins": 4,
-      "losses": 2,
-      "conf_wins": 1,
-      "conf_losses": 2,
-      "trend": 0.0,
-      "rank": 37
-    },
-    {
       "team": "North Dakota State",
       "conference": "Mountain West",
       "logo": "https://cdn.collegefootballdata.com/logos/500/2449.png",
@@ -688,6 +670,24 @@
       "losses": 1,
       "conf_wins": 3,
       "conf_losses": 1,
+      "trend": 0.0,
+      "rank": 37
+    },
+    {
+      "team": "Michigan",
+      "conference": "Big Ten",
+      "logo": "https://cdn.collegefootballdata.com/logos/500/130.png",
+      "rating": 73.6,
+      "offense_rating": 26.2,
+      "defense_rating": 13.2,
+      "special_teams_rating": 0.0,
+      "sos_rank": 59,
+      "sor_rank": 36,
+      "projected_wins": 6.5,
+      "wins": 4,
+      "losses": 2,
+      "conf_wins": 1,
+      "conf_losses": 2,
       "trend": 0.0,
       "rank": 38
     },
@@ -1358,24 +1358,6 @@
       "rank": 75
     },
     {
-      "team": "UNLV",
-      "conference": "Mountain West",
-      "logo": "https://cdn.collegefootballdata.com/logos/500/2439.png",
-      "rating": 63.0,
-      "offense_rating": 24.7,
-      "defense_rating": 27.9,
-      "special_teams_rating": -0.1,
-      "sos_rank": 100,
-      "sor_rank": 42,
-      "projected_wins": 7.5,
-      "wins": 4,
-      "losses": 3,
-      "conf_wins": 2,
-      "conf_losses": 1,
-      "trend": 0.0,
-      "rank": 76
-    },
-    {
       "team": "Liberty",
       "conference": "Conference USA",
       "logo": "https://cdn.collegefootballdata.com/logos/500/2335.png",
@@ -1391,6 +1373,24 @@
       "conf_wins": 3,
       "conf_losses": 0,
       "trend": 1.9,
+      "rank": 76
+    },
+    {
+      "team": "UNLV",
+      "conference": "Mountain West",
+      "logo": "https://cdn.collegefootballdata.com/logos/500/2439.png",
+      "rating": 63.0,
+      "offense_rating": 24.7,
+      "defense_rating": 27.9,
+      "special_teams_rating": -0.1,
+      "sos_rank": 100,
+      "sor_rank": 42,
+      "projected_wins": 7.5,
+      "wins": 4,
+      "losses": 3,
+      "conf_wins": 2,
+      "conf_losses": 1,
+      "trend": 0.0,
       "rank": 77
     },
     {
@@ -1880,24 +1880,6 @@
       "rank": 104
     },
     {
-      "team": "Florida International",
-      "conference": "Conference USA",
-      "logo": "https://cdn.collegefootballdata.com/logos/500/2229.png",
-      "rating": 55.3,
-      "offense_rating": 17.5,
-      "defense_rating": 23.7,
-      "special_teams_rating": 0.0,
-      "sos_rank": 189,
-      "sor_rank": 211,
-      "projected_wins": 5.7,
-      "wins": 3,
-      "losses": 4,
-      "conf_wins": 1,
-      "conf_losses": 2,
-      "trend": -1.5,
-      "rank": 105
-    },
-    {
       "team": "Georgia State",
       "conference": "Sun Belt",
       "logo": "https://cdn.collegefootballdata.com/logos/500/2247.png",
@@ -1913,7 +1895,7 @@
       "conf_wins": 1,
       "conf_losses": 1,
       "trend": 0.0,
-      "rank": 106
+      "rank": 105
     },
     {
       "team": "Temple",
@@ -1931,25 +1913,25 @@
       "conf_wins": 1,
       "conf_losses": 2,
       "trend": 0.0,
-      "rank": 107
+      "rank": 106
     },
     {
-      "team": "App State",
-      "conference": "Sun Belt",
-      "logo": "https://cdn.collegefootballdata.com/logos/500/2026.png",
-      "rating": 55.0,
-      "offense_rating": 23.7,
-      "defense_rating": 29.3,
-      "special_teams_rating": 0.3,
-      "sos_rank": 135,
-      "sor_rank": 39,
-      "projected_wins": 7.8,
-      "wins": 5,
-      "losses": 2,
-      "conf_wins": 2,
-      "conf_losses": 1,
-      "trend": 2.9,
-      "rank": 108
+      "team": "Florida International",
+      "conference": "Conference USA",
+      "logo": "https://cdn.collegefootballdata.com/logos/500/2229.png",
+      "rating": 55.3,
+      "offense_rating": 17.5,
+      "defense_rating": 23.7,
+      "special_teams_rating": 0.0,
+      "sos_rank": 189,
+      "sor_rank": 211,
+      "projected_wins": 5.7,
+      "wins": 3,
+      "losses": 4,
+      "conf_wins": 1,
+      "conf_losses": 2,
+      "trend": -1.5,
+      "rank": 107
     },
     {
       "team": "UAB",
@@ -1967,6 +1949,24 @@
       "conf_wins": 2,
       "conf_losses": 1,
       "trend": 0.0,
+      "rank": 108
+    },
+    {
+      "team": "App State",
+      "conference": "Sun Belt",
+      "logo": "https://cdn.collegefootballdata.com/logos/500/2026.png",
+      "rating": 55.0,
+      "offense_rating": 23.7,
+      "defense_rating": 29.3,
+      "special_teams_rating": 0.3,
+      "sos_rank": 135,
+      "sor_rank": 39,
+      "projected_wins": 7.8,
+      "wins": 5,
+      "losses": 2,
+      "conf_wins": 2,
+      "conf_losses": 1,
+      "trend": 2.9,
       "rank": 109
     },
     {
