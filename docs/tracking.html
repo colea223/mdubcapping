@@ -30,6 +30,11 @@
   </div>
 
   <div class="card" style="margin-bottom:20px;">
+    <div class="section-title">Closing Line Value <span class="beta-tag" style="border-style:solid;">Dub Gamma Picks</span></div>
+    <div id="clv-container"></div>
+  </div>
+
+  <div class="card" style="margin-bottom:20px;">
     <div class="section-title">Dub Beta Model <span class="beta-tag">Candidate, Spread Only</span></div>
     <div id="beta-container"></div>
   </div>
@@ -274,6 +279,30 @@ function renderPending(pending) {
     </table>`;
 }
 
+function renderCLV(clv) {
+  const el = document.getElementById("clv-container");
+  if (!clv || !clv.bases) { el.innerHTML = emptyState("No closing line value data yet -- it fills in after the next pipeline run."); return; }
+  const names = {logged: "Line when logged (live)", open: "Opening line"};
+  const fmt = (v) => (v === null || v === undefined) ? "&ndash;" : (v > 0 ? "+" : "") + v.toFixed(2);
+  const rows = ["logged", "open"].filter(k => clv.bases[k]).map(k => {
+    const a = clv.bases[k].all || {}, e = clv.bases[k].real_edge || {};
+    return `<tr>
+      <td>${names[k]}</td>
+      <td class="num">${a.games || 0}</td>
+      <td class="num ${a.mean_clv > 0 ? "good" : (a.mean_clv < 0 ? "critical" : "")}">${fmt(a.mean_clv)}</td>
+      <td class="num">${pct(a.pct_positive)}</td>
+      <td class="num">${e.games || 0}</td>
+      <td class="num ${e.mean_clv > 0 ? "good" : (e.mean_clv < 0 ? "critical" : "")}">${fmt(e.mean_clv)}</td>
+    </tr>`;
+  }).join("");
+  el.innerHTML = `
+    <table class="rankings">
+      <thead><tr><th>Entry line</th><th class="num">Picks</th><th class="num">Avg CLV (pts)</th><th class="num">Beat close</th><th class="num">Real-edge picks</th><th class="num">Real-edge CLV</th></tr></thead>
+      <tbody>${rows}</tbody>
+    </table>
+    <div class="footer-note" style="margin-top:8px;">CLV = how many points better the number was than where the market closed (positive = beat the close). "Line when logged" starts counting from the first pipeline run with this feature; "Opening line" covers every graded game this season. Updated ${clv.generated || ""}.</div>`;
+}
+
 (async function () {
   const data = await fetchJSON("data/tracking.json");
   if (!data || !data.tracking) {
@@ -289,6 +318,7 @@ function renderPending(pending) {
   renderModel(data.tracking.model);
   renderBeta(data.tracking.beta_model);
   renderRidge(data.tracking.ridge_model);
+  renderCLV(await fetchJSON("data/clv.json"));
   document.getElementById("updated").textContent = lastUpdatedLabel(data.meta && data.meta.generated_at);
 })();
 </script>

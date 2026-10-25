@@ -123,9 +123,34 @@ def true_game_performance_level(net_score, opponent_old_rating, own_injury_weigh
     return net_score + opponent_old_rating + (own_injury_weight - opp_injury_weight)
 
 
-def update_rating(old_rating, net_score, opponent_old_rating, own_injury_weight=0.0, opp_injury_weight=0.0):
-    tgpl = true_game_performance_level(net_score, opponent_old_rating, own_injury_weight, opp_injury_weight)
-    return CARRY_FORWARD * old_rating + PERFORMANCE_WEIGHT * tgpl
+# PRESEASON-FADE / BLOWOUT SETTINGS. The defaults below reproduce the ORIGINAL behavior exactly
+# (a flat 0.10 update weight, no margin cap) -- src/diagnose_gamma_fade.py tests alternatives.
+#   EARLY_PERFORMANCE_WEIGHT: update weight used for games in weeks <= EARLY_WEEKS (None = off).
+#     A higher early weight washes the Moore preseason seed out faster; later weeks use PERFORMANCE_WEIGHT.
+#   NET_SCORE_CAP: cap on |net_score| (points) in the update, so a 45-point blowout counts like a 28-point one (None = off).
+EARLY_PERFORMANCE_WEIGHT = None
+EARLY_WEEKS = 0
+# Set to 28 after src/diagnose_gamma_fade.py (2026, weeks 2-8): the cap trimmed margin error slightly in both early and
+# later weeks. A faster preseason fade did NOT help (it made early-week error worse), so the weight stays at 0.10.
+NET_SCORE_CAP = 28
+
+
+def performance_weight_for_week(week=None):
+    if EARLY_PERFORMANCE_WEIGHT is not None and week is not None and week <= EARLY_WEEKS:
+        return EARLY_PERFORMANCE_WEIGHT
+    return PERFORMANCE_WEIGHT
+
+
+def _capped_net(net_score):
+    if NET_SCORE_CAP is None:
+        return net_score
+    return max(-NET_SCORE_CAP, min(NET_SCORE_CAP, net_score))
+
+
+def update_rating(old_rating, net_score, opponent_old_rating, own_injury_weight=0.0, opp_injury_weight=0.0, week=None):
+    tgpl = true_game_performance_level(_capped_net(net_score), opponent_old_rating, own_injury_weight, opp_injury_weight)
+    w = performance_weight_for_week(week)
+    return (1.0 - w) * old_rating + w * tgpl
 
 
 class GammaRatings(dict):
@@ -517,8 +542,8 @@ def _replay_ratings_once(con, season, entering_week, through_week, unrated_fn):
         net_away = -net_home
         home_inj = injury_weights.get((home_team, week), 0.0)
         away_inj = injury_weights.get((away_team, week), 0.0)
-        ratings[home_team] = update_rating(old_home, net_home, old_away, home_inj, away_inj)
-        ratings[away_team] = update_rating(old_away, net_away, old_home, away_inj, home_inj)
+        ratings[home_team] = update_rating(old_home, net_home, old_away, home_inj, away_inj, week=week)
+        ratings[away_team] = update_rating(old_away, net_away, old_home, away_inj, home_inj, week=week)
 
     return ratings, sorted(warned)
 

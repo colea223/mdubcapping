@@ -45,6 +45,7 @@ import power_rating
 import features
 import predict_week
 import export_site_data
+import clv
 import generate_pages
 
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent / "excel"))
@@ -70,6 +71,9 @@ STEPS = [
     ("Pre-game features", features.main),
     ("Predict next upcoming week", predict_week.main),
     ("Update Excel tracker", update_tracker.main),
+    # Closing line value: logs this run's Gamma picks, scores CLV vs the close, fills blank Bet Log closing lines,
+    # and refreshes the Excel "CLV" tab + docs/data/clv.json. Best-effort -- never stops the pipeline.
+    ("Closing line value (CLV)", clv.main),
     ("Update website data (docs/data/*.json)", export_site_data.main),
     # Regenerates every per-conference static page (Ratings/Matchups/
     # Predictions/Live Lines) from the templates in generate_pages.py --

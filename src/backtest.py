@@ -124,6 +124,7 @@ from odds import no_vig_prob, payout_profit
 from teams import MW_TEAMS_2026
 
 EDGE_THRESHOLD = 2.0        # points -- matches the Excel tracker's Settings default (spread AND total)
+LARGE_EDGE_WARNING = 4.0    # points -- Gamma's picks with a gap this big vs the market have graded ~50% ATS (it likely lacks info the market has)
 FAVORITE_DEFAULT_EDGE = 1.0 # points -- inside this |market - model| gap the tracked pick defaults to the market favorite
 ML_EDGE_THRESHOLD = 0.05    # model win prob vs. no-vig market prob, in probability points
 MIN_TRAIN_GAMES = 100    # roughly two synthetic/actual seasons before grading starts

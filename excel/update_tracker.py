@@ -156,6 +156,7 @@ RANK_GAP_FILL = PatternFill("solid", fgColor="FFEB9C")  # light amber -- flags a
 # than a second copy of that number, so "what counts as an edge" never
 # drifts between this tab and the site/backtest's own grading.
 NATIONAL_SLATE_SHEET = "National Slate"
+CAUTION_FILL = PatternFill("solid", fgColor="FFE699")   # amber: edge so large vs the market it deserves caution (backtest.LARGE_EDGE_WARNING)
 EDGE_FILL = COVER_FILL          # same light green -- "real edge" reuses the same visual language as "covered"
 CORRECT_FILL = COVER_FILL       # Model Result: Win -- reuses the same green rather than inventing a third color
 INCORRECT_FILL = NO_COVER_FILL  # Model Result: Loss
@@ -1074,7 +1075,9 @@ def _write_slate_table(ws, rows, start_row=1, freeze=True, autofilter=True):
             ws.cell(row=i, column=c, value=val).font = FORMULA_FONT
 
         edge_cell = ws.cell(row=i, column=9)
-        if r["spread_edge"] is not None and abs(r["spread_edge"]) >= backtest.EDGE_THRESHOLD:
+        if r["spread_edge"] is not None and abs(r["spread_edge"]) >= backtest.LARGE_EDGE_WARNING:
+            edge_cell.fill = CAUTION_FILL
+        elif r["spread_edge"] is not None and abs(r["spread_edge"]) >= backtest.EDGE_THRESHOLD:
             edge_cell.fill = EDGE_FILL
         total_edge_cell = ws.cell(row=i, column=14)
         if r["total_edge"] is not None and abs(r["total_edge"]) >= backtest.EDGE_THRESHOLD:
