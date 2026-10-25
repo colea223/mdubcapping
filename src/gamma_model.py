@@ -95,8 +95,9 @@ PERFORMANCE_WEIGHT = 0.1
 #   INJURY: points per unit of injury-burden difference (the same burden the rating update already uses:
 #     status multiplier x the player's per-game PPA). The total injury adjustment is capped at +/-INJURY_ADJ_CAP.
 TRAVEL_PTS_PER_1000KM = 0.5
-INJURY_PTS_PER_UNIT = 0.5
+INJURY_PTS_PER_UNIT = 1.0
 INJURY_ADJ_CAP = 7.0
+INJURY_WEIGHT_CAP = 10.0   # max injury burden counted for one team in one week (rating update and spread adjustment)
 
 # A team with ZERO completed games tracked in `games` this season at all --
 # NOT the same case DEFAULT_SEED_RATING handles (a real FBS team that's
@@ -442,10 +443,15 @@ def load_injury_weights_by_week(con, season):
         if player_value is None or player_value <= 0:
             continue  # unmatched, or a replacement-level/negative season -- contributes nothing either way
         mult, _ = status_weight(status or "")
-        games_so_far = max(games_played_before(team, week), 1)
-        per_game_value = player_value / games_so_far
+        # FIX (Oct 2026): player_season_ppa is a cumulative "latest wins" total covering EVERY game the team has
+        # played so far, so the per-game rate must divide by that same count -- NOT by the games played before
+        # `week`. The old divisor was ~0-1 for weeks 1-2, which turned a full-season total into a one-game value
+        # (South Carolina QB: ~75 in weeks 1-2 vs ~10 per game) and inflated ratings -- e.g. SC ranked top 5 at 4-3.
+        games_total = max(len(game_weeks_by_team.get(normalize_team_name(team), ())), 1)
+        per_game_value = player_value / games_total
         weights[(team, week)] = weights.get((team, week), 0.0) + mult * per_game_value
-    return weights
+    # Safety cap per team-week so a single data glitch can never swing a rating or a line by dozens of points.
+    return {k: min(v, INJURY_WEIGHT_CAP) for k, v in weights.items()}
 
 
 MIN_CALIBRATION_OVERLAP = 20  # below this many teams with both a Gamma and Elo rating, don't trust a fit
