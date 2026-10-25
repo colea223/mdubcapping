@@ -1,6 +1,6 @@
 {
   "meta": {
-    "generated_at": "2026-10-25T15:05:23Z",
+    "generated_at": "2026-10-25T16:03:42Z",
     "current_week": {
       "season": 2026,
       "week": 9
@@ -45,6 +45,47 @@
         "spread_was_bet": true,
         "spread_result": "Loss",
         "agrees_with_model": true
+      },
+      "your_bets": []
+    },
+    {
+      "game_id": 401864528,
+      "season": 2026,
+      "week": 8,
+      "date": "2026-10-24",
+      "away_team": "San Jos\u00e9 State",
+      "home_team": "Nevada",
+      "home_points": 28,
+      "away_points": 13,
+      "model": {
+        "spread_pick": -7.9,
+        "market_spread_close": -5.8,
+        "spread_lean": "Home",
+        "spread_was_bet": true,
+        "spread_result": "Win",
+        "spread_is_seed_week": false,
+        "total_pick": 46.8,
+        "market_total_close": 46.2,
+        "total_lean": "Over",
+        "total_was_bet": false,
+        "total_result": "Loss",
+        "ml_lean": "Home",
+        "ml_was_bet": false,
+        "ml_result": null
+      },
+      "beta_model": {
+        "spread_pick": -4.3,
+        "spread_lean": "Away",
+        "spread_was_bet": false,
+        "spread_result": "Loss",
+        "agrees_with_model": false
+      },
+      "ridge_model": {
+        "spread_pick": -3.3,
+        "spread_lean": "Away",
+        "spread_was_bet": true,
+        "spread_result": "Loss",
+        "agrees_with_model": false
       },
       "your_bets": []
     },
@@ -101,47 +142,6 @@
           "units": -1.0
         }
       ]
-    },
-    {
-      "game_id": 401864528,
-      "season": 2026,
-      "week": 8,
-      "date": "2026-10-24",
-      "away_team": "San Jos\u00e9 State",
-      "home_team": "Nevada",
-      "home_points": 28,
-      "away_points": 13,
-      "model": {
-        "spread_pick": -7.9,
-        "market_spread_close": -5.8,
-        "spread_lean": "Home",
-        "spread_was_bet": true,
-        "spread_result": "Win",
-        "spread_is_seed_week": false,
-        "total_pick": 46.8,
-        "market_total_close": 46.2,
-        "total_lean": "Over",
-        "total_was_bet": false,
-        "total_result": "Loss",
-        "ml_lean": "Home",
-        "ml_was_bet": false,
-        "ml_result": null
-      },
-      "beta_model": {
-        "spread_pick": -4.3,
-        "spread_lean": "Away",
-        "spread_was_bet": false,
-        "spread_result": "Loss",
-        "agrees_with_model": false
-      },
-      "ridge_model": {
-        "spread_pick": -3.3,
-        "spread_lean": "Away",
-        "spread_was_bet": true,
-        "spread_result": "Loss",
-        "agrees_with_model": false
-      },
-      "your_bets": []
     },
     {
       "game_id": 401864526,
@@ -267,47 +267,6 @@
       "your_bets": []
     },
     {
-      "game_id": 401864522,
-      "season": 2026,
-      "week": 7,
-      "date": "2026-10-17",
-      "away_team": "Northern Illinois",
-      "home_team": "Wyoming",
-      "home_points": 41,
-      "away_points": 23,
-      "model": {
-        "spread_pick": -12.0,
-        "market_spread_close": -7.5,
-        "spread_lean": "Home",
-        "spread_was_bet": true,
-        "spread_result": "Win",
-        "spread_is_seed_week": false,
-        "total_pick": 40.3,
-        "market_total_close": 42.2,
-        "total_lean": "Under",
-        "total_was_bet": false,
-        "total_result": "Loss",
-        "ml_lean": "Home",
-        "ml_was_bet": true,
-        "ml_result": "Win"
-      },
-      "beta_model": {
-        "spread_pick": -6.3,
-        "spread_lean": "Away",
-        "spread_was_bet": false,
-        "spread_result": "Loss",
-        "agrees_with_model": false
-      },
-      "ridge_model": {
-        "spread_pick": -7.8,
-        "spread_lean": "Home",
-        "spread_was_bet": false,
-        "spread_result": "Win",
-        "agrees_with_model": true
-      },
-      "your_bets": []
-    },
-    {
       "game_id": 401864520,
       "season": 2026,
       "week": 7,
@@ -360,6 +319,47 @@
           "units": -1.0
         }
       ]
+    },
+    {
+      "game_id": 401864522,
+      "season": 2026,
+      "week": 7,
+      "date": "2026-10-17",
+      "away_team": "Northern Illinois",
+      "home_team": "Wyoming",
+      "home_points": 41,
+      "away_points": 23,
+      "model": {
+        "spread_pick": -12.0,
+        "market_spread_close": -7.5,
+        "spread_lean": "Home",
+        "spread_was_bet": true,
+        "spread_result": "Win",
+        "spread_is_seed_week": false,
+        "total_pick": 40.3,
+        "market_total_close": 42.2,
+        "total_lean": "Under",
+        "total_was_bet": false,
+        "total_result": "Loss",
+        "ml_lean": "Home",
+        "ml_was_bet": true,
+        "ml_result": "Win"
+      },
+      "beta_model": {
+        "spread_pick": -6.3,
+        "spread_lean": "Away",
+        "spread_was_bet": false,
+        "spread_result": "Loss",
+        "agrees_with_model": false
+      },
+      "ridge_model": {
+        "spread_pick": -7.8,
+        "spread_lean": "Home",
+        "spread_was_bet": false,
+        "spread_result": "Win",
+        "agrees_with_model": true
+      },
+      "your_bets": []
     },
     {
       "game_id": 401864524,
@@ -440,101 +440,6 @@
         "spread_was_bet": true,
         "spread_result": "Win",
         "agrees_with_model": true
-      },
-      "your_bets": []
-    },
-    {
-      "game_id": 401864518,
-      "season": 2026,
-      "week": 6,
-      "date": "2026-10-10",
-      "away_team": "North Dakota State",
-      "home_team": "UNLV",
-      "home_points": 13,
-      "away_points": 7,
-      "model": {
-        "spread_pick": 11.3,
-        "market_spread_close": 2.8,
-        "spread_lean": "Away",
-        "spread_was_bet": true,
-        "spread_result": "Loss",
-        "spread_is_seed_week": false,
-        "total_pick": 43.9,
-        "market_total_close": 47.5,
-        "total_lean": "Under",
-        "total_was_bet": true,
-        "total_result": "Win",
-        "ml_lean": "Away",
-        "ml_was_bet": true,
-        "ml_result": "Loss"
-      },
-      "beta_model": {
-        "spread_pick": 6.0,
-        "spread_lean": "Away",
-        "spread_was_bet": true,
-        "spread_result": "Loss",
-        "agrees_with_model": true
-      },
-      "ridge_model": {
-        "spread_pick": 8.1,
-        "spread_lean": "Away",
-        "spread_was_bet": true,
-        "spread_result": "Loss",
-        "agrees_with_model": true
-      },
-      "your_bets": [
-        {
-          "date": "2026-10-10",
-          "week": 6,
-          "matchup": "North Dakota State @ UNLV",
-          "bet_type": "Spread",
-          "side": "North Dakota State",
-          "line": -3.5,
-          "odds": -102.0,
-          "stake": 1.0,
-          "result": "L",
-          "units": -1.0
-        }
-      ]
-    },
-    {
-      "game_id": 401864517,
-      "season": 2026,
-      "week": 6,
-      "date": "2026-10-10",
-      "away_team": "Nevada",
-      "home_team": "UTEP",
-      "home_points": 13,
-      "away_points": 30,
-      "model": {
-        "spread_pick": 9.4,
-        "market_spread_close": 10.0,
-        "spread_lean": "Away",
-        "spread_was_bet": false,
-        "spread_result": "Win",
-        "spread_is_seed_week": false,
-        "total_pick": 45.0,
-        "market_total_close": 48.5,
-        "total_lean": "Under",
-        "total_was_bet": true,
-        "total_result": "Win",
-        "ml_lean": "Home",
-        "ml_was_bet": false,
-        "ml_result": null
-      },
-      "beta_model": {
-        "spread_pick": 6.3,
-        "spread_lean": "Home",
-        "spread_was_bet": true,
-        "spread_result": "Loss",
-        "agrees_with_model": false
-      },
-      "ridge_model": {
-        "spread_pick": 4.9,
-        "spread_lean": "Home",
-        "spread_was_bet": true,
-        "spread_result": "Loss",
-        "agrees_with_model": false
       },
       "your_bets": []
     },
@@ -634,6 +539,101 @@
       "your_bets": []
     },
     {
+      "game_id": 401864518,
+      "season": 2026,
+      "week": 6,
+      "date": "2026-10-10",
+      "away_team": "North Dakota State",
+      "home_team": "UNLV",
+      "home_points": 13,
+      "away_points": 7,
+      "model": {
+        "spread_pick": 11.3,
+        "market_spread_close": 2.8,
+        "spread_lean": "Away",
+        "spread_was_bet": true,
+        "spread_result": "Loss",
+        "spread_is_seed_week": false,
+        "total_pick": 43.9,
+        "market_total_close": 47.5,
+        "total_lean": "Under",
+        "total_was_bet": true,
+        "total_result": "Win",
+        "ml_lean": "Away",
+        "ml_was_bet": true,
+        "ml_result": "Loss"
+      },
+      "beta_model": {
+        "spread_pick": 6.0,
+        "spread_lean": "Away",
+        "spread_was_bet": true,
+        "spread_result": "Loss",
+        "agrees_with_model": true
+      },
+      "ridge_model": {
+        "spread_pick": 8.1,
+        "spread_lean": "Away",
+        "spread_was_bet": true,
+        "spread_result": "Loss",
+        "agrees_with_model": true
+      },
+      "your_bets": [
+        {
+          "date": "2026-10-10",
+          "week": 6,
+          "matchup": "North Dakota State @ UNLV",
+          "bet_type": "Spread",
+          "side": "North Dakota State",
+          "line": -3.5,
+          "odds": -102.0,
+          "stake": 1.0,
+          "result": "L",
+          "units": -1.0
+        }
+      ]
+    },
+    {
+      "game_id": 401864517,
+      "season": 2026,
+      "week": 6,
+      "date": "2026-10-10",
+      "away_team": "Nevada",
+      "home_team": "UTEP",
+      "home_points": 13,
+      "away_points": 30,
+      "model": {
+        "spread_pick": 9.4,
+        "market_spread_close": 10.0,
+        "spread_lean": "Away",
+        "spread_was_bet": false,
+        "spread_result": "Win",
+        "spread_is_seed_week": false,
+        "total_pick": 45.0,
+        "market_total_close": 48.5,
+        "total_lean": "Under",
+        "total_was_bet": true,
+        "total_result": "Win",
+        "ml_lean": "Home",
+        "ml_was_bet": false,
+        "ml_result": null
+      },
+      "beta_model": {
+        "spread_pick": 6.3,
+        "spread_lean": "Home",
+        "spread_was_bet": true,
+        "spread_result": "Loss",
+        "agrees_with_model": false
+      },
+      "ridge_model": {
+        "spread_pick": 4.9,
+        "spread_lean": "Home",
+        "spread_was_bet": true,
+        "spread_result": "Loss",
+        "agrees_with_model": false
+      },
+      "your_bets": []
+    },
+    {
       "game_id": 401864513,
       "season": 2026,
       "week": 5,
@@ -675,23 +675,23 @@
       "your_bets": []
     },
     {
-      "game_id": 401858247,
+      "game_id": 401864514,
       "season": 2026,
       "week": 5,
       "date": "2026-10-03",
-      "away_team": "California",
-      "home_team": "UNLV",
-      "home_points": 39,
-      "away_points": 31,
+      "away_team": "UTEP",
+      "home_team": "New Mexico",
+      "home_points": 61,
+      "away_points": 7,
       "model": {
-        "spread_pick": -3.6,
-        "market_spread_close": -1.8,
+        "spread_pick": -30.3,
+        "market_spread_close": -23.2,
         "spread_lean": "Home",
-        "spread_was_bet": false,
+        "spread_was_bet": true,
         "spread_result": "Win",
         "spread_is_seed_week": false,
-        "total_pick": 45.6,
-        "market_total_close": 52.2,
+        "total_pick": 43.7,
+        "market_total_close": 47.8,
         "total_lean": "Under",
         "total_was_bet": true,
         "total_result": "Loss",
@@ -700,20 +700,33 @@
         "ml_result": "Win"
       },
       "beta_model": {
-        "spread_pick": -6.7,
-        "spread_lean": "Home",
-        "spread_was_bet": true,
-        "spread_result": "Win",
-        "agrees_with_model": true
+        "spread_pick": -21.3,
+        "spread_lean": "Away",
+        "spread_was_bet": false,
+        "spread_result": "Loss",
+        "agrees_with_model": false
       },
       "ridge_model": {
-        "spread_pick": -15.4,
+        "spread_pick": -22.3,
         "spread_lean": "Home",
-        "spread_was_bet": true,
+        "spread_was_bet": false,
         "spread_result": "Win",
         "agrees_with_model": true
       },
-      "your_bets": []
+      "your_bets": [
+        {
+          "date": "2026-10-03",
+          "week": 5,
+          "matchup": "UTEP @ New Mexico",
+          "bet_type": "Spread",
+          "side": "New Mexico",
+          "line": -22.5,
+          "odds": -110.0,
+          "stake": 1.0,
+          "result": "W",
+          "units": 0.91
+        }
+      ]
     },
     {
       "game_id": 401862791,
@@ -782,6 +795,47 @@
       ]
     },
     {
+      "game_id": 401858247,
+      "season": 2026,
+      "week": 5,
+      "date": "2026-10-03",
+      "away_team": "California",
+      "home_team": "UNLV",
+      "home_points": 39,
+      "away_points": 31,
+      "model": {
+        "spread_pick": -3.6,
+        "market_spread_close": -1.8,
+        "spread_lean": "Home",
+        "spread_was_bet": false,
+        "spread_result": "Win",
+        "spread_is_seed_week": false,
+        "total_pick": 45.6,
+        "market_total_close": 52.2,
+        "total_lean": "Under",
+        "total_was_bet": true,
+        "total_result": "Loss",
+        "ml_lean": "Home",
+        "ml_was_bet": true,
+        "ml_result": "Win"
+      },
+      "beta_model": {
+        "spread_pick": -6.7,
+        "spread_lean": "Home",
+        "spread_was_bet": true,
+        "spread_result": "Win",
+        "agrees_with_model": true
+      },
+      "ridge_model": {
+        "spread_pick": -15.4,
+        "spread_lean": "Home",
+        "spread_was_bet": true,
+        "spread_result": "Win",
+        "agrees_with_model": true
+      },
+      "your_bets": []
+    },
+    {
       "game_id": 401864515,
       "season": 2026,
       "week": 5,
@@ -836,58 +890,45 @@
       ]
     },
     {
-      "game_id": 401864514,
+      "game_id": 401864509,
       "season": 2026,
-      "week": 5,
-      "date": "2026-10-03",
-      "away_team": "UTEP",
-      "home_team": "New Mexico",
-      "home_points": 61,
-      "away_points": 7,
+      "week": 4,
+      "date": "2026-09-27",
+      "away_team": "Air Force",
+      "home_team": "Nevada",
+      "home_points": 33,
+      "away_points": 36,
       "model": {
-        "spread_pick": -30.3,
-        "market_spread_close": -23.2,
+        "spread_pick": 4.0,
+        "market_spread_close": 5.2,
         "spread_lean": "Home",
-        "spread_was_bet": true,
+        "spread_was_bet": false,
         "spread_result": "Win",
         "spread_is_seed_week": false,
-        "total_pick": 43.7,
-        "market_total_close": 47.8,
+        "total_pick": 46.6,
+        "market_total_close": 50.5,
         "total_lean": "Under",
         "total_was_bet": true,
         "total_result": "Loss",
         "ml_lean": "Home",
-        "ml_was_bet": true,
-        "ml_result": "Win"
+        "ml_was_bet": false,
+        "ml_result": null
       },
       "beta_model": {
-        "spread_pick": -21.3,
-        "spread_lean": "Away",
-        "spread_was_bet": false,
-        "spread_result": "Loss",
-        "agrees_with_model": false
+        "spread_pick": -0.1,
+        "spread_lean": "Home",
+        "spread_was_bet": true,
+        "spread_result": "Win",
+        "agrees_with_model": true
       },
       "ridge_model": {
-        "spread_pick": -22.3,
+        "spread_pick": 3.3,
         "spread_lean": "Home",
         "spread_was_bet": false,
         "spread_result": "Win",
         "agrees_with_model": true
       },
-      "your_bets": [
-        {
-          "date": "2026-10-03",
-          "week": 5,
-          "matchup": "UTEP @ New Mexico",
-          "bet_type": "Spread",
-          "side": "New Mexico",
-          "line": -22.5,
-          "odds": -110.0,
-          "stake": 1.0,
-          "result": "W",
-          "units": 0.91
-        }
-      ]
+      "your_bets": []
     },
     {
       "game_id": 401860895,
@@ -931,41 +972,41 @@
       "your_bets": []
     },
     {
-      "game_id": 401864509,
+      "game_id": 401864511,
       "season": 2026,
       "week": 4,
-      "date": "2026-09-27",
-      "away_team": "Air Force",
-      "home_team": "Nevada",
-      "home_points": 33,
-      "away_points": 36,
+      "date": "2026-09-26",
+      "away_team": "Northern Illinois",
+      "home_team": "Georgia State",
+      "home_points": 35,
+      "away_points": 14,
       "model": {
-        "spread_pick": 4.0,
-        "market_spread_close": 5.2,
+        "spread_pick": -8.7,
+        "market_spread_close": -8.8,
         "spread_lean": "Home",
         "spread_was_bet": false,
         "spread_result": "Win",
         "spread_is_seed_week": false,
-        "total_pick": 46.6,
-        "market_total_close": 50.5,
+        "total_pick": 46.1,
+        "market_total_close": 56.5,
         "total_lean": "Under",
         "total_was_bet": true,
-        "total_result": "Loss",
-        "ml_lean": "Home",
+        "total_result": "Win",
+        "ml_lean": "Away",
         "ml_was_bet": false,
         "ml_result": null
       },
       "beta_model": {
-        "spread_pick": -0.1,
-        "spread_lean": "Home",
+        "spread_pick": -3.0,
+        "spread_lean": "Away",
         "spread_was_bet": true,
-        "spread_result": "Win",
-        "agrees_with_model": true
+        "spread_result": "Loss",
+        "agrees_with_model": false
       },
       "ridge_model": {
-        "spread_pick": 3.3,
+        "spread_pick": -11.6,
         "spread_lean": "Home",
-        "spread_was_bet": false,
+        "spread_was_bet": true,
         "spread_result": "Win",
         "agrees_with_model": true
       },
@@ -1121,47 +1162,6 @@
       "your_bets": []
     },
     {
-      "game_id": 401864511,
-      "season": 2026,
-      "week": 4,
-      "date": "2026-09-26",
-      "away_team": "Northern Illinois",
-      "home_team": "Georgia State",
-      "home_points": 35,
-      "away_points": 14,
-      "model": {
-        "spread_pick": -8.7,
-        "market_spread_close": -8.8,
-        "spread_lean": "Home",
-        "spread_was_bet": false,
-        "spread_result": "Win",
-        "spread_is_seed_week": false,
-        "total_pick": 46.1,
-        "market_total_close": 56.5,
-        "total_lean": "Under",
-        "total_was_bet": true,
-        "total_result": "Win",
-        "ml_lean": "Away",
-        "ml_was_bet": false,
-        "ml_result": null
-      },
-      "beta_model": {
-        "spread_pick": -3.0,
-        "spread_lean": "Away",
-        "spread_was_bet": true,
-        "spread_result": "Loss",
-        "agrees_with_model": false
-      },
-      "ridge_model": {
-        "spread_pick": -11.6,
-        "spread_lean": "Home",
-        "spread_was_bet": true,
-        "spread_result": "Win",
-        "agrees_with_model": true
-      },
-      "your_bets": []
-    },
-    {
       "game_id": 401856793,
       "season": 2026,
       "week": 3,
@@ -1279,6 +1279,47 @@
         "spread_pick": 3.1,
         "spread_lean": "Away",
         "spread_was_bet": false,
+        "spread_result": "Win",
+        "agrees_with_model": true
+      },
+      "your_bets": []
+    },
+    {
+      "game_id": 401856690,
+      "season": 2026,
+      "week": 3,
+      "date": "2026-09-19",
+      "away_team": "New Mexico",
+      "home_team": "Oklahoma",
+      "home_points": 14,
+      "away_points": 6,
+      "model": {
+        "spread_pick": -9.7,
+        "market_spread_close": -21.2,
+        "spread_lean": "Away",
+        "spread_was_bet": true,
+        "spread_result": "Win",
+        "spread_is_seed_week": false,
+        "total_pick": 37.0,
+        "market_total_close": 45.5,
+        "total_lean": "Under",
+        "total_was_bet": true,
+        "total_result": "Win",
+        "ml_lean": "Away",
+        "ml_was_bet": true,
+        "ml_result": "Loss"
+      },
+      "beta_model": {
+        "spread_pick": -14.7,
+        "spread_lean": "Away",
+        "spread_was_bet": true,
+        "spread_result": "Win",
+        "agrees_with_model": true
+      },
+      "ridge_model": {
+        "spread_pick": -14.1,
+        "spread_lean": "Away",
+        "spread_was_bet": true,
         "spread_result": "Win",
         "agrees_with_model": true
       },
@@ -1445,42 +1486,83 @@
       "your_bets": []
     },
     {
-      "game_id": 401856690,
+      "game_id": 401864578,
       "season": 2026,
-      "week": 3,
-      "date": "2026-09-19",
-      "away_team": "New Mexico",
-      "home_team": "Oklahoma",
-      "home_points": 14,
-      "away_points": 6,
+      "week": 2,
+      "date": "2026-09-13",
+      "away_team": "New Mexico State",
+      "home_team": "Hawai'i",
+      "home_points": 29,
+      "away_points": 19,
       "model": {
-        "spread_pick": -9.7,
-        "market_spread_close": -21.2,
+        "spread_pick": -5.3,
+        "market_spread_close": -7.5,
         "spread_lean": "Away",
         "spread_was_bet": true,
-        "spread_result": "Win",
+        "spread_result": "Loss",
         "spread_is_seed_week": false,
-        "total_pick": 37.0,
-        "market_total_close": 45.5,
-        "total_lean": "Under",
+        "total_pick": 55.2,
+        "market_total_close": 50.2,
+        "total_lean": "Over",
         "total_was_bet": true,
+        "total_result": "Loss",
+        "ml_lean": "Away",
+        "ml_was_bet": true,
+        "ml_result": "Loss"
+      },
+      "beta_model": {
+        "spread_pick": -12.5,
+        "spread_lean": "Home",
+        "spread_was_bet": true,
+        "spread_result": "Win",
+        "agrees_with_model": false
+      },
+      "ridge_model": {
+        "spread_pick": -14.1,
+        "spread_lean": "Home",
+        "spread_was_bet": true,
+        "spread_result": "Win",
+        "agrees_with_model": false
+      },
+      "your_bets": []
+    },
+    {
+      "game_id": 401864505,
+      "season": 2026,
+      "week": 2,
+      "date": "2026-09-13",
+      "away_team": "Texas Southern",
+      "home_team": "UTEP",
+      "home_points": 51,
+      "away_points": 10,
+      "model": {
+        "spread_pick": -18.5,
+        "market_spread_close": -27.2,
+        "spread_lean": "Away",
+        "spread_was_bet": true,
+        "spread_result": "Loss",
+        "spread_is_seed_week": false,
+        "total_pick": 55.2,
+        "market_total_close": 53.5,
+        "total_lean": "Over",
+        "total_was_bet": false,
         "total_result": "Win",
         "ml_lean": "Away",
         "ml_was_bet": true,
         "ml_result": "Loss"
       },
       "beta_model": {
-        "spread_pick": -14.7,
+        "spread_pick": -20.5,
         "spread_lean": "Away",
         "spread_was_bet": true,
-        "spread_result": "Win",
+        "spread_result": "Loss",
         "agrees_with_model": true
       },
       "ridge_model": {
-        "spread_pick": -14.1,
+        "spread_pick": -14.6,
         "spread_lean": "Away",
         "spread_was_bet": true,
-        "spread_result": "Win",
+        "spread_result": "Loss",
         "agrees_with_model": true
       },
       "your_bets": []
@@ -1609,86 +1691,58 @@
       "your_bets": []
     },
     {
-      "game_id": 401864578,
+      "game_id": 401862705,
       "season": 2026,
       "week": 2,
-      "date": "2026-09-13",
-      "away_team": "New Mexico State",
-      "home_team": "Hawai'i",
-      "home_points": 29,
-      "away_points": 19,
+      "date": "2026-09-12",
+      "away_team": "UNLV",
+      "home_team": "North Texas",
+      "home_points": 44,
+      "away_points": 6,
       "model": {
-        "spread_pick": -5.3,
-        "market_spread_close": -7.5,
-        "spread_lean": "Away",
+        "spread_pick": -8.2,
+        "market_spread_close": 2.8,
+        "spread_lean": "Home",
         "spread_was_bet": true,
-        "spread_result": "Loss",
+        "spread_result": "Win",
         "spread_is_seed_week": false,
-        "total_pick": 55.2,
-        "market_total_close": 50.2,
+        "total_pick": 63.2,
+        "market_total_close": 58.2,
         "total_lean": "Over",
         "total_was_bet": true,
         "total_result": "Loss",
-        "ml_lean": "Away",
+        "ml_lean": "Home",
         "ml_was_bet": true,
-        "ml_result": "Loss"
+        "ml_result": "Win"
       },
       "beta_model": {
-        "spread_pick": -12.5,
+        "spread_pick": 1.2,
         "spread_lean": "Home",
-        "spread_was_bet": true,
+        "spread_was_bet": false,
         "spread_result": "Win",
-        "agrees_with_model": false
-      },
-      "ridge_model": {
-        "spread_pick": -14.1,
-        "spread_lean": "Home",
-        "spread_was_bet": true,
-        "spread_result": "Win",
-        "agrees_with_model": false
-      },
-      "your_bets": []
-    },
-    {
-      "game_id": 401864505,
-      "season": 2026,
-      "week": 2,
-      "date": "2026-09-13",
-      "away_team": "Texas Southern",
-      "home_team": "UTEP",
-      "home_points": 51,
-      "away_points": 10,
-      "model": {
-        "spread_pick": -18.5,
-        "market_spread_close": -27.2,
-        "spread_lean": "Away",
-        "spread_was_bet": true,
-        "spread_result": "Loss",
-        "spread_is_seed_week": false,
-        "total_pick": 55.2,
-        "market_total_close": 53.5,
-        "total_lean": "Over",
-        "total_was_bet": false,
-        "total_result": "Win",
-        "ml_lean": "Away",
-        "ml_was_bet": true,
-        "ml_result": "Loss"
-      },
-      "beta_model": {
-        "spread_pick": -20.5,
-        "spread_lean": "Away",
-        "spread_was_bet": true,
-        "spread_result": "Loss",
         "agrees_with_model": true
       },
       "ridge_model": {
-        "spread_pick": -14.6,
-        "spread_lean": "Away",
+        "spread_pick": -3.6,
+        "spread_lean": "Home",
         "spread_was_bet": true,
-        "spread_result": "Loss",
+        "spread_result": "Win",
         "agrees_with_model": true
       },
-      "your_bets": []
+      "your_bets": [
+        {
+          "date": "2026-09-12",
+          "week": 2,
+          "matchup": "UNLV @ North Texas",
+          "bet_type": "Spread",
+          "side": "North Texas",
+          "line": 3.5,
+          "odds": -114.0,
+          "stake": 1.0,
+          "result": "W",
+          "units": 0.88
+        }
+      ]
     },
     {
       "game_id": 401865252,
@@ -1814,58 +1868,45 @@
       "your_bets": []
     },
     {
-      "game_id": 401862705,
+      "game_id": 401864497,
       "season": 2026,
-      "week": 2,
-      "date": "2026-09-12",
+      "week": 1,
+      "date": "2026-09-06",
       "away_team": "UNLV",
-      "home_team": "North Texas",
-      "home_points": 44,
-      "away_points": 6,
+      "home_team": "Hawai'i",
+      "home_points": 6,
+      "away_points": 21,
       "model": {
-        "spread_pick": -8.2,
+        "spread_pick": 3.3,
         "market_spread_close": 2.8,
-        "spread_lean": "Home",
-        "spread_was_bet": true,
+        "spread_lean": "Away",
+        "spread_was_bet": false,
         "spread_result": "Win",
-        "spread_is_seed_week": false,
-        "total_pick": 63.2,
-        "market_total_close": 58.2,
-        "total_lean": "Over",
-        "total_was_bet": true,
-        "total_result": "Loss",
-        "ml_lean": "Home",
-        "ml_was_bet": true,
-        "ml_result": "Win"
+        "spread_is_seed_week": true,
+        "total_pick": 54.6,
+        "market_total_close": 55.5,
+        "total_lean": "Under",
+        "total_was_bet": false,
+        "total_result": "Win",
+        "ml_lean": "Away",
+        "ml_was_bet": false,
+        "ml_result": null
       },
       "beta_model": {
-        "spread_pick": 1.2,
+        "spread_pick": -2.3,
         "spread_lean": "Home",
+        "spread_was_bet": true,
+        "spread_result": "Loss",
+        "agrees_with_model": false
+      },
+      "ridge_model": {
+        "spread_pick": 2.9,
+        "spread_lean": "Away",
         "spread_was_bet": false,
         "spread_result": "Win",
         "agrees_with_model": true
       },
-      "ridge_model": {
-        "spread_pick": -3.6,
-        "spread_lean": "Home",
-        "spread_was_bet": true,
-        "spread_result": "Win",
-        "agrees_with_model": true
-      },
-      "your_bets": [
-        {
-          "date": "2026-09-12",
-          "week": 2,
-          "matchup": "UNLV @ North Texas",
-          "bet_type": "Spread",
-          "side": "North Texas",
-          "line": 3.5,
-          "odds": -114.0,
-          "stake": 1.0,
-          "result": "W",
-          "units": 0.88
-        }
-      ]
+      "your_bets": []
     },
     {
       "game_id": 401864498,
@@ -1955,170 +1996,6 @@
       },
       "ridge_model": {
         "spread_pick": 3.3,
-        "spread_lean": "Away",
-        "spread_was_bet": true,
-        "spread_result": "Loss",
-        "agrees_with_model": false
-      },
-      "your_bets": []
-    },
-    {
-      "game_id": 401864497,
-      "season": 2026,
-      "week": 1,
-      "date": "2026-09-06",
-      "away_team": "UNLV",
-      "home_team": "Hawai'i",
-      "home_points": 6,
-      "away_points": 21,
-      "model": {
-        "spread_pick": 3.3,
-        "market_spread_close": 2.8,
-        "spread_lean": "Away",
-        "spread_was_bet": false,
-        "spread_result": "Win",
-        "spread_is_seed_week": true,
-        "total_pick": 54.6,
-        "market_total_close": 55.5,
-        "total_lean": "Under",
-        "total_was_bet": false,
-        "total_result": "Win",
-        "ml_lean": "Away",
-        "ml_was_bet": false,
-        "ml_result": null
-      },
-      "beta_model": {
-        "spread_pick": -2.3,
-        "spread_lean": "Home",
-        "spread_was_bet": true,
-        "spread_result": "Loss",
-        "agrees_with_model": false
-      },
-      "ridge_model": {
-        "spread_pick": 2.9,
-        "spread_lean": "Away",
-        "spread_was_bet": false,
-        "spread_result": "Win",
-        "agrees_with_model": true
-      },
-      "your_bets": []
-    },
-    {
-      "game_id": 401864499,
-      "season": 2026,
-      "week": 1,
-      "date": "2026-09-05",
-      "away_team": "Fordham",
-      "home_team": "North Dakota State",
-      "home_points": 38,
-      "away_points": 0,
-      "model": {
-        "spread_pick": -57.2,
-        "market_spread_close": -41.5,
-        "spread_lean": "Home",
-        "spread_was_bet": true,
-        "spread_result": "Loss",
-        "spread_is_seed_week": true,
-        "total_pick": 55.4,
-        "market_total_close": 54.2,
-        "total_lean": "Over",
-        "total_was_bet": false,
-        "total_result": "Loss",
-        "ml_lean": null,
-        "ml_was_bet": null,
-        "ml_result": null
-      },
-      "beta_model": {
-        "spread_pick": -36.1,
-        "spread_lean": "Away",
-        "spread_was_bet": true,
-        "spread_result": "Win",
-        "agrees_with_model": false
-      },
-      "ridge_model": {
-        "spread_pick": -40.9,
-        "spread_lean": "Home",
-        "spread_was_bet": false,
-        "spread_result": "Loss",
-        "agrees_with_model": true
-      },
-      "your_bets": []
-    },
-    {
-      "game_id": 401860878,
-      "season": 2026,
-      "week": 1,
-      "date": "2026-09-05",
-      "away_team": "Wyoming",
-      "home_team": "Colorado State",
-      "home_points": 35,
-      "away_points": 13,
-      "model": {
-        "spread_pick": -5.2,
-        "market_spread_close": -2.8,
-        "spread_lean": "Home",
-        "spread_was_bet": true,
-        "spread_result": "Win",
-        "spread_is_seed_week": true,
-        "total_pick": 49.3,
-        "market_total_close": 46.0,
-        "total_lean": "Over",
-        "total_was_bet": true,
-        "total_result": "Win",
-        "ml_lean": "Home",
-        "ml_was_bet": false,
-        "ml_result": null
-      },
-      "beta_model": {
-        "spread_pick": -3.1,
-        "spread_lean": "Home",
-        "spread_was_bet": false,
-        "spread_result": "Win",
-        "agrees_with_model": true
-      },
-      "ridge_model": {
-        "spread_pick": -7.8,
-        "spread_lean": "Home",
-        "spread_was_bet": true,
-        "spread_result": "Win",
-        "agrees_with_model": true
-      },
-      "your_bets": []
-    },
-    {
-      "game_id": 401858426,
-      "season": 2026,
-      "week": 1,
-      "date": "2026-09-05",
-      "away_team": "Northern Illinois",
-      "home_team": "Iowa",
-      "home_points": 40,
-      "away_points": 0,
-      "model": {
-        "spread_pick": -39.8,
-        "market_spread_close": -31.8,
-        "spread_lean": "Home",
-        "spread_was_bet": true,
-        "spread_result": "Win",
-        "spread_is_seed_week": true,
-        "total_pick": 47.8,
-        "market_total_close": 44.5,
-        "total_lean": "Over",
-        "total_was_bet": true,
-        "total_result": "Loss",
-        "ml_lean": "Home",
-        "ml_was_bet": false,
-        "ml_result": null
-      },
-      "beta_model": {
-        "spread_pick": -25.6,
-        "spread_lean": "Away",
-        "spread_was_bet": true,
-        "spread_result": "Loss",
-        "agrees_with_model": false
-      },
-      "ridge_model": {
-        "spread_pick": -28.3,
         "spread_lean": "Away",
         "spread_was_bet": true,
         "spread_result": "Loss",
@@ -2220,6 +2097,129 @@
           "units": -2.5
         }
       ]
+    },
+    {
+      "game_id": 401860878,
+      "season": 2026,
+      "week": 1,
+      "date": "2026-09-05",
+      "away_team": "Wyoming",
+      "home_team": "Colorado State",
+      "home_points": 35,
+      "away_points": 13,
+      "model": {
+        "spread_pick": -5.2,
+        "market_spread_close": -2.8,
+        "spread_lean": "Home",
+        "spread_was_bet": true,
+        "spread_result": "Win",
+        "spread_is_seed_week": true,
+        "total_pick": 49.3,
+        "market_total_close": 46.0,
+        "total_lean": "Over",
+        "total_was_bet": true,
+        "total_result": "Win",
+        "ml_lean": "Home",
+        "ml_was_bet": false,
+        "ml_result": null
+      },
+      "beta_model": {
+        "spread_pick": -3.1,
+        "spread_lean": "Home",
+        "spread_was_bet": false,
+        "spread_result": "Win",
+        "agrees_with_model": true
+      },
+      "ridge_model": {
+        "spread_pick": -7.8,
+        "spread_lean": "Home",
+        "spread_was_bet": true,
+        "spread_result": "Win",
+        "agrees_with_model": true
+      },
+      "your_bets": []
+    },
+    {
+      "game_id": 401864499,
+      "season": 2026,
+      "week": 1,
+      "date": "2026-09-05",
+      "away_team": "Fordham",
+      "home_team": "North Dakota State",
+      "home_points": 38,
+      "away_points": 0,
+      "model": {
+        "spread_pick": -57.2,
+        "market_spread_close": -41.5,
+        "spread_lean": "Home",
+        "spread_was_bet": true,
+        "spread_result": "Loss",
+        "spread_is_seed_week": true,
+        "total_pick": 55.4,
+        "market_total_close": 54.2,
+        "total_lean": "Over",
+        "total_was_bet": false,
+        "total_result": "Loss",
+        "ml_lean": null,
+        "ml_was_bet": null,
+        "ml_result": null
+      },
+      "beta_model": {
+        "spread_pick": -36.1,
+        "spread_lean": "Away",
+        "spread_was_bet": true,
+        "spread_result": "Win",
+        "agrees_with_model": false
+      },
+      "ridge_model": {
+        "spread_pick": -40.9,
+        "spread_lean": "Home",
+        "spread_was_bet": false,
+        "spread_result": "Loss",
+        "agrees_with_model": true
+      },
+      "your_bets": []
+    },
+    {
+      "game_id": 401858426,
+      "season": 2026,
+      "week": 1,
+      "date": "2026-09-05",
+      "away_team": "Northern Illinois",
+      "home_team": "Iowa",
+      "home_points": 40,
+      "away_points": 0,
+      "model": {
+        "spread_pick": -39.8,
+        "market_spread_close": -31.8,
+        "spread_lean": "Home",
+        "spread_was_bet": true,
+        "spread_result": "Win",
+        "spread_is_seed_week": true,
+        "total_pick": 47.8,
+        "market_total_close": 44.5,
+        "total_lean": "Over",
+        "total_was_bet": true,
+        "total_result": "Loss",
+        "ml_lean": "Home",
+        "ml_was_bet": false,
+        "ml_result": null
+      },
+      "beta_model": {
+        "spread_pick": -25.6,
+        "spread_lean": "Away",
+        "spread_was_bet": true,
+        "spread_result": "Loss",
+        "agrees_with_model": false
+      },
+      "ridge_model": {
+        "spread_pick": -28.3,
+        "spread_lean": "Away",
+        "spread_was_bet": true,
+        "spread_result": "Loss",
+        "agrees_with_model": false
+      },
+      "your_bets": []
     },
     {
       "game_id": 401864495,
@@ -2330,6 +2330,72 @@
       ]
     },
     {
+      "game_id": 401864577,
+      "season": 2026,
+      "week": 1,
+      "date": "2026-08-29",
+      "away_team": "Jacksonville State",
+      "home_team": "North Dakota State",
+      "home_points": 33,
+      "away_points": 7,
+      "model": {
+        "spread_pick": -25.0,
+        "market_spread_close": -6.8,
+        "spread_lean": "Home",
+        "spread_was_bet": true,
+        "spread_result": "Win",
+        "spread_is_seed_week": true,
+        "total_pick": 53.0,
+        "market_total_close": 46.5,
+        "total_lean": "Over",
+        "total_was_bet": true,
+        "total_result": "Loss",
+        "ml_lean": "Home",
+        "ml_was_bet": true,
+        "ml_result": "Win"
+      },
+      "beta_model": {
+        "spread_pick": -15.9,
+        "spread_lean": "Home",
+        "spread_was_bet": true,
+        "spread_result": "Win",
+        "agrees_with_model": true
+      },
+      "ridge_model": {
+        "spread_pick": -18.4,
+        "spread_lean": "Home",
+        "spread_was_bet": true,
+        "spread_result": "Win",
+        "agrees_with_model": true
+      },
+      "your_bets": [
+        {
+          "date": "2026-08-29",
+          "week": 1,
+          "matchup": "Jacksonville State @ North Dakota State",
+          "bet_type": "Spread",
+          "side": "North Dakota State",
+          "line": -7.5,
+          "odds": 100.0,
+          "stake": 1.0,
+          "result": "W",
+          "units": 1.0
+        },
+        {
+          "date": "2026-08-29",
+          "week": 1,
+          "matchup": "Jacksonville State @ North Dakota State",
+          "bet_type": "Moneyline",
+          "side": "North Dakota State",
+          "line": null,
+          "odds": -285.0,
+          "stake": 5.0,
+          "result": "W",
+          "units": 1.75
+        }
+      ]
+    },
+    {
       "game_id": 401858201,
       "season": 2026,
       "week": 1,
@@ -2410,72 +2476,6 @@
         "agrees_with_model": true
       },
       "your_bets": []
-    },
-    {
-      "game_id": 401864577,
-      "season": 2026,
-      "week": 1,
-      "date": "2026-08-29",
-      "away_team": "Jacksonville State",
-      "home_team": "North Dakota State",
-      "home_points": 33,
-      "away_points": 7,
-      "model": {
-        "spread_pick": -25.0,
-        "market_spread_close": -6.8,
-        "spread_lean": "Home",
-        "spread_was_bet": true,
-        "spread_result": "Win",
-        "spread_is_seed_week": true,
-        "total_pick": 53.0,
-        "market_total_close": 46.5,
-        "total_lean": "Over",
-        "total_was_bet": true,
-        "total_result": "Loss",
-        "ml_lean": "Home",
-        "ml_was_bet": true,
-        "ml_result": "Win"
-      },
-      "beta_model": {
-        "spread_pick": -15.9,
-        "spread_lean": "Home",
-        "spread_was_bet": true,
-        "spread_result": "Win",
-        "agrees_with_model": true
-      },
-      "ridge_model": {
-        "spread_pick": -18.4,
-        "spread_lean": "Home",
-        "spread_was_bet": true,
-        "spread_result": "Win",
-        "agrees_with_model": true
-      },
-      "your_bets": [
-        {
-          "date": "2026-08-29",
-          "week": 1,
-          "matchup": "Jacksonville State @ North Dakota State",
-          "bet_type": "Spread",
-          "side": "North Dakota State",
-          "line": -7.5,
-          "odds": 100.0,
-          "stake": 1.0,
-          "result": "W",
-          "units": 1.0
-        },
-        {
-          "date": "2026-08-29",
-          "week": 1,
-          "matchup": "Jacksonville State @ North Dakota State",
-          "bet_type": "Moneyline",
-          "side": "North Dakota State",
-          "line": null,
-          "odds": -285.0,
-          "stake": 5.0,
-          "result": "W",
-          "units": 1.75
-        }
-      ]
     }
   ]
 }

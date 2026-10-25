@@ -1,6 +1,6 @@
 {
   "meta": {
-    "generated_at": "2026-10-25T15:05:23Z",
+    "generated_at": "2026-10-25T16:03:42Z",
     "current_week": {
       "season": 2026,
       "week": 9
@@ -458,6 +458,24 @@
       "rank": 25
     },
     {
+      "team": "Florida",
+      "conference": "SEC",
+      "logo": "https://cdn.collegefootballdata.com/logos/500/57.png",
+      "rating": 75.9,
+      "offense_rating": 33.5,
+      "defense_rating": 24.9,
+      "special_teams_rating": 0.6,
+      "sos_rank": 40,
+      "sor_rank": 30,
+      "projected_wins": 7.6,
+      "wins": 5,
+      "losses": 2,
+      "conf_wins": 3,
+      "conf_losses": 2,
+      "trend": -0.0,
+      "rank": 26
+    },
+    {
       "team": "USC",
       "conference": "Big Ten",
       "logo": "https://cdn.collegefootballdata.com/logos/500/30.png",
@@ -473,7 +491,7 @@
       "conf_wins": 3,
       "conf_losses": 2,
       "trend": -0.0,
-      "rank": 26
+      "rank": 27
     },
     {
       "team": "Northwestern",
@@ -490,24 +508,6 @@
       "losses": 1,
       "conf_wins": 3,
       "conf_losses": 1,
-      "trend": -0.0,
-      "rank": 27
-    },
-    {
-      "team": "Florida",
-      "conference": "SEC",
-      "logo": "https://cdn.collegefootballdata.com/logos/500/57.png",
-      "rating": 75.9,
-      "offense_rating": 33.5,
-      "defense_rating": 24.9,
-      "special_teams_rating": 0.6,
-      "sos_rank": 40,
-      "sor_rank": 30,
-      "projected_wins": 7.6,
-      "wins": 5,
-      "losses": 2,
-      "conf_wins": 3,
-      "conf_losses": 2,
       "trend": -0.0,
       "rank": 28
     },
@@ -602,6 +602,24 @@
       "rank": 33
     },
     {
+      "team": "Pittsburgh",
+      "conference": "ACC",
+      "logo": "https://cdn.collegefootballdata.com/logos/500/221.png",
+      "rating": 74.1,
+      "offense_rating": 29.2,
+      "defense_rating": 19.8,
+      "special_teams_rating": 0.1,
+      "sos_rank": 119,
+      "sor_rank": 59,
+      "projected_wins": 7.6,
+      "wins": 5,
+      "losses": 3,
+      "conf_wins": 2,
+      "conf_losses": 3,
+      "trend": -0.0,
+      "rank": 34
+    },
+    {
       "team": "Boise State",
       "conference": "Pac-12",
       "logo": "https://cdn.collegefootballdata.com/logos/500/68.png",
@@ -617,7 +635,7 @@
       "conf_wins": 3,
       "conf_losses": 0,
       "trend": -0.0,
-      "rank": 34
+      "rank": 35
     },
     {
       "team": "Washington",
@@ -633,24 +651,6 @@
       "wins": 4,
       "losses": 3,
       "conf_wins": 1,
-      "conf_losses": 3,
-      "trend": -0.0,
-      "rank": 35
-    },
-    {
-      "team": "Pittsburgh",
-      "conference": "ACC",
-      "logo": "https://cdn.collegefootballdata.com/logos/500/221.png",
-      "rating": 74.1,
-      "offense_rating": 29.2,
-      "defense_rating": 19.8,
-      "special_teams_rating": 0.1,
-      "sos_rank": 119,
-      "sor_rank": 59,
-      "projected_wins": 7.6,
-      "wins": 5,
-      "losses": 3,
-      "conf_wins": 2,
       "conf_losses": 3,
       "trend": -0.0,
       "rank": 36
@@ -1178,24 +1178,6 @@
       "rank": 65
     },
     {
-      "team": "Army",
-      "conference": "American Athletic",
-      "logo": "https://cdn.collegefootballdata.com/logos/500/349.png",
-      "rating": 65.3,
-      "offense_rating": 30.3,
-      "defense_rating": 29.2,
-      "special_teams_rating": 0.1,
-      "sos_rank": 153,
-      "sor_rank": 50,
-      "projected_wins": 8.0,
-      "wins": 5,
-      "losses": 2,
-      "conf_wins": 4,
-      "conf_losses": 1,
-      "trend": -0.0,
-      "rank": 66
-    },
-    {
       "team": "North Carolina",
       "conference": "ACC",
       "logo": "https://cdn.collegefootballdata.com/logos/500/153.png",
@@ -1210,6 +1192,24 @@
       "losses": 3,
       "conf_wins": 2,
       "conf_losses": 2,
+      "trend": -0.0,
+      "rank": 66
+    },
+    {
+      "team": "Army",
+      "conference": "American Athletic",
+      "logo": "https://cdn.collegefootballdata.com/logos/500/349.png",
+      "rating": 65.3,
+      "offense_rating": 30.3,
+      "defense_rating": 29.2,
+      "special_teams_rating": 0.1,
+      "sos_rank": 153,
+      "sor_rank": 50,
+      "projected_wins": 8.0,
+      "wins": 5,
+      "losses": 2,
+      "conf_wins": 4,
+      "conf_losses": 1,
       "trend": -0.0,
       "rank": 67
     },
@@ -1340,24 +1340,6 @@
       "rank": 74
     },
     {
-      "team": "West Virginia",
-      "conference": "Big 12",
-      "logo": "https://cdn.collegefootballdata.com/logos/500/277.png",
-      "rating": 63.3,
-      "offense_rating": 34.0,
-      "defense_rating": 34.9,
-      "special_teams_rating": 0.1,
-      "sos_rank": 88,
-      "sor_rank": 54,
-      "projected_wins": 5.8,
-      "wins": 5,
-      "losses": 3,
-      "conf_wins": 2,
-      "conf_losses": 3,
-      "trend": -0.0,
-      "rank": 75
-    },
-    {
       "team": "Ohio",
       "conference": "Mid-American",
       "logo": "https://cdn.collegefootballdata.com/logos/500/195.png",
@@ -1372,6 +1354,24 @@
       "losses": 2,
       "conf_wins": 4,
       "conf_losses": 0,
+      "trend": -0.0,
+      "rank": 75
+    },
+    {
+      "team": "West Virginia",
+      "conference": "Big 12",
+      "logo": "https://cdn.collegefootballdata.com/logos/500/277.png",
+      "rating": 63.3,
+      "offense_rating": 34.0,
+      "defense_rating": 34.9,
+      "special_teams_rating": 0.1,
+      "sos_rank": 88,
+      "sor_rank": 54,
+      "projected_wins": 5.8,
+      "wins": 5,
+      "losses": 3,
+      "conf_wins": 2,
+      "conf_losses": 3,
       "trend": -0.0,
       "rank": 76
     },
@@ -1592,24 +1592,6 @@
       "rank": 88
     },
     {
-      "team": "Utah State",
-      "conference": "Pac-12",
-      "logo": "https://cdn.collegefootballdata.com/logos/500/328.png",
-      "rating": 60.3,
-      "offense_rating": 17.2,
-      "defense_rating": 25.9,
-      "special_teams_rating": -0.4,
-      "sos_rank": 34,
-      "sor_rank": 91,
-      "projected_wins": 4.2,
-      "wins": 2,
-      "losses": 5,
-      "conf_wins": 1,
-      "conf_losses": 2,
-      "trend": -0.0,
-      "rank": 89
-    },
-    {
       "team": "Georgia Southern",
       "conference": "Sun Belt",
       "logo": "https://cdn.collegefootballdata.com/logos/500/290.png",
@@ -1624,6 +1606,24 @@
       "losses": 4,
       "conf_wins": 2,
       "conf_losses": 1,
+      "trend": -0.0,
+      "rank": 89
+    },
+    {
+      "team": "Utah State",
+      "conference": "Pac-12",
+      "logo": "https://cdn.collegefootballdata.com/logos/500/328.png",
+      "rating": 60.3,
+      "offense_rating": 17.2,
+      "defense_rating": 25.9,
+      "special_teams_rating": -0.4,
+      "sos_rank": 34,
+      "sor_rank": 91,
+      "projected_wins": 4.2,
+      "wins": 2,
+      "losses": 5,
+      "conf_wins": 1,
+      "conf_losses": 2,
       "trend": -0.0,
       "rank": 90
     },
@@ -2024,24 +2024,6 @@
       "rank": 112
     },
     {
-      "team": "Wyoming",
-      "conference": "Mountain West",
-      "logo": "https://cdn.collegefootballdata.com/logos/500/2751.png",
-      "rating": 53.1,
-      "offense_rating": 16.4,
-      "defense_rating": 25.9,
-      "special_teams_rating": 0.2,
-      "sos_rank": 176,
-      "sor_rank": 70,
-      "projected_wins": 6.6,
-      "wins": 5,
-      "losses": 3,
-      "conf_wins": 4,
-      "conf_losses": 1,
-      "trend": -0.0,
-      "rank": 113
-    },
-    {
       "team": "Buffalo",
       "conference": "Mid-American",
       "logo": "https://cdn.collegefootballdata.com/logos/500/2084.png",
@@ -2055,6 +2037,24 @@
       "wins": 5,
       "losses": 3,
       "conf_wins": 3,
+      "conf_losses": 1,
+      "trend": -0.0,
+      "rank": 113
+    },
+    {
+      "team": "Wyoming",
+      "conference": "Mountain West",
+      "logo": "https://cdn.collegefootballdata.com/logos/500/2751.png",
+      "rating": 53.1,
+      "offense_rating": 16.4,
+      "defense_rating": 25.9,
+      "special_teams_rating": 0.2,
+      "sos_rank": 176,
+      "sor_rank": 70,
+      "projected_wins": 6.6,
+      "wins": 5,
+      "losses": 3,
+      "conf_wins": 4,
       "conf_losses": 1,
       "trend": -0.0,
       "rank": 114
@@ -2168,24 +2168,6 @@
       "rank": 120
     },
     {
-      "team": "Kennesaw State",
-      "conference": "Conference USA",
-      "logo": "https://cdn.collegefootballdata.com/logos/500/338.png",
-      "rating": 50.4,
-      "offense_rating": 19.9,
-      "defense_rating": 30.3,
-      "special_teams_rating": -0.4,
-      "sos_rank": 143,
-      "sor_rank": 232,
-      "projected_wins": 3.3,
-      "wins": 1,
-      "losses": 6,
-      "conf_wins": 0,
-      "conf_losses": 3,
-      "trend": -0.0,
-      "rank": 121
-    },
-    {
       "team": "San Jos\u00e9 State",
       "conference": "Mountain West",
       "logo": "https://cdn.collegefootballdata.com/logos/500/23.png",
@@ -2200,6 +2182,24 @@
       "losses": 4,
       "conf_wins": 2,
       "conf_losses": 2,
+      "trend": -0.0,
+      "rank": 121
+    },
+    {
+      "team": "Kennesaw State",
+      "conference": "Conference USA",
+      "logo": "https://cdn.collegefootballdata.com/logos/500/338.png",
+      "rating": 50.4,
+      "offense_rating": 19.9,
+      "defense_rating": 30.3,
+      "special_teams_rating": -0.4,
+      "sos_rank": 143,
+      "sor_rank": 232,
+      "projected_wins": 3.3,
+      "wins": 1,
+      "losses": 6,
+      "conf_wins": 0,
+      "conf_losses": 3,
       "trend": -0.0,
       "rank": 122
     },

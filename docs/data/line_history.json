@@ -1,6 +1,6 @@
 {
   "meta": {
-    "generated_at": "2026-10-25T15:05:23Z",
+    "generated_at": "2026-10-25T16:03:42Z",
     "current_week": {
       "season": 2026,
       "week": 9
@@ -1088,6 +1088,34 @@
       }
     },
     "401858508": {
+      "BetOnline.ag": {
+        "open_spread": null,
+        "open_total": null,
+        "points": [
+          {
+            "t": "2026-10-25T15:47:33Z",
+            "spread": -23.5,
+            "total": 46.0,
+            "home_ml": null,
+            "away_ml": null,
+            "source": "odds_api"
+          }
+        ]
+      },
+      "BetRivers": {
+        "open_spread": null,
+        "open_total": null,
+        "points": [
+          {
+            "t": "2026-10-25T15:47:33Z",
+            "spread": -23.5,
+            "total": 48.5,
+            "home_ml": -2500,
+            "away_ml": 1000,
+            "source": "odds_api"
+          }
+        ]
+      },
       "DraftKings": {
         "open_spread": -23.5,
         "open_total": 48.5,
@@ -1099,6 +1127,42 @@
             "home_ml": -2400,
             "away_ml": 1200,
             "source": "cfbd"
+          },
+          {
+            "t": "2026-10-25T15:47:33Z",
+            "spread": -23.5,
+            "total": 46.5,
+            "home_ml": -2800,
+            "away_ml": 1300,
+            "source": "odds_api"
+          }
+        ]
+      },
+      "FanDuel": {
+        "open_spread": null,
+        "open_total": null,
+        "points": [
+          {
+            "t": "2026-10-25T15:47:33Z",
+            "spread": -23.5,
+            "total": 45.5,
+            "home_ml": -4000,
+            "away_ml": 1400,
+            "source": "odds_api"
+          }
+        ]
+      },
+      "LowVig.ag": {
+        "open_spread": null,
+        "open_total": null,
+        "points": [
+          {
+            "t": "2026-10-25T15:47:33Z",
+            "spread": -23.5,
+            "total": 46.0,
+            "home_ml": null,
+            "away_ml": null,
+            "source": "odds_api"
           }
         ]
       }
@@ -1547,6 +1611,22 @@
             "home_ml": 400,
             "away_ml": -535,
             "source": "cfbd"
+          }
+        ]
+      }
+    },
+    "401864529": {
+      "FanDuel": {
+        "open_spread": null,
+        "open_total": null,
+        "points": [
+          {
+            "t": "2026-10-25T15:47:33Z",
+            "spread": 14.5,
+            "total": 41.5,
+            "home_ml": 480,
+            "away_ml": -690,
+            "source": "odds_api"
           }
         ]
       }
