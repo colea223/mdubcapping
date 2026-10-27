@@ -39,6 +39,8 @@ import pull_venues
 import pull_drives
 import pull_plays
 import pull_injuries
+import pull_injury_news
+import pull_player_talent
 import pull_team_logos
 import build_db
 import power_rating
@@ -66,7 +68,9 @@ STEPS = [
     # along on every run rather than needing its own separate reminder to
     # re-run it occasionally. See pull_team_logos.py's own docstring.
     ("Team logos", pull_team_logos.main),
+    ("Player talent (rosters, recruiting, snap share)", pull_player_talent.main),
     ("Build DB", build_db.main),
+    ("Injury news scan (key players, every team)", pull_injury_news.main),
     ("Baseline power ratings", power_rating.main),
     ("Pre-game features", features.main),
     ("Predict next upcoming week", predict_week.main),

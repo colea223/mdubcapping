@@ -70,12 +70,13 @@ Usage:
     source .venv/bin/activate
     python src/gamma_model.py                # self-test, then current ratings + this week's predictions
 """
+import csv
 from datetime import date
 
 import duckdb
 import numpy as np
 
-from config import DB_PATH
+from config import DB_PATH, ROOT
 from moore_seed_2026 import SEED_SEASON, SEED_ENTERING_WEEK, SEED_RATINGS, DEFAULT_SEED_RATING
 from power_rating import current_ratings, elo_ratings_through
 from pull_injuries import status_weight
@@ -96,7 +97,7 @@ PERFORMANCE_WEIGHT = 0.1
 #     status multiplier x the player's per-game PPA). The total injury adjustment is capped at +/-INJURY_ADJ_CAP.
 TRAVEL_PTS_PER_1000KM = 0.5
 INJURY_PTS_PER_UNIT = 1.0
-INJURY_ADJ_CAP = 7.0
+INJURY_ADJ_CAP = 10.0
 INJURY_WEIGHT_CAP = 10.0   # max injury burden counted for one team in one week (rating update and spread adjustment)
 
 # A team with ZERO completed games tracked in `games` this season at all --
@@ -355,6 +356,34 @@ def predict_home_win_prob(ratings, home_team, away_team, neutral_site=False, std
     return float(norm.cdf(predicted_margin_home / std))
 
 
+INJURY_OVERRIDES_PATH = ROOT / "data" / "injury_overrides.csv"
+
+
+def load_injury_overrides(season, last_week=20):
+    """Manual additions for players the covers.com scrape misses (e.g. a star QB out for the season).
+    data/injury_overrides.csv columns: season, team, player_last_name, status, start_week, end_week
+    (end_week blank = rest of the season). Returns [(week, team, player_last_name, status)] -- the same
+    shape as injury_reports rows -- so they flow through the exact same weighting as scraped injuries.
+    Missing file / bad rows are ignored."""
+    rows = []
+    try:
+        with open(INJURY_OVERRIDES_PATH, newline="", encoding="utf-8") as f:
+            for rec in csv.DictReader(f):
+                try:
+                    if int(rec["season"]) != season:
+                        continue
+                    start = int(rec["start_week"])
+                    end = int(rec["end_week"]) if (rec.get("end_week") or "").strip() else last_week
+                    for wk in range(start, end + 1):
+                        rows.append((wk, rec["team"].strip(), rec["player_last_name"].strip(),
+                                     (rec.get("status") or "Out").strip()))
+                except (KeyError, ValueError, AttributeError):
+                    continue
+    except OSError:
+        pass
+    return rows
+
+
 def load_injury_weights_by_week(con, season):
     """
     Returns {(team, week): total_injury_weight}. Player matching is last
@@ -398,58 +427,40 @@ def load_injury_weights_by_week(con, season):
             "SELECT week, team, player_last_name, status FROM injury_reports WHERE season = ?", [season]
         ).fetchall()
     except duckdb.CatalogException:
-        return {}
+        injuries = []
+    # Manual overrides (data/injury_overrides.csv) and headline-detected injuries (data/clean/injury_news.csv, from
+    # pull_injury_news.py) are added unless a source already lists the same player that week.
+    injuries = list(injuries)
+    have = {(w, normalize_team_name(t), (ln or "").strip().lower().split(" ")[-1]) for w, t, ln, _ in injuries}
+    extra = list(load_injury_overrides(season))
+    try:
+        from pull_injury_news import load_news_injuries
+        extra += load_news_injuries(season)
+    except Exception:
+        pass
+    for w, t, ln, st in extra:
+        k = (w, normalize_team_name(t), (ln or "").strip().lower().split(" ")[-1])
+        if k not in have:
+            have.add(k)
+            injuries.append((w, t, ln, st))
     if not injuries:
         return {}
 
-    ppa_by_team_lastname = {}
-    try:
-        ppa_rows = con.execute(
-            "SELECT player_name, team, total_ppa FROM player_season_ppa WHERE season = ?", [season]
-        ).fetchall()
-    except duckdb.CatalogException:
-        ppa_rows = []
-    for name, team, total_ppa in ppa_rows:
-        if not name or total_ppa is None:
+    # Lineup-based player values in POINTS OF SPREAD (backups and linemen included, see player_values.py).
+    from player_values import build_player_values, team_injury_burden
+    values = build_player_values(con, season)
+
+    grouped = {}
+    for week, team, name, status in injuries:
+        if not name:
             continue
-        last = name.strip().split(" ")[-1].lower()
-        key = (team, last)
-        if key not in ppa_by_team_lastname or total_ppa > ppa_by_team_lastname[key]:
-            ppa_by_team_lastname[key] = total_ppa
-
-    # Each team's completed-game weeks this season -- the per-game
-    # normalization's denominator. normalize_team_name() here so this joins
-    # cleanly against injury_reports/player_season_ppa's own team spellings
-    # the same way replay_ratings() already normalizes `games` team names
-    # below.
-    game_weeks_by_team = {}
-    for wk, home_team, away_team in con.execute(
-        "SELECT week, home_team, away_team FROM games WHERE season = ? AND completed = TRUE", [season]
-    ).fetchall():
-        game_weeks_by_team.setdefault(normalize_team_name(home_team), []).append(wk)
-        game_weeks_by_team.setdefault(normalize_team_name(away_team), []).append(wk)
-
-    def games_played_before(team, week):
-        # Games strictly before `week` -- matches "entering week W" everywhere
-        # else in this file (ratings_entering_week()/replay_ratings()).
-        weeks = game_weeks_by_team.get(normalize_team_name(team))
-        return sum(1 for w in weeks if w < week) if weeks else 0
-
-    weights = {}
-    for week, team, last_name, status in injuries:
-        if not last_name:
-            continue
-        player_value = ppa_by_team_lastname.get((team, last_name.strip().lower()))
-        if player_value is None or player_value <= 0:
-            continue  # unmatched, or a replacement-level/negative season -- contributes nothing either way
         mult, _ = status_weight(status or "")
-        # FIX (Oct 2026): player_season_ppa is a cumulative "latest wins" total covering EVERY game the team has
-        # played so far, so the per-game rate must divide by that same count -- NOT by the games played before
-        # `week`. The old divisor was ~0-1 for weeks 1-2, which turned a full-season total into a one-game value
-        # (South Carolina QB: ~75 in weeks 1-2 vs ~10 per game) and inflated ratings -- e.g. SC ranked top 5 at 4-3.
-        games_total = max(len(game_weeks_by_team.get(normalize_team_name(team), ())), 1)
-        per_game_value = player_value / games_total
-        weights[(team, week)] = weights.get((team, week), 0.0) + mult * per_game_value
+        grouped.setdefault((normalize_team_name(team), week), []).append((name, mult))
+    weights = {}
+    for (t, week), lst in grouped.items():
+        burden = team_injury_burden(values, t, lst)
+        if burden > 0:
+            weights[(t, week)] = burden
     # Safety cap per team-week so a single data glitch can never swing a rating or a line by dozens of points.
     return {k: min(v, INJURY_WEIGHT_CAP) for k, v in weights.items()}
 
