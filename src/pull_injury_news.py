@@ -72,13 +72,24 @@ QUESTIONABLE_RE = re.compile(r"\b(questionable|game[- ]?time decision|day[- ]to[
                              r"uncertain for|status (?:unclear|uncertain)|in doubt)\b", re.I)
 
 
+MISS_OK_NEXT = {"The", "Saturday", "Friday", "Thursday", "Sunday", "Monday", "Tuesday", "Wednesday", "Week", "Rest",
+                "Remainder", "Next", "His", "Her", "Their", "Its", "Oct", "Nov", "Dec", "Sept", "Two", "Three", "Four"}
+
+
 def classify_text(text):
     """-> (status, sticky) or None."""
     if ACTIVE_RE.search(text):
         return "Active", False
     if SEASON_RE.search(text):
         return "Out for season", True
-    if OUT_RE.search(text):
+    m = OUT_RE.search(text)
+    if m:
+        # "...Take on Missing Ryan Coleman-Williams": a miss-verb followed by another person's name is about
+        # THAT person, not the headline's subject.
+        if re.match(r"(will miss|to miss|misses|missing)$", m.group(0), re.I):
+            nxt = re.match(r"\s+([A-Z][\w'.-]+)", text[m.end():])
+            if nxt and nxt.group(1) not in MISS_OK_NEXT:
+                return None
         return "Out", False
     if DOUBTFUL_RE.search(text):
         return "Doubtful", False
