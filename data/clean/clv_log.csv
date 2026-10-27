@@ -1,107 +1,107 @@
 basis,season,week,game_id,away_team,home_team,gamma_spread,entry_spread,close_spread,lean,edge,is_bet,clv_pts,completed,result
+open,2026,2,401864502,North Dakota State,Air Force,18.67,5.0,1.75,Away,-13.67,True,-3.25,True,Win
 open,2026,2,401858214,Rutgers,Boston College,0.05,-3.5,-3.0,Away,-3.55,True,0.5,True,Loss
 open,2026,2,401856678,Missouri,Kansas,5.52,6.75,4.0,Home,1.23,False,2.75,True,Loss
-open,2026,2,401856683,Arizona State,Texas A&M,-15.63,-14.25,-15.25,Home,1.38,False,1.0,True,Win
-open,2026,2,401858221,Old Dominion,Virginia Tech,5.71,-16.25,-17.75,Away,-21.96,True,-1.5,True,Loss
-open,2026,2,401858442,Penn State,Temple,21.23,22.5,24.25,Home,1.27,False,-1.75,True,Win
-open,2026,2,401864571,App State,East Carolina,-18.51,-9.75,-6.5,Home,8.76,True,-3.25,True,Loss
-open,2026,2,401856782,Oregon,Oklahoma State,32.99,20.5,24.25,Away,-12.49,True,3.75,True,Loss
+open,2026,2,401862702,South Florida,Army,0.23,-2.5,-3.0,Away,-2.73,True,-0.5,True,Win
 open,2026,2,401856679,Oklahoma,Michigan,6.35,-1.5,5.0,Away,-7.85,True,6.5,True,Loss
 open,2026,2,401856781,Washington State,Kansas State,-8.02,-17.5,-17.75,Away,-9.48,True,-0.25,True,Loss
+open,2026,2,401856782,Oregon,Oklahoma State,32.99,20.5,24.25,Away,-12.49,True,3.75,True,Loss
+open,2026,2,401858442,Penn State,Temple,21.23,22.5,24.25,Home,1.27,False,-1.75,True,Win
+open,2026,2,401856683,Arizona State,Texas A&M,-15.63,-14.25,-15.25,Home,1.38,False,1.0,True,Win
+open,2026,2,401864571,App State,East Carolina,-18.51,-9.75,-6.5,Home,8.76,True,-3.25,True,Loss
 open,2026,2,401858224,Wake Forest,Purdue,11.05,4.0,2.5,Away,-7.05,True,-1.5,True,Loss
-open,2026,2,401862702,South Florida,Army,0.23,-2.5,-3.0,Away,-2.73,True,-0.5,True,Win
+open,2026,2,401858221,Old Dominion,Virginia Tech,5.71,-16.25,-17.75,Away,-21.96,True,-1.5,True,Loss
 open,2026,2,401856673,Western Kentucky,Georgia,-29.73,-37.5,-40.25,Away,-7.77,True,-2.75,True,Loss
-open,2026,2,401858217,Duke,Illinois,1.73,-7.25,-6.25,Away,-8.98,True,1.0,True,Win
-open,2026,2,401856790,UCF,Pittsburgh,-16.46,-8.0,-7.25,Home,8.46,True,-0.75,True,Loss
 open,2026,2,401858216,California,Syracuse,-0.11,-0.75,-4.0,Home,-0.64,False,3.25,True,Loss
+open,2026,2,401862708,UL Monroe,UAB,-12.64,-9.0,-9.25,Home,3.64,True,0.25,True,Loss
+open,2026,2,401858217,Duke,Illinois,1.73,-7.25,-6.25,Away,-8.98,True,1.0,True,Win
+open,2026,2,401859184,Rice,Notre Dame,-45.04,-44.5,-44.75,Home,0.54,False,0.25,True,Win
+open,2026,2,401856674,Alabama,Kentucky,10.94,10.5,8.75,Away,-0.44,False,-1.75,True,Win
+open,2026,2,401856677,Mississippi State,Minnesota,-4.36,-0.75,0.25,Home,3.61,True,-1.0,True,Loss
+open,2026,2,401856810,Arizona,BYU,-8.29,-7.0,-6.75,Home,1.29,False,-0.25,True,Win
+open,2026,2,401860884,UTSA,Texas State,3.54,-0.25,-1.5,Away,-3.79,True,-1.25,True,Win
+open,2026,2,401856790,UCF,Pittsburgh,-16.46,-8.0,-7.25,Home,8.46,True,-0.75,True,Loss
 open,2026,2,401858446,Utah State,Washington,-21.39,-25.5,-28.5,Away,-4.11,True,-3.0,True,Win
 open,2026,2,401858444,Maryland,UConn,2.78,12.5,11.5,Home,9.72,True,1.0,True,Loss
 open,2026,2,401858440,Eastern Michigan,Michigan State,-21.49,-16.25,-17.5,Home,5.24,True,1.25,True,Win
-open,2026,2,401856677,Mississippi State,Minnesota,-4.36,-0.75,0.25,Home,3.61,True,-1.0,True,Loss
-open,2026,2,401860884,UTSA,Texas State,3.54,-0.25,-1.5,Away,-3.79,True,-1.25,True,Win
-open,2026,2,401856674,Alabama,Kentucky,10.94,10.5,8.75,Away,-0.44,False,-1.75,True,Win
-open,2026,2,401856810,Arizona,BYU,-8.29,-7.0,-6.75,Home,1.29,False,-0.25,True,Win
-open,2026,2,401859184,Rice,Notre Dame,-45.04,-44.5,-44.75,Home,0.54,False,0.25,True,Win
-open,2026,2,401862708,UL Monroe,UAB,-12.64,-9.0,-9.25,Home,3.64,True,0.25,True,Loss
 open,2026,2,401862705,UNLV,North Texas,-4.81,5.5,2.75,Home,10.31,True,2.75,True,Win
 open,2026,2,401856684,Delaware,Vanderbilt,-27.77,-21.25,-20.75,Home,6.52,True,-0.5,True,Loss
-open,2026,2,401866418,Jacksonville State,Ohio,-3.35,-2.25,-1.75,Home,1.1,False,-0.5,True,Loss
 open,2026,2,401866414,Buffalo,Florida International,-7.61,-10.25,-8.75,Away,-2.64,True,1.5,True,Loss
 open,2026,2,401860881,Memphis,Boise State,-5.94,-7.0,-9.25,Away,-1.06,False,-2.25,True,Loss
-open,2026,2,401869955,Georgia State,Kennesaw State,-11.26,-9.25,-7.5,Home,2.01,True,-1.75,True,Loss
+open,2026,2,401866418,Jacksonville State,Ohio,-3.35,-2.25,-1.75,Home,1.1,False,-0.5,True,Loss
 open,2026,2,401858441,Bowling Green,Nebraska,-26.54,-27.25,-30.5,Home,-0.71,False,3.25,True,Win
-open,2026,2,401864575,South Alabama,Tulane,-15.05,-10.0,-9.5,Home,5.05,True,-0.5,True,Loss
-open,2026,2,401862707,Tulsa,Sam Houston,10.33,12.0,12.0,Home,1.67,False,0.0,True,Win
-open,2026,2,401856681,Tennessee,Georgia Tech,6.43,11.0,12.5,Home,4.57,True,-1.5,True,Loss
 open,2026,2,401871045,Middle Tennessee,Marshall,-7.94,-15.75,-12.25,Away,-7.81,True,3.5,True,Win
+open,2026,2,401856681,Tennessee,Georgia Tech,6.43,11.0,12.5,Home,4.57,True,-1.5,True,Loss
+open,2026,2,401862707,Tulsa,Sam Houston,10.33,12.0,12.0,Home,1.67,False,0.0,True,Win
+open,2026,2,401864575,South Alabama,Tulane,-15.05,-10.0,-9.5,Home,5.05,True,-0.5,True,Loss
+open,2026,2,401869955,Georgia State,Kennesaw State,-11.26,-9.25,-7.5,Home,2.01,True,-1.75,True,Loss
 open,2026,2,401858443,San Diego State,UCLA,-1.92,-10.0,-13.5,Away,-8.08,True,-3.5,True,Loss
-open,2026,2,401858219,Georgia Southern,Clemson,-14.53,-23.75,-20.0,Away,-9.22,True,3.75,True,Win
-open,2026,2,401862703,Navy,Florida Atlantic,18.36,6.0,4.5,Away,-12.36,True,-1.5,True,Loss
-open,2026,2,401856783,Texas Tech,Oregon State,29.23,27.0,25.5,Away,-2.23,True,-1.5,True,Loss
-open,2026,2,401856788,Iowa State,Iowa,-15.76,-12.75,-14.0,Home,3.01,True,1.25,True,Loss
 open,2026,2,401867796,Louisiana Tech,LSU,-23.63,-32.5,-34.75,Away,-8.87,True,-2.25,True,Win
+open,2026,2,401862703,Navy,Florida Atlantic,18.36,6.0,4.5,Away,-12.36,True,-1.5,True,Loss
+open,2026,2,401856788,Iowa State,Iowa,-15.76,-12.75,-14.0,Home,3.01,True,1.25,True,Loss
 open,2026,2,401856682,Ohio State,Texas,5.02,-2.0,-2.25,Away,-7.02,True,-0.25,True,Win
-open,2026,2,401856676,Charlotte,Ole Miss,-44.03,-47.0,-44.5,Away,-2.97,True,2.5,True,Win
+open,2026,2,401856783,Texas Tech,Oregon State,29.23,27.0,25.5,Away,-2.23,True,-1.5,True,Loss
+open,2026,2,401858219,Georgia Southern,Clemson,-14.53,-23.75,-20.0,Away,-9.22,True,3.75,True,Win
 open,2026,2,401856671,Southern Miss,Auburn,-17.66,-29.75,-32.75,Away,-12.09,True,-3.0,True,Loss
-open,2026,2,401864502,North Dakota State,Air Force,18.67,5.0,1.75,Away,-13.67,True,-3.25,True,Win
+open,2026,2,401856676,Charlotte,Ole Miss,-44.03,-47.0,-44.5,Away,-2.97,True,2.5,True,Win
 open,2026,2,401856670,Arkansas,Utah,-18.2,-11.25,-13.0,Home,6.95,True,1.75,True,Win
 open,2026,2,401860883,Sacramento State,Fresno State,-17.68,-18.25,-18.0,Home,-0.57,False,-0.25,True,Win
 open,2026,2,401858445,Louisiana,USC,-27.7,-29.75,-30.75,Away,-2.05,True,-1.0,True,Win
 open,2026,2,401864578,New Mexico State,Hawai'i,-8.22,-10.75,-7.5,Away,-2.53,True,3.25,True,Win
+open,2026,3,401864507,North Dakota State,Sacramento State,34.32,25.75,25.5,Away,-8.57,True,-0.25,True,Loss
 open,2026,3,401858225,Syracuse,Pittsburgh,-21.29,-10.75,-10.75,Home,10.54,True,0.0,True,Win
 open,2026,3,401858226,Miami,Wake Forest,16.57,20.25,20.25,Home,3.68,True,0.0,True,Win
 open,2026,3,401856811,Houston,Texas Tech,-19.5,-11.0,-8.0,Home,8.5,True,-3.0,True,Loss
 open,2026,3,401869940,Coastal Carolina,Delaware,-7.09,-4.75,-5.0,Home,2.34,True,0.25,True,Win
-open,2026,3,401858229,North Carolina,Clemson,-9.38,-6.25,-3.0,Home,3.13,True,-3.25,True,Win
-open,2026,3,401856798,Bowling Green,Iowa State,-24.03,-22.75,-22.75,Home,1.28,False,0.0,True,Win
 open,2026,3,401856686,Georgia,Arkansas,15.49,21.0,24.5,Home,5.51,True,-3.5,True,Loss
-open,2026,3,401858451,Akron,Minnesota,-18.99,-26.5,-22.5,Away,-7.51,True,4.0,True,Loss
 open,2026,3,401858456,Buffalo,Penn State,-32.29,-39.0,-39.75,Away,-6.71,True,-0.75,True,Loss
-open,2026,3,401860889,North Texas,Texas State,3.12,-3.0,-3.0,Away,-6.12,True,0.0,True,Loss
-open,2026,3,401856792,Tulane,Kansas State,-13.21,-20.0,-20.5,Away,-6.79,True,-0.5,True,Win
-open,2026,3,401856812,Arizona State,Kansas,3.65,6.0,5.25,Home,2.35,True,0.75,True,Loss
 open,2026,3,401858454,Kent State,Ohio State,-47.27,-52.75,-52.25,Away,-5.48,True,0.5,True,Loss
+open,2026,3,401856798,Bowling Green,Iowa State,-24.03,-22.75,-22.75,Home,1.28,False,0.0,True,Win
+open,2026,3,401858229,North Carolina,Clemson,-9.38,-6.25,-3.0,Home,3.13,True,-3.25,True,Win
+open,2026,3,401858451,Akron,Minnesota,-18.99,-26.5,-22.5,Away,-7.51,True,4.0,True,Loss
+open,2026,3,401856812,Arizona State,Kansas,3.65,6.0,5.25,Home,2.35,True,0.75,True,Loss
+open,2026,3,401856792,Tulane,Kansas State,-13.21,-20.0,-20.5,Away,-6.79,True,-0.5,True,Win
+open,2026,3,401860889,North Texas,Texas State,3.12,-3.0,-3.0,Away,-6.12,True,0.0,True,Loss
 open,2026,3,401858460,Eastern Michigan,Wisconsin,-21.64,-24.5,-23.5,Away,-2.86,True,1.0,True,Loss
 open,2026,3,401856695,NC State,Vanderbilt,-14.29,-4.0,-3.0,Home,10.29,True,-1.0,True,Push
 open,2026,3,401864508,Wyoming,Central Michigan,-8.35,-2.0,1.75,Home,6.35,True,-3.75,True,Win
 open,2026,3,401862774,Temple,Toledo,-8.03,-4.5,-4.75,Home,3.53,True,0.25,True,Loss
 open,2026,3,401856797,Miami (OH),Cincinnati,-14.96,-15.0,-14.5,Home,-0.04,False,-0.5,True,Loss
 open,2026,3,401858450,UTEP,Michigan,-33.46,-36.75,-34.5,Away,-3.29,True,2.25,True,Win
-open,2026,3,401858457,USC,Rutgers,11.26,24.5,21.0,Home,13.24,True,3.5,True,Win
-open,2026,3,401856801,Utah State,Utah,-23.18,-27.75,-26.25,Away,-4.57,True,1.5,True,Loss
 open,2026,3,401856694,Kentucky,Texas A&M,-21.58,-15.75,-16.5,Home,5.83,True,0.75,True,Loss
-open,2026,3,401856685,Florida State,Alabama,-17.76,-18.0,-18.5,Home,-0.24,False,0.5,True,Loss
 open,2026,3,401858230,SMU,Louisville,-2.51,-1.25,-3.0,Home,1.26,False,1.75,True,Win
-open,2026,3,401858231,Stanford,Duke,-18.17,-9.75,-9.75,Home,8.42,True,0.0,True,Win
-open,2026,3,401866422,Ball State,Liberty,-13.59,-14.25,-14.5,Home,-0.66,False,0.25,True,Win
-open,2026,3,401858449,Western Kentucky,Indiana,-40.65,-44.25,-44.75,Away,-3.6,True,-0.5,True,Win
+open,2026,3,401858457,USC,Rutgers,11.26,24.5,21.0,Home,13.24,True,3.5,True,Win
+open,2026,3,401856685,Florida State,Alabama,-17.76,-18.0,-18.5,Home,-0.24,False,0.5,True,Loss
+open,2026,3,401856801,Utah State,Utah,-23.18,-27.75,-26.25,Away,-4.57,True,1.5,True,Loss
 open,2026,3,401867804,Louisiana Tech,Baylor,-11.4,-18.25,-20.25,Away,-6.85,True,-2.0,True,Win
+open,2026,3,401866422,Ball State,Liberty,-13.59,-14.25,-14.5,Home,-0.66,False,0.25,True,Win
+open,2026,3,401858231,Stanford,Duke,-18.17,-9.75,-9.75,Home,8.42,True,0.0,True,Win
+open,2026,3,401858449,Western Kentucky,Indiana,-40.65,-44.25,-44.75,Away,-3.6,True,-0.5,True,Win
 open,2026,3,401856691,Mississippi State,South Carolina,-5.88,-5.5,-3.0,Home,0.38,False,-2.5,True,Loss
-open,2026,3,401862771,Florida International,Florida Atlantic,0.21,-7.25,-5.25,Away,-7.46,True,2.0,True,Win
 open,2026,3,401862710,East Carolina,Old Dominion,-9.26,-2.75,-2.5,Home,6.51,True,-0.25,True,Loss
+open,2026,3,401862771,Florida International,Florida Atlantic,0.21,-7.25,-5.25,Away,-7.46,True,2.0,True,Win
 open,2026,3,401864574,Charlotte,App State,-8.55,-20.0,-16.25,Away,-11.45,True,3.75,True,Win
 open,2026,3,401871047,Marshall,Missouri State,-4.43,4.25,4.0,Home,8.68,True,0.25,True,Loss
-open,2026,3,401864443,Nevada,Middle Tennessee,1.21,6.0,3.75,Home,4.79,True,2.25,True,Win
-open,2026,3,401869948,Georgia Southern,Jacksonville State,-4.68,-3.0,-3.5,Home,1.68,False,0.5,True,Win
 open,2026,3,401856689,Troy,Missouri,-23.72,-27.25,-26.75,Away,-3.53,True,0.5,True,Win
+open,2026,3,401856800,Georgia State,UCF,-16.7,-20.75,-17.5,Away,-4.05,True,3.25,True,Win
+open,2026,3,401862773,Western Michigan,Rice,17.09,11.75,8.5,Away,-5.34,True,-3.25,True,Loss
+open,2026,3,401869948,Georgia Southern,Jacksonville State,-4.68,-3.0,-3.5,Home,1.68,False,0.5,True,Win
+open,2026,3,401866423,Ohio,South Alabama,2.51,-3.75,-7.0,Away,-6.26,True,-3.25,True,Loss
+open,2026,3,401864443,Nevada,Middle Tennessee,1.21,6.0,3.75,Home,4.79,True,2.25,True,Win
 open,2026,3,401861963,UConn,Southern Miss,-2.49,3.0,3.5,Home,5.49,True,-0.5,True,Loss
 open,2026,3,401856687,Florida,Auburn,0.6,0.5,2.5,Away,-0.1,False,2.0,True,Win
-open,2026,3,401862773,Western Michigan,Rice,17.09,11.75,8.5,Away,-5.34,True,-3.25,True,Loss
-open,2026,3,401856800,Georgia State,UCF,-16.7,-20.75,-17.5,Away,-4.05,True,3.25,True,Win
-open,2026,3,401866423,Ohio,South Alabama,2.51,-3.75,-7.0,Away,-6.26,True,-3.25,True,Loss
-open,2026,3,401856688,LSU,Ole Miss,-7.56,0.75,2.75,Home,8.31,True,-2.0,True,Win
-open,2026,3,401858453,Michigan State,Notre Dame,-22.61,-29.75,-28.75,Away,-7.14,True,1.0,True,Win
-open,2026,3,401856690,New Mexico,Oklahoma,-15.46,-23.5,-21.25,Away,-8.04,True,2.25,True,Win
+open,2026,3,401856796,Colorado,Northwestern,-5.75,-4.5,-3.5,Home,1.25,False,-1.0,True,Win
 open,2026,3,401858232,Virginia Tech,Maryland,0.87,2.5,2.5,Home,1.63,False,0.0,True,Loss
 open,2026,3,401856802,West Virginia,Virginia,-19.53,-9.0,-10.75,Home,10.53,True,1.75,True,Loss
+open,2026,3,401856688,LSU,Ole Miss,-7.56,0.75,2.75,Home,8.31,True,-2.0,True,Win
 open,2026,3,401856795,BYU,Colorado State,22.9,19.5,17.5,Away,-3.4,True,-2.0,True,Loss
-open,2026,3,401856796,Colorado,Northwestern,-5.75,-4.5,-3.5,Home,1.25,False,-1.0,True,Win
+open,2026,3,401858453,Michigan State,Notre Dame,-22.61,-29.75,-28.75,Away,-7.14,True,1.0,True,Win
+open,2026,3,401856690,New Mexico,Oklahoma,-15.46,-23.5,-21.25,Away,-8.04,True,2.25,True,Win
 open,2026,3,401856692,Kennesaw State,Tennessee,-27.27,-35.0,-35.5,Away,-7.73,True,-0.5,True,Win
-open,2026,3,401856693,UTSA,Texas,-21.56,-29.75,-29.75,Away,-8.19,True,0.0,True,Win
-open,2026,3,401862776,UAB,Louisiana,-5.01,-8.75,-7.0,Away,-3.74,True,1.75,True,Win
 open,2026,3,401856799,Arkansas State,TCU,-15.44,-20.25,-19.0,Away,-4.81,True,1.25,True,Loss
+open,2026,3,401862776,UAB,Louisiana,-5.01,-8.75,-7.0,Away,-3.74,True,1.75,True,Win
+open,2026,3,401856693,UTSA,Texas,-21.56,-29.75,-29.75,Away,-8.19,True,0.0,True,Win
 open,2026,3,401860887,James Madison,San Diego State,-0.26,-2.0,-3.0,Away,-1.74,False,-1.0,True,Win
-open,2026,3,401864507,North Dakota State,Sacramento State,34.32,25.75,25.5,Away,-8.57,True,-0.25,True,Loss
 open,2026,3,401856793,Northern Illinois,Arizona,-32.7,-35.0,-34.5,Away,-2.3,True,0.5,True,Win
 open,2026,3,401860888,Fresno State,San José State,2.94,7.25,4.0,Home,4.31,True,3.25,True,Loss
 open,2026,3,401858458,Purdue,UCLA,-12.13,-14.75,-13.5,Away,-2.62,True,1.25,True,Win
@@ -110,29 +110,29 @@ open,2026,4,401862779,Army,Temple,4.22,3.0,4.0,Away,-1.22,False,1.0,True,Win
 open,2026,4,401862778,Navy,UAB,14.27,9.25,6.5,Away,-5.02,True,-2.75,True,Loss
 open,2026,4,401858461,Northwestern,Indiana,-25.23,-22.5,-20.25,Home,2.73,True,-2.25,True,Loss
 open,2026,4,401858234,Clemson,California,3.38,0.0,2.5,Away,-3.38,True,2.5,True,Win
-open,2026,4,401856813,Colorado,Baylor,-8.15,-9.25,-8.5,Away,-1.1,False,0.75,True,Loss
+open,2026,4,401858243,Wake Forest,Louisville,-7.77,-13.0,-11.25,Away,-5.23,True,1.75,True,Win
 open,2026,4,401856805,Sam Houston,Texas Tech,-42.44,-36.5,-34.5,Home,5.94,True,-2.0,True,Loss
-open,2026,4,401860896,Colorado State,UTSA,-17.47,-12.0,-14.25,Home,5.47,True,2.25,True,Win
-open,2026,4,401856704,Texas,Tennessee,5.04,5.0,5.5,Away,-0.04,False,0.5,True,Loss
+open,2026,4,401856813,Colorado,Baylor,-8.15,-9.25,-8.5,Away,-1.1,False,0.75,True,Loss
 open,2026,4,401858242,Virginia Tech,Boston College,7.99,14.0,14.5,Home,6.01,True,-0.5,True,Win
 open,2026,4,401858465,Illinois,Ohio State,-23.29,-27.25,-25.5,Away,-3.96,True,1.75,True,Win
-open,2026,4,401858243,Wake Forest,Louisville,-7.77,-13.0,-11.25,Away,-5.23,True,1.75,True,Win
-open,2026,4,401860893,San Diego State,Toledo,-4.23,-0.5,-2.75,Home,3.73,True,2.25,True,Win
+open,2026,4,401860896,Colorado State,UTSA,-17.47,-12.0,-14.25,Home,5.47,True,2.25,True,Win
+open,2026,4,401856704,Texas,Tennessee,5.04,5.0,5.5,Away,-0.04,False,0.5,True,Loss
 open,2026,4,401866425,Ball State,Kent State,-9.13,-3.75,-2.5,Home,5.38,True,-1.25,True,Win
 open,2026,4,401864512,UNLV,Akron,6.78,13.75,13.5,Home,6.97,True,0.25,True,Loss
+open,2026,4,401860893,San Diego State,Toledo,-4.23,-0.5,-2.75,Home,3.73,True,2.25,True,Win
 open,2026,4,401864576,South Alabama,Kentucky,-17.52,-20.25,-20.5,Away,-2.73,True,-0.25,True,Loss
 open,2026,4,401858462,UCLA,Maryland,-1.18,1.75,2.5,Home,2.93,True,-0.75,True,Loss
-open,2026,4,401864511,Northern Illinois,Georgia State,-7.89,-9.25,-8.75,Away,-1.36,False,0.5,True,Loss
 open,2026,4,401858467,Notre Dame,Purdue,26.35,27.0,27.5,Away,0.65,False,0.5,True,Win
+open,2026,4,401864511,Northern Illinois,Georgia State,-7.89,-9.25,-8.75,Away,-1.36,False,0.5,True,Loss
 open,2026,4,401864510,Hawai'i,Wyoming,1.39,4.25,2.25,Home,2.86,True,2.0,True,Win
 open,2026,4,401856699,Ole Miss,Florida,7.31,-2.5,-4.0,Away,-9.81,True,-1.5,True,Loss
-open,2026,4,401856815,TCU,UCF,3.85,3.0,3.5,Away,-0.85,False,0.5,True,Loss
-open,2026,4,401856816,Utah,Iowa State,11.1,10.0,7.5,Away,-1.1,False,-2.5,True,Win
 open,2026,4,401856700,Oklahoma,Georgia,-8.36,-12.0,-11.25,Away,-3.64,True,0.75,True,Loss
+open,2026,4,401858463,Iowa,Michigan,3.31,-4.25,-4.75,Away,-7.56,True,-0.5,True,Win
 open,2026,4,401860897,Boise State,Western Michigan,-0.36,7.25,8.5,Home,7.61,True,-1.25,True,Loss
 open,2026,4,401861970,UConn,Miami (OH),-2.47,-3.75,-2.5,Away,-1.28,False,1.25,True,Win
 open,2026,4,401864579,New Mexico,New Mexico State,13.98,12.25,11.5,Away,-1.73,False,-0.75,True,Win
-open,2026,4,401858463,Iowa,Michigan,3.31,-4.25,-4.75,Away,-7.56,True,-0.5,True,Win
+open,2026,4,401856816,Utah,Iowa State,11.1,10.0,7.5,Away,-1.1,False,-2.5,True,Win
+open,2026,4,401856815,TCU,UCF,3.85,3.0,3.5,Away,-0.85,False,0.5,True,Loss
 open,2026,4,401856806,Houston,Georgia Southern,10.7,18.75,17.25,Home,8.05,True,1.5,True,Win
 open,2026,4,401856698,Vanderbilt,Auburn,5.12,-9.0,-10.0,Away,-14.12,True,-1.0,True,Win
 open,2026,4,401858466,Wisconsin,Penn State,-17.2,-10.75,-9.75,Home,6.45,True,-1.0,True,Loss
@@ -140,143 +140,144 @@ open,2026,4,401858464,Nebraska,Michigan State,2.4,5.5,6.0,Home,3.1,True,-0.5,Tru
 open,2026,4,401862785,South Florida,Bowling Green,16.8,16.5,17.75,Away,-0.3,False,1.25,True,Loss
 open,2026,4,401858239,Delaware,Virginia,-19.73,-20.25,-19.75,Home,-0.52,False,-0.5,True,Win
 open,2026,4,401869961,James Madison,Old Dominion,-3.41,4.75,7.0,Home,8.16,True,-2.25,True,Loss
-open,2026,4,401858238,Central Michigan,Miami,-36.29,-40.75,-41.25,Away,-4.46,True,-0.5,True,Loss
 open,2026,4,401862780,Louisiana,Charlotte,6.04,12.25,9.25,Home,6.21,True,3.0,True,Loss
+open,2026,4,401858238,Central Michigan,Miami,-36.29,-40.75,-41.25,Away,-4.46,True,-0.5,True,Loss
+open,2026,4,401871048,Middle Tennessee,Jacksonville State,-11.95,-9.0,-7.0,Home,2.95,True,-2.0,True,Win
+open,2026,4,401869931,Kennesaw State,Arkansas State,-4.95,-4.75,-6.5,Home,0.2,False,1.75,True,Loss
 open,2026,4,401856881,Oklahoma State,West Virginia,-10.05,0.5,-1.5,Home,10.55,True,2.0,True,Loss
 open,2026,4,401856696,South Carolina,Alabama,-13.12,-12.25,-12.5,Home,0.87,False,0.25,True,Win
 open,2026,4,401862784,Southern Miss,Tulane,-15.19,-17.75,-17.75,Away,-2.56,True,0.0,True,Win
 open,2026,4,401856814,Kansas State,Cincinnati,0.25,6.25,6.0,Home,6.0,True,0.25,True,Win
-open,2026,4,401871048,Middle Tennessee,Jacksonville State,-11.95,-9.0,-7.0,Home,2.95,True,-2.0,True,Win
-open,2026,4,401869931,Kennesaw State,Arkansas State,-4.95,-4.75,-6.5,Home,0.2,False,1.75,True,Loss
-open,2026,4,401856804,Arizona,Washington State,4.63,11.75,11.75,Home,7.12,True,0.0,True,Win
-open,2026,4,401864572,App State,NC State,-19.89,-13.75,-12.75,Home,6.14,True,-1.0,True,Loss
-open,2026,4,401856702,Texas A&M,LSU,-0.66,-6.25,-8.5,Away,-5.59,True,-2.25,True,Loss
 open,2026,4,401858469,Oregon,USC,1.17,4.0,3.5,Home,2.83,True,0.5,True,Loss
+open,2026,4,401856702,Texas A&M,LSU,-0.66,-6.25,-8.5,Away,-5.59,True,-2.25,True,Loss
+open,2026,4,401864572,App State,NC State,-19.89,-13.75,-12.75,Home,6.14,True,-1.0,True,Loss
+open,2026,4,401856804,Arizona,Washington State,4.63,11.75,11.75,Home,7.12,True,0.0,True,Win
 open,2026,4,401860894,Troy,Utah State,-11.14,-2.5,-3.0,Home,8.64,True,0.5,True,Win
 open,2026,4,401856703,Missouri,Mississippi State,-1.34,-3.75,-3.5,Away,-2.41,True,0.25,True,Loss
 open,2026,4,401862782,Florida Atlantic,UL Monroe,8.68,13.5,11.5,Home,4.82,True,2.0,True,Loss
 open,2026,4,401856697,Tulsa,Arkansas,-11.47,-7.75,-7.0,Home,3.72,True,-0.75,True,Win
-open,2026,4,401858241,Missouri State,SMU,-25.12,-34.75,-30.5,Away,-9.63,True,4.25,True,Win
 open,2026,4,401866429,Massachusetts,Sacramento State,-4.99,6.0,6.0,Home,10.99,True,0.0,True,Loss
 open,2026,4,401860895,Oregon State,UTEP,12.14,11.75,11.5,Away,-0.39,False,-0.25,True,Win
+open,2026,4,401858241,Missouri State,SMU,-25.12,-34.75,-30.5,Away,-9.63,True,4.25,True,Win
 open,2026,4,401860891,Rice,Fresno State,-13.02,-13.75,-12.25,Home,-0.73,False,-1.5,True,Win
 open,2026,4,401858240,Georgia Tech,Stanford,1.78,4.0,3.0,Home,2.22,True,1.0,True,Win
 open,2026,4,401864509,Air Force,Nevada,4.01,4.25,5.25,Away,0.24,False,1.0,True,Loss
 open,2026,4,401858470,Minnesota,Washington,-12.93,-9.25,-12.25,Home,3.68,True,3.0,True,Loss
+open,2026,5,401864515,Wyoming,North Dakota State,-28.99,-20.5,-17.25,Home,8.49,True,-3.25,True,Win
 open,2026,5,401871049,Western Kentucky,New Mexico State,5.34,-1.25,-1.5,Away,-6.59,True,-0.25,True,Loss
 open,2026,5,401862786,North Texas,Tulsa,7.85,-0.25,2.0,Away,-8.1,True,2.25,True,Win
-open,2026,5,401858245,Pittsburgh,Virginia Tech,2.02,-4.75,-1.5,Away,-6.77,True,3.25,True,Win
 open,2026,5,401871050,Liberty,Delaware,-0.2,7.0,7.0,Home,7.2,True,0.0,True,Loss
+open,2026,5,401858245,Pittsburgh,Virginia Tech,2.02,-4.75,-1.5,Away,-6.77,True,3.25,True,Win
 open,2026,5,401858476,Penn State,Northwestern,2.88,5.0,2.75,Home,2.12,True,2.25,True,Win
 open,2026,5,401862787,Memphis,Charlotte,18.92,21.0,19.5,Home,2.08,True,1.5,True,Loss
-open,2026,5,401856822,West Virginia,Iowa State,-13.1,-2.0,-3.0,Home,11.1,True,1.0,True,Win
-open,2026,5,401858250,Notre Dame,North Carolina,21.77,22.5,21.0,Away,0.73,False,-1.5,True,Loss
-open,2026,5,401862791,Navy,Air Force,4.48,-2.0,-2.75,Away,-6.48,True,-0.75,True,Loss
-open,2026,5,401856707,Alabama,Mississippi State,8.9,4.5,5.5,Away,-4.4,True,1.0,True,Win
-open,2026,5,401858474,Michigan,Minnesota,0.12,7.5,6.25,Home,7.38,True,1.25,True,Win
-open,2026,5,401856807,Middle Tennessee,Kansas,-18.6,-20.75,-21.0,Away,-2.15,True,-0.25,True,Loss
 open,2026,5,401856819,UCF,Houston,-8.58,-12.0,-10.5,Away,-3.42,True,1.5,True,Win
 open,2026,5,401858246,Boston College,SMU,-20.27,-20.75,-21.5,Home,-0.48,False,0.75,True,Loss
 open,2026,5,401858252,Syracuse,UConn,-3.05,6.0,6.5,Home,9.05,True,-0.5,True,Win
 open,2026,5,401858251,Stanford,Wake Forest,-13.66,-12.75,-14.5,Home,0.91,False,1.75,True,Win
+open,2026,5,401856822,West Virginia,Iowa State,-13.1,-2.0,-3.0,Home,11.1,True,1.0,True,Win
+open,2026,5,401856707,Alabama,Mississippi State,8.9,4.5,5.5,Away,-4.4,True,1.0,True,Win
+open,2026,5,401858250,Notre Dame,North Carolina,21.77,22.5,21.0,Away,0.73,False,-1.5,True,Loss
+open,2026,5,401858474,Michigan,Minnesota,0.12,7.5,6.25,Home,7.38,True,1.25,True,Win
+open,2026,5,401862791,Navy,Air Force,4.48,-2.0,-2.75,Away,-6.48,True,-0.75,True,Loss
+open,2026,5,401856807,Middle Tennessee,Kansas,-18.6,-20.75,-21.0,Away,-2.15,True,-0.25,True,Loss
 open,2026,5,401858479,Michigan State,Wisconsin,-4.46,-10.25,-8.75,Away,-5.79,True,1.5,True,Loss
 open,2026,5,401856705,Vanderbilt,Georgia,-14.12,-24.25,-25.5,Away,-10.13,True,-1.25,True,Win
 open,2026,5,401866432,Western Michigan,Buffalo,12.38,15.75,13.25,Home,3.37,True,2.5,True,Win
 open,2026,5,401866431,Toledo,Ball State,19.36,18.5,20.75,Away,-0.86,False,2.25,True,Loss
 open,2026,5,401866434,Ohio,Kent State,6.38,5.5,3.5,Away,-0.88,False,-2.0,True,Loss
-open,2026,5,401866433,Eastern Michigan,Massachusetts,-1.63,-4.0,-5.75,Away,-2.37,True,-1.75,True,Win
-open,2026,5,401866430,Akron,Central Michigan,-10.52,-5.75,-6.75,Home,4.77,True,1.0,True,Win
-open,2026,5,401858253,Virginia,Florida State,5.41,2.0,1.25,Away,-3.41,True,-0.75,True,Loss
 open,2026,5,401856710,Auburn,Tennessee,-9.5,-7.5,-6.25,Home,2.0,True,-1.25,True,Win
-open,2026,5,401864515,Wyoming,North Dakota State,-28.99,-20.5,-17.25,Home,8.49,True,-3.25,True,Win
-open,2026,5,401856708,Florida,Missouri,1.55,3.25,5.5,Home,1.7,False,-2.25,True,Win
 open,2026,5,401869956,Old Dominion,Georgia State,11.43,1.25,-2.0,Away,-10.18,True,-3.25,True,Loss
-open,2026,5,401858247,California,UNLV,-5.53,-1.75,-1.75,Home,3.78,True,0.0,True,Win
-open,2026,5,401866477,Bowling Green,Miami (OH),-10.38,-15.25,-11.25,Away,-4.87,True,4.0,True,Win
 open,2026,5,401858473,Ohio State,Iowa,9.02,14.0,14.25,Home,4.98,True,-0.25,True,Loss
+open,2026,5,401858247,California,UNLV,-5.53,-1.75,-1.75,Home,3.78,True,0.0,True,Win
 open,2026,5,401858248,Louisville,NC State,1.58,6.75,4.25,Home,5.17,True,2.5,True,Win
+open,2026,5,401866477,Bowling Green,Miami (OH),-10.38,-15.25,-11.25,Away,-4.87,True,4.0,True,Win
+open,2026,5,401856708,Florida,Missouri,1.55,3.25,5.5,Home,1.7,False,-2.25,True,Win
+open,2026,5,401858253,Virginia,Florida State,5.41,2.0,1.25,Away,-3.41,True,-0.75,True,Loss
+open,2026,5,401866430,Akron,Central Michigan,-10.52,-5.75,-6.75,Home,4.77,True,1.0,True,Win
+open,2026,5,401866433,Eastern Michigan,Massachusetts,-1.63,-4.0,-5.75,Away,-2.37,True,-1.75,True,Win
 open,2026,5,401869962,Marshall,James Madison,-21.79,-15.5,-16.25,Home,6.29,True,0.75,True,Win
-open,2026,5,401858475,Maryland,Nebraska,-16.19,-13.25,-15.0,Home,2.94,True,1.75,True,Win
 open,2026,5,401864514,UTEP,New Mexico,-28.19,-21.75,-23.25,Home,6.44,True,1.5,True,Win
+open,2026,5,401858475,Maryland,Nebraska,-16.19,-13.25,-15.0,Home,2.94,True,1.75,True,Win
 open,2026,5,401858472,Purdue,Illinois,-15.4,-10.0,-9.75,Home,5.4,True,-0.25,True,Loss
 open,2026,5,401856709,Kentucky,South Carolina,-4.35,-5.0,-2.5,Home,-0.65,False,-2.5,True,Loss
 open,2026,5,401860899,Oregon State,Colorado State,3.98,4.0,7.0,Away,0.02,False,3.0,True,Win
+open,2026,5,401856711,Arkansas,Texas A&M,-15.1,-14.25,-13.75,Home,0.85,False,-0.5,True,Win
 open,2026,5,401856818,BYU,TCU,5.71,5.75,5.75,Away,0.04,False,0.0,True,Win
 open,2026,5,401871089,UL Monroe,South Alabama,-14.59,-14.25,-13.25,Home,0.34,False,-1.0,True,Win
-open,2026,5,401856711,Arkansas,Texas A&M,-15.1,-14.25,-13.75,Home,0.85,False,-0.5,True,Win
 open,2026,5,401869942,Georgia Southern,Coastal Carolina,2.03,0.25,2.25,Away,-1.78,False,2.0,True,Win
 open,2026,5,401862788,UTSA,Rice,14.35,11.75,12.0,Away,-2.6,True,0.25,True,Loss
 open,2026,5,401856821,Texas Tech,Colorado,17.98,14.0,13.5,Away,-3.98,True,-0.5,True,Win
-open,2026,5,401862792,Temple,South Florida,-12.48,-6.0,-5.5,Home,6.48,True,-0.5,True,Loss
-open,2026,5,401858478,Washington,USC,-2.41,-10.0,-8.25,Away,-7.59,True,1.75,True,Win
-open,2026,5,401858249,Miami,Clemson,14.82,12.0,14.75,Away,-2.82,True,2.75,True,Win
 open,2026,5,401860898,Utah State,Boise State,-14.7,-20.25,-19.5,Away,-5.55,True,0.75,True,Win
+open,2026,5,401858478,Washington,USC,-2.41,-10.0,-8.25,Away,-7.59,True,1.75,True,Win
 open,2026,5,401869842,Army,Louisiana Tech,4.69,3.25,-0.25,Away,-1.44,False,-3.5,True,Loss
-open,2026,5,401858477,Indiana,Rutgers,27.56,23.25,24.25,Away,-4.31,True,1.0,True,Win
+open,2026,5,401858249,Miami,Clemson,14.82,12.0,14.75,Away,-2.82,True,2.75,True,Win
+open,2026,5,401862792,Temple,South Florida,-12.48,-6.0,-5.5,Home,6.48,True,-0.5,True,Loss
 open,2026,5,401869932,Arkansas State,Louisiana,-4.36,-5.25,-5.25,Home,-0.89,False,0.0,True,Loss
+open,2026,5,401858477,Indiana,Rutgers,27.56,23.25,24.25,Away,-4.31,True,1.0,True,Win
 open,2026,5,401860921,Fresno State,Washington State,-7.52,-0.25,-2.25,Home,7.27,True,2.0,True,Loss
 open,2026,5,401860900,Texas State,San Diego State,0.45,4.25,9.75,Home,3.8,True,-5.5,True,Win
 open,2026,5,401856817,Baylor,Arizona State,-3.76,-3.5,-3.5,Home,0.26,False,0.0,True,Loss
 open,2026,5,401856820,Cincinnati,Arizona,-6.78,-7.75,-6.75,Home,-0.97,False,-1.0,True,Win
 open,2026,5,401864513,San José State,Hawai'i,-6.3,-4.25,-2.75,Home,2.05,True,-1.5,True,Loss
+open,2026,6,401864518,North Dakota State,UNLV,10.25,3.0,2.75,Away,-7.25,True,-0.25,True,Loss
 open,2026,6,401871090,Southern Miss,Troy,-5.74,-9.5,-9.5,Away,-3.76,True,0.0,True,Loss
 open,2026,6,401871051,Jacksonville State,Kennesaw State,1.83,2.75,3.0,Away,0.92,False,0.25,True,Loss
 open,2026,6,401871066,New Mexico State,Florida International,-7.25,-4.25,-7.0,Home,3.0,True,2.75,True,Win
 open,2026,6,401871052,Missouri State,Western Kentucky,-5.24,-2.5,1.75,Home,2.74,True,-4.25,True,Win
 open,2026,6,401870766,Sam Houston,Liberty,-18.08,-13.75,-13.5,Home,4.33,True,-0.25,True,Win
-open,2026,6,401869933,South Alabama,Arkansas State,-4.99,-1.25,-3.0,Home,3.74,True,1.75,True,Loss
 open,2026,6,401862794,South Florida,UTSA,-2.9,-6.75,-5.5,Away,-3.85,True,1.25,True,Loss
+open,2026,6,401869933,South Alabama,Arkansas State,-4.99,-1.25,-3.0,Home,3.74,True,1.75,True,Loss
 open,2026,6,401858254,Florida State,Louisville,-3.88,-4.75,-4.25,Home,-0.87,False,-0.5,True,Win
 open,2026,6,401860922,Washington State,Utah State,-2.24,-4.75,-4.0,Away,-2.51,True,0.75,True,Win
 open,2026,6,401858487,Iowa,Washington,-1.09,-2.0,-3.0,Home,-0.91,False,1.0,True,Loss
 open,2026,6,401864519,Wyoming,San José State,-4.62,-6.25,-4.25,Away,-1.63,False,2.0,True,Win
 open,2026,6,401856826,Iowa State,BYU,-12.08,-12.75,-11.25,Home,-0.67,False,-1.5,True,Win
-open,2026,6,401856716,Texas A&M,Missouri,0.65,-3.25,-4.5,Away,-3.9,True,-1.25,True,Loss
-open,2026,6,401866436,Sacramento State,Bowling Green,-15.54,-7.25,-9.5,Home,8.29,True,2.25,True,Win
-open,2026,6,401856823,Arizona,West Virginia,10.44,3.0,3.5,Away,-7.44,True,0.5,True,Win
 open,2026,6,401856824,UCF,Oklahoma State,3.14,-10.0,-10.25,Away,-13.14,True,-0.25,True,Loss
-open,2026,6,401858256,North Carolina,Pittsburgh,-12.34,-3.75,-3.5,Home,8.59,True,-0.25,True,Loss
-open,2026,6,401858481,Indiana,Nebraska,13.08,9.0,9.0,Away,-4.08,True,0.0,True,Loss
+open,2026,6,401856716,Texas A&M,Missouri,0.65,-3.25,-4.5,Away,-3.9,True,-1.25,True,Loss
 open,2026,6,401862795,Tulane,Army,-4.97,-3.0,-5.5,Home,1.97,False,2.5,True,Push
+open,2026,6,401858481,Indiana,Nebraska,13.08,9.0,9.0,Away,-4.08,True,0.0,True,Loss
 open,2026,6,401858260,Wake Forest,NC State,1.35,3.75,3.75,Home,2.4,True,0.0,True,Loss
+open,2026,6,401866436,Sacramento State,Bowling Green,-15.54,-7.25,-9.5,Home,8.29,True,2.25,True,Win
+open,2026,6,401858256,North Carolina,Pittsburgh,-12.34,-3.75,-3.5,Home,8.59,True,-0.25,True,Loss
+open,2026,6,401856823,Arizona,West Virginia,10.44,3.0,3.5,Away,-7.44,True,0.5,True,Win
 open,2026,6,401858482,Ball State,Northwestern,-34.12,-36.25,-34.75,Away,-2.13,True,1.5,True,Win
 open,2026,6,401856714,South Carolina,Florida,-6.65,-14.25,-10.5,Away,-7.6,True,3.75,True,Win
 open,2026,6,401869843,Old Dominion,App State,6.91,-9.75,-9.0,Away,-16.66,True,0.75,True,Win
 open,2026,6,401862797,Rice,East Carolina,-17.67,-10.0,-10.0,Home,7.67,True,0.0,True,Win
 open,2026,6,401866440,Miami (OH),Massachusetts,8.77,2.5,6.0,Away,-6.27,True,3.5,True,Loss
-open,2026,6,401866439,Kent State,Western Michigan,-16.44,-13.75,-13.75,Home,2.69,True,0.0,True,Win
-open,2026,6,401856717,Texas,Oklahoma,9.25,7.0,7.75,Away,-2.25,True,0.75,True,Loss
-open,2026,6,401858259,Virginia Tech,California,4.54,9.5,10.75,Home,4.96,True,-1.25,True,Win
-open,2026,6,401858480,Illinois,Michigan State,-0.82,3.0,2.5,Home,3.82,True,0.5,True,Win
-open,2026,6,401856825,Houston,Kansas State,-4.39,-2.5,-2.5,Home,1.89,False,0.0,True,Loss
-open,2026,6,401856718,Ole Miss,Vanderbilt,4.09,10.0,9.25,Home,5.91,True,0.75,True,Loss
-open,2026,6,401866437,Buffalo,Toledo,-16.01,-20.0,-18.75,Away,-3.99,True,1.25,True,Win
-open,2026,6,401862799,Tulsa,Navy,-14.54,-2.5,-3.0,Home,12.04,True,0.5,True,Win
-open,2026,6,401858257,Stanford,Notre Dame,-29.26,-38.25,-40.0,Away,-8.99,True,-1.75,True,Loss
-open,2026,6,401866435,Eastern Michigan,Akron,1.04,6.5,5.0,Home,5.46,True,1.5,True,Win
-open,2026,6,401858484,UCLA,Oregon,-15.05,-12.0,-10.25,Home,3.05,True,-1.75,True,Loss
-open,2026,6,401862796,Charlotte,North Texas,-23.85,-27.75,-27.75,Away,-3.9,True,0.0,True,Loss
-open,2026,6,401858255,Duke,Georgia Tech,8.03,7.0,4.5,Away,-1.03,False,-2.5,True,Loss
 open,2026,6,401866438,Central Michigan,Ohio,-4.38,-3.25,-2.5,Home,1.13,False,-0.75,True,Win
+open,2026,6,401866435,Eastern Michigan,Akron,1.04,6.5,5.0,Home,5.46,True,1.5,True,Win
+open,2026,6,401858255,Duke,Georgia Tech,8.03,7.0,4.5,Away,-1.03,False,-2.5,True,Loss
+open,2026,6,401856825,Houston,Kansas State,-4.39,-2.5,-2.5,Home,1.89,False,0.0,True,Loss
+open,2026,6,401856717,Texas,Oklahoma,9.25,7.0,7.75,Away,-2.25,True,0.75,True,Loss
+open,2026,6,401858484,UCLA,Oregon,-15.05,-12.0,-10.25,Home,3.05,True,-1.75,True,Loss
+open,2026,6,401866439,Kent State,Western Michigan,-16.44,-13.75,-13.75,Home,2.69,True,0.0,True,Win
+open,2026,6,401866437,Buffalo,Toledo,-16.01,-20.0,-18.75,Away,-3.99,True,1.25,True,Win
+open,2026,6,401856718,Ole Miss,Vanderbilt,4.09,10.0,9.25,Home,5.91,True,0.75,True,Loss
+open,2026,6,401858257,Stanford,Notre Dame,-29.26,-38.25,-40.0,Away,-8.99,True,-1.75,True,Loss
+open,2026,6,401862799,Tulsa,Navy,-14.54,-2.5,-3.0,Home,12.04,True,0.5,True,Win
+open,2026,6,401858259,Virginia Tech,California,4.54,9.5,10.75,Home,4.96,True,-1.25,True,Win
+open,2026,6,401862796,Charlotte,North Texas,-23.85,-27.75,-27.75,Away,-3.9,True,0.0,True,Loss
+open,2026,6,401858480,Illinois,Michigan State,-0.82,3.0,2.5,Home,3.82,True,0.5,True,Win
 open,2026,6,401861964,UConn,Temple,-5.51,-3.75,-3.75,Home,1.76,False,0.0,True,Loss
 open,2026,6,401856713,Tennessee,Arkansas,10.14,13.5,13.75,Home,3.36,True,-0.25,True,Win
 open,2026,6,401858483,Maryland,Ohio State,-34.58,-34.75,-31.25,Home,-0.17,False,-3.5,True,Loss
 open,2026,6,401860902,San Diego State,Oregon State,-4.88,-14.25,-14.5,Away,-9.37,True,-0.25,True,Loss
-open,2026,6,401864518,North Dakota State,UNLV,10.25,3.0,2.75,Away,-7.25,True,-0.25,True,Loss
+open,2026,6,401869943,Coastal Carolina,Marshall,-2.91,-3.0,-4.5,Home,-0.09,False,1.5,True,Loss
 open,2026,6,401862798,UAB,Memphis,-14.76,-14.25,-15.25,Home,0.51,False,1.0,True,Win
 open,2026,6,401864517,Nevada,UTEP,7.23,9.25,10.0,Home,2.02,True,-0.75,True,Loss
 open,2026,6,401856715,LSU,Kentucky,7.44,10.25,9.25,Home,2.81,True,1.0,True,Win
-open,2026,6,401869943,Coastal Carolina,Marshall,-2.91,-3.0,-4.5,Home,-0.09,False,1.5,True,Loss
-open,2026,6,401869949,James Madison,Georgia Southern,12.37,8.5,7.0,Away,-3.87,True,-1.5,True,Loss
-open,2026,6,401858485,USC,Penn State,-4.46,-0.25,0.25,Home,4.21,True,-0.5,True,Loss
 open,2026,6,401856712,Georgia,Alabama,-0.75,2.0,-2.5,Home,2.75,True,4.5,True,Loss
-open,2026,6,401858258,Syracuse,Virginia,-18.38,-9.5,-14.0,Home,8.88,True,4.5,True,Loss
-open,2026,6,401864516,Air Force,Northern Illinois,13.99,9.5,7.0,Away,-4.49,True,-2.5,True,Win
+open,2026,6,401858485,USC,Penn State,-4.46,-0.25,0.25,Home,4.21,True,-0.5,True,Loss
 open,2026,6,401869965,Louisiana,Louisiana Tech,-3.2,-2.75,-3.0,Home,0.45,False,0.25,True,Loss
+open,2026,6,401858258,Syracuse,Virginia,-18.38,-9.5,-14.0,Home,8.88,True,4.5,True,Loss
+open,2026,6,401869949,James Madison,Georgia Southern,12.37,8.5,7.0,Away,-3.87,True,-1.5,True,Loss
+open,2026,6,401864516,Air Force,Northern Illinois,13.99,9.5,7.0,Away,-4.49,True,-2.5,True,Win
 open,2026,6,401856827,Kansas,Utah,-21.83,-15.5,-15.75,Home,6.33,True,0.25,True,Win
 open,2026,6,401858486,Minnesota,Purdue,8.29,2.25,2.75,Away,-6.04,True,0.5,True,Loss
-open,2026,6,401856808,Hawai'i,Arizona State,-18.44,-21.25,-20.75,Away,-2.81,True,0.5,True,Win
 open,2026,6,401860901,Boise State,Fresno State,8.88,6.5,9.0,Away,-2.38,True,2.5,True,Win
+open,2026,6,401856808,Hawai'i,Arizona State,-18.44,-21.25,-20.75,Away,-2.81,True,0.5,True,Win
+open,2026,7,401864520,Nevada,North Dakota State,-25.21,-15.0,-14.25,Home,10.21,True,-0.75,True,Loss
 open,2026,7,401871067,Delaware,Middle Tennessee,3.74,2.0,1.25,Away,-1.74,False,-0.75,True,Loss
 open,2026,7,401871053,Florida International,Jacksonville State,-3.46,-3.0,-3.0,Home,0.46,False,0.0,True,Push
 open,2026,7,401871054,Kennesaw State,Missouri State,-0.55,3.0,2.5,Home,3.55,True,0.5,True,Win
@@ -285,50 +286,49 @@ open,2026,7,401862800,East Carolina,UAB,8.42,5.5,5.25,Away,-2.92,True,-0.25,True
 open,2026,7,401869950,Georgia Southern,Old Dominion,-8.09,3.0,3.0,Home,11.09,True,0.0,True,Loss
 open,2026,7,401860923,Colorado State,Texas State,-15.96,-12.75,-15.25,Home,3.21,True,2.5,True,Win
 open,2026,7,401862801,Memphis,Tulane,2.87,7.0,6.5,Home,4.13,True,0.5,True,Win
-open,2026,7,401869844,App State,Coastal Carolina,-2.2,1.25,1.25,Home,3.45,True,0.0,True,Loss
 open,2026,7,401858493,Washington,Purdue,5.84,-2.75,-3.0,Away,-8.59,True,-0.25,True,Win
-open,2026,7,401858268,Virginia,SMU,-5.28,-8.25,-10.0,Away,-2.97,True,-1.75,True,Loss
-open,2026,7,401866441,Ball State,Bowling Green,-11.31,-7.75,-6.25,Home,3.56,True,-1.5,True,Loss
-open,2026,7,401856720,Mississippi State,LSU,-10.34,-11.5,-17.75,Away,-1.16,False,-6.25,True,Loss
-open,2026,7,401856830,Kansas,Kansas State,-6.11,-7.0,-3.25,Home,-0.89,False,-3.75,True,Win
-open,2026,7,401858491,Northwestern,Michigan State,8.52,8.5,7.25,Away,-0.02,False,-1.25,True,Loss
-open,2026,7,401858488,Ohio State,Indiana,-1.51,2.75,2.75,Home,4.26,True,0.0,True,Loss
+open,2026,7,401869844,App State,Coastal Carolina,-2.2,1.25,1.25,Home,3.45,True,0.0,True,Loss
 open,2026,7,401862802,Florida Atlantic,Army,-10.74,-3.0,-2.25,Home,7.74,True,-0.75,True,Win
-open,2026,7,401856829,Cincinnati,West Virginia,4.66,-1.5,-1.5,Away,-6.16,True,0.0,True,Loss
 open,2026,7,401858267,Pittsburgh,Boston College,10.34,6.5,6.5,Away,-3.84,True,0.0,True,Loss
-open,2026,7,401869957,Georgia State,James Madison,-17.56,-12.25,-7.75,Home,5.31,True,-4.5,True,Win
 open,2026,7,401856724,Florida,Texas,-16.64,-9.75,-13.0,Home,6.89,True,3.25,True,Loss
+open,2026,7,401858488,Ohio State,Indiana,-1.51,2.75,2.75,Home,4.26,True,0.0,True,Loss
+open,2026,7,401856829,Cincinnati,West Virginia,4.66,-1.5,-1.5,Away,-6.16,True,0.0,True,Loss
+open,2026,7,401858491,Northwestern,Michigan State,8.52,8.5,7.25,Away,-0.02,False,-1.25,True,Loss
+open,2026,7,401866441,Ball State,Bowling Green,-11.31,-7.75,-6.25,Home,3.56,True,-1.5,True,Loss
+open,2026,7,401856830,Kansas,Kansas State,-6.11,-7.0,-3.25,Home,-0.89,False,-3.75,True,Win
+open,2026,7,401858268,Virginia,SMU,-5.28,-8.25,-10.0,Away,-2.97,True,-1.75,True,Loss
+open,2026,7,401856720,Mississippi State,LSU,-10.34,-11.5,-17.75,Away,-1.16,False,-6.25,True,Loss
+open,2026,7,401869957,Georgia State,James Madison,-17.56,-12.25,-7.75,Home,5.31,True,-4.5,True,Win
 open,2026,7,401858489,Rutgers,Maryland,-2.24,-4.5,-5.75,Away,-2.26,True,-1.25,True,Win
 open,2026,7,401866442,Massachusetts,Buffalo,-12.01,-3.25,-6.75,Home,8.76,True,3.5,True,Win
 open,2026,7,401862803,Charlotte,Temple,-17.17,-23.25,-18.5,Away,-6.08,True,4.75,True,Win
 open,2026,7,401866443,Western Michigan,Central Michigan,7.27,7.0,7.5,Away,-0.27,False,0.5,True,Push
-open,2026,7,401858266,North Carolina,Duke,-12.19,-4.0,-3.0,Home,8.19,True,-1.0,True,Loss
-open,2026,7,401856828,Arizona State,Texas Tech,-19.92,-13.25,-16.0,Home,6.67,True,2.75,True,Win
-open,2026,7,401866444,Toledo,Eastern Michigan,9.3,5.75,7.25,Away,-3.55,True,1.5,True,Win
-open,2026,7,401864522,Northern Illinois,Wyoming,-11.28,-7.25,-7.5,Home,4.03,True,0.25,True,Win
-open,2026,7,401858264,Georgia Tech,Virginia Tech,-2.41,-9.75,-8.5,Away,-7.34,True,1.25,True,Loss
-open,2026,7,401866478,Akron,Miami (OH),-11.57,-9.75,-9.5,Home,1.82,False,-0.25,True,Win
-open,2026,7,401864524,UNLV,Air Force,-0.65,2.0,-0.25,Home,2.65,True,2.25,True,Win
-open,2026,7,401856723,Alabama,Tennessee,2.55,4.25,7.75,Home,1.7,False,-3.5,True,Win
-open,2026,7,401856721,Missouri,Ole Miss,-7.75,-6.0,-4.5,Home,1.75,False,-1.5,True,Win
 open,2026,7,401856719,Auburn,Georgia,-18.95,-17.5,-19.5,Home,1.45,False,2.0,True,Loss
+open,2026,7,401858266,North Carolina,Duke,-12.19,-4.0,-3.0,Home,8.19,True,-1.0,True,Loss
+open,2026,7,401864522,Northern Illinois,Wyoming,-11.28,-7.25,-7.5,Home,4.03,True,0.25,True,Win
 open,2026,7,401858490,Penn State,Michigan,-0.67,-6.25,-6.0,Away,-5.58,True,0.25,True,Win
+open,2026,7,401856828,Arizona State,Texas Tech,-19.92,-13.25,-16.0,Home,6.67,True,2.75,True,Win
+open,2026,7,401866478,Akron,Miami (OH),-11.57,-9.75,-9.5,Home,1.82,False,-0.25,True,Win
+open,2026,7,401856721,Missouri,Ole Miss,-7.75,-6.0,-4.5,Home,1.75,False,-1.5,True,Win
+open,2026,7,401856723,Alabama,Tennessee,2.55,4.25,7.75,Home,1.7,False,-3.5,True,Win
+open,2026,7,401866444,Toledo,Eastern Michigan,9.3,5.75,7.25,Away,-3.55,True,1.5,True,Win
+open,2026,7,401864524,UNLV,Air Force,-0.65,2.0,-0.25,Home,2.65,True,2.25,True,Win
+open,2026,7,401858264,Georgia Tech,Virginia Tech,-2.41,-9.75,-8.5,Away,-7.34,True,1.25,True,Loss
 open,2026,7,401862805,Tulsa,Rice,2.17,3.5,4.0,Home,1.33,False,-0.5,True,Loss
 open,2026,7,401869966,Troy,Louisiana,-3.91,-4.0,-3.0,Home,-0.09,False,-1.0,True,Win
 open,2026,7,401860903,Washington State,Oregon State,-6.38,-17.25,-18.5,Away,-10.87,True,-1.25,True,Loss
-open,2026,7,401856726,Arkansas,Vanderbilt,-12.18,-6.5,-5.75,Home,5.68,True,-0.75,True,Loss
-open,2026,7,401862806,Kent State,South Florida,-19.44,-19.25,-20.5,Home,0.19,False,1.25,True,Win
-open,2026,7,401856832,TCU,Baylor,-4.91,-6.5,-4.5,Away,-1.59,False,2.0,True,Win
 open,2026,7,401858263,Florida State,Miami,-22.46,-18.75,-20.25,Home,3.71,True,1.5,True,Loss
+open,2026,7,401862806,Kent State,South Florida,-19.44,-19.25,-20.5,Home,0.19,False,1.25,True,Win
 open,2026,7,401869934,Arkansas State,Southern Miss,1.77,7.0,6.0,Home,5.23,True,1.0,True,Loss
-open,2026,7,401864520,Nevada,North Dakota State,-25.21,-15.0,-14.25,Home,10.21,True,-0.75,True,Loss
+open,2026,7,401856726,Arkansas,Vanderbilt,-12.18,-6.5,-5.75,Home,5.68,True,-0.75,True,Loss
+open,2026,7,401856832,TCU,Baylor,-4.91,-6.5,-4.5,Away,-1.59,False,2.0,True,Win
 open,2026,7,401856831,Oklahoma State,Houston,-16.71,-3.75,-4.25,Home,12.96,True,0.5,True,Loss
 open,2026,7,401856722,Kentucky,Oklahoma,-11.47,-6.75,-6.75,Home,4.72,True,0.0,True,Loss
+open,2026,7,401858494,Wisconsin,UCLA,-4.02,-3.25,-2.0,Home,0.77,False,-1.25,True,Win
 open,2026,7,401856809,Notre Dame,BYU,3.45,10.5,10.5,Home,7.05,True,0.0,True,Win
 open,2026,7,401858265,Louisville,Syracuse,16.52,11.75,14.5,Away,-4.77,True,2.75,True,Loss
-open,2026,7,401858494,Wisconsin,UCLA,-4.02,-3.25,-2.0,Home,0.77,False,-1.25,True,Win
-open,2026,7,401871091,Louisiana Tech,UL Monroe,14.8,14.5,14.5,Away,-0.3,False,0.0,True,Win
 open,2026,7,401862804,Navy,UTSA,-3.58,-6.75,-6.25,Away,-3.17,True,0.5,True,Win
+open,2026,7,401871091,Louisiana Tech,UL Monroe,14.8,14.5,14.5,Away,-0.3,False,0.0,True,Win
 open,2026,7,401864523,San José State,UTEP,5.73,9.5,6.75,Home,3.77,True,2.75,True,Loss
 open,2026,7,401866445,Ohio,Sacramento State,18.71,14.0,16.5,Away,-4.71,True,2.5,True,Win
 open,2026,7,401856833,Utah,Colorado,18.85,16.5,15.25,Away,-2.35,True,-1.25,True,Loss
@@ -336,6 +336,7 @@ open,2026,7,401860904,Fresno State,San Diego State,2.42,8.25,6.75,Home,5.83,True
 open,2026,7,401864521,New Mexico,Hawai'i,10.5,14.75,14.5,Home,4.25,True,0.25,True,Win
 open,2026,7,401858269,Wake Forest,California,10.14,8.75,10.0,Away,-1.39,False,1.25,True,Win
 open,2026,7,401858492,Nebraska,Oregon,-6.51,-14.0,-6.75,Away,-7.49,True,7.25,True,Win
+open,2026,8,401864527,North Dakota State,New Mexico,3.29,-3.75,-4.75,Away,-7.04,True,-1.0,True,Loss
 open,2026,8,401871069,Missouri State,Delaware,-6.4,-3.0,-3.0,Home,3.4,True,0.0,True,Win
 open,2026,8,401871055,Middle Tennessee,Florida International,-11.36,-10.25,-10.25,Home,1.11,False,0.0,True,Loss
 open,2026,8,401871092,South Alabama,Marshall,0.91,3.0,1.5,Home,2.09,True,1.5,True,Win
@@ -343,52 +344,51 @@ open,2026,8,401871070,New Mexico State,Sam Houston,3.82,2.75,3.0,Away,-1.07,Fals
 open,2026,8,401869845,James Madison,App State,16.18,10.75,12.75,Away,-5.43,True,2.0,True,Loss
 open,2026,8,401871056,Liberty,Kennesaw State,4.85,9.5,8.5,Home,4.65,True,1.0,True,Loss
 open,2026,8,401862807,East Carolina,Memphis,-6.79,-9.75,-10.5,Away,-2.96,True,-0.75,True,Win
-open,2026,8,401858271,Duke,Virginia,1.07,-3.75,-2.5,Away,-4.82,True,1.25,True,Win
 open,2026,8,401861965,Massachusetts,UConn,-16.17,-15.75,-12.75,Home,0.42,False,-3.0,True,Win
+open,2026,8,401858271,Duke,Virginia,1.07,-3.75,-2.5,Away,-4.82,True,1.25,True,Win
 open,2026,8,401862808,Army,Tulsa,5.08,-1.25,1.5,Away,-6.33,True,2.75,True,Win
 open,2026,8,401864525,Air Force,Wyoming,7.83,6.0,7.0,Away,-1.83,False,1.0,True,Loss
 open,2026,8,401858272,NC State,Stanford,1.51,7.25,7.5,Home,5.74,True,-0.25,True,Win
-open,2026,8,401856840,Texas Tech,Cincinnati,14.38,10.75,10.75,Away,-3.63,True,0.0,True,Loss
-open,2026,8,401856841,West Virginia,TCU,-13.41,-7.25,-10.0,Home,6.16,True,2.75,True,Loss
-open,2026,8,401866450,Western Michigan,Toledo,0.48,-2.5,-2.5,Away,-2.98,True,0.0,True,Loss
 open,2026,8,401858274,Pittsburgh,Miami,-20.76,-22.25,-20.5,Away,-1.49,False,1.75,True,Loss
-open,2026,8,401858498,Rutgers,Northwestern,-15.69,-16.5,-15.5,Home,-0.81,False,-1.0,True,Win
-open,2026,8,401856728,LSU,Auburn,4.6,6.75,7.0,Home,2.15,True,-0.25,True,Loss
-open,2026,8,401862809,Rice,Florida Atlantic,-9.31,-10.25,-9.5,Home,-0.94,False,-0.75,True,Loss
 open,2026,8,401858270,California,SMU,-17.51,-18.0,-18.5,Home,-0.49,False,0.5,True,Win
+open,2026,8,401856841,West Virginia,TCU,-13.41,-7.25,-10.0,Home,6.16,True,2.75,True,Loss
+open,2026,8,401856840,Texas Tech,Cincinnati,14.38,10.75,10.75,Away,-3.63,True,0.0,True,Loss
+open,2026,8,401856728,LSU,Auburn,4.6,6.75,7.0,Home,2.15,True,-0.25,True,Loss
+open,2026,8,401866450,Western Michigan,Toledo,0.48,-2.5,-2.5,Away,-2.98,True,0.0,True,Loss
+open,2026,8,401862809,Rice,Florida Atlantic,-9.31,-10.25,-9.5,Home,-0.94,False,-0.75,True,Loss
+open,2026,8,401858498,Rutgers,Northwestern,-15.69,-16.5,-15.5,Home,-0.81,False,-1.0,True,Win
 open,2026,8,401858496,Indiana,Michigan,14.15,6.5,7.5,Away,-7.65,True,1.0,True,Win
 open,2026,8,401856834,Baylor,Kansas,1.75,1.5,-1.5,Away,-0.25,False,-3.0,True,Loss
-open,2026,8,401866476,Miami (OH),Central Michigan,-0.39,0.0,3.5,Home,0.39,False,-3.5,True,Loss
 open,2026,8,401866446,Akron,Kent State,-5.75,-3.25,-3.0,Home,2.5,True,-0.25,True,Win
+open,2026,8,401866476,Miami (OH),Central Michigan,-0.39,0.0,3.5,Home,0.39,False,-3.5,True,Loss
 open,2026,8,401858495,Oregon,Illinois,10.14,11.25,10.25,Home,1.11,False,1.0,True,Win
-open,2026,8,401866447,Sacramento State,Ball State,-11.81,-10.5,-14.5,Home,1.31,False,4.0,True,Win
-open,2026,8,401864526,Hawai'i,Northern Illinois,4.55,6.0,3.0,Home,1.45,False,3.0,True,Loss
-open,2026,8,401858273,Boston College,Georgia Tech,-9.4,-4.75,-6.5,Home,4.65,True,1.75,True,Loss
-open,2026,8,401856727,Texas A&M,Alabama,-9.58,-8.5,-13.25,Home,1.08,False,4.75,True,Win
 open,2026,8,401858497,Iowa,Minnesota,9.73,5.75,7.75,Away,-3.98,True,2.0,True,Loss
 open,2026,8,401866448,Bowling Green,Buffalo,-5.51,-4.5,-3.0,Home,1.01,False,-1.5,True,Win
 open,2026,8,401856835,BYU,UCF,18.51,8.0,7.5,Away,-10.51,True,-0.5,True,Loss
+open,2026,8,401862810,North Texas,Navy,-4.63,1.75,3.0,Home,6.38,True,-1.25,True,Loss
 open,2026,8,401856731,Tennessee,South Carolina,4.8,1.75,-2.5,Away,-3.05,True,-4.25,True,Loss
 open,2026,8,401856730,Oklahoma,Mississippi State,4.08,2.0,1.5,Away,-2.08,True,-0.5,True,Win
-open,2026,8,401862810,North Texas,Navy,-4.63,1.75,3.0,Home,6.38,True,-1.25,True,Loss
+open,2026,8,401858273,Boston College,Georgia Tech,-9.4,-4.75,-6.5,Home,4.65,True,1.75,True,Loss
 open,2026,8,401858499,Michigan State,UCLA,-11.22,-13.75,-16.5,Away,-2.53,True,-2.75,True,Loss
+open,2026,8,401856727,Texas A&M,Alabama,-9.58,-8.5,-13.25,Home,1.08,False,4.75,True,Win
+open,2026,8,401864526,Hawai'i,Northern Illinois,5.45,6.0,3.0,Away,0.55,False,-3.0,True,Win
+open,2026,8,401866447,Sacramento State,Ball State,-11.81,-10.5,-14.5,Home,1.31,False,4.0,True,Win
 open,2026,8,401856839,Kansas State,Arizona State,1.45,3.25,1.5,Home,1.8,False,1.75,True,Win
 open,2026,8,401871094,UL Monroe,Troy,-16.27,-17.25,-13.5,Home,-0.98,False,-3.75,True,Loss
 open,2026,8,401866449,Eastern Michigan,Ohio,-15.29,-10.25,-11.5,Home,5.04,True,1.25,True,Loss
-open,2026,8,401864528,San José State,Nevada,-5.9,-5.25,-5.75,Home,0.65,False,0.5,True,Win
-open,2026,8,401871093,Old Dominion,Louisiana Tech,-2.35,-9.5,-13.5,Away,-7.15,True,-4.0,True,Loss
 open,2026,8,401869967,Louisiana,Southern Miss,7.84,10.25,11.5,Home,2.41,True,-1.25,True,Win
+open,2026,8,401871093,Old Dominion,Louisiana Tech,-2.35,-9.5,-13.5,Away,-7.15,True,-4.0,True,Loss
+open,2026,8,401864528,San José State,Nevada,-5.9,-5.25,-5.75,Home,0.65,False,0.5,True,Win
 open,2026,8,401860907,Boise State,Washington State,10.31,13.25,14.75,Home,2.94,True,-1.5,True,Loss
 open,2026,8,401860905,San Diego State,Colorado State,5.31,2.75,0.25,Away,-2.56,True,-2.5,True,Loss
 open,2026,8,401869935,Georgia State,Arkansas State,-3.34,2.0,2.5,Home,5.34,True,-0.5,True,Win
 open,2026,8,401858276,Virginia Tech,Clemson,-3.35,-0.75,-3.0,Home,2.6,True,2.25,True,Loss
 open,2026,8,401856836,Colorado,Oklahoma State,0.56,-14.0,-13.0,Away,-14.56,True,1.0,True,Loss
 open,2026,8,401856729,Vanderbilt,Kentucky,-3.04,-10.0,-10.0,Away,-6.96,True,0.0,True,Loss
-open,2026,8,401860906,Utah State,Texas State,-5.86,-10.5,-14.25,Away,-4.64,True,-3.75,True,Win
-open,2026,8,401856838,Iowa State,Arizona,-10.21,-9.75,-12.0,Home,0.46,False,2.25,True,Win
-open,2026,8,401858275,Syracuse,North Carolina,-11.14,-9.25,-8.25,Home,1.89,False,-1.0,True,Loss
 open,2026,8,401858500,USC,Wisconsin,3.18,2.0,2.0,Away,-1.18,False,0.0,True,Loss
+open,2026,8,401856838,Iowa State,Arizona,-10.21,-9.75,-12.0,Home,0.46,False,2.25,True,Win
+open,2026,8,401860906,Utah State,Texas State,-5.86,-10.5,-14.25,Away,-4.64,True,-3.75,True,Win
+open,2026,8,401858275,Syracuse,North Carolina,-11.14,-9.25,-8.25,Home,1.89,False,-1.0,True,Loss
 open,2026,8,401856732,Ole Miss,Texas,-0.3,-6.0,-3.0,Away,-5.7,True,3.0,True,Loss
 open,2026,8,401862811,UTSA,Tulane,-1.21,3.25,3.0,Home,4.46,True,0.25,True,Loss
-open,2026,8,401864527,North Dakota State,New Mexico,3.29,-3.75,-4.75,Away,-7.04,True,-1.0,True,Loss
 open,2026,8,401856837,Houston,Utah,-13.9,-6.5,-6.5,Home,7.4,True,0.0,True,Win
