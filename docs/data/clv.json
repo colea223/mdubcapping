@@ -1,5 +1,5 @@
 {
- "generated": "2026-10-25 20:48 UTC",
+ "generated": "2026-10-27 02:56 UTC",
  "bases": {
   "logged": {
    "all": {
@@ -20,17 +20,17 @@
   "open": {
    "all": {
     "games": 393,
-    "mean_clv": 0.194,
-    "pct_positive": 0.489,
-    "pct_negative": 0.407,
+    "mean_clv": 0.189,
+    "pct_positive": 0.481,
+    "pct_negative": 0.415,
     "pct_unchanged": 0.104
    },
    "real_edge": {
-    "games": 287,
-    "mean_clv": 0.319,
-    "pct_positive": 0.502,
-    "pct_negative": 0.401,
-    "pct_unchanged": 0.098
+    "games": 285,
+    "mean_clv": 0.278,
+    "pct_positive": 0.488,
+    "pct_negative": 0.411,
+    "pct_unchanged": 0.102
    }
   }
  },
