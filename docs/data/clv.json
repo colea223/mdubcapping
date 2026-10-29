@@ -1,38 +1,107 @@
 {
- "generated": "2026-10-27 03:54 UTC",
+ "generated": "2026-10-29 21:12 UTC",
  "bases": {
   "logged": {
    "all": {
-    "games": 0,
-    "mean_clv": null,
-    "pct_positive": null,
-    "pct_negative": null,
-    "pct_unchanged": null
+    "games": 4,
+    "mean_clv": 2.0,
+    "pct_positive": 0.5,
+    "pct_negative": 0.25,
+    "pct_unchanged": 0.25
    },
    "real_edge": {
-    "games": 0,
-    "mean_clv": null,
-    "pct_positive": null,
-    "pct_negative": null,
-    "pct_unchanged": null
+    "games": 3,
+    "mean_clv": 2.667,
+    "pct_positive": 0.667,
+    "pct_negative": 0.333,
+    "pct_unchanged": 0.0
    }
   },
   "open": {
    "all": {
-    "games": 393,
-    "mean_clv": 0.174,
-    "pct_positive": 0.478,
-    "pct_negative": 0.417,
-    "pct_unchanged": 0.104
+    "games": 397,
+    "mean_clv": 0.191,
+    "pct_positive": 0.479,
+    "pct_negative": 0.416,
+    "pct_unchanged": 0.106
    },
    "real_edge": {
-    "games": 285,
-    "mean_clv": 0.278,
+    "games": 287,
+    "mean_clv": 0.288,
     "pct_positive": 0.488,
     "pct_negative": 0.411,
-    "pct_unchanged": 0.102
+    "pct_unchanged": 0.101
    }
   }
  },
- "recent_logged": []
+ "recent_logged": [
+  {
+   "basis": "logged",
+   "season": 2026,
+   "week": 9,
+   "game_id": 401871072,
+   "away_team": "Sam Houston",
+   "home_team": "Missouri State",
+   "gamma_spread": -10.68,
+   "entry_spread": -5.5,
+   "close_spread": -5.25,
+   "lean": "Home",
+   "edge": 5.18,
+   "is_bet": true,
+   "clv_pts": -0.25,
+   "completed": true,
+   "result": "Win"
+  },
+  {
+   "basis": "logged",
+   "season": 2026,
+   "week": 9,
+   "game_id": 401871071,
+   "away_team": "Delaware",
+   "home_team": "Western Kentucky",
+   "gamma_spread": -2.08,
+   "entry_spread": 1.5,
+   "close_spread": -2.5,
+   "lean": "Home",
+   "edge": 3.58,
+   "is_bet": true,
+   "clv_pts": 4.0,
+   "completed": true,
+   "result": "Loss"
+  },
+  {
+   "basis": "logged",
+   "season": 2026,
+   "week": 9,
+   "game_id": 401871058,
+   "away_team": "Kennesaw State",
+   "home_team": "Middle Tennessee",
+   "gamma_spread": -0.65,
+   "entry_spread": -3.0,
+   "close_spread": 1.25,
+   "lean": "Away",
+   "edge": -2.35,
+   "is_bet": true,
+   "clv_pts": 4.25,
+   "completed": true,
+   "result": "Win"
+  },
+  {
+   "basis": "logged",
+   "season": 2026,
+   "week": 9,
+   "game_id": 401871057,
+   "away_team": "Jacksonville State",
+   "home_team": "New Mexico State",
+   "gamma_spread": 3.33,
+   "entry_spread": 3.0,
+   "close_spread": 3.0,
+   "lean": "Away",
+   "edge": -0.33,
+   "is_bet": false,
+   "clv_pts": 0.0,
+   "completed": true,
+   "result": "Win"
+  }
+ ]
 }
