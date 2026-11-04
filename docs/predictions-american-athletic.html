@@ -69,6 +69,9 @@ function renderPredictions(selectedConf) {
       if (p.is_real_edge) {
         edgeClass = p.lean_side === "Home" ? "lean-home" : "lean-away";
         edgeLabel = `Lean ${leanTeam} (${Math.abs(p.edge).toFixed(1)} pt edge)`;
+        if (Math.abs(p.edge) >= 4) {
+          edgeLabel += " \u26A0 large gap vs Vegas \u2013 use caution";
+        }
       } else if (p.edge !== null && p.edge !== undefined && Math.abs(p.edge) >= 1) {
         edgeLabel = `Slight lean ${leanTeam} (${Math.abs(p.edge).toFixed(1)} pt edge)`;
       } else {
