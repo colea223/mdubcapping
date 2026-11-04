@@ -1,13 +1,13 @@
 {
- "generated": "2026-11-03 00:02 UTC",
+ "generated": "2026-11-04 17:13 UTC",
  "bases": {
   "logged": {
    "all": {
-    "games": 56,
-    "mean_clv": 0.366,
-    "pct_positive": 0.554,
-    "pct_negative": 0.357,
-    "pct_unchanged": 0.089
+    "games": 58,
+    "mean_clv": 0.323,
+    "pct_positive": 0.534,
+    "pct_negative": 0.362,
+    "pct_unchanged": 0.103
    },
    "real_edge": {
     "games": 41,
@@ -19,22 +19,56 @@
   },
   "open": {
    "all": {
-    "games": 449,
-    "mean_clv": 0.147,
-    "pct_positive": 0.465,
-    "pct_negative": 0.434,
+    "games": 451,
+    "mean_clv": 0.146,
+    "pct_positive": 0.466,
+    "pct_negative": 0.435,
     "pct_unchanged": 0.1
    },
    "real_edge": {
-    "games": 318,
-    "mean_clv": 0.256,
-    "pct_positive": 0.481,
-    "pct_negative": 0.418,
-    "pct_unchanged": 0.101
+    "games": 320,
+    "mean_clv": 0.259,
+    "pct_positive": 0.484,
+    "pct_negative": 0.416,
+    "pct_unchanged": 0.1
    }
   }
  },
  "recent_logged": [
+  {
+   "basis": "logged",
+   "season": 2026,
+   "week": 10,
+   "game_id": 401866454,
+   "away_team": "Buffalo",
+   "home_team": "Miami (OH)",
+   "gamma_spread": -5.9,
+   "entry_spread": -6.5,
+   "close_spread": -6.5,
+   "lean": "Home",
+   "edge": -0.6,
+   "is_bet": false,
+   "clv_pts": 0.0,
+   "completed": true,
+   "result": "Loss"
+  },
+  {
+   "basis": "logged",
+   "season": 2026,
+   "week": 10,
+   "game_id": 401866453,
+   "away_team": "Ohio",
+   "home_team": "Akron",
+   "gamma_spread": 13.26,
+   "entry_spread": 14.0,
+   "close_spread": 12.25,
+   "lean": "Away",
+   "edge": 0.74,
+   "is_bet": false,
+   "clv_pts": -1.75,
+   "completed": true,
+   "result": "Loss"
+  },
   {
    "basis": "logged",
    "season": 2026,
@@ -425,40 +459,6 @@
    "clv_pts": 1.0,
    "completed": true,
    "result": "Win"
-  },
-  {
-   "basis": "logged",
-   "season": 2026,
-   "week": 9,
-   "game_id": 401860910,
-   "away_team": "Colorado State",
-   "home_team": "Utah State",
-   "gamma_spread": -10.63,
-   "entry_spread": -5.5,
-   "close_spread": -8.5,
-   "lean": "Home",
-   "edge": 5.13,
-   "is_bet": true,
-   "clv_pts": 3.0,
-   "completed": true,
-   "result": "Win"
-  },
-  {
-   "basis": "logged",
-   "season": 2026,
-   "week": 9,
-   "game_id": 401860909,
-   "away_team": "Washington State",
-   "home_team": "San Diego State",
-   "gamma_spread": -1.35,
-   "entry_spread": -3.0,
-   "close_spread": -2.5,
-   "lean": "Away",
-   "edge": -1.65,
-   "is_bet": false,
-   "clv_pts": 0.5,
-   "completed": true,
-   "result": "Loss"
   }
  ]
 }
