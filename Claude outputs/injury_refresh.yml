@@ -1,0 +1,62 @@
+name: Refresh injuries, lines and predictions (game week)
+
+# Scheduled game-week refresh: covers.com injury report + headline injury scan + every sportsbook's line + predictions +
+# line shopping. Does NOT touch excel/ (the tracker) -- it commits only data/raw/, data/clean/ and docs/data/, so a bot
+# commit can never collide with edits you make to the Excel tracker. Run the full "Update Mountain Dub Handicapping
+# data" workflow by hand when you want the tracker updated.
+#
+# Times are UTC and assume U.S. Mountain STANDARD time (UTC-7, in effect through March; the whole football season):
+#   Tue-Sat 6:32 pm Mountain  = 01:32 UTC the NEXT day  -> Wed, Thu, Fri, Sat, Sun  (cron days 3,4,5,6,0)
+#   Saturday 10:32 am Mountain = 17:32 UTC Saturday                                  (cron day 6)
+# Minutes are :32 on purpose -- GitHub's scheduler is most congested on :00 and :30. GitHub can still run a scheduled
+# job several minutes late. Change the numbers below if you want other times or a different time zone.
+# Run it by hand any time from the Actions tab ("Run workflow").
+
+on:
+  schedule:
+    - cron: "32 1 * * 0,3,4,5,6"
+    - cron: "32 17 * * 6"
+  workflow_dispatch: {}
+
+permissions:
+  contents: write
+
+# One data-writing job at a time (the other workflows write the same files).
+concurrency:
+  group: data-refresh
+  cancel-in-progress: false
+
+jobs:
+  injury-refresh:
+    runs-on: ubuntu-latest
+    timeout-minutes: 40
+    steps:
+      - name: Check out repo
+        uses: actions/checkout@v7
+
+      - name: Set up Python
+        uses: actions/setup-python@v7
+        with:
+          python-version: "3.11"
+
+      - name: Install dependencies
+        run: pip install -r requirements.txt
+
+      - name: Run injury / lines / predictions refresh
+        env:
+          CFBD_API_KEY: ${{ secrets.CFBD_API_KEY }}
+          ODDS_API_KEY: ${{ secrets.ODDS_API_KEY }}
+        run: python src/run_injury_refresh.py
+
+      - name: Commit updated data back to the repo
+        run: |
+          git config user.name "mw-handicapping-bot"
+          git config user.email "actions@users.noreply.github.com"
+          git add data/raw/ data/clean/ docs/data/
+          if git diff --cached --quiet; then
+            echo "Nothing changed -- skipping commit."
+          else
+            git commit -m "Game-week refresh $(date -u +'%Y-%m-%d %H:%M UTC')"
+            git pull --rebase --autostash
+            git push
+          fi

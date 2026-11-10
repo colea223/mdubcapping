@@ -41,6 +41,8 @@ import pull_plays
 import pull_injuries
 import pull_injury_news
 import pull_player_talent
+import pull_odds_api
+import best_lines
 import pull_team_logos
 import build_db
 import power_rating
@@ -53,6 +55,15 @@ import generate_pages
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent / "excel"))
 import update_tracker  # noqa: E402
 
+def _odds_best_effort():
+    """One Odds API snapshot (3 credits) so the Bet Log can fill FanDuel's closing line. Never stops the pipeline."""
+    try:
+        pull_odds_api.main()
+    except Exception as e:  # noqa: BLE001
+        print(f"  (Odds API pull skipped: {type(e).__name__}: {e})")
+
+
+
 STEPS = [
     ("Games", pull_games.main),
     ("Stats (PPA/SP+/Elo/Recruiting/Player PPA)", pull_stats.main),
@@ -64,6 +75,7 @@ STEPS = [
     # other pulls above, before build_db.py has loaded anything this run --
     # see pull_injuries.py's own _detect_current_week() comment for why.
     ("Injury report (Dub Gamma Model input)", pull_injuries.main),
+    ("Live odds snapshot (FanDuel closing lines for the Bet Log)", _odds_best_effort),
     # Logos barely ever change -- cheap (one CFBD call), so it just rides
     # along on every run rather than needing its own separate reminder to
     # re-run it occasionally. See pull_team_logos.py's own docstring.
@@ -74,6 +86,7 @@ STEPS = [
     ("Baseline power ratings", power_rating.main),
     ("Pre-game features", features.main),
     ("Predict next upcoming week", predict_week.main),
+    ("Line shopping (best number at every book)", best_lines.main),
     ("Update Excel tracker", update_tracker.main),
     # Closing line value: logs this run's Gamma picks, scores CLV vs the close, fills blank Bet Log closing lines,
     # and refreshes the Excel "CLV" tab + docs/data/clv.json. Best-effort -- never stops the pipeline.

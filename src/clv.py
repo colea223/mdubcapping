@@ -235,6 +235,86 @@ def write_site_json(clv_df, summaries):
     SITE_JSON.write_text(json.dumps(payload, indent=1, default=str), encoding="utf-8")
 
 
+
+# ---------------------------------------------------------------------------------------------------------------
+# FanDuel closing lines (for the Bet Log). CFBD's `lines` feed only carries DraftKings and Bovada, so the closing line
+# FanDuel actually showed comes from The Odds API snapshots (src/pull_odds_api.py -> data/raw/odds_api_*.json[.gz]).
+# We use the LAST FanDuel spread captured before kickoff, if it was captured within FD_MAX_AGE_HOURS of kickoff;
+# otherwise the caller falls back to the CFBD consensus. The fresher the last pull before kickoff, the closer this is
+# to the true close -- every pipeline run pulls one snapshot, and `python src/pull_odds_api.py` adds one on demand.
+# ---------------------------------------------------------------------------------------------------------------
+FD_MAX_AGE_HOURS = 4.0
+_FD_CACHE = {}
+
+
+def _ascii_key(name):
+    import unicodedata
+    return unicodedata.normalize("NFKD", str(name or "")).encode("ascii", "ignore").decode().lower().strip()
+
+
+def _name_matches(raw, canon):
+    raw_a, canon_a = _ascii_key(raw), _ascii_key(canon)
+    return bool(raw_a and canon_a and (raw_a.startswith(canon_a) or canon_a in raw_a))
+
+
+def _odds_snapshots(season):
+    if season in _FD_CACHE:
+        return _FD_CACHE[season]
+    import re
+    from config import RAW_DIR
+    from raw_storage import load_json_any
+    pat = re.compile(r"^odds_api_(\d{4})_(\d{8}T\d{6}Z)\.json(?:\.gz)?$")
+    snaps = []
+    for path in sorted(RAW_DIR.glob(f"odds_api_{season}_*")):
+        m = pat.match(path.name)
+        if not m:
+            continue
+        try:
+            pulled = pd.Timestamp(pd.to_datetime(m.group(2), format="%Y%m%dT%H%M%SZ"))
+            snaps.append((pulled, load_json_any(path)))
+        except Exception:  # noqa: BLE001
+            continue
+    _FD_CACHE[season] = snaps
+    return snaps
+
+
+def fanduel_close(season, home, away, kickoff):
+    """FanDuel's last pre-kickoff spread from the home team's perspective, or None."""
+    try:
+        ko = pd.Timestamp(kickoff).tz_localize(None)
+    except Exception:  # noqa: BLE001
+        return None
+    best = None
+    for pulled, events in _odds_snapshots(season):
+        if pulled > ko or (ko - pulled).total_seconds() > FD_MAX_AGE_HOURS * 3600:
+            continue
+        for ev in events:
+            try:
+                commence = pd.Timestamp(ev["commence_time"]).tz_convert("UTC").tz_localize(None)
+            except Exception:  # noqa: BLE001
+                continue
+            if abs((commence - ko).total_seconds()) > 36 * 3600:
+                continue
+            ev_home, ev_away = ev.get("home_team"), ev.get("away_team")
+            if not ((_name_matches(ev_home, home) and _name_matches(ev_away, away))
+                    or (_name_matches(ev_home, away) and _name_matches(ev_away, home))):
+                continue
+            for book in ev.get("bookmakers") or []:
+                if _ascii_key(book.get("key") or book.get("title")) != "fanduel":
+                    continue
+                for mk in book.get("markets") or []:
+                    if mk.get("key") != "spreads":
+                        continue
+                    for o in mk.get("outcomes") or []:
+                        if o.get("point") is None:
+                            continue
+                        if _name_matches(o.get("name"), home):
+                            pt = float(o["point"])
+                            if best is None or pulled > best[0]:
+                                best = (pulled, pt)   # the outcome is named for OUR home team, so the point is already its spread
+    return None if best is None else best[1]
+
+
 def fill_bet_log(con, wb):
     from openpyxl.utils import get_column_letter  # noqa: F401
     if "Bet Log" not in wb.sheetnames:
@@ -252,6 +332,7 @@ def fill_bet_log(con, wb):
                          [season]).fetchall():
         gm[(normalize_team_name(r[2]).lower(), normalize_team_name(r[1]).lower())] = r
     filled = 0
+    fd_used = 0
     for row in range(2, ws.max_row + 1):
         if str(ws.cell(row, header["Bet Type"]).value or "").strip().lower() != "spread":
             continue
@@ -264,9 +345,14 @@ def fill_bet_log(con, wb):
         g = gm.get((normalize_team_name(away).lower(), normalize_team_name(home).lower()))
         if g is None or g[0] not in cons.index or not started(g[3], bool(g[4])):
             continue
-        close_home = cons["close_spread"].get(g[0])
-        if pd.isna(close_home):
-            continue
+        fd = fanduel_close(season, g[1], g[2], g[3])
+        if fd is not None:
+            close_home = fd
+            fd_used += 1
+        else:
+            close_home = cons["close_spread"].get(g[0])
+            if pd.isna(close_home):
+                continue
         side = normalize_team_name(str(ws.cell(row, header["Side"]).value or "")).lower()
         if side == normalize_team_name(home).lower():
             close_side = close_home
@@ -276,6 +362,9 @@ def fill_bet_log(con, wb):
             continue
         ws.cell(row, header["Closing Line"]).value = round(close_side * 2) / 2.0
         filled += 1
+    if filled:
+        print(f"  [CLV] Bet Log closing lines filled: {filled} ({fd_used} from FanDuel's last pre-kickoff line, "
+              f"{filled - fd_used} from the CFBD consensus because no recent FanDuel snapshot existed).")
     return filled
 
 

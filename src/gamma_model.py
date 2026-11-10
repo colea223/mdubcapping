@@ -132,6 +132,10 @@ def true_game_performance_level(net_score, opponent_old_rating, own_injury_weigh
 #   NET_SCORE_CAP: cap on |net_score| (points) in the update, so a 45-point blowout counts like a 28-point one (None = off).
 EARLY_PERFORMANCE_WEIGHT = None
 EARLY_WEEKS = 0
+# LATE_PERFORMANCE_WEIGHT: update weight for games in weeks >= LATE_START_WEEK (None = off). Tested by
+# diagnose_late_weight.py before ever being switched on.
+LATE_PERFORMANCE_WEIGHT = None
+LATE_START_WEEK = 99
 # Set to 28 after src/diagnose_gamma_fade.py (2026, weeks 2-8): the cap trimmed margin error slightly in both early and
 # later weeks. A faster preseason fade did NOT help (it made early-week error worse), so the weight stays at 0.10.
 NET_SCORE_CAP = 28
@@ -140,6 +144,8 @@ NET_SCORE_CAP = 28
 def performance_weight_for_week(week=None):
     if EARLY_PERFORMANCE_WEIGHT is not None and week is not None and week <= EARLY_WEEKS:
         return EARLY_PERFORMANCE_WEIGHT
+    if LATE_PERFORMANCE_WEIGHT is not None and week is not None and week >= LATE_START_WEEK:
+        return LATE_PERFORMANCE_WEIGHT
     return PERFORMANCE_WEIGHT
 
 

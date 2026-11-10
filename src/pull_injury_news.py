@@ -48,8 +48,8 @@ from teams import normalize_team_name, FBS_CONFERENCES  # noqa: E402
 NEWS_CSV = CLEAN_DIR / "injury_news.csv"
 COLUMNS = ["detected_at", "season", "team", "player", "status", "sticky", "pub_date", "week", "headline"]
 LOOKBACK_DAYS = 21
-PLAYERS_PER_TEAM = 4
-MIN_PLAYER_VALUE = 0.75      # only scan players worth at least this many spread points
+PLAYERS_PER_TEAM = 8
+MIN_PLAYER_VALUE = 0.4       # only scan players whose absence costs at least this many spread points
 MAX_WORKERS = 4
 REQUEST_PAUSE = 0.4
 LAST_WEEK = 20
