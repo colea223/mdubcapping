@@ -44,6 +44,7 @@ season,team,name,position,usage_overall
 2026,Idaho,Lonyatta Alexander,WR,0.05
 2026,UNLV,Troy Stellato,WR,0.032
 2026,North Carolina,Billy Edwards,QB,0.583
+2026,Western Michigan,AJ Green,RB,0.041
 2026,Arizona State,Mikey Keene,QB,0.259
 2026,Washington,Trevion Cooley,RB,0.089
 2026,Rhode Island,Brendon Barrow,RB,0.181
@@ -148,7 +149,7 @@ season,team,name,position,usage_overall
 2026,Idaho,Chance Bogan,TE,0.012
 2026,Georgia Southern,Max Johnson,QB,0.553
 2026,California,Kyion Grayes,WR,0.042
-2026,Massachusetts,Reece Adkins,TE,0.058
+2026,Massachusetts,Reece Adkins,TE,0.057
 2026,Western Kentucky,Jay Rockwell,WR,0.027
 2026,UConn,Kenji Christian,RB,0.156
 2026,Illinois,Ty Robinson,WR,0.037
@@ -246,7 +247,7 @@ season,team,name,position,usage_overall
 2026,North Carolina A&T,Anthony Rucker,TE,0.031
 2026,Tennessee Tech,Eric Weatherly,WR,0.101
 2026,Lamar,Jaydn Girard,WR,0.034
-2026,Toledo,Terrell Crosby Jr.,WR,0.074
+2026,Toledo,Terrell Crosby Jr.,WR,0.068
 2026,Fordham,Gunnar Smith,QB,0.6
 2026,Georgia State,DJ Riles,WR,0.067
 2026,Southeast Missouri State,Clayton Leonard,TE,0.02
@@ -286,7 +287,7 @@ season,team,name,position,usage_overall
 2026,Coastal Carolina,Zach Courtney,TE,0.043
 2026,East Texas A&M,Sean Sallis,TE,0.061
 2026,Nevada,Ky Woods,RB,0.026
-2026,Sacramento State,Jace Wilson,WR,0.045
+2026,Sacramento State,Jace Wilson,WR,0.051
 2026,Southern Miss,Landy Lyddy,QB,0.518
 2026,Tarleton State,Kyle Thompson,TE,0.038
 2026,Louisville,Davin Wydner,QB,0.019
@@ -330,7 +331,7 @@ season,team,name,position,usage_overall
 2026,Hawai'i,Cam Barfield,RB,0.151
 2026,Alabama A&M,Maurice Edwards,RB,0.124
 2026,Michigan State,Chrishon Mccray,WR,0.097
-2026,Buffalo,Chance Morrow,WR,0.151
+2026,Buffalo,Chance Morrow,WR,0.141
 2026,Marshall,Toby Payne,TE,0.073
 2026,Kansas,Cam Pickett,WR,0.112
 2026,Central Michigan,Langston Lewis,WR,0.098
@@ -450,16 +451,16 @@ season,team,name,position,usage_overall
 2026,South Carolina,Lanorris Sellers,QB,0.64
 2026,Western Carolina,Lex Thomas,QB,0.656
 2026,Villanova,Pat McQuaide,QB,0.505
-2026,Kent State,Mason Blakemore,RB,0.182
+2026,Kent State,Mason Blakemore,RB,0.167
 2026,Iowa State,Cody Jackson,WR,0.052
 2026,Oklahoma State,Ayo Adeyi,RB,0.084
 2026,San Diego,Elijah Taylor,WR,0.113
 2026,UC Davis,Matteo Perez,RB,0.089
 2026,UC Davis,Winston Williams,TE,0.037
 2026,Fairmont State,Elijah Tidwell,RB,0.025
-2026,Miami (OH),Maleek Huggins,WR,0.084
+2026,Miami (OH),Maleek Huggins,WR,0.087
 2026,Winston-Salem State,Kendall McKoy,QB,0.121
-2026,Central Michigan,Jaden Allen,TE,0.048
+2026,Central Michigan,Jaden Allen,TE,0.043
 2026,Arkansas State,Nazeviah Burris,WR,0.05
 2026,Northwestern State,Myion Hicks,RB,0.057
 2026,Southeast Missouri State,Jack Clinkenbeard,WR,0.014
@@ -487,7 +488,7 @@ season,team,name,position,usage_overall
 2026,Charlotte,Henry Rutledge,RB,0.165
 2026,Eastern Kentucky,Caeleb Schlachter,TE,0.032
 2026,Wyoming,Isaac Schoenfeld,TE,0.022
-2026,Bowling Green,Blane Cleaver,TE,0.023
+2026,Bowling Green,Blane Cleaver,TE,0.021
 2026,Tarleton State,Danny Joiner,TE,0.049
 2026,Florida International,Maguire Anderson,WR,0.11
 2026,West Georgia,Colton FitzGerald,QB,0.59
@@ -500,7 +501,7 @@ season,team,name,position,usage_overall
 2026,Liberty,Terron Kellman,RB,0.066
 2026,Northern Illinois,Taron Dickens,QB,0.604
 2026,Jackson State,Kobe Paul,WR,0.049
-2026,Toledo,Jacob Newell,TE,0.032
+2026,Toledo,Jacob Newell,TE,0.03
 2026,Stanford,David Pantelis,WR,0.022
 2026,Baylor,Jayden McGowan,WR,0.048
 2026,Northern Illinois,Jalen Macon,QB,0.129
@@ -531,7 +532,7 @@ season,team,name,position,usage_overall
 2026,UAB,Braylon McReynolds,RB,0.167
 2026,West Virginia,Josh Sapp,TE,0.012
 2026,Temple,Joey Schlaffer,TE,0.025
-2026,Ball State,Johnny Thompson Jr.,RB,0.09
+2026,Ball State,Johnny Thompson Jr.,RB,0.086
 2026,Arkansas,Jaden Platt,TE,0.029
 2026,Arizona,Kedrick Reescano,RB,0.179
 2026,UCLA,Semaj Morgan,WR,0.09
@@ -586,6 +587,7 @@ season,team,name,position,usage_overall
 2026,Lamar,Devan Williams,WR,0.05
 2026,San Diego State,Lucky Sutton,RB,0.319
 2026,Marist,Jason Thompson,WR,0.085
+2026,Bowling Green,Austin Novosad,QB,0.443
 2026,Florida Atlantic,Easton Messer,WR,0.172
 2026,McNeese,Jake Strong,QB,0.361
 2026,Vanderbilt,Walter Taylor,TE,0.013
@@ -606,7 +608,7 @@ season,team,name,position,usage_overall
 2026,Arkansas,Jamari Hawkins,WR,0.023
 2026,Eastern Michigan,Quinn Fracassi,WR,0.018
 2026,Arizona State,Khamari Anderson,TE,0.017
-2026,Western Michigan,Cole Cabana,RB,0.056
+2026,Western Michigan,Cole Cabana,RB,0.069
 2026,Northwestern,Frank Covey IV,WR,0.018
 2026,UCLA,Aidan Mizell,WR,0.053
 2026,Wisconsin,Malachi Coleman,WR,0.038
@@ -632,7 +634,7 @@ season,team,name,position,usage_overall
 2026,Western Kentucky,Kalib Hicks,RB,0.039
 2026,Southeast Missouri State,Braylen Ragland,QB,0.433
 2026,Norfolk State,Paul Billups II,WR,0.085
-2026,Massachusetts,William Watson III,QB,0.548
+2026,Massachusetts,William Watson III,QB,0.5
 2026,Western Kentucky,Brock Glenn,QB,0.418
 2026,Tulsa,Seth Davis,RB,0.085
 2026,Florida Atlantic,Kelby Valsin,WR,0.151
@@ -694,7 +696,7 @@ season,team,name,position,usage_overall
 2026,North Carolina,Benjamin Hall,RB,0.173
 2026,Fresno State,Jayden Mandal,QB,0.574
 2026,Washington State,Trey Leckner,TE,0.059
-2026,Kent State,Ardell Banks,WR,0.054
+2026,Kent State,Ardell Banks,WR,0.049
 2026,Tennessee Tech,Jax Leatherwood,QB,0.593
 2026,Vanderbilt,Sedrick Alexander,RB,0.194
 2026,Arizona State,Reed Harris,WR,0.138
@@ -710,9 +712,9 @@ season,team,name,position,usage_overall
 2026,UAB,Ryder Burton,QB,0.485
 2026,Jacksonville State,Deondre Johnson,WR,0.073
 2026,Rutgers,Logan Blake,TE,0.026
-2026,Western Michigan,Broc Lowry,QB,0.527
+2026,Western Michigan,Broc Lowry,QB,0.493
 2026,California,Ian Strong,WR,0.101
-2026,Ball State,Keldric Luster,QB,0.603
+2026,Ball State,Keldric Luster,QB,0.608
 2026,South Alabama,Anthony Eager,WR,0.088
 2026,Portland State,John-Keawe Sagapolutele,QB,0.343
 2026,Holy Cross,Cal Swanson,QB,0.032
@@ -722,7 +724,7 @@ season,team,name,position,usage_overall
 2026,Purdue,George Burhenn,TE,0.033
 2026,Iowa,Jarriett Buie,WR,0.025
 2026,UConn,Trey Cornist,RB,0.088
-2026,Western Michigan,Baylin Brooks,WR,0.065
+2026,Western Michigan,Baylin Brooks,WR,0.071
 2026,Houston Christian,Jarred Sample,WR,0.033
 2026,Mississippi State,Marquis Johnson,WR,0.071
 2026,Boston College,Evan Dickens,RB,0.17
@@ -749,15 +751,15 @@ season,team,name,position,usage_overall
 2026,UConn,Tucker McDonald,QB,0.013
 2026,Texas State,Chris Dawn Jr.,WR,0.119
 2026,South Carolina,Max Drag,TE,0.016
-2026,Ball State,TJ Horton,RB,0.162
+2026,Ball State,TJ Horton,RB,0.164
 2026,Louisville,Justyn Reid,TE,0.016
 2026,Bryant,Noah Braham,TE,0.024
 2026,Wisconsin,Abu Sama III,RB,0.197
 2026,Abilene Christian,Brandon Johnson,RB,0.053
 2026,Louisville,T.J. McWilliams,WR,0.028
 2026,Maryland,AJ Szymanski,TE,0.019
-2026,Ball State,Isaiah Thacker,WR,0.066
-2026,Toledo,Connor Walendzak,RB,0.198
+2026,Ball State,Isaiah Thacker,WR,0.065
+2026,Toledo,Connor Walendzak,RB,0.195
 2026,Troy,TJ Lott,WR,0.043
 2026,Troy,TJ Lott,WR,0.043
 2026,Virginia,Noah Vaughn,RB,0.067
@@ -776,7 +778,7 @@ season,team,name,position,usage_overall
 2026,Nebraska,Nyziah Hunter,WR,0.062
 2026,UTSA,Brandon High,RB,0.112
 2026,Georgia,London Humphreys,WR,0.057
-2026,Ball State,Jabari Smith,WR,0.078
+2026,Ball State,Jabari Smith,WR,0.074
 2026,Louisiana Tech,Dedrick Latulas,WR,0.016
 2026,LSU,Sam Leavitt,QB,0.631
 2026,UAB,Antonio Ferguson,TE,0.021
@@ -903,7 +905,7 @@ season,team,name,position,usage_overall
 2026,Central Arkansas,Walker White,QB,0.082
 2026,Kansas State,Izaiah Williams,WR,0.025
 2026,Colorado,Isaac Wilson,QB,0.575
-2026,Miami (OH),Damarion Witten,WR,0.068
+2026,Miami (OH),Damarion Witten,WR,0.061
 2026,Iowa State,Jaylen Raynor,QB,0.533
 2026,Temple,Peter Clarke,TE,0.061
 2026,Oklahoma,Isaiah Sategna,WR,0.161
@@ -921,7 +923,7 @@ season,team,name,position,usage_overall
 2026,Utah State,Eli Wood,WR,0.139
 2026,South Carolina,DJ Black,WR,0.064
 2026,Michigan State,Jaziun Patterson,RB,0.212
-2026,Massachusetts,Justin Williams-Thomas,RB,0.017
+2026,Massachusetts,Justin Williams-Thomas,RB,0.023
 2026,Montana,Titus Rohrer,TE,0.024
 2026,Auburn,Chas Nimrod,WR,0.112
 2026,Tennessee,Hunter Barnes,RB,0.018
@@ -942,16 +944,16 @@ season,team,name,position,usage_overall
 2026,Indiana State,Zackary Drawdy,WR,0.018
 2026,Army,Zach Mundell,WR,0.065
 2026,Rice,Quinton Jackson,RB,0.149
-2026,Ball State,Alex Scherle,TE,0.032
+2026,Ball State,Alex Scherle,TE,0.029
 2026,Northern Colorado,Justin Guin,RB,0.21
 2026,San Diego State,Nathan Acevedo,WR,0.075
-2026,Toledo,John Alan Richter,QB,0.499
+2026,Toledo,John Alan Richter,QB,0.496
 2026,Eastern Kentucky,Blake Kendall,QB,0.203
 2026,Minnesota,A.J. Turner,RB,0.092
 2026,Merrimack,DeMarcus McElroy,RB,0.088
 2026,Gardner-Webb,Beau Blankenship,TE,0.021
 2026,West Virginia,DJ Epps,WR,0.079
-2026,Sacramento State,Matthew Coleman,WR,0.138
+2026,Sacramento State,Matthew Coleman,WR,0.136
 2026,California,Cole Boscia,WR,0.011
 2026,UAlbany,Aidan Semo,QB,0.11
 2026,Kennesaw State,Gerard Bullock,TE,0.016
@@ -975,7 +977,7 @@ season,team,name,position,usage_overall
 2026,Richmond,Sean Clarke,TE,0.081
 2026,Rhode Island,Marquis Buchanan,WR,0.16
 2026,Franklin Pierce,Jaden Griffin,RB,0.157
-2026,Kent State,Hunter Hopperton,FB,0.054
+2026,Kent State,Hunter Hopperton,FB,0.051
 2026,Stony Brook,DJ Linkins,WR,0.086
 2026,New Hampshire,Myles Thomason,RB,0.244
 2026,New Hampshire,Josh Fillion,WR,0.043
@@ -1022,12 +1024,12 @@ season,team,name,position,usage_overall
 2026,Purdue,Bisi Owens,WR,0.016
 2026,Duke,Jared Richardson,WR,0.06
 2026,Boise State,Darren Morris,WR,0.015
-2026,Sacramento State,Cincere Rhaney,RB,0.08
+2026,Sacramento State,Cincere Rhaney,RB,0.075
 2026,Middle Tennessee,Hogan Wasson,WR,0.037
 2026,Bethune-Cookman,Rickie Shaw II,WR,0.072
 2026,East Tennessee State,Tommy Winton III,WR,0.017
 2026,East Tennessee State,Xavier Gaillardetz,WR,0.033
-2026,Akron,Jordan Gant,RB,0.296
+2026,Akron,Jordan Gant,RB,0.291
 2026,Morehead State,Craig Cunningham,RB,0.293
 2026,Central Arkansas,Dakarai Anderson,WR,0.115
 2026,USC,Terrell Anderson,WR,0.053
@@ -1045,7 +1047,7 @@ season,team,name,position,usage_overall
 2026,UCLA,Josh Phifer,TE,0.022
 2026,Montana,Weston Adams,WR,0.04
 2026,NC State,Victor Snow,WR,0.061
-2026,Western Michigan,Jalen Buckley,RB,0.311
+2026,Western Michigan,Jalen Buckley,RB,0.314
 2026,Grambling,Patrick Williams II,TE,0.032
 2026,Stony Brook,Max Ware,WR,0.039
 2026,Northern Colorado,Keegan Patterson,QB,0.36
@@ -1056,7 +1058,7 @@ season,team,name,position,usage_overall
 2026,Montana State,Taco Dowler,WR,0.152
 2026,Indiana State,Deion Brown,RB,0.054
 2026,UCF,Keyone Jenkins,QB,0.503
-2026,Miami (OH),Lynel Billups-Williams,WR,0.07
+2026,Miami (OH),Lynel Billups-Williams,WR,0.068
 2026,Central Arkansas,Triston Edwards,WR,0.036
 2026,Houston Christian,Jett Runion,TE,0.02
 2026,Furman,Dwartney Wortham,WR,0.014
@@ -1126,6 +1128,7 @@ season,team,name,position,usage_overall
 2026,Marist,Santino Correa,WR,0.026
 2026,Butler,Reagan Andrew,QB,0.039
 2026,Illinois State,Ethan Loss,WR,0.066
+2026,Toledo,Ethan Malafa,TE,0.018
 2026,Rice,Max Mosey,WR,0.065
 2026,Long Island University,Sam Slade,RB,0.221
 2026,Rhode Island,Aboraa Kwarteng,WR,0.079
@@ -1148,7 +1151,7 @@ season,team,name,position,usage_overall
 2026,Temple,Jayce Freeman,WR,0.074
 2026,Jacksonville State,Jamill Williams,WR,0.071
 2026,Presbyterian,Deverious Abercrombie,WR,0.054
-2026,Kent State,Terik Mulder,TE,0.034
+2026,Kent State,Terik Mulder,TE,0.033
 2026,Florida State,Micahi Danzy,WR,0.077
 2026,Stonehill,Cole Clarke,TE,0.082
 2026,Duquesne,Noah Canty,TE,0.04
@@ -1174,7 +1177,7 @@ season,team,name,position,usage_overall
 2026,Tennessee Tech,Marcus II Harris,RB,0.076
 2026,Abilene Christian,Brian Henry,TE,0.041
 2026,Central Oklahoma,Jett Huff,QB,0.047
-2026,Ball State,CJ Nelson,WR,0.046
+2026,Ball State,CJ Nelson,WR,0.045
 2026,Illinois State,Seth Glatz,RB,0.167
 2026,Alcorn State,Elijah Griffin,WR,0.068
 2026,Colgate,Jake Stearney,QB,0.533
@@ -1224,8 +1227,8 @@ season,team,name,position,usage_overall
 2026,Marshall,Shawn Rouse,TE,0.013
 2026,Virginia Tech,Marlion Jackson,WR,0.034
 2026,Mercer,Travion Solomon,WR,0.069
-2026,Toledo,CJ Miller,RB,0.248
-2026,Massachusetts,Max Dowling,TE,0.053
+2026,Toledo,CJ Miller,RB,0.253
+2026,Massachusetts,Max Dowling,TE,0.052
 2026,Furman,Luke Shields,WR,0.098
 2026,Clemson,Jarvis Green,RB,0.079
 2026,North Carolina A&T,Nebanye Moore,TE,0.015
@@ -1251,7 +1254,7 @@ season,team,name,position,usage_overall
 2026,Colorado State,Jayden Brown,RB,0.156
 2026,UAB,AJ Johnson,WR,0.019
 2026,Austin Peay,Nate Garnett,WR,0.042
-2026,Buffalo,Trevor Wilson,TE,0.033
+2026,Buffalo,Trevor Wilson,TE,0.029
 2026,UAlbany,Kai Coln,QB,0.016
 2026,Coastal Carolina,Cyrus Ellison,TE,0.04
 2026,South Carolina State,Shamontae Burgess,WR,0.035
@@ -1305,7 +1308,7 @@ season,team,name,position,usage_overall
 2026,North Texas,Josiah Martin,WR,0.048
 2026,Toledo,Cooper Rusk,WR,0.028
 2026,Youngstown State,Beau Brungard,QB,0.721
-2026,Akron,Kyan Mason,WR,0.102
+2026,Akron,Kyan Mason,WR,0.099
 2026,Eastern Washington,Jaxon Branch,WR,0.135
 2026,Nebraska,Carter Nelson,TE,0.014
 2026,Penn State,James Peoples,RB,0.145
@@ -1336,8 +1339,8 @@ season,team,name,position,usage_overall
 2026,Georgia Southern,JP Mikhael,TE,0.012
 2026,Tennessee,Trent Thomas,TE,0.029
 2026,Jackson State,Keynan Higgins,WR,0.026
-2026,Kent State,Dru Deshields,QB,0.595
-2026,Akron,Wyatt Hook,TE,0.026
+2026,Kent State,Dru Deshields,QB,0.608
+2026,Akron,Wyatt Hook,TE,0.027
 2026,Houston Christian,Brice Turner,WR,0.032
 2026,Houston,Patrick Overmyer,TE,0.109
 2026,Troy,Jordan Lovett,RB,0.162
@@ -1361,10 +1364,10 @@ season,team,name,position,usage_overall
 2026,Penn State,Cam Wallace,RB,0.127
 2026,Arkansas State,Ezell Jolly,RB,0.063
 2026,Arkansas State,Hunter Summers,WR,0.101
-2026,Bowling Green,Ke'Marion Baldwin,RB,0.044
+2026,Bowling Green,Ke'Marion Baldwin,RB,0.064
 2026,Texas State,Jake Simpson,TE,0.01
 2026,Tulsa,Grayson Tempest,WR,0.024
-2026,Western Michigan,Adam Parks,TE,0.037
+2026,Western Michigan,Adam Parks,TE,0.033
 2026,Florida International,Kyle Mcneal,WR,0.062
 2026,Wake Forest,Kameran Shanks,WR,0.063
 2026,Vanderbilt,Blaze Berlowitz,QB,0.27
@@ -1446,7 +1449,7 @@ season,team,name,position,usage_overall
 2026,East Tennessee State,D'Marius Rucker,RB,0.056
 2026,NC State,Jayden Scott,RB,0.188
 2026,Boise State,Harry Stewart III,RB,0.05
-2026,Kent State,Jakorion Caffey,RB,0.103
+2026,Kent State,Jakorion Caffey,RB,0.091
 2026,Oregon State,Malachi Durant,WR,0.04
 2026,TCU,Jeremy Scott,WR,0.043
 2026,South Carolina,Christian Clark,RB,0.071
@@ -1495,7 +1498,7 @@ season,team,name,position,usage_overall
 2026,Clemson,Gideon Davidson,RB,0.213
 2026,Oregon,Jordon Davison,RB,0.187
 2026,Tulane,DJ Dugar Jr.,RB,0.042
-2026,Ball State,Elisha Durham,WR,0.015
+2026,Ball State,Elisha Durham,WR,0.019
 2026,Colorado,Quanell Farrakhan Jr.,WR,0.053
 2026,Kentucky,Ja'Kayden Ferguson,WR,0.026
 2026,Grambling,D'Shaun Ford,RB,0.135
@@ -1551,7 +1554,7 @@ season,team,name,position,usage_overall
 2026,South Carolina,Jabree Coleman,RB,0.11
 2026,Georgia,Elyiss Williams,TE,0.03
 2026,Texas,Emaree Winston,TE,0.037
-2026,Miami (OH),Braylon Isom,WR,0.076
+2026,Miami (OH),Braylon Isom,WR,0.079
 2026,UT Rio Grande Valley,Jaydon Smith,WR,0.088
 2026,USC,Tanook Hines,WR,0.069
 2026,Indiana,Khobie Martin,RB,0.043
@@ -1589,6 +1592,7 @@ season,team,name,position,usage_overall
 2026,Auburn,Bryce Cain,WR,0.024
 2026,East Carolina,Jeremiah Melvin,WR,0.096
 2026,Baylor,Nate Bennett,QB,0.306
+2026,Western Michigan,Mason Reynolds,QB,0.192
 2026,UNLV,Jae Beasley II,TE,0.015
 2026,Rhode Island,Tyler Budge,QB,0.467
 2026,South Carolina,Matthew Fuller,RB,0.211
@@ -1605,7 +1609,7 @@ season,team,name,position,usage_overall
 2026,Fresno State,Khristian Martin,QB,0.038
 2026,Michigan State,Alessio Milivojevic,QB,0.506
 2026,Central Michigan,Brock Townsend,RB,0.061
-2026,Akron,Sean Patrick,RB,0.108
+2026,Akron,Sean Patrick,RB,0.103
 2026,Oregon,Da'Jaun Riggs,RB,0.073
 2026,Boise State,Dylan Riley,RB,0.318
 2026,Arkansas,CJ Brown,WR,0.037
@@ -1620,7 +1624,7 @@ season,team,name,position,usage_overall
 2026,Indiana,Charlie Becker,WR,0.158
 2026,Mississippi State,Sanfrisco Magee,WR,0.063
 2026,Purdue,Tra'Mar Harris,WR,0.038
-2026,Massachusetts,Kezion Dia-Johnson,WR,0.05
+2026,Massachusetts,Kezion Dia-Johnson,WR,0.055
 2026,Incarnate Word,Jacob Emmers,WR,0.052
 2026,Boston College,Javarius Green,WR,0.101
 2026,Hawai'i,Tre Griffiths,WR,0.032
@@ -1638,7 +1642,7 @@ season,team,name,position,usage_overall
 2026,Holy Cross,Ty Curran,WR,0.114
 2026,UTSA,Brandon Young Jr.,TE,0.033
 2026,Rutgers,Ben Black,WR,0.054
-2026,Kent State,Wayne Harris,WR,0.125
+2026,Kent State,Wayne Harris,WR,0.128
 2026,Bucknell,Chris Dietrich,QB,0.445
 2026,Idaho,Gus Donnerberg,TE,0.057
 2026,Kennesaw State,Javon Rogers,WR,0.068
@@ -1691,7 +1695,7 @@ season,team,name,position,usage_overall
 2026,Ole Miss,Samari Reed,WR,0.025
 2026,Georgia State,Kyle Washington,WR,0.034
 2026,Oklahoma State,Miles Coleman,WR,0.066
-2026,Central Michigan,Jadyn Glasser,QB,0.269
+2026,Central Michigan,Jadyn Glasser,QB,0.281
 2026,North Texas,Baron Tipton,WR,0.032
 2026,Texas State,Kylen Evans,WR,0.045
 2026,Incarnate Word,Cedric Lott Jr.,TE,0.016
@@ -1702,7 +1706,7 @@ season,team,name,position,usage_overall
 2026,UNLV,Kayden McGee,WR,0.067
 2026,Concord,Greg Burrell,RB,0.154
 2026,Vanderbilt,Tristen Brown,WR,0.04
-2026,Buffalo,Terrance Shelton Jr.,RB,0.026
+2026,Buffalo,Terrance Shelton Jr.,RB,0.023
 2026,Michigan State,Brandon Tullis,RB,0.115
 2026,App State,Dazmin James,WR,0.026
 2026,Troy,Jace Petty,WR,0.058
@@ -1741,9 +1745,10 @@ season,team,name,position,usage_overall
 2026,Iowa State,Vince Benetti,TE,0.035
 2026,New Mexico,Tripp Walsh,TE,0.041
 2026,Abilene Christian,Makenzie McGill,RB,0.043
+2026,Kent State,Donovan Delaney,RB,0.014
 2026,Tulane,Destyn Hill,WR,0.099
 2026,Coastal Carolina,Goldie Lawrence,WR,0.024
-2026,Ball State,Elijah Jackson,RB,0.057
+2026,Ball State,Elijah Jackson,RB,0.099
 2026,Vanderbilt,Claiborne Richards,WR,0.019
 2026,Louisiana Tech,Blake Baker,QB,0.48
 2026,Charlotte,Jason Jeffares,TE,0.031
@@ -1770,7 +1775,7 @@ season,team,name,position,usage_overall
 2026,San José State,Kamaehu Kopa-Kaawalauole,TE,0.03
 2026,West Virginia,Prince Strachan,WR,0.051
 2026,South Alabama,Micah Woods,WR,0.037
-2026,Buffalo,Messiah Burch,RB,0.266
+2026,Buffalo,Messiah Burch,RB,0.283
 2026,St. Thomas (MN),Anthony Policare,QB,0.521
 2026,Colorado State,Ryan McConnell,TE,0.016
 2026,Nevada,Jaceon Doss,WR,0.026
@@ -1846,7 +1851,7 @@ season,team,name,position,usage_overall
 2026,Lehigh,Joseph Marranca,TE,0.023
 2026,Portland State,Gabe Downing,QB,0.528
 2026,Portland State,Delon Thompson,RB,0.304
-2026,Sacramento State,Onterrio Smith Jr.,WR,0.115
+2026,Sacramento State,Onterrio Smith Jr.,WR,0.116
 2026,Colorado,Danny Scudero,WR,0.071
 2026,Incarnate Word,David Rasor,QB,0.03
 2026,UC Davis,Jordan Fisher,RB,0.358
@@ -1866,7 +1871,7 @@ season,team,name,position,usage_overall
 2026,Louisiana,Brock Chappell,TE,0.04
 2026,Coastal Carolina,Colton Hinton,WR,0.052
 2026,Furman,John Holbrook,WR,0.033
-2026,Toledo,Adjatay Dabbs,WR,0.119
+2026,Toledo,Adjatay Dabbs,WR,0.121
 2026,Mercer,Brayden Smith,WR,0.113
 2026,Old Dominion,Kendall Harris,WR,0.085
 2026,Mercer,Sam Albee,TE,0.028
@@ -1901,7 +1906,7 @@ season,team,name,position,usage_overall
 2026,Lafayette,Daniel Lipovski,QB,0.412
 2026,New Hampshire,Ja'Carree Kelly,WR,0.117
 2026,Delaware,Donovan Lewis,WR,0.076
-2026,Miami (OH),Rodney Nelson,RB,0.179
+2026,Miami (OH),Rodney Nelson,RB,0.18
 2026,Monmouth,Tra Neal,WR,0.121
 2026,UAlbany,Matthew Iuvara,WR,0.03
 2026,UCF,Joshua Derry,WR,0.122
@@ -1996,13 +2001,13 @@ season,team,name,position,usage_overall
 2026,Cincinnati,Larenzo Fenner,WR,0.038
 2026,South Dakota,Jesse Miller,TE,0.036
 2026,The Citadel,Nick Armentano,WR,0.017
-2026,Bowling Green,Leo Kemp,FB,0.052
+2026,Bowling Green,Leo Kemp,FB,0.049
 2026,Ball State,Corey Thompson Jr.,WR,0.028
 2026,Nicholls,Jackson Dufrene,WR,0.047
 2026,Nicholls,Karaaz Johnson,WR,0.033
 2026,Nicholls,Jayden Milton,RB,0.013
 2026,VMI,Cade Cox,TE,0.046
-2026,Western Michigan,Egypt Nelson,WR,0.06
+2026,Western Michigan,Egypt Nelson,WR,0.058
 2026,New Hampshire,Denzell Gibson,RB,0.041
 2026,St. Thomas (MN),Stefano Giovannelli,WR,0.035
 2026,St. Thomas (MN),Owen Lyons,WR,0.034
@@ -2099,11 +2104,11 @@ season,team,name,position,usage_overall
 2026,Anderson (SC),Darren Lloyd,RB,0.107
 2026,Eastern Washington,Jamai East,WR,0.038
 2026,Tulsa,David Wells Jr.,WR,0.056
-2026,Akron,Connor Cravaack,TE,0.039
+2026,Akron,Connor Cravaack,TE,0.041
 2026,Alabama A&M,Aidan Diaz,TE,0.027
 2026,Akron,Jean Louis III,WR,0.024
 2026,Marshall,Adrian Norton,WR,0.07
-2026,Central Michigan,Jayden Clerveaux,RB,0.155
+2026,Central Michigan,Jayden Clerveaux,RB,0.173
 2026,North Dakota State,Nyeoti Punni,RB,0.077
 2026,South Carolina,Charly Mullaly,WR,0.024
 2026,Holy Cross,Luke Petitta,TE,0.021
@@ -2114,7 +2119,7 @@ season,team,name,position,usage_overall
 2026,Bryant,Alfredo Perez,WR,0.016
 2026,West Georgia,Collin Hurst,QB,0.322
 2026,Presbyterian,Jalen Patrick,WR,0.061
-2026,Western Michigan,Nathan Levicki,TE,0.036
+2026,Western Michigan,Nathan Levicki,TE,0.039
 2026,Stonehill,Derek Varley,TE,0.022
 2026,Jackson State,Caron Tyler,QB,0.237
 2026,Valparaiso,Chris Gundy,WR,0.102
@@ -2138,7 +2143,7 @@ season,team,name,position,usage_overall
 2026,Idaho State,Jordan Cooke,QB,0.637
 2026,Sacramento State,Jackson Sharman,QB,0.523
 2026,Nevada,Damien Moun,WR,0.101
-2026,Sacramento State,Raiden Brown,WR,0.086
+2026,Sacramento State,Raiden Brown,WR,0.084
 2026,Marist,Lincoln Cardillo,RB,0.127
 2026,Utah State,Javon Robinson,WR,0.085
 2026,Western Carolina,Anthony Benjamin,RB,0.054
@@ -2256,7 +2261,7 @@ season,team,name,position,usage_overall
 2026,Delaware,Viron Ellison Jr.,RB,0.08
 2026,Texas A&M,Mike Brown,WR,0.011
 2026,Ohio State,Brock Boyd,WR,0.04
-2026,Sacramento State,Isaiah Ene,RB,0.179
+2026,Sacramento State,Isaiah Ene,RB,0.186
 2026,Tennessee,Tyreek King,WR,0.014
 2026,North Carolina,Jaylen McGill,RB,0.125
 2026,TCU,Ace Theus,WR,0.022
@@ -2274,8 +2279,8 @@ season,team,name,position,usage_overall
 2026,Elon,Jimmyll Williams,RB,0.121
 2026,Central Arkansas,Sam Driggers,WR,0.013
 2026,Austin Peay,Marvin Sims,WR,0.114
-2026,Ball State,Eli Hohlt,WR,0.025
-2026,Toledo,Bryson Hammer,WR,0.065
+2026,Ball State,Eli Hohlt,WR,0.021
+2026,Toledo,Bryson Hammer,WR,0.061
 2026,Alabama A&M,Devin Herring,WR,0.035
 2026,Texas Southern,Roriyon Richardson,WR,0.074
 2026,Texas Southern,Jacob Washington,RB,0.087
@@ -2303,7 +2308,7 @@ season,team,name,position,usage_overall
 2026,Kansas State,Linkon Cure,TE,0.037
 2026,Notre Dame,Jerome Bettis Jr.,WR,0.084
 2026,Florida State,Jayvan Boggs,WR,0.063
-2026,Western Michigan,Aveion Chenault,WR,0.097
+2026,Western Michigan,Aveion Chenault,WR,0.088
 2026,SMU,Carterrious Brown,WR,0.013
 2026,Arizona State,Cory Butler Jr.,WR,0.029
 2026,Miami (OH),Carl Jenkins Jr.,WR,0.023
@@ -2320,7 +2325,7 @@ season,team,name,position,usage_overall
 2026,Alabama A&M,Courtland Taylor,WR,0.02
 2026,Alcorn State,Damien Jones,WR,0.063
 2026,Texas A&M,Kelshaun Johnson,WR,0.02
-2026,Toledo,Autavius Ison,RB,0.136
+2026,Toledo,Autavius Ison,RB,0.133
 2026,Minnesota,Noah Jennings,WR,0.127
 2026,Charleston Southern,Mehki Larronte Campfield,WR,0.088
 2026,Nicholls,Ean Rodrigue,QB,0.435
@@ -2356,7 +2361,7 @@ season,team,name,position,usage_overall
 2026,New Mexico,Scottre Humphrey,RB,0.237
 2026,Montana State,Adam Jones,RB,0.266
 2026,Washington,Dezmen Roebuck,WR,0.157
-2026,Ohio,Duncan Brune,RB,0.243
+2026,Ohio,Duncan Brune,RB,0.241
 2026,Oregon State,Cornell Hatcher Jr.,RB,0.093
 2026,VMI,Chandler Wilson,QB,0.094
 2026,The Citadel,Whit Hobgood,TE,0.026
@@ -2418,7 +2423,7 @@ season,team,name,position,usage_overall
 2026,Notre Dame,Nolan James Jr.,RB,0.227
 2026,Colorado,Joseph Williams,WR,0.158
 2026,Southern Utah,Hayden George,TE,0.028
-2026,Ball State,Donovan Hamilton,WR,0.091
+2026,Ball State,Donovan Hamilton,WR,0.099
 2026,Georgia Tech,Alberto Mendoza,QB,0.554
 2026,North Dakota,Caleb Goodloe,WR,0.078
 2026,California,Ashten Emory,RB,0.157
@@ -2426,23 +2431,23 @@ season,team,name,position,usage_overall
 2026,UT Rio Grande Valley,Alex Green,WR,0.027
 2026,Southeast Missouri State,Khyair Spain,RB,0.265
 2026,South Florida,Alvon Isaac,RB,0.03
-2026,Akron,Miles Burris,WR,0.068
-2026,Ohio,Dom Dorwart,WR,0.072
+2026,Akron,Miles Burris,WR,0.072
+2026,Ohio,Dom Dorwart,WR,0.066
 2026,Kansas,Jalen Dupree,RB,0.045
 2026,Colorado State,Terrence Smith Jr.,WR,0.073
 2026,UT Martin,Jordan Beasley,RB,0.041
 2026,UCF,Jonathan Bibbs,WR,0.034
 2026,Alcorn State,Fred Robertson,RB,0.25
-2026,Miami (OH),D'Shawntae Jones,RB,0.149
+2026,Miami (OH),D'Shawntae Jones,RB,0.166
 2026,Cincinnati,Cade Wolford,WR,0.024
 2026,Northern Illinois,George Dimopoulos,WR,0.063
 2026,Mercer,JP Pickles,QB,0.4
 2026,Bowling Green,Winn Sharp,WR,0.079
 2026,Northern Illinois,Joe Stein,TE,0.019
-2026,Central Michigan,Nasir Williams,WR,0.038
+2026,Central Michigan,Nasir Williams,WR,0.041
 2026,Northern Illinois,La'Don Bryant,WR,0.092
 2026,Maryland,Chris Durr Jr.,WR,0.168
-2026,Bowling Green,Eli Jacon-Duffy,TE,0.076
+2026,Bowling Green,Eli Jacon-Duffy,TE,0.073
 2026,Northern Illinois,Telly Johnson Jr.,RB,0.22
 2026,North Dakota,Hunter Kallstrom,TE,0.023
 2026,Eastern Michigan,Dalin Wilkins,WR,0.032
@@ -2495,7 +2500,7 @@ season,team,name,position,usage_overall
 2026,Pittsburgh,Jaylin Brown,RB,0.095
 2026,Robert Morris,Xavier Goulbourne,RB,0.12
 2026,Arizona,Isaiah Mizell,WR,0.092
-2026,Akron,Cibastian Broughton,QB,0.485
+2026,Akron,Cibastian Broughton,QB,0.505
 2026,Florida A&M,Mike Peterson Jr.,WR,0.016
 2026,Bethune-Cookman,Khamani Robinson,RB,0.071
 2026,Jackson State,Jabari Jones,WR,0.062
@@ -2536,7 +2541,7 @@ season,team,name,position,usage_overall
 2026,New Mexico State,Brodrick Malone,WR,0.06
 2026,Arkansas State,Romel Stevens,WR,0.023
 2026,Sam Houston,London Deyon,TE,0.026
-2026,Bowling Green,Jeremiah Scoby,TE,0.09
+2026,Bowling Green,Jeremiah Scoby,TE,0.089
 2026,SMU,Jalen Cooper,WR,0.08
 2026,Arizona,Wesley Yarbrough,RB,0.058
 2026,Alcorn State,Malachi Augustus,WR,0.047
@@ -2600,7 +2605,7 @@ season,team,name,position,usage_overall
 2026,Wake Forest,Dominick Barry,TE,0.024
 2026,Michigan State,Bryson Williams,WR,0.033
 2026,Eastern Kentucky,Ryder Hooks,RB,0.088
-2026,Ohio,Preston Bowman,WR,0.074
+2026,Ohio,Preston Bowman,WR,0.083
 2026,Eastern Michigan,Harold Mack,WR,0.116
 2026,Toledo,Noah Sanders,RB,0.014
 2026,Navy,Merrick Barlow,TE,0.022
@@ -2680,7 +2685,7 @@ season,team,name,position,usage_overall
 2026,Indiana,Andrew Barker,TE,0.014
 2026,Kansas,Tate Nagy,WR,0.031
 2026,Northwestern,Robby Preckel,TE,0.016
-2026,Central Michigan,Braylen Naves,WR,0.037
+2026,Central Michigan,Braylen Naves,WR,0.041
 2026,Mississippi State,J.J. Hill,RB,0.036
 2026,San Diego State,Jaylon Hawkins,WR,0.08
 2026,Buffalo,Nino Hill,RB,0.137
@@ -2733,7 +2738,7 @@ season,team,name,position,usage_overall
 2026,Purdue,Fame Ijeboi,RB,0.314
 2026,Florida International,JoJo Stone,WR,0.053
 2026,UAB,EJ Reid,WR,0.071
-2026,Bowling Green,Nakai Amachree,RB,0.159
+2026,Bowling Green,Nakai Amachree,RB,0.18
 2026,Georgia Southern,Cam'Ron King,WR,0.037
 2026,Jacksonville State,Dylan Gentry,WR,0.033
 2026,UCLA,Leland Smith,WR,0.024
@@ -2833,7 +2838,7 @@ season,team,name,position,usage_overall
 2026,UTEP,Elijah McCoy,RB,0.037
 2026,TCU,Jacobe Hayes,WR,0.042
 2026,Indiana State,Aaron Ball,RB,0.212
-2026,Ohio,Jake Furtney,TE,0.046
+2026,Ohio,Jake Furtney,TE,0.049
 2026,Washington State,Tony Freeman,WR,0.018
 2026,UCF,Caleb Rollerson,WR,0.024
 2026,Tennessee Tech,Tre' Holloway,WR,0.133
@@ -2854,7 +2859,7 @@ season,team,name,position,usage_overall
 2026,Cincinnati,Ka'Maurri Smith,TE,0.022
 2026,Tulsa,Luke Tevis,TE,0.017
 2026,UConn,Xavier Watson,TE,0.031
-2026,Buffalo,Jason Wright,QB,0.495
+2026,Buffalo,Jason Wright,QB,0.479
 2026,Eastern Michigan,Amareon Blue,RB,0.15
 2026,Kent State,Nolan Good,QB,0.074
 2026,Louisiana,Trenton Chaney,WR,0.059
@@ -2866,7 +2871,7 @@ season,team,name,position,usage_overall
 2026,Boston College,John Montague,WR,0.042
 2026,Navy,Landon Walker,WR,0.058
 2026,Northwestern,Drew Wagner,WR,0.088
-2026,Ball State,Jamarion McDougle,WR,0.087
+2026,Ball State,Jamarion McDougle,WR,0.091
 2026,Utah State,Kaina Watson,WR,0.026
 2026,Alabama State,Franck Pierre,WR,0.043
 2026,Florida State,Jasen Lopez,WR,0.05
@@ -3105,7 +3110,7 @@ season,team,name,position,usage_overall
 2026,Stetson,Gunner Chenier,TE,0.048
 2026,Stetson,Marvin Duffey Jr.,RB,0.057
 2026,Stetson,Troy Flowers,RB,0.219
-2026,Bowling Green,Brennan Ridley,WR,0.088
+2026,Bowling Green,Brennan Ridley,WR,0.087
 2026,Hampton,Khaioz Watford,TE,0.036
 2026,Valparaiso,Marcus Brown,QB,0.069
 2026,Glenville State,Amir Simmons,RB,0.057
@@ -3266,10 +3271,10 @@ season,team,name,position,usage_overall
 2026,App State,Dillon Galloway,TE,0.027
 2026,Charlotte,Derrick Eley,WR,0.086
 2026,Charlotte,Derrick Eley,WR,0.086
-2026,Ohio,Nick Poulos,QB,0.495
-2026,Ohio,Riley Neer,WR,0.129
+2026,Ohio,Nick Poulos,QB,0.538
+2026,Ohio,Riley Neer,WR,0.127
 2026,Ohio,Blake Guffey,WR,0.017
-2026,Ohio,AJ Miller,TE,0.02
+2026,Ohio,AJ Miller,TE,0.03
 2026,New Mexico,James Laubstein,QB,0.058
 2026,Stephen F. Austin,Clayton Wayland,WR,0.094
 2026,Stephen F. Austin,Stetson Sarratt,WR,0.049
@@ -3302,7 +3307,7 @@ season,team,name,position,usage_overall
 2026,Bethune-Cookman,Marquis McCants,WR,0.019
 2026,Tulsa,Javon Ross,WR,0.079
 2026,Jackson State,Nathan Rembert,WR,0.114
-2026,Sacramento State,Davion Godley,RB,0.031
+2026,Sacramento State,Davion Godley,RB,0.035
 2026,Memphis,Aidan O'Callaghan,TE,0.025
 2026,Weber State,Mason York,WR,0.036
 2026,Weber State,Noah Kjar,WR,0.176
@@ -3331,7 +3336,7 @@ season,team,name,position,usage_overall
 2026,Tusculum,Javon McMahan,RB,0.019
 2026,Southern,Jason Gabriel,RB,0.054
 2026,Southern,Kobe Brown,WR,0.033
-2026,Toledo,Daryl Barnett Jr.,WR,0.048
+2026,Toledo,Daryl Barnett Jr.,WR,0.047
 2026,Eastern Washington,Will Hook,TE,0.016
 2026,Western Carolina,Isaac Lee,QB,0.085
 2026,Presbyterian,Max Holtzclaw,QB,0.328
@@ -3346,7 +3351,7 @@ season,team,name,position,usage_overall
 2026,Albany State,Vinson Berry,QB,0.049
 2026,Alcorn State,Jamar Kaho,WR,0.027
 2026,Stanford,Caden High,WR,0.123
-2026,Bowling Green,Nicholas Sowell,WR,0.016
+2026,Bowling Green,Nicholas Sowell,WR,0.021
 2026,South Carolina State,Darius Thompson,WR,0.034
 2026,Holy Cross,Jake Croce,RB,0.096
 2026,Clark Atlanta,Dae'Jeaun Dennis,RB,0.053
@@ -3375,7 +3380,7 @@ season,team,name,position,usage_overall
 2026,Mercer,Mykel Calixte,WR,0.031
 2026,Buffalo,Phillip Folmar,WR,0.03
 2026,Buffalo,Michael Gelatko,TE,0.014
-2026,Ohio,Irving Brown,RB,0.046
+2026,Ohio,Irving Brown,RB,0.047
 2026,Arizona,Shane King,TE,0.038
 2026,North Texas,Brendon Haygood,RB,0.076
 2026,Alabama State,Kareem Keye,WR,0.084
@@ -3389,7 +3394,7 @@ season,team,name,position,usage_overall
 2026,Kentucky,Brock Coffman,WR,0.023
 2026,Georgia State,Qwantavius Wiggins,RB,0.151
 2026,Minnesota,Roman Voss,TE,0.04
-2026,Ohio,Levi Davis,QB,0.145
+2026,Ohio,Levi Davis,QB,0.121
 2026,Tulsa,Xavier Green,WR,0.015
 2026,SMU,Christian Rhodes,RB,0.064
 2026,San Diego State,Josiah Lucas,RB,0.282
@@ -3436,7 +3441,7 @@ season,team,name,position,usage_overall
 2026,Northern Illinois,Afy Ibekwe,WR,0.032
 2026,USC,Mark Bowman,TE,0.083
 2026,Alabama,EJ Crowell,RB,0.07
-2026,Massachusetts,Elijah Faulkner,RB,0.219
+2026,Massachusetts,Elijah Faulkner,RB,0.207
 2026,Nevada,Reeve Slone,QB,0.026
 2026,Nevada,Dominic Kelley,RB,0.253
 2026,Coastal Carolina,Jevon Edwards,RB,0.134
@@ -3480,6 +3485,7 @@ season,team,name,position,usage_overall
 2026,Purdue,Ar'mari Towns,TE,0.036
 2026,Michigan,Mason Bonner,TE,0.015
 2026,Miami,Gavin Mueller,TE,0.016
+2026,Western Michigan,Donovan Triplett,RB,0.041
 2026,Indiana,Trevor Gibbs,TE,0.021
 2026,Texas State,LaKeyleon Graves,WR,0.018
 2026,Michigan State,Samson Gash,WR,0.03
@@ -3496,6 +3502,7 @@ season,team,name,position,usage_overall
 2026,Rutgers,Aiden Gibson,RB,0.016
 2026,South Carolina,Sequel Patterson,WR,0.028
 2026,Cincinnati,Jalen Williams,WR,0.014
+2026,Miami (OH),Drew Bellisari,QB,0.288
 2026,Pittsburgh,Demetrice McCray,WR,0.032
 2026,Purdue,Cooper McCutchan,TE,0.054
 2026,Oregon,Hudson Lewis,WR,0.079
@@ -3535,7 +3542,7 @@ season,team,name,position,usage_overall
 2026,Fresno State,Dallas Gaius-Anyaegbu,TE,0.014
 2026,Old Dominion,Zialis Blackmon,WR,0.038
 2026,Middle Tennessee,Ziyon Butler,WR,0.055
-2026,Kent State,Brendyn Smith,WR,0.113
+2026,Kent State,Brendyn Smith,WR,0.107
 2026,Georgia Southern,Ty Cummings,RB,0.03
 2026,Georgia State,Xavier Butler,RB,0.019
 2026,Miami (OH),Scoop Smith,WR,0.07
@@ -3570,7 +3577,7 @@ season,team,name,position,usage_overall
 2026,North Texas,Brec Long,TE,0.035
 2026,South Alabama,Keenan Phillips,RB,0.203
 2026,Akron,Luke Sivon,WR,0.098
-2026,Ball State,Tate Hoover,TE,0.033
+2026,Ball State,Tate Hoover,TE,0.032
 2026,Fresno State,Jayon Farrar,WR,0.043
 2026,Fresno State,Gavin Correia,TE,0.037
 2026,North Alabama,Chris McMillian,RB,0.131
@@ -3581,7 +3588,7 @@ season,team,name,position,usage_overall
 2026,Arkansas,Matt Adcock,TE,0.016
 2026,UL Monroe,Bryce Anderson,TE,0.048
 2026,Navy,Christian Cromer,RB,0.016
-2026,Buffalo,Dwayne Early Jr.,WR,0.061
+2026,Buffalo,Dwayne Early Jr.,WR,0.058
 2026,UAB,Sean Persson,TE,0.03
 2026,New Mexico State,Terrione Graves,WR,0.031
 2026,New Mexico State,AJ Williams III,WR,0.075
@@ -3594,7 +3601,7 @@ season,team,name,position,usage_overall
 2026,Maryland,Jordan Scott,WR,0.015
 2026,Maryland,DeJuan Williams,RB,0.267
 2026,Kent State,Tommy Arnold,TE,0.015
-2026,Kent State,Da'Realyst Clark,WR,0.089
+2026,Kent State,Da'Realyst Clark,WR,0.094
 2026,Baylor,Caden Knighten,RB,0.127
 2026,Baylor,Michael Turner,RB,0.088
 2026,Baylor,Taz Williams Jr.,WR,0.031
@@ -3613,7 +3620,7 @@ season,team,name,position,usage_overall
 2026,Vanderbilt,Ja'Cory Thomas,WR,0.053
 2026,Old Dominion,Josh Rodriguez,WR,0.101
 2026,Old Dominion,TJ Johnson,WR,0.063
-2026,Akron,Titus Myers,WR,0.02
+2026,Akron,Titus Myers,WR,0.024
 2026,Tulsa,Trequan Jones,RB,0.122
 2026,Old Dominion,Chris Warren,TE,0.018
 2026,Texas A&M,Brady Hart,QB,0.091
@@ -3630,7 +3637,7 @@ season,team,name,position,usage_overall
 2026,Cincinnati,Giyahni Kontosis,WR,0.022
 2026,Oregon State,Brady Jones,QB,0.042
 2026,Western Michigan,Ofa Mataele,RB,0.127
-2026,Western Michigan,Keivin Boone-Nelson II,WR,0.02
+2026,Western Michigan,Keivin Boone-Nelson II,WR,0.022
 2026,Cal Poly,Don-Ray Hall Jr.,WR,0.074
 2026,New Mexico State,Carson Su'esu'e,TE,0.015
 2026,Penn State,Zay Robinson,WR,0.028
@@ -3749,7 +3756,7 @@ season,team,name,position,usage_overall
 2026,Portland State,Derrick Blanche Jr.,RB,0.019
 2026,Portland State,Landon Bailey,TE,0.019
 2026,Drake,Lucci Fidone,WR,0.035
-2026,Massachusetts,Logan Inagawa,QB,0.317
+2026,Massachusetts,Logan Inagawa,QB,0.377
 2026,Drake,Brock Pettaway,WR,0.054
 2026,James Madison,Nick Herman,RB,0.091
 2026,Drake,Nick Seng,WR,0.015
@@ -3964,7 +3971,7 @@ season,team,name,position,usage_overall
 2026,Pennsylvania,Isaac Lee,WR,0.145
 2026,Colorado,Jaquail Smith,RB,0.149
 2026,Sacramento State,Elias Brown,RB,0.047
-2026,Sacramento State,Elijah Huddle,TE,0.02
+2026,Sacramento State,Elijah Huddle,TE,0.025
 2026,North Carolina Central,Nelson Layne,QB,0.475
 2026,North Carolina A&T,Mark Tillman,WR,0.028
 2026,Rhode Island,Terrence Campbell,RB,0.105
@@ -4096,7 +4103,7 @@ season,team,name,position,usage_overall
 2026,Buffalo,Aaron Clark,WR,0.016
 2026,Bryant,Deshon Jenkins,RB,0.048
 2026,Buffalo,TJ Sabatucci,TE,0.016
-2026,Bowling Green,Pauly Sadler,WR,0.022
+2026,Bowling Green,Pauly Sadler,WR,0.033
 2026,Northern Illinois,Zaire McKinney,WR,0.047
 2026,North Carolina Central,RJ Lancaster,WR,0.058
 2026,North Carolina Central,Connor Everett,TE,0.025
@@ -4160,7 +4167,7 @@ season,team,name,position,usage_overall
 2026,Morgan State,Joseph Towler,WR,0.096
 2026,Florida A&M,Kieren Jackson,WR,0.08
 2026,William & Mary,Isaiah French,QB,0.281
-2026,Central Michigan,Nicholas Woodford,RB,0.108
+2026,Central Michigan,Nicholas Woodford,RB,0.143
 2026,South Dakota State,Ramon McKinney Jr.,RB,0.058
 2026,Tennessee Tech,Gerard Grewe,TE,0.02
 2026,Norfolk State,Shamar Vick,WR,0.075
@@ -4177,7 +4184,7 @@ season,team,name,position,usage_overall
 2026,Georgia State,Zach Stair,WR,0.034
 2026,Air Force,Sylas Maiava-Alaimalo,WR,0.025
 2026,Arkansas-Pine Bluff,Paul Summers,WR,0.037
-2026,Sacramento State,Daniel Swinney,RB,0.078
+2026,Sacramento State,Daniel Swinney,RB,0.075
 2026,North Dakota State,Barry Kpeenu,RB,0.083
 2026,Alabama State,Jashaun Clarke,WR,0.019
 2026,Minnesota,George Rohl,TE,0.03
@@ -4187,16 +4194,16 @@ season,team,name,position,usage_overall
 2026,Oregon State,Tre Garrison,RB,0.027
 2026,Iowa State,Jamal Polite Jr.,WR,0.064
 2026,UTSA,Trysten Laughlin,TE,0.014
-2026,Bowling Green,Joseph Saffold,WR,0.029
+2026,Bowling Green,Joseph Saffold,WR,0.026
 2026,Furman,Jerrod Williams Jr.,WR,0.019
 2026,New Mexico,Bailen George,WR,0.067
 2026,Harvard,Najee Calhoun,RB,0.09
 2026,Arkansas State,Solomon Baggett,RB,0.173
 2026,Oregon,Gatlin Bair,WR,0.016
-2026,Massachusetts,Drew Alsup,WR,0.024
+2026,Massachusetts,Drew Alsup,WR,0.047
 2026,Massachusetts,Tavian Dashiell,WR,0.015
 2026,Massachusetts,Aedan McCarthy,QB,0.582
-2026,Kent State,Brandon White,RB,0.185
+2026,Kent State,Brandon White,RB,0.183
 2026,Alabama,Trae'shawn Brown,RB,0.156
 2026,Buffalo,Elijah Holmes,QB,0.464
 2026,Northwestern,Luke Dehnicke,TE,0.073
@@ -4235,14 +4242,16 @@ season,team,name,position,usage_overall
 2026,Ball State,Ace Cooper,WR,0.017
 2026,Bowling Green,Jay Kastantin,QB,0.57
 2026,Bowling Green,Marceles Carey,RB,0.036
-2026,Buffalo,Jaylen Andrews,WR,0.054
-2026,Buffalo,Clint Walker,TE,0.056
+2026,Buffalo,Jaylen Andrews,WR,0.051
+2026,Buffalo,Clint Walker,TE,0.055
 2026,Central Michigan,Myles Peters,TE,0.02
+2026,Central Michigan,Gavin Spillers,TE,0.013
 2026,Eastern Michigan,XaVior Tyus,RB,0.028
 2026,Temple,Demonte Greene,WR,0.018
-2026,Massachusetts,Curtis Kimmons IV,RB,0.159
-2026,Massachusetts,Jabari Lewis,WR,0.078
-2026,Miami (OH),Caleb Heavner,QB,0.477
+2026,Kent State,Luke Simms,WR,0.014
+2026,Massachusetts,Curtis Kimmons IV,RB,0.163
+2026,Massachusetts,Jabari Lewis,WR,0.081
+2026,Miami (OH),Caleb Heavner,QB,0.433
 2026,Troy,Gavin Griffin,RB,0.191
 2026,Troy,Gavin Griffin,RB,0.191
 2026,Troy,Howard Kinchen,WR,0.069
@@ -4280,8 +4289,8 @@ season,team,name,position,usage_overall
 2026,Southern Miss,Steven Robinson,RB,0.289
 2026,Akron,Elijah Alexander,TE,0.041
 2026,Akron,Gentz Hilburn,WR,0.03
-2026,Sacramento State,Kenyon Shabazz,WR,0.025
-2026,Sacramento State,Brian Salazar,QB,0.226
+2026,Sacramento State,Kenyon Shabazz,WR,0.024
+2026,Sacramento State,Brian Salazar,QB,0.355
 2026,Bucknell,Jerry Harrison,WR,0.051
 2026,Bucknell,Emmett Dowling,QB,0.498
 2026,Bucknell,Will Freeman,RB,0.109

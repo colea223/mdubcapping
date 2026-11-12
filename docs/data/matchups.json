@@ -1,6 +1,6 @@
 {
   "meta": {
-    "generated_at": "2026-11-11T12:33:25Z",
+    "generated_at": "2026-11-12T14:15:09Z",
     "current_week": {
       "season": 2026,
       "week": 11
@@ -24,10 +24,10 @@
         3,
         7
       ],
-      "market_spread_home": -5.8,
-      "market_total": 44.8,
-      "home_moneyline": -222,
-      "away_moneyline": 182,
+      "market_spread_home": -3.8,
+      "market_total": 42.2,
+      "home_moneyline": -202,
+      "away_moneyline": 168,
       "manual_line_used": false,
       "completed": true,
       "home_points": 33,
@@ -50,10 +50,10 @@
         7,
         3
       ],
-      "market_spread_home": 14.0,
-      "market_total": 48.2,
-      "home_moneyline": 458,
-      "away_moneyline": -625,
+      "market_spread_home": 15.2,
+      "market_total": 50.8,
+      "home_moneyline": 492,
+      "away_moneyline": -688,
       "manual_line_used": false,
       "completed": true,
       "home_points": 14,
@@ -76,66 +76,14 @@
         7,
         3
       ],
-      "market_spread_home": 1.2,
-      "market_total": 47.5,
+      "market_spread_home": 1.5,
+      "market_total": 47.2,
       "home_moneyline": -105,
       "away_moneyline": -115,
       "manual_line_used": false,
       "completed": true,
       "home_points": 34,
       "away_points": 17
-    },
-    {
-      "game_id": 401866462,
-      "week": 11,
-      "date": "2026-11-12",
-      "start_time": "2026-11-12T00:30:00Z",
-      "away_team": "Sacramento State",
-      "home_team": "Central Michigan",
-      "home_conf": "Mid-American",
-      "away_conf": "Mid-American",
-      "home_record": [
-        4,
-        5
-      ],
-      "away_record": [
-        2,
-        8
-      ],
-      "market_spread_home": -18.2,
-      "market_total": 43.8,
-      "home_moneyline": -1025,
-      "away_moneyline": 662,
-      "manual_line_used": false,
-      "completed": false,
-      "home_points": null,
-      "away_points": null
-    },
-    {
-      "game_id": 401866463,
-      "week": 11,
-      "date": "2026-11-12",
-      "start_time": "2026-11-12T00:30:00Z",
-      "away_team": "Massachusetts",
-      "home_team": "Toledo",
-      "home_conf": "Mid-American",
-      "away_conf": "Mid-American",
-      "home_record": [
-        7,
-        2
-      ],
-      "away_record": [
-        5,
-        4
-      ],
-      "market_spread_home": -14.5,
-      "market_total": 52.5,
-      "home_moneyline": -638,
-      "away_moneyline": 465,
-      "manual_line_used": false,
-      "completed": false,
-      "home_points": null,
-      "away_points": null
     },
     {
       "game_id": 401866461,
@@ -148,20 +96,72 @@
       "away_conf": "Mid-American",
       "home_record": [
         3,
-        6
+        7
       ],
       "away_record": [
-        6,
+        7,
         3
       ],
-      "market_spread_home": 2.5,
-      "market_total": 51.2,
-      "home_moneyline": 116,
-      "away_moneyline": -136,
+      "market_spread_home": 1.2,
+      "market_total": 52.8,
+      "home_moneyline": 4,
+      "away_moneyline": -124,
       "manual_line_used": false,
-      "completed": false,
-      "home_points": null,
-      "away_points": null
+      "completed": true,
+      "home_points": 7,
+      "away_points": 28
+    },
+    {
+      "game_id": 401866462,
+      "week": 11,
+      "date": "2026-11-12",
+      "start_time": "2026-11-12T00:30:00Z",
+      "away_team": "Sacramento State",
+      "home_team": "Central Michigan",
+      "home_conf": "Mid-American",
+      "away_conf": "Mid-American",
+      "home_record": [
+        5,
+        5
+      ],
+      "away_record": [
+        2,
+        9
+      ],
+      "market_spread_home": -17.2,
+      "market_total": 42.0,
+      "home_moneyline": -1100,
+      "away_moneyline": 700,
+      "manual_line_used": false,
+      "completed": true,
+      "home_points": 28,
+      "away_points": 7
+    },
+    {
+      "game_id": 401866463,
+      "week": 11,
+      "date": "2026-11-12",
+      "start_time": "2026-11-12T00:30:00Z",
+      "away_team": "Massachusetts",
+      "home_team": "Toledo",
+      "home_conf": "Mid-American",
+      "away_conf": "Mid-American",
+      "home_record": [
+        8,
+        2
+      ],
+      "away_record": [
+        5,
+        5
+      ],
+      "market_spread_home": -14.0,
+      "market_total": 52.2,
+      "home_moneyline": -625,
+      "away_moneyline": 458,
+      "manual_line_used": false,
+      "completed": true,
+      "home_points": 24,
+      "away_points": 0
     },
     {
       "game_id": 401862824,
@@ -180,10 +180,10 @@
         7,
         2
       ],
-      "market_spread_home": 4.2,
-      "market_total": 49.0,
-      "home_moneyline": 165,
-      "away_moneyline": -196,
+      "market_spread_home": 3.5,
+      "market_total": 50.5,
+      "home_moneyline": 155,
+      "away_moneyline": -183,
       "manual_line_used": false,
       "completed": false,
       "home_points": null,
@@ -206,10 +206,10 @@
         6,
         3
       ],
-      "market_spread_home": 11.0,
+      "market_spread_home": 10.0,
       "market_total": 49.2,
-      "home_moneyline": 330,
-      "away_moneyline": -425,
+      "home_moneyline": 325,
+      "away_moneyline": -418,
       "manual_line_used": false,
       "completed": false,
       "home_points": null,
@@ -233,7 +233,7 @@
         5
       ],
       "market_spread_home": -3.5,
-      "market_total": 54.2,
+      "market_total": 53.2,
       "home_moneyline": -168,
       "away_moneyline": 141,
       "manual_line_used": false,
@@ -259,9 +259,9 @@
         3
       ],
       "market_spread_home": -10.0,
-      "market_total": 46.8,
-      "home_moneyline": -390,
-      "away_moneyline": 305,
+      "market_total": 47.8,
+      "home_moneyline": -398,
+      "away_moneyline": 310,
       "manual_line_used": false,
       "completed": false,
       "home_points": null,
@@ -284,36 +284,10 @@
         7,
         2
       ],
-      "market_spread_home": 10.0,
-      "market_total": 50.8,
-      "home_moneyline": 305,
-      "away_moneyline": -392,
-      "manual_line_used": false,
-      "completed": false,
-      "home_points": null,
-      "away_points": null
-    },
-    {
-      "game_id": 401858296,
-      "week": 11,
-      "date": "2026-11-14",
-      "start_time": "2026-11-14T17:00:00Z",
-      "away_team": "Duke",
-      "home_team": "Miami",
-      "home_conf": "ACC",
-      "away_conf": "ACC",
-      "home_record": [
-        8,
-        1
-      ],
-      "away_record": [
-        7,
-        2
-      ],
-      "market_spread_home": -13.5,
-      "market_total": 54.2,
-      "home_moneyline": -550,
-      "away_moneyline": 410,
+      "market_spread_home": 9.5,
+      "market_total": 51.5,
+      "home_moneyline": 300,
+      "away_moneyline": -385,
       "manual_line_used": false,
       "completed": false,
       "home_points": null,
@@ -337,35 +311,9 @@
         4
       ],
       "market_spread_home": -3.0,
-      "market_total": 60.8,
+      "market_total": 59.8,
       "home_moneyline": -150,
       "away_moneyline": 128,
-      "manual_line_used": false,
-      "completed": false,
-      "home_points": null,
-      "away_points": null
-    },
-    {
-      "game_id": 401858301,
-      "week": 11,
-      "date": "2026-11-14",
-      "start_time": "2026-11-14T17:00:00Z",
-      "away_team": "Wake Forest",
-      "home_team": "SMU",
-      "home_conf": "ACC",
-      "away_conf": "ACC",
-      "home_record": [
-        7,
-        2
-      ],
-      "away_record": [
-        8,
-        1
-      ],
-      "market_spread_home": 1.5,
-      "market_total": 61.0,
-      "home_moneyline": -2,
-      "away_moneyline": -118,
       "manual_line_used": false,
       "completed": false,
       "home_points": null,
@@ -388,8 +336,8 @@
         4,
         5
       ],
-      "market_spread_home": 2.8,
-      "market_total": 53.8,
+      "market_spread_home": 2.5,
+      "market_total": 53.5,
       "home_moneyline": 118,
       "away_moneyline": -138,
       "manual_line_used": false,
@@ -415,61 +363,9 @@
         3
       ],
       "market_spread_home": 8.8,
-      "market_total": 43.2,
-      "home_moneyline": 265,
-      "away_moneyline": -332,
-      "manual_line_used": false,
-      "completed": false,
-      "home_points": null,
-      "away_points": null
-    },
-    {
-      "game_id": 401856886,
-      "week": 11,
-      "date": "2026-11-14",
-      "start_time": "2026-11-14T17:00:00Z",
-      "away_team": "Auburn",
-      "home_team": "Mississippi State",
-      "home_conf": "SEC",
-      "away_conf": "SEC",
-      "home_record": [
-        4,
-        5
-      ],
-      "away_record": [
-        5,
-        4
-      ],
-      "market_spread_home": 2.8,
-      "market_total": 50.2,
-      "home_moneyline": 126,
-      "away_moneyline": -148,
-      "manual_line_used": false,
-      "completed": false,
-      "home_points": null,
-      "away_points": null
-    },
-    {
-      "game_id": 401858522,
-      "week": 11,
-      "date": "2026-11-14",
-      "start_time": "2026-11-14T17:00:00Z",
-      "away_team": "Northwestern",
-      "home_team": "Ohio State",
-      "home_conf": "Big Ten",
-      "away_conf": "Big Ten",
-      "home_record": [
-        6,
-        3
-      ],
-      "away_record": [
-        6,
-        3
-      ],
-      "market_spread_home": -12.0,
-      "market_total": 47.0,
-      "home_moneyline": -465,
-      "away_moneyline": 358,
+      "market_total": 42.8,
+      "home_moneyline": 272,
+      "away_moneyline": -342,
       "manual_line_used": false,
       "completed": false,
       "home_points": null,
@@ -492,10 +388,140 @@
         8,
         2
       ],
-      "market_spread_home": 3.8,
+      "market_spread_home": 4.0,
       "market_total": 57.5,
       "home_moneyline": 154,
       "away_moneyline": -182,
+      "manual_line_used": false,
+      "completed": false,
+      "home_points": null,
+      "away_points": null
+    },
+    {
+      "game_id": 401858301,
+      "week": 11,
+      "date": "2026-11-14",
+      "start_time": "2026-11-14T17:00:00Z",
+      "away_team": "Wake Forest",
+      "home_team": "SMU",
+      "home_conf": "ACC",
+      "away_conf": "ACC",
+      "home_record": [
+        7,
+        2
+      ],
+      "away_record": [
+        8,
+        1
+      ],
+      "market_spread_home": -1.2,
+      "market_total": 60.5,
+      "home_moneyline": -8,
+      "away_moneyline": -112,
+      "manual_line_used": false,
+      "completed": false,
+      "home_points": null,
+      "away_points": null
+    },
+    {
+      "game_id": 401858296,
+      "week": 11,
+      "date": "2026-11-14",
+      "start_time": "2026-11-14T17:00:00Z",
+      "away_team": "Duke",
+      "home_team": "Miami",
+      "home_conf": "ACC",
+      "away_conf": "ACC",
+      "home_record": [
+        8,
+        1
+      ],
+      "away_record": [
+        7,
+        2
+      ],
+      "market_spread_home": -13.5,
+      "market_total": 54.5,
+      "home_moneyline": -562,
+      "away_moneyline": 418,
+      "manual_line_used": false,
+      "completed": false,
+      "home_points": null,
+      "away_points": null
+    },
+    {
+      "game_id": 401856886,
+      "week": 11,
+      "date": "2026-11-14",
+      "start_time": "2026-11-14T17:00:00Z",
+      "away_team": "Auburn",
+      "home_team": "Mississippi State",
+      "home_conf": "SEC",
+      "away_conf": "SEC",
+      "home_record": [
+        4,
+        5
+      ],
+      "away_record": [
+        5,
+        4
+      ],
+      "market_spread_home": 2.5,
+      "market_total": 50.5,
+      "home_moneyline": 124,
+      "away_moneyline": -144,
+      "manual_line_used": false,
+      "completed": false,
+      "home_points": null,
+      "away_points": null
+    },
+    {
+      "game_id": 401858522,
+      "week": 11,
+      "date": "2026-11-14",
+      "start_time": "2026-11-14T17:00:00Z",
+      "away_team": "Northwestern",
+      "home_team": "Ohio State",
+      "home_conf": "Big Ten",
+      "away_conf": "Big Ten",
+      "home_record": [
+        6,
+        3
+      ],
+      "away_record": [
+        6,
+        3
+      ],
+      "market_spread_home": -14.0,
+      "market_total": 44.2,
+      "home_moneyline": -505,
+      "away_moneyline": 382,
+      "manual_line_used": false,
+      "completed": false,
+      "home_points": null,
+      "away_points": null
+    },
+    {
+      "game_id": 401858525,
+      "week": 11,
+      "date": "2026-11-14",
+      "start_time": "2026-11-14T17:30:00Z",
+      "away_team": "Nebraska",
+      "home_team": "Rutgers",
+      "home_conf": "Big Ten",
+      "away_conf": "Big Ten",
+      "home_record": [
+        2,
+        7
+      ],
+      "away_record": [
+        5,
+        4
+      ],
+      "market_spread_home": 14.8,
+      "market_total": 51.8,
+      "home_moneyline": 450,
+      "away_moneyline": -612,
       "manual_line_used": false,
       "completed": false,
       "home_points": null,
@@ -528,32 +554,6 @@
       "away_points": null
     },
     {
-      "game_id": 401858525,
-      "week": 11,
-      "date": "2026-11-14",
-      "start_time": "2026-11-14T17:30:00Z",
-      "away_team": "Nebraska",
-      "home_team": "Rutgers",
-      "home_conf": "Big Ten",
-      "away_conf": "Big Ten",
-      "home_record": [
-        2,
-        7
-      ],
-      "away_record": [
-        5,
-        4
-      ],
-      "market_spread_home": 13.5,
-      "market_total": 52.8,
-      "home_moneyline": 410,
-      "away_moneyline": -550,
-      "manual_line_used": false,
-      "completed": false,
-      "home_points": null,
-      "away_points": null
-    },
-    {
       "game_id": 401856889,
       "week": 11,
       "date": "2026-11-14",
@@ -570,10 +570,10 @@
         7,
         2
       ],
-      "market_spread_home": 16.2,
-      "market_total": 51.5,
-      "home_moneyline": 612,
-      "away_moneyline": -925,
+      "market_spread_home": 17.2,
+      "market_total": 50.5,
+      "home_moneyline": 638,
+      "away_moneyline": -975,
       "manual_line_used": false,
       "completed": false,
       "home_points": null,
@@ -597,9 +597,9 @@
         4
       ],
       "market_spread_home": -2.5,
-      "market_total": 48.8,
-      "home_moneyline": -130,
-      "away_moneyline": 110,
+      "market_total": 48.2,
+      "home_moneyline": -132,
+      "away_moneyline": 112,
       "manual_line_used": false,
       "completed": false,
       "home_points": null,
@@ -622,10 +622,10 @@
         5,
         4
       ],
-      "market_spread_home": 11.8,
+      "market_spread_home": 12.0,
       "market_total": 45.2,
-      "home_moneyline": 365,
-      "away_moneyline": -480,
+      "home_moneyline": 360,
+      "away_moneyline": -472,
       "manual_line_used": false,
       "completed": false,
       "home_points": null,
@@ -649,35 +649,9 @@
         5
       ],
       "market_spread_home": -1.5,
-      "market_total": 50.8,
+      "market_total": 51.5,
       "home_moneyline": -119,
       "away_moneyline": -1,
-      "manual_line_used": false,
-      "completed": false,
-      "home_points": null,
-      "away_points": null
-    },
-    {
-      "game_id": 401870769,
-      "week": 11,
-      "date": "2026-11-14",
-      "start_time": "2026-11-14T19:00:00Z",
-      "away_team": "Kennesaw State",
-      "home_team": "Sam Houston",
-      "home_conf": "Conference USA",
-      "away_conf": "Conference USA",
-      "home_record": [
-        1,
-        8
-      ],
-      "away_record": [
-        3,
-        6
-      ],
-      "market_spread_home": 7.8,
-      "market_total": 46.8,
-      "home_moneyline": 252,
-      "away_moneyline": -312,
       "manual_line_used": false,
       "completed": false,
       "home_points": null,
@@ -700,10 +674,36 @@
         4,
         5
       ],
-      "market_spread_home": -2.8,
-      "market_total": 48.5,
-      "home_moneyline": -140,
-      "away_moneyline": 120,
+      "market_spread_home": -2.5,
+      "market_total": 47.8,
+      "home_moneyline": -142,
+      "away_moneyline": 122,
+      "manual_line_used": false,
+      "completed": false,
+      "home_points": null,
+      "away_points": null
+    },
+    {
+      "game_id": 401870769,
+      "week": 11,
+      "date": "2026-11-14",
+      "start_time": "2026-11-14T19:00:00Z",
+      "away_team": "Kennesaw State",
+      "home_team": "Sam Houston",
+      "home_conf": "Conference USA",
+      "away_conf": "Conference USA",
+      "home_record": [
+        1,
+        8
+      ],
+      "away_record": [
+        3,
+        6
+      ],
+      "market_spread_home": 7.5,
+      "market_total": 46.5,
+      "home_moneyline": 248,
+      "away_moneyline": -305,
       "manual_line_used": false,
       "completed": false,
       "home_points": null,
@@ -726,10 +726,36 @@
         4,
         5
       ],
-      "market_spread_home": -9.5,
-      "market_total": 45.8,
+      "market_spread_home": -10.5,
+      "market_total": 45.2,
       "home_moneyline": -375,
       "away_moneyline": 295,
+      "manual_line_used": false,
+      "completed": false,
+      "home_points": null,
+      "away_points": null
+    },
+    {
+      "game_id": 401871060,
+      "week": 11,
+      "date": "2026-11-14",
+      "start_time": "2026-11-14T20:00:00Z",
+      "away_team": "Florida International",
+      "home_team": "Delaware",
+      "home_conf": "Conference USA",
+      "away_conf": "Conference USA",
+      "home_record": [
+        4,
+        5
+      ],
+      "away_record": [
+        4,
+        5
+      ],
+      "market_spread_home": -4.8,
+      "market_total": 53.8,
+      "home_moneyline": -208,
+      "away_moneyline": 172,
       "manual_line_used": false,
       "completed": false,
       "home_points": null,
@@ -753,35 +779,9 @@
         2
       ],
       "market_spread_home": 2.5,
-      "market_total": 43.0,
+      "market_total": 43.5,
       "home_moneyline": 114,
       "away_moneyline": -135,
-      "manual_line_used": false,
-      "completed": false,
-      "home_points": null,
-      "away_points": null
-    },
-    {
-      "game_id": 401871060,
-      "week": 11,
-      "date": "2026-11-14",
-      "start_time": "2026-11-14T20:00:00Z",
-      "away_team": "Florida International",
-      "home_team": "Delaware",
-      "home_conf": "Conference USA",
-      "away_conf": "Conference USA",
-      "home_record": [
-        4,
-        5
-      ],
-      "away_record": [
-        4,
-        5
-      ],
-      "market_spread_home": -5.2,
-      "market_total": 54.5,
-      "home_moneyline": -214,
-      "away_moneyline": 178,
       "manual_line_used": false,
       "completed": false,
       "home_points": null,
@@ -804,10 +804,36 @@
         3,
         6
       ],
-      "market_spread_home": -2.0,
+      "market_spread_home": -1.2,
       "market_total": 48.8,
       "home_moneyline": -126,
       "away_moneyline": 106,
+      "manual_line_used": false,
+      "completed": false,
+      "home_points": null,
+      "away_points": null
+    },
+    {
+      "game_id": 401858523,
+      "week": 11,
+      "date": "2026-11-14",
+      "start_time": "2026-11-14T20:30:00Z",
+      "away_team": "Michigan",
+      "home_team": "Oregon",
+      "home_conf": "Big Ten",
+      "away_conf": "Big Ten",
+      "home_record": [
+        6,
+        3
+      ],
+      "away_record": [
+        5,
+        4
+      ],
+      "market_spread_home": -11.2,
+      "market_total": 38.2,
+      "home_moneyline": -440,
+      "away_moneyline": 340,
       "manual_line_used": false,
       "completed": false,
       "home_points": null,
@@ -830,50 +856,24 @@
         7,
         2
       ],
-      "market_spread_home": -7.5,
-      "market_total": 49.5,
-      "home_moneyline": -290,
-      "away_moneyline": 238,
+      "market_spread_home": -10.0,
+      "market_total": 50.5,
+      "home_moneyline": -328,
+      "away_moneyline": 265,
       "manual_line_used": false,
       "completed": false,
       "home_points": null,
       "away_points": null
     },
     {
-      "game_id": 401856858,
+      "game_id": 401869952,
       "week": 11,
       "date": "2026-11-14",
       "start_time": "2026-11-14T20:30:00Z",
-      "away_team": "Baylor",
-      "home_team": "BYU",
-      "home_conf": "Big 12",
-      "away_conf": "Big 12",
-      "home_record": [
-        7,
-        2
-      ],
-      "away_record": [
-        6,
-        3
-      ],
-      "market_spread_home": -7.5,
-      "market_total": 49.2,
-      "home_moneyline": -309,
-      "away_moneyline": 250,
-      "manual_line_used": false,
-      "completed": false,
-      "home_points": null,
-      "away_points": null
-    },
-    {
-      "game_id": 401856857,
-      "week": 11,
-      "date": "2026-11-14",
-      "start_time": "2026-11-14T20:30:00Z",
-      "away_team": "Arizona State",
-      "home_team": "UCF",
-      "home_conf": "Big 12",
-      "away_conf": "Big 12",
+      "away_team": "Georgia Southern",
+      "home_team": "Georgia State",
+      "home_conf": "Sun Belt",
+      "away_conf": "Sun Belt",
       "home_record": [
         5,
         4
@@ -882,36 +882,10 @@
         5,
         4
       ],
-      "market_spread_home": -3.2,
-      "market_total": 48.8,
-      "home_moneyline": -158,
-      "away_moneyline": 134,
-      "manual_line_used": false,
-      "completed": false,
-      "home_points": null,
-      "away_points": null
-    },
-    {
-      "game_id": 401871061,
-      "week": 11,
-      "date": "2026-11-14",
-      "start_time": "2026-11-14T20:30:00Z",
-      "away_team": "Middle Tennessee",
-      "home_team": "Liberty",
-      "home_conf": "Conference USA",
-      "away_conf": "Conference USA",
-      "home_record": [
-        8,
-        1
-      ],
-      "away_record": [
-        5,
-        4
-      ],
-      "market_spread_home": -21.2,
-      "market_total": 53.5,
-      "home_moneyline": -1662,
-      "away_moneyline": 900,
+      "market_spread_home": 6.0,
+      "market_total": 56.5,
+      "home_moneyline": 180,
+      "away_moneyline": -220,
       "manual_line_used": false,
       "completed": false,
       "home_points": null,
@@ -935,35 +909,9 @@
         6
       ],
       "market_spread_home": 7.0,
-      "market_total": 47.0,
-      "home_moneyline": 232,
-      "away_moneyline": -285,
-      "manual_line_used": false,
-      "completed": false,
-      "home_points": null,
-      "away_points": null
-    },
-    {
-      "game_id": 401856883,
-      "week": 11,
-      "date": "2026-11-14",
-      "start_time": "2026-11-14T20:30:00Z",
-      "away_team": "Missouri",
-      "home_team": "Georgia",
-      "home_conf": "SEC",
-      "away_conf": "SEC",
-      "home_record": [
-        8,
-        1
-      ],
-      "away_record": [
-        6,
-        3
-      ],
-      "market_spread_home": -15.0,
       "market_total": 47.2,
-      "home_moneyline": -688,
-      "away_moneyline": 488,
+      "home_moneyline": 228,
+      "away_moneyline": -278,
       "manual_line_used": false,
       "completed": false,
       "home_points": null,
@@ -986,62 +934,10 @@
         6,
         3
       ],
-      "market_spread_home": -5.5,
-      "market_total": 74.5,
+      "market_spread_home": -5.8,
+      "market_total": 74.2,
       "home_moneyline": -219,
       "away_moneyline": 180,
-      "manual_line_used": false,
-      "completed": false,
-      "home_points": null,
-      "away_points": null
-    },
-    {
-      "game_id": 401858295,
-      "week": 11,
-      "date": "2026-11-14",
-      "start_time": "2026-11-14T20:30:00Z",
-      "away_team": "California",
-      "home_team": "Virginia",
-      "home_conf": "ACC",
-      "away_conf": "ACC",
-      "home_record": [
-        4,
-        5
-      ],
-      "away_record": [
-        3,
-        6
-      ],
-      "market_spread_home": -10.8,
-      "market_total": 47.5,
-      "home_moneyline": -450,
-      "away_moneyline": 345,
-      "manual_line_used": false,
-      "completed": false,
-      "home_points": null,
-      "away_points": null
-    },
-    {
-      "game_id": 401869952,
-      "week": 11,
-      "date": "2026-11-14",
-      "start_time": "2026-11-14T20:30:00Z",
-      "away_team": "Georgia Southern",
-      "home_team": "Georgia State",
-      "home_conf": "Sun Belt",
-      "away_conf": "Sun Belt",
-      "home_record": [
-        5,
-        4
-      ],
-      "away_record": [
-        5,
-        4
-      ],
-      "market_spread_home": 5.2,
-      "market_total": 56.5,
-      "home_moneyline": 173,
-      "away_moneyline": -210,
       "manual_line_used": false,
       "completed": false,
       "home_points": null,
@@ -1064,8 +960,8 @@
         7,
         2
       ],
-      "market_spread_home": 7.2,
-      "market_total": 53.5,
+      "market_spread_home": 7.5,
+      "market_total": 54.5,
       "home_moneyline": 235,
       "away_moneyline": -288,
       "manual_line_used": false,
@@ -1090,7 +986,7 @@
         4,
         5
       ],
-      "market_spread_home": -29.8,
+      "market_spread_home": -29.2,
       "market_total": 52.5,
       "home_moneyline": -5000,
       "away_moneyline": 1800,
@@ -1100,26 +996,130 @@
       "away_points": null
     },
     {
-      "game_id": 401858523,
+      "game_id": 401871061,
       "week": 11,
       "date": "2026-11-14",
       "start_time": "2026-11-14T20:30:00Z",
-      "away_team": "Michigan",
-      "home_team": "Oregon",
-      "home_conf": "Big Ten",
-      "away_conf": "Big Ten",
+      "away_team": "Middle Tennessee",
+      "home_team": "Liberty",
+      "home_conf": "Conference USA",
+      "away_conf": "Conference USA",
       "home_record": [
-        6,
-        3
+        8,
+        1
       ],
       "away_record": [
         5,
         4
       ],
-      "market_spread_home": -11.0,
-      "market_total": 39.2,
-      "home_moneyline": -440,
-      "away_moneyline": 340,
+      "market_spread_home": -21.0,
+      "market_total": 53.5,
+      "home_moneyline": -1688,
+      "away_moneyline": 925,
+      "manual_line_used": false,
+      "completed": false,
+      "home_points": null,
+      "away_points": null
+    },
+    {
+      "game_id": 401856883,
+      "week": 11,
+      "date": "2026-11-14",
+      "start_time": "2026-11-14T20:30:00Z",
+      "away_team": "Missouri",
+      "home_team": "Georgia",
+      "home_conf": "SEC",
+      "away_conf": "SEC",
+      "home_record": [
+        8,
+        1
+      ],
+      "away_record": [
+        6,
+        3
+      ],
+      "market_spread_home": -15.5,
+      "market_total": 47.5,
+      "home_moneyline": -712,
+      "away_moneyline": 500,
+      "manual_line_used": false,
+      "completed": false,
+      "home_points": null,
+      "away_points": null
+    },
+    {
+      "game_id": 401856857,
+      "week": 11,
+      "date": "2026-11-14",
+      "start_time": "2026-11-14T20:30:00Z",
+      "away_team": "Arizona State",
+      "home_team": "UCF",
+      "home_conf": "Big 12",
+      "away_conf": "Big 12",
+      "home_record": [
+        5,
+        4
+      ],
+      "away_record": [
+        5,
+        4
+      ],
+      "market_spread_home": -3.0,
+      "market_total": 48.5,
+      "home_moneyline": -154,
+      "away_moneyline": 132,
+      "manual_line_used": false,
+      "completed": false,
+      "home_points": null,
+      "away_points": null
+    },
+    {
+      "game_id": 401856858,
+      "week": 11,
+      "date": "2026-11-14",
+      "start_time": "2026-11-14T20:30:00Z",
+      "away_team": "Baylor",
+      "home_team": "BYU",
+      "home_conf": "Big 12",
+      "away_conf": "Big 12",
+      "home_record": [
+        7,
+        2
+      ],
+      "away_record": [
+        6,
+        3
+      ],
+      "market_spread_home": -7.5,
+      "market_total": 48.5,
+      "home_moneyline": -302,
+      "away_moneyline": 245,
+      "manual_line_used": false,
+      "completed": false,
+      "home_points": null,
+      "away_points": null
+    },
+    {
+      "game_id": 401858295,
+      "week": 11,
+      "date": "2026-11-14",
+      "start_time": "2026-11-14T20:30:00Z",
+      "away_team": "California",
+      "home_team": "Virginia",
+      "home_conf": "ACC",
+      "away_conf": "ACC",
+      "home_record": [
+        4,
+        5
+      ],
+      "away_record": [
+        3,
+        6
+      ],
+      "market_spread_home": -10.0,
+      "market_total": 46.8,
+      "home_moneyline": -450,
+      "away_moneyline": 345,
       "manual_line_used": false,
       "completed": false,
       "home_points": null,
@@ -1143,7 +1143,7 @@
         4
       ],
       "market_spread_home": -9.8,
-      "market_total": 60.5,
+      "market_total": 59.5,
       "home_moneyline": -378,
       "away_moneyline": 295,
       "manual_line_used": false,
@@ -1168,10 +1168,10 @@
         6,
         3
       ],
-      "market_spread_home": 1.8,
-      "market_total": 49.0,
-      "home_moneyline": 0,
-      "away_moneyline": -120,
+      "market_spread_home": -0.2,
+      "market_total": 49.2,
+      "home_moneyline": -2,
+      "away_moneyline": -118,
       "manual_line_used": false,
       "completed": false,
       "home_points": null,
@@ -1194,8 +1194,8 @@
         5,
         4
       ],
-      "market_spread_home": 3.8,
-      "market_total": 43.2,
+      "market_spread_home": 3.5,
+      "market_total": 42.8,
       "home_moneyline": 157,
       "away_moneyline": -188,
       "manual_line_used": false,
@@ -1220,8 +1220,8 @@
         3,
         6
       ],
-      "market_spread_home": -17.5,
-      "market_total": 54.8,
+      "market_spread_home": -17.8,
+      "market_total": 56.2,
       "home_moneyline": -950,
       "away_moneyline": 625,
       "manual_line_used": false,
@@ -1247,9 +1247,35 @@
         6
       ],
       "market_spread_home": -3.0,
-      "market_total": 67.0,
+      "market_total": 67.5,
       "home_moneyline": -142,
       "away_moneyline": 121,
+      "manual_line_used": false,
+      "completed": false,
+      "home_points": null,
+      "away_points": null
+    },
+    {
+      "game_id": 401860914,
+      "week": 11,
+      "date": "2026-11-14",
+      "start_time": "2026-11-14T23:00:00Z",
+      "away_team": "Oregon State",
+      "home_team": "Boise State",
+      "home_conf": "Pac-12",
+      "away_conf": "Pac-12",
+      "home_record": [
+        8,
+        1
+      ],
+      "away_record": [
+        5,
+        4
+      ],
+      "market_spread_home": -15.0,
+      "market_total": 65.5,
+      "home_moneyline": -525,
+      "away_moneyline": 395,
       "manual_line_used": false,
       "completed": false,
       "home_points": null,
@@ -1273,35 +1299,9 @@
         4
       ],
       "market_spread_home": 1.5,
-      "market_total": 53.2,
+      "market_total": 54.2,
       "home_moneyline": 100,
       "away_moneyline": -120,
-      "manual_line_used": false,
-      "completed": false,
-      "home_points": null,
-      "away_points": null
-    },
-    {
-      "game_id": 401860914,
-      "week": 11,
-      "date": "2026-11-14",
-      "start_time": "2026-11-14T23:00:00Z",
-      "away_team": "Oregon State",
-      "home_team": "Boise State",
-      "home_conf": "Pac-12",
-      "away_conf": "Pac-12",
-      "home_record": [
-        8,
-        1
-      ],
-      "away_record": [
-        5,
-        4
-      ],
-      "market_spread_home": -12.2,
-      "market_total": 66.0,
-      "home_moneyline": -485,
-      "away_moneyline": 370,
       "manual_line_used": false,
       "completed": false,
       "home_points": null,
@@ -1324,10 +1324,36 @@
         5,
         4
       ],
-      "market_spread_home": -3.2,
+      "market_spread_home": -3.5,
       "market_total": 52.8,
-      "home_moneyline": -164,
-      "away_moneyline": 139,
+      "home_moneyline": -169,
+      "away_moneyline": 142,
+      "manual_line_used": false,
+      "completed": false,
+      "home_points": null,
+      "away_points": null
+    },
+    {
+      "game_id": 401864538,
+      "week": 11,
+      "date": "2026-11-15",
+      "start_time": "2026-11-15T00:00:00Z",
+      "away_team": "San Jos\u00e9 State",
+      "home_team": "Air Force",
+      "home_conf": "Mountain West",
+      "away_conf": "Mountain West",
+      "home_record": [
+        7,
+        2
+      ],
+      "away_record": [
+        5,
+        5
+      ],
+      "market_spread_home": -12.5,
+      "market_total": 47.5,
+      "home_moneyline": -460,
+      "away_moneyline": 355,
       "manual_line_used": false,
       "completed": false,
       "home_points": null,
@@ -1350,8 +1376,8 @@
         6,
         3
       ],
-      "market_spread_home": 3.2,
-      "market_total": 60.0,
+      "market_spread_home": 3.5,
+      "market_total": 60.5,
       "home_moneyline": 137,
       "away_moneyline": -162,
       "manual_line_used": false,
@@ -1376,10 +1402,10 @@
         5,
         4
       ],
-      "market_spread_home": -9.5,
-      "market_total": 42.5,
-      "home_moneyline": -350,
-      "away_moneyline": 278,
+      "market_spread_home": -9.2,
+      "market_total": 41.8,
+      "home_moneyline": -358,
+      "away_moneyline": 282,
       "manual_line_used": false,
       "completed": false,
       "home_points": null,
@@ -1402,7 +1428,7 @@
         4,
         5
       ],
-      "market_spread_home": -2.8,
+      "market_spread_home": -3.0,
       "market_total": 55.8,
       "home_moneyline": -145,
       "away_moneyline": 122,
@@ -1412,26 +1438,52 @@
       "away_points": null
     },
     {
-      "game_id": 401864538,
+      "game_id": 401858299,
       "week": 11,
       "date": "2026-11-15",
-      "start_time": "2026-11-15T00:00:00Z",
-      "away_team": "San Jos\u00e9 State",
-      "home_team": "Air Force",
+      "start_time": "2026-11-15T00:30:00Z",
+      "away_team": "Stanford",
+      "home_team": "Virginia Tech",
+      "home_conf": "ACC",
+      "away_conf": "ACC",
+      "home_record": [
+        6,
+        3
+      ],
+      "away_record": [
+        4,
+        5
+      ],
+      "market_spread_home": -14.8,
+      "market_total": 58.2,
+      "home_moneyline": -700,
+      "away_moneyline": 500,
+      "manual_line_used": false,
+      "completed": false,
+      "home_points": null,
+      "away_points": null
+    },
+    {
+      "game_id": 401864539,
+      "week": 11,
+      "date": "2026-11-15",
+      "start_time": "2026-11-15T00:30:00Z",
+      "away_team": "UNLV",
+      "home_team": "New Mexico",
       "home_conf": "Mountain West",
       "away_conf": "Mountain West",
       "home_record": [
-        7,
-        2
+        8,
+        1
       ],
       "away_record": [
         5,
-        5
+        4
       ],
-      "market_spread_home": -11.8,
-      "market_total": 47.5,
-      "home_moneyline": -460,
-      "away_moneyline": 355,
+      "market_spread_home": -14.0,
+      "market_total": 46.5,
+      "home_moneyline": -638,
+      "away_moneyline": 458,
       "manual_line_used": false,
       "completed": false,
       "home_points": null,
@@ -1454,10 +1506,10 @@
         7,
         2
       ],
-      "market_spread_home": -3.5,
+      "market_spread_home": -4.0,
       "market_total": 46.2,
-      "home_moneyline": -175,
-      "away_moneyline": 148,
+      "home_moneyline": -178,
+      "away_moneyline": 150,
       "manual_line_used": false,
       "completed": false,
       "home_points": null,
@@ -1481,35 +1533,9 @@
         0
       ],
       "market_spread_home": 2.5,
-      "market_total": 54.2,
-      "home_moneyline": 115,
-      "away_moneyline": -136,
-      "manual_line_used": false,
-      "completed": false,
-      "home_points": null,
-      "away_points": null
-    },
-    {
-      "game_id": 401864539,
-      "week": 11,
-      "date": "2026-11-15",
-      "start_time": "2026-11-15T00:30:00Z",
-      "away_team": "UNLV",
-      "home_team": "New Mexico",
-      "home_conf": "Mountain West",
-      "away_conf": "Mountain West",
-      "home_record": [
-        8,
-        1
-      ],
-      "away_record": [
-        5,
-        4
-      ],
-      "market_spread_home": -14.2,
-      "market_total": 46.5,
-      "home_moneyline": -638,
-      "away_moneyline": 458,
+      "market_total": 54.5,
+      "home_moneyline": 112,
+      "away_moneyline": -132,
       "manual_line_used": false,
       "completed": false,
       "home_points": null,
@@ -1532,36 +1558,10 @@
         3,
         6
       ],
-      "market_spread_home": -17.0,
-      "market_total": 47.8,
-      "home_moneyline": -950,
-      "away_moneyline": 625,
-      "manual_line_used": false,
-      "completed": false,
-      "home_points": null,
-      "away_points": null
-    },
-    {
-      "game_id": 401858299,
-      "week": 11,
-      "date": "2026-11-15",
-      "start_time": "2026-11-15T00:30:00Z",
-      "away_team": "Stanford",
-      "home_team": "Virginia Tech",
-      "home_conf": "ACC",
-      "away_conf": "ACC",
-      "home_record": [
-        6,
-        3
-      ],
-      "away_record": [
-        4,
-        5
-      ],
-      "market_spread_home": -15.2,
-      "market_total": 58.8,
-      "home_moneyline": -700,
-      "away_moneyline": 500,
+      "market_spread_home": -17.2,
+      "market_total": 47.5,
+      "home_moneyline": -925,
+      "away_moneyline": 612,
       "manual_line_used": false,
       "completed": false,
       "home_points": null,
@@ -1584,10 +1584,10 @@
         6,
         3
       ],
-      "market_spread_home": 7.8,
-      "market_total": 51.5,
-      "home_moneyline": 252,
-      "away_moneyline": -310,
+      "market_spread_home": 7.0,
+      "market_total": 51.2,
+      "home_moneyline": 245,
+      "away_moneyline": -300,
       "manual_line_used": false,
       "completed": false,
       "home_points": null,
@@ -1610,8 +1610,8 @@
         7,
         2
       ],
-      "market_spread_home": 1.8,
-      "market_total": 77.5,
+      "market_spread_home": 2.5,
+      "market_total": 76.2,
       "home_moneyline": -2,
       "away_moneyline": -118,
       "manual_line_used": false,
@@ -1636,10 +1636,10 @@
         4,
         5
       ],
-      "market_spread_home": 2.0,
-      "market_total": 41.8,
-      "home_moneyline": 108,
-      "away_moneyline": -128,
+      "market_spread_home": 2.5,
+      "market_total": 42.2,
+      "home_moneyline": 111,
+      "away_moneyline": -132,
       "manual_line_used": false,
       "completed": false,
       "home_points": null,
@@ -1689,9 +1689,9 @@
         3
       ],
       "market_spread_home": 8.2,
-      "market_total": 40.0,
-      "home_moneyline": 262,
-      "away_moneyline": -330,
+      "market_total": 39.5,
+      "home_moneyline": 270,
+      "away_moneyline": -340,
       "manual_line_used": false,
       "completed": false,
       "home_points": null,
@@ -1714,8 +1714,8 @@
         3,
         6
       ],
-      "market_spread_home": -9.8,
-      "market_total": 67.2,
+      "market_spread_home": -9.5,
+      "market_total": 66.5,
       "home_moneyline": -375,
       "away_moneyline": 292,
       "manual_line_used": false,
