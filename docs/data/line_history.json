@@ -1,6 +1,6 @@
 {
   "meta": {
-    "generated_at": "2026-11-12T14:15:09Z",
+    "generated_at": "2026-11-12T14:33:57Z",
     "current_week": {
       "season": 2026,
       "week": 11
@@ -4945,6 +4945,14 @@
             "home_ml": 225,
             "away_ml": -275,
             "source": "odds_api"
+          },
+          {
+            "t": "2026-11-12T14:22:26Z",
+            "spread": 7.0,
+            "total": 47.5,
+            "home_ml": 220,
+            "away_ml": -275,
+            "source": "odds_api"
           }
         ]
       },
@@ -4959,6 +4967,14 @@
             "home_ml": 226,
             "away_ml": -275,
             "source": "odds_api"
+          },
+          {
+            "t": "2026-11-12T14:22:26Z",
+            "spread": 7.0,
+            "total": 47.5,
+            "home_ml": 215,
+            "away_ml": -260,
+            "source": "odds_api"
           }
         ]
       },
@@ -4968,6 +4984,14 @@
         "points": [
           {
             "t": "2026-11-11T12:16:19Z",
+            "spread": 7.0,
+            "total": 46.5,
+            "home_ml": 240,
+            "away_ml": -315,
+            "source": "odds_api"
+          },
+          {
+            "t": "2026-11-12T14:22:26Z",
             "spread": 7.0,
             "total": 46.5,
             "home_ml": 240,
@@ -4986,6 +5010,14 @@
             "total": 47.5,
             "home_ml": 230,
             "away_ml": -275,
+            "source": "odds_api"
+          },
+          {
+            "t": "2026-11-12T14:22:26Z",
+            "spread": 7.0,
+            "total": 47.5,
+            "home_ml": 218,
+            "away_ml": -260,
             "source": "odds_api"
           }
         ]
@@ -5017,6 +5049,14 @@
             "home_ml": 235,
             "away_ml": -285,
             "source": "cfbd"
+          },
+          {
+            "t": "2026-11-12T14:22:26Z",
+            "spread": 7.0,
+            "total": 47.0,
+            "home_ml": 220,
+            "away_ml": -270,
+            "source": "odds_api"
           }
         ]
       },
@@ -5047,6 +5087,14 @@
             "home_ml": 220,
             "away_ml": -270,
             "source": "cfbd"
+          },
+          {
+            "t": "2026-11-12T14:22:26Z",
+            "spread": 7.0,
+            "total": 47.5,
+            "home_ml": 220,
+            "away_ml": -270,
+            "source": "odds_api"
           }
         ]
       },
@@ -5060,6 +5108,14 @@
             "total": 47.5,
             "home_ml": 225,
             "away_ml": -275,
+            "source": "odds_api"
+          },
+          {
+            "t": "2026-11-12T14:22:26Z",
+            "spread": 7.5,
+            "total": 47.5,
+            "home_ml": 210,
+            "away_ml": -255,
             "source": "odds_api"
           }
         ]
@@ -5075,6 +5131,14 @@
             "home_ml": 226,
             "away_ml": -275,
             "source": "odds_api"
+          },
+          {
+            "t": "2026-11-12T14:22:26Z",
+            "spread": 7.0,
+            "total": 47.5,
+            "home_ml": 215,
+            "away_ml": -260,
+            "source": "odds_api"
           }
         ]
       },
@@ -5088,6 +5152,14 @@
             "total": 47.5,
             "home_ml": 236,
             "away_ml": -300,
+            "source": "odds_api"
+          },
+          {
+            "t": "2026-11-12T14:22:26Z",
+            "spread": 7.0,
+            "total": 47.5,
+            "home_ml": 224,
+            "away_ml": -290,
             "source": "odds_api"
           }
         ]
@@ -5151,6 +5223,14 @@
             "home_ml": -475,
             "away_ml": 375,
             "source": "odds_api"
+          },
+          {
+            "t": "2026-11-12T14:22:26Z",
+            "spread": -12.5,
+            "total": 47.5,
+            "home_ml": -500,
+            "away_ml": 380,
+            "source": "odds_api"
           }
         ]
       },
@@ -5165,6 +5245,14 @@
             "home_ml": -470,
             "away_ml": 364,
             "source": "odds_api"
+          },
+          {
+            "t": "2026-11-12T14:22:26Z",
+            "spread": -12.0,
+            "total": 47.5,
+            "home_ml": -475,
+            "away_ml": 367,
+            "source": "odds_api"
           }
         ]
       },
@@ -5174,6 +5262,14 @@
         "points": [
           {
             "t": "2026-11-11T12:16:19Z",
+            "spread": -12.0,
+            "total": 47.5,
+            "home_ml": -480,
+            "away_ml": 340,
+            "source": "odds_api"
+          },
+          {
+            "t": "2026-11-12T14:22:26Z",
             "spread": -12.0,
             "total": 47.5,
             "home_ml": -480,
@@ -5192,6 +5288,14 @@
             "total": 47.5,
             "home_ml": -470,
             "away_ml": 370,
+            "source": "odds_api"
+          },
+          {
+            "t": "2026-11-12T14:22:26Z",
+            "spread": -12.0,
+            "total": 47.5,
+            "home_ml": -475,
+            "away_ml": 375,
             "source": "odds_api"
           }
         ]
@@ -5223,6 +5327,14 @@
             "home_ml": -450,
             "away_ml": 350,
             "source": "cfbd"
+          },
+          {
+            "t": "2026-11-12T14:22:26Z",
+            "spread": -12.5,
+            "total": 47.5,
+            "home_ml": -490,
+            "away_ml": 370,
+            "source": "odds_api"
           }
         ]
       },
@@ -5253,6 +5365,14 @@
             "home_ml": -470,
             "away_ml": 360,
             "source": "cfbd"
+          },
+          {
+            "t": "2026-11-12T14:22:26Z",
+            "spread": -12.5,
+            "total": 47.5,
+            "home_ml": -470,
+            "away_ml": 360,
+            "source": "odds_api"
           }
         ]
       },
@@ -5266,6 +5386,14 @@
             "total": 47.5,
             "home_ml": -490,
             "away_ml": 375,
+            "source": "odds_api"
+          },
+          {
+            "t": "2026-11-12T14:22:26Z",
+            "spread": -12.5,
+            "total": 46.5,
+            "home_ml": -550,
+            "away_ml": 420,
             "source": "odds_api"
           }
         ]
@@ -5281,6 +5409,14 @@
             "home_ml": -470,
             "away_ml": 364,
             "source": "odds_api"
+          },
+          {
+            "t": "2026-11-12T14:22:26Z",
+            "spread": -12.0,
+            "total": 47.5,
+            "home_ml": -475,
+            "away_ml": 367,
+            "source": "odds_api"
           }
         ]
       },
@@ -5292,6 +5428,14 @@
             "t": "2026-11-11T12:16:19Z",
             "spread": -12.0,
             "total": 47.5,
+            "home_ml": -514,
+            "away_ml": 366,
+            "source": "odds_api"
+          },
+          {
+            "t": "2026-11-12T14:22:26Z",
+            "spread": -12.0,
+            "total": 47.0,
             "home_ml": -514,
             "away_ml": 366,
             "source": "odds_api"
@@ -5311,6 +5455,14 @@
             "home_ml": -600,
             "away_ml": 450,
             "source": "odds_api"
+          },
+          {
+            "t": "2026-11-12T14:22:26Z",
+            "spread": -14.0,
+            "total": 46.5,
+            "home_ml": -625,
+            "away_ml": 475,
+            "source": "odds_api"
           }
         ]
       },
@@ -5322,6 +5474,14 @@
             "t": "2026-11-11T12:16:19Z",
             "spread": -14.0,
             "total": 47.5,
+            "home_ml": -575,
+            "away_ml": 431,
+            "source": "odds_api"
+          },
+          {
+            "t": "2026-11-12T14:22:26Z",
+            "spread": -14.0,
+            "total": 46.0,
             "home_ml": -575,
             "away_ml": 431,
             "source": "odds_api"
@@ -5339,6 +5499,14 @@
             "home_ml": -835,
             "away_ml": 510,
             "source": "odds_api"
+          },
+          {
+            "t": "2026-11-12T14:22:26Z",
+            "spread": -15.0,
+            "total": 46.5,
+            "home_ml": -835,
+            "away_ml": 510,
+            "source": "odds_api"
           }
         ]
       },
@@ -5349,6 +5517,14 @@
           {
             "t": "2026-11-11T12:16:19Z",
             "spread": null,
+            "total": 46.5,
+            "home_ml": -575,
+            "away_ml": 440,
+            "source": "odds_api"
+          },
+          {
+            "t": "2026-11-12T14:22:26Z",
+            "spread": -14.0,
             "total": 46.5,
             "home_ml": -575,
             "away_ml": 440,
@@ -5383,6 +5559,14 @@
             "home_ml": -675,
             "away_ml": 475,
             "source": "cfbd"
+          },
+          {
+            "t": "2026-11-12T14:22:26Z",
+            "spread": -14.5,
+            "total": 46.5,
+            "home_ml": -650,
+            "away_ml": 475,
+            "source": "odds_api"
           }
         ]
       },
@@ -5413,6 +5597,14 @@
             "home_ml": -600,
             "away_ml": 440,
             "source": "cfbd"
+          },
+          {
+            "t": "2026-11-12T14:22:26Z",
+            "spread": -14.0,
+            "total": 46.5,
+            "home_ml": -600,
+            "away_ml": 440,
+            "source": "odds_api"
           }
         ]
       },
@@ -5422,6 +5614,14 @@
         "points": [
           {
             "t": "2026-11-11T12:16:19Z",
+            "spread": -14.5,
+            "total": 46.5,
+            "home_ml": -690,
+            "away_ml": 500,
+            "source": "odds_api"
+          },
+          {
+            "t": "2026-11-12T14:22:26Z",
             "spread": -14.5,
             "total": 46.5,
             "home_ml": -690,
@@ -5441,6 +5641,14 @@
             "home_ml": -575,
             "away_ml": 431,
             "source": "odds_api"
+          },
+          {
+            "t": "2026-11-12T14:22:26Z",
+            "spread": -14.0,
+            "total": 46.0,
+            "home_ml": -575,
+            "away_ml": 431,
+            "source": "odds_api"
           }
         ]
       },
@@ -5450,6 +5658,14 @@
         "points": [
           {
             "t": "2026-11-11T12:16:19Z",
+            "spread": -14.0,
+            "total": 46.5,
+            "home_ml": -676,
+            "away_ml": 460,
+            "source": "odds_api"
+          },
+          {
+            "t": "2026-11-12T14:22:26Z",
             "spread": -14.0,
             "total": 46.5,
             "home_ml": -676,
@@ -5471,6 +5687,14 @@
             "home_ml": 250,
             "away_ml": -300,
             "source": "odds_api"
+          },
+          {
+            "t": "2026-11-12T14:22:26Z",
+            "spread": 8.0,
+            "total": 39.5,
+            "home_ml": 260,
+            "away_ml": -325,
+            "source": "odds_api"
           }
         ]
       },
@@ -5485,6 +5709,14 @@
             "home_ml": 237,
             "away_ml": -290,
             "source": "odds_api"
+          },
+          {
+            "t": "2026-11-12T14:22:26Z",
+            "spread": 8.5,
+            "total": 39.5,
+            "home_ml": 260,
+            "away_ml": -320,
+            "source": "odds_api"
           }
         ]
       },
@@ -5494,6 +5726,14 @@
         "points": [
           {
             "t": "2026-11-11T12:16:19Z",
+            "spread": 7.5,
+            "total": 39.5,
+            "home_ml": 250,
+            "away_ml": -335,
+            "source": "odds_api"
+          },
+          {
+            "t": "2026-11-12T14:22:26Z",
             "spread": 7.5,
             "total": 39.5,
             "home_ml": 250,
@@ -5512,6 +5752,14 @@
             "total": 39.5,
             "home_ml": 240,
             "away_ml": -290,
+            "source": "odds_api"
+          },
+          {
+            "t": "2026-11-12T14:22:26Z",
+            "spread": 8.5,
+            "total": 39.5,
+            "home_ml": 260,
+            "away_ml": -320,
             "source": "odds_api"
           }
         ]
@@ -5543,6 +5791,14 @@
             "home_ml": 280,
             "away_ml": -355,
             "source": "cfbd"
+          },
+          {
+            "t": "2026-11-12T14:22:26Z",
+            "spread": 7.5,
+            "total": 40.0,
+            "home_ml": 250,
+            "away_ml": -300,
+            "source": "odds_api"
           }
         ]
       },
@@ -5573,6 +5829,14 @@
             "home_ml": 260,
             "away_ml": -325,
             "source": "cfbd"
+          },
+          {
+            "t": "2026-11-12T14:22:26Z",
+            "spread": 7.5,
+            "total": 39.5,
+            "home_ml": 250,
+            "away_ml": -310,
+            "source": "odds_api"
           }
         ]
       },
@@ -5586,6 +5850,14 @@
             "total": 39.5,
             "home_ml": 255,
             "away_ml": -320,
+            "source": "odds_api"
+          },
+          {
+            "t": "2026-11-12T14:22:26Z",
+            "spread": 7.5,
+            "total": 39.5,
+            "home_ml": 280,
+            "away_ml": -350,
             "source": "odds_api"
           }
         ]
@@ -5601,6 +5873,14 @@
             "home_ml": 237,
             "away_ml": -290,
             "source": "odds_api"
+          },
+          {
+            "t": "2026-11-12T14:22:26Z",
+            "spread": 8.5,
+            "total": 39.5,
+            "home_ml": 260,
+            "away_ml": -320,
+            "source": "odds_api"
           }
         ]
       },
@@ -5614,6 +5894,14 @@
             "total": 39.5,
             "home_ml": 254,
             "away_ml": -329,
+            "source": "odds_api"
+          },
+          {
+            "t": "2026-11-12T14:22:26Z",
+            "spread": 8.0,
+            "total": 39.5,
+            "home_ml": 298,
+            "away_ml": -397,
             "source": "odds_api"
           }
         ]
