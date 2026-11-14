@@ -1,40 +1,57 @@
 {
- "generated": "2026-11-12 13:32 UTC",
+ "generated": "2026-11-14 02:12 UTC",
  "bases": {
   "logged": {
    "all": {
-    "games": 124,
-    "mean_clv": 0.244,
-    "pct_positive": 0.452,
-    "pct_negative": 0.363,
-    "pct_unchanged": 0.185
+    "games": 128,
+    "mean_clv": 0.217,
+    "pct_positive": 0.438,
+    "pct_negative": 0.383,
+    "pct_unchanged": 0.18
    },
    "real_edge": {
-    "games": 88,
-    "mean_clv": 0.318,
-    "pct_positive": 0.489,
-    "pct_negative": 0.364,
-    "pct_unchanged": 0.148
+    "games": 90,
+    "mean_clv": 0.3,
+    "pct_positive": 0.478,
+    "pct_negative": 0.378,
+    "pct_unchanged": 0.144
    }
   },
   "open": {
    "all": {
-    "games": 517,
-    "mean_clv": 0.14,
+    "games": 519,
+    "mean_clv": 0.139,
     "pct_positive": 0.48,
-    "pct_negative": 0.429,
+    "pct_negative": 0.43,
     "pct_unchanged": 0.091
    },
    "real_edge": {
-    "games": 362,
+    "games": 363,
     "mean_clv": 0.285,
-    "pct_positive": 0.506,
-    "pct_negative": 0.401,
+    "pct_positive": 0.507,
+    "pct_negative": 0.399,
     "pct_unchanged": 0.094
    }
   }
  },
  "recent_logged": [
+  {
+   "basis": "logged",
+   "season": 2026,
+   "week": 11,
+   "game_id": 401869969,
+   "away_team": "Louisiana",
+   "home_team": "UL Monroe",
+   "gamma_spread": 12.07,
+   "entry_spread": 11.0,
+   "close_spread": 10.0,
+   "lean": "Away",
+   "edge": -1.07,
+   "is_bet": false,
+   "clv_pts": -1.0,
+   "completed": true,
+   "result": "Win"
+  },
   {
    "basis": "logged",
    "season": 2026,
@@ -136,6 +153,57 @@
    "clv_pts": 1.25,
    "completed": true,
    "result": "Win"
+  },
+  {
+   "basis": "logged",
+   "season": 2026,
+   "week": 11,
+   "game_id": 401862824,
+   "away_team": "Memphis",
+   "home_team": "South Florida",
+   "gamma_spread": -0.76,
+   "entry_spread": 4.25,
+   "close_spread": 4.75,
+   "lean": "Home",
+   "edge": 5.01,
+   "is_bet": true,
+   "clv_pts": -0.5,
+   "completed": true,
+   "result": "Loss"
+  },
+  {
+   "basis": "logged",
+   "season": 2026,
+   "week": 11,
+   "game_id": 401858526,
+   "away_team": "Illinois",
+   "home_team": "UCLA",
+   "gamma_spread": -5.98,
+   "entry_spread": -10.0,
+   "close_spread": -10.5,
+   "lean": "Away",
+   "edge": -4.02,
+   "is_bet": true,
+   "clv_pts": -0.5,
+   "completed": false,
+   "result": null
+  },
+  {
+   "basis": "logged",
+   "season": 2026,
+   "week": 11,
+   "game_id": 401858293,
+   "away_team": "Florida State",
+   "home_team": "Pittsburgh",
+   "gamma_spread": -5.26,
+   "entry_spread": -3.5,
+   "close_spread": -3.0,
+   "lean": "Home",
+   "edge": 1.76,
+   "is_bet": false,
+   "clv_pts": -0.5,
+   "completed": false,
+   "result": null
   },
   {
    "basis": "logged",
@@ -391,74 +459,6 @@
    "clv_pts": 0.0,
    "completed": true,
    "result": "Loss"
-  },
-  {
-   "basis": "logged",
-   "season": 2026,
-   "week": 10,
-   "game_id": 401866454,
-   "away_team": "Buffalo",
-   "home_team": "Miami (OH)",
-   "gamma_spread": -3.99,
-   "entry_spread": -6.5,
-   "close_spread": -6.5,
-   "lean": "Away",
-   "edge": -2.51,
-   "is_bet": true,
-   "clv_pts": 0.0,
-   "completed": true,
-   "result": "Win"
-  },
-  {
-   "basis": "logged",
-   "season": 2026,
-   "week": 10,
-   "game_id": 401866453,
-   "away_team": "Ohio",
-   "home_team": "Akron",
-   "gamma_spread": 13.64,
-   "entry_spread": 12.25,
-   "close_spread": 12.25,
-   "lean": "Away",
-   "edge": -1.39,
-   "is_bet": false,
-   "clv_pts": 0.0,
-   "completed": true,
-   "result": "Loss"
-  },
-  {
-   "basis": "logged",
-   "season": 2026,
-   "week": 10,
-   "game_id": 401864535,
-   "away_team": "Wyoming",
-   "home_team": "UNLV",
-   "gamma_spread": -11.07,
-   "entry_spread": -6.0,
-   "close_spread": -3.5,
-   "lean": "Home",
-   "edge": 5.07,
-   "is_bet": true,
-   "clv_pts": -2.5,
-   "completed": true,
-   "result": "Loss"
-  },
-  {
-   "basis": "logged",
-   "season": 2026,
-   "week": 10,
-   "game_id": 401864534,
-   "away_team": "Northern Illinois",
-   "home_team": "San Jos\u00e9 State",
-   "gamma_spread": -13.48,
-   "entry_spread": -10.0,
-   "close_spread": -11.5,
-   "lean": "Home",
-   "edge": 3.48,
-   "is_bet": true,
-   "clv_pts": 1.5,
-   "completed": true,
-   "result": "Win"
   }
  ]
 }
