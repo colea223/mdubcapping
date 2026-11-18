@@ -1,40 +1,91 @@
 {
- "generated": "2026-11-16 16:16 UTC",
+ "generated": "2026-11-18 13:33 UTC",
  "bases": {
   "logged": {
    "all": {
-    "games": 185,
-    "mean_clv": 0.145,
-    "pct_positive": 0.438,
-    "pct_negative": 0.411,
-    "pct_unchanged": 0.151
+    "games": 188,
+    "mean_clv": 0.15,
+    "pct_positive": 0.436,
+    "pct_negative": 0.415,
+    "pct_unchanged": 0.149
    },
    "real_edge": {
-    "games": 121,
-    "mean_clv": 0.161,
+    "games": 123,
+    "mean_clv": 0.175,
     "pct_positive": 0.463,
-    "pct_negative": 0.413,
-    "pct_unchanged": 0.124
+    "pct_negative": 0.415,
+    "pct_unchanged": 0.122
    }
   },
   "open": {
    "all": {
-    "games": 578,
-    "mean_clv": 0.169,
-    "pct_positive": 0.484,
-    "pct_negative": 0.429,
-    "pct_unchanged": 0.087
+    "games": 581,
+    "mean_clv": 0.178,
+    "pct_positive": 0.485,
+    "pct_negative": 0.427,
+    "pct_unchanged": 0.088
    },
    "real_edge": {
-    "games": 399,
-    "mean_clv": 0.308,
+    "games": 401,
+    "mean_clv": 0.315,
     "pct_positive": 0.509,
     "pct_negative": 0.404,
-    "pct_unchanged": 0.088
+    "pct_unchanged": 0.087
    }
   }
  },
  "recent_logged": [
+  {
+   "basis": "logged",
+   "season": 2026,
+   "week": 12,
+   "game_id": 401866466,
+   "away_team": "Miami (OH)",
+   "home_team": "Kent State",
+   "gamma_spread": 10.18,
+   "entry_spread": 9.5,
+   "close_spread": 9.0,
+   "lean": "Away",
+   "edge": -0.68,
+   "is_bet": false,
+   "clv_pts": -0.5,
+   "completed": true,
+   "result": "Win"
+  },
+  {
+   "basis": "logged",
+   "season": 2026,
+   "week": 12,
+   "game_id": 401866465,
+   "away_team": "Eastern Michigan",
+   "home_team": "Western Michigan",
+   "gamma_spread": -20.62,
+   "entry_spread": -14.5,
+   "close_spread": -18.0,
+   "lean": "Home",
+   "edge": 6.12,
+   "is_bet": true,
+   "clv_pts": 3.5,
+   "completed": true,
+   "result": "Loss"
+  },
+  {
+   "basis": "logged",
+   "season": 2026,
+   "week": 12,
+   "game_id": 401866464,
+   "away_team": "Ball State",
+   "home_team": "Ohio",
+   "gamma_spread": -15.71,
+   "entry_spread": -11.5,
+   "close_spread": -10.0,
+   "lean": "Home",
+   "edge": 4.21,
+   "is_bet": true,
+   "clv_pts": -1.5,
+   "completed": true,
+   "result": "Loss"
+  },
   {
    "basis": "logged",
    "season": 2026,
@@ -406,57 +457,6 @@
    "edge": -0.03,
    "is_bet": false,
    "clv_pts": -0.5,
-   "completed": true,
-   "result": "Win"
-  },
-  {
-   "basis": "logged",
-   "season": 2026,
-   "week": 11,
-   "game_id": 401862829,
-   "away_team": "UAB",
-   "home_team": "Temple",
-   "gamma_spread": -4.43,
-   "entry_spread": -2.5,
-   "close_spread": -2.5,
-   "lean": "Home",
-   "edge": 1.93,
-   "is_bet": false,
-   "clv_pts": 0.0,
-   "completed": true,
-   "result": "Loss"
-  },
-  {
-   "basis": "logged",
-   "season": 2026,
-   "week": 11,
-   "game_id": 401862828,
-   "away_team": "Tulane",
-   "home_team": "Rice",
-   "gamma_spread": 6.71,
-   "entry_spread": -2.75,
-   "close_spread": -4.0,
-   "lean": "Away",
-   "edge": -9.46,
-   "is_bet": true,
-   "clv_pts": -1.25,
-   "completed": true,
-   "result": "Win"
-  },
-  {
-   "basis": "logged",
-   "season": 2026,
-   "week": 11,
-   "game_id": 401862827,
-   "away_team": "North Texas",
-   "home_team": "UTSA",
-   "gamma_spread": -0.4,
-   "entry_spread": 1.75,
-   "close_spread": 2.75,
-   "lean": "Home",
-   "edge": 2.15,
-   "is_bet": true,
-   "clv_pts": -1.0,
    "completed": true,
    "result": "Win"
   }
