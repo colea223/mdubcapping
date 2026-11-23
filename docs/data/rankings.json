@@ -1,6 +1,6 @@
 {
   "meta": {
-    "generated_at": "2026-11-23T20:37:09Z",
+    "generated_at": "2026-11-23T22:39:04Z",
     "current_week": {
       "season": 2026,
       "week": 13
@@ -728,24 +728,6 @@
       "rank": 40
     },
     {
-      "team": "Clemson",
-      "conference": "ACC",
-      "logo": "https://cdn.collegefootballdata.com/logos/500/228.png",
-      "rating": 69.3,
-      "offense_rating": 20.3,
-      "defense_rating": 19.5,
-      "special_teams_rating": 0.6,
-      "sos_rank": 101,
-      "sor_rank": 44,
-      "projected_wins": 7.5,
-      "wins": 7,
-      "losses": 4,
-      "conf_wins": 5,
-      "conf_losses": 3,
-      "trend": 0.0,
-      "rank": 41
-    },
-    {
       "team": "Arkansas",
       "conference": "SEC",
       "logo": "https://cdn.collegefootballdata.com/logos/500/8.png",
@@ -760,6 +742,24 @@
       "losses": 7,
       "conf_wins": 2,
       "conf_losses": 6,
+      "trend": 0.0,
+      "rank": 41
+    },
+    {
+      "team": "Clemson",
+      "conference": "ACC",
+      "logo": "https://cdn.collegefootballdata.com/logos/500/228.png",
+      "rating": 69.3,
+      "offense_rating": 20.3,
+      "defense_rating": 19.5,
+      "special_teams_rating": 0.6,
+      "sos_rank": 101,
+      "sor_rank": 44,
+      "projected_wins": 7.5,
+      "wins": 7,
+      "losses": 4,
+      "conf_wins": 5,
+      "conf_losses": 3,
       "trend": 0.0,
       "rank": 42
     },
@@ -1016,24 +1016,6 @@
       "rank": 56
     },
     {
-      "team": "Liberty",
-      "conference": "Conference USA",
-      "logo": "https://cdn.collegefootballdata.com/logos/500/2335.png",
-      "rating": 66.1,
-      "offense_rating": 32.6,
-      "defense_rating": 17.5,
-      "special_teams_rating": 0.2,
-      "sos_rank": 204,
-      "sor_rank": 17,
-      "projected_wins": 11.5,
-      "wins": 10,
-      "losses": 1,
-      "conf_wins": 7,
-      "conf_losses": 0,
-      "trend": 0.0,
-      "rank": 57
-    },
-    {
       "team": "NC State",
       "conference": "ACC",
       "logo": "https://cdn.collegefootballdata.com/logos/500/152.png",
@@ -1048,6 +1030,24 @@
       "losses": 6,
       "conf_wins": 3,
       "conf_losses": 5,
+      "trend": 0.0,
+      "rank": 57
+    },
+    {
+      "team": "Liberty",
+      "conference": "Conference USA",
+      "logo": "https://cdn.collegefootballdata.com/logos/500/2335.png",
+      "rating": 66.1,
+      "offense_rating": 32.6,
+      "defense_rating": 17.5,
+      "special_teams_rating": 0.2,
+      "sos_rank": 204,
+      "sor_rank": 17,
+      "projected_wins": 11.5,
+      "wins": 10,
+      "losses": 1,
+      "conf_wins": 7,
+      "conf_losses": 0,
       "trend": 0.0,
       "rank": 58
     },
@@ -1106,24 +1106,6 @@
       "rank": 61
     },
     {
-      "team": "Virginia Tech",
-      "conference": "ACC",
-      "logo": "https://cdn.collegefootballdata.com/logos/500/259.png",
-      "rating": 65.1,
-      "offense_rating": 29.9,
-      "defense_rating": 25.9,
-      "special_teams_rating": -0.1,
-      "sos_rank": 70,
-      "sor_rank": 58,
-      "projected_wins": 6.4,
-      "wins": 6,
-      "losses": 5,
-      "conf_wins": 3,
-      "conf_losses": 5,
-      "trend": 0.0,
-      "rank": 62
-    },
-    {
       "team": "UTSA",
       "conference": "American Athletic",
       "logo": "https://cdn.collegefootballdata.com/logos/500/2636.png",
@@ -1138,6 +1120,24 @@
       "losses": 2,
       "conf_wins": 6,
       "conf_losses": 1,
+      "trend": 0.0,
+      "rank": 62
+    },
+    {
+      "team": "Virginia Tech",
+      "conference": "ACC",
+      "logo": "https://cdn.collegefootballdata.com/logos/500/259.png",
+      "rating": 65.1,
+      "offense_rating": 29.9,
+      "defense_rating": 25.9,
+      "special_teams_rating": -0.1,
+      "sos_rank": 70,
+      "sor_rank": 58,
+      "projected_wins": 6.4,
+      "wins": 6,
+      "losses": 5,
+      "conf_wins": 3,
+      "conf_losses": 5,
       "trend": 0.0,
       "rank": 63
     },
@@ -1250,24 +1250,6 @@
       "rank": 69
     },
     {
-      "team": "Tulsa",
-      "conference": "American Athletic",
-      "logo": "https://cdn.collegefootballdata.com/logos/500/202.png",
-      "rating": 63.4,
-      "offense_rating": 29.8,
-      "defense_rating": 26.4,
-      "special_teams_rating": -0.4,
-      "sos_rank": 191,
-      "sor_rank": 68,
-      "projected_wins": 7.4,
-      "wins": 7,
-      "losses": 4,
-      "conf_wins": 4,
-      "conf_losses": 3,
-      "trend": 0.0,
-      "rank": 70
-    },
-    {
       "team": "Western Michigan",
       "conference": "Mid-American",
       "logo": "https://cdn.collegefootballdata.com/logos/500/2711.png",
@@ -1282,6 +1264,24 @@
       "losses": 3,
       "conf_wins": 6,
       "conf_losses": 1,
+      "trend": 0.0,
+      "rank": 70
+    },
+    {
+      "team": "Tulsa",
+      "conference": "American Athletic",
+      "logo": "https://cdn.collegefootballdata.com/logos/500/202.png",
+      "rating": 63.4,
+      "offense_rating": 29.8,
+      "defense_rating": 26.4,
+      "special_teams_rating": -0.4,
+      "sos_rank": 191,
+      "sor_rank": 68,
+      "projected_wins": 7.4,
+      "wins": 7,
+      "losses": 4,
+      "conf_wins": 4,
+      "conf_losses": 3,
       "trend": 0.0,
       "rank": 71
     },
