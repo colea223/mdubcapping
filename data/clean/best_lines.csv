@@ -1,70 +1,68 @@
 away,best_book,best_is_value,best_spread_home,consensus_spread_home,edge_at_best,edge_vs_consensus,game_id,home,kickoff,lean,model_spread_home,n_books,points_gained_by_shopping,worst_book,worst_spread_home
-Kent State,Bovada,False,-5.5,-5.5,0.4,0.4,401866470,Eastern Michigan,2026-11-25T00:00:00,Home,-5.9,2,0.0,DraftKings,-5.5
-Miami (OH),Bovada,False,-6.5,-6.5,0.9,0.9,401866471,Western Michigan,2026-11-25T00:00:00,Home,-7.4,2,0.0,DraftKings,-6.5
-TCU,DraftKings,False,-13.5,-13.5,1.0,1.0,401856879,Texas Tech,2026-11-27T01:00:00,Home,-14.5,2,0.0,Bovada,-13.5
-Tulsa,Bovada,True,-1.5,-1.5,3.2,3.2,401862840,UTSA,2026-11-27T17:00:00,Home,-4.7,2,0.0,DraftKings,-1.5
-Buffalo,DraftKings,True,7.5,7.8,-3.0,-2.7,401866472,Akron,2026-11-27T17:00:00,Away,10.5,2,0.5,Bovada,8.0
-Toledo,DraftKings,False,3.0,3.0,-0.4,-0.4,401866473,Ohio,2026-11-27T17:00:00,Away,3.4,2,0.0,Bovada,3.0
-Nebraska,DraftKings,True,-4.5,-4.8,3.6,3.3,401858536,Iowa,2026-11-27T17:00:00,Home,-8.1,2,0.5,Bovada,-5.0
-Mississippi State,DraftKings,False,-18.5,-18.8,-0.5,-0.8,401856762,Ole Miss,2026-11-27T17:00:00,Home,-18.0,2,0.5,Bovada,-19.0
-App State,Bovada,True,-3.0,-3.2,3.0,2.7,401869930,South Alabama,2026-11-27T20:00:00,Home,-6.0,2,0.5,DraftKings,-3.5
-Florida,DraftKings,True,6.0,5.8,2.3,2.1,401856759,Florida State,2026-11-27T20:30:00,Home,3.7,2,0.5,Bovada,5.5
-North Dakota State,Bovada,True,8.5,9.0,-4.6,-4.1,401864549,San José State,2026-11-27T20:30:00,Away,13.1,2,1.0,DraftKings,9.5
-Temple,Bovada,False,-17.5,-17.5,2.0,2.0,401862838,Memphis,2026-11-27T20:30:00,Home,-19.5,2,0.0,DraftKings,-17.5
-Air Force,Bovada,False,-6.5,-6.5,1.1,1.1,401864546,New Mexico,2026-11-27T21:30:00,Home,-7.6,2,0.0,DraftKings,-6.5
-Minnesota,Bovada,False,-7.0,-7.2,-0.3,-0.5,401858544,Wisconsin,2026-11-28T00:30:00,Home,-6.7,2,0.5,DraftKings,-7.5
-Texas,DraftKings,False,11.5,11.8,0.3,0.6,401856756,Texas A&M,2026-11-28T00:30:00,Away,11.2,2,0.5,Bovada,12.0
-West Virginia,Bovada,True,-21.5,-22.0,4.3,3.8,401856880,Utah,2026-11-28T02:00:00,Home,-25.8,2,1.0,DraftKings,-22.5
-Navy,DraftKings,False,16.5,16.8,0.6,0.8,401862842,Charlotte,2026-11-28T17:00:00,Away,15.9,2,0.5,Bovada,17.0
-UConn,DraftKings,False,3.0,3.0,0.6,0.6,401861969,Wyoming,2026-11-28T17:00:00,Away,2.4,2,0.0,Bovada,3.0
-Central Michigan,Bovada,True,3.5,3.8,-5.8,-5.5,401866474,Ball State,2026-11-28T17:00:00,Away,9.3,2,0.5,DraftKings,4.0
-Notre Dame,DraftKings,False,24.5,25.0,-0.1,0.4,401858314,Syracuse,2026-11-28T17:00:00,Away,24.6,2,1.0,Bovada,25.5
-Michigan,DraftKings,True,-10.0,-10.0,7.3,7.3,401858540,Ohio State,2026-11-28T17:00:00,Home,-17.3,2,0.0,Bovada,-10.0
-Louisiana Tech,Bovada,False,-2.5,-2.5,-1.1,-1.1,401869954,Georgia Southern,2026-11-28T17:00:00,Away,-1.4,2,0.0,DraftKings,-2.5
-NC State,DraftKings,False,-5.5,-5.5,-1.8,-1.8,401858313,North Carolina,2026-11-28T17:00:00,Away,-3.7,2,0.0,Bovada,-5.5
-Boston College,DraftKings,False,-25.5,-25.8,0.1,-0.2,401858311,Miami,2026-11-28T17:00:00,Home,-25.6,2,0.5,Bovada,-26.0
-Louisville,Bovada,True,2.5,2.8,-4.0,-3.8,401856761,Kentucky,2026-11-28T17:00:00,Away,6.5,2,0.5,DraftKings,3.0
-Illinois,DraftKings,True,-3.0,-3.0,2.7,2.7,401858537,Northwestern,2026-11-28T17:30:00,Home,-5.7,2,0.0,Bovada,-3.0
-LSU,DraftKings,True,14.5,14.5,6.4,6.4,401856758,Arkansas,2026-11-28T17:45:00,Home,8.1,2,0.0,Bovada,14.5
-Kennesaw State,Bovada,True,3.5,3.5,4.9,4.9,401870804,Western Kentucky,2026-11-28T18:00:00,Home,-1.4,2,0.0,DraftKings,3.5
+TCU,DraftKings,True,-13.5,-13.8,2.1,1.8,401856879,Texas Tech,2026-11-27T01:00:00,Home,-15.6,2,0.5,Bovada,-14.0
+Mississippi State,DraftKings,False,-17.5,-17.5,0.9,0.9,401856762,Ole Miss,2026-11-27T17:00:00,Home,-18.4,2,0.0,Bovada,-17.5
+Buffalo,DraftKings,True,7.5,7.5,-3.8,-3.8,401866472,Akron,2026-11-27T17:00:00,Away,11.3,2,0.0,Bovada,7.5
+Tulsa,DraftKings,True,1.5,1.2,6.6,6.3,401862840,UTSA,2026-11-27T17:00:00,Home,-5.1,2,0.5,Bovada,1.0
+Nebraska,DraftKings,True,-3.5,-3.8,4.6,4.3,401858536,Iowa,2026-11-27T17:00:00,Home,-8.1,2,0.5,Bovada,-4.0
+Toledo,DraftKings,False,3.0,3.0,-0.3,-0.3,401866473,Ohio,2026-11-27T17:00:00,Away,3.3,2,0.0,Bovada,3.0
+App State,Bovada,True,-3.0,-3.2,2.9,2.7,401869930,South Alabama,2026-11-27T20:00:00,Home,-5.9,2,0.5,DraftKings,-3.5
+Florida,DraftKings,True,6.5,6.5,3.6,3.6,401856759,Florida State,2026-11-27T20:30:00,Home,2.9,2,0.0,Bovada,6.5
+North Dakota State,Bovada,True,7.5,8.0,-6.0,-5.5,401864549,San José State,2026-11-27T20:30:00,Away,13.5,2,1.0,DraftKings,8.5
+Temple,Bovada,False,-18.5,-18.5,1.9,1.9,401862838,Memphis,2026-11-27T20:30:00,Home,-20.4,2,0.0,DraftKings,-18.5
+Air Force,DraftKings,False,-6.5,-6.5,0.2,0.2,401864546,New Mexico,2026-11-27T21:30:00,Home,-6.7,2,0.0,Bovada,-6.5
+Minnesota,Bovada,True,-9.0,-8.8,-2.3,-2.0,401858544,Wisconsin,2026-11-28T00:30:00,Away,-6.7,2,0.5,DraftKings,-8.5
+Texas,Bovada,False,10.5,11.0,-0.2,0.3,401856756,Texas A&M,2026-11-28T00:30:00,Away,10.7,2,1.0,DraftKings,11.5
+West Virginia,Bovada,False,-26.0,-26.2,-0.3,-0.5,401856880,Utah,2026-11-28T02:00:00,Home,-25.7,2,0.5,DraftKings,-26.5
+NC State,Bovada,True,-6.0,-5.8,-2.6,-2.3,401858313,North Carolina,2026-11-28T17:00:00,Away,-3.4,2,0.5,DraftKings,-5.5
+Louisiana Tech,Bovada,True,-2.5,-2.5,-2.3,-2.3,401869954,Georgia Southern,2026-11-28T17:00:00,Away,-0.2,2,0.0,DraftKings,-2.5
+Central Michigan,Bovada,True,4.0,4.0,-2.9,-2.9,401866474,Ball State,2026-11-28T17:00:00,Away,6.9,2,0.0,DraftKings,4.0
+UConn,DraftKings,False,3.0,3.0,1.7,1.7,401861969,Wyoming,2026-11-28T17:00:00,Home,1.3,2,0.0,Bovada,3.0
+Notre Dame,Bovada,True,25.5,25.5,2.8,2.8,401858314,Syracuse,2026-11-28T17:00:00,Home,22.7,2,0.0,DraftKings,25.5
+Navy,DraftKings,False,16.5,16.5,0.6,0.6,401862842,Charlotte,2026-11-28T17:00:00,Away,15.9,2,0.0,Bovada,16.5
+Boston College,DraftKings,False,-24.5,-24.8,0.7,0.5,401858311,Miami,2026-11-28T17:00:00,Home,-25.2,2,0.5,Bovada,-25.0
+Louisville,DraftKings,True,3.0,3.0,-4.0,-4.0,401856761,Kentucky,2026-11-28T17:00:00,Away,7.0,2,0.0,Bovada,3.0
+Michigan,DraftKings,True,-10.0,-10.2,6.5,6.3,401858540,Ohio State,2026-11-28T17:00:00,Home,-16.5,2,0.5,Bovada,-10.5
+Illinois,DraftKings,False,-2.5,-2.5,0.4,0.4,401858537,Northwestern,2026-11-28T17:30:00,Home,-2.9,2,0.0,Bovada,-2.5
+LSU,DraftKings,True,14.5,14.5,5.7,5.7,401856758,Arkansas,2026-11-28T17:45:00,Home,8.8,2,0.0,Bovada,14.5
+Southern Miss,DraftKings,True,-6.0,-6.0,4.8,4.8,401871103,Old Dominion,2026-11-28T18:00:00,Home,-10.8,2,0.0,Bovada,-6.0
+Kennesaw State,DraftKings,True,3.5,3.2,5.1,4.8,401870804,Western Kentucky,2026-11-28T18:00:00,Home,-1.6,2,0.5,Bovada,3.0
 Florida Atlantic,Bovada,True,-1.0,-1.2,4.0,3.7,401862837,East Carolina,2026-11-28T18:00:00,Home,-5.0,2,0.5,DraftKings,-1.5
-Southern Miss,DraftKings,True,-6.0,-6.0,5.1,5.1,401871103,Old Dominion,2026-11-28T18:00:00,Home,-11.1,2,0.0,Bovada,-6.0
-Marshall,DraftKings,False,4.5,4.8,0.0,0.3,401871102,UL Monroe,2026-11-28T18:00:00,Away,4.5,2,0.5,Bovada,5.0
-New Mexico State,DraftKings,True,-3.0,-3.0,2.4,2.4,401871083,Middle Tennessee,2026-11-28T19:00:00,Home,-5.4,2,0.0,Bovada,-3.0
-Sam Houston,Bovada,True,-11.0,-11.2,3.7,3.5,401871082,Florida International,2026-11-28T19:00:00,Home,-14.7,2,0.5,DraftKings,-11.5
-UCF,Bovada,False,-2.0,-2.2,-0.6,-0.8,401856875,Colorado,2026-11-28T19:00:00,Home,-1.4,2,0.5,DraftKings,-2.5
+Marshall,DraftKings,False,5.5,5.5,1.0,1.0,401871102,UL Monroe,2026-11-28T18:00:00,Home,4.5,2,0.0,Bovada,5.5
+Sam Houston,DraftKings,True,-11.5,-11.5,2.7,2.7,401871082,Florida International,2026-11-28T19:00:00,Home,-14.2,2,0.0,Bovada,-11.5
+UCF,DraftKings,False,-2.5,-2.5,-0.1,-0.1,401856875,Colorado,2026-11-28T19:00:00,Home,-2.4,2,0.0,Bovada,-2.5
+Army,DraftKings,True,5.5,5.5,-2.7,-2.7,401862841,Rice,2026-11-28T19:00:00,Away,8.2,2,0.0,Bovada,5.5
+Liberty,Bovada,True,18.0,17.8,6.7,6.5,401871063,Missouri State,2026-11-28T19:00:00,Home,11.3,2,0.5,DraftKings,17.5
 Louisiana,DraftKings,True,5.5,5.2,2.2,1.9,401869959,Georgia State,2026-11-28T19:00:00,Home,3.3,2,0.5,Bovada,5.0
-Liberty,Bovada,True,15.5,15.5,3.7,3.7,401871063,Missouri State,2026-11-28T19:00:00,Home,11.8,2,0.0,DraftKings,15.5
-Coastal Carolina,Bovada,False,-16.5,-16.5,-0.4,-0.4,401869947,James Madison,2026-11-28T19:00:00,Home,-16.1,2,0.0,DraftKings,-16.5
-Army,DraftKings,False,6.5,6.5,-1.6,-1.6,401862841,Rice,2026-11-28T19:00:00,Away,8.1,2,0.0,Bovada,6.5
-Kansas State,DraftKings,False,-3.5,-3.5,-1.0,-1.0,401856878,Iowa State,2026-11-28T19:00:00,Home,-2.5,2,0.0,Bovada,-3.5
-South Carolina,DraftKings,True,5.5,5.2,4.6,4.4,401856764,Clemson,2026-11-28T20:00:00,Home,0.9,2,0.5,Bovada,5.0
-Virginia,DraftKings,True,-3.0,-3.0,-6.7,-6.7,401858317,Virginia Tech,2026-11-28T20:00:00,Away,3.7,2,0.0,Bovada,-3.0
-Troy,DraftKings,False,-3.5,-3.8,1.4,1.1,401869939,Arkansas State,2026-11-28T20:00:00,Home,-4.9,2,0.5,Bovada,-4.0
-Cincinnati,DraftKings,False,-15.5,-15.5,0.8,0.8,401856876,BYU,2026-11-28T20:30:00,Home,-16.3,2,0.0,Bovada,-15.5
-Duke,DraftKings,True,-14.5,-14.5,-5.7,-5.7,401858312,Wake Forest,2026-11-28T20:30:00,Away,-8.8,2,0.0,Bovada,-14.5
-Tulane,DraftKings,False,-6.5,-6.5,1.3,1.3,401862839,South Florida,2026-11-28T20:30:00,Home,-7.8,2,0.0,Bovada,-6.5
-UTEP,Bovada,False,-4.0,-4.2,0.6,0.4,401864550,Northern Illinois,2026-11-28T20:30:00,Home,-4.6,2,0.5,DraftKings,-4.5
-Georgia Tech,DraftKings,True,-35.5,-35.5,-3.0,-3.0,401856760,Georgia,2026-11-28T20:30:00,Away,-32.5,2,0.0,Bovada,-35.5
-USC,DraftKings,True,7.0,7.0,6.3,6.3,401858543,UCLA,2026-11-28T20:30:00,Home,0.7,2,0.0,Bovada,7.0
-Jacksonville State,DraftKings,False,-2.5,-2.5,-0.1,-0.1,401871062,Delaware,2026-11-28T20:30:00,Home,-2.4,2,0.0,Bovada,-2.5
-SMU,Bovada,True,7.5,7.5,3.0,3.0,401858316,Stanford,2026-11-28T20:30:00,Home,4.5,2,0.0,DraftKings,7.5
-Massachusetts,DraftKings,True,-3.0,-3.0,6.4,6.4,401866475,Bowling Green,2026-11-28T20:30:00,Home,-9.4,2,0.0,Bovada,-3.0
-Penn State,DraftKings,True,7.0,7.0,-2.8,-2.8,401858539,Maryland,2026-11-28T20:30:00,Away,9.8,2,0.0,Bovada,7.0
-UAB,DraftKings,False,-4.0,-4.0,0.5,0.5,401862843,North Texas,2026-11-28T21:00:00,Home,-4.5,2,0.0,Bovada,-4.0
-Oklahoma,Bovada,False,-2.5,-2.0,-1.6,-1.1,401856763,Missouri,2026-11-28T21:15:00,Away,-0.9,2,1.0,DraftKings,-1.5
-Michigan State,DraftKings,False,3.5,3.5,2.0,2.0,401858542,Rutgers,2026-11-28T21:15:00,Home,1.5,2,0.0,Bovada,3.5
-Boise State,Bovada,True,21.5,21.2,3.4,3.1,401860926,Colorado State,2026-11-28T23:00:00,Home,18.1,2,0.5,DraftKings,21.0
-Kansas,DraftKings,True,-7.0,-7.0,-5.8,-5.8,401856877,Oklahoma State,2026-11-28T23:15:00,Away,-1.2,2,0.0,Bovada,-7.0
-San Diego State,DraftKings,True,-2.5,-2.5,-3.2,-3.2,401860929,Washington State,2026-11-28T23:30:00,Away,0.7,2,0.0,Bovada,-2.5
-Tennessee,DraftKings,False,13.5,13.5,1.8,1.8,401856765,Vanderbilt,2026-11-29T00:00:00,Home,11.7,2,0.0,Bovada,13.5
-Purdue,Bovada,True,-22.0,-22.2,6.2,5.9,401858538,Indiana,2026-11-29T00:00:00,Home,-28.2,2,0.5,DraftKings,-22.5
-Washington,DraftKings,True,-14.0,-14.0,-3.3,-3.3,401858541,Oregon,2026-11-29T00:30:00,Away,-10.7,2,0.0,Bovada,-14.0
-Auburn,Bovada,False,-16.0,-16.2,-0.3,-0.5,401856757,Alabama,2026-11-29T00:30:00,Home,-15.7,2,0.5,DraftKings,-16.5
-Pittsburgh,DraftKings,False,9.5,9.5,0.2,0.2,401858315,California,2026-11-29T00:30:00,Away,9.3,2,0.0,Bovada,9.5
-Arizona State,DraftKings,True,-8.5,-8.5,3.7,3.7,401856873,Arizona,2026-11-29T02:00:00,Home,-12.2,2,0.0,Bovada,-8.5
-Nevada,Bovada,True,-5.5,-5.5,3.7,3.7,401864548,UNLV,2026-11-29T02:00:00,Home,-9.2,2,0.0,DraftKings,-5.5
-Baylor,DraftKings,True,-5.5,-5.5,-3.3,-3.3,401856874,Houston,2026-11-29T02:30:00,Away,-2.2,2,0.0,Bovada,-5.5
-Texas State,DraftKings,False,7.0,7.0,1.7,1.7,401860928,Utah State,2026-11-29T02:30:00,Home,5.3,2,0.0,Bovada,7.0
-Oregon State,DraftKings,False,-3.0,-3.0,1.4,1.4,401860927,Fresno State,2026-11-29T03:00:00,Home,-4.4,2,0.0,Bovada,-3.0
-Sacramento State,DraftKings,True,-14.0,-14.0,3.2,3.2,401864547,Hawai'i,2026-11-29T04:00:00,Home,-17.2,2,0.0,Bovada,-14.0
+Coastal Carolina,DraftKings,False,-17.5,-17.2,-1.4,-1.2,401869947,James Madison,2026-11-28T19:00:00,Away,-16.1,2,0.5,Bovada,-17.0
+Kansas State,DraftKings,False,-3.5,-3.5,-0.0,-0.0,401856878,Iowa State,2026-11-28T19:00:00,Home,-3.5,2,0.0,Bovada,-3.5
+New Mexico State,DraftKings,True,-3.0,-3.0,2.2,2.2,401871083,Middle Tennessee,2026-11-28T19:00:00,Home,-5.2,2,0.0,Bovada,-3.0
+Troy,DraftKings,True,-3.5,-3.5,2.1,2.1,401869939,Arkansas State,2026-11-28T20:00:00,Home,-5.6,2,0.0,Bovada,-3.5
+South Carolina,DraftKings,True,6.0,6.0,4.5,4.5,401856764,Clemson,2026-11-28T20:00:00,Home,1.5,2,0.0,Bovada,6.0
+Virginia,DraftKings,True,-3.0,-3.0,-6.3,-6.3,401858317,Virginia Tech,2026-11-28T20:00:00,Away,3.3,2,0.0,Bovada,-3.0
+Tulane,DraftKings,False,-6.5,-6.5,1.4,1.4,401862839,South Florida,2026-11-28T20:30:00,Home,-7.9,2,0.0,Bovada,-6.5
+SMU,Bovada,True,7.5,7.2,3.3,3.0,401858316,Stanford,2026-11-28T20:30:00,Home,4.2,2,0.5,DraftKings,7.0
+USC,DraftKings,True,6.5,6.5,7.1,7.1,401858543,UCLA,2026-11-28T20:30:00,Home,-0.6,2,0.0,Bovada,6.5
+Massachusetts,DraftKings,True,-3.0,-3.0,6.2,6.2,401866475,Bowling Green,2026-11-28T20:30:00,Home,-9.2,2,0.0,Bovada,-3.0
+Penn State,DraftKings,True,7.0,7.0,-2.2,-2.2,401858539,Maryland,2026-11-28T20:30:00,Away,9.2,2,0.0,Bovada,7.0
+Duke,Bovada,True,-14.5,-14.5,-6.2,-6.2,401858312,Wake Forest,2026-11-28T20:30:00,Away,-8.3,2,0.0,DraftKings,-14.5
+UTEP,DraftKings,False,-4.5,-4.5,0.1,0.1,401864550,Northern Illinois,2026-11-28T20:30:00,Home,-4.6,2,0.0,Bovada,-4.5
+Jacksonville State,DraftKings,False,-2.5,-2.5,0.3,0.3,401871062,Delaware,2026-11-28T20:30:00,Home,-2.8,2,0.0,Bovada,-2.5
+Georgia Tech,DraftKings,True,-35.5,-35.5,-2.9,-2.9,401856760,Georgia,2026-11-28T20:30:00,Away,-32.6,2,0.0,Bovada,-35.5
+Cincinnati,DraftKings,False,-15.5,-15.5,0.1,0.1,401856876,BYU,2026-11-28T20:30:00,Home,-15.6,2,0.0,Bovada,-15.5
+UAB,DraftKings,False,-3.0,-3.0,1.5,1.5,401862843,North Texas,2026-11-28T21:00:00,Home,-4.5,2,0.0,Bovada,-3.0
+Oklahoma,DraftKings,True,-2.5,-2.5,-3.3,-3.3,401856763,Missouri,2026-11-28T21:15:00,Away,0.8,2,0.0,Bovada,-2.5
+Michigan State,DraftKings,True,3.0,2.8,2.1,1.9,401858542,Rutgers,2026-11-28T21:15:00,Home,0.9,2,0.5,Bovada,2.5
+Boise State,DraftKings,False,21.0,21.0,1.6,1.6,401860926,Colorado State,2026-11-28T23:00:00,Home,19.4,2,0.0,Bovada,21.0
+Kansas,DraftKings,True,-6.5,-6.2,-5.3,-5.1,401856877,Oklahoma State,2026-11-28T23:15:00,Away,-1.2,2,0.5,Bovada,-6.0
+San Diego State,Bovada,True,-3.0,-2.8,-2.3,-2.0,401860929,Washington State,2026-11-28T23:30:00,Away,-0.7,2,0.5,DraftKings,-2.5
+Purdue,DraftKings,True,-23.5,-23.5,4.9,4.9,401858538,Indiana,2026-11-29T00:00:00,Home,-28.4,2,0.0,Bovada,-23.5
+Tennessee,DraftKings,True,13.5,13.5,2.4,2.4,401856765,Vanderbilt,2026-11-29T00:00:00,Home,11.1,2,0.0,Bovada,13.5
+Pittsburgh,DraftKings,False,9.5,9.5,0.1,0.1,401858315,California,2026-11-29T00:30:00,Away,9.4,2,0.0,Bovada,9.5
+Auburn,Bovada,False,-15.0,-15.2,0.3,0.1,401856757,Alabama,2026-11-29T00:30:00,Home,-15.3,2,0.5,DraftKings,-15.5
+Washington,DraftKings,True,-13.5,-13.5,-4.0,-4.0,401858541,Oregon,2026-11-29T00:30:00,Away,-9.5,2,0.0,Bovada,-13.5
+Arizona State,DraftKings,True,-7.5,-7.8,4.0,3.8,401856873,Arizona,2026-11-29T02:00:00,Home,-11.5,2,0.5,Bovada,-8.0
+Nevada,DraftKings,True,-5.5,-5.5,3.7,3.7,401864548,UNLV,2026-11-29T02:00:00,Home,-9.2,2,0.0,Bovada,-5.5
+Baylor,DraftKings,True,-4.5,-4.5,-4.0,-4.0,401856874,Houston,2026-11-29T02:30:00,Away,-0.5,2,0.0,Bovada,-4.5
+Texas State,DraftKings,True,7.0,7.0,2.0,2.0,401860928,Utah State,2026-11-29T02:30:00,Home,5.0,2,0.0,Bovada,7.0
+Oregon State,DraftKings,False,-3.0,-3.0,1.1,1.1,401860927,Fresno State,2026-11-29T03:00:00,Home,-4.1,2,0.0,Bovada,-3.0
+Sacramento State,DraftKings,True,-13.5,-13.5,3.8,3.8,401864547,Hawai'i,2026-11-29T04:00:00,Home,-17.3,2,0.0,Bovada,-13.5
